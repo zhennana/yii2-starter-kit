@@ -3,6 +3,7 @@
 
 # composer
 /vendor
+/auth.json
 composer.phar
 ## remove in production!
 composer.lock
