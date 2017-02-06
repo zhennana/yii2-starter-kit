@@ -157,7 +157,12 @@ $config = [
             'en-US'=>'English (US)',
             'ru-RU'=>'Русский (РФ)',
             'uk-UA'=>'Українська (Україна)',
+<<<<<<< HEAD
             'es-ES' => 'Español',
+=======
+            'es' => 'Español',
+            'vi' => 'Tiếng Việt',
+>>>>>>> trntv/master
             'zh-CN' => '简体中文',
         ],
         // defines codes for the names of countries, https://zh.wikipedia.org/wiki/ISO_3166-1
