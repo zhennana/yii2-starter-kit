@@ -3,6 +3,8 @@ return  [
     'sourcePath'=>Yii::getAlias('@base'),
     // array, required, list of language codes that the extracted messages
     // should be translated to. For example, ['zh-CN', 'de'].
+    // For example, the ID en-US stands for the locale of "English and the United States".
+    // https://zh.wikipedia.org/wiki/ISO_3166-1
     'languages' => ['uk','ru','es', 'zh'],
     // string, the name of the function for translating messages.
     // Defaults to 'Yii::t'. This is used as a mark to find the messages to be

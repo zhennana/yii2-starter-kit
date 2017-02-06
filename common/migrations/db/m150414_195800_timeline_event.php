@@ -9,7 +9,7 @@ class m150414_195800_timeline_event extends Migration
     {
         $tableOptions = null;
         if ($this->db->driverName === 'mysql') {
-            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
+            $tableOptions = "CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB COMMENT='系统事件时间线' ";
         }
 
         $this->createTable('{{%timeline_event}}', [
@@ -32,6 +32,7 @@ class m150414_195800_timeline_event extends Migration
                 ['frontend', 'user', 'signup', json_encode(['public_identity' => 'user', 'user_id' => 3, 'created_at' => time()]), time()]
             ]
         );
+
     }
 
     public function down()

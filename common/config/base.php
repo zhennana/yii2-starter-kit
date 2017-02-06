@@ -4,7 +4,7 @@ $config = [
     'vendorPath'=>dirname(dirname(__DIR__)).'/vendor',
     'extensions' => require(__DIR__ . '/../../vendor/yiisoft/extensions.php'),
     'sourceLanguage'=>'en-US',
-    'language'=>'en-US',
+    'language'=>'zh-CN', // en-US 
     'bootstrap' => ['log'],
     'components' => [
 
@@ -33,7 +33,10 @@ $config = [
         ],
 
         'formatter'=>[
-            'class'=>'yii\i18n\Formatter'
+            'class'=>'yii\i18n\Formatter',
+            'thousandSeparator' => '.',
+            'decimalSeparator' => ',',
+            'currencyCode' => '$',
         ],
 
         'glide' => [
@@ -150,12 +153,27 @@ $config = [
         'adminEmail' => env('ADMIN_EMAIL'),
         'robotEmail' => env('ROBOT_EMAIL'),
         'availableLocales'=>[
+        // For example, the ID en-US stands for the locale of "English and the United States".
             'en-US'=>'English (US)',
             'ru-RU'=>'Русский (РФ)',
             'uk-UA'=>'Українська (Україна)',
-            'es' => 'Español',
+            'es-ES' => 'Español',
             'zh-CN' => '简体中文',
         ],
+        // defines codes for the names of countries, https://zh.wikipedia.org/wiki/ISO_3166-1
+        // Currency code, https://zh.wikipedia.org/wiki/ISO_4217
+        /*
+            'USD' => '美元',
+            'GBP' => '英镑',
+            'EUR' => '欧元',
+            'CNY' => '人民币',
+            'JPY' => '日元',
+            'AUD' => '澳元',
+            'HKD' => '港元',
+            'KRW' => '韩圆',
+            'PHP' => '菲律宾披索',
+        */
+
     ],
 ];
 
