@@ -33,11 +33,15 @@ class AppController extends Controller
 
     public function actionSetup()
     {
+// var_dump(YII_ENV == 'dev');
+// var_dump($this->interactive);
+// exit();
         $this->runAction('set-writable', ['interactive' => $this->interactive]);
         $this->runAction('set-executable', ['interactive' => $this->interactive]);
         $this->runAction('set-keys', ['interactive' => $this->interactive]);
         \Yii::$app->runAction('migrate/up', ['interactive' => $this->interactive]);
         \Yii::$app->runAction('rbac-migrate/up', ['interactive' => $this->interactive]);
+        \Yii::$app->runAction('wechat-migrate/up', ['interactive' => $this->interactive]); // 微信公众号
     }
 
     public function actionSetWritable()

@@ -17,6 +17,17 @@ $config = [
         ]
     ],
     'components' => [
+        'view' => [
+            'theme' => [
+                'basePath' => '@frontend/themes/edu',
+                'baseUrl' => '@frontend/themes/edu',
+                'pathMap' => [
+                    '@frontend/views' => '@app/themes/basic',
+                    '@frontend/views' => '@app/themes/edu',
+                    
+                ],
+            ],
+        ],
         'authClientCollection' => [
             'class' => 'yii\authclient\Collection',
             'clients' => [
