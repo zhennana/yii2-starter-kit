@@ -9,12 +9,16 @@ use yii\bootstrap\NavBar;
 $this->beginContent('@frontend/views/layouts/_clear.php')
 ?>
 <div class="wrap">
+    <div class="top_logo row">
+        <img class="img-responsive pull-left" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
+        <h3 class="pull-right">咨询热线：0316—8888888</h3d>
+    </div>
     <?php
     NavBar::begin([
-        'brandLabel' => Yii::$app->name.' - edu',
-        'brandUrl' => Yii::$app->homeUrl,
+        //'brandLabel' => Yii::$app->name.' - edu',
+        //'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
+            'class' => 'navbar-inverse',
         ],
     ]); ?>
     <?php echo Nav::widget([
