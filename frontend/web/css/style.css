@@ -228,10 +228,9 @@ a.desc:after {
   text-align: center;
 }
 
-.course_banner ul{
+.run_left{
   margin:auto;
   text-align: center;
-  float: left;
 }
 .course_banner li{
   list-style: none;

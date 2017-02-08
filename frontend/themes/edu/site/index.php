@@ -126,7 +126,7 @@ $this->title = Yii::$app->name;
         </div>
         <div class="col-xs-12 course_banner">
             <div class="run_box col-xs-12">
-                <ul class="run_left no-padding">
+                <ul class="run_left no-padding pull-left">
                     <li class="col-xs-4">
                         <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
                         <h4>神奇物理</h4>
@@ -140,7 +140,7 @@ $this->title = Yii::$app->name;
                         <h4>神奇物理</h4>
                     </li>
                 </ul>
-                <ul class="run_left no-padding">
+                <ul class="run_left no-padding pull-left">
                     <li class="col-xs-4">
                         <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
                         <h4>神奇物理</h4>
@@ -154,7 +154,7 @@ $this->title = Yii::$app->name;
                         <h4>神奇物理</h4>
                     </li>
                 </ul>
-                <ul class="run_left no-padding">
+                <ul class="run_left no-padding pull-left">
                     <li class="col-xs-4">
                         <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
                         <h4>神奇物理</h4>
