@@ -4,6 +4,7 @@ use yii\helpers\Html;
 /* @var $content string */
 
 \frontend\assets\FrontendAsset::register($this);
+\common\assets\React::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
