@@ -369,14 +369,14 @@ $this->title = Yii::$app->name;
             <h3 class="text-center no-padding no-margin">联系我们</h3>
         </div>
         <div class="col-xs-12 no-padding">
-            <div class="col-xs-6 ourinfo">
+            <div class="col-sm-6 ourinfo">
                 <h4 class="text-left">联系方式</h4>
                 <p>瓦酷机器人有限公司</p>
                 <p>公司地址：XXXXXXXXXXXXXXXXXXXXXXXXXX</p>
                 <p>办公电话：0316-8888-888</p>
                 <p>网址：www.wakoorobot.com</p>
             </div>
-            <div class="col-xs-6 ourinfo">
+            <div class="col-sm-6 ourinfo">
                 <h4 class="text-left">在线留言</h4>
                 <input class="col-xs-12" placeholder="Your Name：">
                 <input class="col-xs-12" placeholder="Your Phone：">
@@ -384,6 +384,25 @@ $this->title = Yii::$app->name;
                 <button class="btn btn-defult pull-left">提交</button>
             </div>
         </div>
+    </div>
+    <div class="col-xs-12 address_choose1">
+        <h4>玛酷，创造不一样！</h4>
+        <div class="col-sm-12 no-padding">
+            <div class="form-group">
+                <div class="col-xs-5 no-padding">
+                    <select name="input_province" id="input_province" class="form-control"></select>
+                </div>
+                <div class="col-xs-5 no-padding pull-right">
+                    <select name="input_city" id="input_city" class="form-control"></select>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 no-padding">
+            <input class="col-xs-12" placeholder="请输入您的姓名">
+            <input class="col-xs-12" placeholder="请输入您的电话">
+            <input class="col-xs-12" placeholder="请输入您的邮箱">
+        </div>
+        <button class="btn btn-warning col-xs-12">立即报名</button>
     </div>
 </div>
 
@@ -406,6 +425,7 @@ $this->title = Yii::$app->name;
     </div>
     <button class="btn btn-warning col-sm-12">立即报名</button>
 </div>
+
 
 <script>
 Change();
@@ -479,4 +499,11 @@ $(function () {
     $("#input_area").val("罗湖区");
 
 });
+
+if(navigator.userAgent.match(/mobile/i)) {
+    $('.address_choose').remove(); 
+}else{
+    $('.address_choose1').remove(); 
+}
+
 </script>
