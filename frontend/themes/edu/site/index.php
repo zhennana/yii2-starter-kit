@@ -10,6 +10,28 @@ $this->title = Yii::$app->name;
             'class' => 'slide', // enables slide effect
         ],
     ]) ?>
+    <div class="row address_choose">
+        <h4>瓦酷，创造不一样！</h4>
+        <div class="col-sm-12 no-padding">
+            <div class="form-group">
+                <div class="col-sm-4 no-padding">
+                    <select name="input_province" id="input_province" class="form-control"></select>
+                </div>
+                <div class="col-sm-4 no-padding">
+                    <select name="input_city" id="input_city" class="form-control"></select>
+                </div>
+                <div class="col-sm-4 no-padding">
+                    <select name="input_area" id="input_area" class="form-control"></select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 no-padding">
+            <input class="col-sm-12" placeholder="请输入您的姓名">
+            <input class="col-sm-12" placeholder="请输入您的电话">
+            <input class="col-sm-12" placeholder="请输入您的邮箱">
+        </div>
+        <button class="btn btn-warning col-sm-12">立即报名</button>
+    </div>
     <div class="home_continer bg_gray col-xs-12">
         <div class="body-content home_title">
             <h3 class="text-center no-padding no-margin">关于瓦酷</h3>
@@ -21,7 +43,7 @@ $this->title = Yii::$app->name;
     玩中学”。是以乐高等知名的机器人教具为载体，让3~13岁的孩
     子在动手做的过程中去学习知识，提升能力，拓展思维。作为中
     国创意科教先锋，我们的使命是：让孩子更有竞争力！玛酷机器
-    人是大众化的教育品牌，“玛酷，创造不一样！玛酷，Make it 
+    人是大众化的教育品牌，“瓦酷，创造不一样！瓦酷，Make it 
     cool!”</p>
             </div>
             <div class="col-xs-6">
@@ -46,7 +68,7 @@ $this->title = Yii::$app->name;
     </div>
     <div class="home_continer col-xs-12">
         <div class="body-content home_title">
-            <h3 class="text-center no-padding no-margin">瓦库动态</h3>
+            <h3 class="text-center no-padding no-margin">瓦酷动态</h3>
         </div>
         <div class="col-sm-6 home_news margin_bottom">
              <div class="time col-xs-2 no-padding">
@@ -389,12 +411,15 @@ $this->title = Yii::$app->name;
         <h4>玛酷，创造不一样！</h4>
         <div class="col-sm-12 no-padding">
             <div class="form-group">
-                <div class="col-xs-5 no-padding">
+                <div class="col-xs-4 no-padding">
                     <select name="input_province" id="input_province" class="form-control"></select>
                 </div>
-                <div class="col-xs-5 no-padding pull-right">
+                <div class="col-xs-4 no-padding">
                     <select name="input_city" id="input_city" class="form-control"></select>
                 </div>
+                <div class="col-xs-4 no-padding">
+                <select name="input_area" id="input_area" class="form-control"></select>
+            </div>
             </div>
         </div>
         <div class="col-xs-12 no-padding">
@@ -406,25 +431,7 @@ $this->title = Yii::$app->name;
     </div>
 </div>
 
-<div class="row address_choose">
-    <h4>玛酷，创造不一样！</h4>
-    <div class="col-sm-12 no-padding">
-        <div class="form-group">
-            <div class="col-sm-5 no-padding">
-                <select name="input_province" id="input_province" class="form-control"></select>
-            </div>
-            <div class="col-sm-5 no-padding pull-right">
-                <select name="input_city" id="input_city" class="form-control"></select>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-12 no-padding">
-        <input class="col-sm-12" placeholder="请输入您的姓名">
-        <input class="col-sm-12" placeholder="请输入您的电话">
-        <input class="col-sm-12" placeholder="请输入您的邮箱">
-    </div>
-    <button class="btn btn-warning col-sm-12">立即报名</button>
-</div>
+
 
 
 <script>

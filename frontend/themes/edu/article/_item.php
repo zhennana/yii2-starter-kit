@@ -7,7 +7,7 @@ use yii\helpers\Html;
 
 ?>
 <hr/>
-<div class="article-item row">
+<div class="article-item row continers">
     <div class="col-xs-12">
         <h2 class="article-title">
             <?php echo Html::a($model->title, ['view', 'slug'=>$model->slug]) ?>
