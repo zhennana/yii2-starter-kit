@@ -3,6 +3,7 @@
 use yii\db\Schema;
 use yii\db\Migration;
 
+
 class m140703_123803_article extends Migration
 {
     public function safeUp()
@@ -25,17 +26,24 @@ class m140703_123803_article extends Migration
 
         $this->createTable('{{%article}}', [
             'id' => $this->primaryKey(),
-            'slug' => $this->string(1024)->notNull(),
+            'slug' => $this->string(1024)->notNull(). " COMMENT '标题转拼音'",
             'title' => $this->string(512)->notNull(),
             'body' => $this->text()->notNull(),
-            'view' => $this->string(),
+            'view' => $this->string(). " COMMENT '内容观点'",
             'category_id' => $this->integer(),
             'thumbnail_base_url' => $this->string(1024),
             'thumbnail_path' => $this->string(1024),
-            'status' => $this->smallInteger()->notNull()->defaultValue(0),
-            'created_by' => $this->integer(),
-            'updated_by' => $this->integer(),
-            'published_at' => $this->integer(),
+            'author_id' => $this->integer(),
+            'updater_id' => $this->integer(),
+            'status' => $this->smallInteger()->notNull()->defaultValue(0). " COMMENT '0：草稿；1：发布'",
+            'display_type' => $this->smallInteger()->notNull()->defaultValue(0). " COMMENT '展示方式：不同数字表示不同展示方式'",
+            'page_view' => $this->integer(). " COMMENT '浏览量'",
+            'unique_visitors' => $this->integer(). " COMMENT '独立浏览量'",
+            'collect_number' => $this->integer(). " COMMENT '收藏数'",
+            'comment_number' => $this->integer(). " COMMENT '评论数'",
+            'useless_number' => $this->integer(). " COMMENT '没有价值（帮助）数'",
+            'page_rank' => $this->integer(). " COMMENT '页面全局排序'",
+            'published_at' => $this->integer(). " COMMENT '发布时间'",
             'created_at' => $this->integer(),
             'updated_at' => $this->integer(),
         ], $tableOptions);
@@ -48,14 +56,18 @@ class m140703_123803_article extends Migration
             'type' => $this->string(),
             'size' => $this->integer(),
             'name' => $this->string(),
+            'status' => $this->smallInteger()->notNull()->defaultValue(0). " COMMENT '0：关闭；10：公开；20：私有'",
+            'hash' => $this->string(32),
+            'upload_ip' => $this->string(15),
             'created_at' => $this->integer()
-        ], $tableOptions);
+        ]);
 
         $this->addForeignKey('fk_article_attachment_article', '{{%article_attachment}}', 'article_id', '{{%article}}', 'id', 'cascade', 'cascade');
-        $this->addForeignKey('fk_article_author', '{{%article}}', 'created_by', '{{%user}}', 'id', 'cascade', 'cascade');
-        $this->addForeignKey('fk_article_updater', '{{%article}}', 'updated_by', '{{%user}}', 'id', 'set null', 'cascade');
+        $this->addForeignKey('fk_article_author', '{{%article}}', 'author_id', '{{%user}}', 'id', 'cascade', 'cascade');
+        $this->addForeignKey('fk_article_updater', '{{%article}}', 'updater_id', '{{%user}}', 'id', 'set null', 'cascade');
         $this->addForeignKey('fk_article_category', '{{%article}}', 'category_id', '{{%article_category}}', 'id', 'cascade', 'cascade');
         $this->addForeignKey('fk_article_category_section', '{{%article_category}}', 'parent_id', '{{%article_category}}', 'id', 'cascade', 'cascade');
+
     }
 
     public function safeDown()

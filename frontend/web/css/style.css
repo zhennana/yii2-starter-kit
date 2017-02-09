@@ -25,6 +25,9 @@ html,
 body {
   height: 100%;
 }
+li{
+  list-style: none;
+}
 .wrap {
   min-height: 100%;
   height: auto;
@@ -97,4 +100,254 @@ a.desc:after {
   padding: 10px 20px;
   margin: 0 0 15px 0;
 }
+
+.no-padding{
+  padding:0 !important;
+}
+.no-margin{
+  margin:0 !important;
+}
+.navbar{
+  border-radius:0;
+  margin: 0;
+}
+.navbar .container{
+  padding:0 10% !important;
+}
+.top_logo img{
+  width: 16%;
+  margin: 10px;
+  display: block;
+}
+.top_logo{
+  width: 80%;
+  margin: auto;
+}
+.top_logo h3{
+  color: #e6214f;
+}
+.navbar-inverse{
+  background-color: #fcca10;
+  border-color: #fcca10;
+}
+.navbar-inverse .navbar-nav > .active > a, 
+.navbar-inverse .navbar-nav > .active > a:hover, 
+.navbar-inverse .navbar-nav > .active > a:focus{
+  background-color: #e6214f;
+}
+.navbar-inverse .navbar-nav > .open > a, 
+.navbar-inverse .navbar-nav > .open > a:hover, 
+.navbar-inverse .navbar-nav > .open > a:focus{
+  background-color: #e6214f;
+}
+.navbar-inverse .navbar-nav > li > a{
+  color: black;
+}
+.collapse > ul{
+  width: 100%;
+}
+.nav > li > a{
+  padding: 15px 25px;
+}
+.container{
+  padding:0 !important;
+  margin:0 !important;
+  width: 100%;
+}
+.home_continer{
+  padding-right: 10%;
+  padding-left: 10%;
+  border-top: solid 1px #a0a0a0;
+  padding-top: 5%;
+  text-align: center;
+  padding-bottom: 3%;
+}
+.home_continer .col-xs-6,.col-xs-3{
+  padding: 0 10px;
+}
+.carousel{
+  width: 100%;
+}
+.home_continer p{
+  text-indent: 2em;
+  text-align: left;
+  font-size: 16px;
+}
+.bg_gray{
+  background-color: #f1f1f1;
+}
+.home_title{
+  color: #e6214f;
+  background-image: url(http://7xthhn.com2.z0.glb.clouddn.com/o_1b8b4ggjuae6lnm11huuo1hv19.png);
+  background-repeat: no-repeat;
+  background-position: bottom;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+.about_img{
+  border:solid 1px #fcca10;
+  border-radius: 10px;
+}
+.more{
+  border-radius: 0;
+  background-color: #e6214f;
+  color: white;
+  margin: auto;
+}
+.knowmore{
+  margin: 20px 0;
+}
+.margin_bottom{
+  margin-bottom: 20px;
+}
+.time{
+  background-color: #d2d2d2;
+  color:white;
+}
+.time p{
+  text-indent: 0;
+  text-align: center;
+}
+.news{
+  border-top: solid 2px #e5e5e5;
+  border-bottom: solid 2px #e5e5e5;
+  text-align: left;
+  margin-left: 5%;
+}
+.news p{
+  text-indent: 0;
+}
+.home_news:hover > .time{
+  background-color: #e6214f;
+}
+.home_news:hover > .news h4{
+  color: #e6214f;
+}
+.course{
+  margin-bottom: 20px;
+}
+.course h4{
+  width: 60%;
+  line-height: 40px;
+  background-color: white;
+}
+.run_left li{
+  list-style: none;
+  background-color: #fcca10;
+  border-radius: 10px;
+  width: 30%;
+  margin:0 1.6%;
+}
+.run1{
+  position: relative;
+}
+.run_L{
+  position: absolute;
+  left:-50px;
+  top: 30%;
+}
+.run_R{
+  position: absolute;
+  right:-50px;
+  top: 30%;
+}
+.home_continer .carousel-control{
+  width: 0;
+}
+.yellow_bg{
+  background-color: #fcca10 !important;
+  color: black;
+  border-radius: 5px;
+}
+.down_run li{
+  list-style: none;
+  background-color: #c9c9c9;
+  width: 30%;
+  margin:0 1.6%;
+}
+.down_run li img{
+  border:none;
+  position: relative;
+}
+.down_run li div{
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: black;
+  filter:alpha(opacity=70); /*IE滤镜，透明度50%*/
+  -moz-opacity:0.7; /*Firefox私有，透明度50%*/
+  opacity:0.7;/*其他，透明度50%*/
+  color: white;
+  text-align: center;
+}
+.down_run li div p{
+  font-size: 12px;
+}
+.down_run li h4{
+  margin: 0;
+  padding:0;
+  line-height: 30px;
+}
+.down_run li:hover{
+  border:solid 1px #e61d4d;
+}
+.down_run li:hover >  h4{
+  background-color: #e61d4d;
+  color: white;
+}
+.ourinfo p{
+  text-indent: 0;
+}
+.ourinfo input{
+  margin-bottom: 10px;
+}
+.ourinfo button{
+  background-color: #e61d4d;
+  color: white;
+  margin-top: 10px;
+}
+.address_choose .form-group div{
+  margin-right: 10px;
+}
+.address_choose{
+  position: absolute;
+  top: 20%;
+  right:10%;
+  width: 20%;
+  background-color:rgba(0,0,0,0.7);
+  padding: 20px;
+}
+.address_choose input{
+  margin-top: 20px;
+  height: 40px;
+}
+.address_choose h4{
+  margin-top: 0px;
+  color: white;
+}
+.address_choose button{
+  margin-top: 20px;
+  border-radius: 0;
+}
+.address_choose1{
+  background-color:rgba(0,0,0,0.7);
+  padding: 20px;
+}
+.address_choose1 input{
+  margin-top: 20px;
+  height: 40px;
+}
+.address_choose1 h4{
+  margin-top: 0px;
+  color: white;
+}
+.address_choose1 button{
+  margin-top: 20px;
+  border-radius: 0;
+}
+
+
+
+
+
 /*# sourceMappingURL=style.map */
