@@ -25,6 +25,9 @@ html,
 body {
   height: 100%;
 }
+li{
+  list-style: none;
+}
 .wrap {
   min-height: 100%;
   height: auto;
@@ -157,6 +160,7 @@ a.desc:after {
   border-top: solid 1px #a0a0a0;
   padding-top: 5%;
   text-align: center;
+  padding-bottom: 3%;
 }
 .home_continer .col-xs-6,.col-xs-3{
   padding: 0 10px;
@@ -219,50 +223,112 @@ a.desc:after {
 .home_news:hover > .news h4{
   color: #e6214f;
 }
+.course{
+  margin-bottom: 20px;
+}
 .course h4{
   width: 60%;
   line-height: 40px;
+  background-color: white;
 }
-.course_banner{
-  position: relative;
-  text-align: center;
-}
-
-.run_left{
-  margin:auto;
-  text-align: center;
-}
-.course_banner li{
+.run_left li{
   list-style: none;
   background-color: #fcca10;
   border-radius: 10px;
   width: 30%;
   margin:0 1.6%;
 }
+.run1{
+  position: relative;
+}
 .run_L{
   position: absolute;
-  left:-30px;
-  top: 40px;
+  left:-50px;
+  top: 30%;
 }
 .run_R{
   position: absolute;
-  right:-30px;
-  top: 40px;
+  right:-50px;
+  top: 30%;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.home_continer .carousel-control{
+  width: 0;
+}
+.yellow_bg{
+  background-color: #fcca10 !important;
+  color: black;
+  border-radius: 5px;
+}
+.down_run li{
+  list-style: none;
+  background-color: #c9c9c9;
+  width: 30%;
+  margin:0 1.6%;
+}
+.down_run li img{
+  border:none;
+  position: relative;
+}
+.down_run li div{
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: black;
+  filter:alpha(opacity=70); /*IE滤镜，透明度50%*/
+  -moz-opacity:0.7; /*Firefox私有，透明度50%*/
+  opacity:0.7;/*其他，透明度50%*/
+  color: white;
+  text-align: center;
+}
+.down_run li div p{
+  font-size: 12px;
+}
+.down_run li h4{
+  margin: 0;
+  padding:0;
+  line-height: 30px;
+}
+.down_run li:hover{
+  border:solid 1px #e61d4d;
+}
+.down_run li:hover >  h4{
+  background-color: #e61d4d;
+  color: white;
+}
+.ourinfo p{
+  text-indent: 0;
+}
+.ourinfo input{
+  margin-bottom: 10px;
+}
+.ourinfo button{
+  background-color: #e61d4d;
+  color: white;
+  margin-top: 10px;
+}
+.address_choose .form-group div{
+  margin-right: 10px;
+}
+.address_choose{
+  position: absolute;
+  top: 20%;
+  right:10%;
+  width: 20%;
+  background-color:rgba(0,0,0,0.7);
+  padding: 20px;
+}
+.address_choose input{
+  margin-top: 20px;
+  height: 40px;
+}
+.address_choose h4{
+  margin-top: 0px;
+  color: white;
+}
+.address_choose button{
+  margin-top: 20px;
+  border-radius: 0;
+}
 
 
 
