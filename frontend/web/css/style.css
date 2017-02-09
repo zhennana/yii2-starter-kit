@@ -329,7 +329,22 @@ a.desc:after {
   margin-top: 20px;
   border-radius: 0;
 }
-
+.address_choose1{
+  background-color:rgba(0,0,0,0.7);
+  padding: 20px;
+}
+.address_choose1 input{
+  margin-top: 20px;
+  height: 40px;
+}
+.address_choose1 h4{
+  margin-top: 0px;
+  color: white;
+}
+.address_choose1 button{
+  margin-top: 20px;
+  border-radius: 0;
+}
 
 
 
