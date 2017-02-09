@@ -68,7 +68,7 @@ $this->title = Yii::$app->name;
     </div>
     <div class="home_continer col-xs-12">
         <div class="body-content home_title">
-            <h3 class="text-center no-padding no-margin">瓦库动态</h3>
+            <h3 class="text-center no-padding no-margin">瓦酷动态</h3>
         </div>
         <div class="col-sm-6 home_news margin_bottom">
              <div class="time col-xs-2 no-padding">

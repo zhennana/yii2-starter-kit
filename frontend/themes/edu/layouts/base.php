@@ -81,7 +81,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
     if(navigator.userAgent.match(/mobile/i)) {
         $('.top_logo').remove(); 
         $('.navbar-brand').show();
-        var img = '<img class="img-responsive" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b8gf7g9n9bb1s5nvei1rb81ikg9.png" alt="瓦库机器人">'
+        var img = '<img class="img-responsive" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b8gf7g9n9bb1s5nvei1rb81ikg9.png" alt="瓦酷机器人">'
         console.log(img);
         $('.navbar-brand').text('');
         $('.navbar-brand').append(img);

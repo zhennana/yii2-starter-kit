@@ -5,7 +5,7 @@
  */
 $this->title = $model->title;
 ?>
-<div class="content">
+<div class="content continers">
     <h1><?php echo $model->title ?></h1>
     <?php echo $model->body ?>
 </div>
