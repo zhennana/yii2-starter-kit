@@ -114,6 +114,9 @@ a.desc:after {
 .navbar .container{
   padding:0 10% !important;
 }
+.site-index{
+  position: relative;
+}
 .top_logo img{
   width: 16%;
   margin: 10px;
@@ -306,16 +309,14 @@ a.desc:after {
   color: white;
   margin-top: 10px;
 }
-.address_choose .form-group div{
-  margin-right: 10px;
-}
 .address_choose{
   position: absolute;
-  top: 20%;
+  top: 7%;
   right:10%;
   width: 20%;
   background-color:rgba(0,0,0,0.7);
   padding: 20px;
+  z-index: 2;
 }
 .address_choose input{
   margin-top: 20px;
