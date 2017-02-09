@@ -34,7 +34,7 @@ $this->title = Yii::$app->name;
     </div>
     <div class="home_continer bg_gray col-xs-12">
         <div class="body-content home_title">
-            <h3 class="text-center no-padding no-margin">关于瓦库</h3>
+            <h3 class="text-center no-padding no-margin">关于瓦酷</h3>
         </div>
         <div class="col-xs-12 margin_bottom no-padding">
             <div class="col-xs-6">

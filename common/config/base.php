@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('PRC');//其中PRC为“中华人民共和国”
 $config = [
     'name'=>'Yii2 Starter Kit',
     'vendorPath'=>dirname(dirname(__DIR__)).'/vendor',

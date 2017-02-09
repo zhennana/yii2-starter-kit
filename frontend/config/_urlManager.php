@@ -1,7 +1,7 @@
 <?php
 return [
     'class'=>'yii\web\UrlManager',
-    'enablePrettyUrl'=>true,
+    'enablePrettyUrl'=>false,
     'showScriptName'=>false,
     'rules'=> [
         // Pages
