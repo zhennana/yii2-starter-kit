@@ -54,3 +54,6 @@ $this->title = Yii::t('frontend', 'User Settings')
     <?php ActiveForm::end(); ?>
 
 </div>
+<script>
+    $('.carousel').hide();
+</script>
