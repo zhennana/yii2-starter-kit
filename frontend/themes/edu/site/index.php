@@ -2,36 +2,29 @@
 /* @var $this yii\web\View */
 $this->title = Yii::$app->name;
 ?>
-<div class="site-index">
-
-    <?php echo \common\widgets\DbCarousel::widget([
-        'key'=>'index',
-        'options' => [
-            'class' => 'slide', // enables slide effect
-        ],
-    ]) ?>
-    <div class="row address_choose">
-        <h4>瓦酷，创造不一样！</h4>
-        <div class="col-sm-12 no-padding">
-            <div class="form-group">
-                <div class="col-sm-4 no-padding">
-                    <select name="input_province" id="input_province" class="form-control"></select>
-                </div>
-                <div class="col-sm-4 no-padding">
-                    <select name="input_city" id="input_city" class="form-control"></select>
-                </div>
-                <div class="col-sm-4 no-padding">
-                    <select name="input_area" id="input_area" class="form-control"></select>
-                </div>
+<div class="row address_choose">
+    <h4>瓦酷，创造不一样！</h4>
+    <div class="col-sm-12 no-padding">
+        <div class="form-group">
+            <div class="col-sm-4 no-padding">
+                <select name="input_province" id="input_province" class="form-control"></select>
+            </div>
+            <div class="col-sm-4 no-padding">
+                <select name="input_city" id="input_city" class="form-control"></select>
+            </div>
+            <div class="col-sm-4 no-padding">
+                <select name="input_area" id="input_area" class="form-control"></select>
             </div>
         </div>
-        <div class="col-sm-12 no-padding">
-            <input class="col-sm-12" placeholder="请输入您的姓名">
-            <input class="col-sm-12" placeholder="请输入您的电话">
-            <input class="col-sm-12" placeholder="请输入您的邮箱">
-        </div>
-        <button class="btn btn-warning col-sm-12">立即报名</button>
     </div>
+    <div class="col-sm-12 no-padding">
+        <input class="col-sm-12" placeholder="请输入您的姓名">
+        <input class="col-sm-12" placeholder="请输入您的电话">
+        <input class="col-sm-12" placeholder="请输入您的邮箱">
+    </div>
+    <button class="btn btn-warning col-sm-12">立即报名</button>
+</div>
+<div class="site-index">
     <div class="home_continer bg_gray col-xs-12">
         <div class="body-content home_title">
             <h3 class="text-center no-padding no-margin">关于瓦酷</h3>
@@ -462,6 +455,9 @@ function showfont(){
     },function(){
         $(this).children('div').hide();
     });
+    $('.container').css('margin','0');
+    $('.container').css('padding','0');
+    $('.container').css('width','100%');
 }
 
 

@@ -113,6 +113,10 @@ a.desc:after {
 }
 .navbar .container{
   padding:0 10% !important;
+  margin:0;
+}
+.container{
+  padding-top: 0 !important;
 }
 .site-index{
   position: relative;
@@ -125,6 +129,9 @@ a.desc:after {
 .top_logo{
   width: 80%;
   margin: auto;
+}
+.carousel-inner img{
+  width: 100%;
 }
 .top_logo h3{
   color: #e6214f;
@@ -149,14 +156,6 @@ a.desc:after {
 .collapse > ul{
   width: 100%;
 }
-.nav > li > a{
-  padding: 15px 25px;
-}
-.container{
-  padding:0 !important;
-  margin:0 !important;
-  width: 100%;
-}
 .home_continer{
   padding-right: 10%;
   padding-left: 10%;
@@ -164,6 +163,9 @@ a.desc:after {
   padding-top: 5%;
   text-align: center;
   padding-bottom: 3%;
+}
+.nav > li > a{
+  padding: 15px 25px;
 }
 .home_continer .col-xs-6,.col-xs-3{
   padding: 0 10px;
@@ -311,7 +313,7 @@ a.desc:after {
 }
 .address_choose{
   position: absolute;
-  top: 7%;
+  top: 25%;
   right:10%;
   width: 20%;
   background-color:rgba(0,0,0,0.7);
@@ -345,11 +347,6 @@ a.desc:after {
 .address_choose1 button{
   margin-top: 20px;
   border-radius: 0;
-}
-.continers{
-  padding-right: 10%;
-  padding-left: 10%;
-  padding-bottom: 3%;
 }
 
 
