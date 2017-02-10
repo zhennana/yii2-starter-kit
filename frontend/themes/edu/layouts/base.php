@@ -128,8 +128,8 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
             <img class="img-responsive col-xs-4" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
         </div>
         <div class="col-xs-12 bottom">
-            <p class="pull-left">&copy; 版权所有：瓦酷机器人copyright2014-2016 wakcoo.com all rights reserved. 京icp备15002974号－1?></p>
-            <p class="pull-right"><?php echo Yii::powered() ?></p>
+            <p class="pull-left">&copy; 版权所有：瓦酷机器人.  京ICP备17007940号</p>
+            <p class="pull-right">技术支持：三河市物联网络技术有限公司</p>
         </div>
     </div>
 </footer>

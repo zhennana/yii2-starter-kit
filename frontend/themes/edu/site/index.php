@@ -31,11 +31,11 @@ $this->title = Yii::$app->name;
         </div>
         <div class="col-xs-12 margin_bottom no-padding">
             <div class="col-xs-6">
-                <p>    瓦酷机器人是北京波罗教育科技有限公司旗下品牌，是一个
+                <p>    瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
     适合所有有梦想创业者的教育项目。我们的教学理念是“做中学，
     玩中学”。是以乐高等知名的机器人教具为载体，让3~13岁的孩
     子在动手做的过程中去学习知识，提升能力，拓展思维。作为中
-    国创意科教先锋，我们的使命是：让孩子更有竞争力！玛酷机器
+    国创意科教先锋，我们的使命是：让孩子更有竞争力！瓦酷机器
     人是大众化的教育品牌，“瓦酷，创造不一样！瓦酷，Make it 
     cool!”</p>
             </div>
@@ -203,7 +203,7 @@ $this->title = Yii::$app->name;
             <div id="carousel-example-generic2" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                     <div class="item active">
-                        <ul class="run_left no-padding pull-left">
+                        <ul class="run_right no-padding pull-left">
                             <li class="col-xs-4 no-padding">
                                 <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
                                 <h4>神奇物理</h4>
@@ -219,7 +219,7 @@ $this->title = Yii::$app->name;
                         </ul>
                     </div>
                     <div class="item ">
-                        <ul class="run_left no-padding pull-left">
+                        <ul class="run_right no-padding pull-left">
                             <li class="col-xs-4 no-padding">
                                 <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
                                 <h4>神奇物理</h4>
@@ -235,7 +235,7 @@ $this->title = Yii::$app->name;
                         </ul>
                     </div>
                     <div class="item ">
-                        <ul class="run_left no-padding pull-left">
+                        <ul class="run_right no-padding pull-left">
                             <li class="col-xs-4 no-padding">
                                 <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
                                 <h4>神奇物理</h4>
@@ -274,7 +274,7 @@ $this->title = Yii::$app->name;
                                 <h4>神奇物理</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
-                                        瓦酷机器人是北京波罗教育科技有限公司旗下品牌，是一个
+                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
                                         适合所有有梦想创业者的教育项目。
                                     </p>
                                 </div>
@@ -284,7 +284,7 @@ $this->title = Yii::$app->name;
                                 <h4>神奇物理</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
-                                        瓦酷机器人是北京波罗教育科技有限公司旗下品牌，是一个
+                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
                                         适合所有有梦想创业者的教育项目。
                                     </p>
                                 </div>
@@ -294,41 +294,7 @@ $this->title = Yii::$app->name;
                                 <h4>神奇物理</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
-                                        瓦酷机器人是北京波罗教育科技有限公司旗下品牌，是一个
-                                        适合所有有梦想创业者的教育项目。
-                                    </p>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="item ">
-                        <ul class="no-padding pull-left">
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
-                                <h4>神奇物理</h4>
-                                <div class="col-xs-12 no-padding">
-                                    <p>
-                                        瓦酷机器人是北京波罗教育科技有限公司旗下品牌，是一个
-                                        适合所有有梦想创业者的教育项目。
-                                    </p>
-                                </div>
-                            </li>
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
-                                <h4>神奇物理</h4>
-                                <div class="col-xs-12 no-padding">
-                                    <p>
-                                        瓦酷机器人是北京波罗教育科技有限公司旗下品牌，是一个
-                                        适合所有有梦想创业者的教育项目。
-                                    </p>
-                                </div>
-                            </li>
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
-                                <h4>神奇物理</h4>
-                                <div class="col-xs-12 no-padding">
-                                    <p>
-                                        瓦酷机器人是北京波罗教育科技有限公司旗下品牌，是一个
+                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
                                         适合所有有梦想创业者的教育项目。
                                     </p>
                                 </div>
@@ -342,7 +308,7 @@ $this->title = Yii::$app->name;
                                 <h4>神奇物理</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
-                                        瓦酷机器人是北京波罗教育科技有限公司旗下品牌，是一个
+                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
                                         适合所有有梦想创业者的教育项目。
                                     </p>
                                 </div>
@@ -352,7 +318,7 @@ $this->title = Yii::$app->name;
                                 <h4>神奇物理</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
-                                        瓦酷机器人是北京波罗教育科技有限公司旗下品牌，是一个
+                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
                                         适合所有有梦想创业者的教育项目。
                                     </p>
                                 </div>
@@ -362,7 +328,41 @@ $this->title = Yii::$app->name;
                                 <h4>神奇物理</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
-                                        瓦酷机器人是北京波罗教育科技有限公司旗下品牌，是一个
+                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
+                                        适合所有有梦想创业者的教育项目。
+                                    </p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="item ">
+                        <ul class="no-padding pull-left">
+                            <li class="col-xs-4 no-padding">
+                                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
+                                <h4>神奇物理</h4>
+                                <div class="col-xs-12 no-padding">
+                                    <p>
+                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
+                                        适合所有有梦想创业者的教育项目。
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="col-xs-4 no-padding">
+                                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
+                                <h4>神奇物理</h4>
+                                <div class="col-xs-12 no-padding">
+                                    <p>
+                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
+                                        适合所有有梦想创业者的教育项目。
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="col-xs-4 no-padding">
+                                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
+                                <h4>神奇物理</h4>
+                                <div class="col-xs-12 no-padding">
+                                    <p>
+                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
                                         适合所有有梦想创业者的教育项目。
                                     </p>
                                 </div>
@@ -401,7 +401,7 @@ $this->title = Yii::$app->name;
         </div>
     </div>
     <div class="col-xs-12 address_choose1">
-        <h4>玛酷，创造不一样！</h4>
+        <h4>瓦酷，创造不一样！</h4>
         <div class="col-sm-12 no-padding">
             <div class="form-group">
                 <div class="col-xs-4 no-padding">
@@ -447,6 +447,7 @@ function Change(){
 }
 function showfont(){
     var H_li = $('.down_run li img').height();
+    console.log(H_li);
     $('.down_run li div').hide();
     $('.down_run li').hover(function(){
         $(this).children('div').show();
