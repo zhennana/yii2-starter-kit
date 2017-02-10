@@ -6,6 +6,6 @@
 $this->title = $model->title;
 ?>
 <div class="content">
-    <h1><?php echo $model->title ?></h1>
+    <h1> left side <?php echo $model->title ?></h1>
     <?php echo $model->body ?>
 </div>

@@ -22,7 +22,7 @@ class PageController extends Controller
             throw new NotFoundHttpException(Yii::t('frontend', 'Page not found'));
         }
 
-        $viewFile = $model->view ?: 'view';
+        $viewFile = $model->view ?: 'leftside';
         return $this->render($viewFile, ['model'=>$model]);
     }
 }

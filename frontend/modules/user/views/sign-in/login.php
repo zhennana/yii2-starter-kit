@@ -9,7 +9,7 @@ use yii\widgets\ActiveForm;
 $this->title = Yii::t('frontend', 'Login');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-login continers">
+<div class="site-login">
     <h1><?php echo Html::encode($this->title) ?></h1>
 
     <div class="row">
@@ -29,7 +29,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="form-group">
                     <?php echo Html::a(Yii::t('frontend', 'Need an account? Sign up.'), ['signup']) ?>
                 </div>
-                <h2><?php echo Yii::t('frontend', 'Log in with')  ?>:</h2>
+                <!--
+                <h2><?php //echo Yii::t('frontend', 'Log in with')  ?>:</h2>
                 <div class="form-group">
                     <?php /*
                     echo yii\authclient\widgets\AuthChoice::widget([
@@ -37,6 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ]);
                     */ ?>
                 </div>
+                -->
             <?php ActiveForm::end(); ?>
         </div>
     </div>

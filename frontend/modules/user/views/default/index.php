@@ -11,7 +11,7 @@ use yii\widgets\ActiveForm;
 $this->title = Yii::t('frontend', 'User Settings')
 ?>
 
-<div class="user-profile-form continers">
+<div class="user-profile-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
