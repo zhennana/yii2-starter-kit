@@ -9,7 +9,7 @@ use yii\widgets\ActiveForm;
 $this->title = Yii::t('frontend', 'Login');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-login continers">
+<div class="site-login">
     <h1><?php echo Html::encode($this->title) ?></h1>
 
     <div class="row">
@@ -43,3 +43,6 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 </div>
+<script>
+    $('.carousel').hide();
+</script>
