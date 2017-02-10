@@ -70,7 +70,12 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
         ]
     ]); ?>
     <?php NavBar::end(); ?>
-
+    <?php echo \common\widgets\DbCarousel::widget([
+        'key'=>'index',
+        'options' => [
+            'class' => 'slide', // enables slide effect
+        ],
+    ]) ?>
     <?php echo $content ?>
 
 </div>
