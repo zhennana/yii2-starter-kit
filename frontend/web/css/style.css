@@ -263,6 +263,12 @@ a.desc:after {
   width: 30%;
   margin:0 1.6%;
 }
+.run_right li{
+  list-style: none;
+  border-radius: 10px;
+  width: 30%;
+  margin:0 1.6%;
+}
 .run1{
   position: relative;
 }
