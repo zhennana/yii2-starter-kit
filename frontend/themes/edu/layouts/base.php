@@ -25,6 +25,10 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => Yii::t('frontend', 'Home'), 'url' => ['/site/index']],
+            //['label' => Yii::t('frontend', 'About'), 'url' => ['/page/view', 'slug'=>'about']],
+            //['label' => Yii::t('frontend', 'Articles'), 'url' => ['/article/index']],
+            //['label' => Yii::t('frontend', 'Contact'), 'url' => ['/site/contact']],
+            // ['label' => Yii::t('frontend', 'Signup'), 'url' => ['/user/sign-in/signup'], 'visible'=>Yii::$app->user->isGuest],
             ['label' => Yii::t('frontend', '关于瓦酷'), 'url' => ['/page/view', 'slug'=>'guan-yu-wa-ku']],
             ['label' => Yii::t('frontend', '课程体系'), 'url' => ['/page/view', 'slug'=>'ke-cheng-ti-xi']],
             ['label' => Yii::t('frontend', '瓦酷动态'), 'url' => ['/page/view', 'slug'=>'wa-ku-dong-tai']],
