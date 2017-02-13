@@ -513,9 +513,9 @@ $(function () {
         $("#input_area").append(html);      
     });
     //绑定
-    $("#input_province").val("广东省");$("#input_province").change();
-    $("#input_city").val("深圳市");$("#input_city").change();
-    $("#input_area").val("罗湖区");
+    $("#input_province").val("北京市");$("#input_province").change();
+    $("#input_city").val("市辖区");$("#input_city").change();
+    $("#input_area").val("朝阳区");
 
 });
 
