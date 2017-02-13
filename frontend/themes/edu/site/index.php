@@ -2,26 +2,41 @@
 /* @var $this yii\web\View */
 $this->title = Yii::$app->name;
 ?>
+<div class="row address_choose">
+    <h4>瓦酷，创造不一样！</h4>
+    <div class="col-sm-12 no-padding">
+        <div class="form-group">
+            <div class="col-sm-4 no-padding">
+                <select name="input_province" id="input_province" class="form-control"></select>
+            </div>
+            <div class="col-sm-4 no-padding">
+                <select name="input_city" id="input_city" class="form-control"></select>
+            </div>
+            <div class="col-sm-4 no-padding">
+                <select name="input_area" id="input_area" class="form-control"></select>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 no-padding">
+        <input class="col-sm-12" placeholder="请输入您的姓名">
+        <input class="col-sm-12" placeholder="请输入您的电话">
+        <input class="col-sm-12" placeholder="请输入您的邮箱">
+    </div>
+    <button class="btn btn-warning col-sm-12">立即报名</button>
+</div>
 <div class="site-index">
-
-    <?php echo \common\widgets\DbCarousel::widget([
-        'key'=>'index',
-        'options' => [
-            'class' => 'slide', // enables slide effect
-        ],
-    ]) ?>
     <div class="home_continer bg_gray col-xs-12">
         <div class="body-content home_title">
-            <h3 class="text-center no-padding no-margin">关于瓦库</h3>
+            <h3 class="text-center no-padding no-margin">关于瓦酷</h3>
         </div>
         <div class="col-xs-12 margin_bottom no-padding">
             <div class="col-xs-6">
-                <p>    瓦酷机器人是北京波罗教育科技有限公司旗下品牌，是一个
+                <p>    瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
     适合所有有梦想创业者的教育项目。我们的教学理念是“做中学，
     玩中学”。是以乐高等知名的机器人教具为载体，让3~13岁的孩
     子在动手做的过程中去学习知识，提升能力，拓展思维。作为中
-    国创意科教先锋，我们的使命是：让孩子更有竞争力！玛酷机器
-    人是大众化的教育品牌，“玛酷，创造不一样！玛酷，Make it 
+    国创意科教先锋，我们的使命是：让孩子更有竞争力！瓦酷机器
+    人是大众化的教育品牌，“瓦酷，创造不一样！瓦酷，Make it 
     cool!”</p>
             </div>
             <div class="col-xs-6">
@@ -46,7 +61,7 @@ $this->title = Yii::$app->name;
     </div>
     <div class="home_continer col-xs-12">
         <div class="body-content home_title">
-            <h3 class="text-center no-padding no-margin">瓦库动态</h3>
+            <h3 class="text-center no-padding no-margin">瓦酷动态</h3>
         </div>
         <div class="col-sm-6 home_news margin_bottom">
              <div class="time col-xs-2 no-padding">
@@ -188,7 +203,7 @@ $this->title = Yii::$app->name;
             <div id="carousel-example-generic2" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                     <div class="item active">
-                        <ul class="run_left no-padding pull-left">
+                        <ul class="run_right no-padding pull-left">
                             <li class="col-xs-4 no-padding">
                                 <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
                                 <h4>神奇物理</h4>
@@ -204,7 +219,7 @@ $this->title = Yii::$app->name;
                         </ul>
                     </div>
                     <div class="item ">
-                        <ul class="run_left no-padding pull-left">
+                        <ul class="run_right no-padding pull-left">
                             <li class="col-xs-4 no-padding">
                                 <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
                                 <h4>神奇物理</h4>
@@ -220,7 +235,7 @@ $this->title = Yii::$app->name;
                         </ul>
                     </div>
                     <div class="item ">
-                        <ul class="run_left no-padding pull-left">
+                        <ul class="run_right no-padding pull-left">
                             <li class="col-xs-4 no-padding">
                                 <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
                                 <h4>神奇物理</h4>
@@ -259,7 +274,7 @@ $this->title = Yii::$app->name;
                                 <h4>神奇物理</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
-                                        瓦酷机器人是北京波罗教育科技有限公司旗下品牌，是一个
+                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
                                         适合所有有梦想创业者的教育项目。
                                     </p>
                                 </div>
@@ -269,7 +284,7 @@ $this->title = Yii::$app->name;
                                 <h4>神奇物理</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
-                                        瓦酷机器人是北京波罗教育科技有限公司旗下品牌，是一个
+                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
                                         适合所有有梦想创业者的教育项目。
                                     </p>
                                 </div>
@@ -279,41 +294,7 @@ $this->title = Yii::$app->name;
                                 <h4>神奇物理</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
-                                        瓦酷机器人是北京波罗教育科技有限公司旗下品牌，是一个
-                                        适合所有有梦想创业者的教育项目。
-                                    </p>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="item ">
-                        <ul class="no-padding pull-left">
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
-                                <h4>神奇物理</h4>
-                                <div class="col-xs-12 no-padding">
-                                    <p>
-                                        瓦酷机器人是北京波罗教育科技有限公司旗下品牌，是一个
-                                        适合所有有梦想创业者的教育项目。
-                                    </p>
-                                </div>
-                            </li>
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
-                                <h4>神奇物理</h4>
-                                <div class="col-xs-12 no-padding">
-                                    <p>
-                                        瓦酷机器人是北京波罗教育科技有限公司旗下品牌，是一个
-                                        适合所有有梦想创业者的教育项目。
-                                    </p>
-                                </div>
-                            </li>
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
-                                <h4>神奇物理</h4>
-                                <div class="col-xs-12 no-padding">
-                                    <p>
-                                        瓦酷机器人是北京波罗教育科技有限公司旗下品牌，是一个
+                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
                                         适合所有有梦想创业者的教育项目。
                                     </p>
                                 </div>
@@ -327,7 +308,7 @@ $this->title = Yii::$app->name;
                                 <h4>神奇物理</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
-                                        瓦酷机器人是北京波罗教育科技有限公司旗下品牌，是一个
+                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
                                         适合所有有梦想创业者的教育项目。
                                     </p>
                                 </div>
@@ -337,7 +318,7 @@ $this->title = Yii::$app->name;
                                 <h4>神奇物理</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
-                                        瓦酷机器人是北京波罗教育科技有限公司旗下品牌，是一个
+                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
                                         适合所有有梦想创业者的教育项目。
                                     </p>
                                 </div>
@@ -347,7 +328,41 @@ $this->title = Yii::$app->name;
                                 <h4>神奇物理</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
-                                        瓦酷机器人是北京波罗教育科技有限公司旗下品牌，是一个
+                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
+                                        适合所有有梦想创业者的教育项目。
+                                    </p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="item ">
+                        <ul class="no-padding pull-left">
+                            <li class="col-xs-4 no-padding">
+                                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
+                                <h4>神奇物理</h4>
+                                <div class="col-xs-12 no-padding">
+                                    <p>
+                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
+                                        适合所有有梦想创业者的教育项目。
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="col-xs-4 no-padding">
+                                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
+                                <h4>神奇物理</h4>
+                                <div class="col-xs-12 no-padding">
+                                    <p>
+                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
+                                        适合所有有梦想创业者的教育项目。
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="col-xs-4 no-padding">
+                                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
+                                <h4>神奇物理</h4>
+                                <div class="col-xs-12 no-padding">
+                                    <p>
+                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
                                         适合所有有梦想创业者的教育项目。
                                     </p>
                                 </div>
@@ -369,14 +384,14 @@ $this->title = Yii::$app->name;
             <h3 class="text-center no-padding no-margin">联系我们</h3>
         </div>
         <div class="col-xs-12 no-padding">
-            <div class="col-xs-6 ourinfo">
+            <div class="col-sm-6 ourinfo">
                 <h4 class="text-left">联系方式</h4>
                 <p>瓦酷机器人有限公司</p>
                 <p>公司地址：XXXXXXXXXXXXXXXXXXXXXXXXXX</p>
                 <p>办公电话：0316-8888-888</p>
                 <p>网址：www.wakoorobot.com</p>
             </div>
-            <div class="col-xs-6 ourinfo">
+            <div class="col-sm-6 ourinfo">
                 <h4 class="text-left">在线留言</h4>
                 <input class="col-xs-12" placeholder="Your Name：">
                 <input class="col-xs-12" placeholder="Your Phone：">
@@ -385,27 +400,32 @@ $this->title = Yii::$app->name;
             </div>
         </div>
     </div>
-</div>
-
-<div class="row address_choose">
-    <h4>玛酷，创造不一样！</h4>
-    <div class="col-sm-12 no-padding">
-        <div class="form-group">
-            <div class="col-sm-5 no-padding">
-                <select name="input_province" id="input_province" class="form-control"></select>
+    <div class="col-xs-12 address_choose1">
+        <h4>瓦酷，创造不一样！</h4>
+        <div class="col-sm-12 no-padding">
+            <div class="form-group">
+                <div class="col-xs-4 no-padding">
+                    <select name="input_province" id="input_province" class="form-control"></select>
+                </div>
+                <div class="col-xs-4 no-padding">
+                    <select name="input_city" id="input_city" class="form-control"></select>
+                </div>
+                <div class="col-xs-4 no-padding">
+                <select name="input_area" id="input_area" class="form-control"></select>
             </div>
-            <div class="col-sm-5 no-padding pull-right">
-                <select name="input_city" id="input_city" class="form-control"></select>
             </div>
         </div>
+        <div class="col-xs-12 no-padding">
+            <input class="col-xs-12" placeholder="请输入您的姓名">
+            <input class="col-xs-12" placeholder="请输入您的电话">
+            <input class="col-xs-12" placeholder="请输入您的邮箱">
+        </div>
+        <button class="btn btn-warning col-xs-12">立即报名</button>
     </div>
-    <div class="col-sm-12 no-padding">
-        <input class="col-sm-12" placeholder="请输入您的姓名">
-        <input class="col-sm-12" placeholder="请输入您的电话">
-        <input class="col-sm-12" placeholder="请输入您的邮箱">
-    </div>
-    <button class="btn btn-warning col-sm-12">立即报名</button>
 </div>
+
+
+
 
 <script>
 Change();
@@ -425,7 +445,11 @@ function Change(){
         $('.box2').show();
     });
 }
+
 function showfont(){
+    $('.container').css('margin','0');
+    $('.container').css('padding','0');
+    $('.container').css('width','100%');
     var H_li = $('.down_run li img').height();
     $('.down_run li div').hide();
     $('.down_run li').hover(function(){
@@ -434,6 +458,21 @@ function showfont(){
         $(this).children('div').children('p').css('padding','5%');
     },function(){
         $(this).children('div').hide();
+    });
+    
+    $(window).resize(function() {
+        var H_li = $('.down_run li img').height();
+        $('.down_run li div').hide();
+        $('.down_run li').hover(function(){
+            $(this).children('div').show();
+            $(this).children('div').css('height',''+H_li+'');
+            $(this).children('div').children('p').css('padding','5%');
+        },function(){
+            $(this).children('div').hide();
+        });
+        $('.container').css('margin','0');
+        $('.container').css('padding','0');
+        $('.container').css('width','100%');
     });
 }
 
@@ -479,4 +518,11 @@ $(function () {
     $("#input_area").val("罗湖区");
 
 });
+
+if(navigator.userAgent.match(/mobile/i)) {
+    $('.address_choose').remove(); 
+}else{
+    $('.address_choose1').remove(); 
+}
+
 </script>

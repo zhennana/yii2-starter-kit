@@ -9,7 +9,7 @@ use yii\widgets\ActiveForm;
 $this->title = Yii::t('frontend', 'Signup');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-signup">
+<div class="site-signup content">
     <h1><?php echo Html::encode($this->title) ?></h1>
 
     <div class="row">
@@ -21,13 +21,21 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="form-group">
                     <?php echo Html::submitButton(Yii::t('frontend', 'Signup'), ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
                 </div>
-                <h2><?php echo Yii::t('frontend', 'Sign up with')  ?>:</h2>
+                <!--
+                <h2><?php // echo Yii::t('frontend', 'Sign up with')  ?>:</h2>
                 <div class="form-group">
-                    <?php echo yii\authclient\widgets\AuthChoice::widget([
+                    <?php 
+                    /* echo yii\authclient\widgets\AuthChoice::widget([
                         'baseAuthUrl' => ['/user/sign-in/oauth']
-                    ]) ?>
+                    ]);
+                    */
+                    ?>
                 </div>
+                -->
             <?php ActiveForm::end(); ?>
         </div>
     </div>
 </div>
+<script>
+    $('.carousel').hide();
+</script>

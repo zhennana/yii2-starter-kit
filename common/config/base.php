@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('PRC');//其中PRC为“中华人民共和国”
 $config = [
     'name'=>'Yii2 Starter Kit',
     'vendorPath'=>dirname(dirname(__DIR__)).'/vendor',
@@ -155,11 +156,11 @@ $config = [
         'availableLocales'=>[
         // For example, the ID en-US stands for the locale of "English and the United States".
             'en-US'=>'English (US)',
-            'ru-RU'=>'Русский (РФ)',
-            'uk-UA'=>'Українська (Україна)',
-            'es-ES' => 'Español',
-            'es' => 'Español',
-            'vi' => 'Tiếng Việt',
+            //'ru-RU'=>'Русский (РФ)',
+            //'uk-UA'=>'Українська (Україна)',
+            //'es-ES' => 'Español',
+            //'es' => 'Español',
+            //'vi' => 'Tiếng Việt',
             'zh-CN' => '简体中文',
         ],
         // defines codes for the names of countries, https://zh.wikipedia.org/wiki/ISO_3166-1
