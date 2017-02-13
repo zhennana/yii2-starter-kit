@@ -75,4 +75,5 @@ return [
     'User ID' => 'ID de Usuario',
     'Username' => 'Nombre de Usuario',
     'Value' => 'Valor',
+    'Wakoo Robot'=>'瓦酷机器人'
 ];

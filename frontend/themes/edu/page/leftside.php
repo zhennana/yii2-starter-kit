@@ -5,7 +5,7 @@
  */
 $this->title = $model->title;
 
-$this->title = Yii::t('frontend', 'Signup');
+//$this->title = Yii::t('frontend', 'Signup');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="content">
