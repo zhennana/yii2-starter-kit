@@ -1,5 +1,6 @@
 <?php
 $config = [
+    'name'=>'瓦酷机器人后台',
     'homeUrl'=>Yii::getAlias('@backendUrl'),
     'controllerNamespace' => 'backend\controllers',
     'defaultRoute'=>'timeline-event/index',
