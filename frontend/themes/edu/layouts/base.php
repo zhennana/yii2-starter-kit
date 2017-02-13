@@ -25,6 +25,10 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => Yii::t('frontend', 'Home'), 'url' => ['/site/index']],
+            //['label' => Yii::t('frontend', 'About'), 'url' => ['/page/view', 'slug'=>'about']],
+            //['label' => Yii::t('frontend', 'Articles'), 'url' => ['/article/index']],
+            //['label' => Yii::t('frontend', 'Contact'), 'url' => ['/site/contact']],
+            // ['label' => Yii::t('frontend', 'Signup'), 'url' => ['/user/sign-in/signup'], 'visible'=>Yii::$app->user->isGuest],
             ['label' => Yii::t('frontend', '关于瓦酷'), 'url' => ['/page/view', 'slug'=>'guan-yu-wa-ku']],
             ['label' => Yii::t('frontend', '课程体系'), 'url' => ['/page/view', 'slug'=>'ke-cheng-ti-xi']],
             ['label' => Yii::t('frontend', '瓦酷动态'), 'url' => ['/page/view', 'slug'=>'wa-ku-dong-tai']],
@@ -76,14 +80,61 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
             'class' => 'slide', // enables slide effect
         ],
     ]) ?>
+
     <?php echo $content ?>
 
 </div>
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?php echo date('Y') ?></p>
-        <p class="pull-right"><?php echo Yii::powered() ?></p>
+        <div class="col-xs-12 top">
+            <ul class="no-margin no-padding col-xs-8">
+                <li class="col-xs-2">
+                    <h4>关于瓦酷</h4>
+                    <p>瓦酷介绍</p>
+                    <p>品牌故事</p>
+                    <p>专家团队</p>
+                    <p>教育理念</p>
+                    <p>运营管理部</p>
+                </li>
+                <li class="col-xs-2">
+                    <h4>关于瓦酷</h4>
+                    <p>瓦酷介绍</p>
+                    <p>品牌故事</p>
+                    <p>专家团队</p>
+                    <p>教育理念</p>
+                    <p>运营管理部</p>
+                </li>
+                <li class="col-xs-2">
+                    <h4>关于瓦酷</h4>
+                    <p>瓦酷介绍</p>
+                    <p>品牌故事</p>
+                    <p>专家团队</p>
+                    <p>教育理念</p>
+                    <p>运营管理部</p>
+                </li>
+                <li class="col-xs-2">
+                    <h4>关于瓦酷</h4>
+                    <p>瓦酷介绍</p>
+                    <p>品牌故事</p>
+                    <p>专家团队</p>
+                    <p>教育理念</p>
+                    <p>运营管理部</p>
+                </li>
+                <li class="col-xs-4">
+                    <h4>关于瓦酷</h4>
+                    <p class="no-margin">全国咨询热线</p>
+                    <h3 class="no-margin">0316-8888888</h3>
+                    <h5>地址：河北省三河市燕郊开发区</h5>
+                    <p>邮编：065201</p>
+                </li>
+            </ul>
+            <img class="img-responsive col-xs-4" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
+        </div>
+        <div class="col-xs-12 bottom">
+            <p class="pull-left">&copy; 版权所有：瓦酷机器人.  京ICP备17007940号</p>
+            <p class="pull-right">技术支持：三河市物联网络技术有限公司</p>
+        </div>
     </div>
 </footer>
 <?php $this->endContent() ?>
@@ -101,5 +152,11 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
     }
     var Hight = $('.top_logo img').height();
     $('.top_logo h3').css('line-height',''+Hight+'px');
+    var width = $(window).width();
+    $('.breadcrumb').css('width',''+width+'');
+    $(window).resize(function() {
+        var width = $(window).width();
+        $('.breadcrumb').css('width',''+width+'');
+    });
 </script>
 
