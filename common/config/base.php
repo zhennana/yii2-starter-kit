@@ -1,7 +1,7 @@
 <?php
 date_default_timezone_set('PRC');//其中PRC为“中华人民共和国”
 $config = [
-    'name'=>'Yii2 Starter Kit',
+    'name'=>'瓦酷机器人',
     'vendorPath'=>dirname(dirname(__DIR__)).'/vendor',
     'extensions' => require(__DIR__ . '/../../vendor/yiisoft/extensions.php'),
     'sourceLanguage'=>'en-US',
@@ -67,7 +67,15 @@ $config = [
             'charset' => 'utf8',
             'enableSchemaCache' => YII_ENV_PROD,
         ],
-
+        'campus'=>[
+            'class'=>'yii\db\Connection',
+            'dsn' => env('DB_DSN_CAMPUS'),
+            'username' => env('DB_USERNAME_CAMPUS'),
+            'password' => env('DB_PASSWORD_CAMPUS'),
+            'tablePrefix' => env('DB_TABLE_PREFIX_CAMPUS'),
+            'charset' => 'utf8',
+            'enableSchemaCache' => YII_ENV_PROD,
+        ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [

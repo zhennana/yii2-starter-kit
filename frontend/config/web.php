@@ -1,6 +1,7 @@
 <?php
 $config = [
-    'homeUrl'=>Yii::getAlias('@frontendUrl'),
+    'name'   => Yii::t('common','瓦酷机器人'),
+    'homeUrl'=> Yii::getAlias('@frontendUrl'),
     'controllerNamespace' => 'frontend\controllers',
     'defaultRoute' => 'site/index',
     'bootstrap' => ['maintenance'],
