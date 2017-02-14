@@ -140,7 +140,6 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
 <?php $this->endContent() ?>
 
 <script>
-    $('.navbar-brand').hide();
     var boxwidth = $(window).width();
     if(boxwidth < 768){
         $('.top_logo').remove(); 

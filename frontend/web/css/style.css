@@ -177,6 +177,9 @@ a.desc:after {
   font-size: 16px !important;
   line-height: 26px;
 }
+.navbar-brand{
+  display: none;
+}
 .collapse > ul{
   width: 100%;
 }
