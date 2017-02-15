@@ -140,6 +140,29 @@ $bundle = BackendAsset::register($this);
                             'badgeBgClass'=>'label-success',
                         ],
                         [
+                            'label'=>Yii::t('backend', '学校管理'),
+                            'url' => '#',
+                            'icon'=>'<i class="fa fa-edit"></i>',
+                            'options'=>['class'=>'treeview'],
+                            'items'=>[
+                                ['label'=>Yii::t('backend', '学校列表'), 'url'=>['/school/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'
+                                ],
+                            ]
+                        ],
+                        [
+                            'label'=>Yii::t('backend', '课件管理'),
+                            'url' => '#',
+                            'icon'=>'<i class="fa fa-edit"></i>',
+                            'options'=>['class'=>'treeview'],
+                            'items'=>[
+                                ['label'=>Yii::t('backend', '课件列表'), 'url'=>['/courseware/index'], 'icon'=>'<i class="fa  fa-file-text"></i>'
+                                ], 
+                                ['label'=>Yii::t('backend', '课件附件列表'), 'url'=>['/courseware-to-file/index'], 'icon'=>'<i class=" fa  fa-file-text"></i>'
+                                ],
+
+                            ]   
+                        ],
+                        [
                             'label'=>Yii::t('backend', 'Content'),
                             'url' => '#',
                             'icon'=>'<i class="fa fa-edit"></i>',
