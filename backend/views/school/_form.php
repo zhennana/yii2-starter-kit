@@ -16,7 +16,7 @@ use yii\bootstrap\ActiveForm;
 
     <?php echo $form->field($model, 'parent_id')->textInput() ?>
 
-    <?php echo $form->field($model, 'school_id')->textInput() ?>
+    <?php //echo $form->field($model, 'school_id')->textInput() ?>
 
     <?php echo $form->field($model, 'language')->textInput(['maxlength' => true]) ?>
 
@@ -42,9 +42,9 @@ use yii\bootstrap\ActiveForm;
 
     <?php echo $form->field($model, 'region_id')->textInput() ?>
 
-    <?php echo $form->field($model, 'created_at')->textInput() ?>
+    <?php //echo $form->field($model, 'created_at')->textInput() ?>
 
-    <?php echo $form->field($model, 'updated_at')->textInput() ?>
+    <?php //echo $form->field($model, 'updated_at')->textInput() ?>
 
     <?php echo $form->field($model, 'created_id')->textInput() ?>
 

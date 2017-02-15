@@ -2,20 +2,35 @@
 
 use yii\helpers\Html;
 
+/**
+* @var yii\web\View $this
+* @var common\models\school\StudentRecordTitle $model
+*/
 
-/* @var $this yii\web\View */
-/* @var $model common\models\school\StudentRecordTitle */
-
-$this->title = Yii::t('backend', 'Create {modelClass}', [
-    'modelClass' => 'Student Record Title',
-]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Student Record Titles'), 'url' => ['index']];
+$this->title = Yii::t('backend', 'Create');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'StudentRecordTitles'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="student-record-title-create">
+<div class="giiant-crud student-record-title-create">
 
-    <?php echo $this->render('_form', [
-        'model' => $model,
-    ]) ?>
+    <h1>
+        <?= Yii::t('backend', 'StudentRecordTitle') ?>        <small>
+                        <?= $model->title ?>        </small>
+    </h1>
+
+    <div class="clearfix crud-navigation">
+        <div class="pull-left">
+            <?=             Html::a(
+            Yii::t('backend', 'Cancel'),
+            \yii\helpers\Url::previous(),
+            ['class' => 'btn btn-default']) ?>
+        </div>
+    </div>
+
+    <hr />
+
+    <?= $this->render('_form', [
+    'model' => $model,
+    ]); ?>
 
 </div>
