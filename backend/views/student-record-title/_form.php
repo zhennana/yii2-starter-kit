@@ -2,32 +2,71 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use \dmstr\bootstrap\Tabs;
+use yii\helpers\StringHelper;
 
-/* @var $this yii\web\View */
-/* @var $model common\models\school\StudentRecordTitle */
-/* @var $form yii\bootstrap\ActiveForm */
+/**
+* @var yii\web\View $this
+* @var common\models\school\StudentRecordTitle $model
+* @var yii\widgets\ActiveForm $form
+*/
+
 ?>
 
 <div class="student-record-title-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin([
+    'id' => 'StudentRecordTitle',
+    'layout' => 'horizontal',
+    'enableClientValidation' => true,
+    'errorSummaryCssClass' => 'error-summary alert alert-error'
+    ]
+    );
+    ?>
 
-    <?php echo $form->errorSummary($model); ?>
+    <div class="">
+        <?php $this->beginBlock('main'); ?>
 
-    <?php echo $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+        <p>
+            
+			<?= $form->field($model, 'student_record_title_id')->textInput() ?>
+			<?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+			<?= $form->field($model, 'status')->textInput() ?>
+			<?= $form->field($model, 'sort')->textInput() ?>
+			<?= $form->field($model, 'updated_at')->textInput() ?>
+			<?= $form->field($model, 'created_at')->textInput() ?>
+        </p>
+        <?php $this->endBlock(); ?>
+        
+        <?=
+    Tabs::widget(
+                 [
+                   'encodeLabels' => false,
+                     'items' => [ [
+    'label'   => Yii::t('backend', StringHelper::basename('common\models\school\StudentRecordTitle')),
+    'content' => $this->blocks['main'],
+    'active'  => true,
+], ]
+                 ]
+    );
+    ?>
+        <hr/>
 
-    <?php echo $form->field($model, 'status')->textInput() ?>
+        <?php echo $form->errorSummary($model); ?>
 
-    <?php echo $form->field($model, 'sort')->textInput() ?>
+        <?= Html::submitButton(
+        '<span class="glyphicon glyphicon-check"></span> ' .
+        ($model->isNewRecord ? Yii::t('backend', 'Create') : Yii::t('backend', 'Save')),
+        [
+        'id' => 'save-' . $model->formName(),
+        'class' => 'btn btn-success'
+        ]
+        );
+        ?>
 
-    <?php echo $form->field($model, 'updated_at')->textInput() ?>
+        <?php ActiveForm::end(); ?>
 
-    <?php echo $form->field($model, 'created_at')->textInput() ?>
-
-    <div class="form-group">
-        <?php echo Html::submitButton($model->isNewRecord ? Yii::t('backend', 'Create') : Yii::t('backend', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
-    <?php ActiveForm::end(); ?>
-
 </div>
+
