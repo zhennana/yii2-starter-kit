@@ -1,6 +1,6 @@
 <?php
 $config = [
-    'name'   => Yii::t('common','瓦酷机器人'),
+    'name'   => Yii::t('common', env('WEB_NAME')),
     'homeUrl'=> Yii::getAlias('@frontendUrl'),
     'controllerNamespace' => 'frontend\controllers',
     'defaultRoute' => 'site/index',

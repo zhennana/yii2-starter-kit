@@ -145,7 +145,13 @@ $bundle = BackendAsset::register($this);
                             'icon'=>'<i class="fa fa-edit"></i>',
                             'options'=>['class'=>'treeview'],
                             'items'=>[
-                                ['label'=>Yii::t('backend', '学校列表'), 'url'=>['/school/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'
+                                ['label'=>Yii::t('backend', '学校列表'), 'url'=>['/campus/school/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'
+                                ],
+                                ['label'=>Yii::t('backend', '班级列表'), 'url'=>['/campus/school/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'
+                                ],
+                                ['label'=>Yii::t('backend', '学员列表'), 'url'=>['/campus/school/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'
+                                ],
+                                ['label'=>Yii::t('backend', '学员档案'), 'url'=>['/campus/school/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'
                                 ],
                             ]
                         ],
@@ -155,9 +161,9 @@ $bundle = BackendAsset::register($this);
                             'icon'=>'<i class="fa fa-edit"></i>',
                             'options'=>['class'=>'treeview'],
                             'items'=>[
-                                ['label'=>Yii::t('backend', '课件列表'), 'url'=>['/courseware/index'], 'icon'=>'<i class="fa  fa-file-text"></i>'
+                                ['label'=>Yii::t('backend', '课件列表'), 'url'=>['/campus/courseware/index'], 'icon'=>'<i class="fa  fa-file-text"></i>'
                                 ], 
-                                ['label'=>Yii::t('backend', '课件附件列表'), 'url'=>['/courseware-to-file/index'], 'icon'=>'<i class=" fa  fa-file-text"></i>'
+                                ['label'=>Yii::t('backend', '课件附件列表'), 'url'=>['/campus/courseware-to-file/index'], 'icon'=>'<i class=" fa  fa-file-text"></i>'
                                 ],
 
                             ]   
