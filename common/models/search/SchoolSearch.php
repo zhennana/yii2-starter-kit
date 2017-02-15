@@ -8,51 +8,55 @@ use yii\data\ActiveDataProvider;
 use common\models\school\School;
 
 /**
- * SchoolSearch represents the model behind the search form about `common\models\school\School`.
- */
+* SchoolSearch represents the model behind the search form about `common\models\school\School`.
+*/
 class SchoolSearch extends School
 {
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            [['id', 'parent_id', 'school_id', 'province_id', 'city_id', 'region_id', 'created_at', 'updated_at', 'created_id', 'status', 'sort'], 'integer'],
+/**
+* @inheritdoc
+*/
+public function rules()
+{
+return [
+[['id', 'parent_id', 'school_id', 'province_id', 'city_id', 'region_id', 'created_at', 'updated_at', 'created_id', 'status', 'sort'], 'integer'],
             [['language', 'school_title', 'school_short_title', 'school_slogan', 'school_logo_path', 'school_backgroud_path', 'address'], 'safe'],
             [['longitude', 'latitude'], 'number'],
-        ];
-    }
+];
+}
 
-    /**
-     * @inheritdoc
-     */
-    public function scenarios()
-    {
-        // bypass scenarios() implementation in the parent class
-        return Model::scenarios();
-    }
+/**
+* @inheritdoc
+*/
+public function scenarios()
+{
+// bypass scenarios() implementation in the parent class
+return Model::scenarios();
+}
 
-    /**
-     * Creates data provider instance with search query applied
-     *
-     * @param array $params
-     *
-     * @return ActiveDataProvider
-     */
-    public function search($params)
-    {
-        $query = School::find();
+/**
+* Creates data provider instance with search query applied
+*
+* @param array $params
+*
+* @return ActiveDataProvider
+*/
+public function search($params)
+{
+$query = School::find();
 
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
+$dataProvider = new ActiveDataProvider([
+'query' => $query,
+]);
 
-        if (!($this->load($params) && $this->validate())) {
-            return $dataProvider;
-        }
+$this->load($params);
 
-        $query->andFilterWhere([
+if (!$this->validate()) {
+// uncomment the following line if you do not want to any records when validation fails
+// $query->where('0=1');
+return $dataProvider;
+}
+
+$query->andFilterWhere([
             'id' => $this->id,
             'parent_id' => $this->parent_id,
             'school_id' => $this->school_id,
@@ -76,6 +80,6 @@ class SchoolSearch extends School
             ->andFilterWhere(['like', 'school_backgroud_path', $this->school_backgroud_path])
             ->andFilterWhere(['like', 'address', $this->address]);
 
-        return $dataProvider;
-    }
+return $dataProvider;
+}
 }
