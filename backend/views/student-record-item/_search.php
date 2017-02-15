@@ -1,39 +1,41 @@
 <?php
 
 use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
+use yii\widgets\ActiveForm;
 
-/* @var $this yii\web\View */
-/* @var $model common\models\search\StudentRecordItemSearch */
-/* @var $form yii\bootstrap\ActiveForm */
+/**
+* @var yii\web\View $this
+* @var common\models\search\StudentRecordItemSearch $model
+* @var yii\widgets\ActiveForm $form
+*/
 ?>
 
 <div class="student-record-item-search">
 
     <?php $form = ActiveForm::begin([
-        'action' => ['index'],
-        'method' => 'get',
+    'action' => ['index'],
+    'method' => 'get',
     ]); ?>
 
-    <?php echo $form->field($model, 'student_record_item_id') ?>
+    		<?= $form->field($model, 'student_record_item_id') ?>
 
-    <?php echo $form->field($model, 'student_record_title_id') ?>
+		<?= $form->field($model, 'student_record_title_id') ?>
 
-    <?php echo $form->field($model, 'student_record_id') ?>
+		<?= $form->field($model, 'student_record_id') ?>
 
-    <?php echo $form->field($model, 'body') ?>
+		<?= $form->field($model, 'body') ?>
 
-    <?php echo $form->field($model, 'status') ?>
+		<?= $form->field($model, 'status') ?>
 
-    <?php // echo $form->field($model, 'sort') ?>
+		<?php // echo $form->field($model, 'sort') ?>
 
-    <?php // echo $form->field($model, 'updated_at') ?>
+		<?php // echo $form->field($model, 'updated_at') ?>
 
-    <?php // echo $form->field($model, 'created_at') ?>
+		<?php // echo $form->field($model, 'created_at') ?>
 
     <div class="form-group">
-        <?php echo Html::submitButton(Yii::t('backend', 'Search'), ['class' => 'btn btn-primary']) ?>
-        <?php echo Html::resetButton(Yii::t('backend', 'Reset'), ['class' => 'btn btn-default']) ?>
+        <?= Html::submitButton(Yii::t('backend', 'Search'), ['class' => 'btn btn-primary']) ?>
+        <?= Html::resetButton(Yii::t('backend', 'Reset'), ['class' => 'btn btn-default']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

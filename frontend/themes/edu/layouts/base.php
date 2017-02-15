@@ -32,8 +32,8 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
             ['label' => Yii::t('frontend', '关于瓦酷'), 'url' => ['/page/view', 'slug'=>'guan-yu-wa-ku']],
             ['label' => Yii::t('frontend', '课程体系'), 'url' => ['/page/view', 'slug'=>'ke-cheng-ti-xi']],
             ['label' => Yii::t('frontend', '瓦酷动态'), 'url' => ['/page/view', 'slug'=>'wa-ku-dong-tai']],
-            ['label' => Yii::t('frontend', '赛事游学'), 'url' => ['/page/view', 'slug'=>'sai-shi-you-xue']],
-            ['label' => Yii::t('frontend', '亲子课堂'), 'url' => ['/page/view', 'slug'=>'qin-zi-ke-tang']],
+            //['label' => Yii::t('frontend', '赛事游学'), 'url' => ['/page/view', 'slug'=>'sai-shi-you-xue']],
+            //['label' => Yii::t('frontend', '亲子课堂'), 'url' => ['/page/view', 'slug'=>'qin-zi-ke-tang']],
             ['label' => Yii::t('frontend', '招商加盟'), 'url' => ['/page/view', 'slug'=>'zhao-shang-jia-meng']],
             ['label' => Yii::t('frontend', '联系我们'), 'url' => ['/page/view', 'slug'=>'lian-xi-wo-men']],
             ['label' => Yii::t('frontend', 'FAQ'), 'url' => ['/page/view', 'slug'=>'faq']],
@@ -140,23 +140,64 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
 <?php $this->endContent() ?>
 
 <script>
-    $('.navbar-brand').hide();
-    if(navigator.userAgent.match(/mobile/i)) {
+    var boxwidth = $(window).width();
+    if(boxwidth < 768){
         $('.top_logo').remove(); 
         $('.navbar-brand').show();
         var img = '<img class="img-responsive" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b8gf7g9n9bb1s5nvei1rb81ikg9.png" alt="瓦酷机器人">'
-        console.log(img);
         $('.navbar-brand').text('');
         $('.navbar-brand').append(img);
         $('.navbar-brand').addClass('col-xs-4');
     }
+    if(navigator.userAgent.match(/mobile/i)) {
+        $('.top_logo').remove(); 
+        $('.navbar-brand').show();
+        var img = '<img class="img-responsive" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b8gf7g9n9bb1s5nvei1rb81ikg9.png" alt="瓦酷机器人">'
+        $('.navbar-brand').text('');
+        $('.navbar-brand').append(img);
+        $('.navbar-brand').addClass('col-xs-4');
+
+        $('.nav .dropdown').click(function(){
+            if($(this).hasClass('active')){
+                $(document).on('click.bs.dropdown.data-api');
+            }else{
+                $(document).off('click.bs.dropdown.data-api');
+            }
+        });
+
+    }else{
+        $(document).off('click.bs.dropdown.data-api');
+        $('.nav .dropdown').mouseenter(function(){
+            $(this).addClass('open');
+        });
+        $('.nav .dropdown').mouseleave(function(){
+            $(this).removeClass('open');
+        });
+    }
+
+
     var Hight = $('.top_logo img').height();
     $('.top_logo h3').css('line-height',''+Hight+'px');
     var width = $(window).width();
     $('.breadcrumb').css('width',''+width+'');
+
     $(window).resize(function() {
         var width = $(window).width();
         $('.breadcrumb').css('width',''+width+'');
+        var boxwidth = $(window).width();
+        if(boxwidth < 768){
+            $('.top_logo').hide(); 
+            $('.navbar-brand').show();
+            var img = '<img class="img-responsive" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b8gf7g9n9bb1s5nvei1rb81ikg9.png" alt="瓦酷机器人">'
+            $('.navbar-brand').text('');
+            $('.navbar-brand').append(img);
+            $('.navbar-brand img').css('height','30px');
+            $('.navbar-brand').addClass('col-xs-4');
+        }else{
+            $('.top_logo').show(); 
+            $('.navbar-brand').hide();
+        }
     });
+    
 </script>
 
