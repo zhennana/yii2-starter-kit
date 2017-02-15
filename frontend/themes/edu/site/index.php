@@ -430,6 +430,7 @@ $this->title = Yii::$app->name;
 <script>
 Change();
 showfont();
+showhide();
 function Change(){
     $('.box2').hide();
     $('#find1').mouseenter(function(){
@@ -513,16 +514,33 @@ $(function () {
         $("#input_area").append(html);      
     });
     //绑定
-    $("#input_province").val("广东省");$("#input_province").change();
-    $("#input_city").val("深圳市");$("#input_city").change();
-    $("#input_area").val("罗湖区");
+    $("#input_province").val("北京市");$("#input_province").change();
+    $("#input_city").val("市辖区");$("#input_city").change();
+    $("#input_area").val("朝阳区");    
 
 });
-
+function showhide(){
+    var Width = $(window).width();
+    console.log(Width);
+    if(Width < 768){
+        $('.address_choose1').show(); 
+    }else{
+        $('.address_choose').show(); 
+    }
+    $(window).resize(function(){
+        var Width = $(window).width();
+        if(Width < 768){
+            $('.address_choose').hide(); 
+            $('.address_choose1').show(); 
+        }else{
+            $('.address_choose').show(); 
+            $('.address_choose1').hide(); 
+        }
+    });
+}
 if(navigator.userAgent.match(/mobile/i)) {
-    $('.address_choose').remove(); 
-}else{
-    $('.address_choose1').remove(); 
+    $('.address_choose').hide(); 
+    $('.address_choose1').show(); 
 }
 
 </script>
