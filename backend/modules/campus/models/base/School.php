@@ -6,7 +6,10 @@ namespace backend\modules\campus\models\base;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
-
+use backend\modules\campus\models\CnCity;
+use backend\modules\campus\models\CnProvince;
+use backend\modules\campus\models\CnRegion;
+use yii\helpers\ArrayHelper;
 /**
  * This is the base-model class for table "school".
  *
@@ -35,11 +38,29 @@ use yii\behaviors\TimestampBehavior;
 abstract class School extends \yii\db\ActiveRecord
 {
 
-
+    CONST SCHOOL_STATUS_OPEN = 0;       //开启;
+    CONST SCHOOL_STATUS_DELECT = 1;     //标记删除;
+    CONST SCHOOL_STATUS_CHECK_PENDING = 2;//待审核;
 
     /**
      * @inheritdoc
      */
+    public static function optsStatus()
+    {
+        return [
+            self::SCHOOL_STATUS_OPEN => Yii::t('backend','开启'),
+            self::SCHOOL_STATUS_DELECT => Yii::t('backent','标记删除'),
+           // self::SCHOOL_STATUS_CHECK_PENDIND => Yii::t('backent','待审核')
+        ];
+    }
+    public static function getStatusValueLabel($value)
+    {
+        $labels = self::optsStatus();
+        if(isset($labels[$value])){
+            return $labels[$value];
+        }
+        return $value;
+    }
     public static function tableName()
     {
         return 'school';
@@ -104,11 +125,13 @@ abstract class School extends \yii\db\ActiveRecord
             'created_at' => Yii::t('common', 'Created At'),
             'updated_at' => Yii::t('common', 'Updated At'),
             'created_id' => Yii::t('common', 'Created ID'),
-            'status' => Yii::t('common', '0正常；1：标记删除；2:待审核；'),
+            'status' => Yii::t('common', '状态'),
             'sort' => Yii::t('common', '默认与排序'),
         ];
     }
+    
 
+    
     /**
      * @inheritdoc
      */
@@ -133,8 +156,21 @@ abstract class School extends \yii\db\ActiveRecord
         ]);
     }
 
-
-    
+    /**
+    * 三级联动地区
+    **/
+    public function getCitylist($typeid = 0,$id=false){
+        if($typeid == 1){
+            $province = CnProvince::find()->asArray()->all();
+            return  ArrayHelper::map($province, 'province_id', 'province_name');
+        }
+        if($typeid == 2){
+            $city    = CnCity::find()->where(['province_id'=>$id])->asArray()->all();
+            return  ArrayHelper::map($city, 'city_id', 'city_name');
+        }
+            $region  = CnRegion::find()->where(['city_id'=>$id])->asArray()->all();
+            return  ArrayHelper::map($region, 'region_id', 'region_name');
+    }
     /**
      * @inheritdoc
      * @return \backend\modules\campus\models\query\SchoolQuery the active query used by this AR class.
