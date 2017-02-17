@@ -30,8 +30,23 @@ use yii\behaviors\TimestampBehavior;
  */
 abstract class Grade extends \yii\db\ActiveRecord
 {
+    CONST GRADE_STATUS_OPEN = 10;//正常。
+    CONST GRANE_STATUS_DELECT = 0;//标记性删除。
 
+    public static  function optsStatus(){
+        return [
+            self::GRADE_STATUS_OPEN => '开启',
+            self::GRANE_STATUS_DELECT => '删除'
+        ];
+    }
 
+    public static function getStatusValueLabel($value){
+        $label = self::optsStatus();
+        if(isset($label[$value])){
+            return $label[$value];
+        }
+        return $value;
+    }
      /**
      * @return \yii\db\Connection the database connection used by this AR class.
      */

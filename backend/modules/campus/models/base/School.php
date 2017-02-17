@@ -92,7 +92,9 @@ abstract class School extends \yii\db\ActiveRecord
     {
         return [
             [['parent_id', 'school_id', 'province_id', 'city_id', 'region_id', 'created_id', 'status', 'sort'], 'integer'],
-            [['school_id', 'school_title', 'province_id', 'city_id', 'region_id', 'created_id'], 'required'],
+            ['parent_id','default','value'=>'0'],
+            ['created_id','default','value'=>Yii::$app->user->identity->id],
+            [[ 'school_title', 'province_id', 'city_id', 'region_id', 'created_id'], 'required'],
             [['longitude', 'latitude'], 'number'],
             [['language'], 'string', 'max' => 32],
             [['school_title', 'school_slogan'], 'string', 'max' => 512],
@@ -170,6 +172,16 @@ abstract class School extends \yii\db\ActiveRecord
         }
             $region  = CnRegion::find()->where(['city_id'=>$id])->asArray()->all();
             return  ArrayHelper::map($region, 'region_id', 'region_name');
+    }
+
+    public function getCity(){
+        return $this->hasOne(\backend\modules\campus\models\CnCity::ClassName(),['city_id'=>'city_id']);
+    }
+    public function getProvince(){
+        return $this->hasOne(\backend\modules\campus\models\CnProvince::ClassName(),['province_id'=>'province_id']);
+    }
+    public function getRegion(){
+        return $this->hasOne(\backend\modules\campus\models\CnRegion::ClassName(),['region_id'=>'region_id']);
     }
     /**
      * @inheritdoc

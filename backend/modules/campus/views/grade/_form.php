@@ -4,24 +4,26 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use \dmstr\bootstrap\Tabs;
 use yii\helpers\StringHelper;
-
-/**
-* @var yii\web\View $this
-* @var backend\modules\campus\models\Grade $model
-* @var yii\widgets\ActiveForm $form
-*/
-
+use yii\helpers\ArrayHelper;
+use backend\modules\campus\models\School;
+use backend\modules\campus\models\Grade;
+    /**
+    * @var yii\web\View $this
+    * @var backend\modules\campus\models\Grade $model
+    * @var yii\widgets\ActiveForm $form
+    */
+    $schools = School::find()->where(['status'=>School::SCHOOL_STATUS_OPEN])->asArray()->all();
+    $schools = ArrayHelper::map($schools,'id','school_title');
 ?>
 
 <div class="grade-form">
 
     <?php $form = ActiveForm::begin([
-    'id' => 'Grade',
-    'layout' => 'horizontal',
-    'enableClientValidation' => true,
-    'errorSummaryCssClass' => 'error-summary alert alert-error'
-    ]
-    );
+        'id' => 'Grade',
+        'layout' => 'horizontal',
+        'enableClientValidation' => true,
+        'errorSummaryCssClass' => 'error-summary alert alert-error'
+    ]);
     ?>
 
     <div class="">
@@ -31,25 +33,21 @@ use yii\helpers\StringHelper;
             
 
 <!-- attribute school_id -->
-			<?= $form->field($model, 'school_id')->textInput() ?>
+			<?= $form->field($model, 'school_id')->dropDownlist($schools,['parent'=>'--请选择--']) ?>
+<!-- attribute classroom_group_levels -->
+            <?= $form->field($model, 'classroom_group_levels')->textInput() ?>
+<!-- attribute grade_name -->
+            <?= $form->field($model, 'grade_name')->textInput(['maxlength' => true]) ?>
 
 <!-- attribute grade_title -->
 			<?= $form->field($model, 'grade_title')->textInput() ?>
 
-<!-- attribute creater_id -->
-			<?= $form->field($model, 'creater_id')->textInput() ?>
-
-<!-- attribute classroom_group_levels -->
-			<?= $form->field($model, 'classroom_group_levels')->textInput() ?>
-
 <!-- attribute owner_id -->
-			<?= $form->field($model, 'owner_id')->textInput() ?>
+            <?= $form->field($model, 'owner_id')->textInput() ?>
 
-<!-- attribute sort -->
-			<?= $form->field($model, 'sort')->textInput() ?>
+<!-- attribute creater_id -->
+			<!-- <? //= $form->field($model, 'creater_id')->textInput() ?> -->
 
-<!-- attribute status -->
-			<?= $form->field($model, 'status')->textInput() ?>
 
 <!-- attribute graduate -->
 			<?= $form->field($model, 'graduate')->textInput() ?>
@@ -60,8 +58,13 @@ use yii\helpers\StringHelper;
 <!-- attribute time_of_enrollment -->
 			<?= $form->field($model, 'time_of_enrollment')->textInput() ?>
 
-<!-- attribute grade_name -->
-			<?= $form->field($model, 'grade_name')->textInput(['maxlength' => true]) ?>
+
+<!-- attribute sort -->
+            <?= $form->field($model, 'sort')->textInput() ?>
+
+<!-- attribute status -->
+            <?= $form->field($model, 'status')->dropDownlist(Grade::optsStatus()) ?>
+
         </p>
         <?php $this->endBlock(); ?>
         
