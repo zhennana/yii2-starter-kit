@@ -30,17 +30,7 @@ $this->title = Yii::$app->name;
             <h3 class="text-center no-padding no-margin">关于瓦酷</h3>
         </div>
         <div class="col-xs-12 margin_bottom no-padding">
-<<<<<<< HEAD
-            <div class="col-sm-6">
-                <p>    瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
-    适合所有有梦想创业者的教育项目。我们的教学理念是“做中学，
-    玩中学”。是以乐高等知名的机器人教具为载体，让3~13岁的孩
-    子在动手做的过程中去学习知识，提升能力，拓展思维。作为中
-    国创意科教先锋，我们的使命是：让孩子更有竞争力！瓦酷机器
-    人是大众化的教育品牌，“瓦酷，创造不一样！瓦酷，Make it 
-    cool!”</p>
-=======
-            <div class="col-xs-6">
+            <div class="col-md-6">
                 <p>    瓦酷机器人是由北京魔趣教育科技有限公司研发的高端教育品牌。
                 是致力于3-13岁青少年的科技教育，让孩子们在“玩中学”，动手拼插 共享创新实践过程, 
                 体会抽象的理论知识应用在真实的生活中。从而实现拓展思维和提升生存能力。
@@ -54,9 +44,8 @@ $this->title = Yii::$app->name;
                  既适用于课堂教学，也可以作为课外活动和技能培训内容。
                  瓦酷机器人将“快乐教学，创意教学”融入企业文化中。
                  是全国机器人教育中发展最快，教育理念最优的教育基地。</p>
->>>>>>> brucebnu/edu-manager
             </div>
-            <div class="col-sm-6">
+            <div class="col-md-6">
                 <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
             </div>
         </div>
