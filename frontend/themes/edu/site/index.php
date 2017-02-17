@@ -30,7 +30,7 @@ $this->title = Yii::$app->name;
             <h3 class="text-center no-padding no-margin">关于瓦酷</h3>
         </div>
         <div class="col-xs-12 margin_bottom no-padding">
-            <div class="col-xs-6">
+            <div class="col-sm-6">
                 <p>    瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
     适合所有有梦想创业者的教育项目。我们的教学理念是“做中学，
     玩中学”。是以乐高等知名的机器人教具为载体，让3~13岁的孩
@@ -39,22 +39,25 @@ $this->title = Yii::$app->name;
     人是大众化的教育品牌，“瓦酷，创造不一样！瓦酷，Make it 
     cool!”</p>
             </div>
-            <div class="col-xs-6">
+            <div class="col-sm-6">
                 <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
             </div>
         </div>
-        <div class="col-xs-3">
-            <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
+        <div class="col-xs-12 no-padding">
+           <div class="col-xs-3">
+                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
+            </div>
+            <div class="col-xs-3">
+                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
+            </div>
+            <div class="col-xs-3">
+                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
+            </div>
+            <div class="col-xs-3">
+                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
+            </div> 
         </div>
-        <div class="col-xs-3">
-            <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
-        </div>
-        <div class="col-xs-3">
-            <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
-        </div>
-        <div class="col-xs-3">
-            <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
-        </div>
+        
         <div class="col-xs-12 knowmore">
             <button class="btn btn-defult more">了解详情</button>
         </div>
