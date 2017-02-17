@@ -139,7 +139,7 @@ $bundle = BackendAsset::register($this);
                             'badge'=> TimelineEvent::find()->today()->count(),
                             'badgeBgClass'=>'label-success',
                         ],
-                        [
+                         [
                             'label'=>Yii::t('backend', '学校管理'),
                             'url' => '#',
                             'icon'=>'<i class="fa fa-edit"></i>',
@@ -147,9 +147,9 @@ $bundle = BackendAsset::register($this);
                             'items'=>[
                                 ['label'=>Yii::t('backend', '学校列表'), 'url'=>['/campus/school/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'
                                 ],
-                                ['label'=>Yii::t('backend', '班级列表'), 'url'=>['/campus/school/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'
+                                ['label'=>Yii::t('backend', '班级列表'), 'url'=>['/campus/grade/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'
                                 ],
-                                ['label'=>Yii::t('backend', '学员列表'), 'url'=>['/campus/school/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'
+                                ['label'=>Yii::t('backend', '学员列表'), 'url'=>['/campus/user-to-grade/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'
                                 ],
                                 ['label'=>Yii::t('backend', '学员档案'), 'url'=>['/campus/school/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'
                                 ],

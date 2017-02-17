@@ -23,7 +23,7 @@ $this->params['body-class'] = array_key_exists('body-class', $this->params) ?
     <?php echo Html::csrfMetaTags() ?>
     <title><?php echo Html::encode($this->title) ?></title>
     <?php $this->head() ?>
-
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
 </head>
 <?php echo Html::beginTag('body', [
     'class' => implode(' ', [

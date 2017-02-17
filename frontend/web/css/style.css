@@ -427,4 +427,17 @@ a.desc:after {
   padding:0 10%;
 }
 
+/*left side 字体设置*/
+.left-side-self p{
+  text-indent: 2em;
+}
+
+.left-side-self h3,.left-side-self h4{
+  font-weight: bold;
+}
+
+.sub-title{
+  font-weight: bold;
+}
+
 /*# sourceMappingURL=style.map */

@@ -16,8 +16,10 @@ $this->params['breadcrumbs'][] = $this->title;
 		<button class="btn btn-warning">按钮</button>
 	</div>
 	<div class="col-sm-8">
-		<h1> left side <?php echo $model->title ?></h1>
-    	<?php echo $model->body ?>
+		<h1 class="sub-title"><?php echo $model->title ?></h1>
+		<div class="left-side-self">
+			<?php echo $model->body ?>
+		</div>
 	</div>
 	<div class="col-sm-4 right_public">
 		<img class="img-responsive margin_bottom" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
