@@ -4,6 +4,7 @@ namespace frontend\controllers;
 use Yii;
 use frontend\models\ContactForm;
 use yii\web\Controller;
+use backend\modules\campus\models\ApplyToPlay;
 
 /**
  * Site controller
@@ -33,6 +34,24 @@ class SiteController extends Controller
     public function actionIndex()
     {
         return $this->render('index');
+    }
+    /**
+     * *
+     *
+     * 
+     */
+    public function actionAjaxApply(){
+            $model = new ApplyToPlay;
+      
+           Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        if (Yii::$app->request->isAjax) {
+            if($model->load(Yii::$app->request->post())){
+                return ['status' => $model->save()];
+            }else{
+                return '';
+            }
+        }
+
     }
 
     public function actionContact()
