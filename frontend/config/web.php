@@ -25,7 +25,8 @@ $config = [
                 'pathMap' => [
                     '@frontend/views' => '@app/themes/basic',
                     '@frontend/views' => '@app/themes/edu',
-                    
+                    '@frontend/views' => '@app/themes/react',
+
                 ],
             ],
         ],
