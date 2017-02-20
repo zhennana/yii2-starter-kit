@@ -95,56 +95,44 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                     <p>品牌故事</p>
                     <p>专家团队</p>
                     <p>教育理念</p>
-                    <p>运营管理</p>
-                    <p>加盟校区</p>
-                    <p>校区展示</p>
+                    <p>运营管理部</p>
                 </li>
                 <li class="col-xs-2">
-                    <h4>招商加盟</h4>
-                    <p>瓦酷加盟体系</p>
-                    <p>加盟流程</p>
-                    <p>加盟条件</p>
-                    <p>服务支持</p>
-                    <p>项目优势</p>
-                    <p>投资收益分析</p>
-                    <p>授权证书</p>
-                    <p>行业趋势</p>
+                    <h4>关于瓦酷</h4>
+                    <p>瓦酷介绍</p>
+                    <p>品牌故事</p>
+                    <p>专家团队</p>
+                    <p>教育理念</p>
+                    <p>运营管理部</p>
                 </li>
                 <li class="col-xs-2">
-                    <h4>课程体系</h4>
-                    <p>学前课程</p>
-                    <p>学龄课程</p>
-                    <p>精品课程</p>
+                    <h4>关于瓦酷</h4>
+                    <p>瓦酷介绍</p>
+                    <p>品牌故事</p>
+                    <p>专家团队</p>
+                    <p>教育理念</p>
+                    <p>运营管理部</p>
                 </li>
                 <li class="col-xs-2">
-                    <h4>瓦酷动态</h4>
-                    <p>瓦酷动态</p>
-                    <p>瓦酷视频</p>
+                    <h4>关于瓦酷</h4>
+                    <p>瓦酷介绍</p>
+                    <p>品牌故事</p>
+                    <p>专家团队</p>
+                    <p>教育理念</p>
+                    <p>运营管理部</p>
                 </li>
                 <li class="col-xs-4">
-                    <h4>联系我们</h4>
+                    <h4>关于瓦酷</h4>
                     <p class="no-margin">全国咨询热线</p>
                     <h3 class="no-margin">0316-8888888</h3>
-                    <h5>地址：河北省廊坊市三河市燕郊开发区</h5>
+                    <h5>地址：河北省三河市燕郊开发区</h5>
                     <p>邮编：065201</p>
                 </li>
             </ul>
             <img class="img-responsive col-xs-4" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
         </div>
         <div class="col-xs-12 bottom">
-            <p class="pull-left">
-                <?php
-                    $html = '';
-                    $html .= '&copy; 版权所有(2016-';
-                    $html .= date('Y',time());
-                    $html .= ')：北京魔趣教育科技有限公司 ';
-                    // $html .= 'copyright 2016-';
-                    // $html .= date('Y',time());
-                    // $html .= ' wakooedu.com All rights reserved.';
-                    $html .= ' <a href="http://www.miitbeian.gov.cn" target="_blank">京ICP备17007940号</a>';
-                    echo $html;
-                ?>
-            </p>
+            <p class="pull-left">&copy; 版权所有：瓦酷机器人.  京ICP备17007940号</p>
             <p class="pull-right">技术支持：三河市物联网络技术有限公司</p>
         </div>
     </div>

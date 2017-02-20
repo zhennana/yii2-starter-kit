@@ -395,15 +395,15 @@ $this->title = Yii::$app->name;
         <div class="col-xs-12 no-padding">
             <div class="col-sm-6 ourinfo">
                 <h4 class="text-left">联系方式</h4>
-                <p>北京魔趣教育科技有限公司</p>
-                <p>公司地址：河北省廊坊市三河市燕郊开发区</p>
+                <p>瓦酷机器人有限公司</p>
+                <p>公司地址：XXXXXXXXXXXXXXXXXXXXXXXXXX</p>
                 <p>办公电话：0316-8888-888</p>
-                <p>网址：www.wakooedu.com</p>
+                <p>网址：www.wakoorobot.com</p>
             </div>
             <div class="col-sm-6 ourinfo">
                 <h4 class="text-left">在线留言</h4>
-                <input class="col-xs-12" placeholder="请填写您的姓名">
-                <input class="col-xs-12" placeholder="请填写您的电话">
+                <input class="col-xs-12" placeholder="Your Name：">
+                <input class="col-xs-12" placeholder="Your Phone：">
                 <textarea class="col-xs-12"></textarea>
                 <button class="btn btn-defult pull-left">提交</button>
             </div>
