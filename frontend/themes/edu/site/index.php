@@ -404,7 +404,7 @@ $this->title = Yii::$app->name;
                 <h4 class="text-left">在线留言</h4>
                 <input class="col-xs-12" placeholder="请填写您的姓名">
                 <input class="col-xs-12" placeholder="请填写您的电话">
-                <textarea class="col-xs-12"></textarea>
+                <textarea class="col-xs-12" placeholder="请填写不超过100字的留言"></textarea>
                 <button class="btn btn-defult pull-left">提交</button>
             </div>
         </div>
