@@ -160,13 +160,13 @@ a.desc:after {
   background-color: #fcca10;
   border-color: #fcca10;
 }
-.navbar-inverse .navbar-nav > .active > a, 
-.navbar-inverse .navbar-nav > .active > a:hover, 
+.navbar-inverse .navbar-nav > .active > a,
+.navbar-inverse .navbar-nav > .active > a:hover,
 .navbar-inverse .navbar-nav > .active > a:focus{
   background-color: #e6214f;
 }
-.navbar-inverse .navbar-nav > .open > a, 
-.navbar-inverse .navbar-nav > .open > a:hover, 
+.navbar-inverse .navbar-nav > .open > a,
+.navbar-inverse .navbar-nav > .open > a:hover,
 .navbar-inverse .navbar-nav > .open > a:focus{
   background-color: #e6214f;
 }
@@ -348,14 +348,13 @@ a.desc:after {
   position: absolute;
   top: 30%;
   right:10%;
-  width: 20%;
+  width: 25%;
   background-color:rgba(0,0,0,0.7);
   padding: 20px;
   z-index: 2;
   display: none;
 }
 .address_choose input{
-  margin-top: 20px;
   height: 40px;
 }
 .address_choose h4{
@@ -427,4 +426,19 @@ a.desc:after {
   padding:0 10%;
 }
 
+/*left side 字体设置*/
+.left-side-self p{
+  text-indent: 2em;
+}
+
+.left-side-self h3,.left-side-self h4{
+  font-weight: bold;
+}
+
+.sub-title{
+  font-weight: bold;
+}
+#applytoplay-verifycode{
+  margin-top: 10 !important;
+}
 /*# sourceMappingURL=style.map */
