@@ -30,3 +30,5 @@ phpunit.phar
 
 # Tests
 tests/codeception/*/_support/_generated/*
+
+*.php
