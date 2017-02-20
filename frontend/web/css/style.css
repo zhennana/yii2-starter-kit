@@ -160,13 +160,13 @@ a.desc:after {
   background-color: #fcca10;
   border-color: #fcca10;
 }
-.navbar-inverse .navbar-nav > .active > a, 
-.navbar-inverse .navbar-nav > .active > a:hover, 
+.navbar-inverse .navbar-nav > .active > a,
+.navbar-inverse .navbar-nav > .active > a:hover,
 .navbar-inverse .navbar-nav > .active > a:focus{
   background-color: #e6214f;
 }
-.navbar-inverse .navbar-nav > .open > a, 
-.navbar-inverse .navbar-nav > .open > a:hover, 
+.navbar-inverse .navbar-nav > .open > a,
+.navbar-inverse .navbar-nav > .open > a:hover,
 .navbar-inverse .navbar-nav > .open > a:focus{
   background-color: #e6214f;
 }
@@ -438,6 +438,10 @@ a.desc:after {
 
 .sub-title{
   font-weight: bold;
+}
+#footer_mobile{
+  position: fixed;
+  bottom: 0;
 }
 
 /*# sourceMappingURL=style.map */

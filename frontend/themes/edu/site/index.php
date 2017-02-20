@@ -32,7 +32,7 @@ $this->title = Yii::$app->name;
         <div class="col-xs-12 margin_bottom no-padding">
             <div class="col-md-6">
                 <p>    瓦酷机器人是由北京魔趣教育科技有限公司研发的高端教育品牌。
-                是致力于3-13岁青少年的科技教育，让孩子们在“玩中学”，动手拼插 共享创新实践过程, 
+                是致力于3-13岁青少年的科技教育，让孩子们在“玩中学”，动手拼插 共享创新实践过程,
                 体会抽象的理论知识应用在真实的生活中。从而实现拓展思维和提升生存能力。
                 瓦酷机器人给中国的孩子们带来最特别的教育！</p>
                  <p>    瓦酷机器人全部应用丹麦的乐高教具。乐高的专利积木产品种类超过2000种、
@@ -61,9 +61,9 @@ $this->title = Yii::$app->name;
             </div>
             <div class="col-xs-3">
                 <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
-            </div> 
+            </div>
         </div>
-        
+
         <div class="col-xs-12 knowmore">
             <button class="btn btn-defult more">了解详情</button>
         </div>
@@ -279,7 +279,7 @@ $this->title = Yii::$app->name;
                     <div class="item active">
                         <ul class="no-padding pull-left">
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
+                                <img class="img-responsive" src="http://static.v1.wakooedu.com/DNS_1.png">
                                 <h4>神奇物理</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
@@ -289,7 +289,7 @@ $this->title = Yii::$app->name;
                                 </div>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
+                                <img class="img-responsive" src="http://static.v1.wakooedu.com/DNS_10.png">
                                 <h4>神奇物理</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
@@ -299,41 +299,7 @@ $this->title = Yii::$app->name;
                                 </div>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
-                                <h4>神奇物理</h4>
-                                <div class="col-xs-12 no-padding">
-                                    <p>
-                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
-                                        适合所有有梦想创业者的教育项目。
-                                    </p>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="item ">
-                        <ul class="no-padding pull-left">
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
-                                <h4>神奇物理</h4>
-                                <div class="col-xs-12 no-padding">
-                                    <p>
-                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
-                                        适合所有有梦想创业者的教育项目。
-                                    </p>
-                                </div>
-                            </li>
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
-                                <h4>神奇物理</h4>
-                                <div class="col-xs-12 no-padding">
-                                    <p>
-                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
-                                        适合所有有梦想创业者的教育项目。
-                                    </p>
-                                </div>
-                            </li>
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
+                                <img class="img-responsive" src="http://static.v1.wakooedu.com/DNS_12.png">
                                 <h4>神奇物理</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
@@ -347,7 +313,7 @@ $this->title = Yii::$app->name;
                     <div class="item ">
                         <ul class="no-padding pull-left">
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
+                                <img class="img-responsive" src="http://static.v1.wakooedu.com/DNS_13.png">
                                 <h4>神奇物理</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
@@ -357,7 +323,7 @@ $this->title = Yii::$app->name;
                                 </div>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
+                                <img class="img-responsive" src="http://static.v1.wakooedu.com/DNS_16.png">
                                 <h4>神奇物理</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
@@ -367,7 +333,41 @@ $this->title = Yii::$app->name;
                                 </div>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
+                                <img class="img-responsive" src="http://static.v1.wakooedu.com/DNS_17.png">
+                                <h4>神奇物理</h4>
+                                <div class="col-xs-12 no-padding">
+                                    <p>
+                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
+                                        适合所有有梦想创业者的教育项目。
+                                    </p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="item ">
+                        <ul class="no-padding pull-left">
+                            <li class="col-xs-4 no-padding">
+                                <img class="img-responsive" src="http://static.v1.wakooedu.com/DNS_4.png">
+                                <h4>神奇物理</h4>
+                                <div class="col-xs-12 no-padding">
+                                    <p>
+                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
+                                        适合所有有梦想创业者的教育项目。
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="col-xs-4 no-padding">
+                                <img class="img-responsive" src="http://static.v1.wakooedu.com/DNS_8.png">
+                                <h4>神奇物理</h4>
+                                <div class="col-xs-12 no-padding">
+                                    <p>
+                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
+                                        适合所有有梦想创业者的教育项目。
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="col-xs-4 no-padding">
+                                <img class="img-responsive" src="http://static.v1.wakooedu.com/DNS_7.png">
                                 <h4>神奇物理</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
@@ -398,7 +398,7 @@ $this->title = Yii::$app->name;
                 <p>瓦酷机器人有限公司</p>
                 <p>公司地址：XXXXXXXXXXXXXXXXXXXXXXXXXX</p>
                 <p>办公电话：0316-8888-888</p>
-                <p>网址：www.wakoorobot.com</p>
+                <p>网址：www.wakooedu.com</p>
             </div>
             <div class="col-sm-6 ourinfo">
                 <h4 class="text-left">在线留言</h4>
@@ -469,7 +469,7 @@ function showfont(){
     },function(){
         $(this).children('div').hide();
     });
-    
+
     $(window).resize(function() {
         var H_li = $('.down_run li img').height();
         $('.down_run li div').hide();
@@ -507,7 +507,7 @@ $(function () {
                 html += "<option value='" + item.names + "' exid='" + item.code + "'>" + item.names + "</option>";
             }
         });
-        $("#input_city").append(html);      
+        $("#input_city").append(html);
     });
 
     $("#input_city").change(function(){
@@ -520,36 +520,35 @@ $(function () {
                 html += "<option value='" + item.names + "' exid='" + item.code + "'>" + item.names + "</option>";
             }
         });
-        $("#input_area").append(html);      
+        $("#input_area").append(html);
     });
     //绑定
     $("#input_province").val("北京市");$("#input_province").change();
     $("#input_city").val("市辖区");$("#input_city").change();
-    $("#input_area").val("朝阳区");    
+    $("#input_area").val("朝阳区");
 
 });
 function showhide(){
     var Width = $(window).width();
-    console.log(Width);
     if(Width < 768){
-        $('.address_choose1').show(); 
+        $('.address_choose1').show();
     }else{
-        $('.address_choose').show(); 
+        $('.address_choose').show();
     }
     $(window).resize(function(){
         var Width = $(window).width();
         if(Width < 768){
-            $('.address_choose').hide(); 
-            $('.address_choose1').show(); 
+            $('.address_choose').hide();
+            $('.address_choose1').show();
         }else{
-            $('.address_choose').show(); 
-            $('.address_choose1').hide(); 
+            $('.address_choose').show();
+            $('.address_choose1').hide();
         }
     });
 }
 if(navigator.userAgent.match(/mobile/i)) {
-    $('.address_choose').hide(); 
-    $('.address_choose1').show(); 
+    $('.address_choose').hide();
+    $('.address_choose1').show();
 }
 
 </script>
