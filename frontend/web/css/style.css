@@ -355,7 +355,6 @@ a.desc:after {
   display: none;
 }
 .address_choose input{
-  margin-top: 20px;
   height: 40px;
 }
 .address_choose h4{
@@ -439,9 +438,8 @@ a.desc:after {
 .sub-title{
   font-weight: bold;
 }
-#footer_mobile{
-  position: fixed;
-  bottom: 0;
-}
 
+#applytoplay-verifycode{
+  margin-top: 10 !important;
+}
 /*# sourceMappingURL=style.map */

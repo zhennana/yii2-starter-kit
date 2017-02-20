@@ -1,29 +1,79 @@
 <?php
 /* @var $this yii\web\View */
 $this->title = Yii::$app->name;
+use backend\modules\campus\models\ApplyToPlay;
+use yii\bootstrap\ActiveForm;
+use yii\helpers\Url;
+use yii\helpers\Html;
+use yii\captcha\Captcha;
+
+$model = new ApplyToPlay;
 ?>
+<?php $form = ActiveForm::begin([
+        'id' => 'form-id',
+        'action' => Url::to(['ajax-apply']),
+        //'enableAjaxValidation' => true,
+        'enableClientValidation'=>true,
+        //'validationUrl' => Url::to(['apply-validate'])
+        ]
+)?>
 <div class="row address_choose">
     <h4>瓦酷，创造不一样！</h4>
     <div class="col-sm-12 no-padding">
-        <div class="form-group">
-            <div class="col-sm-4 no-padding">
-                <select name="input_province" id="input_province" class="form-control"></select>
+      
+            <div class="form-group">
+
+                 <div class="col-sm-4 no-padding">
+                    <?php echo $form->field($model,'province')
+                    ->dropDownList(['parent'=>'请选择'])->hint(false)->label(false)?>
+                    <!-- <select name="input_province" id="input_province" class="form-control"></select> -->
+                </div>
+                <div class="col-sm-4 no-padding">
+                    <?php echo $form->field($model,'city')
+                    ->dropDownList(['parent'=>'请选择'])->hint(false)->label(false)?>
+                    <!-- <select name="input_city" id="input_city" class="form-control"></select> -->
+                </div>
+                <div class="col-sm-4 no-padding">
+                     <?php echo $form->field($model,'region')
+                    ->dropDownList(['parent'=>'请选择'])->hint(false)->label(false)?>
+                   <!--  <select name="input_area" id="input_area" class="form-control"></select> -->
+                </div>
             </div>
-            <div class="col-sm-4 no-padding">
-                <select name="input_city" id="input_city" class="form-control"></select>
-            </div>
-            <div class="col-sm-4 no-padding">
-                <select name="input_area" id="input_area" class="form-control"></select>
-            </div>
-        </div>
+
     </div>
     <div class="col-sm-12 no-padding">
-        <input class="col-sm-12" placeholder="请输入您的姓名">
+        <?php echo $form->field($model,'username')
+        ->textInput(['placeholder'=>'请输入您的姓名'])->label(false)->hint(false) ?>
+        
+        <?php echo $form->field($model,'phone_number')
+        ->textInput(['placeholder'=>'请输入您的电话'])->label(false)->hint(false) ?>
+        
+        <?php echo $form->field($model,'email')
+        ->textInput(['placeholder'=>'请输入您的邮箱'])->label(false)->hint(false) ?>
+
+        <?php
+           echo $form->field($model, 'verifyCode')->widget(Captcha::className(), [
+                    'options'=>['placeholder'=>'验证码'],
+                    'template' => '<div class="row"><div class="col-lg-6">{input}</div><div class="col-lg-6">{image}</div></div>',
+                ]) 
+            ->label(false)->hint(false)  ?>
+        ?>
+        <!-- <input class="col-sm-12" placeholder="请输入您的姓名">
         <input class="col-sm-12" placeholder="请输入您的电话">
-        <input class="col-sm-12" placeholder="请输入您的邮箱">
+        <input class="col-sm-12" placeholder="请输入您的邮箱"> -->
     </div>
-    <button class="btn btn-warning col-sm-12">立即报名</button>
+    <!-- <button  class="btn btn-warning col-sm-12">立即报名</button> -->
+    
+    <?= Html::submitButton(
+        Yii::t('backend', '立即报名'),
+        [
+        'id' => 'save-' . $model->formName(),
+        'class' => 'btn btn-warning col-sm-12'
+        ]);
+        ?>
+    <?php ActiveForm::end(); ?>
 </div>
+ 
 <div class="site-index">
     <div class="home_continer bg_gray col-xs-12">
         <div class="body-content home_title">
@@ -395,16 +445,16 @@ $this->title = Yii::$app->name;
         <div class="col-xs-12 no-padding">
             <div class="col-sm-6 ourinfo">
                 <h4 class="text-left">联系方式</h4>
-                <p>瓦酷机器人有限公司</p>
-                <p>公司地址：XXXXXXXXXXXXXXXXXXXXXXXXXX</p>
+                <p>北京魔趣教育科技有限公司</p>
+                <p>公司地址：河北省廊坊市三河市燕郊开发区</p>
                 <p>办公电话：0316-8888-888</p>
                 <p>网址：www.wakooedu.com</p>
             </div>
             <div class="col-sm-6 ourinfo">
                 <h4 class="text-left">在线留言</h4>
-                <input class="col-xs-12" placeholder="Your Name：">
-                <input class="col-xs-12" placeholder="Your Phone：">
-                <textarea class="col-xs-12"></textarea>
+                <input class="col-xs-12" placeholder="请填写您的姓名">
+                <input class="col-xs-12" placeholder="请填写您的电话">
+                <textarea class="col-xs-12" placeholder="请填写不超过100字的留言"></textarea>
                 <button class="btn btn-defult pull-left">提交</button>
             </div>
         </div>
@@ -489,43 +539,58 @@ function showfont(){
 
 
 $(function () {
-    var html = "<option value=''>== 请选择 ==</option>"; $("#input_city").append(html); $("#input_area").append(html);
+    var html = "<option value='0'>== 请选择 ==</option>"; 
+    $("#applytoplay-city").append(html); 
+    $("#applytoplay-region").append(html);
     $.each(pdata,function(idx,item){
         if (parseInt(item.level) == 0) {
             html += "<option value='" + item.names + "' exid='" + item.code + "'>" + item.names + "</option>";
         }
     });
-    $("#input_province").append(html);
+    $("#applytoplay-province").append(html);
 
-    $("#input_province").change(function(){
+    $("#applytoplay-province").change(function(){
         if ($(this).val() == "") return;
-        $("#input_city option").remove(); $("#input_area option").remove();
+        $("#applytoplay-city option").remove(); $("#applytoplay-region option").remove();
         var code = $(this).find("option:selected").attr("exid"); code = code.substring(0,2);
-        var html = "<option value=''>== 请选择 ==</option>"; $("#input_area").append(html);
+        var html = "<option value='0'>== 请选择 ==</option>"; $("#applytoplay-region").append(html);
         $.each(pdata,function(idx,item){
             if (parseInt(item.level) == 1 && code == item.code.substring(0,2)) {
                 html += "<option value='" + item.names + "' exid='" + item.code + "'>" + item.names + "</option>";
             }
         });
+<<<<<<< HEAD
         $("#input_city").append(html);
+=======
+        $("#applytoplay-city").append(html);      
+>>>>>>> brucebnu/edu-manager
     });
 
-    $("#input_city").change(function(){
+    $("#applytoplay-city").change(function(){
         if ($(this).val() == "") return;
-        $("#input_area option").remove();
+        $("#applytoplay-region option").remove();
         var code = $(this).find("option:selected").attr("exid"); code = code.substring(0,4);
-        var html = "<option value=''>== 请选择 ==</option>";
+        var html = "<option value='0'>== 请选择 ==</option>";
         $.each(pdata,function(idx,item){
             if (parseInt(item.level) == 2 && code == item.code.substring(0,4)) {
                 html += "<option value='" + item.names + "' exid='" + item.code + "'>" + item.names + "</option>";
             }
         });
+<<<<<<< HEAD
         $("#input_area").append(html);
     });
     //绑定
     $("#input_province").val("北京市");$("#input_province").change();
     $("#input_city").val("市辖区");$("#input_city").change();
     $("#input_area").val("朝阳区");
+=======
+        $("#applytoplay-region").append(html);      
+    });
+    //绑定
+    $("#applytoplay-province").val("北京市");$("#applytoplay-province").change();
+    $("#applytoplay-city").val("市辖区");$("#applytoplay-city").change();
+    $("#applytoplay-region").val("朝阳区");    
+>>>>>>> brucebnu/edu-manager
 
 });
 function showhide(){
@@ -551,4 +616,28 @@ if(navigator.userAgent.match(/mobile/i)) {
     $('.address_choose1').show();
 }
 
+<<<<<<< HEAD
 </script>
+=======
+
+//此处点击按钮提交数据的jquery
+$('.btn').click(function () {
+$.ajax({
+        url: "index.php?r=site/ajax-apply",
+        type: "POST",
+        dataType: "json",
+        data: $('form').serialize(),
+        success: function(Data) {
+        if(Data.status)
+            alert('保存成功');
+          else
+            alert('保存失败')
+        },
+        error: function() {
+            alert('网络错误！');
+        }
+    });
+    return false;
+});
+</script>
+>>>>>>> brucebnu/edu-manager
