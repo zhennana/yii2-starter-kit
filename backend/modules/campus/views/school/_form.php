@@ -37,8 +37,8 @@ $school = ArrayHelper::map($school, 'id', 'school_title');
                 [ 'prompt'=>'请选择'
             ]) ?>
 
-			<?= $form->field($model, 'school_id')
-            ->textInput() ?>
+			<!-- <? // = $form->field($model, 'school_id')
+            //->textInput() ?> -->
 
 			<!-- <?php // $form->field($model, 'language')
             //->textInput(['maxlength' => true]) ?>
@@ -69,7 +69,6 @@ $school = ArrayHelper::map($school, 'id', 'school_title');
                 [
                // 'prompt'=>'--请选择省--',
                 'onchange'=>'
-
                     $.post("'.yii::$app->urlManager->createUrl('campus/school/list').'&typeid=2&id="+$(this).val(),function(data){
                 $("select#school-city_id").html(data);
                 $("select#school-region_id").html("<option value=0>--请选择区--</option>");
@@ -93,9 +92,9 @@ $school = ArrayHelper::map($school, 'id', 'school_title');
             <?= $form->field($model, 'address')
             ->textInput(['maxlength' => true]) ?>
 
-			<?= $form->field($model, 'created_id')
-            ->textInput() ?>
-
+			<!-- <?  //= $form->field($model, 'created_id')
+            //->textInput() ?>
+ -->
             <?php
                // if(!$model->isNewRecord){
                 echo  $form->field($model, 'status')->dropDownlist(School::optsStatus());

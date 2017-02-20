@@ -123,7 +123,7 @@ use yii\grid\GridView;
         			'province_id',
         			'city_id',
         			'region_id',
-        			'created_id',
+        			// 'created_id',
         			'status',
         			/*'sort',*/
         			/*'school_title',*/
