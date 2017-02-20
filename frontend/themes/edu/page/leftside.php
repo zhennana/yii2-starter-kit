@@ -74,6 +74,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <script>
 var width = $(window).width();
+var map = '<i class="glyphicon glyphicon-map-marker text-red"></i>当前位置：';
+$('.breadcrumb').prepend(map);
 $('.breadcrumb').css('width',''+width+'');
 $(window).resize(function() {
   	var width = $(window).width();
