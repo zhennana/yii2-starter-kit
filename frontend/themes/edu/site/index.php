@@ -20,7 +20,7 @@ $model = new ApplyToPlay;
 <div class="row address_choose">
     <h4>瓦酷，创造不一样！</h4>
     <div class="col-sm-12 no-padding">
-      
+
             <div class="form-group">
 
                  <div class="col-sm-4 no-padding">
@@ -44,10 +44,10 @@ $model = new ApplyToPlay;
     <div class="col-sm-12 no-padding">
         <?php echo $form->field($model,'username')
         ->textInput(['placeholder'=>'请输入您的姓名'])->label(false)->hint(false) ?>
-        
+
         <?php echo $form->field($model,'phone_number')
         ->textInput(['placeholder'=>'请输入您的电话'])->label(false)->hint(false) ?>
-        
+
         <?php echo $form->field($model,'email')
         ->textInput(['placeholder'=>'请输入您的邮箱'])->label(false)->hint(false) ?>
 
@@ -55,7 +55,7 @@ $model = new ApplyToPlay;
            echo $form->field($model, 'verifyCode')->widget(Captcha::className(), [
                     'options'=>['placeholder'=>'验证码'],
                     'template' => '<div class="row"><div class="col-lg-6">{input}</div><div class="col-lg-6">{image}</div></div>',
-                ]) 
+                ])
             ->label(false)->hint(false)  ?>
         ?>
         <!-- <input class="col-sm-12" placeholder="请输入您的姓名">
@@ -63,7 +63,7 @@ $model = new ApplyToPlay;
         <input class="col-sm-12" placeholder="请输入您的邮箱"> -->
     </div>
     <!-- <button  class="btn btn-warning col-sm-12">立即报名</button> -->
-    
+
     <?= Html::submitButton(
         Yii::t('backend', '立即报名'),
         [
@@ -73,7 +73,7 @@ $model = new ApplyToPlay;
         ?>
     <?php ActiveForm::end(); ?>
 </div>
- 
+
 <div class="site-index">
     <div class="home_continer bg_gray col-xs-12">
         <div class="body-content home_title">
@@ -539,8 +539,8 @@ function showfont(){
 
 
 $(function () {
-    var html = "<option value='0'>== 请选择 ==</option>"; 
-    $("#applytoplay-city").append(html); 
+    var html = "<option value='0'>== 请选择 ==</option>";
+    $("#applytoplay-city").append(html);
     $("#applytoplay-region").append(html);
     $.each(pdata,function(idx,item){
         if (parseInt(item.level) == 0) {
@@ -559,11 +559,8 @@ $(function () {
                 html += "<option value='" + item.names + "' exid='" + item.code + "'>" + item.names + "</option>";
             }
         });
-<<<<<<< HEAD
         $("#input_city").append(html);
-=======
-        $("#applytoplay-city").append(html);      
->>>>>>> brucebnu/edu-manager
+        $("#applytoplay-city").append(html);
     });
 
     $("#applytoplay-city").change(function(){
@@ -576,21 +573,13 @@ $(function () {
                 html += "<option value='" + item.names + "' exid='" + item.code + "'>" + item.names + "</option>";
             }
         });
-<<<<<<< HEAD
-        $("#input_area").append(html);
-    });
-    //绑定
-    $("#input_province").val("北京市");$("#input_province").change();
-    $("#input_city").val("市辖区");$("#input_city").change();
-    $("#input_area").val("朝阳区");
-=======
-        $("#applytoplay-region").append(html);      
+        $("#applytoplay-region").append(html);
     });
     //绑定
     $("#applytoplay-province").val("北京市");$("#applytoplay-province").change();
     $("#applytoplay-city").val("市辖区");$("#applytoplay-city").change();
-    $("#applytoplay-region").val("朝阳区");    
->>>>>>> brucebnu/edu-manager
+    $("#applytoplay-region").val("朝阳区");
+
 
 });
 function showhide(){
@@ -615,29 +604,3 @@ if(navigator.userAgent.match(/mobile/i)) {
     $('.address_choose').hide();
     $('.address_choose1').show();
 }
-
-<<<<<<< HEAD
-</script>
-=======
-
-//此处点击按钮提交数据的jquery
-$('.btn').click(function () {
-$.ajax({
-        url: "index.php?r=site/ajax-apply",
-        type: "POST",
-        dataType: "json",
-        data: $('form').serialize(),
-        success: function(Data) {
-        if(Data.status)
-            alert('保存成功');
-          else
-            alert('保存失败')
-        },
-        error: function() {
-            alert('网络错误！');
-        }
-    });
-    return false;
-});
-</script>
->>>>>>> brucebnu/edu-manager
