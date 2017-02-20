@@ -19,27 +19,18 @@ $model = new ApplyToPlay;
 )?>
 <div class="row address_choose">
     <h4>瓦酷，创造不一样！</h4>
-    <div class="col-sm-12 no-padding">
-
-            <div class="form-group">
-
-                 <div class="col-sm-4 no-padding">
-                    <?php echo $form->field($model,'province')
-                    ->dropDownList(['parent'=>'请选择'])->hint(false)->label(false)?>
-                    <!-- <select name="input_province" id="input_province" class="form-control"></select> -->
-                </div>
-                <div class="col-sm-4 no-padding">
-                    <?php echo $form->field($model,'city')
-                    ->dropDownList(['parent'=>'请选择'])->hint(false)->label(false)?>
-                    <!-- <select name="input_city" id="input_city" class="form-control"></select> -->
-                </div>
-                <div class="col-sm-4 no-padding">
-                     <?php echo $form->field($model,'region')
-                    ->dropDownList(['parent'=>'请选择'])->hint(false)->label(false)?>
-                   <!--  <select name="input_area" id="input_area" class="form-control"></select> -->
-                </div>
+    <div class="col-sm-12 no-padding margin_bottom">
+        <div class="form-group">
+             <div class="col-sm-4 no-padding">
+                <select name="input_province" id="input_province" class="form-control"></select>
             </div>
-
+            <div class="col-sm-4 no-padding">
+                <select name="input_city" id="input_city" class="form-control"></select>
+            </div>
+            <div class="col-sm-4 no-padding">
+               <select name="input_area" id="input_area" class="form-control"></select>
+            </div>
+        </div>
     </div>
     <div class="col-sm-12 no-padding">
         <?php echo $form->field($model,'username')
@@ -96,21 +87,21 @@ $model = new ApplyToPlay;
                  是全国机器人教育中发展最快，教育理念最优的教育基地。</p>
             </div>
             <div class="col-md-6">
-                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
+                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/jiejue.png">
             </div>
         </div>
         <div class="col-xs-12 no-padding">
            <div class="col-xs-3">
-                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
+                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/kjh.png">
             </div>
             <div class="col-xs-3">
-                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
+                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/lkjhg.png">
             </div>
             <div class="col-xs-3">
-                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
+                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/plkj.png">
             </div>
             <div class="col-xs-3">
-                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
+                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/uytrewqwertyu.png">
             </div>
         </div>
 
@@ -204,31 +195,15 @@ $model = new ApplyToPlay;
                     <div class="item active">
                         <ul class="run_left no-padding pull-left">
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
+                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/jhg.png">
                                 <h4>神奇物理</h4>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
+                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/jhgfd.png">
                                 <h4>神奇物理</h4>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
-                                <h4>神奇物理</h4>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="item ">
-                        <ul class="run_left no-padding pull-left">
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
-                                <h4>神奇物理</h4>
-                            </li>
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
-                                <h4>神奇物理</h4>
-                            </li>
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
+                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/kjh.png">
                                 <h4>神奇物理</h4>
                             </li>
                         </ul>
@@ -236,15 +211,15 @@ $model = new ApplyToPlay;
                     <div class="item ">
                         <ul class="run_left no-padding pull-left">
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
+                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/lkjhgf.png">
                                 <h4>神奇物理</h4>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
+                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/qwegfvd.png">
                                 <h4>神奇物理</h4>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
+                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/timg.png">
                                 <h4>神奇物理</h4>
                             </li>
                         </ul>
@@ -264,31 +239,15 @@ $model = new ApplyToPlay;
                     <div class="item active">
                         <ul class="run_right no-padding pull-left">
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
+                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/b.png">
                                 <h4>神奇物理</h4>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
+                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/c.png">
                                 <h4>神奇物理</h4>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
-                                <h4>神奇物理</h4>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="item ">
-                        <ul class="run_right no-padding pull-left">
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
-                                <h4>神奇物理</h4>
-                            </li>
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
-                                <h4>神奇物理</h4>
-                            </li>
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
+                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/d.png">
                                 <h4>神奇物理</h4>
                             </li>
                         </ul>
@@ -296,15 +255,15 @@ $model = new ApplyToPlay;
                     <div class="item ">
                         <ul class="run_right no-padding pull-left">
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
+                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/e.png">
                                 <h4>神奇物理</h4>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
+                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/f.png">
                                 <h4>神奇物理</h4>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
+                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/g.png">
                                 <h4>神奇物理</h4>
                             </li>
                         </ul>
@@ -329,7 +288,7 @@ $model = new ApplyToPlay;
                     <div class="item active">
                         <ul class="no-padding pull-left">
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive" src="http://static.v1.wakooedu.com/DNS_1.png">
+                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_1.png">
                                 <h4>神奇物理</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
@@ -339,7 +298,7 @@ $model = new ApplyToPlay;
                                 </div>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive" src="http://static.v1.wakooedu.com/DNS_10.png">
+                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_10.png">
                                 <h4>神奇物理</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
@@ -349,41 +308,7 @@ $model = new ApplyToPlay;
                                 </div>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive" src="http://static.v1.wakooedu.com/DNS_12.png">
-                                <h4>神奇物理</h4>
-                                <div class="col-xs-12 no-padding">
-                                    <p>
-                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
-                                        适合所有有梦想创业者的教育项目。
-                                    </p>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="item ">
-                        <ul class="no-padding pull-left">
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive" src="http://static.v1.wakooedu.com/DNS_13.png">
-                                <h4>神奇物理</h4>
-                                <div class="col-xs-12 no-padding">
-                                    <p>
-                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
-                                        适合所有有梦想创业者的教育项目。
-                                    </p>
-                                </div>
-                            </li>
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive" src="http://static.v1.wakooedu.com/DNS_16.png">
-                                <h4>神奇物理</h4>
-                                <div class="col-xs-12 no-padding">
-                                    <p>
-                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
-                                        适合所有有梦想创业者的教育项目。
-                                    </p>
-                                </div>
-                            </li>
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive" src="http://static.v1.wakooedu.com/DNS_17.png">
+                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_12.png">
                                 <h4>神奇物理</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
@@ -397,7 +322,7 @@ $model = new ApplyToPlay;
                     <div class="item ">
                         <ul class="no-padding pull-left">
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive" src="http://static.v1.wakooedu.com/DNS_4.png">
+                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_13.png">
                                 <h4>神奇物理</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
@@ -407,7 +332,7 @@ $model = new ApplyToPlay;
                                 </div>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive" src="http://static.v1.wakooedu.com/DNS_8.png">
+                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_14.png">
                                 <h4>神奇物理</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
@@ -417,7 +342,41 @@ $model = new ApplyToPlay;
                                 </div>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive" src="http://static.v1.wakooedu.com/DNS_7.png">
+                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_16.png">
+                                <h4>神奇物理</h4>
+                                <div class="col-xs-12 no-padding">
+                                    <p>
+                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
+                                        适合所有有梦想创业者的教育项目。
+                                    </p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="item ">
+                        <ul class="no-padding pull-left">
+                            <li class="col-xs-4 no-padding">
+                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_17.png">
+                                <h4>神奇物理</h4>
+                                <div class="col-xs-12 no-padding">
+                                    <p>
+                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
+                                        适合所有有梦想创业者的教育项目。
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="col-xs-4 no-padding">
+                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_4.png">
+                                <h4>神奇物理</h4>
+                                <div class="col-xs-12 no-padding">
+                                    <p>
+                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
+                                        适合所有有梦想创业者的教育项目。
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="col-xs-4 no-padding">
+                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_5.png">
                                 <h4>神奇物理</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
@@ -539,51 +498,55 @@ function showfont(){
 
 
 $(function () {
-    var html = "<option value='0'>== 请选择 ==</option>";
-    $("#applytoplay-city").append(html);
-    $("#applytoplay-region").append(html);
+    var html = "<option value=''>== 请选择 ==</option>"; $("#input_city").append(html); $("#input_area").append(html);
     $.each(pdata,function(idx,item){
         if (parseInt(item.level) == 0) {
-            html += "<option value='" + item.names + "' exid='" + item.code + "'>" + item.names + "</option>";
-        }
+               html += "<option value='" + item.names + "' exid='" + item.code + "'>" + item.names + "</option>";
+           }
     });
-    $("#applytoplay-province").append(html);
+    $("#input_province").append(html);
 
-    $("#applytoplay-province").change(function(){
-        if ($(this).val() == "") return;
-        $("#applytoplay-city option").remove(); $("#applytoplay-region option").remove();
-        var code = $(this).find("option:selected").attr("exid"); code = code.substring(0,2);
-        var html = "<option value='0'>== 请选择 ==</option>"; $("#applytoplay-region").append(html);
-        $.each(pdata,function(idx,item){
-            if (parseInt(item.level) == 1 && code == item.code.substring(0,2)) {
-                html += "<option value='" + item.names + "' exid='" + item.code + "'>" + item.names + "</option>";
-            }
-        });
-        $("#input_city").append(html);
-        $("#applytoplay-city").append(html);
-    });
+   $("#input_province").change(function(){
+       if ($(this).val() == ""){
+          $("#input_city option").remove();
+          $("#input_area option").remove();
+          var html = "<option value=''>== 请选择 ==</option>";
+          $("#input_area").append(html);
+          $("#input_city").append(html);
+          return;
+       }
+       $("#input_city option").remove(); $("#input_area option").remove();
+       var code = $(this).find("option:selected").attr("exid"); code = code.substring(0,2);
+       var html = "<option value=''>== 请选择 ==</option>"; $("#input_area").append(html);
+       $.each(pdata,function(idx,item){
+           if (parseInt(item.level) == 1 && code == item.code.substring(0,2)) {
+                  html += "<option value='" + item.names + "' exid='" + item.code + "'>" + item.names + "</option>";
+              }
+       });
+       $("#input_city").append(html);
+   });
 
-    $("#applytoplay-city").change(function(){
-        if ($(this).val() == "") return;
-        $("#applytoplay-region option").remove();
-        var code = $(this).find("option:selected").attr("exid"); code = code.substring(0,4);
-        var html = "<option value='0'>== 请选择 ==</option>";
-        $.each(pdata,function(idx,item){
-            if (parseInt(item.level) == 2 && code == item.code.substring(0,4)) {
-                html += "<option value='" + item.names + "' exid='" + item.code + "'>" + item.names + "</option>";
-            }
-        });
-        $("#applytoplay-region").append(html);
-    });
-    //绑定
-    $("#applytoplay-province").val("北京市");$("#applytoplay-province").change();
-    $("#applytoplay-city").val("市辖区");$("#applytoplay-city").change();
-    $("#applytoplay-region").val("朝阳区");
-
+   $("#input_city").change(function(){
+       if ($(this).val() == "") return;
+       $("#input_area option").remove();
+       var code = $(this).find("option:selected").attr("exid"); code = code.substring(0,4);
+       var html = "<option value=''>== 请选择 ==</option>";
+       $.each(pdata,function(idx,item){
+           if (parseInt(item.level) == 2 && code == item.code.substring(0,4)) {
+                  html += "<option value='" + item.names + "' exid='" + item.code + "'>" + item.names + "</option>";
+             }
+       });
+       $("#input_area").append(html);
+   });
+   //绑定
+   $("#input_province").val("北京市");$("#input_province").change();
+   $("#input_city").val("市辖区");$("#input_city").change();
+   $("#input_area").val("朝阳区");
 
 });
 function showhide(){
     var Width = $(window).width();
+    console.log(Width);
     if(Width < 768){
         $('.address_choose1').show();
     }else{
@@ -604,3 +567,27 @@ if(navigator.userAgent.match(/mobile/i)) {
     $('.address_choose').hide();
     $('.address_choose1').show();
 }
+
+
+//此处点击按钮提交数据的jquery
+$('.btn').click(function () {
+  console.log($('form').serialize());
+$.ajax({
+        url: "index.php?r=site/ajax-apply",
+        type: "POST",
+        dataType: "json",
+        data: $('form').serialize(),
+
+        success: function(Data) {
+        if(Data.status)
+            alert('保存成功');
+          else
+            alert('保存失败')
+        },
+        error: function() {
+            alert('网络错误！');
+        }
+    });
+    return false;
+});
+</script>
