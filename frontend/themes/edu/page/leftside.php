@@ -3,6 +3,9 @@
  * @var $this \yii\web\View
  * @var $model \common\models\Page
  */
+echo \common\widgets\DbMenu::widget([
+            'key' => 'frontend-index'
+    ]);
 $this->title = $model->title;
 
 //$this->title = Yii::t('frontend', 'Signup');
@@ -75,3 +78,4 @@ $(window).resize(function() {
 	$('.breadcrumb').css('width',''+width+'');
 });
 </script>
+

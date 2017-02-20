@@ -173,6 +173,13 @@ a.desc:after {
 .navbar-inverse .navbar-nav > li > a{
   color: black;
 }
+.navbar-right li a{
+  font-size: 16px !important;
+  line-height: 26px;
+}
+.navbar-brand{
+  display: none;
+}
 .collapse > ul{
   width: 100%;
 }
@@ -339,12 +346,13 @@ a.desc:after {
 }
 .address_choose{
   position: absolute;
-  top: 25%;
+  top: 30%;
   right:10%;
   width: 20%;
   background-color:rgba(0,0,0,0.7);
   padding: 20px;
   z-index: 2;
+  display: none;
 }
 .address_choose input{
   margin-top: 20px;
@@ -361,6 +369,7 @@ a.desc:after {
 .address_choose1{
   background-color:rgba(0,0,0,0.7);
   padding: 20px;
+  display: none;
 }
 .address_choose1 input{
   margin-top: 20px;

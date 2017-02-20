@@ -1,6 +1,6 @@
 <?php
 $config = [
-    'name'=>'瓦酷机器人后台',
+    'name'=>Yii::t('common', env('WEB_NAME')),
     'homeUrl'=>Yii::getAlias('@backendUrl'),
     'controllerNamespace' => 'backend\controllers',
     'defaultRoute'=>'timeline-event/index',
@@ -38,7 +38,12 @@ $config = [
         'i18n' => [
             'class' => 'backend\modules\i18n\Module',
             'defaultRoute'=>'i18n-message/index'
-        ]
+        ],
+    'campus' => [
+
+            'class' => 'backend\modules\campus\Module',
+            'defaultRoute'=>'default/index'
+        ],
     ],
     'as globalAccess'=>[
         'class'=>'\common\behaviors\GlobalAccessBehavior',
