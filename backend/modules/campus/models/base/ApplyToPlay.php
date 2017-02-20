@@ -6,6 +6,7 @@ namespace backend\modules\campus\models\base;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use common\models\PhoneValidator;
 
 /**
  * This is the base-model class for table "apply_to_play".
@@ -26,8 +27,8 @@ use yii\behaviors\TimestampBehavior;
 abstract class ApplyToPlay extends \yii\db\ActiveRecord
 {
 
-
-
+     public $verifyCode;
+     CONST  ApplyToPlay_STATUS_AUDIT = 1;//待审核
     /**
      * @inheritdoc
      */
@@ -57,7 +58,12 @@ abstract class ApplyToPlay extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['username', 'phone_number', 'email', 'city', 'province', 'auditor_id', 'region', 'status'], 'required'],
+            [['username', 'phone_number', 'email', 'city', 'province','verifyCode', 'region'], 'required'],
+            ['verifyCode','captcha'],
+            ['phone_number', 'string', 'min' => 11, 'max' => 11],
+            [['phone_number'], PhoneValidator::className()],
+            ['status','default','value'=>ApplyToPlay::ApplyToPlay_STATUS_AUDIT],
+            ['email','email'],
             [['phone_number', 'auditor_id', 'status'], 'integer'],
             [['username', 'region'], 'string', 'max' => 255],
             [['email', 'city', 'province'], 'string', 'max' => 128]
@@ -71,14 +77,14 @@ abstract class ApplyToPlay extends \yii\db\ActiveRecord
     {
         return [
             'apply_to_play_id' => Yii::t('common', 'Apply To Play ID'),
-            'username' => Yii::t('common', '报名人姓名'),
-            'phone_number' => Yii::t('common', '报名人电话'),
-            'email' => Yii::t('common', '报名人邮件'),
+            'username' => Yii::t('common', '姓名'),
+            'phone_number' => Yii::t('common', '电话'),
+            'email' => Yii::t('common', '邮件'),
             'city' => Yii::t('common', '市'),
             'province' => Yii::t('common', '省'),
             'auditor_id' => Yii::t('common', '审核人'),
             'region' => Yii::t('common', '区'),
-            'status' => Yii::t('common', '报名成功：1，报名审核： 2，已过期：3'),
+            'verifyCode'=>Yii::t('common','验证码'),
             'created_at' => Yii::t('common', 'Created At'),
             'updated_at' => Yii::t('common', 'Updated At'),
         ];

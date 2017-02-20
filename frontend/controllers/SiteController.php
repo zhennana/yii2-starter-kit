@@ -22,7 +22,11 @@ class SiteController extends Controller
             ],
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null
+                  'height' => 40,
+                  'width' => 100,
+                  'minLength' => 4,
+                  'maxLength' => 4,
+                  'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null
             ],
             'set-locale'=>[
                 'class'=>'common\actions\SetLocaleAction',
@@ -45,14 +49,23 @@ class SiteController extends Controller
       
            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         if (Yii::$app->request->isAjax) {
-            if($model->load(Yii::$app->request->post())){
-                return ['status' => $model->save()];
+            if($model->load(Yii::$app->request->post()) && $model->save()){
+                return ['status' => true];
             }else{
-                return '';
+                var_dump($model->getErrors());
+                return ['status'=>false];
             }
         }
 
     }
+    // public function actionApplyVlidate(){
+    //     if (Yii::$app->request->isAjax) {
+    //         if($model->load(Yii::$app->request->post())){
+    //             return ['status' => $model->save()];
+    //         }else{
+    //             return false;
+    //         }
+    // }
 
     public function actionContact()
     {

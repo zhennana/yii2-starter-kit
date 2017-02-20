@@ -5,15 +5,16 @@ use backend\modules\campus\models\ApplyToPlay;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Url;
 use yii\helpers\Html;
+use yii\captcha\Captcha;
 
 $model = new ApplyToPlay;
 ?>
 <?php $form = ActiveForm::begin([
         'id' => 'form-id',
         'action' => Url::to(['ajax-apply']),
-        'enableAjaxValidation' => false,
+        //'enableAjaxValidation' => true,
         'enableClientValidation'=>true,
-        'validationUrl' => Url::to(['apply-validate'])
+        //'validationUrl' => Url::to(['apply-validate'])
         ]
 )?>
 <div class="row address_choose">
@@ -36,7 +37,7 @@ $model = new ApplyToPlay;
                      <?php echo $form->field($model,'region')
                     ->dropDownList(['parent'=>'请选择'])->hint(false)->label(false)?>
                    <!--  <select name="input_area" id="input_area" class="form-control"></select> -->
-                </div> 
+                </div>
             </div>
 
     </div>
@@ -49,12 +50,20 @@ $model = new ApplyToPlay;
         
         <?php echo $form->field($model,'email')
         ->textInput(['placeholder'=>'请输入您的邮箱'])->label(false)->hint(false) ?>
+
+        <?php
+           echo $form->field($model, 'verifyCode')->widget(Captcha::className(), [
+                    'options'=>['placeholder'=>'验证码'],
+                    'template' => '<div class="row"><div class="col-lg-6">{input}</div><div class="col-lg-6">{image}</div></div>',
+                ]) 
+            ->label(false)->hint(false)  ?>
+        ?>
         <!-- <input class="col-sm-12" placeholder="请输入您的姓名">
         <input class="col-sm-12" placeholder="请输入您的电话">
         <input class="col-sm-12" placeholder="请输入您的邮箱"> -->
     </div>
     <!-- <button  class="btn btn-warning col-sm-12">立即报名</button> -->
-    <?php ActiveForm::end(); ?>
+    
     <?= Html::submitButton(
         Yii::t('backend', '立即报名'),
         [
@@ -62,6 +71,7 @@ $model = new ApplyToPlay;
         'class' => 'btn btn-warning col-sm-12'
         ]);
         ?>
+    <?php ActiveForm::end(); ?>
 </div>
  
 <div class="site-index">
