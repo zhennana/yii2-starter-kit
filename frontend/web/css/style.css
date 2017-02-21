@@ -282,12 +282,12 @@ a.desc:after {
 .run_L{
   position: absolute;
   left:-50px;
-  top: 30%;
+  top: 40%;
 }
 .run_R{
   position: absolute;
   right:-50px;
-  top: 30%;
+  top: 40%;
 }
 .home_continer .carousel-control{
   width: 0;
