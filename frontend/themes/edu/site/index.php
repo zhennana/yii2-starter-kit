@@ -58,66 +58,91 @@ $model = new ApplyToPlay;
         <div class="body-content home_title">
             <h3 class="text-center no-padding no-margin">瓦酷动态</h3>
         </div>
-        <div class="col-sm-6 home_news margin_bottom">
-             <div class="time col-xs-2 no-padding">
-                 <h1>18</h1>
-                 <p>2017/2</p>
-             </div>
-             <div class="col-xs-9 news no-padding">
-                 <h4>2016年全国机器人等级考试圆满落幕...</h4>
-                 <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
-             </div>
+        <div class="col-md-6 margin_bottom">
+            <div class="col-xs-12 margin_bottom home_news">
+                <div class="time col-xs-2 no-padding">
+                    <h1>18</h1>
+                    <p>2017/2</p>
+                </div>
+                <div class="col-xs-9 news no-padding">
+                    <h4>2016年全国机器人等级考试圆满落幕...</h4>
+                    <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
+                </div>
+            </div>
+            <div class="col-xs-12 margin_bottom home_news">
+                <div class="time col-xs-2 no-padding">
+                    <h1>18</h1>
+                    <p>2017/2</p>
+                </div>
+                <div class="col-xs-9 news no-padding">
+                    <h4>2016年全国机器人等级考试圆满落幕...</h4>
+                    <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
+                </div>
+            </div>
+            <div class="col-xs-12 margin_bottom home_news">
+                <div class="time col-xs-2 no-padding">
+                    <h1>18</h1>
+                    <p>2017/2</p>
+                </div>
+                <div class="col-xs-9 news no-padding">
+                    <h4>2016年全国机器人等级考试圆满落幕...</h4>
+                    <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
+                </div>
+            </div>
+            <div class="col-xs-12 margin_bottom home_news">
+                <div class="time col-xs-2 no-padding">
+                    <h1>18</h1>
+                    <p>2017/2</p>
+                </div>
+                <div class="col-xs-9 news no-padding">
+                    <h4>2016年全国机器人等级考试圆满落幕...</h4>
+                    <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
+                </div>
+            </div>
         </div>
-        <div class="col-sm-6 home_news margin_bottom">
-             <div class="time col-xs-2 no-padding">
-                 <h1>18</h1>
-                 <p>2017/2</p>
-             </div>
-             <div class="col-xs-9 news no-padding">
-                 <h4>2016年全国机器人等级考试圆满落幕...</h4>
-                 <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
-             </div>
+        <div class="col-md-6 margin_bottom">
+            <div class="col-xs-12 margin_bottom home_news">
+                <div class="time col-xs-2 no-padding">
+                    <h1>18</h1>
+                    <p>2017/2</p>
+                </div>
+                <div class="col-xs-9 news no-padding">
+                    <h4>2016年全国机器人等级考试圆满落幕...</h4>
+                    <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
+                </div>
+            </div>
+            <div class="col-xs-12 margin_bottom home_news">
+                <div class="time col-xs-2 no-padding">
+                    <h1>18</h1>
+                    <p>2017/2</p>
+                </div>
+                <div class="col-xs-9 news no-padding">
+                    <h4>2016年全国机器人等级考试圆满落幕...</h4>
+                    <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
+                </div>
+            </div>
+            <div class="col-xs-12 margin_bottom home_news">
+                <div class="time col-xs-2 no-padding">
+                    <h1>18</h1>
+                    <p>2017/2</p>
+                </div>
+                <div class="col-xs-9 news no-padding">
+                    <h4>2016年全国机器人等级考试圆满落幕...</h4>
+                    <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
+                </div>
+            </div>
+            <div class="col-xs-12 margin_bottom home_news">
+                <div class="time col-xs-2 no-padding">
+                    <h1>18</h1>
+                    <p>2017/2</p>
+                </div>
+                <div class="col-xs-9 news no-padding">
+                    <h4>2016年全国机器人等级考试圆满落幕...</h4>
+                    <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
+                </div>
+            </div>
         </div>
-        <div class="col-sm-6 home_news margin_bottom">
-             <div class="time col-xs-2 no-padding">
-                 <h1>18</h1>
-                 <p>2017/2</p>
-             </div>
-             <div class="col-xs-9 news no-padding">
-                 <h4>2016年全国机器人等级考试圆满落幕...</h4>
-                 <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
-             </div>
-        </div>
-        <div class="col-sm-6 home_news margin_bottom">
-             <div class="time col-xs-2 no-padding">
-                 <h1>18</h1>
-                 <p>2017/2</p>
-             </div>
-             <div class="col-xs-9 news no-padding">
-                 <h4>2016年全国机器人等级考试圆满落幕...</h4>
-                 <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
-             </div>
-        </div>
-        <div class="col-sm-6 home_news margin_bottom">
-             <div class="time col-xs-2 no-padding">
-                 <h1>18</h1>
-                 <p>2017/2</p>
-             </div>
-             <div class="col-xs-9 news no-padding">
-                 <h4>2016年全国机器人等级考试圆满落幕...</h4>
-                 <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
-             </div>
-        </div>
-        <div class="col-sm-6 home_news margin_bottom">
-             <div class="time col-xs-2 no-padding">
-                 <h1>18</h1>
-                 <p>2017/2</p>
-             </div>
-             <div class="col-xs-9 news no-padding">
-                 <h4>2016年全国机器人等级考试圆满落幕...</h4>
-                 <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
-             </div>
-        </div>
+
         <div class="col-xs-12 knowmore">
             <button class="btn btn-defult more">更多内容</button>
         </div>
