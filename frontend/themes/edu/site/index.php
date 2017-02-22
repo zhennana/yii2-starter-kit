@@ -32,21 +32,21 @@ $model = new ApplyToPlay;
                  是全国机器人教育中发展最快，教育理念最优的教育基地。</p>
             </div>
             <div class="col-md-6">
-                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/jiejue.png">
+                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/bell1.png">
             </div>
         </div>
         <div class="col-xs-12 no-padding">
            <div class="col-xs-3">
-                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/kjh.png">
+                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/chuangzao.png">
             </div>
             <div class="col-xs-3">
-                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/lkjhg.png">
+                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/find.png">
             </div>
             <div class="col-xs-3">
-                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/plkj.png">
+                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/goutong.png">
             </div>
             <div class="col-xs-3">
-                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/uytrewqwertyu.png">
+                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/jiejue.png">
             </div>
         </div>
 
@@ -165,15 +165,15 @@ $model = new ApplyToPlay;
                     <div class="item active">
                         <ul class="run_left no-padding pull-left">
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/jhg.png">
+                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/11.png">
                                 <h4>神奇物理</h4>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/jhgfd.png">
+                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/22.png">
                                 <h4>神奇物理</h4>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/kjh.png">
+                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/33.png">
                                 <h4>神奇物理</h4>
                             </li>
                         </ul>
@@ -181,15 +181,15 @@ $model = new ApplyToPlay;
                     <div class="item ">
                         <ul class="run_left no-padding pull-left">
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/lkjhgf.png">
+                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/44.png">
                                 <h4>神奇物理</h4>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/qwegfvd.png">
+                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/55.png">
                                 <h4>神奇物理</h4>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/timg.png">
+                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/4.png">
                                 <h4>神奇物理</h4>
                             </li>
                         </ul>
