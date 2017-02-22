@@ -52,7 +52,7 @@ class SiteController extends Controller
             if($model->load(Yii::$app->request->post()) && $model->save()){
                 return ['status' => true];
             }else{
-                var_dump($model->getErrors());
+               // var_dump($model->getErrors());
                 return ['status'=>false];
             }
         }
