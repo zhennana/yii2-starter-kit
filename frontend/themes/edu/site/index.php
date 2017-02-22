@@ -9,76 +9,6 @@ use yii\captcha\Captcha;
 
 $model = new ApplyToPlay;
 ?>
-<?php $form = ActiveForm::begin([
-        'id' => 'form-id',
-       'action' => Url::to(['ajax-apply']),
-        'enableAjaxValidation' => false,
-        'validateOnType'         => false,
-        'enableClientValidation'=>true,
-        // 'clientOptions'=>[
-        //     'validateOnSubmit'=>true,
-        // ]
-        //'validationUrl' => Url::to(['apply-validate'])
-        ]
-)?>
-<div class="row address_choose">
-    <h4>瓦酷，创造不一样！</h4>
-    <div class="col-sm-12 no-padding">
-      
-            <div class="form-group">
-
-                 <div class="col-sm-4 no-padding">
-                    <?php echo $form->field($model,'province')
-                    ->dropDownList([])->hint(false)->label(false)?>
-                    <!-- <select name="input_province" id="input_province" class="form-control"></select> -->
-                </div>
-                <div class="col-sm-4 no-padding">
-                    <?php echo $form->field($model,'city')
-                    ->dropDownList([])->hint(false)->label(false)?>
-                    <!-- <select name="input_city" id="input_city" class="form-control"></select> -->
-                </div>
-                <div class="col-sm-4 no-padding">
-                     <?php echo $form->field($model,'region')
-                    ->dropDownList([])->hint(false)->label(false)?>
-                   <!--  <select name="input_area" id="input_area" class="form-control"></select> -->
-                </div>
-            </div>
-
-    </div>
-    <div class="col-sm-12 no-padding">
-       
-        <?php echo $form->field($model,'username')
-        ->textInput(['placeholder'=>'请输入您的姓名'])->label(false)->hint(false) ?>
-        
-        <?php echo $form->field($model,'phone_number')
-        ->textInput(['placeholder'=>'请输入您的电话'])->label(false)->hint(false) ?>
-        
-        <?php echo $form->field($model,'email')
-        ->textInput(['placeholder'=>'请输入您的邮箱'])->label(false)->hint(false) ?>
-
-        <?php
-           echo $form->field($model, 'verifyCode')->widget(Captcha::className(), [
-                    'options'=>['placeholder'=>'验证码'],
-                    'template' => '<div class="row"><div class="col-lg-6">{input}</div><div class="col-lg-6">{image}</div></div>',
-                ]) 
-            ->label(false)->hint(false)  ?>
-        ?>
-        <!-- <input class="col-sm-12" placeholder="请输入您的姓名">
-        <input class="col-sm-12" placeholder="请输入您的电话">
-        <input class="col-sm-12" placeholder="请输入您的邮箱"> -->
-    </div>
-    <!-- <button  class="btn btn-warning col-sm-12">立即报名</button> -->
-    
-    <?= Html::submitButton(
-        Yii::t('backend', '立即报名'),
-        [
-        'id' => 'save-' . $model->formName(),
-        'class' => 'btn btn-warning col-sm-12'
-        ]);
-        ?>
-    <?php ActiveForm::end(); ?>
-</div>
- 
 <div class="site-index">
     <div class="home_continer bg_gray col-xs-12">
         <div class="body-content home_title">
@@ -127,66 +57,91 @@ $model = new ApplyToPlay;
         <div class="body-content home_title">
             <h3 class="text-center no-padding no-margin">瓦酷动态</h3>
         </div>
-        <div class="col-sm-6 home_news margin_bottom">
-             <div class="time col-xs-2 no-padding">
-                 <h1>18</h1>
-                 <p>2017/2</p>
-             </div>
-             <div class="col-xs-9 news no-padding">
-                 <h4>2016年全国机器人等级考试圆满落幕...</h4>
-                 <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
-             </div>
+        <div class="col-md-6 margin_bottom">
+            <div class="col-xs-12 margin_bottom home_news">
+                <div class="time col-xs-2 no-padding">
+                    <h1>18</h1>
+                    <p>2017/2</p>
+                </div>
+                <div class="col-xs-9 news no-padding">
+                    <h4>2016年全国机器人等级考试圆满落幕...</h4>
+                    <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
+                </div>
+            </div>
+            <div class="col-xs-12 margin_bottom home_news">
+                <div class="time col-xs-2 no-padding">
+                    <h1>18</h1>
+                    <p>2017/2</p>
+                </div>
+                <div class="col-xs-9 news no-padding">
+                    <h4>2016年全国机器人等级考试圆满落幕...</h4>
+                    <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
+                </div>
+            </div>
+            <div class="col-xs-12 margin_bottom home_news">
+                <div class="time col-xs-2 no-padding">
+                    <h1>18</h1>
+                    <p>2017/2</p>
+                </div>
+                <div class="col-xs-9 news no-padding">
+                    <h4>2016年全国机器人等级考试圆满落幕...</h4>
+                    <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
+                </div>
+            </div>
+            <div class="col-xs-12 margin_bottom home_news">
+                <div class="time col-xs-2 no-padding">
+                    <h1>18</h1>
+                    <p>2017/2</p>
+                </div>
+                <div class="col-xs-9 news no-padding">
+                    <h4>2016年全国机器人等级考试圆满落幕...</h4>
+                    <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
+                </div>
+            </div>
         </div>
-        <div class="col-sm-6 home_news margin_bottom">
-             <div class="time col-xs-2 no-padding">
-                 <h1>18</h1>
-                 <p>2017/2</p>
-             </div>
-             <div class="col-xs-9 news no-padding">
-                 <h4>2016年全国机器人等级考试圆满落幕...</h4>
-                 <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
-             </div>
+        <div class="col-md-6 margin_bottom">
+            <div class="col-xs-12 margin_bottom home_news">
+                <div class="time col-xs-2 no-padding">
+                    <h1>18</h1>
+                    <p>2017/2</p>
+                </div>
+                <div class="col-xs-9 news no-padding">
+                    <h4>2016年全国机器人等级考试圆满落幕...</h4>
+                    <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
+                </div>
+            </div>
+            <div class="col-xs-12 margin_bottom home_news">
+                <div class="time col-xs-2 no-padding">
+                    <h1>18</h1>
+                    <p>2017/2</p>
+                </div>
+                <div class="col-xs-9 news no-padding">
+                    <h4>2016年全国机器人等级考试圆满落幕...</h4>
+                    <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
+                </div>
+            </div>
+            <div class="col-xs-12 margin_bottom home_news">
+                <div class="time col-xs-2 no-padding">
+                    <h1>18</h1>
+                    <p>2017/2</p>
+                </div>
+                <div class="col-xs-9 news no-padding">
+                    <h4>2016年全国机器人等级考试圆满落幕...</h4>
+                    <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
+                </div>
+            </div>
+            <div class="col-xs-12 margin_bottom home_news">
+                <div class="time col-xs-2 no-padding">
+                    <h1>18</h1>
+                    <p>2017/2</p>
+                </div>
+                <div class="col-xs-9 news no-padding">
+                    <h4>2016年全国机器人等级考试圆满落幕...</h4>
+                    <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
+                </div>
+            </div>
         </div>
-        <div class="col-sm-6 home_news margin_bottom">
-             <div class="time col-xs-2 no-padding">
-                 <h1>18</h1>
-                 <p>2017/2</p>
-             </div>
-             <div class="col-xs-9 news no-padding">
-                 <h4>2016年全国机器人等级考试圆满落幕...</h4>
-                 <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
-             </div>
-        </div>
-        <div class="col-sm-6 home_news margin_bottom">
-             <div class="time col-xs-2 no-padding">
-                 <h1>18</h1>
-                 <p>2017/2</p>
-             </div>
-             <div class="col-xs-9 news no-padding">
-                 <h4>2016年全国机器人等级考试圆满落幕...</h4>
-                 <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
-             </div>
-        </div>
-        <div class="col-sm-6 home_news margin_bottom">
-             <div class="time col-xs-2 no-padding">
-                 <h1>18</h1>
-                 <p>2017/2</p>
-             </div>
-             <div class="col-xs-9 news no-padding">
-                 <h4>2016年全国机器人等级考试圆满落幕...</h4>
-                 <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
-             </div>
-        </div>
-        <div class="col-sm-6 home_news margin_bottom">
-             <div class="time col-xs-2 no-padding">
-                 <h1>18</h1>
-                 <p>2017/2</p>
-             </div>
-             <div class="col-xs-9 news no-padding">
-                 <h4>2016年全国机器人等级考试圆满落幕...</h4>
-                 <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
-             </div>
-        </div>
+
         <div class="col-xs-12 knowmore">
             <button class="btn btn-defult more">更多内容</button>
         </div>
@@ -464,29 +419,71 @@ $model = new ApplyToPlay;
             </div>
         </div>
     </div>
-    <div class="col-xs-12 address_choose1">
-        <h4>瓦酷，创造不一样！</h4>
-        <div class="col-sm-12 no-padding">
-            <div class="form-group">
-                <div class="col-xs-4 no-padding">
-                    <select name="input_province" id="input_province" class="form-control"></select>
-                </div>
-                <div class="col-xs-4 no-padding">
-                    <select name="input_city" id="input_city" class="form-control"></select>
-                </div>
-                <div class="col-xs-4 no-padding">
-                <select name="input_area" id="input_area" class="form-control"></select>
-            </div>
-            </div>
-        </div>
-        <div class="col-xs-12 no-padding">
-            <input class="col-xs-12" placeholder="请输入您的姓名">
-            <input class="col-xs-12" placeholder="请输入您的电话">
-            <input class="col-xs-12" placeholder="请输入您的邮箱">
-        </div>
-        <button class="btn btn-warning col-xs-12">立即报名</button>
-    </div>
 </div>
+    <div class="address_choose col-xs-12" id="enlist">
+      <?php $form = ActiveForm::begin([
+              'id' => 'form-id',
+              'action' => Url::to(['ajax-apply']),
+              //'enableAjaxValidation' => true,
+              'enableClientValidation'=>true,
+              //'validationUrl' => Url::to(['apply-validate'])
+              ]
+      )?>
+        <h4>瓦酷，创造不一样！</h4>
+         <div class="col-sm-12 no-padding">
+      
+            <div class="form-group">
+
+                 <div class="col-sm-4 no-padding">
+                    <?php echo $form->field($model,'province')
+                    ->dropDownList([])->hint(false)->label(false)?>
+                    <!-- <select name="input_province" id="input_province" class="form-control"></select> -->
+                </div>
+                <div class="col-sm-4 no-padding">
+                    <?php echo $form->field($model,'city')
+                    ->dropDownList([])->hint(false)->label(false)?>
+                    <!-- <select name="input_city" id="input_city" class="form-control"></select> -->
+                </div>
+                <div class="col-sm-4 no-padding">
+                     <?php echo $form->field($model,'region')
+                    ->dropDownList([])->hint(false)->label(false)?>
+                   <!--  <select name="input_area" id="input_area" class="form-control"></select> -->
+                </div>
+            </div>
+
+    </div>
+        <div class="col-sm-12 no-padding">
+            <?php echo $form->field($model,'username')
+            ->textInput(['placeholder'=>'请输入您的姓名'])->label(false)->hint(false) ?>
+
+            <?php echo $form->field($model,'phone_number')
+            ->textInput(['placeholder'=>'请输入您的电话'])->label(false)->hint(false) ?>
+
+            <?php echo $form->field($model,'email')
+            ->textInput(['placeholder'=>'请输入您的邮箱'])->label(false)->hint(false) ?>
+
+            <?php
+               echo $form->field($model, 'verifyCode')->widget(Captcha::className(), [
+                        'options'=>['placeholder'=>'验证码'],
+                        'template' => '<div class="row"><div class="col-lg-6">{input}</div><div class="col-lg-6">{image}</div></div>',
+                    ])
+                ->label(false)->hint(false)  ?>
+            ?>
+            <!-- <input class="col-sm-12" placeholder="请输入您的姓名">
+            <input class="col-sm-12" placeholder="请输入您的电话">
+            <input class="col-sm-12" placeholder="请输入您的邮箱"> -->
+        </div>
+        <!-- <button  class="btn btn-warning col-sm-12">立即报名</button> -->
+
+        <?= Html::submitButton(
+            Yii::t('backend', '立即报名'),
+            [
+            'id' => 'save-' . $model->formName(),
+            'class' => 'btn btn-warning col-sm-12'
+            ]);
+            ?>
+        <?php ActiveForm::end(); ?>
+    </div>
 
 
 
@@ -598,22 +595,25 @@ $(function () {
     $("#applytoplay-region").val("朝阳区");    
 
 });
+
 function showhide(){
     var Width = $(window).width();
     console.log(Width);
     if(Width < 768){
-        $('.address_choose1').show(); 
-    }else{
-        $('.address_choose').show(); 
+        $('#enlist').removeClass('address_choose');
+        $('#enlist').addClass('address_choose1');
+    }else {
+        $('#enlist').removeClass('address_choose1');
+        $('#enlist').addClass('address_choose');
     }
     $(window).resize(function(){
         var Width = $(window).width();
         if(Width < 768){
-            $('.address_choose').hide(); 
-            $('.address_choose1').show(); 
-        }else{
-            $('.address_choose').show(); 
-            $('.address_choose1').hide(); 
+          $('#enlist').removeClass('address_choose');
+          $('#enlist').addClass('address_choose1');
+      }else {
+          $('#enlist').removeClass('address_choose1');
+          $('#enlist').addClass('address_choose');
         }
     });
 }
