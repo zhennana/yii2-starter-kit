@@ -45,10 +45,12 @@ class SiteController extends Controller
      * 
      */
     public function actionAjaxApply(){
-            $model = new ApplyToPlay;
-      
-           Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $model = new ApplyToPlay;
+        $model->setScenario('AjaxApply');
         if (Yii::$app->request->isAjax) {
+           
+           Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+          
             if($model->load(Yii::$app->request->post()) && $model->save()){
                 return ['status' => true];
             }else{
@@ -70,6 +72,7 @@ class SiteController extends Controller
     public function actionContact()
     {
         $model = new ContactForm();
+        //var_dump(Yii::$app->params['adminEmail']);exit;
         if ($model->load(Yii::$app->request->post())) {
             if ($model->contact(Yii::$app->params['adminEmail'])) {
                 Yii::$app->getSession()->setFlash('alert', [
@@ -80,7 +83,7 @@ class SiteController extends Controller
             } else {
                 Yii::$app->getSession()->setFlash('alert', [
                     'body'=>\Yii::t('frontend', 'There was an error sending email.'),
-                    'options'=>['class'=>'alert-danger']
+                    //'options'=>['class'=>'alert-danger']
                 ]);
             }
         }

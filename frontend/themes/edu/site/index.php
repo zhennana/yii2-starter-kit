@@ -8,6 +8,7 @@ use yii\helpers\Html;
 use yii\captcha\Captcha;
 
 $model = new ApplyToPlay;
+$model->setScenario('AjaxApply');
 ?>
 <div class="site-index">
     <div class="home_continer bg_gray col-xs-12">
