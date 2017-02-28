@@ -10,7 +10,9 @@ use yii\captcha\Captcha;
 
 $model = new ApplyToPlay;
 $model->setScenario('AjaxApply');
+//var_dump($model->getScenario());exit;
 $contact = new Contact;
+$contact->setScenario('AjaxContact');
 ?>
 <div class="site-index">
     <div class="home_continer bg_gray col-xs-12">
@@ -455,6 +457,7 @@ $contact = new Contact;
                echo $form->field($model, 'verifyCode')->widget(Captcha::className(), [
                         'options'=>['placeholder'=>'验证码'],
                         'template' => '<div class="row"><div class="col-lg-6">{input}</div><div class="col-lg-6">{image}</div></div>',
+                        'imageOptions'=>['alt'=>'图片无法加载','title'=>'点击换图', 'style'=>'cursor:pointer']
                     ])
                 ->label(false)->hint(false)  ?>
             <!-- <input class="col-sm-12" placeholder="请输入您的姓名">
