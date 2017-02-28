@@ -70,7 +70,7 @@ abstract class ApplyToPlay extends \yii\db\ActiveRecord
         return [
             [['username', 'phone_number', 'email', 'city', 'province', 'region'], 'required'],
             ['verifyCode','captcha','on'=>'AjaxApply'],
-            ['verifyCode','required','on'=>'AjaxApply'],
+            [['verifyCode'],'required','on'=>'AjaxApply'],
             // ['phone_number', 'string', 'min' => 11, 'max' => 11],
             [['phone_number'], PhoneValidator::className()],
             ['status','default','value'=>ApplyToPlay::APPLY_TO_PLAY_STATUS_AUDIT],
@@ -82,7 +82,7 @@ abstract class ApplyToPlay extends \yii\db\ActiveRecord
     }
     public  function scenarios(){
         $scenarios = parent::scenarios();
-        $scenarios['AjaxApply'] = ['verifyCode'];
+        //$scenarios['AjaxApply'] = ['verifyCode'];
         return $scenarios;
     }
     /**

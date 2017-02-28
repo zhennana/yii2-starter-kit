@@ -26,8 +26,8 @@ abstract class Contact extends \yii\db\ActiveRecord
 {
 
     public $verifyCode; 
-    CONST CONTACT_STATUS_NOT_AUDIT = 1; //未审核
-    CONST CONTACT_STATUS_APPROVED  = 2; //已审核
+    CONST CONTACT_STATUS_NOT_AUDIT = 1; //未查看
+    CONST CONTACT_STATUS_APPROVED  = 2; //以查看
     /**
      * @inheritdoc
      */
@@ -36,6 +36,12 @@ abstract class Contact extends \yii\db\ActiveRecord
         return 'contact';
     }
 
+    public static function OptsStatus(){
+        return [
+           self::CONTACT_STATUS_NOT_AUDIT   => '未查看',
+            self::CONTACT_STATUS_APPROVED    => '以查看'
+        ];
+    }
 
     /**
      * @inheritdoc
@@ -55,11 +61,12 @@ abstract class Contact extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['username','phone_number', 'body','verifyCode'], 'required'],
+            [['username','phone_number', 'body'], 'required'],
             [['auditor_id', 'phone_number', 'status'], 'integer'],
             [['username'], 'string', 'max' => 32],
             ['status','default','value'=>Contact::CONTACT_STATUS_NOT_AUDIT],
-            ['verifyCode','captcha','captchaAction'=>'/site/contact_captcha'],
+            ['verifyCode','required','on'=>'AjaxContact'],
+            ['verifyCode','captcha','captchaAction'=>'/site/contact_captcha' ,'on'=>'AjaxContact'],
             [['phone_number'], PhoneValidator::className()],
             [['email', 'body'], 'string', 'max' => 255],
             ['email','email']
@@ -67,6 +74,11 @@ abstract class Contact extends \yii\db\ActiveRecord
     }
     public static function getDb(){
         return Yii::$app->get('campus');
+    }
+    public  function scenarios(){
+        $scenarios = parent::scenarios();
+        //$scenarios['AjaxApply'] = ['verifyCode'];
+        return $scenarios;
     }
     /**
      * @inheritdoc
@@ -81,7 +93,7 @@ abstract class Contact extends \yii\db\ActiveRecord
             'email' => Yii::t('backend', '邮箱'),
             'verifyCode'=>Yii::t('backend','验证码'),
             'body' => Yii::t('backend', '留言内容'),
-            'status' => Yii::t('backend', '未查看：1，已查看： 2，已过期：3\','),
+            'status' => Yii::t('backend', '状态'),
             'updated_at' => Yii::t('backend', 'Updated At'),
             'created_at' => Yii::t('backend', 'Created At'),
         ];
@@ -101,7 +113,9 @@ abstract class Contact extends \yii\db\ActiveRecord
         ]);
     }
 
-    
+    public function getUser(){
+        return $this->HasOne(\common\models\User::ClassName(),['id'=>'auditor_id']);
+    }
     
     /**
      * @inheritdoc
