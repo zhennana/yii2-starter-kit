@@ -7,7 +7,7 @@ use yii\captcha\Captcha;
 /* @var $form yii\widgets\ActiveForm */
 /* @var $model \frontend\models\ContactForm */
 
-$this->title = 'Contact';
+$this->title = '联系我们';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-contact content">
@@ -16,12 +16,15 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <div class="col-lg-5">
             <?php $form = ActiveForm::begin(['id' => 'contact-form']); ?>
-                <?php echo $form->field($model, 'name') ?>
+                <?php echo $form->field($model, 'username') ?>.
+                <?php echo $form->field($model,'phone_number') ?>
                 <?php echo $form->field($model, 'email') ?>
-                <?php echo $form->field($model, 'subject') ?>
+                <?php //echo $form->field($model, 'subject') ?>
                 <?php echo $form->field($model, 'body')->textArea(['rows' => 6]) ?>
                 <?php echo $form->field($model, 'verifyCode')->widget(Captcha::className(), [
-                    'template' => '<div class="row"><div class="col-lg-3">{image}</div><div class="col-lg-6">{input}</div></div>',
+                    'captchaAction'=>'site/contact_captcha',
+                    'template' => '<div class="row"><div class="col-lg-6">{input}</div><div class="col-lg-3">{image}</div></div>',
+                    'imageOptions'=>['alt'=>'图片无法加载','title'=>'点击换图', 'style'=>'cursor:pointer'],
                 ]) ?>
                 <div class="form-group">
                     <?php echo Html::submitButton(Yii::t('frontend', 'Submit'), ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>

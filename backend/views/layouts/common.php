@@ -169,6 +169,19 @@ $bundle = BackendAsset::register($this);
                             ]   
                         ],
                         [
+                            'label'=>Yii::t('backend', '报名管理'),
+                            'url' => '#',
+                            'icon'=>'<i class="fa fa-edit"></i>',
+                            'options'=>['class'=>'treeview'],
+                            'items'=>[
+                                ['label'=>Yii::t('backend', '报名管理'), 'url'=>['/campus/apply-to-play/index'], 'icon'=>'<i class="fa  fa-file-text"></i>'
+                                ], 
+                                ['label'=>Yii::t('backend', '联系我们'), 'url'=>['/campus/apply-to-play/index'], 'icon'=>'<i class=" fa  fa-file-text"></i>'
+                                ],
+
+                            ]   
+                        ],
+                        [
                             'label'=>Yii::t('backend', 'Content'),
                             'url' => '#',
                             'icon'=>'<i class="fa fa-edit"></i>',
