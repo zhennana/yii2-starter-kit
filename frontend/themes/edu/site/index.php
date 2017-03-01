@@ -2,12 +2,17 @@
 /* @var $this yii\web\View */
 $this->title = Yii::$app->name;
 use backend\modules\campus\models\ApplyToPlay;
+use backend\modules\campus\models\Contact;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\captcha\Captcha;
 
 $model = new ApplyToPlay;
+$model->setScenario('AjaxApply');
+//var_dump($model->getScenario());exit;
+$contact = new Contact;
+$contact->setScenario('AjaxContact');
 ?>
 <div class="site-index">
     <div class="home_continer bg_gray col-xs-12">
@@ -380,10 +385,28 @@ $model = new ApplyToPlay;
             </div>
             <div class="col-sm-6 ourinfo">
                 <h4 class="text-left">在线留言</h4>
-                <input class="col-xs-12" placeholder="请填写您的姓名">
+               <!--  <input class="col-xs-12" placeholder="请填写您的姓名">
                 <input class="col-xs-12" placeholder="请填写您的电话">
-                <textarea class="col-xs-12" placeholder="请填写不超过100字的留言"></textarea>
-                <button class="btn btn-defult pull-left">提交</button>
+                <textarea class="col-xs-12" placeholder="请填写不超过100字的留言"></textarea> -->
+                <?php $form = ActiveForm::begin([
+                      'id' => 'form']
+                )?>
+                <?= $form->field($contact,'username')
+                ->textInput(['placeholder'=>'请输入您的姓名'])->label(false)->hint(false);?>
+                <?=  $form->field($contact,'phone_number')
+                ->textInput(['placeholder'=>'请输入您的电话'])->label(false)->hint(false); ?>
+                <?= $form->field($contact,'body')->textarea(['placeholder'=>'请填写不超过100字的留言'])->label(false)->hint(false);?>
+                
+                <?php
+                    echo $form->field($contact, 'verifyCode')->widget(Captcha::className(), [
+                        'options'=>['placeholder'=>'验证码'],
+                        'captchaAction'=>'site/contact_captcha',
+                        'template' => '<div class= "body"><div class="col-lg-4 no-padding">{input}</div><div class="col-lg-3">{image}</div></div>',
+                        'imageOptions'=>['alt'=>'图片无法加载','title'=>'点击换图', 'style'=>'cursor:pointer'],
+                    ])
+                ->label(false)->hint(false)  ?>
+                <button class="btn btn-defult pull-left col-sm-12 ">提交</button>
+                <?php ActiveForm::end(); ?>
             </div>
         </div>
     </div>
@@ -434,6 +457,7 @@ $model = new ApplyToPlay;
                echo $form->field($model, 'verifyCode')->widget(Captcha::className(), [
                         'options'=>['placeholder'=>'验证码'],
                         'template' => '<div class="row"><div class="col-lg-6">{input}</div><div class="col-lg-6">{image}</div></div>',
+                        'imageOptions'=>['alt'=>'图片无法加载','title'=>'点击换图', 'style'=>'cursor:pointer']
                     ])
                 ->label(false)->hint(false)  ?>
             <!-- <input class="col-sm-12" placeholder="请输入您的姓名">
@@ -632,11 +656,47 @@ $(document).ready(function () {
             return false;
          });
     });
-
+    
+    $(document).ready(function () {
+        $('body').on('beforeSubmit', 'form#form', function () {
+            var form = $(this);
+            // return false if form still have some validation errors
+            if (form.find('.has-error').length) 
+            {
+                return false;
+            }
+            // submit form
+            $.ajax({
+            url    : 'index.php?r=site/ajax-contact',
+            type   : 'POST',
+            data   : form.serialize(),
+            success: function (response) 
+            {
+                if(response.status){
+                    alert('保存成功');
+                    $('.ourinfo .form-control,input').val('');
+                    $.ajax({
+                    //使用ajax请求site/captcha方法，加上refresh参数，接口返回json数据
+                        url:'<?php echo  Url::to(['site/contact_captcha','refresh'=>1]) ?>',
+                        contentType:'application/json; charset=UTF-8',
+                        dataType: 'json',
+                        cache: false,
+                        success: function (data) {
+                            $("#contact-verifycode-image").attr('src', data['url']);
+                        }
+                    });
+                }else{
+                    alert('保存失败');
+                }
+            },
+            error  : function () 
+            {
+               alter('网络错误');
+            }
+            });
+            return false;
+         });
+    });
 </script>
 
-<style>
-    #applytoplay-verifycode-image{
-        cursor:pointer;
-    }
-</style>
+

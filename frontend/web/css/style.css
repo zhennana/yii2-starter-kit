@@ -439,4 +439,8 @@ a.desc:after {
 #applytoplay-verifycode{
   margin-top: 10 !important;
 }
+#contact-verifycode{
+  width: 100%;
+  height: 40px;
+}
 /*# sourceMappingURL=style.map */

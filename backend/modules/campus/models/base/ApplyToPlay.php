@@ -28,7 +28,17 @@ abstract class ApplyToPlay extends \yii\db\ActiveRecord
 {
 
      public $verifyCode;
-     CONST  ApplyToPlay_STATUS_AUDIT = 1;//待审核
+
+
+     CONST  APPLY_TO_PLAY_STATUS_AUDIT = 1;//待审核
+     CONST  APPLY_TO_PLAY_STATUS_SUCCEED = 2;//审核成功
+
+     public static function OptsStatus(){
+        return [
+            self::APPLY_TO_PLAY_STATUS_AUDIT   =>'待审核',
+            self::APPLY_TO_PLAY_STATUS_SUCCEED =>'审核成功'
+            ];
+     }
     /**
      * @inheritdoc
      */
@@ -58,18 +68,23 @@ abstract class ApplyToPlay extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['username', 'phone_number', 'email', 'city', 'province','verifyCode', 'region'], 'required'],
-            ['verifyCode','captcha'],
-            ['phone_number', 'string', 'min' => 11, 'max' => 11],
+            [['username', 'phone_number', 'email', 'city', 'province', 'region'], 'required'],
+            ['verifyCode','captcha','on'=>'AjaxApply'],
+            [['verifyCode'],'required','on'=>'AjaxApply'],
+            // ['phone_number', 'string', 'min' => 11, 'max' => 11],
             [['phone_number'], PhoneValidator::className()],
-            ['status','default','value'=>ApplyToPlay::ApplyToPlay_STATUS_AUDIT],
+            ['status','default','value'=>ApplyToPlay::APPLY_TO_PLAY_STATUS_AUDIT],
             ['email','email'],
             [['phone_number', 'auditor_id', 'status'], 'integer'],
             [['username', 'region'], 'string', 'max' => 255],
             [['email', 'city', 'province'], 'string', 'max' => 128]
         ];
     }
-
+    public  function scenarios(){
+        $scenarios = parent::scenarios();
+        //$scenarios['AjaxApply'] = ['verifyCode'];
+        return $scenarios;
+    }
     /**
      * @inheritdoc
      */
