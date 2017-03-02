@@ -396,7 +396,7 @@ $contact->setScenario('AjaxContact');
                 <?=  $form->field($contact,'phone_number')
                 ->textInput(['placeholder'=>'请输入您的电话'])->label(false)->hint(false); ?>
                 <?= $form->field($contact,'body')->textarea(['placeholder'=>'请填写不超过100字的留言'])->label(false)->hint(false);?>
-                
+
                 <?php
                     echo $form->field($contact, 'verifyCode')->widget(Captcha::className(), [
                         'options'=>['placeholder'=>'验证码'],
@@ -656,12 +656,12 @@ $(document).ready(function () {
             return false;
          });
     });
-    
+
     $(document).ready(function () {
         $('body').on('beforeSubmit', 'form#form', function () {
             var form = $(this);
             // return false if form still have some validation errors
-            if (form.find('.has-error').length) 
+            if (form.find('.has-error').length)
             {
                 return false;
             }
@@ -670,7 +670,7 @@ $(document).ready(function () {
             url    : 'index.php?r=site/ajax-contact',
             type   : 'POST',
             data   : form.serialize(),
-            success: function (response) 
+            success: function (response)
             {
                 if(response.status){
                     alert('保存成功');
@@ -689,7 +689,7 @@ $(document).ready(function () {
                     alert('保存失败');
                 }
             },
-            error  : function () 
+            error  : function ()
             {
                alter('网络错误');
             }
@@ -699,12 +699,8 @@ $(document).ready(function () {
     });
 </script>
 
-<<<<<<< HEAD
 <style>
     #applytoplay-verifycode-image{
         cursor:pointer;
     }
 </style>
-=======
-
->>>>>>> 439e3ed785cc02e4b2a42a03d53bcbb46709700f
