@@ -11,7 +11,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
 <div class="wrap">
     <div class="top_logo row">
         <a href="<?php echo Yii::getAlias('@frontendUrl') ?>"><img class="img-responsive pull-left" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png"></a>
-        <h3 class="pull-right">咨询热线：0316—8888888</h3>
+        <h3 class="pull-right">咨询热线：400-608-0515</h3>
     </div>
     <?php
     NavBar::begin([
@@ -124,7 +124,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                 <li class="col-xs-4">
                     <h4>联系我们</h4>
                     <p class="no-margin">全国咨询热线</p>
-                    <h3 class="no-margin">0316-8888888</h3>
+                    <h3 class="no-margin">400-608-0515</h3>
                     <h5>地址：河北省廊坊市三河市燕郊开发区</h5>
                     <p>邮编：065201</p>
                 </li>
@@ -154,7 +154,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
 <script>
     var boxwidth = $(window).width();
     if(boxwidth < 768){
-        $('.top_logo').remove(); 
+        $('.top_logo').remove();
         $('.navbar-brand').show();
         var img = '<img class="img-responsive" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b8gf7g9n9bb1s5nvei1rb81ikg9.png" alt="瓦酷机器人">'
         $('.navbar-brand').text('');
@@ -162,7 +162,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
         $('.navbar-brand').addClass('col-xs-4');
     }
     if(navigator.userAgent.match(/mobile/i)) {
-        $('.top_logo').remove(); 
+        $('.top_logo').remove();
         $('.navbar-brand').show();
         var img = '<img class="img-responsive" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b8gf7g9n9bb1s5nvei1rb81ikg9.png" alt="瓦酷机器人">'
         $('.navbar-brand').text('');
@@ -198,7 +198,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
         $('.breadcrumb').css('width',''+width+'');
         var boxwidth = $(window).width();
         if(boxwidth < 768){
-            $('.top_logo').hide(); 
+            $('.top_logo').hide();
             $('.navbar-brand').show();
             var img = '<img class="img-responsive" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b8gf7g9n9bb1s5nvei1rb81ikg9.png" alt="瓦酷机器人">'
             $('.navbar-brand').text('');
@@ -206,10 +206,9 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
             $('.navbar-brand img').css('height','30px');
             $('.navbar-brand').addClass('col-xs-4');
         }else{
-            $('.top_logo').show(); 
+            $('.top_logo').show();
             $('.navbar-brand').hide();
         }
     });
-    
-</script>
 
+</script>
