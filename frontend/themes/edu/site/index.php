@@ -375,7 +375,7 @@ $model = new ApplyToPlay;
                 <h4 class="text-left">联系方式</h4>
                 <p>北京魔趣教育科技有限公司</p>
                 <p>公司地址：河北省廊坊市三河市燕郊开发区</p>
-                <p>办公电话：0316-8888-888</p>
+                <p>办公电话：400-608-0515</p>
                 <p>网址：www.wakooedu.com</p>
             </div>
             <div class="col-sm-6 ourinfo">
@@ -399,7 +399,7 @@ $model = new ApplyToPlay;
       )?>
         <h4>瓦酷，创造不一样！</h4>
          <div class="col-sm-12 no-padding">
-      
+
             <div class="form-group">
 
                  <div class="col-sm-4 no-padding">
@@ -509,8 +509,8 @@ function showfont(){
 
 
 $(function () {
-    var html = "<option value='0'>== 请选择 ==</option>"; 
-    $("#applytoplay-city").append(html); 
+    var html = "<option value='0'>== 请选择 ==</option>";
+    $("#applytoplay-city").append(html);
     $("#applytoplay-region").append(html);
     $.each(pdata,function(idx,item){
         if (parseInt(item.level) == 0) {
@@ -537,7 +537,7 @@ $(function () {
                 html += "<option value='" + item.names + "' exid='" + item.code + "'>" + item.names + "</option>";
             }
         });
-        $("#applytoplay-city").append(html);      
+        $("#applytoplay-city").append(html);
     });
 
     $("#applytoplay-city").change(function(){
@@ -555,12 +555,12 @@ $(function () {
                 html += "<option value='" + item.names + "' exid='" + item.code + "'>" + item.names + "</option>";
             }
         });
-        $("#applytoplay-region").append(html);      
+        $("#applytoplay-region").append(html);
     });
     //绑定
     $("#applytoplay-province").val("北京市");$("#applytoplay-province").change();
     $("#applytoplay-city").val("市辖区");$("#applytoplay-city").change();
-    $("#applytoplay-region").val("朝阳区");    
+    $("#applytoplay-region").val("朝阳区");
 
 });
 
@@ -596,7 +596,7 @@ $(document).ready(function () {
         $('body').on('beforeSubmit', 'form#form-id', function () {
             var form = $(this);
             // return false if form still have some validation errors
-            if (form.find('.has-error').length) 
+            if (form.find('.has-error').length)
             {
                 return false;
             }
@@ -605,7 +605,7 @@ $(document).ready(function () {
             url    : 'index.php?r=site/ajax-apply',
             type   : 'POST',
             data   : form.serialize(),
-            success: function (response) 
+            success: function (response)
             {
                 if(response.status){
                     alert('保存成功');
@@ -624,7 +624,7 @@ $(document).ready(function () {
                     alert('保存失败');
                 }
             },
-            error  : function () 
+            error  : function ()
             {
                alter('网络错误');
             }
