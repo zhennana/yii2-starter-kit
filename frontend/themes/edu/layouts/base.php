@@ -35,7 +35,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
             //['label' => Yii::t('frontend', '赛事游学'), 'url' => ['/page/view', 'slug'=>'sai-shi-you-xue']],
             //['label' => Yii::t('frontend', '亲子课堂'), 'url' => ['/page/view', 'slug'=>'qin-zi-ke-tang']],
             ['label' => Yii::t('frontend', '招商加盟'), 'url' => ['/page/view', 'slug'=>'zhao-shang-jia-meng']],
-            ['label' => Yii::t('frontend', '联系我们'), 'url' => ['/site/contact']],
+            ['label' => Yii::t('frontend', '联系我们'), 'url' => ['/site/ajax-contact']],
             ['label' => Yii::t('frontend', 'FAQ'), 'url' => ['/page/view', 'slug'=>'faq']],
             // ['label' => Yii::t('frontend', 'Articles'), 'url' => ['/article/index']],
             // ['label' => Yii::t('frontend', 'Contact'), 'url' => ['/site/contact']],

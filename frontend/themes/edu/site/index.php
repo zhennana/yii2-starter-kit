@@ -2,12 +2,17 @@
 /* @var $this yii\web\View */
 $this->title = Yii::$app->name;
 use backend\modules\campus\models\ApplyToPlay;
+use backend\modules\campus\models\Contact;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\captcha\Captcha;
 
 $model = new ApplyToPlay;
+$model->setScenario('AjaxApply');
+//var_dump($model->getScenario());exit;
+$contact = new Contact;
+$contact->setScenario('AjaxContact');
 ?>
 <div class="site-index">
     <div class="home_continer bg_gray col-xs-12">
@@ -31,21 +36,21 @@ $model = new ApplyToPlay;
                  是全国机器人教育中发展最快，教育理念最优的教育基地。</p>
             </div>
             <div class="col-md-6">
-                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/jiejue.png">
+                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/bell1.png">
             </div>
         </div>
         <div class="col-xs-12 no-padding">
            <div class="col-xs-3">
-                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/kjh.png">
+                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/chuangzao.png">
             </div>
             <div class="col-xs-3">
-                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/lkjhg.png">
+                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/find.png">
             </div>
             <div class="col-xs-3">
-                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/plkj.png">
+                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/goutong.png">
             </div>
             <div class="col-xs-3">
-                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/uytrewqwertyu.png">
+                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/jiejue.png">
             </div>
         </div>
 
@@ -164,15 +169,15 @@ $model = new ApplyToPlay;
                     <div class="item active">
                         <ul class="run_left no-padding pull-left">
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/jhg.png">
+                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/11.png">
                                 <h4>神奇物理</h4>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/jhgfd.png">
+                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/22.png">
                                 <h4>神奇物理</h4>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/kjh.png">
+                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/33.png">
                                 <h4>神奇物理</h4>
                             </li>
                         </ul>
@@ -180,15 +185,15 @@ $model = new ApplyToPlay;
                     <div class="item ">
                         <ul class="run_left no-padding pull-left">
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/lkjhgf.png">
+                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/44.png">
                                 <h4>神奇物理</h4>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/qwegfvd.png">
+                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/55.png">
                                 <h4>神奇物理</h4>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/timg.png">
+                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/4.png">
                                 <h4>神奇物理</h4>
                             </li>
                         </ul>
@@ -380,10 +385,28 @@ $model = new ApplyToPlay;
             </div>
             <div class="col-sm-6 ourinfo">
                 <h4 class="text-left">在线留言</h4>
-                <input class="col-xs-12" placeholder="请填写您的姓名">
+               <!--  <input class="col-xs-12" placeholder="请填写您的姓名">
                 <input class="col-xs-12" placeholder="请填写您的电话">
-                <textarea class="col-xs-12" placeholder="请填写不超过100字的留言"></textarea>
-                <button class="btn btn-defult pull-left">提交</button>
+                <textarea class="col-xs-12" placeholder="请填写不超过100字的留言"></textarea> -->
+                <?php $form = ActiveForm::begin([
+                      'id' => 'form']
+                )?>
+                <?= $form->field($contact,'username')
+                ->textInput(['placeholder'=>'请输入您的姓名'])->label(false)->hint(false);?>
+                <?=  $form->field($contact,'phone_number')
+                ->textInput(['placeholder'=>'请输入您的电话'])->label(false)->hint(false); ?>
+                <?= $form->field($contact,'body')->textarea(['placeholder'=>'请填写不超过100字的留言'])->label(false)->hint(false);?>
+                
+                <?php
+                    echo $form->field($contact, 'verifyCode')->widget(Captcha::className(), [
+                        'options'=>['placeholder'=>'验证码'],
+                        'captchaAction'=>'site/contact_captcha',
+                        'template' => '<div class= "body"><div class="col-lg-4 no-padding">{input}</div><div class="col-lg-3">{image}</div></div>',
+                        'imageOptions'=>['alt'=>'图片无法加载','title'=>'点击换图', 'style'=>'cursor:pointer'],
+                    ])
+                ->label(false)->hint(false)  ?>
+                <button class="btn btn-defult pull-left col-sm-12 ">提交</button>
+                <?php ActiveForm::end(); ?>
             </div>
         </div>
     </div>
@@ -434,6 +457,7 @@ $model = new ApplyToPlay;
                echo $form->field($model, 'verifyCode')->widget(Captcha::className(), [
                         'options'=>['placeholder'=>'验证码'],
                         'template' => '<div class="row"><div class="col-lg-6">{input}</div><div class="col-lg-6">{image}</div></div>',
+                        'imageOptions'=>['alt'=>'图片无法加载','title'=>'点击换图', 'style'=>'cursor:pointer']
                     ])
                 ->label(false)->hint(false)  ?>
             <!-- <input class="col-sm-12" placeholder="请输入您的姓名">
@@ -632,11 +656,55 @@ $(document).ready(function () {
             return false;
          });
     });
-
+    
+    $(document).ready(function () {
+        $('body').on('beforeSubmit', 'form#form', function () {
+            var form = $(this);
+            // return false if form still have some validation errors
+            if (form.find('.has-error').length) 
+            {
+                return false;
+            }
+            // submit form
+            $.ajax({
+            url    : 'index.php?r=site/ajax-contact',
+            type   : 'POST',
+            data   : form.serialize(),
+            success: function (response) 
+            {
+                if(response.status){
+                    alert('保存成功');
+                    $('.ourinfo .form-control,input').val('');
+                    $.ajax({
+                    //使用ajax请求site/captcha方法，加上refresh参数，接口返回json数据
+                        url:'<?php echo  Url::to(['site/contact_captcha','refresh'=>1]) ?>',
+                        contentType:'application/json; charset=UTF-8',
+                        dataType: 'json',
+                        cache: false,
+                        success: function (data) {
+                            $("#contact-verifycode-image").attr('src', data['url']);
+                        }
+                    });
+                }else{
+                    alert('保存失败');
+                }
+            },
+            error  : function () 
+            {
+               alter('网络错误');
+            }
+            });
+            return false;
+         });
+    });
 </script>
 
+<<<<<<< HEAD
 <style>
     #applytoplay-verifycode-image{
         cursor:pointer;
     }
 </style>
+=======
+
+>>>>>>> 439e3ed785cc02e4b2a42a03d53bcbb46709700f
