@@ -9,7 +9,7 @@ use yii\widgets\ActiveForm;
 $this->title =  Yii::t('frontend', 'Request password reset');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-request-password-reset">
+<div class="site-request-password-reset content">
     <h1><?php echo Html::encode($this->title) ?></h1>
 
     <div class="row">
@@ -23,3 +23,6 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 </div>
+<script>
+    $('.carousel').hide();
+</script>

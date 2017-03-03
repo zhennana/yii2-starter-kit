@@ -2,12 +2,17 @@
 /* @var $this yii\web\View */
 $this->title = Yii::$app->name;
 use backend\modules\campus\models\ApplyToPlay;
+use backend\modules\campus\models\Contact;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\captcha\Captcha;
 
 $model = new ApplyToPlay;
+$model->setScenario('AjaxApply');
+//var_dump($model->getScenario());exit;
+$contact = new Contact;
+$contact->setScenario('AjaxContact');
 ?>
 <div class="site-index">
     <div class="home_continer bg_gray col-xs-12">
@@ -31,21 +36,21 @@ $model = new ApplyToPlay;
                  是全国机器人教育中发展最快，教育理念最优的教育基地。</p>
             </div>
             <div class="col-md-6">
-                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/jiejue.png">
+                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/bell1.png">
             </div>
         </div>
         <div class="col-xs-12 no-padding">
            <div class="col-xs-3">
-                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/kjh.png">
+                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/chuangzao.png">
             </div>
             <div class="col-xs-3">
-                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/lkjhg.png">
+                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/find.png">
             </div>
             <div class="col-xs-3">
-                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/plkj.png">
+                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/goutong.png">
             </div>
             <div class="col-xs-3">
-                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/uytrewqwertyu.png">
+                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/jiejue.png">
             </div>
         </div>
 
@@ -164,15 +169,15 @@ $model = new ApplyToPlay;
                     <div class="item active">
                         <ul class="run_left no-padding pull-left">
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/jhg.png">
+                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/11.png">
                                 <h4>神奇物理</h4>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/jhgfd.png">
+                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/22.png">
                                 <h4>神奇物理</h4>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/kjh.png">
+                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/33.png">
                                 <h4>神奇物理</h4>
                             </li>
                         </ul>
@@ -180,15 +185,15 @@ $model = new ApplyToPlay;
                     <div class="item ">
                         <ul class="run_left no-padding pull-left">
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/lkjhgf.png">
+                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/44.png">
                                 <h4>神奇物理</h4>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/qwegfvd.png">
+                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/55.png">
                                 <h4>神奇物理</h4>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/timg.png">
+                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/4.png">
                                 <h4>神奇物理</h4>
                             </li>
                         </ul>
@@ -375,15 +380,33 @@ $model = new ApplyToPlay;
                 <h4 class="text-left">联系方式</h4>
                 <p>北京魔趣教育科技有限公司</p>
                 <p>公司地址：河北省廊坊市三河市燕郊开发区</p>
-                <p>办公电话：0316-8888-888</p>
+                <p>办公电话：400-608-0515</p>
                 <p>网址：www.wakooedu.com</p>
             </div>
             <div class="col-sm-6 ourinfo">
                 <h4 class="text-left">在线留言</h4>
-                <input class="col-xs-12" placeholder="请填写您的姓名">
+               <!--  <input class="col-xs-12" placeholder="请填写您的姓名">
                 <input class="col-xs-12" placeholder="请填写您的电话">
-                <textarea class="col-xs-12" placeholder="请填写不超过100字的留言"></textarea>
-                <button class="btn btn-defult pull-left">提交</button>
+                <textarea class="col-xs-12" placeholder="请填写不超过100字的留言"></textarea> -->
+                <?php $form = ActiveForm::begin([
+                      'id' => 'form']
+                )?>
+                <?= $form->field($contact,'username')
+                ->textInput(['placeholder'=>'请输入您的姓名'])->label(false)->hint(false);?>
+                <?=  $form->field($contact,'phone_number')
+                ->textInput(['placeholder'=>'请输入您的电话'])->label(false)->hint(false); ?>
+                <?= $form->field($contact,'body')->textarea(['placeholder'=>'请填写不超过100字的留言'])->label(false)->hint(false);?>
+
+                <?php
+                    echo $form->field($contact, 'verifyCode')->widget(Captcha::className(), [
+                        'options'=>['placeholder'=>'验证码'],
+                        'captchaAction'=>'site/contact_captcha',
+                        'template' => '<div class= "body"><div class="col-lg-4 no-padding">{input}</div><div class="col-lg-3">{image}</div></div>',
+                        'imageOptions'=>['alt'=>'图片无法加载','title'=>'点击换图', 'style'=>'cursor:pointer'],
+                    ])
+                ->label(false)->hint(false)  ?>
+                <button class="btn btn-defult pull-left col-sm-12 ">提交</button>
+                <?php ActiveForm::end(); ?>
             </div>
         </div>
     </div>
@@ -399,7 +422,7 @@ $model = new ApplyToPlay;
       )?>
         <h4>瓦酷，创造不一样！</h4>
          <div class="col-sm-12 no-padding">
-      
+
             <div class="form-group">
 
                  <div class="col-sm-4 no-padding">
@@ -434,6 +457,7 @@ $model = new ApplyToPlay;
                echo $form->field($model, 'verifyCode')->widget(Captcha::className(), [
                         'options'=>['placeholder'=>'验证码'],
                         'template' => '<div class="row"><div class="col-lg-6">{input}</div><div class="col-lg-6">{image}</div></div>',
+                        'imageOptions'=>['alt'=>'图片无法加载','title'=>'点击换图', 'style'=>'cursor:pointer']
                     ])
                 ->label(false)->hint(false)  ?>
             <!-- <input class="col-sm-12" placeholder="请输入您的姓名">
@@ -456,9 +480,12 @@ $model = new ApplyToPlay;
 
 
 <script>
-Change();
-showfont();
-showhide();
+$(window).load(function(){
+    Change();
+    showfont();
+    showhide();
+});
+
 function Change(){
     $('.box2').hide();
     $('#find1').mouseenter(function(){
@@ -480,6 +507,7 @@ function showfont(){
     $('.container').css('padding','0');
     $('.container').css('width','100%');
     var H_li = $('.down_run li img').height();
+    console.log(H_li);
     $('.down_run li div').hide();
     $('.down_run li').hover(function(){
         $(this).children('div').show();
@@ -488,29 +516,18 @@ function showfont(){
     },function(){
         $(this).children('div').hide();
     });
-
-    $(window).resize(function() {
-        var H_li = $('.down_run li img').height();
-        $('.down_run li div').hide();
-        $('.down_run li').hover(function(){
-            $(this).children('div').show();
-            $(this).children('div').css('height',''+H_li+'');
-            $(this).children('div').children('p').css('padding','5%');
-        },function(){
-            $(this).children('div').hide();
-        });
-        $('.container').css('margin','0');
-        $('.container').css('padding','0');
-        $('.container').css('width','100%');
-    });
 }
+$(window).resize(function() {
+    showfont();
+});
+
 
 
 
 
 $(function () {
-    var html = "<option value='0'>== 请选择 ==</option>"; 
-    $("#applytoplay-city").append(html); 
+    var html = "<option value='0'>== 请选择 ==</option>";
+    $("#applytoplay-city").append(html);
     $("#applytoplay-region").append(html);
     $.each(pdata,function(idx,item){
         if (parseInt(item.level) == 0) {
@@ -537,7 +554,7 @@ $(function () {
                 html += "<option value='" + item.names + "' exid='" + item.code + "'>" + item.names + "</option>";
             }
         });
-        $("#applytoplay-city").append(html);      
+        $("#applytoplay-city").append(html);
     });
 
     $("#applytoplay-city").change(function(){
@@ -555,12 +572,12 @@ $(function () {
                 html += "<option value='" + item.names + "' exid='" + item.code + "'>" + item.names + "</option>";
             }
         });
-        $("#applytoplay-region").append(html);      
+        $("#applytoplay-region").append(html);
     });
     //绑定
     $("#applytoplay-province").val("北京市");$("#applytoplay-province").change();
     $("#applytoplay-city").val("市辖区");$("#applytoplay-city").change();
-    $("#applytoplay-region").val("朝阳区");    
+    $("#applytoplay-region").val("朝阳区");
 
 });
 
@@ -596,7 +613,7 @@ $(document).ready(function () {
         $('body').on('beforeSubmit', 'form#form-id', function () {
             var form = $(this);
             // return false if form still have some validation errors
-            if (form.find('.has-error').length) 
+            if (form.find('.has-error').length)
             {
                 return false;
             }
@@ -605,7 +622,7 @@ $(document).ready(function () {
             url    : 'index.php?r=site/ajax-apply',
             type   : 'POST',
             data   : form.serialize(),
-            success: function (response) 
+            success: function (response)
             {
                 if(response.status){
                     alert('保存成功');
@@ -624,7 +641,7 @@ $(document).ready(function () {
                     alert('保存失败');
                 }
             },
-            error  : function () 
+            error  : function ()
             {
                alter('网络错误');
             }
@@ -633,6 +650,46 @@ $(document).ready(function () {
          });
     });
 
+    $(document).ready(function () {
+        $('body').on('beforeSubmit', 'form#form', function () {
+            var form = $(this);
+            // return false if form still have some validation errors
+            if (form.find('.has-error').length)
+            {
+                return false;
+            }
+            // submit form
+            $.ajax({
+            url    : 'index.php?r=site/ajax-contact',
+            type   : 'POST',
+            data   : form.serialize(),
+            success: function (response)
+            {
+                if(response.status){
+                    alert('保存成功');
+                    $('.ourinfo .form-control,input').val('');
+                    $.ajax({
+                    //使用ajax请求site/captcha方法，加上refresh参数，接口返回json数据
+                        url:'<?php echo  Url::to(['site/contact_captcha','refresh'=>1]) ?>',
+                        contentType:'application/json; charset=UTF-8',
+                        dataType: 'json',
+                        cache: false,
+                        success: function (data) {
+                            $("#contact-verifycode-image").attr('src', data['url']);
+                        }
+                    });
+                }else{
+                    alert('保存失败');
+                }
+            },
+            error  : function ()
+            {
+               alter('网络错误');
+            }
+            });
+            return false;
+         });
+    });
 </script>
 
 <style>
