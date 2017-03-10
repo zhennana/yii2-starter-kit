@@ -20,8 +20,10 @@ class React extends AssetBundle
     (YII_ENV == 'dev') ? 'react.js' : 'react.min.js',
     (YII_ENV == 'dev') ? 'react-dom.js' :'react-dom.min.js'
     */
-        'react-with-addons.min.js',
+        'react.js',
+        //'react-with-addons.min.js',
         'react-dom.min.js',
+
     ];
 
     public $jsOptions = [
@@ -33,6 +35,8 @@ class React extends AssetBundle
         //'css/skins/_all-skins.min.css'
     ];
     public $depends = [
+        //'opw\react\JSXTransformerAsset', // optional
+        //'opw\react\ReactAsset'
         //'yii\web\JqueryAsset',
         //'yii\jui\JuiAsset',
         //'yii\bootstrap\BootstrapPluginAsset',
