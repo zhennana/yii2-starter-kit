@@ -12,12 +12,15 @@ use yii\helpers\Html;
 <head>
     <meta charset="<?php echo Yii::$app->charset ?>"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title><?php echo Html::encode($this->title) ?></title>
     <script src="<?php echo Yii::getAlias('@frontendUrl') ?>/build/react.js"></script>
     <script src="<?php echo Yii::getAlias('@frontendUrl') ?>/build/react-dom.js"></script>
     <script src="<?php echo Yii::getAlias('@frontendUrl') ?>/build/browser.min.js"></script>
     <?php $this->head() ?>
     <?php echo Html::csrfMetaTags() ?>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0-alpha1/JSXTransformer.js"></script>
+    
 </head>
 <body>
 <?php $this->beginBody() ?>
