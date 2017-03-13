@@ -14,6 +14,7 @@ use backend\modules\campus\models\Grade;
     */
     $schools = School::find()->where(['status'=>School::SCHOOL_STATUS_OPEN])->asArray()->all();
     $schools = ArrayHelper::map($schools,'id','school_title');
+    $category_ids = [];
 ?>
 
 <div class="grade-form">
@@ -31,11 +32,10 @@ use backend\modules\campus\models\Grade;
 
         <p>
             
-
 <!-- attribute school_id -->
-			<?= $form->field($model, 'school_id')->dropDownlist($schools,['parent'=>'--请选择--']) ?>
-<!-- attribute classroom_group_levels -->
-            <?= $form->field($model, 'classroom_group_levels')->textInput() ?>
+			<?= $form->field($model, 'school_id')->dropDownlist($schools,['prompt'=>'--请选择--']) ?>
+
+            <?= $form->field($model,'group_category_id')->dropDownlist($category_ids,['prompt'=>'--请选择--']) ?>
 <!-- attribute grade_name -->
             <?= $form->field($model, 'grade_name')->textInput(['maxlength' => true]) ?>
 
@@ -48,15 +48,11 @@ use backend\modules\campus\models\Grade;
 <!-- attribute creater_id -->
 			<!-- <? //= $form->field($model, 'creater_id')->textInput() ?> -->
 
-
-<!-- attribute graduate -->
-			<?= $form->field($model, 'graduate')->textInput() ?>
-
 <!-- attribute time_of_graduation -->
-			<?= $form->field($model, 'time_of_graduation')->textInput() ?>
+			<!-- <? // = // $form->field($model, 'time_of_graduation')->textInput() ?> -->
 
 <!-- attribute time_of_enrollment -->
-			<?= $form->field($model, 'time_of_enrollment')->textInput() ?>
+			<!-- <? // = $form->field($model, 'time_of_enrollment')->textInput() ?> -->
 
 
 <!-- attribute sort -->
@@ -64,23 +60,22 @@ use backend\modules\campus\models\Grade;
 
 <!-- attribute status -->
             <?= $form->field($model, 'status')->dropDownlist(Grade::optsStatus()) ?>
-
+<!-- attribute graduate -->
+           <!--  <? // = //$form->field($model, 'graduate')->dropDownlist(Grade::optsGraduate()) ?> -->
         </p>
         <?php $this->endBlock(); ?>
         
-        <?=
-    Tabs::widget(
-                 [
-                    'encodeLabels' => false,
-                    'items' => [ 
-                        [
-    'label'   => Yii::t('backend', 'Grade'),
-    'content' => $this->blocks['main'],
-    'active'  => true,
-],
-                    ]
-                 ]
-    );
+    <?=
+        Tabs::widget([
+            'encodeLabels' => false,
+            'items' => [                   
+                [
+                    'label'   => Yii::t('backend', 'Grade'),
+                    'content' => $this->blocks['main'],
+                    'active'  => true,
+                ],
+            ]
+        ]);
     ?>
         <hr/>
 
