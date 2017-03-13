@@ -25,7 +25,8 @@ use yii\behaviors\TimestampBehavior;
 abstract class SignIn extends \yii\db\ActiveRecord
 {
 
-
+    const STATUS_UNREAD = 0;    // 未查看
+    const STATUS_READ   = 10;   // 已查看
 
     /**
      * @inheritdoc
@@ -68,16 +69,16 @@ abstract class SignIn extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'signin_id' => Yii::t('common', 'Signin ID'),
-            'school_id' => Yii::t('common', 'School ID'),
-            'grade_id' => Yii::t('common', 'Grade ID'),
-            'course_id' => Yii::t('common', '课程id'),
-            'student_id' => Yii::t('common', '学生id'),
-            'teacher_id' => Yii::t('common', 'Teacher ID'),
+            'signin_id'  => Yii::t('common', '签到记录ID'),
+            'school_id'  => Yii::t('common', '学校ID'),
+            'grade_id'   => Yii::t('common', '班级ID'),
+            'course_id'  => Yii::t('common', '课程ID'),
+            'student_id' => Yii::t('common', '学员ID'),
+            'teacher_id' => Yii::t('common', '教师ID'),
             'auditor_id' => Yii::t('common', '审核人'),
-            'status' => Yii::t('common', '状态：0未查看，10已经查看'),
-            'updated_at' => Yii::t('common', 'Updated At'),
-            'created_at' => Yii::t('common', 'Created At'),
+            'status'     => Yii::t('common', '状态'),
+            'updated_at' => Yii::t('common', '更新时间'),
+            'created_at' => Yii::t('common', '签到时间'),
         ];
     }
 
@@ -87,15 +88,36 @@ abstract class SignIn extends \yii\db\ActiveRecord
     public function attributeHints()
     {
         return array_merge(parent::attributeHints(), [
-            'course_id' => Yii::t('common', '课程id'),
-            'student_id' => Yii::t('common', '学生id'),
+            'signin_id'  => Yii::t('common', '签到记录ID'),
+            'school_id'  => Yii::t('common', '学校ID'),
+            'grade_id'   => Yii::t('common', '班级ID'),
+            'course_id'  => Yii::t('common', '课程ID'),
+            'student_id' => Yii::t('common', '学员ID'),
+            'teacher_id' => Yii::t('common', '教师ID'),
             'auditor_id' => Yii::t('common', '审核人'),
-            'status' => Yii::t('common', '状态：0未查看，10已经查看'),
+            'status'     => Yii::t('common', '状态'),
+            'updated_at' => Yii::t('common', '更新时间'),
+            'created_at' => Yii::t('common', '签到时间'),
         ]);
     }
 
-
+    public static function optsSignInStatus()
+    {
+        return [
+            self::STATUS_READ   => Yii::t('common', '已查看'),
+            self::STATUS_UNREAD => Yii::t('common', '未查看'),
+        ];
+    }
     
+    public function getSignInStatusLabel($value)
+    {
+        $labels = self::optsSignInStatus();
+        if(isset($labels[$value])){
+            return $labels[$value];
+        }
+        return $value;
+    }
+
     /**
      * @inheritdoc
      * @return \backend\modules\campus\models\query\SignInQuery the active query used by this AR class.

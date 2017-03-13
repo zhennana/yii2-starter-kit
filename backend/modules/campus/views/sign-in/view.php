@@ -6,6 +6,7 @@ use yii\grid\GridView;
 use yii\widgets\DetailView;
 use yii\widgets\Pjax;
 use dmstr\bootstrap\Tabs;
+use \backend\modules\campus\models\SignIn;
 
 /**
 * @var yii\web\View $this
@@ -13,10 +14,10 @@ use dmstr\bootstrap\Tabs;
 */
 $copyParams = $model->attributes;
 
-$this->title = Yii::t('models', 'Sign In');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('models', 'Sign Ins'), 'url' => ['index']];
+$this->title = Yii::t('models', '签到管理');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('models', '签到管理'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => (string)$model->signin_id, 'url' => ['view', 'signin_id' => $model->signin_id]];
-$this->params['breadcrumbs'][] = 'View';
+$this->params['breadcrumbs'][] = Yii::t('models', '查看');
 ?>
 <div class="giiant-crud sign-in-view">
 
@@ -30,7 +31,7 @@ $this->params['breadcrumbs'][] = 'View';
     <?php endif; ?>
 
     <h1>
-        <?= Yii::t('models', 'Sign In') ?>
+        <?= Yii::t('models', '签到管理') ?>
         <small>
             <?= $model->signin_id ?>
         </small>
@@ -42,24 +43,24 @@ $this->params['breadcrumbs'][] = 'View';
         <!-- menu buttons -->
         <div class='pull-left'>
             <?= Html::a(
-            '<span class="glyphicon glyphicon-pencil"></span> ' . 'Edit',
+            '<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('models', '更新'),
             [ 'update', 'signin_id' => $model->signin_id],
             ['class' => 'btn btn-info']) ?>
 
             <?= Html::a(
-            '<span class="glyphicon glyphicon-copy"></span> ' . 'Copy',
+            '<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('models', '复制'),
             ['create', 'signin_id' => $model->signin_id, 'SignIn'=>$copyParams],
             ['class' => 'btn btn-success']) ?>
 
             <?= Html::a(
-            '<span class="glyphicon glyphicon-plus"></span> ' . 'New',
+            '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('models', '创建'),
             ['create'],
             ['class' => 'btn btn-success']) ?>
         </div>
 
         <div class="pull-right">
             <?= Html::a('<span class="glyphicon glyphicon-list"></span> '
-            . 'Full list', ['index'], ['class'=>'btn btn-default']) ?>
+            . Yii::t('models', '列表'), ['index'], ['class'=>'btn btn-default']) ?>
         </div>
 
     </div>
@@ -68,45 +69,47 @@ $this->params['breadcrumbs'][] = 'View';
 
     <?php $this->beginBlock('backend\modules\campus\models\SignIn'); ?>
 
-    
     <?= DetailView::widget([
-    'model' => $model,
-    'attributes' => [
+        'model'      => $model,
+        'attributes' => [
             'school_id',
-        'grade_id',
-        'course_id',
-        'student_id',
-        'teacher_id',
-        'auditor_id',
-        'status',
-    ],
+            'grade_id',
+            'course_id',
+            'student_id',
+            'teacher_id',
+            'auditor_id',
+            [
+                'attribute' => 'status',
+                'value' => $model->getSignInStatusLabel($model->status),
+            ],
+        ],
     ]); ?>
 
-    
     <hr/>
 
-    <?= Html::a('<span class="glyphicon glyphicon-trash"></span> ' . 'Delete', ['delete', 'signin_id' => $model->signin_id],
-    [
-    'class' => 'btn btn-danger',
-    'data-confirm' => '' . 'Are you sure to delete this item?' . '',
-    'data-method' => 'post',
-    ]); ?>
+    <?= Html::a(
+        '<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('models', '删除'),
+        ['delete', 'signin_id' => $model->signin_id],
+        [
+            'class'        => 'btn btn-danger',
+            'data-confirm' => '' . Yii::t('models', '确定要删除吗？') . '',
+            'data-method'  => 'post',
+        ]
+    ); ?>
+
     <?php $this->endBlock(); ?>
 
+    <?= Tabs::widget([
+        'id'           => 'relation-tabs',
+        'encodeLabels' => false,
+        'items'        => [
+            [
+                'label'   => '<b class=""># '.$model->signin_id.'</b>',
+                'content' => $this->blocks['backend\modules\campus\models\SignIn'],
+                'active'  => true,
+            ],
+        ]
+     ]); ?>
 
-    
-    <?= Tabs::widget(
-                 [
-                     'id' => 'relation-tabs',
-                     'encodeLabels' => false,
-                     'items' => [
- [
-    'label'   => '<b class=""># '.$model->signin_id.'</b>',
-    'content' => $this->blocks['backend\modules\campus\models\SignIn'],
-    'active'  => true,
-],
- ]
-                 ]
-    );
-    ?>
 </div>
+

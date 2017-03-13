@@ -16,19 +16,16 @@ use yii\helpers\StringHelper;
 <div class="sign-in-form">
 
     <?php $form = ActiveForm::begin([
-    'id' => 'SignIn',
-    'layout' => 'horizontal',
-    'enableClientValidation' => true,
-    'errorSummaryCssClass' => 'error-summary alert alert-error'
-    ]
-    );
-    ?>
+        'id'                     => 'SignIn',
+        'layout'                 => 'horizontal',
+        'enableClientValidation' => true,
+        'errorSummaryCssClass'   => 'error-summary alert alert-error'
+    ]); ?>
 
     <div class="">
         <?php $this->beginBlock('main'); ?>
 
         <p>
-            
 
 <!-- attribute school_id -->
 			<?= $form->field($model, 'school_id')->textInput() ?>
@@ -50,36 +47,34 @@ use yii\helpers\StringHelper;
 
 <!-- attribute status -->
 			<?= $form->field($model, 'status')->textInput() ?>
+
         </p>
+
         <?php $this->endBlock(); ?>
         
-        <?=
-    Tabs::widget(
-                 [
-                    'encodeLabels' => false,
-                    'items' => [ 
-                        [
-    'label'   => Yii::t('models', 'SignIn'),
-    'content' => $this->blocks['main'],
-    'active'  => true,
-],
-                    ]
-                 ]
-    );
-    ?>
+        <?= Tabs::widget([
+            'encodeLabels' => false,
+            'items'        => [ 
+                [
+                    'label'   => ($model->isNewRecord ? Yii::t('models', '创建') : Yii::t('models', '更新')),
+                    'content' => $this->blocks['main'],
+                    'active'  => true,
+                ],
+            ]
+        ]); ?>
+
         <hr/>
 
         <?php echo $form->errorSummary($model); ?>
 
         <?= Html::submitButton(
-        '<span class="glyphicon glyphicon-check"></span> ' .
-        ($model->isNewRecord ? 'Create' : 'Save'),
-        [
-        'id' => 'save-' . $model->formName(),
-        'class' => 'btn btn-success'
-        ]
-        );
-        ?>
+            '<span class="glyphicon glyphicon-check"></span> ' .
+            ($model->isNewRecord ? Yii::t('models', '创建') : Yii::t('models', '更新')),
+            [
+                'id'    => 'save-' . $model->formName(),
+                'class' => 'btn btn-success'
+            ]
+        ); ?>
 
         <?php ActiveForm::end(); ?>
 
