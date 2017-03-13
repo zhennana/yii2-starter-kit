@@ -9,16 +9,16 @@ use dmstr\bootstrap\Tabs;
 
 /**
 * @var yii\web\View $this
-* @var backend\modules\campus\models\Grade $model
+* @var backend\modules\campus\models\GradeCategroy $model
 */
 $copyParams = $model->attributes;
 
-$this->title = Yii::t('backend', 'Grade');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Grades'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => (string)$model->grade_id, 'url' => ['view', 'grade_id' => $model->grade_id]];
-$this->params['breadcrumbs'][] = Yii::t('backend', 'View');
+$this->title = Yii::t('models', 'Grade Categroy');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('models', 'Grade Categroys'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => (string)$model->name, 'url' => ['view', 'grade_category_id' => $model->grade_category_id]];
+$this->params['breadcrumbs'][] = Yii::t('cruds', 'View');
 ?>
-<div class="giiant-crud grade-view">
+<div class="giiant-crud grade-categroy-view">
 
     <!-- flash message -->
     <?php if (\Yii::$app->session->getFlash('deleteError') !== null) : ?>
@@ -30,9 +30,9 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
     <?php endif; ?>
 
     <h1>
-        <?= Yii::t('backend', 'Grade') ?>
+        <?= Yii::t('models', 'Grade Categroy') ?>
         <small>
-            <?= $model->grade_id ?>
+            <?= $model->name ?>
         </small>
     </h1>
 
@@ -42,57 +42,50 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
         <!-- menu buttons -->
         <div class='pull-left'>
             <?= Html::a(
-            '<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('backend', 'Edit'),
-            [ 'update', 'grade_id' => $model->grade_id],
+            '<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('cruds', 'Edit'),
+            [ 'update', 'grade_category_id' => $model->grade_category_id],
             ['class' => 'btn btn-info']) ?>
 
             <?= Html::a(
-            '<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('backend', 'Copy'),
-            ['create', 'grade_id' => $model->grade_id, 'Grade'=>$copyParams],
+            '<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('cruds', 'Copy'),
+            ['create', 'grade_category_id' => $model->grade_category_id, 'GradeCategroy'=>$copyParams],
             ['class' => 'btn btn-success']) ?>
 
             <?= Html::a(
-            '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'New'),
+            '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('cruds', 'New'),
             ['create'],
             ['class' => 'btn btn-success']) ?>
         </div>
 
         <div class="pull-right">
             <?= Html::a('<span class="glyphicon glyphicon-list"></span> '
-            . Yii::t('backend', 'Full list'), ['index'], ['class'=>'btn btn-default']) ?>
+            . Yii::t('cruds', 'Full list'), ['index'], ['class'=>'btn btn-default']) ?>
         </div>
 
     </div>
 
     <hr />
 
-    <?php $this->beginBlock('backend\modules\campus\models\Grade'); ?>
+    <?php $this->beginBlock('backend\modules\campus\models\GradeCategroy'); ?>
 
     
     <?= DetailView::widget([
     'model' => $model,
     'attributes' => [
-        'school_id',
-        'grade_title',
+            'parent_id',
         'creater_id',
-        //'classroom_group_levels',
-        'owner_id',
-        'sort',
         'status',
-        'graduate',
-        'time_of_graduation:datetime',
-        'time_of_enrollment:datetime',
-        'grade_name',
+        'name',
     ],
     ]); ?>
 
     
     <hr/>
 
-    <?= Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('backend', 'Delete'), ['delete', 'grade_id' => $model->grade_id],
+    <?= Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('cruds', 'Delete'), ['delete', 'grade_category_id' => $model->grade_category_id],
     [
     'class' => 'btn btn-danger',
-    'data-confirm' => '' . Yii::t('backend', 'Are you sure to delete this item?') . '',
+    'data-confirm' => '' . Yii::t('cruds', 'Are you sure to delete this item?') . '',
     'data-method' => 'post',
     ]); ?>
     <?php $this->endBlock(); ?>
@@ -105,8 +98,8 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
                      'encodeLabels' => false,
                      'items' => [
  [
-    'label'   => '<b class=""># '.$model->grade_id.'</b>',
-    'content' => $this->blocks['backend\modules\campus\models\Grade'],
+    'label'   => '<b class=""># '.$model->grade_category_id.'</b>',
+    'content' => $this->blocks['backend\modules\campus\models\GradeCategroy'],
     'active'  => true,
 ],
  ]

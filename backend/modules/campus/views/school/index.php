@@ -54,15 +54,15 @@ use yii\grid\GridView;
         ?>
 
         <h1>
-            <?= Yii::t('backend', 'Schools') ?>        
-            <small> List </small>
+            <?= Yii::t('backend', '学校管理') ?>        
+            <small> 列表 </small>
         </h1>
         <div class="clearfix crud-navigation">
             <?php
                 if(\Yii::$app->user->can('manager')){
             ?>
                     <div class="pull-left">
-                        <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'New'), ['create'], ['class' => 'btn btn-success']) ?>
+                        <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'), ['create'], ['class' => 'btn btn-success']) ?>
                     </div>
             <?php } ?>
             <div class="pull-right">
@@ -118,15 +118,44 @@ use yii\grid\GridView;
                         },
                         'contentOptions' => ['nowrap'=>'nowrap']
                     ],
+                    'id',
         			'parent_id',
         			'school_id',
-        			'province_id',
-        			'city_id',
-        			'region_id',
+                    'school_title',
+        			//'province_id',
+                    [
+                        'attribute'=>'province_id',
+                        'value'=>function($model){
+                            if($model->province->province_name){
+                                return $model->province->province_name;
+                            }
+                            return '未知';
+                        }
+                    ],
+                    [
+                        'attribute'=>'city_id',
+                        'value'=>function($model){
+                            if($model->city->city_name){
+                                return $model->city->city_name;
+                            }
+                            return '未知';
+                        }
+                    ],
+                    [
+                        'attribute'=>'region_id',
+                        'value'=>function($model){
+                            if($model->region->region_name){
+                                return $model->region->region_name;
+                            }
+                            return '未知';
+                        }
+                    ],
+                    'address',
+        			// 'city_id',
+        			// 'region_id',
         			// 'created_id',
-        			'status',
+        			//'status',
         			/*'sort',*/
-        			/*'school_title',*/
         			/*'longitude',*/
         			/*'latitude',*/
         			/*'language',*/
@@ -134,7 +163,14 @@ use yii\grid\GridView;
         			/*'school_short_title',*/
         			/*'school_logo_path',*/
         			/*'school_backgroud_path',*/
-        			/*'address',*/
+                    [
+                        'class'     =>\common\grid\EnumColumn::ClassName(),
+                        'attribute' => 'status',
+                        'enum'      => \backend\modules\campus\models\School::optsStatus(),
+                        'filter'    => \backend\modules\campus\models\School::optsStatus(),
+                    ],
+                    'created_at:datetime',
+                    'updated_at:datetime'
                 ],
             ]); ?>
         </div>

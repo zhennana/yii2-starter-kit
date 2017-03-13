@@ -13,7 +13,7 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $grade_id
  * @property integer $school_id
  * @property integer $classroom_group_levels
- * @property string $grade_name
+ * @property string  $grade_name
  * @property integer $grade_title
  * @property integer $owner_id
  * @property integer $creater_id
@@ -32,6 +32,24 @@ abstract class Grade extends \yii\db\ActiveRecord
 {
     CONST GRADE_STATUS_OPEN = 10;//正常。
     CONST GRANE_STATUS_DELECT = 0;//标记性删除。
+
+    CONST GRANE_GRADUATE = 0;//毕业
+    CONST GRADE_NOT_GRADUATE = 1;//未毕业
+
+    public static function optsGraduate(){
+        return [
+            self::GRADE_NOT_GRADUATE => '未毕业',
+            self::GRANE_GRADUATE => '毕业',
+        ];
+    }
+
+    public static function getGraduateValue($value){
+        $label = self::optsGraduate();
+        if($label[$value]){
+            return $label[$value];
+        }
+        return $value;
+    }
 
     public static  function optsStatus(){
         return [
@@ -82,8 +100,9 @@ abstract class Grade extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['school_id', 'grade_title', 'creater_id'], 'required'],
-            [['school_id', 'classroom_group_levels', 'grade_title', 'owner_id', 'creater_id', 'sort', 'status', 'graduate', 'time_of_graduation', 'time_of_enrollment'], 'integer'],
+            [['school_id', 'grade_title','group_category_id'], 'required'],
+            ['creater_id','default','value'=>Yii::$app->user->identity->id],
+            [['school_id', 'grade_title', 'owner_id', 'creater_id', 'sort', 'status', 'graduate', 'time_of_graduation', 'time_of_enrollment','group_category_id'], 'integer'],
             [['grade_name'], 'string', 'max' => 32]
         ];
     }
@@ -96,10 +115,10 @@ abstract class Grade extends \yii\db\ActiveRecord
         return [
             'grade_id' => Yii::t('common', '班级ID'),
             'school_id' => Yii::t('common', '学校ID'),
-            'classroom_group_levels' => Yii::t('common', '根据学校表学制，显示几年级：年级组1,2,3,4,5,6：2表示整个2年级组'),
-            'grade_name' => Yii::t('common', '几年级classroom_group_levels 几班grade_title'),
+            'grade_name' => Yii::t('common', '班级名'),
             'grade_title' => Yii::t('common', '几班'),
-            'owner_id' => Yii::t('common', '所属班主任ID'),
+            'group_category_id' => Yii::t('common','班级类型'),
+            'owner_id' => Yii::t('common', '班主任'),
             'creater_id' => Yii::t('common', '创建者ID'),
             'updated_at' => Yii::t('common', '创建时间戳'),
             'created_at' => Yii::t('common', '创建时间戳'),
@@ -119,8 +138,9 @@ abstract class Grade extends \yii\db\ActiveRecord
         return array_merge(parent::attributeHints(), [
             'grade_id' => Yii::t('common', '班级ID'),
             'school_id' => Yii::t('common', '学校ID'),
-            'classroom_group_levels' => Yii::t('common', '根据学校表学制，显示几年级：年级组1,2,3,4,5,6：2表示整个2年级组'),
-            'grade_name' => Yii::t('common', '几年级classroom_group_levels 几班grade_title'),
+            'group_category_id' => Yii::t('common','班级分类'),
+            // 'classroom_group_levels' => Yii::t('common', '班级名称'),
+            'grade_name' => Yii::t('common', '班级'),
             'grade_title' => Yii::t('common', '几班'),
             'owner_id' => Yii::t('common', '所属班主任ID'),
             'creater_id' => Yii::t('common', '创建者ID'),
@@ -141,9 +161,18 @@ abstract class Grade extends \yii\db\ActiveRecord
     {
         return $this->hasOne(\backend\modules\campus\models\GradeProfile::className(), ['grade_id' => 'grade_id']);
     }
-
-
+    /**
+     * *
+     * @return [type] [description]
+     */
+    public function getSchool(){
+        return $this->hasOne(\backend\modules\campus\models\School::className(),['id'=>'school_id']);
+    }
     
+    public function getGradeCategory(){
+        return $this->hasOne(\backend\modules\campus\models\GradeCategory::ClassName(),['grade_category_id'=>'group_category_id']);
+    }
+
     /**
      * @inheritdoc
      * @return \backend\modules\campus\models\query\GradeQuery the active query used by this AR class.
@@ -152,6 +181,5 @@ abstract class Grade extends \yii\db\ActiveRecord
     {
         return new \backend\modules\campus\models\query\GradeQuery(get_called_class());
     }
-
 
 }
