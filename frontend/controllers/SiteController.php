@@ -57,13 +57,32 @@ class SiteController extends Controller
                 'class' => 'light\swagger\SwaggerApiAction',
                 //这里配置需要扫描的目录,不支持yii的alias,所以需要这里直接获取到真实地址
                 'scanDir' => [
-                    Yii::getAlias('@frontend/controllers/api'),
-                    //Yii::getAlias('@frontend/modules/api/v1/controllers'),
+                    //Yii::getAlias('@frontend/controllers/api'),
+                    Yii::getAlias('@frontend/modules/api/v1/controllers'),
                     //Yii::getAlias('@api/modules/v1/models'),
                     //Yii::getAlias('@api/models'),
                 ],
                 //api_key 是文档浏览key,文档放到线上，我们并不需要让每个人都能看到，所以可以通过设置这项来实现。配置后浏览文档时需要在右上角的api_key输入框中输入配置的值，才能正常访问文档.
-                'api_key' => 'yajol',
+                'api_key' => '8868',
+            ],
+
+            //文档预览地址,配置好后可以直接访问:http://api.yourhost.com/sign-in/doc
+            'dao-doc' => [
+                'class' => 'light\swagger\SwaggerAction',
+                'restUrl' => \yii\helpers\Url::to(['/site/dao-api'], true),
+            ],
+            //看到上面配置的*restUrl*了么，没错, 它就是指向这个地址
+            'dao-api' => [
+                'class' => 'light\swagger\SwaggerApiAction',
+                //这里配置需要扫描的目录,不支持yii的alias,所以需要这里直接获取到真实地址
+                'scanDir' => [
+                    //Yii::getAlias('@frontend/controllers/api'),
+                    Yii::getAlias('@frontend/modules/api/v1/controllers'),
+                    //Yii::getAlias('@api/modules/v1/models'),
+                    //Yii::getAlias('@api/models'),
+                ],
+                //api_key 是文档浏览key,文档放到线上，我们并不需要让每个人都能看到，所以可以通过设置这项来实现。配置后浏览文档时需要在右上角的api_key输入框中输入配置的值，才能正常访问文档.
+                'api_key' => 'daodao888',
             ],
 
         ];
