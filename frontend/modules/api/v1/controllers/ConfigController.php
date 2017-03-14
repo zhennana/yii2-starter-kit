@@ -293,7 +293,7 @@ class ConfigController extends \yii\rest\Controller
             'errorno' => '0',
             'errors'  => '',
         ];
-
+        /*
         if(Yii::$app->user->isGuest){
             $data['errorno']  = __LINE__;
             $data['errors']   = '用户没有登录';
@@ -320,7 +320,7 @@ class ConfigController extends \yii\rest\Controller
         if(!$feedback->save()){
             $data['errorno'] = __LINE__;
             $data['errors']  = $feedback->getErrors();
-        }
+        }*/
 
         return $data;
     }

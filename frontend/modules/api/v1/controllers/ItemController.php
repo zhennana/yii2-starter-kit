@@ -145,63 +145,122 @@ class ItemController extends \yii\rest\ActiveController
     }
 
     /**
-     * @SWG\Get(path="/item/list-by-items",
+     * @SWG\Get(path="/item/list-video",
      *     tags={"500-Item-商品、音频、视频、图片接口"},
-     *     summary="商品列表，按照商品ID序列1,2,3,4,5,6",
-     *     description="返回商品列表",
+     *     summary="视频产品列表",
+     *     description="返回视频列表",
      *     produces={"application/json"},
-     *
-     *     @SWG\Parameter(
-     *        in = "query",
-     *        name = "item_id",
-     *        description = "分类ID集合：1,2,3",
-     *        required = true,
-     *        type = "string"
-     *     ),
-     *     
-     *     @SWG\Parameter(
-     *        in = "query",
-     *        name = "client_type",
-     *        description = "toc:100 或者 tob:200 ",
-     *        required = false,
-     *        type = "string",
-     *        default = 100,
-     *        enum = {100,200},
-     *     ),
-     *     
-     *     @SWG\Parameter(
-     *        in = "query",
-     *        name = "store_id_default",
-     *        description = "用户默认店铺",
-     *        required = false,
-     *        default = 1,
-     *        type = "string"
-     *     ),
-     *     
-     *     @SWG\Parameter(
-     *        in = "query",
-     *        name = "level",
-     *        description = "用户等级",
-     *        required = false,
-     *        default = 10,
-     *        type = "string"
-     *     ),
      *     
      *     @SWG\Response(
      *         response = 200,
-     *         description = "success, items 为空，无对应商品数据"
+     *         description = "success,返回视频数据"
      *     ),
      * )
      *
      */
-    public function actionListByItems($classify_id ='1，2，3')
+    public function actionListVideo()
     {
         $info = [
             1=>[
-
+                'video_id' =>1 ,
+                'title'=>'Abc Song   Super Simple Songs',
+                'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
+                'video_src' => 'http://omsqlyn5t.bkt.clouddn.com/Abc%20Song%20%20%20Super%20Simple%20Songs%20480P.ogv',
             ],
-            2=>[],
-            3=>[],
+            2=>[
+                'video_id' =>2 ,
+                'title'=>'Abc Song   Super Simple Songs',
+                'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
+                'video_src' => 'http://omsqlyn5t.bkt.clouddn.com/Abc%20Song%20%20%20Super%20Simple%20Songs%20480P.ogv',
+            ],
+            3=>[
+                'video_id' =>3 ,
+                'title'=>'Abc Song   Super Simple Songs',
+                'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
+                'video_src' => 'http://omsqlyn5t.bkt.clouddn.com/Abc%20Song%20%20%20Super%20Simple%20Songs%20480P.ogv',
+            ],
+            4=>[
+                'video_id' =>4 ,
+                'title'=>'Abc Song   Super Simple Songs',
+                'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
+                'video_src' => 'http://omsqlyn5t.bkt.clouddn.com/Abc%20Song%20%20%20Super%20Simple%20Songs%20480P.ogv',
+            ],
+            5=>[
+                'video_id' =>5 ,
+                'title'=>'Abc Song   Super Simple Songs',
+                'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
+                'video_src' => 'http://omsqlyn5t.bkt.clouddn.com/Abc%20Song%20%20%20Super%20Simple%20Songs%20480P.ogv',
+            ],
+            6=>[
+                'video_id' =>6 ,
+                'title'=>'Abc Song   Super Simple Songs',
+                'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
+                'video_src' => 'http://omsqlyn5t.bkt.clouddn.com/Abc%20Song%20%20%20Super%20Simple%20Songs%20480P.ogv',
+            ],
+        ];
+
+        return $info;
+    }
+
+    /**
+     * @SWG\Get(path="/item/list-music",
+     *     tags={"500-Item-商品、音频、视频、图片接口"},
+     *     summary="音乐产品列表",
+     *     description="返回音乐列表",
+     *     produces={"application/xml"},
+     *     
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "success,返回音乐数据"
+     *     ),
+     * )
+     *
+     */
+    public function actionListMusic()
+    {
+        $info = [
+            1=>[
+                'music_id' =>1 ,
+                'title'=>'Happy Birthday,Danny and the DinosaurTrack01',
+                'lyric' => '这是歌词',
+                'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
+                'music_src' => 'http://omsqlyn5t.bkt.clouddn.com/01.Happy%20Birthday,Danny%20and%20the%20DinosaurTrack01.MP3',
+            ],
+            2=>[
+                'music_id' =>2 ,
+                'title'=>'Happy Birthday,Danny and the DinosaurTrack01',
+                'lyric' => '这是歌词',
+                'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
+                'music_src' => 'http://omsqlyn5t.bkt.clouddn.com/01.Happy%20Birthday,Danny%20and%20the%20DinosaurTrack01.MP3',
+            ],
+            3=>[
+                'music_id' =>3 ,
+                'title'=>'Happy Birthday,Danny and the DinosaurTrack01',
+                'lyric' => '这是歌词',
+                'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
+                'music_src' => 'http://omsqlyn5t.bkt.clouddn.com/01.Happy%20Birthday,Danny%20and%20the%20DinosaurTrack01.MP3',
+            ],
+            4=>[
+                'music_id' =>4 ,
+                'title'=>'Happy Birthday,Danny and the DinosaurTrack01',
+                'lyric' => '这是歌词',
+                'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
+                'music_src' => 'http://omsqlyn5t.bkt.clouddn.com/01.Happy%20Birthday,Danny%20and%20the%20DinosaurTrack01.MP3',
+            ],
+            5=>[
+                'music_id' =>5 ,
+                'title'=>'Happy Birthday,Danny and the DinosaurTrack01',
+                'lyric' => '这是歌词',
+                'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
+                'music_src' => 'http://omsqlyn5t.bkt.clouddn.com/01.Happy%20Birthday,Danny%20and%20the%20DinosaurTrack01.MP3',
+            ],
+            6=>[
+                'music_id' =>6 ,
+                'title'=>'Happy Birthday,Danny and the DinosaurTrack01',
+                'lyric' => '这是歌词',
+                'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
+                'music_src' => 'http://omsqlyn5t.bkt.clouddn.com/01.Happy%20Birthday,Danny%20and%20the%20DinosaurTrack01.MP3',
+            ],
         ];
 
         return $info;
