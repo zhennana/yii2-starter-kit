@@ -1,6 +1,6 @@
 <?php
 
-namespace orange\controllers\api;
+namespace frontend\modules\api\v1\controllers;
 
 /**
 * 注册、登陆、密码找回
@@ -26,8 +26,6 @@ use frontend\modules\user\models\SignupSmsForm;
 use common\models\User;
 use common\models\UserProfile;
 use common\models\UserToken;
-use ecommon\models\user\UserAccount;
-use ecommon\models\user\UserShippingAddress;
 
 use common\components\Qiniu\Auth;
 use common\components\Qiniu\Storage\BucketManager;
@@ -38,16 +36,14 @@ class SignInController extends \common\components\ControllerFrontendApi
 {
     public $modelClass = 'common\models\User';
     // https://github.com/zircote/swagger-php/blob/master/Examples/swagger-spec/petstore/api.php
-    // host="http://api.v1.orange.yajol.com/",
     // host="114.215.71.102",
-    // host="api.v1.orange.yajol.com/orange",
-    // host="http://localhost:8089/edu-manager/frontend/web",
+    // host="localhost:8089/edu-manager/frontend/web",
 
     /**
      * @SWG\Swagger(
      *     schemes={"http"},
      *     host="114.215.71.102",
-     *     basePath="/index.php?r=api",
+     *     basePath="/api/v1",
      *     @SWG\Info(
      *         version="1.0.0",
      *         title="APP 接口在线调试",
@@ -69,7 +65,7 @@ class SignInController extends \common\components\ControllerFrontendApi
      */
     public function beforeAction($action)
     {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_XML;
         //Yii::$app->controller->detachBehavior('access');
         return $action;
     }
@@ -107,6 +103,74 @@ class SignInController extends \common\components\ControllerFrontendApi
         return [
             'options' => OptionsAction::class,
         ];
+    }
+
+        /**
+     * @SWG\Get(path="/sign-in/reset-by-sms",
+     *     tags={"100-SignIn-用户接口"},
+     *     summary="验证码发送[待开发]",
+     *     description="发送验证码，成功返回验证码与手机号信息",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "phone_number",
+     *        description = "手机号",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "type",
+     *        description = "发送验证码类型",
+     *        required = true,
+     *        type = "string",
+     *        enum = {"singup", "repasswd"}
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "用户激活成功"
+     *     )
+     * )
+     *
+     */
+    /**
+     * 验证码发送
+     * @return string|Response
+     */
+    public function actionResetBySms($phone_number, $type='singup')
+    {
+        \Yii::$app->language = 'zh-CN';
+        $user = User::find()->where(['phone_number'=>$phone_number])->one();
+        if(!$user){
+            return [
+                'message'=>[
+                    '手机号不存在'
+                ]
+            ];
+        }
+// var_dump($user); exit();
+        $type =  ($type == 'singup') ? UserToken::TYPE_PHONE_SINGUP : UserToken::TYPE_PHONE_REPASSWD;
+
+        UserToken::deleteAll([
+            'user_id' => $user->id,
+            'type' => $type,
+        ]);
+
+        $code = UserToken::randomCode();
+        $token = UserToken::create(
+            $user->id,
+            $type,
+            Time::SECONDS_IN_A_DAY,
+            $code
+        );
+        $info = [
+                'message'=>$code.' 验证码',
+                'phone'=>$user->phone_number,
+        ];
+        if($token){ // 发送短信
+            ymSms($info);
+        }
+        return $info;
     }
 
     /**
@@ -168,7 +232,8 @@ class SignInController extends \common\components\ControllerFrontendApi
                 unset($attrUser['password_hash']);
             }
             $attrUser['avatar'] = '';
-            $account  = $model->user->getAccount();
+            $account = [];
+            //$account  = $model->user->getAccount();
 
             $proFileUser = $model->user->userProfile;
             // 默认头像
@@ -176,7 +241,7 @@ class SignInController extends \common\components\ControllerFrontendApi
             {
                 $attrUser['avatar'] = $proFileUser->avatar_base_url.$proFileUser->avatar_path;
             }else{
-                $fansMpUser = $model->user->fansMp;
+                $fansMpUser = isset($model->user->fansMp) ? $model->user->fansMp : '';
                 if($fansMpUser){
                     $attrUser['avatar'] = $fansMpUser->avatar;
                 }
@@ -198,13 +263,6 @@ class SignInController extends \common\components\ControllerFrontendApi
         */
     }
 
-    public function actiolAuthKey()
-    {
-        $model = new LoginForm;
-        if($model->load(\Yii::$app->getRequest()) && $model->login()){
-            echo \Yii::$app->user->indentity->getAuthKey();
-        }
-    }
 
     /**
      * @SWG\Get(path="/sign-in/index",
@@ -227,6 +285,7 @@ class SignInController extends \common\components\ControllerFrontendApi
                 'message' => ['未登录，登陆验证失败']
             ];
         }
+
         $attrUser = Yii::$app->user->identity->attributes;
 
         if(isset($attrUser['password_hash'])){
@@ -255,7 +314,7 @@ class SignInController extends \common\components\ControllerFrontendApi
     /**
      * @SWG\Post(path="/sign-in/signup",
      *     tags={"100-SignIn-用户接口"},
-     *     summary="用户注册[已经自测]",
+     *     summary="用户注册[待开发]",
      *     description="成功返回注册完信息，失败返回具体原因",
      *     produces={"application/json"},
      *     @SWG\Parameter(
@@ -483,82 +542,8 @@ class SignInController extends \common\components\ControllerFrontendApi
         return $user->attributes;
     }
 
-    /**
-     * @SWG\Get(path="/sign-in/reset-by-sms",
-     *     tags={"100-SignIn-用户接口"},
-     *     summary="验证码发送[已经自测]",
-     *     description="发送验证码，成功返回验证码与手机号信息",
-     *     produces={"application/json"},
-     *     @SWG\Parameter(
-     *        in = "query",
-     *        name = "phone_number",
-     *        description = "手机号",
-     *        required = true,
-     *        type = "string"
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "query",
-     *        name = "type",
-     *        description = "发送验证码类型",
-     *        required = true,
-     *        type = "string",
-     *        enum = {"singup", "repasswd"}
-     *     ),
-     *     @SWG\Response(
-     *         response = 200,
-     *         description = "用户激活成功"
-     *     )
-     * )
-     *
-     */
-    /**
-     * 验证码发送
-     * @return string|Response
-     */
-    public function actionResetBySms($phone_number, $type='singup')
-    {
-        \Yii::$app->language = 'zh-CN';
-        $user = User::find()->where(['phone_number'=>$phone_number])->one();
-        if(!$user){
-            return [
-                'message'=>[
-                    '手机号不存在'
-                ]
-            ];
-        }
-// var_dump($user); exit();
-        $type =  ($type == 'singup') ? UserToken::TYPE_PHONE_SINGUP : UserToken::TYPE_PHONE_REPASSWD;
 
-        UserToken::deleteAll([
-            'user_id' => $user->id,
-            'type' => $type,
-        ]);
 
-        $code = UserToken::randomCode();
-        $token = UserToken::create(
-            $user->id,
-            $type,
-            Time::SECONDS_IN_A_DAY,
-            $code
-        );
-        $info = [
-                'message'=>$code.' 验证码',
-                'phone'=>$user->phone_number,
-            ];
-        if($token){ // 发送短信
-            ymSms($info);
-        }
-        return $info;
-    }
-
-    /**
-     * @return Response
-     */
-    public function actionLogout()
-    {
-        Yii::$app->user->logout();
-        return $this->goHome();
-    }
 
     /**
      * @SWG\POST(path="/sign-in/update-profile",
@@ -664,6 +649,24 @@ class SignInController extends \common\components\ControllerFrontendApi
             'uptoken' => $token
         ]; 
         //echo '{"uptoken": "'.$token.'"}';
+    }
+
+
+    /**
+     * @return Response
+     */
+    public function actionLogout()
+    {
+        Yii::$app->user->logout();
+        return $this->goHome();
+    }
+
+    public function actiolAuthKey()
+    {
+        $model = new LoginForm;
+        if($model->load(\Yii::$app->getRequest()) && $model->login()){
+            echo \Yii::$app->user->indentity->getAuthKey();
+        }
     }
         
 }
