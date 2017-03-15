@@ -80,12 +80,12 @@ $school = ArrayHelper::map($school, 'id', 'school_title');
             [
           //  'prompt'=>'--请选择市--',
             'onchange'=>'
-                $.post("'.yii::$app->urlManager->createUrl('campus/school/list').'&typeid=1&id="+$(this).val(),function($data){
+                $.post("'.yii::$app->urlManager->createUrl('campus/school/list').'&typeid=0&id="+$(this).val(),function($data){
                 $("select#school-region_id").html($data);
                 });',
             ]
             ) ?>
-            
+          
 			<?= $form->field($model, 'region_id')
             ->dropDownlist($model->getCityList(0,$model->city_id),['prompt'=>'--请选择区--']) ?>
 
