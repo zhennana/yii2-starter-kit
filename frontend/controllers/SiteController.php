@@ -6,6 +6,13 @@ use frontend\models\ContactForm;
 use yii\web\Controller;
 use backend\modules\campus\models\ApplyToPlay;
 use backend\modules\campus\models\Contact;
+
+/*
+use Superman2014\Aliyun\Sms\Sms\Request\V20160927 as Sms;
+use Superman2014\Aliyun\Core\Profile\DefaultProfile;
+use Superman2014\Aliyun\Core\DefaultAcsClient;
+*/
+
 /**
  * Site controller
  */
@@ -70,8 +77,38 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+      //exit();
+      /*
+       * 阿里云发送短信.
+       *
+       * @param string $moblie 手机号 '18500466496,13512345678'
+       * @param string $paramString {'code': '1234', 'product': 'orby'}
+       * @param string $clientId 阿里云accessKey
+       * @param string $clientSecret 阿里云accessSecret
+       * @param string $signName 短信签名
+       * @param string $templateCode 短信模板
+       *
+       * @throws Superman2014\Aliyun\Core\Exception\ClientException
+       * @throws Superman2014\Aliyun\Core\Exception\ServerException;
+       *
+       * @return string
+       */
+        /*
+        $sms = new \Superman2014\Aliyun\Sms\SmsSender();
+        $paramsString = "{'code':'1234'}";
+        $resource = $sms->send(
+          '13910408910', 
+          $paramsString, 
+          '',
+          '',
+          '验证测试',
+          'SMS_1111'
+        );
+        var_dump($resource);
+        */
         return $this->render('index');
     }
+
     /**
      * *
      *
