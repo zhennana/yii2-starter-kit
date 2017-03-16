@@ -6,6 +6,10 @@ namespace backend\modules\campus\models\base;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use backend\modules\campus\models\School;
+use backend\modules\campus\models\Grade;
+use backend\modules\campus\models\SignIn;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the base-model class for table "student_record".
@@ -100,7 +104,31 @@ abstract class StudentRecord extends \yii\db\ActiveRecord
         ]);
     }
 
+    public function getlist($type_id,$id =false){
+        if($type_id == 1){
+            $school = School::find()->where(['status'=>School::SCHOOL_STATUS_OPEN])->asArray()->all();
+            return ArrayHelper::map($school,'school_id','school_title');
+        }
+        if($type_id == 2){
+            $grade = Grade::find()->where(['status'=>Grade::GRADE_STATUS_OPEN, 'school_id'=>$id])->asArray()->all();
+            return ArrayHelper::map($grade,'grade_id','grade_title');
+        }
 
+        if($type_id == 3){
+            $course = Course::find()->where(['grade_id'=>$id,'status'=>Course::COURSE_STATUS_OPEN])->asArray()->all();
+            return ArrayHelper::map($course,'course_id','title');
+        }
+        if($type_id == 4){
+            $user = SignIn::find()->where(['course_id' => $id])->asArray()->all();
+            $users = [];
+            foreach ($user as $key => $value) {
+                $users[$key]['user_id'] = $value->user_id;
+                $users[$key]['username'] = $value->user->name;
+            }
+            return ArrayHelper::map($users,'user_id','username');
+        }
+        return false;
+    }
     
     /**
      * @inheritdoc

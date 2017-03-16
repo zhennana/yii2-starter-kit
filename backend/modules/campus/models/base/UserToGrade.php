@@ -24,7 +24,29 @@ use yii\behaviors\TimestampBehavior;
  */
 abstract class UserToGrade extends \yii\db\ActiveRecord
 {
+    CONST USER_GRADE_STATUS_NORMAL  = 1 ; //正常；
+    CONST USER_GRADE_STATUS_RETIRED = 4 ; //退休；
+    CONST USER_GRADE_STATUS_CHANGE  = 3 ; //转班；
+    CONST USER_GRADE_STATUS_DELETE  = 0 ; // 删除；
 
+    CONST GRADE_USER_TYPE_STUDENT   = 10 ; //学生
+    CONST GRADE_USER_TYOE_TEACHER   = 20 ; //老师
+
+    public static function optsStatus(){
+        return [
+            self::USER_GRADE_STATUS_NORMAL  =>  '正常',
+            self::USER_GRADE_STATUS_RETIRED =>  '退休',
+            self::USER_GRADE_STATUS_CHANGE  =>  '转班',
+            self::USER_GRADE_STATUS_DELETE  =>  '删除',
+        ];
+    }
+
+    public static function optsUserType(){
+        return [
+            self::GRADE_USER_TYPE_STUDENT=>'学生',//,
+            self::GRADE_USER_TYOE_TEACHER=>'老师',//,
+        ];
+    }
 
      /**
      * @return \yii\db\Connection the database connection used by this AR class.
@@ -102,9 +124,17 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
             'grade_user_type' => Yii::t('common', '关系类型: 用户学校关系表类型的子类型'),
         ]);
     }
+    public function getGrade(){
 
+        return $this->hasOne(\backend\modules\campus\models\Grade::className(),['grade_id'=>'grade_id']);
+    }
 
-    
+    public function getUser(){
+        return $this->hasOne(\common\models\User::className(),['id'=>'user_id']);
+    }
+    public function getSchool(){
+        return $this->hasOne(\backend\modules\campus\models\School::className(),['school_id'=>'school_id']);
+    }
     /**
      * @inheritdoc
      * @return \backend\modules\campus\models\query\UserToGradeQuery the active query used by this AR class.

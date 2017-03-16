@@ -7,6 +7,8 @@ use yii\helpers\StringHelper;
 use yii\helpers\ArrayHelper;
 use backend\modules\campus\models\School;
 use backend\modules\campus\models\Grade;
+use backend\modules\campus\models\GradeCategory;
+
     /**
     * @var yii\web\View $this
     * @var backend\modules\campus\models\Grade $model
@@ -14,7 +16,8 @@ use backend\modules\campus\models\Grade;
     */
     $schools = School::find()->where(['status'=>School::SCHOOL_STATUS_OPEN])->asArray()->all();
     $schools = ArrayHelper::map($schools,'id','school_title');
-    $category_ids = [];
+    $category_ids = GradeCategory::find()->where(['status'=>GradeCategory::CATEGORY_OPEN])->asArray()->all();
+    $category_ids = ArrayHelper::map($category_ids,'grade_category_id','name');
 ?>
 
 <div class="grade-form">

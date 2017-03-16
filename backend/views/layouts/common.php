@@ -153,7 +153,7 @@ $bundle = BackendAsset::register($this);
                                 ],
                                 ['label'=>Yii::t('backend', '学员管理'), 'url'=>['/campus/user-to-grade/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'
                                 ],
-                                ['label'=>Yii::t('backend', '学员档案管理'), 'url'=>['/campus/school/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'
+                                ['label'=>Yii::t('backend', '学员档案管理'), 'url'=>['/campus/student-record/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'
                                 ],
                                 ['label'=>Yii::t('backend', '文件管理'), 'url'=>['/campus/school/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'
                                 ],

@@ -9,19 +9,15 @@ use yii\helpers\Html;
 class SchoolController extends \backend\modules\campus\controllers\base\SchoolController
 {
 	
-	public function actionList($typeid=false ,$id){
-		//var_dump($typeid);exit;
+	public function actionList($typeid=false ,$id = false){
+		//var_dump($typeid,$id);exit;
 		$model = new School;
 		$model = $model->getCityList($typeid,$id);
-	
-		if($typeid == 1){
-			$aa= "--请选择区--";	
-		}
+		$aa = "--请选择区--";
 		if($typeid == 2){
 			$aa = "--请选择市--";
 		}
-		
-        echo Html::tag('option',$aa, ['value'=>'0']) ;
+        echo Html::tag('option',$aa, ['value'=>'']) ;
 
         foreach($model as $value=>$name)
         {
