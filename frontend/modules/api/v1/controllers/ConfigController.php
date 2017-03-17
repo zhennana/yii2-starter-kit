@@ -257,37 +257,6 @@ class ConfigController extends \yii\rest\Controller
 
     }
 
-
-     /**
-     * @SWG\POST(path="/config/feedback",
-     *     tags={"800-Config-配置信息接口：获取版本更新等等"},
-     *     summary="反馈意见",
-     *     description="errorno= 0 反馈意见成功",
-     *     produces={"application/json"},
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "content",
-     *        description = "反馈内容",
-     *        required = true,
-     *        default = "",
-     *        type = "string"
-     *     ),
-     *    @SWG\Parameter(
-     *        in = "formData",
-     *        name = "client_source_type",
-     *        description = "类型反馈，10:pc;20:安卓; 30: IOS",
-     *        required = true,
-     *        default = 10,
-     *        type = "integer",
-     *        enum = {10,20,30},
-     *     ),
-     *     @SWG\Response(
-     *         response = 200,
-     *         description = "errorno= 0  成功  其他错误"
-     *     ),
-     * )
-     *
-    **/
     public function actionFeedback(){
         $data = [
             'errorno' => '0',
