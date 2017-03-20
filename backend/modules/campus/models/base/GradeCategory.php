@@ -64,7 +64,7 @@ abstract class GradeCategory extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['parent_id', 'creater_id', 'status'], 'integer'],
+            [['creater_id', 'status'], 'integer'],
             ['creater_id','default','value'=>Yii::$app->user->identity->id],
             [['name', 'creater_id', 'status'], 'required'],
             [['name'], 'string', 'max' => 225]

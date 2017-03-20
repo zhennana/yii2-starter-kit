@@ -49,7 +49,7 @@ abstract class School extends \yii\db\ActiveRecord
     {
         return [
             self::SCHOOL_STATUS_OPEN => Yii::t('backend','开启'),
-            self::SCHOOL_STATUS_DELECT => Yii::t('backent','标记删除'),
+            self::SCHOOL_STATUS_DELECT => Yii::t('backend','标记删除'),
            // self::SCHOOL_STATUS_CHECK_PENDIND => Yii::t('backent','待审核')
         ];
     }

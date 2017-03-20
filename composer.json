@@ -54,7 +54,10 @@
     "symfony/process": "^3.0",
     "opw/yii2-react": "dev-master",
     "schmunk42/yii2-giiant": "*",
-    "light/yii2-swagger": "~1.0.4"
+    "light/yii2-swagger": "~1.0.4",
+    "kartik-v/yii2-widget-select2": "@dev",
+    "superman2014/aliyun-php-sdk-sms": "dev-master",
+    "superman2014/aliyun-php-sdk-core": "dev-master"
 
   },
   "require-dev": {
@@ -62,7 +65,8 @@
     "yiisoft/yii2-gii": "^2.0.0",
     "yiisoft/yii2-faker": "^2.0.0",
     "codeception/specify": "^0.4.3",
-    "codeception/verify": "^0.3.0"
+    "codeception/verify": "^0.3.0",
+    "symfony/var-dumper":"*"
   },
   "suggest": {
     "trntv/yii2-debug-xhprof": "dev-master@dev"

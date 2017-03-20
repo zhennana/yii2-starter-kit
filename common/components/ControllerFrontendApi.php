@@ -2,7 +2,7 @@
 /**
  * 前台控制器基类
  */
-namespace ecommon\components;
+namespace common\components;
 use Yii;
 use yii\log\FileTarget;
 use yii\helpers\ArrayHelper;
