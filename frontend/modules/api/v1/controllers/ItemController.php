@@ -30,7 +30,7 @@ class ItemController extends \yii\rest\ActiveController
 
     public function beforeAction($action)
     {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_XML;
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         //Yii::$app->controller->detachBehavior('access');
         return $action;
     }
