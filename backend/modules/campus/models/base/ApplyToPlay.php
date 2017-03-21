@@ -75,7 +75,7 @@ abstract class ApplyToPlay extends \yii\db\ActiveRecord
             [['phone_number'], PhoneValidator::className()],
             ['status','default','value'=>ApplyToPlay::APPLY_TO_PLAY_STATUS_AUDIT],
             ['email','email'],
-            [['phone_number', 'auditor_id', 'status'], 'integer'],
+            [['auditor_id', 'status'], 'integer'],
             [['username', 'region'], 'string', 'max' => 255],
             [['email', 'city', 'province'], 'string', 'max' => 128]
         ];

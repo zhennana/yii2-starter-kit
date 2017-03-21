@@ -608,7 +608,6 @@ if(navigator.userAgent.match(/mobile/i)) {
     $('#enlist').addClass('address_choose1');
 }
 
-
 $(document).ready(function () {
         $('body').on('beforeSubmit', 'form#form-id', function () {
             var form = $(this);
@@ -619,7 +618,7 @@ $(document).ready(function () {
             }
             // submit form
             $.ajax({
-            url    : 'index.php?r=site/ajax-apply',
+            url    : '<?php echo  Url::to(['site/ajax-apply']) ?>',
             type   : 'POST',
             data   : form.serialize(),
             success: function (response)
@@ -638,6 +637,7 @@ $(document).ready(function () {
                         }
                     });
                 }else{
+                    console.log(response.erros);
                     alert('保存失败');
                 }
             },
@@ -660,7 +660,7 @@ $(document).ready(function () {
             }
             // submit form
             $.ajax({
-            url    : 'index.php?r=site/ajax-contact',
+            url    : '<?php echo  Url::to(['site/ajax-contact']) ?>',
             type   : 'POST',
             data   : form.serialize(),
             success: function (response)
@@ -679,6 +679,7 @@ $(document).ready(function () {
                         }
                     });
                 }else{
+                    console.log(response.erros);
                     alert('保存失败');
                 }
             },
