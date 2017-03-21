@@ -10,7 +10,7 @@ use backend\modules\campus\models\SignIn as SignInModel;
 /**
 * SignIn represents the model behind the search form about `backend\modules\campus\models\SignIn`.
 */
-class SignIn extends SignInModel
+class SignInSearch extends SignInModel
 {
 /**
 * @inheritdoc
