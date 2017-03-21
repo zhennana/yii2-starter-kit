@@ -120,12 +120,10 @@ class SiteController extends Controller
         if (Yii::$app->request->isAjax) {
            
            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-          
             if($model->load(Yii::$app->request->post()) && $model->save()){
                 return ['status' => true];
             }else{
-                //var_dump($model->getErrors());
-                return ['status'=>false];
+                return ['status'=>false,'errors' => $model->getErrors()];
             }
         }
 
@@ -143,8 +141,7 @@ class SiteController extends Controller
             if($model->load(Yii::$app->request->post()) && $model->save()){
                 return ['status' => true];
             }else{
-               // var_dump($model->getErrors());
-                return ['status'=>false];
+                return ['status'=>false,'errors' => $model->getErrors()];
             }
         }
         if($model->load(Yii::$app->request->post())){
