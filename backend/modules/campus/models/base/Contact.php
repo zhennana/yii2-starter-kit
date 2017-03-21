@@ -62,7 +62,7 @@ abstract class Contact extends \yii\db\ActiveRecord
     {
         return [
             [['username','phone_number', 'body'], 'required'],
-            [['auditor_id', 'phone_number', 'status'], 'integer'],
+            [['auditor_id', 'status'], 'integer'],
             [['username'], 'string', 'max' => 32],
             ['status','default','value'=>Contact::CONTACT_STATUS_NOT_AUDIT],
             ['verifyCode','required','on'=>'AjaxContact'],
