@@ -124,12 +124,45 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                     'name'            => 'id',
                     'checkboxOptions' => ['class' => 'select-on-check-one'],
                 ],
-    			'school_id',
-    			'grade_id',
-    			'course_id',
-    			'student_id',
-    			'teacher_id',
-    			'auditor_id',
+                [
+                    'attribute' => 'school_title',
+                    'label'     => Yii::t('yii', '学校'),
+                    'value'     => function($model){
+                        return isset($model->school) ? $model->school->school_title : '(未设置)';
+                    }
+                ],
+                [
+                    'attribute' => 'grade_name',
+                    'label'     => Yii::t('yii', '班级'),
+                    'value'     => function($model){
+                        return isset($model->grade) ? $model->grade->grade_name : '(未设置)';
+                    }
+                ],
+                [
+                    'attribute' => 'course_title',
+                    'label'     => Yii::t('yii', '课程'),
+                    'value'     => function($model){
+                        return isset($model->course) ? $model->course->title : '(未设置)';
+                    }
+                ],
+                [
+                    'attribute' => 'student_id',
+                    'value'     => function($model){
+                        return SignIn::getUserName($model->student_id);
+                    }
+                ],
+                [
+                    'attribute' => 'teacher_id',
+                    'value'     => function($model){
+                        return SignIn::getUserName($model->teacher_id);
+                    }
+                ],
+                [
+                    'attribute' => 'auditor_id',
+                    'value'     => function($model){
+                        return SignIn::getUserName($model->auditor_id);
+                    }
+                ],
                 [
                     'class'     => \common\grid\EnumColumn::className(),
                     'attribute' => 'status',
