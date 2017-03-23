@@ -159,6 +159,17 @@ $config = [
         )
     ],
     'params' => [
+    //"R4vEzNpx66ZuT3ybo4D1C0pr9giRvdrBFjOVqFd-"
+    //XtWvhPK2WTFUBUaJKji3C-0EusRyWtPqXwIqy_wd;
+    //http://static.v1.wakooedu.com
+        'qiniu'=>[
+            'wakooedu'=>[
+                'access_key'=>env('QINIU_ACCESS_KEY'),
+                'secret_key'=>env('QINIU_SECRET_KEY'),
+                'domain' => env('QINIU_DOMAIN'),
+                'bucket' => env('QINIU_BUCKET')
+            ]
+        ],
         'adminEmail' => env('ADMIN_EMAIL'),
         'robotEmail' => env('ROBOT_EMAIL'),
         'availableLocales'=>[
