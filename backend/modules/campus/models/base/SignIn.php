@@ -118,6 +118,37 @@ abstract class SignIn extends \yii\db\ActiveRecord
         return $value;
     }
 
+    public function getSchool()
+    {
+        return $this->hasOne(\backend\modules\campus\models\School::className(),['id' => 'school_id']);
+    }
+
+    public function getGrade()
+    {
+        return $this->hasOne(\backend\modules\campus\models\Grade::className(),['grade_id' => 'grade_id']);
+    }
+
+    public function getCourse()
+    {
+        return $this->hasOne(\backend\modules\campus\models\Course::className(),['course_id' => 'course_id']);
+    }
+
+    public static function getUserName($id)
+    {
+        $user = \common\models\User::findOne($id);
+        $name = '';
+        if(isset($user->realname) && !empty($user->realname)){
+            return $user->realname;
+        }
+        if(isset($user->username) && !empty($user->username)){
+           return $user->username;
+        }
+        // if(isset($user->phone_number) && !empty($user->phone_number)){
+        //     return $user->phone_number;
+        // }
+        return $name;
+    }
+
     /**
      * @inheritdoc
      * @return \backend\modules\campus\models\query\SignInQuery the active query used by this AR class.

@@ -5,7 +5,7 @@
 namespace backend\modules\campus\controllers\base;
 
 use backend\modules\campus\models\SignIn;
-    use backend\modules\campus\models\search\SignIn as SignInSearch;
+    use backend\modules\campus\models\search\SignInSearch;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\helpers\Url;
