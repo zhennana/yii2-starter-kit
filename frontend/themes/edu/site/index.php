@@ -15,12 +15,24 @@ $contact = new Contact;
 $contact->setScenario('AjaxContact');
 ?>
 <div class="site-index">
+    <div class="home_block bg_red col-xs-12 hidden-xs hidden-sm">
+        <div class="col-xs-12">
+            <div class="block_logo col-xs-6">
+                <img class="col-xs-2" src="<?php echo Yii::getAlias('@frontendUrl') ?>/img/wakoo_radius.png">
+                <p class="col-xs-10">瓦酷，让孩子更具生存力！</p>
+            </div>
+            <div class="block_hotline text-center col-xs-6">
+                <p>咨询热线：400-608-0515</p>
+            </div>
+        </div>
+    </div>
     <div class="home_continer bg_gray col-xs-12">
         <div class="body-content home_title">
+            <img src="<?php echo Yii::getAlias('@frontendUrl') ?>/img/wakoo_logo.png">
             <h3 class="text-center no-padding no-margin">关于瓦酷</h3>
         </div>
         <div class="col-xs-12 margin_bottom no-padding">
-            <div class="col-md-6">
+            <div class="col-md-12 about_wakoo">
                 <p>    瓦酷机器人是由北京魔趣教育科技有限公司研发的高端教育品牌。
                 是致力于3-13岁青少年的科技教育，让孩子们在“玩中学”，动手拼插 共享创新实践过程,
                 体会抽象的理论知识应用在真实的生活中。从而实现拓展思维和提升生存能力。
@@ -35,9 +47,9 @@ $contact->setScenario('AjaxContact');
                  瓦酷机器人将“快乐教学，创意教学”融入企业文化中。
                  是全国机器人教育中发展最快，教育理念最优的教育基地。</p>
             </div>
-            <div class="col-md-6">
+            <!--<div class="col-md-6">
                 <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/bell1.png">
-            </div>
+            </div>-->
         </div>
         <div class="col-xs-12 no-padding">
            <div class="col-xs-3">
@@ -60,6 +72,7 @@ $contact->setScenario('AjaxContact');
     </div>
     <div class="home_continer col-xs-12">
         <div class="body-content home_title">
+            <img src="<?php echo Yii::getAlias('@frontendUrl') ?>/img/wakoo_logo.png">
             <h3 class="text-center no-padding no-margin">瓦酷动态</h3>
         </div>
         <div class="col-md-6 margin_bottom">
@@ -151,8 +164,9 @@ $contact->setScenario('AjaxContact');
             <button class="btn btn-defult more">更多内容</button>
         </div>
     </div>
-    <div class="home_continer bg_gray col-xs-12">
+    <div class="home_continer course_sys bg_gray col-xs-12">
         <div class="body-content home_title">
+            <img src="<?php echo Yii::getAlias('@frontendUrl') ?>/img/wakoo_logo.png">
             <h3 class="text-center no-padding no-margin">课程体系</h3>
         </div>
         <div class="col-xs-12 text-center course">
@@ -169,32 +183,62 @@ $contact->setScenario('AjaxContact');
                     <div class="item active">
                         <ul class="run_left no-padding pull-left">
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/11.png">
-                                <h4>神奇物理</h4>
+                                <div class="img_info">
+                                    <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/11.png">
+                                    <h4>神奇物理</h4>
+                                </div>
+                                <div class="course_info">
+                                    <p>神奇物理，开拓思维，畅游科学殿堂。</p>
+                                </div>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/22.png">
-                                <h4>神奇物理</h4>
+                                <div class="img_info">
+                                    <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/22.png">
+                                    <h4>故事大王</h4>
+                                </div>
+                                <div class="course_info">
+                                    <p>神奇物理，开拓思维，畅游科学殿堂。</p>
+                                </div>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/33.png">
-                                <h4>神奇物理</h4>
+                                <div class="img_info">
+                                    <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/33.png">
+                                    <h4>城市家园</h4>
+                                </div>
+                                <div class="course_info">
+                                    <p>神奇物理，开拓思维，畅游科学殿堂。</p>
+                                </div>
                             </li>
                         </ul>
                     </div>
                     <div class="item ">
                         <ul class="run_left no-padding pull-left">
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/44.png">
-                                <h4>神奇物理</h4>
+                                <div class="img_info">
+                                    <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/44.png">
+                                    <h4>神奇物理</h4>
+                                </div>
+                                <div class="course_info">
+                                    <p>神奇物理，开拓思维，畅游科学殿堂。</p>
+                                </div>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/55.png">
-                                <h4>神奇物理</h4>
+                                <div class="img_info">
+                                    <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/55.png">
+                                    <h4>故事大王</h4>
+                                </div>
+                                <div class="course_info">
+                                    <p>神奇物理，开拓思维，畅游科学殿堂。</p>
+                                </div>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/4.png">
-                                <h4>神奇物理</h4>
+                                <div class="img_info">
+                                    <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/4.png">
+                                    <h4>城市家园</h4>
+                                </div>
+                                <div class="course_info">
+                                    <p>神奇物理，开拓思维，畅游科学殿堂。</p>
+                                </div>
                             </li>
                         </ul>
                     </div>
@@ -213,32 +257,62 @@ $contact->setScenario('AjaxContact');
                     <div class="item active">
                         <ul class="run_right no-padding pull-left">
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/b.png">
-                                <h4>神奇物理</h4>
+                                <div class="img_info">
+                                    <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/b.png">
+                                    <h4>神奇物理</h4>
+                                </div>
+                                <div class="course_info">
+                                    <p>神奇物理，开拓思维，畅游科学殿堂。</p>
+                                </div>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/c.png">
-                                <h4>神奇物理</h4>
+                                <div class="img_info">
+                                    <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/c.png">
+                                    <h4>故事大王</h4>
+                                </div>
+                                <div class="course_info">
+                                    <p>神奇物理，开拓思维，畅游科学殿堂。</p>
+                                </div>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/d.png">
-                                <h4>神奇物理</h4>
+                                <div class="img_info">
+                                    <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/d.png">
+                                    <h4>城市家园</h4>
+                                </div>
+                                <div class="course_info">
+                                    <p>神奇物理，开拓思维，畅游科学殿堂。</p>
+                                </div>
                             </li>
                         </ul>
                     </div>
                     <div class="item ">
                         <ul class="run_right no-padding pull-left">
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/e.png">
-                                <h4>神奇物理</h4>
+                                <div class="img_info">
+                                    <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/e.png">
+                                    <h4>神奇物理</h4>
+                                </div>
+                                <div class="course_info">
+                                    <p>神奇物理，开拓思维，畅游科学殿堂。</p>
+                                </div>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/f.png">
-                                <h4>神奇物理</h4>
+                                <div class="img_info">
+                                    <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/f.png">
+                                    <h4>故事大王</h4>
+                                </div>
+                                <div class="course_info">
+                                    <p>神奇物理，开拓思维，畅游科学殿堂。</p>
+                                </div>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/g.png">
-                                <h4>神奇物理</h4>
+                                <div class="img_info">
+                                    <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/g.png">
+                                    <h4>城市家园</h4>
+                                </div>
+                                <div class="course_info">
+                                    <p>神奇物理，开拓思维，畅游科学殿堂。</p>
+                                </div>
                             </li>
                         </ul>
                     </div>
@@ -252,8 +326,9 @@ $contact->setScenario('AjaxContact');
             </div>
         </div>
     </div>
-    <div class="home_continer col-xs-12">
+    <div class="home_continer show_work col-xs-12">
         <div class="body-content home_title">
+            <img src="<?php echo Yii::getAlias('@frontendUrl') ?>/img/wakoo_logo.png">
             <h3 class="text-center no-padding no-margin">作品展示</h3>
         </div>
         <div class="box-body col-xs-12">
@@ -371,7 +446,7 @@ $contact->setScenario('AjaxContact');
             </div>
         </div>
     </div>
-    <div class="home_continer bg_gray col-xs-12">
+    <div class="home_continer contact_us bg_gray col-xs-12">
         <div class="body-content home_title">
             <h3 class="text-center no-padding no-margin">联系我们</h3>
         </div>
@@ -401,81 +476,93 @@ $contact->setScenario('AjaxContact');
                     echo $form->field($contact, 'verifyCode')->widget(Captcha::className(), [
                         'options'=>['placeholder'=>'验证码'],
                         'captchaAction'=>'site/contact_captcha',
-                        'template' => '<div class= "body"><div class="col-lg-4 no-padding">{input}</div><div class="col-lg-3">{image}</div></div>',
+                        'template' => '<div class= "body"><div class="col-lg-4 col-sm-4 col-xs-4 no-padding">{input}</div><div class="col-lg-3 col-sm-3 col-xs-3">{image}</div></div>',
                         'imageOptions'=>['alt'=>'图片无法加载','title'=>'点击换图', 'style'=>'cursor:pointer'],
                     ])
                 ->label(false)->hint(false)  ?>
-                <button class="btn btn-defult pull-left col-sm-12 ">提交</button>
+                <button class="btn btn-defult pull-left col-sm-12 col-xs-12">提交</button>
                 <?php ActiveForm::end(); ?>
             </div>
         </div>
     </div>
 </div>
+    <!--
     <div class="address_choose col-xs-12" id="enlist">
-      <?php $form = ActiveForm::begin([
-              'id' => 'form-id',
-              'action' => Url::to(['ajax-apply']),
-              //'enableAjaxValidation' => true,
-              'enableClientValidation'=>true,
-              //'validationUrl' => Url::to(['apply-validate'])
-              ]
-      )?>
+      <?php /*
+            $form = ActiveForm::begin([
+              'id'                     => 'form-id',
+              'action'                 => Url::to(['ajax-apply']),
+              // 'enableAjaxValidation'   => true,
+              'enableClientValidation' =>true,
+              // 'validationUrl'          => Url::to(['apply-validate'])
+              ])
+            */
+        ?>
         <h4>瓦酷，创造不一样！</h4>
          <div class="col-sm-12 no-padding">
 
             <div class="form-group">
 
                  <div class="col-sm-4 no-padding">
-                    <?php echo $form->field($model,'province')
-                    ->dropDownList([])->hint(false)->label(false)?>
+                    <?php /* echo $form->field($model,'province')
+                    ->dropDownList([])->hint(false)->label(false) */?>
+    -->
                     <!-- <select name="input_province" id="input_province" class="form-control"></select> -->
+    <!--
                 </div>
                 <div class="col-sm-4 no-padding">
-                    <?php echo $form->field($model,'city')
-                    ->dropDownList([])->hint(false)->label(false)?>
+                    <?php /* echo $form->field($model,'city')
+                    ->dropDownList([])->hint(false)->label(false) */?>
+    -->
                     <!-- <select name="input_city" id="input_city" class="form-control"></select> -->
+    <!--
                 </div>
                 <div class="col-sm-4 no-padding">
-                     <?php echo $form->field($model,'region')
-                    ->dropDownList([])->hint(false)->label(false)?>
+                     <?php /* echo $form->field($model,'region')
+                    ->dropDownList([])->hint(false)->label(false) */?>
+    -->
                    <!--  <select name="input_area" id="input_area" class="form-control"></select> -->
+    <!--
                 </div>
             </div>
 
     </div>
         <div class="col-sm-12 no-padding">
-            <?php echo $form->field($model,'username')
-            ->textInput(['placeholder'=>'请输入您的姓名'])->label(false)->hint(false) ?>
+            <?php /* echo $form->field($model,'username')
+            ->textInput(['placeholder'=>'请输入您的姓名'])->label(false)->hint(false) */?>
 
-            <?php echo $form->field($model,'phone_number')
-            ->textInput(['placeholder'=>'请输入您的电话'])->label(false)->hint(false) ?>
+            <?php /* echo $form->field($model,'phone_number')
+            ->textInput(['placeholder'=>'请输入您的电话'])->label(false)->hint(false) */?>
 
-            <?php echo $form->field($model,'email')
-            ->textInput(['placeholder'=>'请输入您的邮箱'])->label(false)->hint(false) ?>
+            <?php /* echo $form->field($model,'email')
+            ->textInput(['placeholder'=>'请输入您的邮箱'])->label(false)->hint(false) */?>
 
-            <?php
+            <?php /*
                echo $form->field($model, 'verifyCode')->widget(Captcha::className(), [
                         'options'=>['placeholder'=>'验证码'],
                         'template' => '<div class="row"><div class="col-lg-6">{input}</div><div class="col-lg-6">{image}</div></div>',
                         'imageOptions'=>['alt'=>'图片无法加载','title'=>'点击换图', 'style'=>'cursor:pointer']
                     ])
-                ->label(false)->hint(false)  ?>
+                ->label(false)->hint(false)  */?>
+    -->
             <!-- <input class="col-sm-12" placeholder="请输入您的姓名">
             <input class="col-sm-12" placeholder="请输入您的电话">
             <input class="col-sm-12" placeholder="请输入您的邮箱"> -->
+    <!--
         </div>
+    -->
         <!-- <button  class="btn btn-warning col-sm-12">立即报名</button> -->
-
-        <?= Html::submitButton(
+    <!--
+        <?php /* echo Html::submitButton(
             Yii::t('backend', '立即报名'),
             [
             'id' => 'save-' . $model->formName(),
             'class' => 'btn btn-warning col-sm-12'
             ]);
-            ?>
-        <?php ActiveForm::end(); ?>
+            */?>
+        <?php /* ActiveForm::end(); */?>
     </div>
-
+    -->
 
 
 
