@@ -341,9 +341,9 @@ $contact->setScenario('AjaxContact');
                                 <h4>神奇物理</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
-                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
-                                        适合所有有梦想创业者的教育项目。
+                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个适合所有有梦想创业者的教育项目。
                                     </p>
+                                    <button class="btn btn-defult">了解详情</button>
                                 </div>
                             </li>
                             <li class="col-xs-4 no-padding">
@@ -351,9 +351,9 @@ $contact->setScenario('AjaxContact');
                                 <h4>神奇物理</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
-                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
-                                        适合所有有梦想创业者的教育项目。
+                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个适合所有有梦想创业者的教育项目。
                                     </p>
+                                    <button class="btn btn-defult">了解详情</button>
                                 </div>
                             </li>
                             <li class="col-xs-4 no-padding">
@@ -361,9 +361,9 @@ $contact->setScenario('AjaxContact');
                                 <h4>神奇物理</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
-                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
-                                        适合所有有梦想创业者的教育项目。
+                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个适合所有有梦想创业者的教育项目。
                                     </p>
+                                    <button class="btn btn-defult">了解详情</button>
                                 </div>
                             </li>
                         </ul>
@@ -378,6 +378,7 @@ $contact->setScenario('AjaxContact');
                                         瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
                                         适合所有有梦想创业者的教育项目。
                                     </p>
+                                    <button class="btn btn-defult">了解详情</button>
                                 </div>
                             </li>
                             <li class="col-xs-4 no-padding">
@@ -388,6 +389,7 @@ $contact->setScenario('AjaxContact');
                                         瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
                                         适合所有有梦想创业者的教育项目。
                                     </p>
+                                    <button class="btn btn-defult">了解详情</button>
                                 </div>
                             </li>
                             <li class="col-xs-4 no-padding">
@@ -398,6 +400,7 @@ $contact->setScenario('AjaxContact');
                                         瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
                                         适合所有有梦想创业者的教育项目。
                                     </p>
+                                    <button class="btn btn-defult">了解详情</button>
                                 </div>
                             </li>
                         </ul>
@@ -412,6 +415,7 @@ $contact->setScenario('AjaxContact');
                                         瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
                                         适合所有有梦想创业者的教育项目。
                                     </p>
+                                    <button class="btn btn-defult">了解详情</button>
                                 </div>
                             </li>
                             <li class="col-xs-4 no-padding">
@@ -422,6 +426,7 @@ $contact->setScenario('AjaxContact');
                                         瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
                                         适合所有有梦想创业者的教育项目。
                                     </p>
+                                    <button class="btn btn-defult">了解详情</button>
                                 </div>
                             </li>
                             <li class="col-xs-4 no-padding">
@@ -432,6 +437,7 @@ $contact->setScenario('AjaxContact');
                                         瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
                                         适合所有有梦想创业者的教育项目。
                                     </p>
+                                    <button class="btn btn-defult">了解详情</button>
                                 </div>
                             </li>
                         </ul>

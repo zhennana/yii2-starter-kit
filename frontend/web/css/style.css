@@ -365,11 +365,14 @@ a.desc:after {
   text-align: center;
 }
 .down_run li div p{
-  font-size: 12px;
+  font-size: 15px;
+  margin: 25px 10px;
+  line-height: 2em;
+  letter-spacing: 1px;
 }
 .down_run li h4{
   margin: 0;
-  padding:0;
+  padding: 1% 0;
   line-height: 30px;
 }
 .down_run li:hover{
@@ -378,6 +381,9 @@ a.desc:after {
 .down_run li:hover >  h4{
   background-color: #e61d4d;
   color: white;
+}
+.down_run button{
+  background-color: #e61d4d;
 }
 .ourinfo p{
   text-indent: 0;
