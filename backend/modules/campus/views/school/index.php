@@ -15,124 +15,169 @@ use yii\grid\GridView;
 /**
 * create action column template depending acces rights
 */
-$actionColumnTemplates = [];
+    $actionColumnTemplates = [];
 
-if (\Yii::$app->user->can('campus_school_view')) { 
-    $actionColumnTemplates[] = '{view}';
-}
+    if (\Yii::$app->user->can('manager')) { 
+        $actionColumnTemplates[] = '{view}';
+    }
 
-if (\Yii::$app->user->can('campus_school_update')) {
-    $actionColumnTemplates[] = '{update}';
-}
+    if (\Yii::$app->user->can('manager')) {
+        $actionColumnTemplates[] = '{update}';
+    }
 
-if (\Yii::$app->user->can('campus_school_delete')) {
-    $actionColumnTemplates[] = '{delete}';
-}
-if (isset($actionColumnTemplates)) {
-$actionColumnTemplate = implode(' ', $actionColumnTemplates);
-    $actionColumnTemplateString = $actionColumnTemplate;
-} else {
-Yii::$app->view->params['pageButtons'] = Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'New'), ['create'], ['class' => 'btn btn-success']);
-    $actionColumnTemplateString = "{view} {update} {delete}";
-}
+    if (\Yii::$app->user->can('manager')) {
+        $actionColumnTemplates[] = '{delete}';
+    }
+    
+    if (isset($actionColumnTemplates)) {
+        $actionColumnTemplate = implode(' ', $actionColumnTemplates);
+        $actionColumnTemplateString = $actionColumnTemplate;
+    } else {
+        Yii::$app->view->params['pageButtons'] = Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'New'), ['create'], ['class' => 'btn btn-success']);
+        $actionColumnTemplateString = "{view} {update} {delete}";
+    }
 ?>
-<div class="giiant-crud school-index">
+    <div class="giiant-crud school-index">
 
-    <?php //             echo $this->render('_search', ['model' =>$searchModel]);
+        <?php          
+        //   echo $this->render('_search', ['model' =>$searchModel]);
         ?>
 
-    
-    <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
+        
+        <?php \yii\widgets\Pjax::begin([
+                'id'=>'pjax-main', 'enableReplaceState'=> false,
+                 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' =>
+                    [
+                        'pjax:success'=>'function(){alert("yo")}'
+                    ]
+                ]) 
+        ?>
 
-    <h1>
-        <?= Yii::t('backend', 'Schools') ?>        <small>
-            List
-        </small>
-    </h1>
-    <div class="clearfix crud-navigation">
-<?php
-if(\Yii::$app->user->can('campus_school_create')){
-?>
-        <div class="pull-left">
-            <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'New'), ['create'], ['class' => 'btn btn-success']) ?>
-        </div>
-<?php
-}
-?>
-        <div class="pull-right">
-
-                        
-            <?= 
-            \yii\bootstrap\ButtonDropdown::widget(
-            [
-            'id' => 'giiant-relations',
-            'encodeLabel' => false,
-            'label' => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('backend', 'Relations'),
-            'dropdown' => [
-            'options' => [
-            'class' => 'dropdown-menu-right'
-            ],
-            'encodeLabels' => false,
-            'items' => []
-            ],
-            'options' => [
-            'class' => 'btn-default'
-            ]
-            ]
-            );
-            ?>        </div>
-    </div>
-
-    <hr />
-
-    <div class="table-responsive">
-        <?= GridView::widget([
-        'layout' => '{summary}{pager}{items}{pager}',
-        'dataProvider' => $dataProvider,
-        'pager' => [
-        'class' => yii\widgets\LinkPager::className(),
-        'firstPageLabel' => Yii::t('backend', 'First'),
-        'lastPageLabel' => Yii::t('backend', 'Last')        ],
-                    'filterModel' => $searchModel,
-                'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
-        'headerRowOptions' => ['class'=>'x'],
-        'columns' => [
-
+        <h1>
+            <?= Yii::t('backend', '学校管理') ?>        
+            <small> 列表 </small>
+        </h1>
+        <div class="clearfix crud-navigation">
+            <?php
+                if(\Yii::$app->user->can('manager')){
+            ?>
+                    <div class="pull-left">
+                        <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'), ['create'], ['class' => 'btn btn-success']) ?>
+                    </div>
+            <?php } ?>
+            <div class="pull-right">
+            
+                <?= 
+                \yii\bootstrap\ButtonDropdown::widget(
                 [
-            'class' => 'yii\grid\ActionColumn',
-            'template' => $actionColumnTemplateString,
-            'urlCreator' => function($action, $model, $key, $index) {
-                // using the column name as key, not mapping to 'id' like the standard generator
-                $params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
-                $params[0] = \Yii::$app->controller->id ? \Yii::$app->controller->id . '/' . $action : $action;
-                return Url::toRoute($params);
-            },
-            'contentOptions' => ['nowrap'=>'nowrap']
-        ],
-			'parent_id',
-			'school_id',
-			'province_id',
-			'city_id',
-			'region_id',
-			'created_id',
-			'status',
-			/*'sort',*/
-			/*'school_title',*/
-			/*'longitude',*/
-			/*'latitude',*/
-			/*'language',*/
-			/*'school_slogan',*/
-			/*'school_short_title',*/
-			/*'school_logo_path',*/
-			/*'school_backgroud_path',*/
-			/*'address',*/
-        ],
-        ]); ?>
+                    'id' => 'giiant-relations',
+                    'encodeLabel' => false,
+                    'label' => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('backend', 'Relations'),
+                    'dropdown' => [
+                        'options' => [
+                        'class' => 'dropdown-menu-right'
+                        ],
+                        'encodeLabels' => false,
+                        'items' => []
+                    ],
+                    'options' => [
+                        'class' => 'btn-default'
+                    ]
+                ]);?>        
+            </div>
+        </div>
+
+        <hr />
+
+        <div class="table-responsive">
+            <?= GridView::widget(
+            [
+                'layout' => '{summary}{pager}{items}{pager}',
+                'dataProvider' => $dataProvider,
+                'pager' => [
+                    'class' => yii\widgets\LinkPager::className(),
+                    'firstPageLabel' => Yii::t('backend', 'First'),
+                    'lastPageLabel' => Yii::t('backend', 'Last')        
+                ],
+                'filterModel' => $searchModel,
+                
+                'tableOptions' => [
+                    'class' => 'table table-striped table-bordered table-hover'
+                ],
+
+                'headerRowOptions' => ['class'=>'x'],
+                'columns' => [
+                    [
+                        'class' => 'yii\grid\ActionColumn',
+                        'template' => $actionColumnTemplateString,
+                        'urlCreator' => function($action, $model, $key, $index) {
+                            // using the column name as key, not mapping to 'id' like the standard generator
+                            $params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
+                            $params[0] = \Yii::$app->controller->id ? \Yii::$app->controller->id . '/' . $action : $action;
+                            return Url::toRoute($params);
+                        },
+                        'contentOptions' => ['nowrap'=>'nowrap']
+                    ],
+                    'id',
+        			'parent_id',
+        			'school_id',
+                    'school_title',
+        			//'province_id',
+                    [
+                        'attribute'=>'province_id',
+                        'value'=>function($model){
+                            if($model->province->province_name){
+                                return $model->province->province_name;
+                            }
+                            return '未知';
+                        }
+                    ],
+                    [
+                        'attribute'=>'city_id',
+                        'value'=>function($model){
+                            if($model->city->city_name){
+                                return $model->city->city_name;
+                            }
+                            return '未知';
+                        }
+                    ],
+                    [
+                        'attribute'=>'region_id',
+                        'value'=>function($model){
+                            if($model->region->region_name){
+                                return $model->region->region_name;
+                            }
+                            return '未知';
+                        }
+                    ],
+                    'address',
+        			// 'city_id',
+        			// 'region_id',
+        			// 'created_id',
+        			//'status',
+        			/*'sort',*/
+        			/*'longitude',*/
+        			/*'latitude',*/
+        			/*'language',*/
+        			//'school_slogan',
+        			/*'school_short_title',*/
+        			/*'school_logo_path',*/
+        			/*'school_backgroud_path',*/
+                    [
+                        'class'     =>\common\grid\EnumColumn::ClassName(),
+                        'attribute' => 'status',
+                        'enum'      => \backend\modules\campus\models\School::optsStatus(),
+                        'filter'    => \backend\modules\campus\models\School::optsStatus(),
+                    ],
+                    'created_at:datetime',
+                    'updated_at:datetime'
+                ],
+            ]); ?>
+        </div>
+
     </div>
 
-</div>
 
-
-<?php \yii\widgets\Pjax::end() ?>
+    <?php \yii\widgets\Pjax::end() ?>
 
 

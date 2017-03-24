@@ -20,12 +20,13 @@ $config = [
     'components' => [
         'view' => [
             'theme' => [
-                'basePath' => '@frontend/themes/edu',
-                'baseUrl' => '@frontend/themes/edu',
+                'basePath' => '@frontend/themes/'.env('THEME'),
+                'baseUrl' => '@frontend/themes/'.env('THEME'),
                 'pathMap' => [
-                    '@frontend/views' => '@app/themes/basic',
-                    '@frontend/views' => '@app/themes/edu',
-                    
+                    '@frontend/views' => '@app/themes/'.env('THEME'),
+                    //'@frontend/views' => '@app/themes/basic',
+                    //'@frontend/views' => '@app/themes/edu',
+                    //'@frontend/views' => '@app/themes/react',
                 ],
             ],
         ],

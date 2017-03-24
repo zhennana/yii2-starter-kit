@@ -6,7 +6,10 @@ namespace backend\modules\campus\models\base;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
-
+use backend\modules\campus\models\CnCity;
+use backend\modules\campus\models\CnProvince;
+use backend\modules\campus\models\CnRegion;
+use yii\helpers\ArrayHelper;
 /**
  * This is the base-model class for table "school".
  *
@@ -35,11 +38,29 @@ use yii\behaviors\TimestampBehavior;
 abstract class School extends \yii\db\ActiveRecord
 {
 
-
+    CONST SCHOOL_STATUS_OPEN = 0;       //开启;
+    CONST SCHOOL_STATUS_DELECT = 1;     //标记删除;
+    CONST SCHOOL_STATUS_CHECK_PENDING = 2;//待审核;
 
     /**
      * @inheritdoc
      */
+    public static function optsStatus()
+    {
+        return [
+            self::SCHOOL_STATUS_OPEN => Yii::t('backend','开启'),
+            self::SCHOOL_STATUS_DELECT => Yii::t('backend','标记删除'),
+           // self::SCHOOL_STATUS_CHECK_PENDIND => Yii::t('backent','待审核')
+        ];
+    }
+    public static function getStatusValueLabel($value)
+    {
+        $labels = self::optsStatus();
+        if(isset($labels[$value])){
+            return $labels[$value];
+        }
+        return $value;
+    }
     public static function tableName()
     {
         return 'school';
@@ -71,7 +92,9 @@ abstract class School extends \yii\db\ActiveRecord
     {
         return [
             [['parent_id', 'school_id', 'province_id', 'city_id', 'region_id', 'created_id', 'status', 'sort'], 'integer'],
-            [['school_id', 'school_title', 'province_id', 'city_id', 'region_id', 'created_id'], 'required'],
+            ['parent_id','default','value'=>'0'],
+            ['created_id','default','value'=>Yii::$app->user->identity->id],
+            [[ 'school_title', 'province_id', 'city_id', 'region_id', 'created_id'], 'required'],
             [['longitude', 'latitude'], 'number'],
             [['language'], 'string', 'max' => 32],
             [['school_title', 'school_slogan'], 'string', 'max' => 512],
@@ -93,8 +116,8 @@ abstract class School extends \yii\db\ActiveRecord
             'school_title' => Yii::t('common', '学校名称'),
             'school_short_title' => Yii::t('common', '学校简称'),
             'school_slogan' => Yii::t('common', '学校标语'),
-            'school_logo_path' => Yii::t('common', 'School Logo Path'),
-            'school_backgroud_path' => Yii::t('common', 'School Backgroud Path'),
+            'school_logo_path' => Yii::t('common', 'Logo Path'),
+            'school_backgroud_path' => Yii::t('common', '学校背景图路径'),
             'longitude' => Yii::t('common', '经度'),
             'latitude' => Yii::t('common', '纬度'),
             'address' => Yii::t('common', '地址'),
@@ -104,11 +127,13 @@ abstract class School extends \yii\db\ActiveRecord
             'created_at' => Yii::t('common', 'Created At'),
             'updated_at' => Yii::t('common', 'Updated At'),
             'created_id' => Yii::t('common', 'Created ID'),
-            'status' => Yii::t('common', '0正常；1：标记删除；2:待审核；'),
+            'status' => Yii::t('common', '状态'),
             'sort' => Yii::t('common', '默认与排序'),
         ];
     }
+    
 
+    
     /**
      * @inheritdoc
      */
@@ -133,8 +158,31 @@ abstract class School extends \yii\db\ActiveRecord
         ]);
     }
 
+    /**
+    * 三级联动地区
+    **/
+    public function getCitylist($typeid = 0,$id=false){
+        if($typeid == 1){
+            $province = CnProvince::find()->asArray()->all();
+            return  ArrayHelper::map($province, 'province_id', 'province_name');
+        }
+        if($typeid == 2){
+            $city    = CnCity::find()->where(['province_id'=>$id])->asArray()->all();
+            return  ArrayHelper::map($city, 'city_id', 'city_name');
+        }
+            $region  = CnRegion::find()->where(['city_id'=>$id])->asArray()->all();
+            return  ArrayHelper::map($region, 'region_id', 'region_name');
+    }
 
-    
+    public function getCity(){
+        return $this->hasOne(\backend\modules\campus\models\CnCity::ClassName(),['city_id'=>'city_id']);
+    }
+    public function getProvince(){
+        return $this->hasOne(\backend\modules\campus\models\CnProvince::ClassName(),['province_id'=>'province_id']);
+    }
+    public function getRegion(){
+        return $this->hasOne(\backend\modules\campus\models\CnRegion::ClassName(),['region_id'=>'region_id']);
+    }
     /**
      * @inheritdoc
      * @return \backend\modules\campus\models\query\SchoolQuery the active query used by this AR class.
