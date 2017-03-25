@@ -211,6 +211,7 @@ class SignInController extends \common\components\ControllerFrontendApi
      */
     public function actionIndex()
     {
+        
         if(\Yii::$app->user->isGuest){
             Yii::$app->response->statusCode = 422;
             return [
@@ -233,10 +234,12 @@ class SignInController extends \common\components\ControllerFrontendApi
         {
             $attrUser['avatar'] = $proFileUser->avatar_base_url.$proFileUser->avatar_path;
         }else{
+            /*
             $fansMpUser = Yii::$app->user->identity->fansMp;
             if($fansMpUser){
                 $attrUser['avatar'] = $fansMpUser->avatar;
             }
+            */
         }
         //$user['roles']=\Yii::$app->authManager->getRolesByUser(\Yii::$app->user->id);
         //return  array_merge($attrUser,$account);
