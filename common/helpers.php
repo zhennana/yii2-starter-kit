@@ -245,20 +245,4 @@ function getImgs($str) {
 function ymSms($data)
 {
     return false;
-    //Init curl
-    $curl = new \linslin\yii2\curl\Curl();
-
-    //get http://example.com/
-    // $response = $curl->get('http://www.163.com/');
-
-    $host = 'http://sdk4rptws.eucp.b2m.cn:8080/sdkproxy/sendsms.action?';
-    $preSign = '【燕郊在线】 ';
-    $params['cdkey'] = '6SDK-EMY-6688-JCUML';
-    $params['password'] = '128921';
-    $params['message'] = $preSign.$data['message'];
-    $params['phone'] = $data['phone'];
-
-    $url = $host.http_build_query($params);
-    // echo $url;
-    return $curl->get($url);
 }
