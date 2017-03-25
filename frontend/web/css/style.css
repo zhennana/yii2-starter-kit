@@ -385,7 +385,7 @@ a.desc:after {
   line-height: 30px;
 }
 .down_run li:hover{
-  border:solid 1px #e61d4d;
+  border-left:solid 1px #e61d4d;
 }
 .down_run li:hover >  h4{
   background-color: #e61d4d;
