@@ -158,8 +158,8 @@ a.desc:after {
   font-family: MicrosoftJhengHei;
 }
 .navbar-inverse{
-  background-color: #fcca10;
-  border-color: #fcca10;
+  background-color: #fff000;
+  border-color: #fff000;
 }
 .navbar-inverse .navbar-nav > .active > a,
 .navbar-inverse .navbar-nav > .active > a:hover,
@@ -195,8 +195,8 @@ a.desc:after {
 .contact_us,.show_work,.course_sys{
   padding-bottom: 3%;
 }
-.nav > li > a{
-  padding: 15px 25px;
+.nav > li a{
+  padding: 15px 30px;
 }
 .home_continer .col-xs-6,.col-xs-3{
   padding: 0 10px;
@@ -268,6 +268,11 @@ a.desc:after {
   background-color: #d2d2d2;
   color:white;
 }
+.yellow{
+  background-color: #fff000 !important;
+  border-radius: 5px;
+  color: black;
+}
 .time p{
   text-indent: 0;
   text-align: center;
@@ -287,6 +292,9 @@ a.desc:after {
 .home_news:hover > .news h4{
   color: #e6214f;
 }
+.home_news{
+  cursor:pointer;
+}
 .course{
   margin-bottom: 20px;
 }
@@ -294,6 +302,7 @@ a.desc:after {
   width: 60%;
   line-height: 40px;
   background-color: white;
+  cursor:pointer;
 }
 .run_left li{
   list-style: none;
@@ -304,7 +313,7 @@ a.desc:after {
   padding: 10px 0 15px;
 }
 .run_left .img_info{
-  background-color: #fcca10;
+  background-color: #fff000;
 }
 .img_info{
   border-radius: 10px;
@@ -358,9 +367,9 @@ a.desc:after {
   left: 0;
   top: 0;
   background-color: black;
-  filter:alpha(opacity=70); /*IE滤镜，透明度50%*/
-  -moz-opacity:0.7; /*Firefox私有，透明度50%*/
-  opacity:0.7;/*其他，透明度50%*/
+  filter:alpha(opacity=65); /*IE滤镜，透明度50%*/
+  -moz-opacity:0.65; /*Firefox私有，透明度50%*/
+  opacity:0.65;/*其他，透明度50%*/
   color: white;
   text-align: center;
 }

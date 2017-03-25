@@ -67,7 +67,12 @@ $contact->setScenario('AjaxContact');
         </div>
 
         <div class="col-xs-12 knowmore">
-            <button class="btn btn-defult more">了解详情</button>
+            <?php 
+                echo Html::a('了解详情',
+                    ['/page/view', 'slug' => 'guan-yu-wa-ku'],
+                    ['class' => 'btn btn-defult more']
+                )
+            ?>
         </div>
     </div>
     <div class="home_continer col-xs-12">
@@ -161,7 +166,12 @@ $contact->setScenario('AjaxContact');
         </div>
 
         <div class="col-xs-12 knowmore">
-            <button class="btn btn-defult more">更多内容</button>
+            <?php 
+                echo Html::a('更多内容',
+                    ['/page/view', 'slug' => 'wa-ku-dong-tai'],
+                    ['class' => 'btn btn-defult more']
+                )
+            ?>
         </div>
     </div>
     <div class="home_continer course_sys bg_gray col-xs-12">
@@ -171,7 +181,7 @@ $contact->setScenario('AjaxContact');
         </div>
         <div class="col-xs-12 text-center course">
             <div class="col-xs-6 text-right no-padding">
-                <h4 id="find1" class="text-center yellow_bg pull-right">学前课程（3～6周岁）</h4>
+                <h4 id="find1" class="text-center yellow    pull-right">学前课程（3～6周岁）</h4>
             </div>
             <div class="col-xs-6 text-left no-padding">
                 <h4 id="find2" class="text-center">学龄课程（7～13周岁）</h4>
@@ -184,7 +194,7 @@ $contact->setScenario('AjaxContact');
                         <ul class="run_left no-padding pull-left">
                             <li class="col-xs-4 no-padding">
                                 <div class="img_info">
-                                    <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/11.png">
+                                    <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/98.jpg">
                                     <h4>神奇物理</h4>
                                 </div>
                                 <div class="course_info">
@@ -259,7 +269,7 @@ $contact->setScenario('AjaxContact');
                             <li class="col-xs-4 no-padding">
                                 <div class="img_info">
                                     <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/b.png">
-                                    <h4>神奇物理</h4>
+                                    <h4>结构与力</h4>
                                 </div>
                                 <div class="course_info">
                                     <p>神奇物理，开拓思维，畅游科学殿堂。</p>
@@ -268,7 +278,7 @@ $contact->setScenario('AjaxContact');
                             <li class="col-xs-4 no-padding">
                                 <div class="img_info">
                                     <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/c.png">
-                                    <h4>故事大王</h4>
+                                    <h4>动力机械Ⅰ</h4>
                                 </div>
                                 <div class="course_info">
                                     <p>神奇物理，开拓思维，畅游科学殿堂。</p>
@@ -277,7 +287,7 @@ $contact->setScenario('AjaxContact');
                             <li class="col-xs-4 no-padding">
                                 <div class="img_info">
                                     <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/d.png">
-                                    <h4>城市家园</h4>
+                                    <h4>步入智能</h4>
                                 </div>
                                 <div class="course_info">
                                     <p>神奇物理，开拓思维，畅游科学殿堂。</p>
@@ -290,7 +300,7 @@ $contact->setScenario('AjaxContact');
                             <li class="col-xs-4 no-padding">
                                 <div class="img_info">
                                     <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/e.png">
-                                    <h4>神奇物理</h4>
+                                    <h4>能量与能源</h4>
                                 </div>
                                 <div class="course_info">
                                     <p>神奇物理，开拓思维，畅游科学殿堂。</p>
@@ -299,7 +309,7 @@ $contact->setScenario('AjaxContact');
                             <li class="col-xs-4 no-padding">
                                 <div class="img_info">
                                     <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/f.png">
-                                    <h4>故事大王</h4>
+                                    <h4>动力与机械Ⅱ</h4>
                                 </div>
                                 <div class="course_info">
                                     <p>神奇物理，开拓思维，畅游科学殿堂。</p>
@@ -308,7 +318,7 @@ $contact->setScenario('AjaxContact');
                             <li class="col-xs-4 no-padding">
                                 <div class="img_info">
                                     <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/g.png">
-                                    <h4>城市家园</h4>
+                                    <h4>EV3系列Ⅰ</h4>
                                 </div>
                                 <div class="course_info">
                                     <p>神奇物理，开拓思维，畅游科学殿堂。</p>
@@ -338,30 +348,33 @@ $contact->setScenario('AjaxContact');
                         <ul class="no-padding pull-left">
                             <li class="col-xs-4 no-padding">
                                 <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_1.png">
-                                <h4>神奇物理</h4>
+                                <h4>探索者</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
-                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个适合所有有梦想创业者的教育项目。
+                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
+                                        适合所有有梦想创业者的教育项目。
                                     </p>
                                     <button class="btn btn-defult">了解详情</button>
                                 </div>
                             </li>
                             <li class="col-xs-4 no-padding">
                                 <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_10.png">
-                                <h4>神奇物理</h4>
+                                <h4>火箭跑车</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
-                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个适合所有有梦想创业者的教育项目。
+                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
+                                        适合所有有梦想创业者的教育项目。
                                     </p>
                                     <button class="btn btn-defult">了解详情</button>
                                 </div>
                             </li>
                             <li class="col-xs-4 no-padding">
                                 <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_12.png">
-                                <h4>神奇物理</h4>
+                                <h4>超级战舰</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
-                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个适合所有有梦想创业者的教育项目。
+                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
+                                        适合所有有梦想创业者的教育项目。
                                     </p>
                                     <button class="btn btn-defult">了解详情</button>
                                 </div>
@@ -372,7 +385,7 @@ $contact->setScenario('AjaxContact');
                         <ul class="no-padding pull-left">
                             <li class="col-xs-4 no-padding">
                                 <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_13.png">
-                                <h4>神奇物理</h4>
+                                <h4>大蛇机器人</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
                                         瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
@@ -383,7 +396,7 @@ $contact->setScenario('AjaxContact');
                             </li>
                             <li class="col-xs-4 no-padding">
                                 <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_14.png">
-                                <h4>神奇物理</h4>
+                                <h4>超级战舰</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
                                         瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
@@ -394,7 +407,7 @@ $contact->setScenario('AjaxContact');
                             </li>
                             <li class="col-xs-4 no-padding">
                                 <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_16.png">
-                                <h4>神奇物理</h4>
+                                <h4>大力神</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
                                         瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
@@ -409,7 +422,7 @@ $contact->setScenario('AjaxContact');
                         <ul class="no-padding pull-left">
                             <li class="col-xs-4 no-padding">
                                 <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_17.png">
-                                <h4>神奇物理</h4>
+                                <h4>巨力神</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
                                         瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
@@ -420,7 +433,7 @@ $contact->setScenario('AjaxContact');
                             </li>
                             <li class="col-xs-4 no-padding">
                                 <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_4.png">
-                                <h4>神奇物理</h4>
+                                <h4>大力神</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
                                         瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
@@ -431,7 +444,7 @@ $contact->setScenario('AjaxContact');
                             </li>
                             <li class="col-xs-4 no-padding">
                                 <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_5.png">
-                                <h4>神奇物理</h4>
+                                <h4>大蛇机器人</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
                                         瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
@@ -582,14 +595,14 @@ $(window).load(function(){
 function Change(){
     $('.box2').hide();
     $('#find1').mouseenter(function(){
-        $('.course h4').removeClass('yellow_bg');
-        $(this).addClass('yellow_bg');
+        $('.course h4').removeClass('yellow');
+        $(this).addClass('yellow');
         $('.box2').hide();
         $('.box1').show();
     });
     $('#find2').mouseenter(function(){
-        $('.course h4').removeClass('yellow_bg');
-        $(this).addClass('yellow_bg');
+        $('.course h4').removeClass('yellow');
+        $(this).addClass('yellow');
         $('.box1').hide();
         $('.box2').show();
     });
