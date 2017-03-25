@@ -9,12 +9,16 @@ use yii\helpers\ArrayHelper;
 use backend\modules\campus\models\School;
 use backend\modules\campus\models\Grade;
 use backend\modules\campus\models\UserToGrade;
+use common\models\User;
+$user = User::find()->where(['status'=>2])->asArray()->all();
+$data_user = ArrayHelper::map($user,'id','username');
+//var_dump($data_user);exit;
 /**
 * @var yii\web\View $this
 * @var backend\modules\campus\models\UserToGrade $model
 * @var yii\widgets\ActiveForm $form
 */
-$data = [3=>2,2=>3];
+//$data = [3=>2,2=>3];
 //dump($info);exit;
 ?>
 <?php
@@ -57,7 +61,7 @@ $data = [3=>2,2=>3];
 <!-- attribute user_id -->
 			<?= $form->field($model, 'user_id')->widget(Select2::className(),[
                    // 'language'=>'en',
-                    'data'=>$data,
+                    'data'=>$data_user,
                     //"showToggleAll"=>true,
                     'theme' => Select2 :: THEME_BOOTSTRAP,
                     "maintainOrder"=>true,

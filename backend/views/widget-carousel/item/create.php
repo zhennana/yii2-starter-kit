@@ -14,7 +14,8 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'Create');
 <div class="widget-carousel-item-create">
 
     <?php echo $this->render('_form', [
-        'model' => $model
+        'model' => $model,
+        'carousel'=>$carousel
     ]) ?>
 
 </div>
