@@ -232,9 +232,10 @@ function isCreditNo($vStr)
  * @return [type]      [description]
  */
 function getImgs($str) {
-    $reg = '/((http|https):\/\/)+(\w+\.)+(\w+)[\w\/\.\-]*(JPG|jpg|gif|png)/';
+    $reg = '/((http|https):\/\/)+(\w+\.)+(\w+)[\W\w\/\.\-]*(JPG|jpg|gif|png)/';
     $matches = $data = array();
     preg_match_all($reg, $str, $matches);
+    //var_dump(1323);exit;
     foreach ($matches[0] as $value) {
         $data[] = $value;
     }
