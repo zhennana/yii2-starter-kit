@@ -105,74 +105,6 @@ class SignInController extends \common\components\ControllerFrontendApi
         ];
     }
 
-        /**
-     * @SWG\Get(path="/sign-in/reset-by-sms",
-     *     tags={"100-SignIn-用户接口"},
-     *     summary="验证码发送[待开发]",
-     *     description="发送验证码，成功返回验证码与手机号信息",
-     *     produces={"application/json"},
-     *     @SWG\Parameter(
-     *        in = "query",
-     *        name = "phone_number",
-     *        description = "手机号",
-     *        required = true,
-     *        type = "string"
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "query",
-     *        name = "type",
-     *        description = "发送验证码类型",
-     *        required = true,
-     *        type = "string",
-     *        enum = {"singup", "repasswd"}
-     *     ),
-     *     @SWG\Response(
-     *         response = 200,
-     *         description = "用户激活成功"
-     *     )
-     * )
-     *
-     */
-    /**
-     * 验证码发送
-     * @return string|Response
-     */
-    public function actionResetBySms($phone_number, $type='singup')
-    {
-        \Yii::$app->language = 'zh-CN';
-        $user = User::find()->where(['phone_number'=>$phone_number])->one();
-        if(!$user){
-            return [
-                'message'=>[
-                    '手机号不存在'
-                ]
-            ];
-        }
-// var_dump($user); exit();
-        $type =  ($type == 'singup') ? UserToken::TYPE_PHONE_SINGUP : UserToken::TYPE_PHONE_REPASSWD;
-
-        UserToken::deleteAll([
-            'user_id' => $user->id,
-            'type' => $type,
-        ]);
-
-        $code = UserToken::randomCode();
-        $token = UserToken::create(
-            $user->id,
-            $type,
-            Time::SECONDS_IN_A_DAY,
-            $code
-        );
-        $info = [
-                'message'=>$code.' 验证码',
-                'phone'=>$user->phone_number,
-        ];
-        if($token){ // 发送短信
-            ymSms($info);
-        }
-        return $info;
-    }
-
     /**
      * @SWG\Post(path="/sign-in/login",
      *     tags={"100-SignIn-用户接口"},
@@ -279,6 +211,7 @@ class SignInController extends \common\components\ControllerFrontendApi
      */
     public function actionIndex()
     {
+        
         if(\Yii::$app->user->isGuest){
             Yii::$app->response->statusCode = 422;
             return [
@@ -292,7 +225,7 @@ class SignInController extends \common\components\ControllerFrontendApi
             unset($attrUser['password_hash']);
         }
         $attrUser['avatar'] = '';
-        $account  = Yii::$app->user->identity->getAccount();
+        //$account  = Yii::$app->user->identity->getAccount();
 
         $proFileUser = Yii::$app->user->identity->userProfile;
 
@@ -301,20 +234,22 @@ class SignInController extends \common\components\ControllerFrontendApi
         {
             $attrUser['avatar'] = $proFileUser->avatar_base_url.$proFileUser->avatar_path;
         }else{
+            /*
             $fansMpUser = Yii::$app->user->identity->fansMp;
             if($fansMpUser){
                 $attrUser['avatar'] = $fansMpUser->avatar;
             }
+            */
         }
         //$user['roles']=\Yii::$app->authManager->getRolesByUser(\Yii::$app->user->id);
-        return  array_merge($attrUser,$account);
-        
+        //return  array_merge($attrUser,$account);
+        return $attrUser;
     }
 
     /**
      * @SWG\Post(path="/sign-in/signup",
      *     tags={"100-SignIn-用户接口"},
-     *     summary="用户注册[待开发]",
+     *     summary="用户注册[已自测]",
      *     description="成功返回注册完信息，失败返回具体原因",
      *     produces={"application/json"},
      *     @SWG\Parameter(
@@ -389,8 +324,9 @@ class SignInController extends \common\components\ControllerFrontendApi
                 } else {
                     Yii::$app->getUser()->login($user);
                 }
-                $account  = $user->getAccount();
-                return array_merge($user->attributes, $account);
+                //$account  = $user->getAccount();
+                return array_merge($user->attributes, ['token'=>$model->token]);
+                //return $user->attributes;
             }
         }
 
@@ -439,7 +375,7 @@ class SignInController extends \common\components\ControllerFrontendApi
             ->byToken($token)
             ->notExpired()
             ->one();
-// var_dump($usertoken);  exit();
+//var_dump($userToken);  exit();
         if (!$userToken) {
             //throw new BadRequestHttpException;
             return ['message'=>['验证码无效。']];
@@ -470,6 +406,74 @@ class SignInController extends \common\components\ControllerFrontendApi
         ];
         */
         return $user->attributes;
+    }
+
+    /**
+     * @SWG\Get(path="/sign-in/reset-by-sms",
+     *     tags={"100-SignIn-用户接口"},
+     *     summary="验证码发送[待开发]",
+     *     description="发送验证码，成功返回验证码与手机号信息",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "phone_number",
+     *        description = "手机号",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "type",
+     *        description = "发送验证码类型",
+     *        required = true,
+     *        type = "string",
+     *        enum = {"repasswd", "singup"}
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "用户激活成功"
+     *     )
+     * )
+     *
+     */
+    /**
+     * 验证码发送
+     * @return string|Response
+     */
+    public function actionResetBySms($phone_number, $type='singup')
+    {
+        \Yii::$app->language = 'zh-CN';
+        $user = User::find()->where(['phone_number'=>$phone_number])->one();
+        if(!$user){
+            return [
+                'message'=>[
+                    '手机号不存在'
+                ]
+            ];
+        }
+// var_dump($user); exit();
+        $type =  ($type == 'singup') ? UserToken::TYPE_PHONE_SINGUP : UserToken::TYPE_PHONE_REPASSWD;
+
+        UserToken::deleteAll([
+            'user_id' => $user->id,
+            'type' => $type,
+        ]);
+
+        $code = UserToken::randomCode();
+        $token = UserToken::create(
+            $user->id,
+            $type,
+            Time::SECONDS_IN_A_DAY,
+            $code
+        );
+        $info = [
+            'message'=>$code.' 验证码',
+            'phone'=>$user->phone_number,
+        ];
+        if($token){ // 发送短信
+            ymSms($info);
+        }
+        return $info;
     }
 
     /**
@@ -624,6 +628,8 @@ class SignInController extends \common\components\ControllerFrontendApi
 
         return $model->attributes;
     }
+
+     
 
     /**
      * @SWG\Get(path="/sign-in/qiniu-token",

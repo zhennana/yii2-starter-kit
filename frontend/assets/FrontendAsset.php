@@ -20,6 +20,7 @@ class FrontendAsset extends AssetBundle
 
     public $css = [
         'css/style.css',
+        'css/course.css'
     ];
 
     public $js = [
