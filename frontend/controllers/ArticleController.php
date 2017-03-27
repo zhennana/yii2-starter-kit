@@ -65,6 +65,10 @@ class ArticleController extends Controller
     }
     public function  actionCourse(){
         $model_category =  ArticleCategory::find()->where(['parent_id'=>[11,13]])->with('articles')->asArray()->all();
+        $data = [
+            'left'=> [],
+            'right'=>[],
+        ];
         foreach ($model_category as $key => $value) {
             if($value['parent_id'] == 11){
                 $data['left'][$key] = $value;
