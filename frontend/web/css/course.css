@@ -1,0 +1,149 @@
+.course-left-side{
+    
+}
+
+.clear-fix {
+    zoom: 1;
+}
+
+.clear-fix:before, .clear-fix:after {
+    content: "";
+    display: table;
+}
+
+.clear-fix:after{
+    clear: both;
+}
+.course-left-side .course-title-warp{
+    font-size: 0px;
+    margin-bottom: 25px;
+}
+
+.course-left-side .left{
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.course-left-side .right{
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+.course-left-side .course-title{
+    display: inline-block;
+    box-sizing: border-box;
+    font-size: 14px;
+    width: 50%;
+    height: 40px;
+    line-height: 40px;
+    background-color: white;
+    text-align: center;
+    cursor: pointer;
+    color:#737373;
+    border:1px solid #e6214f;
+    transition: color ease-in-out 0.4s ,background-color ease-in-out 0.4s;
+}
+
+.course-left-side .active{
+    background-color:#e6214f;
+    color: white;
+}
+
+.course-left-side .course-list .course-type{
+    font-family: "Microsoft YaHei";
+    width: 100%;
+    height:30px;
+    border-left: 3px solid #e6214f;
+    background-color: #f1f1f1;
+    color: #000;
+}
+
+.course-left-side .course-list .course-type span{
+    font-size: 18px;
+    height: 30px;
+    display: inline-block;
+    font-weight: bold;
+    color: #e6214f;
+    line-height: 30px;
+    margin-left: 10px;
+}
+
+.course-left-side .course-list ul{
+    margin:0;
+    padding:0;
+}
+
+.course-left-side  .course-list ul li{
+
+    margin: 10px 0;
+    display: block;
+    transition: background-color 0.4s ease-in-out;
+    cursor: pointer;
+    padding: 10px 0;
+    border-bottom: 1px black dashed;
+}
+
+.course-left-side  .course-list ul li a{
+    color:#777777;
+}
+
+.course-left-side  .course-list ul li:hover{
+    background-color: #f1f1f1;
+     border-bottom: 1px #e6214f dashed;
+}
+.course-left-side  .course-list ul li:hover .course-info h4{
+    background-color: #e6214f;
+    color: white;
+    transition: background-color 0.4s ease-in-out,color 0.4s ease-in-out;
+
+}
+
+.course-left-side  .course-list ul li:hover .course-info p{
+    color: #3c8dbc;
+}
+
+
+.course-left-side  .course-list ul  li img{
+    float: left;
+    width: 48%;
+    padding: 0;
+    margin-right: 10px;
+    vertical-align: top;
+}
+
+.course-left-side  .course-list ul  li .course-info{
+    height:210px;
+    width: 50%;
+    float: left;
+    display: inline-block;
+}
+
+.course-left-side  .course-list ul  li .course-info h4{
+    background-color: #f1f1f1;
+    height: 30px;
+    margin:0;
+    padding:0 0 0 15px;
+    font-size: 18px;
+    color: #737373;
+    line-height: 30px;
+}
+
+.course-left-side  .course-list ul  li .course-info p{
+    text-indent: 2em;
+    padding: 10px;
+    padding: 5px 0 0 0;
+    line-height: 1.6;
+    margin:0;
+    transition: color ease-in-out 0.4s;
+}
+
+
+.course-left-side  .course-list ul  li .course-info h4:hover{
+   
+
+}
+
+
+
+
+.right-public{
+    height: 1000px;
+}
