@@ -125,15 +125,6 @@
          }
     });
 
-    var app = new Vue({
-        el:'#course',
-        data:{
-
-        }
-    });
-
-
-    
     //学前学龄课程点击事件
     $(".course-title-warp .right").click(function(event) {
         if(event.target.getAttribute('class').indexOf('active')===-1){
