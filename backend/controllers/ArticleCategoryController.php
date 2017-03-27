@@ -63,7 +63,9 @@ class ArticleCategoryController extends Controller
     {
         $model = new ArticleCategory();
 
-        $categories = ArticleCategory::find()->noParents()->all();
+        //无限分类
+        $categories = $model->category_recursion(ArticleCategory::find()->asArray()->all());
+        //var_dump($categories);exit;
         $categories = ArrayHelper::map($categories, 'id', 'title');
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -84,9 +86,9 @@ class ArticleCategoryController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $model = ArticleCategory::findOne($id);
 
-        $categories = ArticleCategory::find()->noParents()->andWhere(['not', ['id' => $id]])->all();
+         $categories = $model->category_recursion(ArticleCategory::find()->asArray()->all());
         $categories = ArrayHelper::map($categories, 'id', 'title');
 
 
