@@ -242,37 +242,7 @@ function getImgs($str) {
 }
 
 
-/**
- * 亿美软通
- * 账号：wulianweb 密码：WL-web 
- * 平台网址：http://qiyechaxun.emay.cn:8000
- * 6SDK-EMY-6688-JCUML
- * 首页：http://www.emay.cn/  亿美软通
- *  亿美发送短信规则
- *   1 短信格式必须是【签名】+内容,签名在前。
- *   2 【签名】必须是3到8个字，不能为空。
- *   3 十分钟每个号码只能发送3次。
- *   4 每个手机号每天最多发送20条短信。
- *   5 短信字数最多500字，数字、字符都算一个字
- *   注：在测试发送短信时可将测试号码发给亿美服务人员解除第3条和第4条的限制
- * @return [type] [description]
- */
 function ymSms($data)
 {
-    //Init curl
-    $curl = new \linslin\yii2\curl\Curl();
-
-    //get http://example.com/
-    // $response = $curl->get('http://www.163.com/');
-
-    $host = 'http://sdk4rptws.eucp.b2m.cn:8080/sdkproxy/sendsms.action?';
-    $preSign = '【燕郊在线】 ';
-    $params['cdkey'] = '6SDK-EMY-6688-JCUML';
-    $params['password'] = '128921';
-    $params['message'] = $preSign.$data['message'];
-    $params['phone'] = $data['phone'];
-
-    $url = $host.http_build_query($params);
-    // echo $url;
-    return $curl->get($url);
+    return false;
 }

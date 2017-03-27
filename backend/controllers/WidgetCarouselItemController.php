@@ -16,7 +16,23 @@ use yii\filters\VerbFilter;
  */
 class WidgetCarouselItemController extends Controller
 {
-
+    public function actions()
+    {
+        return [
+            'token-cloud' => [
+                'class' => '\common\actions\QiniuCarouselAction',
+                'type' => 'token'
+            ],
+            'upload' => [
+                'class' => '\common\actions\QiniuCarouselAction',
+                'type' => 'upload'
+            ],
+            'upload-delete' => [
+                'class' => '\common\actions\QiniuCarouselAction',
+                'type'  => 'delattach'
+            ],
+        ];
+    }
     public function getViewPath()
     {
         return $this->module->getViewPath() . DIRECTORY_SEPARATOR . 'widget-carousel/item';
@@ -50,6 +66,7 @@ class WidgetCarouselItemController extends Controller
         $model->carousel_id =  $carousel->id;
         if ($model->load(Yii::$app->request->post())) {
             if ($model->save()) {
+               // dump($model);exit;
                 Yii::$app->getSession()->setFlash('alert', ['options'=>['class'=>'alert-success'], 'body'=>Yii::t('backend', 'Carousel slide was successfully saved')]);
                 return $this->redirect(['/widget-carousel/update', 'id' => $model->carousel_id]);
             }

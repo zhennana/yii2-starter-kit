@@ -52,26 +52,26 @@ class WidgetCarouselItem extends ActiveRecord
     public function behaviors()
     {
         return [
-            TimestampBehavior::className(),
-            [
-                'class' => UploadBehavior::className(),
-                'attribute' => 'image',
-                'pathAttribute' => 'path',
-                'baseUrlAttribute' => 'base_url',
-                'typeAttribute' => 'type'
-            ],
-            'cacheInvalidate' => [
-                'class' => CacheInvalidateBehavior::className(),
-                'cacheComponent' => 'frontendCache',
-                'keys' => [
-                    function ($model) {
-                        return [
-                            WidgetCarousel::className(),
-                            $model->carousel->key
-                        ];
-                    }
-                ]
-            ]
+            // TimestampBehavior::className(),
+            // [
+            //     'class' => UploadBehavior::className(),
+            //     //'attribute' => 'image',
+            //     //'pathAttribute' => 'path',
+            //    // 'baseUrlAttribute' => 'base_url',
+            //     //'typeAttribute' => 'type'
+            // ],
+            // 'cacheInvalidate' => [
+            //     'class' => CacheInvalidateBehavior::className(),
+            //     'cacheComponent' => 'frontendCache',
+            //     'keys' => [
+            //         function ($model) {
+            //             return [
+            //                 WidgetCarousel::className(),
+            //                 $model->carousel->key
+            //             ];
+            //         }
+            //     ]
+            // ]
         ];
     }
 
@@ -83,7 +83,8 @@ class WidgetCarouselItem extends ActiveRecord
         return [
             [['carousel_id'], 'required'],
             [['carousel_id', 'status', 'order'], 'integer'],
-            [['url', 'caption', 'base_url', 'path'], 'string', 'max' => 1024],
+            [['url', 'caption'], 'string', 'max' => 1024],
+            [['base_url','path'],'safe'],
             [['type'], 'string', 'max' => 255],
             ['image', 'safe']
         ];

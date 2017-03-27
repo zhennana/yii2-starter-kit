@@ -57,7 +57,8 @@
     "light/yii2-swagger": "~1.0.4",
     "kartik-v/yii2-widget-select2": "@dev",
     "superman2014/aliyun-php-sdk-sms": "dev-master",
-    "superman2014/aliyun-php-sdk-core": "dev-master"
+    "superman2014/aliyun-php-sdk-core": "dev-master",
+    "linslin/yii2-curl" : "*"
 
   },
   "require-dev": {
