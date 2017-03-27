@@ -8,6 +8,8 @@ use frontend\models\search\ArticleSearch;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use common\models\ArticleCategory;
+use yii\helpers\ArrayHelper;
 
 /**
  * @author Eugene Terentev <eugene@terentev.net>
@@ -62,6 +64,14 @@ class ArticleController extends Controller
         );
     }
     public function  actionCourse(){
-        return $this->render('course',['model'=>NULL]);
+        $model_category =  ArticleCategory::find()->where(['parent_id'=>[11,13]])->with('articles')->asArray()->all();
+        foreach ($model_category as $key => $value) {
+            if($value['parent_id'] == 11){
+                $data['left'][$key] = $value;
+            }else{
+                $data['right'][$key] = $value;
+            }
+        }
+        return $this->render('course',['model'=>$data]);
     }
 }
