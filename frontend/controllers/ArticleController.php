@@ -34,9 +34,9 @@ class ArticleController extends Controller
      * @return string
      * @throws NotFoundHttpException
      */
-    public function actionView($slug)
+    public function actionView($id)
     {
-        $model = Article::find()->published()->andWhere(['slug'=>$slug])->one();
+        $model = Article::find()->published()->andWhere(['id'=>$id])->one();
         if (!$model) {
             throw new NotFoundHttpException;
         }
@@ -64,13 +64,13 @@ class ArticleController extends Controller
         );
     }
     public function  actionCourse(){
-        $model_category =  ArticleCategory::find()->where(['parent_id'=>[11,13]])->with('articles')->asArray()->all();
+        $model_category =  ArticleCategory::find()->where(['parent_id'=>[9,12]])->with('articles')->asArray()->all();
         $data = [
             'left'=> [],
             'right'=>[],
         ];
         foreach ($model_category as $key => $value) {
-            if($value['parent_id'] == 11){
+            if($value['parent_id'] == 9){
                 $data['left'][$key] = $value;
             }else{
                 $data['right'][$key] = $value;
