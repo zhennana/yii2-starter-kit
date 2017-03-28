@@ -4,11 +4,15 @@ return  [
     // array, required, list of language codes that the extracted messages
     // should be translated to. For example, ['zh-CN', 'de'].
 <<<<<<< HEAD
+<<<<<<< HEAD
     // For example, the ID en-US stands for the locale of "English and the United States".
     // https://zh.wikipedia.org/wiki/ISO_3166-1
     'languages' => ['uk','ru','es', 'zh'],
 =======
     'languages' => ['uk','ru','es', 'vi', 'zh'],
+>>>>>>> trntv/master
+=======
+    'languages' => ['uk','ru','es', 'vi', 'zh', 'pl'],
 >>>>>>> trntv/master
     // string, the name of the function for translating messages.
     // Defaults to 'Yii::t'. This is used as a mark to find the messages to be
