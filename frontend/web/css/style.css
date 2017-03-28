@@ -264,6 +264,14 @@ a.desc:after {
 .margin_bottom{
   margin-bottom: 20px;
 }
+.home_news .news h4{
+  color:black;
+}
+
+.home_news .news p{
+  color:#777777;
+}
+
 .time{
   background-color: #d2d2d2;
   color:white;

@@ -241,7 +241,24 @@ function getImgs($str) {
     }
     return $data;
 }
-
+/**
+ * 字符串截取
+ * @param  [type]  $string [description]
+ * @param  integer $length [description]
+ * @param  string  $sign   [description]
+ * @param  string  $char   [description]
+ * @return [type]          [description]
+ */
+function substr_auto($string, $length=200, $sign = ' ...', $char='UTF-8'){
+    if(empty($string)){ return;}
+    return mb_strimwidth($string, 0,$length, $sign, $char);
+    
+    if(mb_strlen($string) > $length){
+        return mb_substr($string, 0, $length, $char).$sign;
+    }else{
+        return $string;
+    }
+}
 
 function ymSms($data)
 {

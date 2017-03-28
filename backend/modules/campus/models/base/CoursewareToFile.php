@@ -37,7 +37,7 @@ abstract class CoursewareToFile extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'courseware_to_file';
+        return \Yii::$app->modules['campus']->get('campus');
     }
 
 
