@@ -1,3 +1,7 @@
+<?php
+    use yii\helpers\Url;
+?>
+
 <script src="https://unpkg.com/vue@2.2.6/dist/vue.min.js" type="text/javascript"></script>
 <div class="content clear-fix">
     <div id="news" class="col-sm-8">
@@ -5,7 +9,7 @@
         <div class="news-list">
             <ul>
                 <li v-for="item in newsList" class="clear-fix">
-                    <a :href=" 'http://localhost:8088/waku/yii2-starter-kit/frontend/web/index.php?r=article%2Fview&slug=' + item.slug ">
+                    <a :href="item.url">
                         <img v-bind:src="item.image"  />
                         <div class="news-info">
                             <h3>{{item.title}}</h3>
@@ -38,17 +42,12 @@
             cur:1,
             totalPage:1,
             pageSize:5,//分页最多展示多少页可点击
-            pageNum:3,
+            pageNum:5,
             // pages:[1,2,3,4,5],
         },
         created:function () {
-            //dom渲染前
-            //这边加载数据
-            // this.loadData();
         },
         mounted:function () {
-            //dom渲染后
-            //这边加载也可以
             this.loadData();
         },
         methods:{
@@ -56,7 +55,7 @@
                 //加载数据
                 var _that = this;
                 $.ajax({
-                    url: 'http://localhost:8088/waku/yii2-starter-kit/frontend/web/index.php?r=article%2Fget-news',
+                    url: '<?php echo Url::to(['article/get-news']) ?>',
                     type: 'GET',
                     dataType: 'json',
                     data: {pager: _that.cur-1,limit:_that.pageNum},

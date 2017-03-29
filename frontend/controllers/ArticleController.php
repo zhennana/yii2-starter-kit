@@ -10,6 +10,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use common\models\ArticleCategory;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 
 /**
  * @author Eugene Terentev <eugene@terentev.net>
@@ -40,8 +41,8 @@ class ArticleController extends Controller
         if (!$model) {
             throw new NotFoundHttpException;
         }
-
-        $viewFile = $model->view ?: 'view';
+//$model->view ?:
+        $viewFile =  'view';
         return $this->render($viewFile, ['model'=>$model]);
     }
 
@@ -95,7 +96,7 @@ class ArticleController extends Controller
     public function actionGetNews($pager = 0, $first= false,$limit=5,$end =false ){
      
             $model_category =  Article::find()
-                ->select(['id','published_at','slug','title','body'])
+                ->select(['id','published_at','title','body'])
                 ->where(['category_id'=>3])
                 ->offset($pager*$limit)
                 ->limit($limit)
@@ -112,7 +113,8 @@ class ArticleController extends Controller
                 $replace =["\r\n", "\r","\n"," "];
                 $image = '';
                 $image = getImgs($value['body']);
-                $value['image'] = isset($image[0]) ?$image[0]: '' ;
+                $value['url'] = Url::to(['article/viwe','id'=>$value['id']]);
+                $value['image'] = isset($image[0]) ? $image[0] : '' ;
                 $value['body']  = str_replace($replace,"",strip_tags($value['body'])); 
                 $value['body']  = substr_auto($value['body'],100);
 
