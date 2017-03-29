@@ -1,18 +1,19 @@
 <?php
 /* @var $this yii\web\View */
 $this->title = Yii::$app->name;
-use backend\modules\campus\models\ApplyToPlay;
-use backend\modules\campus\models\Contact;
+use frontend\models\ApplyToPlay;
+use frontend\models\Contact;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\captcha\Captcha;
 
-$model = new ApplyToPlay;
-$model->setScenario('AjaxApply');
+//$model = new ApplyToPlay;
+//$model->setScenario('AjaxApply');
 //var_dump($model->getScenario());exit;
 $contact = new Contact;
 $contact->setScenario('AjaxContact');
+$image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.jpg'.'?imageView2/3/w/400/h/400';
 ?>
 <div class="site-index">
     <div class="home_block bg_red col-xs-12 hidden-xs hidden-sm">
@@ -75,13 +76,39 @@ $contact->setScenario('AjaxContact');
             ?>
         </div>
     </div>
-    <div class="home_continer col-xs-12">
+    <div class="home_continer col-xs-12 col-md-12">
         <div class="body-content home_title">
             <img src="<?php echo Yii::getAlias('@frontendUrl') ?>/img/wakoo_logo.png">
             <h3 class="text-center no-padding no-margin">瓦酷动态</h3>
         </div>
-        <div class="col-md-6 margin_bottom">
-            <div class="col-xs-12 margin_bottom home_news">
+        <div class="col-md-12 col-md-12 margin_bottom">
+            <?php 
+                foreach($model['dongtai'] as $key => $value ){
+                    //var_dump(Yii::getAlias('@frontendUrl'));exit;
+            ?>
+                <a  class="col-xs-6  margin_bottom home_news news_caonima" href="<?php echo Url::to(['article/view','id'=>$value['id']]) ?>">
+                    <div class="time col-xs-2 no-padding">
+                        <h1><?php echo date('d',$value['updated_at']);?></h1>
+                        <p><?php echo date('Y/m',$value['updated_at']);?></p>
+                    </div>
+                    <!-- <?php
+                          //  echo Html::a('<h1>'.date('d',$article['created_at']).'</h1><p>'.date('Y/m',$article['created_at']).'</p>',['article/view','id'=>'1']);
+                        ?> -->
+                    <div class="col-xs-9 news no-padding">
+                        <h4>  
+                                <?php  echo substr_auto(strip_tags($value['title']),35);?>
+                             <!--  //  var_dump(($value['body'])); -->        
+                        </h4>
+                        <p><?php  
+                                $replace =["\r\n", "\r","\n"];
+                                $value['body']  = str_replace($replace," ",strip_tags($value['body'])); 
+                                echo substr_auto($value['body'],100);
+
+                        ?> </p>
+                    </div>
+                </a>
+            <?php } ?>
+            <!-- <div class="col-xs-6 margin_bottom home_news">
                 <div class="time col-xs-2 no-padding">
                     <h1>18</h1>
                     <p>2017/2</p>
@@ -91,7 +118,7 @@ $contact->setScenario('AjaxContact');
                     <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
                 </div>
             </div>
-            <div class="col-xs-12 margin_bottom home_news">
+            <div class="col-xs-6 margin_bottom home_news">
                 <div class="time col-xs-2 no-padding">
                     <h1>18</h1>
                     <p>2017/2</p>
@@ -101,7 +128,7 @@ $contact->setScenario('AjaxContact');
                     <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
                 </div>
             </div>
-            <div class="col-xs-12 margin_bottom home_news">
+            <div class="col-xs-6 margin_bottom home_news">
                 <div class="time col-xs-2 no-padding">
                     <h1>18</h1>
                     <p>2017/2</p>
@@ -110,19 +137,9 @@ $contact->setScenario('AjaxContact');
                     <h4>2016年全国机器人等级考试圆满落幕...</h4>
                     <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
                 </div>
-            </div>
-            <div class="col-xs-12 margin_bottom home_news">
-                <div class="time col-xs-2 no-padding">
-                    <h1>18</h1>
-                    <p>2017/2</p>
-                </div>
-                <div class="col-xs-9 news no-padding">
-                    <h4>2016年全国机器人等级考试圆满落幕...</h4>
-                    <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
-                </div>
-            </div>
+            </div> -->
         </div>
-        <div class="col-md-6 margin_bottom">
+        <!--   <div class="col-md-6 margin_bottom">
             <div class="col-xs-12 margin_bottom home_news">
                 <div class="time col-xs-2 no-padding">
                     <h1>18</h1>
@@ -163,7 +180,7 @@ $contact->setScenario('AjaxContact');
                     <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
                 </div>
             </div>
-        </div>
+        </div>  -->
 
         <div class="col-xs-12 knowmore">
             <?php 
@@ -192,64 +209,73 @@ $contact->setScenario('AjaxContact');
                 <div class="carousel-inner">
                     <div class="item active">
                         <ul class="run_left no-padding pull-left">
+                        <?php foreach($model['course_left'] as $key=>$value){
+                                if($key > 2){
+                                    break;
+                                }
+                                $images = [];
+                                $images = getImgs($value['body']);
+                                 if(!empty($images)){
+                                    $image = $images[0].'?imageView2/3/w/400/h/400';
+                                 }
+                                ?>
                             <li class="col-xs-4 no-padding">
                                 <div class="img_info">
-                                    <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/98.jpg">
-                                    <h4>神奇物理</h4>
+                                    <?php
+                                        echo Html::a(
+                                            '<img class="img-responsive about_img" src='.$image.'/><h4>'. $value['title'] .'</h4>',
+                                            [
+                                                'article/view','id'=>$value['id']
+                                            ]);
+                                    ?>
                                 </div>
                                 <div class="course_info">
-                                    <p>神奇物理，开拓思维，畅游科学殿堂。</p>
+                                    <p>
+                                        <?php 
+                                            echo Html::a(
+                                                    substr_auto(strip_tags($value['body']),30),
+                                                    [ 'article/view','id'=>$value['id']]); 
+                                        ?>
+                                       
+                                   </p>
                                 </div>
                             </li>
-                            <li class="col-xs-4 no-padding">
-                                <div class="img_info">
-                                    <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/22.png">
-                                    <h4>故事大王</h4>
-                                </div>
-                                <div class="course_info">
-                                    <p>神奇物理，开拓思维，畅游科学殿堂。</p>
-                                </div>
-                            </li>
-                            <li class="col-xs-4 no-padding">
-                                <div class="img_info">
-                                    <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/33.png">
-                                    <h4>城市家园</h4>
-                                </div>
-                                <div class="course_info">
-                                    <p>神奇物理，开拓思维，畅游科学殿堂。</p>
-                                </div>
-                            </li>
+                        <?php }?>
                         </ul>
                     </div>
                     <div class="item ">
                         <ul class="run_left no-padding pull-left">
+                          <?php foreach($model['course_left'] as $key=>$value){
+                                if($key>2 && $key < 6){
+                                $images = [];
+                                $images = getImgs($value['body']);
+                                if(!empty($images)){
+                                    $image = $images[0].'?imageView2/3/w/400/h/400';
+                                }
+                            ?>
                             <li class="col-xs-4 no-padding">
                                 <div class="img_info">
-                                    <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/44.png">
-                                    <h4>神奇物理</h4>
+                                    <?php
+                                        echo Html::a(
+                                            '<img class="img-responsive about_img" src='.$image.'/><h4>'. $value['title'] .'</h4>',
+                                            [
+                                                'article/view','id'=>$value['id']
+                                            ]);
+                                    ?>
                                 </div>
                                 <div class="course_info">
-                                    <p>神奇物理，开拓思维，畅游科学殿堂。</p>
+                               <p>
+                                    <?php 
+                                        echo Html::a(
+                                                substr_auto(strip_tags($value['body']),30),
+                                                [ 'article/view','id'=>$value['id']]); 
+                                    ?>
+                                       
+                                </p>
                                 </div>
                             </li>
-                            <li class="col-xs-4 no-padding">
-                                <div class="img_info">
-                                    <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/55.png">
-                                    <h4>故事大王</h4>
-                                </div>
-                                <div class="course_info">
-                                    <p>神奇物理，开拓思维，畅游科学殿堂。</p>
-                                </div>
-                            </li>
-                            <li class="col-xs-4 no-padding">
-                                <div class="img_info">
-                                    <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/4.png">
-                                    <h4>城市家园</h4>
-                                </div>
-                                <div class="course_info">
-                                    <p>神奇物理，开拓思维，畅游科学殿堂。</p>
-                                </div>
-                            </li>
+                            
+                        <?php }} ?>
                         </ul>
                     </div>
                 </div>
@@ -266,64 +292,74 @@ $contact->setScenario('AjaxContact');
                 <div class="carousel-inner">
                     <div class="item active">
                         <ul class="run_right no-padding pull-left">
+                            <?php foreach($model['course_right'] as $key=>$value){
+                                if($key > 2){break;}
+                                $images = [];
+                                $images = getImgs($value['body']);
+                                if(!empty($images)){
+                                    $image = $images[0].'?imageView2/3/w/400/h/400';
+                                }
+                        
+                            ?>
                             <li class="col-xs-4 no-padding">
                                 <div class="img_info">
-                                    <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/b.png">
-                                    <h4>结构与力</h4>
+                                    <?php
+                                        echo Html::a(
+                                            '<img class="img-responsive about_img" src='.$image.'/><h4>'. $value['title'] .'</h4>',
+                                            [
+                                                'article/view','id'=>$value['id']
+                                            ]);
+                                    ?>
                                 </div>
                                 <div class="course_info">
-                                    <p>神奇物理，开拓思维，畅游科学殿堂。</p>
+                                    <p>
+                                    <?php 
+                                        echo Html::a(
+                                                substr_auto(strip_tags($value['body']),30),
+                                                [ 'article/view','id'=>$value['id']]); 
+                                    ?>
+                                       
+                                   </p>
                                 </div>
                             </li>
-                            <li class="col-xs-4 no-padding">
-                                <div class="img_info">
-                                    <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/c.png">
-                                    <h4>动力机械Ⅰ</h4>
-                                </div>
-                                <div class="course_info">
-                                    <p>神奇物理，开拓思维，畅游科学殿堂。</p>
-                                </div>
-                            </li>
-                            <li class="col-xs-4 no-padding">
-                                <div class="img_info">
-                                    <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/d.png">
-                                    <h4>步入智能</h4>
-                                </div>
-                                <div class="course_info">
-                                    <p>神奇物理，开拓思维，畅游科学殿堂。</p>
-                                </div>
-                            </li>
+                           <?php }?>
+                         
                         </ul>
                     </div>
                     <div class="item ">
                         <ul class="run_right no-padding pull-left">
+                            <?php foreach($model['course_right'] as $key=>$value){
+                                if($key>2 && $key < 6){
+                                $images = [];
+                                $images = getImgs($value['body']);
+                                 if(!empty($images)){
+                                    $image = $images[0].'?imageView2/3/w/400/h/400';
+                                 }
+                            ?>
                             <li class="col-xs-4 no-padding">
                                 <div class="img_info">
-                                    <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/e.png">
-                                    <h4>能量与能源</h4>
+                                <?php
+                                        echo Html::a(
+                                            '<img class="img-responsive about_img" src='.$image.'/><h4>'. $value['title'] .'</h4>',
+                                            [
+                                                'article/view','id'=>$value['id']
+                                            ]
+                                            );
+                                ?>
                                 </div>
                                 <div class="course_info">
-                                    <p>神奇物理，开拓思维，畅游科学殿堂。</p>
+                                   <p>
+                                   <?php 
+                                        echo Html::a(
+                                                substr_auto(strip_tags($value['body']),30),
+                                                [ 'article/view','id'=>$value['id']]); 
+                                   ?>
+                                       
+                                   </p>
                                 </div>
                             </li>
-                            <li class="col-xs-4 no-padding">
-                                <div class="img_info">
-                                    <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/f.png">
-                                    <h4>动力与机械Ⅱ</h4>
-                                </div>
-                                <div class="course_info">
-                                    <p>神奇物理，开拓思维，畅游科学殿堂。</p>
-                                </div>
-                            </li>
-                            <li class="col-xs-4 no-padding">
-                                <div class="img_info">
-                                    <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/g.png">
-                                    <h4>EV3系列Ⅰ</h4>
-                                </div>
-                                <div class="course_info">
-                                    <p>神奇物理，开拓思维，畅游科学殿堂。</p>
-                                </div>
-                            </li>
+                            
+                        <?php }} ?>
                         </ul>
                     </div>
                 </div>
@@ -613,7 +649,7 @@ function showfont(){
     $('.container').css('padding','0');
     $('.container').css('width','100%');
     var H_li = $('.down_run li img').height();
-    console.log(H_li);
+    //console.log(H_li);
     $('.down_run li div').hide();
     $('.down_run li').hover(function(){
         $(this).children('div').show();
@@ -625,6 +661,7 @@ function showfont(){
 }
 $(window).resize(function() {
     showfont();
+    news_resize();
 });
 
 
@@ -689,7 +726,7 @@ $(function () {
 
 function showhide(){
     var Width = $(window).width();
-    console.log(Width);
+    //console.log(Width);
     if(Width < 768){
         $('#enlist').removeClass('address_choose');
         $('#enlist').addClass('address_choose1');
@@ -796,6 +833,24 @@ $(document).ready(function () {
             });
             return false;
          });
+    });
+
+    function news_resize() {
+        var width = $(window).width();
+         if(width<1000){
+            $('.news_caonima').removeClass('col-xs-6').addClass('col-xs-12');
+            
+         }else{
+          $('.news_caonima').removeClass('col-xs-12').addClass('col-xs-6');
+         }
+    };
+     $(window).load(function(){
+         var width = $(window).width();
+        if(width<1000){
+            $('.news_caonima').removeClass('col-xs-6').addClass('col-xs-12');
+         }else{
+            $('.news_caonima').removeClass('col-xs-12').addClass('col-xs-6');
+         }
     });
 </script>
 

@@ -4,8 +4,10 @@ namespace frontend\controllers;
 use Yii;
 use frontend\models\ContactForm;
 use yii\web\Controller;
-use backend\modules\campus\models\ApplyToPlay;
-use backend\modules\campus\models\Contact;
+use frontend\models\ApplyToPlay;
+use frontend\models\Contact;
+use common\models\Article;
+use common\models\ArticleCategory;
 
 /*
 use Superman2014\Aliyun\Sms\Sms\Request\V20160927 as Sms;
@@ -77,6 +79,84 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+       
+       //  
+       // $model = ArticleCategory::find()
+       //  ->andwhere(['or',['id'=>[3]],['parent_id'=>[9,12]]])
+       //  ->andWhere(['status'=>ArticleCategory::STATUS_ACTIVE])
+       //  ->with(['articles'=>function($model){
+       //          return  $model->limit(1);
+       //  }])
+       //  ->asArray()
+       //  ->all();
+       //  dump($model);exit;
+      $model = ArticleCategory::find()
+        ->select(['id','parent_id'])
+        ->andwhere(['or',['id'=>[3]],['parent_id'=>[9,12]]])
+        ->andWhere(['status'=>ArticleCategory::STATUS_ACTIVE])
+        ->asArray()
+        ->all();
+      //
+      //var_dump($model);exit;
+      $course_left  = [];
+      $course_right = [];
+      $dongtai      = [];
+      foreach ($model as $key => $value) {
+          if($value['parent_id'] == 9){
+            $course_left[]  = $value['id'];
+          }elseif($value['parent_id'] == 12){
+            $course_right[] = $value['id'];
+          }else{
+            $dongtai[]      = $value['id'];
+          }
+      }
+      $model = array_column($model,'id');
+      //var_dump($model);
+      $articles = Article::find()
+        ->where(['category_id'=>$model])
+        ->orderBy(['updated_at'=>SORT_DESC])
+        ->asArray()
+        ->all(); 
+      $data = [
+          'course_left'=>[],
+          'course_right'=>[],
+          'dongtai'=>[]
+      ];
+   //dump($articles);exit;
+     foreach($articles as $key => $value){
+          if(in_array($value['category_id'],$course_left)){
+              $data['course_left'][] = $value;
+          }
+
+          if(in_array($value['category_id'],$course_right)){
+              $data['course_right'][] =$value;
+          }
+
+          if(in_array($value['category_id'],$dongtai)){
+              $data['dongtai'][]      = $value;
+          }
+        }
+        //dump($data['course_left']);exit;
+            // if($value['id'] == 3){
+            //  // $data['dongtai']['title'] = $value['title'];
+            //   //wakoo 动态
+            //   $data['dongtai'][] = $value;
+            
+            // }elseif($value['parent_id'] == 9){
+            //   //$data['course_tope']          = $value;
+              
+            //   //wakoo 学前课程（3-6）
+            //   $data['course_left'][]    = $value;
+            
+            // }elseif($value['parent_id'] == 12){
+              
+            //   //wakoo 学前课程（7-13）
+            //   $data['course_right'][]    = $value;
+            
+            // }elseif($value['id'] == 1 ){
+            //   //关于wakoo
+            // }
+    // dump($data);exit;
       //exit();
       /*
        * 阿里云发送短信.
@@ -106,7 +186,7 @@ class SiteController extends Controller
         );
         var_dump($resource);
         */
-        return $this->render('index');
+        return $this->render('index',['model'=>$data]);
     }
 
     /**

@@ -48,7 +48,7 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
             <?php } ?>
             </div>
       
-             <div id="course_school">
+             <div id="course_school" style="display: none">
              <?php foreach($model['right'] as $key =>$value ){
                     if(empty($value['articles'])){
                         continue;
@@ -94,8 +94,6 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
     // 课程体系页面 列表百分比适配  
     $(window).load(function(){
          var width = $(window).width();
-         // var imgs = $('course-list').find('li').find('img');
-        console.log(width);
          if(width<1000){
           
             $('.course-list ul li img').css('width','100%');
@@ -111,10 +109,7 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
 
     $(window).resize(function(){
          var width = $(window).width();
-         // var imgs = $('course-list').find('li').find('img');
-        console.log(width);
          if(width<1000){
-          
             $('.course-list ul li img').css('width','100%');
             $('.course-list ul li .course-info').css('width','100%');
             $('.course-list ul li .course-info').css('margin-top','10px');
