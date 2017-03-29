@@ -31,7 +31,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
             // ['label' => Yii::t('frontend', 'Signup'), 'url' => ['/user/sign-in/signup'], 'visible'=>Yii::$app->user->isGuest],
             ['label' => Yii::t('frontend', '关于瓦酷'), 'url' => ['/page/view', 'slug'=>'guan-yu-wa-ku']],
             ['label' => Yii::t('frontend', '课程体系'), 'url' => ['/article/course']],
-            ['label' => Yii::t('frontend', '瓦酷动态'), 'url' => ['/page/view', 'slug'=>'wa-ku-dong-tai']],
+            ['label' => Yii::t('frontend', '瓦酷动态'), 'url' => ['/article/news']],
             //['label' => Yii::t('frontend', '赛事游学'), 'url' => ['/page/view', 'slug'=>'sai-shi-you-xue']],
             //['label' => Yii::t('frontend', '亲子课堂'), 'url' => ['/page/view', 'slug'=>'qin-zi-ke-tang']],
             ['label' => Yii::t('frontend', '招商加盟'), 'url' => ['/page/view', 'slug'=>'zhao-shang-jia-meng']],
