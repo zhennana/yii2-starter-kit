@@ -27,6 +27,7 @@
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
 }
+
 .course-left-side .course-title{
     display: inline-block;
     box-sizing: border-box;
@@ -71,7 +72,7 @@
     padding:0;
 }
 
-.course-left-side  .course-list ul li{
+.course-left-side  .course-list ul li,#news .news-list ul li{
 
     margin: 10px 0;
     display: block;
@@ -81,13 +82,13 @@
     border-bottom: 1px black dashed;
 }
 
-.course-left-side  .course-list ul li a{
+.course-left-side  .course-list ul li a,#news .news-list ul li a{
     color:#777777;
 }
 
-.course-left-side  .course-list ul li:hover{
+.course-left-side  .course-list ul li:hover,#news .news-list ul li:hover{
     background-color: #f1f1f1;
-     border-bottom: 1px #e6214f dashed;
+    border-bottom: 1px #e6214f dashed;
 }
 .course-left-side  .course-list ul li:hover .course-info h4{
     background-color: #e6214f;
@@ -96,7 +97,8 @@
 
 }
 
-.course-left-side  .course-list ul li:hover .course-info p{
+.course-left-side  .course-list ul li:hover .course-info p,
+#news .news-list ul li:hover a .news-info p{
     color: #3c8dbc;
 }
 
@@ -147,3 +149,65 @@
 .right-public{
     height: 1000px;
 }
+
+
+#news h1{
+    padding: 0;
+    margin: 0;
+    font-size: 24px;
+    font-family: "FuturaBT";
+    color: rgb(230, 33, 79);
+    font-weight: bold;
+    height:40px;
+    line-height: 40px;
+}
+
+#news .news-list ul{
+    padding: 0;
+}
+
+#news .news-list ul li a img{
+    float: left;
+    display: inline-block;
+    width: 35%;
+    margin-right: 20px;
+}
+
+#news .news-list ul li a .news-info{
+    width: 60%;
+    float: left;
+}
+
+#news .news-list ul li a .news-info h3{
+    padding: 0;
+    margin: 0;
+    font-size: 15px;
+    line-height: 20px;
+    height: 40px;
+    color:black;
+}
+
+#news .news-list ul li a .news-info span{
+    padding: 0;
+    margin: 0;
+    font-size: 12px;
+    line-height: 20px;
+    color:#777777;
+}
+
+#news #pager_u ul > li  {
+    cursor: pointer;
+}
+
+#news .news-list ul li a .news-info p{
+    text-indent: 2em;
+    padding: 10px;
+    padding: 5px 0 0 0;
+    line-height: 20px;
+    height: 82px;
+    font-size: 14px
+    margin:0;
+    transition: color ease-in-out 0.4s;
+    overflow:hidden;
+}
+
