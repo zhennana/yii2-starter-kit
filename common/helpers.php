@@ -232,15 +232,33 @@ function isCreditNo($vStr)
  * @return [type]      [description]
  */
 function getImgs($str) {
-    $reg = '/((http|https):\/\/)+(\w+\.)+(\w+)[\w\/\.\-]*(JPG|jpg|gif|png)/';
+    $reg = '/((http|https)(.*?)(JPG|jpg|gif|png))/';
     $matches = $data = array();
     preg_match_all($reg, $str, $matches);
+    //var_dump(1323);exit;
     foreach ($matches[0] as $value) {
         $data[] = $value;
     }
     return $data;
 }
-
+/**
+ * 字符串截取
+ * @param  [type]  $string [description]
+ * @param  integer $length [description]
+ * @param  string  $sign   [description]
+ * @param  string  $char   [description]
+ * @return [type]          [description]
+ */
+function substr_auto($string, $length=200, $sign = ' ...', $char='UTF-8'){
+    if(empty($string)){ return;}
+    return mb_strimwidth($string, 0,$length, $sign, $char);
+    
+    if(mb_strlen($string) > $length){
+        return mb_substr($string, 0, $length, $char).$sign;
+    }else{
+        return $string;
+    }
+}
 
 function ymSms($data)
 {

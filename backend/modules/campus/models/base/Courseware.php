@@ -28,16 +28,22 @@ use yii\behaviors\TimestampBehavior;
  */
 abstract class Courseware extends \yii\db\ActiveRecord
 {
-
+    CONST COURSEWARE_STATUS_VALID   = 10;//有效
+    CONST COURSEWARE_STATUS_INVALID = 20;//无效
 
      /**
      * @return \yii\db\Connection the database connection used by this AR class.
      */
     public static function getDb()
     {
-        return Yii::$app->get('campus');
+       return \Yii::$app->modules['campus']->get('campus');
     }
-
+    public static function optsStatus(){
+        return [
+            self::COURSEWARE_STATUS_VALID    => '有效',
+            self::COURSEWARE_STATUS_INVALID =>'无效',
+        ];
+    }
     /**
      * @inheritdoc
      */
@@ -65,9 +71,10 @@ abstract class Courseware extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['category_id', 'level', 'creater_id', 'parent_id', 'access_domain', 'access_other', 'status', 'items'], 'integer'],
-            [['slug', 'title'], 'required'],
+            [['category_id', 'level', 'creater_id', 'access_domain', 'access_other', 'status', 'items'], 'integer'],
+            [[ 'title'], 'required'],
             [['body'], 'string'],
+            ['creater_id','default','value'=>Yii::$app->user->identity->id],
             [['slug'], 'string', 'max' => 1024],
             [['title'], 'string', 'max' => 512]
         ];
@@ -81,14 +88,14 @@ abstract class Courseware extends \yii\db\ActiveRecord
         return [
             'courseware_id' => Yii::t('common', 'Courseware ID'),
             'category_id' => Yii::t('common', '分类'),
-            'level' => Yii::t('common', '级别：100课件；200相册；300作品'),
+            'level' => Yii::t('common', '级别'),
             'creater_id' => Yii::t('common', '创建者'),
             'slug' => Yii::t('common', 'Slug'),
             'title' => Yii::t('common', '标题'),
-            'body' => Yii::t('common', '描述json：教学目标'),
+            'body' => Yii::t('common', '教学目标'),
             'parent_id' => Yii::t('common', '父课件'),
-            'access_domain' => Yii::t('common', '权限：10仅自己可见；20老师；30同学；0所有人'),
-            'access_other' => Yii::t('common', '其他权限 1允许分享'),
+            'access_domain' => Yii::t('common', '权限'),
+            'access_other' => Yii::t('common', '分享权限'),
             'status' => Yii::t('common', 'Status'),
             'items' => Yii::t('common', 'Items'),
             'created_at' => Yii::t('common', 'Created At'),

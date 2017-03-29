@@ -146,6 +146,7 @@ class ItemController extends \yii\rest\ActiveController
      */
     public function actionListVideo()
     {
+        /*
         $info = [
             1=>[
                 'video_id' =>1 ,
@@ -183,7 +184,16 @@ class ItemController extends \yii\rest\ActiveController
                 'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
                 'video_src' => 'http://omsqlyn5t.bkt.clouddn.com/Abc%20Song%20%20%20Super%20Simple%20Songs%20480P.ogv',
             ],
-        ];
+        ];*/
+        $info = [];
+        for ($i=1; $i < 26 ; $i++) { 
+            $info[$i] = [
+                'video_id' => $i ,
+                'title'=>'Abc Song   Super Simple Songs',
+                'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
+                'video_src' => 'http://omsqlyn5t.bkt.clouddn.com/Abc%20Song%20%20%20Super%20Simple%20Songs%20480P.ogv',
+            ];
+        }
 
         return $info;
     }
@@ -248,6 +258,17 @@ class ItemController extends \yii\rest\ActiveController
                 'music_src' => 'http://omsqlyn5t.bkt.clouddn.com/01.Happy%20Birthday,Danny%20and%20the%20DinosaurTrack01.MP3',
             ],
         ];
+
+        $info = [];
+        for ($i=1; $i < 26 ; $i++) { 
+            $info[$i] = [
+                'music_id' => $i ,
+                'title'=>'Happy Birthday,Danny and the DinosaurTrack01',
+                'lyric' => '这是歌词',
+                'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
+                'music_src' => 'http://omsqlyn5t.bkt.clouddn.com/01.Happy%20Birthday,Danny%20and%20the%20DinosaurTrack01.MP3',
+            ];
+        }
 
         return $info;
     }
@@ -372,6 +393,27 @@ class ItemController extends \yii\rest\ActiveController
                 ],
             ],
         ];
+        $info = [];
+        for ($i=1; $i < 26 ; $i++) { 
+            # code...
+            $info[$i] =[
+                'book_id' => $i ,
+                'title'=>'A Big Mistake',
+                'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
+                'music_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake.mp3',
+                'img_src'   => [
+                    'http://omsqlyn5t.bkt.clouddn.com/mistake01.jpg',
+                    'http://omsqlyn5t.bkt.clouddn.com/mistake01a.jpg',
+                    'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
+                    'http://omsqlyn5t.bkt.clouddn.com/mistake03.jpg',
+                    'http://omsqlyn5t.bkt.clouddn.com/mistake04.jpg',
+                    'http://omsqlyn5t.bkt.clouddn.com/mistake05.jpg',
+                    'http://omsqlyn5t.bkt.clouddn.com/mistake06.jpg',
+                    'http://omsqlyn5t.bkt.clouddn.com/mistake07.jpg',
+                    'http://omsqlyn5t.bkt.clouddn.com/mistake08.jpg',
+                ],
+            ];
+        }
 
         return $info;
     }

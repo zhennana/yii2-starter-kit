@@ -67,15 +67,15 @@ $config = [
             'charset' => 'utf8',
             'enableSchemaCache' => YII_ENV_PROD,
         ],
-        'campus'=>[
-            'class'=>'yii\db\Connection',
-            'dsn' => env('DB_DSN_CAMPUS'),
-            'username' => env('DB_USERNAME_CAMPUS'),
-            'password' => env('DB_PASSWORD_CAMPUS'),
-            'tablePrefix' => env('DB_TABLE_PREFIX_CAMPUS'),
-            'charset' => 'utf8',
-            'enableSchemaCache' => YII_ENV_PROD,
-        ],
+        // 'campus'=>[
+        //         'class'=>'yii\db\Connection',
+        //         'dsn' => env('DB_DSN_CAMPUS'),
+        //         'username' => env('DB_USERNAME_CAMPUS'),
+        //         'password' => env('DB_PASSWORD_CAMPUS'),
+        //         'tablePrefix' => env('DB_TABLE_PREFIX_CAMPUS'),
+        //         'charset' => 'utf8',
+        //         'enableSchemaCache' => YII_ENV_PROD,
+        // ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
@@ -181,6 +181,7 @@ $config = [
             //'es' => 'Español',
             //'vi' => 'Tiếng Việt',
             'zh-CN' => '简体中文',
+            'pl-PL' => 'Polski (PL)',
         ],
         // defines codes for the names of countries, https://zh.wikipedia.org/wiki/ISO_3166-1
         // Currency code, https://zh.wikipedia.org/wiki/ISO_4217
