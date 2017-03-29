@@ -40,7 +40,6 @@ $config = [
             'defaultRoute'=>'i18n-message/index'
         ],
     'campus' => [
-
             'class' => 'backend\modules\campus\Module',
             'defaultRoute'=>'default/index'
         ],
