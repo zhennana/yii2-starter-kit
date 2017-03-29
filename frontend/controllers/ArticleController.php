@@ -61,4 +61,7 @@ class ArticleController extends Controller
             $model->name
         );
     }
+    public function  actionCourse(){
+        return $this->render('course',['model'=>NULL]);
+    }
 }
