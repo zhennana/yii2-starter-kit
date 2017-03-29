@@ -1,3 +1,8 @@
+<?php
+use yii\helpers\Html;
+//默认图片
+$image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.jpg'.'?imageView2/3/w/400/h/400';
+?>
 <div class="content">
     <div id="course">
         <div class="col-sm-8 course-left-side">
@@ -18,18 +23,24 @@
                 </div>
 
                     <ul>
-                        <?php foreach($value['articles'] as $article){?>
+                        <?php foreach($value['articles'] as $article){
+                           // var_dump($article['body']);exit;
+                            $images = [];
+                            $images = getImgs($article['body']);
+                             if(!empty($images)){
+                                $image = $images[0].'?imageView2/3/w/400/h/400';
+                             }
+                        
+                            ?>
                         <li class="clear-fix">
-                            <a href="#">
-                                <img  src="http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.jpg"
-                                alt="描述信息">
-                                <div class="course-info">
-                                    <h4><?php echo $article['title']?></h4>
-                                    <p>
-                                       <?php echo $article['body'] ?>
-                                    </p>
-                                </div>
-                            </a>
+                            <?php
+                                echo Html::a(
+                                    '<img  src='.$image.' alt="描述信息"/>'.
+                                    '<div class="course-info"><h4>'. $article['title'].'</h4><p>'.strip_tags($article['body']).'</p></div>',
+                                    [
+                                        'article/view','id'=>$article['id']
+                                    ]);
+                            ?>        
                         </li>
                         <?php }?>
                     </ul>
@@ -45,22 +56,26 @@
                 ?>
                 <div class="course-list">
                     <div class="course-type">
-                        <span><?php echo $value['title']?></span>(中心思想)
+                        <span><?php echo $value['title']?></span>
                     </div>
 
                     <ul>
-                    <?php foreach($value['articles'] as $k=>$article){?>
+                    <?php foreach($value['articles'] as $k=>$article){
+                            $images = [];
+                            $images = getImgs($article['body']);
+                            if(!empty($images)){
+                                $image = $images[0].'?imageView2/3/w/400/h/400';
+                            }
+                        ?>
                         <li class="clear-fix">
-                            <a href="#">
-                                <img  src="http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.jpg"
-                                alt="描述信息">
-                                <div class="course-info">
-                                    <h4><?php echo $article['title']?></h4>
-                                    <p>
-                                      <?php echo $article['body'] ?>
-                                    </p>
-                                </div>
-                            </a>
+                             <?php
+                                echo Html::a(
+                                    '<img  src='.$image.' alt="描述信息"/>'.
+                                    '<div class="course-info"><h4>'. $article['title'].'</h4><p>'.strip_tags($article['body']).'</p></div>',
+                                    [
+                                        'article/view','id'=>$article['id']
+                                    ]);
+                            ?>        
                         </li>
                     <?php }?>
                     </ul>

@@ -181,6 +181,7 @@ $config = [
             //'es' => 'Español',
             //'vi' => 'Tiếng Việt',
             'zh-CN' => '简体中文',
+            'pl-PL' => 'Polski (PL)',
         ],
         // defines codes for the names of countries, https://zh.wikipedia.org/wiki/ISO_3166-1
         // Currency code, https://zh.wikipedia.org/wiki/ISO_4217

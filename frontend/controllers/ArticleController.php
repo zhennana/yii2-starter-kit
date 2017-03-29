@@ -34,9 +34,9 @@ class ArticleController extends Controller
      * @return string
      * @throws NotFoundHttpException
      */
-    public function actionView($slug)
+    public function actionView($id)
     {
-        $model = Article::find()->published()->andWhere(['slug'=>$slug])->one();
+        $model = Article::find()->published()->andWhere(['id'=>$id])->one();
         if (!$model) {
             throw new NotFoundHttpException;
         }
