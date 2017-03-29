@@ -162,11 +162,11 @@ if(\Yii::$app->user->can('manager', ['route' => true])){
                     'value'     =>function($model){
                         return Html::a(
                             isset($model->gradeCategory->name) ? $model->gradeCategory->name: '',
-                            ['campus/grade-categroy','grade-categroy_id'=>$model->group_category_id]
+                            ['/campus/grade-categroy','grade-categroy_id'=>$model->group_category_id]
                             );
                     }
                 ],
-                   // 'group_category_id',
+                    //'group_category_id',
         			'grade_title',
         			'creater_id',
         			//'classroom_group_levels',
