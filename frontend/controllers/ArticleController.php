@@ -113,7 +113,7 @@ class ArticleController extends Controller
                 $replace =["\r\n", "\r","\n"," "];
                 $image = '';
                 $image = getImgs($value['body']);
-                $value['url'] = Url::to(['article/viwe','id'=>$value['id']]);
+                $value['url'] = Url::to(['article/view','id'=>$value['id']]);
                 $value['image'] = isset($image[0]) ? $image[0] : '' ;
                 $value['body']  = str_replace($replace,"",strip_tags($value['body'])); 
                 $value['body']  = substr_auto($value['body'],100);
