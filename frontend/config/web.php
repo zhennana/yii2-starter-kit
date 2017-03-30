@@ -30,6 +30,16 @@ $config = [
                 ],
             ],
         ],
+        'campus'=>[
+                'class'=>'yii\db\Connection',
+                'dsn' => env('DB_DSN_CAMPUS'),
+                'username' => env('DB_USERNAME_CAMPUS'),
+                'password' => env('DB_PASSWORD_CAMPUS'),
+                'tablePrefix' => env('DB_TABLE_PREFIX_CAMPUS'),
+                'charset' => 'utf8',
+                'enableSchemaCache' => YII_ENV_PROD,
+        ],
+        
         'authClientCollection' => [
             'class' => 'yii\authclient\Collection',
             'clients' => [

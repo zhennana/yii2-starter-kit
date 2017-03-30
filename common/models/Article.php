@@ -9,6 +9,7 @@ use yii\behaviors\BlameableBehavior;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "article".
@@ -170,7 +171,27 @@ class Article extends ActiveRecord
     {
         return $this->hasOne(ArticleCategory::className(), ['id' => 'category_id']);
     }
-
+    /**
+     * 递归分类
+     * @param  [type] $data [description]
+     * @return [type]       [description]
+     */
+    public function category_recursion($data,$pid=0,$lev=0){
+        static  $list = []; 
+        foreach ($data as $key => $value) {
+           if(empty($value['parent_id'])){
+                $value['parent_id'] = 0;
+                //var_dump( $value['parent_id'] );exit;
+           }
+            if($value['parent_id'] == $pid){
+                $value['title'] = str_repeat('-',$lev).$value['title'];
+                $list[] = $value;
+                $this->category_recursion($data,$value['id'],$lev+1);
+            }
+            
+        }
+        return $list;
+    }
     /**
      * @return \yii\db\ActiveQuery
      */

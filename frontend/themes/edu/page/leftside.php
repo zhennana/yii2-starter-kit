@@ -12,9 +12,9 @@ $this->title = $model->title;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="content">
-	<div class="c0l-sm-12">
+	<!-- <div class="c0l-sm-12">
 		<button class="btn btn-warning">按钮</button>
-	</div>
+	   </div> -->
 	<div class="col-sm-8">
 		<h1 class="sub-title"><?php echo $model->title ?></h1>
 		<div class="left-side-self">

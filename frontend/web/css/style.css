@@ -155,10 +155,11 @@ a.desc:after {
 }
 .top_logo h3{
   color: #e6214f;
+  font-family: MicrosoftJhengHei;
 }
 .navbar-inverse{
-  background-color: #fcca10;
-  border-color: #fcca10;
+  background-color: #fff000;
+  border-color: #fff000;
 }
 .navbar-inverse .navbar-nav > .active > a,
 .navbar-inverse .navbar-nav > .active > a:hover,
@@ -187,12 +188,15 @@ a.desc:after {
   padding-right: 10%;
   padding-left: 10%;
   border-top: solid 1px #a0a0a0;
-  padding-top: 5%;
+  padding-top: 4%;
   text-align: center;
+  /*padding-bottom: 3%;*/
+}
+.contact_us,.show_work,.course_sys{
   padding-bottom: 3%;
 }
-.nav > li > a{
-  padding: 15px 25px;
+.nav > li a{
+  padding: 15px 30px;
 }
 .home_continer .col-xs-6,.col-xs-3{
   padding: 0 10px;
@@ -205,12 +209,37 @@ a.desc:after {
   text-align: left;
   font-size: 16px;
 }
+.home_block{
+  padding:1.5% 15%;
+}
+.block_logo p{
+  letter-spacing:4px;
+  color:#ffffff;
+  font-weight:bold;
+  font-size: 24px;
+  font-family: KaiTi;
+  margin-top: 6px;
+}
+.block_hotline p{
+  color:#fff000;
+  font-weight:bold;
+  font-size: 24px;
+  font-family: SimHei;
+  margin-top: 6px;
+}
+.about_wakoo p{
+  letter-spacing:1px;
+  line-height:30px;
+}
+.bg_red{
+  background-color: #e6214f;
+}
 .bg_gray{
   background-color: #f1f1f1;
 }
 .home_title{
   color: #e6214f;
-  background-image: url(http://7xthhn.com2.z0.glb.clouddn.com/o_1b8b4ggjuae6lnm11huuo1hv19.png);
+  background-image: url(../img/cut_off.png);
   background-repeat: no-repeat;
   background-position: bottom;
   padding-bottom: 10px;
@@ -227,14 +256,30 @@ a.desc:after {
   margin: auto;
 }
 .knowmore{
-  margin: 20px 0;
+  margin: 40px 0 0;
+}
+.bottom_logo {
+  margin: 6% 0;
 }
 .margin_bottom{
   margin-bottom: 20px;
 }
+.home_news .news h4{
+  color:black;
+}
+
+.home_news .news p{
+  color:#777777;
+}
+
 .time{
   background-color: #d2d2d2;
   color:white;
+}
+.yellow{
+  background-color: #fff000 !important;
+  border-radius: 5px;
+  color: black;
 }
 .time p{
   text-indent: 0;
@@ -255,6 +300,9 @@ a.desc:after {
 .home_news:hover > .news h4{
   color: #e6214f;
 }
+.home_news{
+  cursor:pointer;
+}
 .course{
   margin-bottom: 20px;
 }
@@ -262,13 +310,28 @@ a.desc:after {
   width: 60%;
   line-height: 40px;
   background-color: white;
+  cursor:pointer;
 }
 .run_left li{
   list-style: none;
-  background-color: #fcca10;
-  border-radius: 10px;
   width: 30%;
   margin:0 1.6%;
+}
+.run_left h4{
+  padding: 10px 0 15px;
+}
+.run_left .img_info{
+  background-color: #fff000;
+}
+.img_info{
+  border-radius: 10px;
+  margin:0 1.6%;
+}
+.run_right h4{
+  padding: 10px 0 15px;
+}
+.course_info p{
+  color: #778899;
 }
 .run_right li{
   list-style: none;
@@ -312,26 +375,32 @@ a.desc:after {
   left: 0;
   top: 0;
   background-color: black;
-  filter:alpha(opacity=70); /*IE滤镜，透明度50%*/
-  -moz-opacity:0.7; /*Firefox私有，透明度50%*/
-  opacity:0.7;/*其他，透明度50%*/
+  filter:alpha(opacity=65); /*IE滤镜，透明度50%*/
+  -moz-opacity:0.65; /*Firefox私有，透明度50%*/
+  opacity:0.65;/*其他，透明度50%*/
   color: white;
   text-align: center;
 }
 .down_run li div p{
-  font-size: 12px;
+  font-size: 15px;
+  margin: 25px 10px;
+  line-height: 2em;
+  letter-spacing: 1px;
 }
 .down_run li h4{
   margin: 0;
-  padding:0;
+  padding: 1% 0;
   line-height: 30px;
 }
 .down_run li:hover{
-  border:solid 1px #e61d4d;
+  border-left:solid 1px #e61d4d;
 }
 .down_run li:hover >  h4{
   background-color: #e61d4d;
   color: white;
+}
+.down_run button{
+  background-color: #e61d4d;
 }
 .ourinfo p{
   text-indent: 0;

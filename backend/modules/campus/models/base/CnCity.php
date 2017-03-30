@@ -29,7 +29,7 @@ abstract class CnCity extends \yii\db\ActiveRecord
     }
 
     public static function getDb(){
-        return Yii::$app->get('campus');
+         return \Yii::$app->modules['campus']->get('campus');
     }
     /**
      * @inheritdoc

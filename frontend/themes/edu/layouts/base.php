@@ -10,7 +10,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
 ?>
 <div class="wrap">
     <div class="top_logo row">
-        <a href="<?php echo Yii::getAlias('@frontendUrl') ?>"><img class="img-responsive pull-left" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png"></a>
+        <a href="<?php echo Yii::getAlias('@frontendUrl') ?>"><img class="img-responsive pull-left" src="<?php echo Yii::getAlias('@frontendUrl') ?>/img/top_logo.png"></a>
         <h3 class="pull-right">咨询热线：400-608-0515</h3>
     </div>
     <?php
@@ -30,8 +30,8 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
             //['label' => Yii::t('frontend', 'Contact'), 'url' => ['/site/contact']],
             // ['label' => Yii::t('frontend', 'Signup'), 'url' => ['/user/sign-in/signup'], 'visible'=>Yii::$app->user->isGuest],
             ['label' => Yii::t('frontend', '关于瓦酷'), 'url' => ['/page/view', 'slug'=>'guan-yu-wa-ku']],
-            ['label' => Yii::t('frontend', '课程体系'), 'url' => ['/page/view', 'slug'=>'ke-cheng-ti-xi']],
-            ['label' => Yii::t('frontend', '瓦酷动态'), 'url' => ['/page/view', 'slug'=>'wa-ku-dong-tai']],
+            ['label' => Yii::t('frontend', '课程体系'), 'url' => ['/article/course']],
+            ['label' => Yii::t('frontend', '瓦酷动态'), 'url' => ['/article/news']],
             //['label' => Yii::t('frontend', '赛事游学'), 'url' => ['/page/view', 'slug'=>'sai-shi-you-xue']],
             //['label' => Yii::t('frontend', '亲子课堂'), 'url' => ['/page/view', 'slug'=>'qin-zi-ke-tang']],
             ['label' => Yii::t('frontend', '招商加盟'), 'url' => ['/page/view', 'slug'=>'zhao-shang-jia-meng']],
@@ -88,48 +88,52 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
 <footer class="footer">
     <div class="container">
         <div class="col-xs-12 top">
-            <ul class="no-margin no-padding col-xs-8">
-                <li class="col-xs-2">
-                    <h4>关于瓦酷</h4>
-                    <p>瓦酷介绍</p>
-                    <p>品牌故事</p>
-                    <p>专家团队</p>
-                    <p>教育理念</p>
-                    <p>运营管理</p>
-                    <p>加盟校区</p>
-                    <p>校区展示</p>
-                </li>
-                <li class="col-xs-2">
-                    <h4>招商加盟</h4>
-                    <p>瓦酷加盟体系</p>
-                    <p>加盟流程</p>
-                    <p>加盟条件</p>
-                    <p>服务支持</p>
-                    <p>项目优势</p>
-                    <p>投资收益分析</p>
-                    <p>授权证书</p>
-                    <p>行业趋势</p>
-                </li>
-                <li class="col-xs-2">
-                    <h4>课程体系</h4>
-                    <p>学前课程</p>
-                    <p>学龄课程</p>
-                    <p>精品课程</p>
-                </li>
-                <li class="col-xs-2">
-                    <h4>瓦酷动态</h4>
-                    <p>瓦酷动态</p>
-                    <p>瓦酷视频</p>
-                </li>
-                <li class="col-xs-4">
-                    <h4>联系我们</h4>
-                    <p class="no-margin">全国咨询热线</p>
-                    <h3 class="no-margin">400-608-0515</h3>
-                    <h5>地址：河北省廊坊市三河市燕郊开发区</h5>
-                    <p>邮编：065201</p>
-                </li>
-            </ul>
-            <img class="img-responsive col-xs-4" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b89ov8r2ak91qdt4i71mrc15rs9.png">
+            <div class="web_map">
+                <ul class="no-margin no-padding col-xs-8">
+                    <li class="col-xs-2">
+                        <h4>关于瓦酷</h4>
+                        <p>瓦酷介绍</p>
+                        <p>品牌故事</p>
+                        <p>专家团队</p>
+                        <p>教育理念</p>
+                        <p>运营管理</p>
+                        <p>加盟校区</p>
+                        <p>校区展示</p>
+                    </li>
+                    <li class="col-xs-2">
+                        <h4>招商加盟</h4>
+                        <p>瓦酷加盟体系</p>
+                        <p>加盟流程</p>
+                        <p>加盟条件</p>
+                        <p>服务支持</p>
+                        <p>项目优势</p>
+                        <p>投资收益分析</p>
+                        <p>授权证书</p>
+                        <p>行业趋势</p>
+                    </li>
+                    <li class="col-xs-2">
+                        <h4>课程体系</h4>
+                        <p>学前课程</p>
+                        <p>学龄课程</p>
+                        <p>精品课程</p>
+                    </li>
+                    <li class="col-xs-2">
+                        <h4>瓦酷动态</h4>
+                        <p>瓦酷动态</p>
+                        <p>瓦酷视频</p>
+                    </li>
+                    <li class="col-xs-4">
+                        <h4>联系我们</h4>
+                        <p class="no-margin">全国咨询热线</p>
+                        <h3 class="no-margin">400-608-0515</h3>
+                        <h5>地址：河北省廊坊市三河市燕郊开发区</h5>
+                        <p>邮编：065201</p>
+                    </li>
+                </ul>
+            </div>
+            <div class="bottom_logo">
+                <img class="img-responsive col-xs-4" src="<?php echo Yii::getAlias('@frontendUrl') ?>/img/bottom_logo.png">
+            </div>
         </div>
         <div class="col-xs-12 bottom">
             <p class="pull-left">
