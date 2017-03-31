@@ -9,6 +9,8 @@ return [
 
         // Articles
         ['pattern'=>'article/index', 'route'=>'article/index'],
+        ['pattern'=>'article/news','route'=>'article/news'],
+        ['pattern'=>'article/get-news','route'=>'article/get-news'],
         ['pattern'=>'article/course', 'route'=>'article/course'],
         ['pattern'=>'article/attachment-download', 'route'=>'article/attachment-download'],
         ['pattern'=>'article/<slug>', 'route'=>'article/view'],
