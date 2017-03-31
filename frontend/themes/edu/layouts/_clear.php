@@ -17,7 +17,7 @@ use yii\helpers\Html;
     <link rel="shortcut icon" href="http://static.v1.wakooedu.com/favicon.ico">
     <script src="http://static.v1.wakooedu.com/jquery-latest.js"></script>
     <script src="<?php echo Yii::getAlias('@frontendUrl') ?>/js/jquery/pdata.js"></script>
-    <title><?php echo Html::encode($this->title) ?></title>
+    <title>瓦酷机器人教育 - <?php echo Html::encode($this->title) ?></title>
     <?php $this->head() ?>
     <?php echo Html::csrfMetaTags() ?>
 </head>
