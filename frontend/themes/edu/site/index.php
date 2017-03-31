@@ -17,22 +17,20 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
 ?>
 <div class="site-index">
     <div class="home_block bg_red col-xs-12 hidden-xs hidden-sm">
-        <div class="col-xs-12">
-            <div class="block_logo col-xs-6">
-                <img class="col-xs-2" src="<?php echo Yii::getAlias('@frontendUrl') ?>/img/wakoo_radius.png">
-                <p class="col-xs-10">瓦酷，让孩子更具生存力！</p>
+            <div class="block_logo col-xs-7">
+                <img class="pull-left" src="<?php echo Yii::getAlias('@frontendUrl') ?>/img/wakoo_radius.png">
+                <p class="text-center pull-left no-margin">瓦酷，让孩子更具生存力！</p>
             </div>
-            <div class="block_hotline text-center col-xs-6">
-                <p>咨询热线：400-608-0515</p>
+            <div class="block_hotline text-center col-xs-5">
+                <p class="text-center no-margin">咨询热线：400-608-0515</p>
             </div>
-        </div>
     </div>
     <div class="home_continer bg_gray col-xs-12">
         <div class="body-content home_title">
             <img src="<?php echo Yii::getAlias('@frontendUrl') ?>/img/wakoo_logo.png">
             <h3 class="text-center no-padding no-margin">关于瓦酷</h3>
         </div>
-        <div class="col-xs-12 margin_bottom no-padding">
+        <div class="col-xs-12  col-md-12 margin_bottom no-padding">
             <div class="col-md-12 about_wakoo">
                 <p>    瓦酷机器人是由北京魔趣教育科技有限公司研发的高端教育品牌。
                 是致力于3-13岁青少年的科技教育，让孩子们在“玩中学”，动手拼插 共享创新实践过程,
@@ -54,16 +52,16 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
         </div>
         <div class="col-xs-12 no-padding">
            <div class="col-xs-3">
-                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/chuangzao.png">
+                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/chuangzao.png?imageView2/3/w/400/h/300">
             </div>
             <div class="col-xs-3">
-                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/find.png">
+                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/find.png?imageView2/3/w/400/h/300">
             </div>
             <div class="col-xs-3">
-                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/goutong.png">
+                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/goutong.png?imageView2/3/w/400/h/300">
             </div>
             <div class="col-xs-3">
-                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/jiejue.png">
+                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/jiejue.png?imageView2/3/w/400/h/300">
             </div>
         </div>
 
@@ -71,7 +69,7 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
             <?php 
                 echo Html::a('了解详情',
                     ['/page/view', 'slug' => 'guan-yu-wa-ku'],
-                    ['class' => 'btn btn-defult more']
+                    ['class' => 'btn btn-defult btn-lg more']
                 )
             ?>
         </div>
@@ -108,85 +106,12 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
                     </div>
                 </a>
             <?php } ?>
-            <!-- <div class="col-xs-6 margin_bottom home_news">
-                <div class="time col-xs-2 no-padding">
-                    <h1>18</h1>
-                    <p>2017/2</p>
-                </div>
-                <div class="col-xs-9 news no-padding">
-                    <h4>2016年全国机器人等级考试圆满落幕...</h4>
-                    <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
-                </div>
-            </div>
-            <div class="col-xs-6 margin_bottom home_news">
-                <div class="time col-xs-2 no-padding">
-                    <h1>18</h1>
-                    <p>2017/2</p>
-                </div>
-                <div class="col-xs-9 news no-padding">
-                    <h4>2016年全国机器人等级考试圆满落幕...</h4>
-                    <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
-                </div>
-            </div>
-            <div class="col-xs-6 margin_bottom home_news">
-                <div class="time col-xs-2 no-padding">
-                    <h1>18</h1>
-                    <p>2017/2</p>
-                </div>
-                <div class="col-xs-9 news no-padding">
-                    <h4>2016年全国机器人等级考试圆满落幕...</h4>
-                    <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
-                </div>
-            </div> -->
         </div>
-        <!--   <div class="col-md-6 margin_bottom">
-            <div class="col-xs-12 margin_bottom home_news">
-                <div class="time col-xs-2 no-padding">
-                    <h1>18</h1>
-                    <p>2017/2</p>
-                </div>
-                <div class="col-xs-9 news no-padding">
-                    <h4>2016年全国机器人等级考试圆满落幕...</h4>
-                    <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
-                </div>
-            </div>
-            <div class="col-xs-12 margin_bottom home_news">
-                <div class="time col-xs-2 no-padding">
-                    <h1>18</h1>
-                    <p>2017/2</p>
-                </div>
-                <div class="col-xs-9 news no-padding">
-                    <h4>2016年全国机器人等级考试圆满落幕...</h4>
-                    <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
-                </div>
-            </div>
-            <div class="col-xs-12 margin_bottom home_news">
-                <div class="time col-xs-2 no-padding">
-                    <h1>18</h1>
-                    <p>2017/2</p>
-                </div>
-                <div class="col-xs-9 news no-padding">
-                    <h4>2016年全国机器人等级考试圆满落幕...</h4>
-                    <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
-                </div>
-            </div>
-            <div class="col-xs-12 margin_bottom home_news">
-                <div class="time col-xs-2 no-padding">
-                    <h1>18</h1>
-                    <p>2017/2</p>
-                </div>
-                <div class="col-xs-9 news no-padding">
-                    <h4>2016年全国机器人等级考试圆满落幕...</h4>
-                    <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
-                </div>
-            </div>
-        </div>  -->
-
         <div class="col-xs-12 knowmore">
             <?php 
                 echo Html::a('更多内容',
                     ['/page/view', 'slug' => 'wa-ku-dong-tai'],
-                    ['class' => 'btn btn-defult more']
+                    ['class' => 'btn btn-defult btn-lg more']
                 )
             ?>
         </div>
@@ -216,14 +141,14 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
                                 $images = [];
                                 $images = getImgs($value['body']);
                                  if(!empty($images)){
-                                    $image = $images[0].'?imageView2/3/w/400/h/400';
+                                    $image = $images[0].'?imageView2/3/w/300/h/300';
                                  }
                                 ?>
                             <li class="col-xs-4 no-padding">
                                 <div class="img_info">
                                     <?php
                                         echo Html::a(
-                                            '<img class="img-responsive about_img" src='.$image.'/><h4>'. $value['title'] .'</h4>',
+                                            '<img class="img-responsive" src='.$image.'/><h4>'. $value['title'] .'</h4>',
                                             [
                                                 'article/view','id'=>$value['id']
                                             ]);
@@ -233,7 +158,7 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
                                     <p>
                                         <?php 
                                             echo Html::a(
-                                                    substr_auto(strip_tags($value['body']),30),
+                                                    substr_auto(strip_tags($value['body']),50),
                                                     [ 'article/view','id'=>$value['id']]); 
                                         ?>
                                        
@@ -250,14 +175,14 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
                                 $images = [];
                                 $images = getImgs($value['body']);
                                 if(!empty($images)){
-                                    $image = $images[0].'?imageView2/3/w/400/h/400';
+                                    $image = $images[0].'?imageView2/3/w/300/h/300';
                                 }
                             ?>
                             <li class="col-xs-4 no-padding">
                                 <div class="img_info">
                                     <?php
                                         echo Html::a(
-                                            '<img class="img-responsive about_img" src='.$image.'/><h4>'. $value['title'] .'</h4>',
+                                            '<img class="img-responsive" src='.$image.'/><h4>'. $value['title'] .'</h4>',
                                             [
                                                 'article/view','id'=>$value['id']
                                             ]);
@@ -267,7 +192,7 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
                                <p>
                                     <?php 
                                         echo Html::a(
-                                                substr_auto(strip_tags($value['body']),30),
+                                                substr_auto(strip_tags($value['body']),50),
                                                 [ 'article/view','id'=>$value['id']]); 
                                     ?>
                                        
@@ -280,10 +205,10 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
                     </div>
                 </div>
                 <a class="left carousel-control" href="#carousel-example-generic1" data-slide="prev">
-                    <img class="run_L" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b8bird5i3cvlph19991rh7pd99.png">
+                    <img class="run_L" src="http://static.v1.wakooedu.com/run_L_01.png">
                 </a>
                 <a class="right carousel-control" href="#carousel-example-generic1" data-slide="next">
-                    <img class="run_R" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b8birilvlcn12bg19usc8r1m3pe.png">
+                    <img class="run_R" src="http://static.v1.wakooedu.com/run_R_01.png">
                 </a>
             </div>
         </div>
@@ -297,7 +222,7 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
                                 $images = [];
                                 $images = getImgs($value['body']);
                                 if(!empty($images)){
-                                    $image = $images[0].'?imageView2/3/w/400/h/400';
+                                    $image = $images[0].'?imageView2/3/w/300/h/300';
                                 }
                         
                             ?>
@@ -305,7 +230,7 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
                                 <div class="img_info">
                                     <?php
                                         echo Html::a(
-                                            '<img class="img-responsive about_img" src='.$image.'/><h4>'. $value['title'] .'</h4>',
+                                            '<img class="img-responsive" src='.$image.'/><h4>'. $value['title'] .'</h4>',
                                             [
                                                 'article/view','id'=>$value['id']
                                             ]);
@@ -315,7 +240,7 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
                                     <p>
                                     <?php 
                                         echo Html::a(
-                                                substr_auto(strip_tags($value['body']),30),
+                                                substr_auto(strip_tags($value['body']),50),
                                                 [ 'article/view','id'=>$value['id']]); 
                                     ?>
                                        
@@ -333,26 +258,26 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
                                 $images = [];
                                 $images = getImgs($value['body']);
                                  if(!empty($images)){
-                                    $image = $images[0].'?imageView2/3/w/400/h/400';
+                                    $image = $images[0].'?imageView2/3/w/300/h/300';
                                  }
                             ?>
                             <li class="col-xs-4 no-padding">
                                 <div class="img_info">
                                 <?php
-                                        echo Html::a(
-                                            '<img class="img-responsive about_img" src='.$image.'/><h4>'. $value['title'] .'</h4>',
-                                            [
-                                                'article/view','id'=>$value['id']
-                                            ]
-                                            );
+                                    echo Html::a(
+                                        '<img class="img-responsive" src='.$image.'/><h4>'. $value['title'] .'</h4>',
+                                        [
+                                            'article/view','id'=>$value['id']
+                                        ]
+                                    );
                                 ?>
                                 </div>
                                 <div class="course_info">
                                    <p>
                                    <?php 
                                         echo Html::a(
-                                                substr_auto(strip_tags($value['body']),30),
-                                                [ 'article/view','id'=>$value['id']]); 
+                                            substr_auto(strip_tags($value['body']),50),
+                                            [ 'article/view','id'=>$value['id']]); 
                                    ?>
                                        
                                    </p>
@@ -364,10 +289,10 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
                     </div>
                 </div>
                 <a class="left carousel-control" href="#carousel-example-generic2" data-slide="prev">
-                    <img class="run_L" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b8bird5i3cvlph19991rh7pd99.png">
+                    <img class="run_L" src="http://static.v1.wakooedu.com/run_L_01.png">
                 </a>
                 <a class="right carousel-control" href="#carousel-example-generic2" data-slide="next">
-                    <img class="run_R" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b8birilvlcn12bg19usc8r1m3pe.png">
+                    <img class="run_R" src="http://static.v1.wakooedu.com/run_R_01.png">
                 </a>
             </div>
         </div>
@@ -383,7 +308,7 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
                     <div class="item active">
                         <ul class="no-padding pull-left">
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_1.png">
+                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_1.png?imageView2/3/w/300/h/300">
                                 <h4>探索者</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
@@ -394,7 +319,7 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
                                 </div>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_10.png">
+                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_10.png?imageView2/3/w/300/h/300">
                                 <h4>火箭跑车</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
@@ -405,7 +330,7 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
                                 </div>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_12.png">
+                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_12.png?imageView2/3/w/300/h/300">
                                 <h4>超级战舰</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
@@ -420,7 +345,7 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
                     <div class="item ">
                         <ul class="no-padding pull-left">
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_13.png">
+                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_13.png?imageView2/3/w/300/h/300">
                                 <h4>大蛇机器人</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
@@ -431,7 +356,7 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
                                 </div>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_14.png">
+                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_14.png?imageView2/3/w/300/h/300">
                                 <h4>超级战舰</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
@@ -442,7 +367,7 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
                                 </div>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_16.png">
+                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_16.png?imageView2/3/w/300/h/300">
                                 <h4>大力神</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
@@ -457,7 +382,7 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
                     <div class="item ">
                         <ul class="no-padding pull-left">
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_17.png">
+                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_17.png?imageView2/3/w/300/h/300">
                                 <h4>巨力神</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
@@ -468,7 +393,7 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
                                 </div>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_4.png">
+                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_4.png?imageView2/3/w/300/h/300">
                                 <h4>大力神</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
@@ -479,7 +404,7 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
                                 </div>
                             </li>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_5.png">
+                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_5.png?imageView2/3/w/300/h/300">
                                 <h4>大蛇机器人</h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
@@ -493,10 +418,10 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
                     </div>
                 </div>
                 <a class="left carousel-control" href="#carousel-example-generic3" data-slide="prev">
-                    <img class="run_L" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b8endvs86j018209191mkpkua9.png">
+                    <img class="run_L" src="http://static.v1.wakooedu.com/run_R_02.png">
                 </a>
                 <a class="right carousel-control" href="#carousel-example-generic3" data-slide="next">
-                    <img class="run_R" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b8enf41d1j8l1ddelf11s4r1abte.png">
+                    <img class="run_R" src="http://static.v1.wakooedu.com/run_R_02.png">
                 </a>
             </div>
         </div>
@@ -529,9 +454,9 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
 
                 <?php
                     echo $form->field($contact, 'verifyCode')->widget(Captcha::className(), [
-                        'options'=>['placeholder'=>'验证码'],
+                        'options'=>['placeholder'=>'请输入验证码'],
                         'captchaAction'=>'site/contact_captcha',
-                        'template' => '<div class= "body"><div class="col-lg-4 col-sm-4 col-xs-4 no-padding">{input}</div><div class="col-lg-3 col-sm-3 col-xs-3">{image}</div></div>',
+                        'template' => '<div class="body"><div class="col-lg-4 col-sm-4 col-xs-4 no-padding code_input">{input}</div><div class="col-lg-3 col-sm-3 col-xs-3">{image}</div></div>',
                         'imageOptions'=>['alt'=>'图片无法加载','title'=>'点击换图', 'style'=>'cursor:pointer'],
                     ])
                 ->label(false)->hint(false)  ?>
