@@ -307,113 +307,100 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
                 <div class="carousel-inner down_run">
                     <div class="item active">
                         <ul class="no-padding pull-left col-xs-12">
+                            <?php
+                                foreach ($model['zuopin'] as $key => $value) {
+                                    if ($key > 2) {
+                                        break;
+                                    }
+                                    $images = [];
+                                    $images = getImgs($value['body']);
+                                    if(!empty($images)){
+                                        $image = $images[0].'?imageView2/3/w/300/h/300';
+                                    }
+                            ?>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_1.png?imageView2/3/w/300/h/300">
-                                <h4>探索者</h4>
+                                <img class="img-responsive " src="<?php echo $image; ?>">
+                                <h4><?php echo $value['title']; ?></h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
-                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
-                                        适合所有有梦想创业者的教育项目。
+                                        <?php echo substr_auto(strip_tags($value['body']),120); ?>
                                     </p>
-                                    <button class="btn btn-defult">了解详情</button>
+                                    <?php
+                                        echo Html::a('了解详情',
+                                            [ 
+                                                'article/view',
+                                                'id' => $value['id']
+                                            ],
+                                            ['class' => 'btn btn-defult']
+                                        ); 
+                                    ?>
                                 </div>
                             </li>
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_10.png?imageView2/3/w/300/h/300">
-                                <h4>火箭跑车</h4>
-                                <div class="col-xs-12 no-padding">
-                                    <p>
-                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
-                                        适合所有有梦想创业者的教育项目。
-                                    </p>
-                                    <button class="btn btn-defult">了解详情</button>
-                                </div>
-                            </li>
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_12.png?imageView2/3/w/300/h/300">
-                                <h4>超级战舰</h4>
-                                <div class="col-xs-12 no-padding">
-                                    <p>
-                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
-                                        适合所有有梦想创业者的教育项目。
-                                    </p>
-                                    <button class="btn btn-defult">了解详情</button>
-                                </div>
-                            </li>
+                        <?php } ?>
                         </ul>
                     </div>
                     <div class="item ">
                         <ul class="no-padding pull-left col-xs-12">
+                            <?php
+                                foreach ($model['zuopin'] as $key => $value) { 
+                                    if ($key > 2 && $key < 6) {
+                                        $images = [];
+                                        $images = getImgs($value['body']);
+                                        if(!empty($images)){
+                                            $image = $images[0].'?imageView2/3/w/300/h/300';
+                                        }
+                            ?>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_13.png?imageView2/3/w/300/h/300">
-                                <h4>大蛇机器人</h4>
+                                <img class="img-responsive " src="<?php echo $image; ?>">
+                                <h4><?php echo $value['title']; ?></h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
-                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
-                                        适合所有有梦想创业者的教育项目。
+                                        <?php echo substr_auto(strip_tags($value['body']),120); ?>
                                     </p>
-                                    <button class="btn btn-defult">了解详情</button>
+                                    <?php
+                                        echo Html::a('了解详情',
+                                            [ 
+                                                'article/view',
+                                                'id' => $value['id']
+                                            ],
+                                            ['class' => 'btn btn-defult']
+                                        ); 
+                                    ?>
                                 </div>
                             </li>
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_14.png?imageView2/3/w/300/h/300">
-                                <h4>超级战舰</h4>
-                                <div class="col-xs-12 no-padding">
-                                    <p>
-                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
-                                        适合所有有梦想创业者的教育项目。
-                                    </p>
-                                    <button class="btn btn-defult">了解详情</button>
-                                </div>
-                            </li>
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_16.png?imageView2/3/w/300/h/300">
-                                <h4>大力神</h4>
-                                <div class="col-xs-12 no-padding">
-                                    <p>
-                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
-                                        适合所有有梦想创业者的教育项目。
-                                    </p>
-                                    <button class="btn btn-defult">了解详情</button>
-                                </div>
-                            </li>
+                            <?php }} ?>
                         </ul>
                     </div>
                     <div class="item ">
                         <ul class="no-padding pull-left col-xs-12">
+                            <?php
+                                foreach ($model['zuopin'] as $key => $value) { 
+                                    if ($key > 6 && $key < 10) {
+                                        $images = [];
+                                        $images = getImgs($value['body']);
+                                        if(!empty($images)){
+                                            $image = $images[0].'?imageView2/3/w/300/h/300';
+                                        }
+                            ?>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_17.png?imageView2/3/w/300/h/300">
-                                <h4>巨力神</h4>
+                                <img class="img-responsive " src="<?php echo $image; ?>">
+                                <h4><?php echo $value['title']; ?></h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
-                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
-                                        适合所有有梦想创业者的教育项目。
+                                        <?php echo substr_auto(strip_tags($value['body']),120); ?>
                                     </p>
-                                    <button class="btn btn-defult">了解详情</button>
+                                    <?php
+                                        echo Html::a('了解详情',
+                                            [ 
+                                                'article/view',
+                                                'id' => $value['id']
+                                            ],
+                                            ['class' => 'btn btn-defult']
+                                        ); 
+                                    ?>
                                 </div>
                             </li>
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_4.png?imageView2/3/w/300/h/300">
-                                <h4>大力神</h4>
-                                <div class="col-xs-12 no-padding">
-                                    <p>
-                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
-                                        适合所有有梦想创业者的教育项目。
-                                    </p>
-                                    <button class="btn btn-defult">了解详情</button>
-                                </div>
-                            </li>
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_5.png?imageView2/3/w/300/h/300">
-                                <h4>大蛇机器人</h4>
-                                <div class="col-xs-12 no-padding">
-                                    <p>
-                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
-                                        适合所有有梦想创业者的教育项目。
-                                    </p>
-                                    <button class="btn btn-defult">了解详情</button>
-                                </div>
-                            </li>
+                            <?php }} ?>
                         </ul>
                     </div>
                 </div>
