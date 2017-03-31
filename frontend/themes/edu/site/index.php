@@ -133,7 +133,7 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
             <div id="carousel-example-generic1" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                     <div class="item active">
-                        <ul class="run_left no-padding pull-left">
+                        <ul class="run_left no-padding pull-left col-xs-12">
                         <?php foreach($model['course_left'] as $key=>$value){
                                 if($key > 2){
                                     break;
@@ -144,7 +144,7 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
                                     $image = $images[0].'?imageView2/3/w/300/h/300';
                                  }
                                 ?>
-                            <li class="col-xs-4 no-padding">
+                            <li class="col-xs-4 col-lg-4 no-padding">
                                 <div class="img_info">
                                     <?php
                                         echo Html::a(
@@ -169,7 +169,7 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
                         </ul>
                     </div>
                     <div class="item ">
-                        <ul class="run_left no-padding pull-left">
+                        <ul class="run_left no-padding pull-left col-xs-12">
                           <?php foreach($model['course_left'] as $key=>$value){
                                 if($key>2 && $key < 6){
                                 $images = [];
@@ -178,7 +178,7 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
                                     $image = $images[0].'?imageView2/3/w/300/h/300';
                                 }
                             ?>
-                            <li class="col-xs-4 no-padding">
+                            <li class="col-xs-4 col-lg-4 no-padding">
                                 <div class="img_info">
                                     <?php
                                         echo Html::a(
@@ -216,7 +216,7 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
             <div id="carousel-example-generic2" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                     <div class="item active">
-                        <ul class="run_right no-padding pull-left">
+                        <ul class="run_right no-padding pull-left col-xs-12">
                             <?php foreach($model['course_right'] as $key=>$value){
                                 if($key > 2){break;}
                                 $images = [];
@@ -226,7 +226,7 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
                                 }
                         
                             ?>
-                            <li class="col-xs-4 no-padding">
+                            <li class="col-xs-4 col-lg-4 no-padding">
                                 <div class="img_info">
                                     <?php
                                         echo Html::a(
@@ -252,7 +252,7 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
                         </ul>
                     </div>
                     <div class="item ">
-                        <ul class="run_right no-padding pull-left">
+                        <ul class="run_right no-padding pull-left col-xs-12">
                             <?php foreach($model['course_right'] as $key=>$value){
                                 if($key>2 && $key < 6){
                                 $images = [];
@@ -261,7 +261,7 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
                                     $image = $images[0].'?imageView2/3/w/300/h/300';
                                  }
                             ?>
-                            <li class="col-xs-4 no-padding">
+                            <li class="col-xs-4 col-lg-4 no-padding">
                                 <div class="img_info">
                                 <?php
                                     echo Html::a(
@@ -306,7 +306,7 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
             <div id="carousel-example-generic3" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner down_run">
                     <div class="item active">
-                        <ul class="no-padding pull-left">
+                        <ul class="no-padding pull-left col-xs-12">
                             <li class="col-xs-4 no-padding">
                                 <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_1.png?imageView2/3/w/300/h/300">
                                 <h4>探索者</h4>
@@ -343,7 +343,7 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
                         </ul>
                     </div>
                     <div class="item ">
-                        <ul class="no-padding pull-left">
+                        <ul class="no-padding pull-left col-xs-12">
                             <li class="col-xs-4 no-padding">
                                 <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_13.png?imageView2/3/w/300/h/300">
                                 <h4>大蛇机器人</h4>
@@ -380,7 +380,7 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
                         </ul>
                     </div>
                     <div class="item ">
-                        <ul class="no-padding pull-left">
+                        <ul class="no-padding pull-left col-xs-12">
                             <li class="col-xs-4 no-padding">
                                 <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_17.png?imageView2/3/w/300/h/300">
                                 <h4>巨力神</h4>
@@ -418,7 +418,7 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
                     </div>
                 </div>
                 <a class="left carousel-control" href="#carousel-example-generic3" data-slide="prev">
-                    <img class="run_L" src="http://static.v1.wakooedu.com/run_R_02.png">
+                    <img class="run_L" src="http://static.v1.wakooedu.com/run_L_02.png">
                 </a>
                 <a class="right carousel-control" href="#carousel-example-generic3" data-slide="next">
                     <img class="run_R" src="http://static.v1.wakooedu.com/run_R_02.png">
