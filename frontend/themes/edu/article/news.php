@@ -10,7 +10,7 @@
             <ul>
                 <li v-for="item in newsList" class="clear-fix">
                     <a :href="item.url">
-                        <img v-bind:src="item.image"  />
+                        <img v-bind:src="item.image+'?imageView2/3/w/400/h/400'"  />
                         <div class="news-info">
                             <h3>{{item.title}}</h3>
                             <span>{{ new Date( item.published_at * 1000).format('yyyy-MM-dd')}}     瓦酷机器人</span>
