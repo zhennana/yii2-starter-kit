@@ -154,6 +154,7 @@ a.desc:after {
   width: 100%;
 }
 .top_logo h3{
+  font-weight:bold;
   color: #e6214f;
   font-family: MicrosoftJhengHei;
 }
@@ -210,20 +211,25 @@ a.desc:after {
   font-size: 16px;
 }
 .home_block{
-  padding:1.5% 15%;
+  padding:1.5% 8%;
 }
 .block_logo p{
-  letter-spacing:4px;
-  color:#ffffff;
-  font-weight:bold;
-  font-size: 24px;
+  height: 80px;
+  line-height: 80px;
+  padding-left: 5%;
+  overflow: hidden;
+  letter-spacing: 4px;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 35px;
   font-family: KaiTi;
-  margin-top: 6px;
 }
 .block_hotline p{
+  height: 80px;
+  line-height: 80px;
   color:#fff000;
   font-weight:bold;
-  font-size: 24px;
+  font-size: 30px;
   font-family: SimHei;
   margin-top: 6px;
 }
@@ -245,6 +251,9 @@ a.desc:after {
   padding-bottom: 10px;
   margin-bottom: 20px;
 }
+.home_title img{
+  padding-bottom: 2%;
+}
 .about_img{
   border:solid 1px #fcca10;
   border-radius: 10px;
@@ -259,7 +268,7 @@ a.desc:after {
   margin: 40px 0 0;
 }
 .bottom_logo {
-  margin: 6% 0;
+  margin: 2% 0;
 }
 .margin_bottom{
   margin-bottom: 20px;
@@ -324,14 +333,29 @@ a.desc:after {
   background-color: #fff000;
 }
 .img_info{
+  border:solid 1px #fcca10;
   border-radius: 10px;
   margin:0 1.6%;
+}
+.img_info img{
+  border-radius: 10px 10px 0 0;
+}
+.img_info h4{
+  color: black;
 }
 .run_right h4{
   padding: 10px 0 15px;
 }
-.course_info p{
+.course_info a{
   color: #778899;
+
+}
+.course_info p{
+  margin-top: 15px;
+  text-indent: 0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
 }
 .run_right li{
   list-style: none;
@@ -392,10 +416,11 @@ a.desc:after {
   padding: 1% 0;
   line-height: 30px;
 }
-.down_run li:hover{
-  border-left:solid 1px #e61d4d;
-}
-.down_run li:hover >  h4{
+.down_run li:hover > h4{
+  transition:background-color 0.5s ease;
+  -moz-transition:background-color 0.5s ease;     /* Firefox 4 */
+  -webkit-transition:background-color 0.5s ease;  /* Safari and Chrome */
+  -o-transition:background-color 0.5s ease;       /* Opera */
   background-color: #e61d4d;
   color: white;
 }
@@ -461,6 +486,9 @@ a.desc:after {
   border-bottom: 1px dashed #868686;
   padding-bottom: 10px !important;
 }
+.code_input input{
+  padding: 0 10px;
+}
 .footer{
   border:none;
   background-color: white;
@@ -513,3 +541,27 @@ a.desc:after {
   height: 40px;
 }
 /*# sourceMappingURL=style.map */
+
+/*动画效果*/
+
+/*抖动特效 start*/
+.top_logo img:hover,
+.home_title img:hover{
+  -webkit-animation: tada 1s .2s ease both;
+  -moz-animation: tada 1s .2s ease both;
+}
+@-webkit-keyframes tada{
+  0%{-webkit-transform:scale(1);}
+  10%, 20%{-webkit-transform:scale(0.9) rotate(-3deg);}
+  30%, 50%, 70%, 90%{-webkit-transform:scale(1.1) rotate(3deg);}
+  40%, 60%, 80%{-webkit-transform:scale(1.1) rotate(-3deg);}
+  100%{-webkit-transform:scale(1) rotate(0);}
+}
+@-moz-keyframes tada{
+  0%{-moz-transform:scale(1);}
+  10%, 20%{-moz-transform:scale(0.9) rotate(-3deg);}
+  30%, 50%, 70%, 90%{-moz-transform:scale(1.1) rotate(3deg);}
+  40%, 60%, 80%{-moz-transform:scale(1.1) rotate(-3deg);}
+  100%{-moz-transform:scale(1) rotate(0);}
+}
+/*抖动特效 end*/
