@@ -58,8 +58,8 @@
     "kartik-v/yii2-widget-select2": "@dev",
     "superman2014/aliyun-php-sdk-sms": "dev-master",
     "superman2014/aliyun-php-sdk-core": "dev-master",
-    "linslin/yii2-curl" : "*"
-
+    "linslin/yii2-curl" : "*",
+    "kartik-v/yii2-widget-fileinput": "@dev"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "^2.0.0",

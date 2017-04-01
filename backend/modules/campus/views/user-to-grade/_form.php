@@ -22,23 +22,34 @@ $data_user = ArrayHelper::map($user,'id','username');
 //dump($info);exit;
 ?>
 <?php
-    if(isset($info['error']) && !empty($info['error']) ){
-        //dump($info);
-         echo "<div class='error-summary alert alert-error'>";
-         echo "<p>错误警告：</p>";
-         echo "<ul>";
-        foreach ($info as $key => $value) {
-           if(isset($value) && is_array($value)){
-               
-                foreach ($value as $k => $v) {
-                    echo "<li style='padding:0 3px'>".$v."</li>";
-                }
+    // if(isset($info['error']) && !empty($info['error']) ){
+    //     //dump($info);
+    //      echo "<div class='error-summary alert alert-error'>";
+    //      echo "<p>错误警告：</p>";
+    //      echo "<ul>";
+    //     foreach ($info as $key => $value) {
+    //        if(isset($value) && is_array($value)){
+    //             foreach ($value as $k => $v) {
+    //               if(is_string($v)){
+    //                 echo "<li style='padding:0 3px'>".$v."</li>";
+    //               }
+    //                dump($v);exit;
+    //               if(is_array($v)){
+    //                 foreach ($v as  $v1) {
+
+    //                     if(is_string($v1)){
+    //                         var_dump($v1);
+    //                         echo "<li style='padding:0 3px'>".$v1."</li>";
+    //                     }
+    //                 }
+    //               }
+    //             }
                  
-           }
-        }
-         echo "</ul>";
-         echo "</div>";
-    }
+    //        }
+    //     }
+    //      echo "</ul>";
+    //      echo "</div>";
+    // }
 ?>
 <div class="user-to-grade-form">
 
@@ -59,7 +70,9 @@ $data_user = ArrayHelper::map($user,'id','username');
     
 
 <!-- attribute user_id -->
-			<?= $form->field($model, 'user_id')->widget(Select2::className(),[
+    <?php
+        if($model->isNewRecord){
+          echo   $form->field($model, 'user_id')->widget(Select2::className(),[
                    // 'language'=>'en',
                     'data'=>$data_user,
                     //"showToggleAll"=>true,
@@ -73,8 +86,27 @@ $data_user = ArrayHelper::map($user,'id','username');
                     ],
                       'pluginOptions' => [ 
                             'allowClear' => true 
-                        ]
-            ]); ?>
+                    ]]);
+        }else{
+          echo   $form->field($model, 'user_id')->widget(Select2::className(),[
+                   // 'language'=>'en',
+                    'data'=>$data_user,
+                    'disabled'=>true,
+                    //"showToggleAll"=>true,
+                    'theme' => Select2 :: THEME_BOOTSTRAP,
+                    "maintainOrder"=>true,
+                    'toggleAllSettings'=>[
+                            'selectLabel' =>'<i class="glyphicon glyphicon-unchecked"></i> 全选',
+                            'unselectLabel'=>'<i class="glyphicon glyphicon-check"></i>取消全选'
+                        ],
+                    'options'=>['placeholder'=>'请选择',
+                    ],
+                      'pluginOptions' => [ 
+                            'allowClear' => true 
+                    ]]);
+        }
+
+    ?>
 
 <!-- attribute school_id -->
 			<?= $form->field($model, 'school_id')->widget(Select2::className(),[
