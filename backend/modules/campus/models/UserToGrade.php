@@ -55,7 +55,7 @@ public function behaviors()
                 $model->status = $data['status'];
                 $model->grade_user_type = $data['grade_user_type'];
                 if(!$model->save()){
-                    $info = $info['error'][$key] = $model->getErrors();
+                    $info['error'][$key] = $model->getErrors();
                     continue;
                 }
               }

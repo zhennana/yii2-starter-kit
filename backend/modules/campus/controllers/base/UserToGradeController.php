@@ -131,13 +131,14 @@ public function actionUpdate($user_to_grade_id)
 {
 $model = $this->findModel($user_to_grade_id);
 
-if ($model->load($_POST) && $model->save()) {
-return $this->redirect(Url::previous());
-} else {
-return $this->render('update', [
-'model' => $model,
-]);
-}
+    if ($model->load($_POST) && $model->save()) {
+
+        return $this->redirect(Url::previous());
+    } else {
+        return $this->render('update', [
+        'model' => $model,
+        ]);
+    }
 }
 
 /**
