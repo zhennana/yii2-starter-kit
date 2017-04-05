@@ -9,7 +9,9 @@ namespace backend\modules\campus\models\query;
  */
 class CoursewareToFileQuery extends \yii\db\ActiveQuery
 {
-    /*public function active()
+    
+    
+     /*public function active()
     {
         $this->andWhere('[[status]]=1');
         return $this;

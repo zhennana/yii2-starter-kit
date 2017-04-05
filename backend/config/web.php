@@ -45,7 +45,7 @@ $config = [
         ],
         'user'=>[
             'class'=>'backend\modules\user\Module',
-           // 'defaultRoute'=>'long'
+            'defaultRoute'=>'default/index'
         ]
     ],
     'as globalAccess'=>[

@@ -131,8 +131,8 @@ $this->params['breadcrumbs'][] = $this->title;
     			[
                     'attribute' =>'user_id',
                     'value'     => function($model){
-                        if(isset($model->user->realname)){
-                            return $model->user->realname;
+                        if(isset($model->user->username)){
+                            return $model->user->username;
                         }
                         return '未知';
                     }
