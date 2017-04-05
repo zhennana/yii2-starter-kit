@@ -395,7 +395,7 @@ class ItemController extends \yii\rest\ActiveController
             ],
         ];
         $info = [];
-        for ($i=1; $i < 26 ; $i++) { 
+        for ($i=1; $i < 26 ; $i++) {
             # code...
             $info[$i] =[
                 'book_id' => $i ,

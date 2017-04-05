@@ -169,8 +169,8 @@ $bundle = BackendAsset::register($this);
                             'items'=>[
                                 ['label'=>Yii::t('backend', '课件列表'), 'url'=>['/campus/courseware/index'], 'icon'=>'<i class="fa  fa-file-text"></i>'
                                 ], 
-                                // ['label'=>Yii::t('backend', '签到管理'), 'url'=>['/campus/sign-in/index'], 'icon'=>'<i class=" fa  fa-file-text"></i>'
-                                // ],
+                                ['label'=>Yii::t('backend', '课件分类'), 'url'=>['/campus/courseware-category/index'], 'icon'=>'<i class=" fa  fa-file-text"></i>'
+                                ],
 
                             ]   
                         ],
