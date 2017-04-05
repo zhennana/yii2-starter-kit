@@ -43,8 +43,8 @@ $config = [
             'class' => 'backend\modules\campus\Module',
             'defaultRoute'=>'default/index'
         ],
-        'user'=>[
-            'class'=>'backend\modules\user\Module',
+        'users'=>[
+            'class'=>'backend\modules\users\Module',
             'defaultRoute'=>'default/index'
         ]
     ],

@@ -53,7 +53,6 @@ class ArticleController extends Controller
     {
         $model = new Article();
         $categories  = $model->category_recursion(ArticleCategory::find()->active()->asArray()->all());
-        //var_dump('<pre>',$categories);exit;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
         } else {

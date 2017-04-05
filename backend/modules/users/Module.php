@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\user;
+namespace backend\modules\users;
 
 /**
  * user module definition class
