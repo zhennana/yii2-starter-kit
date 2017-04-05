@@ -2,9 +2,6 @@
 use yii\helpers\Url;
 use yii\widgets\LinkPager;
 
-$this->title = Yii::t('frontend', '瓦酷动态');
-// $this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Articles'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="content clear-fix">
@@ -43,18 +40,6 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 
 <script>
-
-
-// 面包屑前缀
-var width = $(window).width();
-var map = '<i class="glyphicon glyphicon-map-marker text-red"></i>当前位置：';
-$('.breadcrumb').prepend(map);
-$('.breadcrumb').css('width',''+width+'');
-$(window).resize(function() {
-    var width = $(window).width();
-    $('.breadcrumb').css('width',''+width+'');
-});
-
 /*    var news = new Vue({
         el:'#news',
         data:{
