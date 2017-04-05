@@ -29,7 +29,7 @@ $carousel_id = isset($carousel->id) ? $carousel->id : $model->carousel_id ;
     
     <?php echo $form->field($model, 'order')->textInput() ?>
 
-    <?php echo $form->field($model, 'url')->hiddenInput(['maxlength' => 1024,'value'=>'/'])->label(false) ?>
+    <?php echo $form->field($model, 'url')->textInput(['maxlength' => 1024])->label(false) ?>
     <?php echo $form->field($model,'base_url')->hiddenInput(['value'=>Yii::$app->params['qiniu']['wakooedu']['domain']])->label('') ?>
 
     <?php echo $form->field($model, 'caption')->widget(
