@@ -30,7 +30,7 @@ class SiteController extends \yii\web\Controller
                 //这里配置需要扫描的目录,不支持yii的alias,所以需要这里直接获取到真实地址
                 'scanDir' => [
                     //Yii::getAlias('@backend/modules/campus/controllers/v1/api'),
-                    Yii::getAlias('@backend/modules/user/controllers/api/v1'),
+                    Yii::getAlias('@backend/modules'),
                     //Yii::getAlias('@api/modules/v1/models'),
                     //Yii::getAlias('@api/models'),
                 ],

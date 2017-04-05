@@ -125,7 +125,7 @@ class ConfigController extends \yii\rest\Controller
     }
 
     /**
-     * @SWG\Get(path="/config/init",
+     * @SWG\Get(path="/user/api/v1/config/init",
      *     tags={"800-Config-配置信息接口：获取版本更新等等"},
      *     summary="初始化",
      *     description="返回主视觉信息",
