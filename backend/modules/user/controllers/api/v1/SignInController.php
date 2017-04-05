@@ -153,9 +153,13 @@ class SignInController extends \common\components\ControllerFrontendApi
         // "x-mobile-powered-by": "Android/5.6.14",
         // Yii::$app->getUser()->login($user);
         // Accept-Language  zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3
+        
         \Yii::$app->language = 'zh-CN';
+        // \Yii::$app->modules['campus']->get('campus');
         $model = new LoginForm();
         $model->load($_POST);
+        //$module =;
+       // var_dump(Yii::$app->get($module->campus));exit;
         // Yii::$app->response->format = Response::FORMAT_JSON;
 
         if($model->login()){
@@ -164,10 +168,11 @@ class SignInController extends \common\components\ControllerFrontendApi
                 unset($attrUser['password_hash']);
             }
             $attrUser['avatar'] = '';
-            $account = [];
-            //$account  = $model->user->getAccount();
-
+             $account = [];
+            // //$account  = $model->user->getAccount();
             $proFileUser = $model->user->userProfile;
+            $attrUser['character']   = $model->user->getCharacterDetailes();
+            //var_dump( $model->user->userToGrade);exit;
             // 默认头像
             if(isset($proFileUser->avatar_base_url) && !empty($proFileUser->avatar_base_url))
             {
@@ -178,7 +183,6 @@ class SignInController extends \common\components\ControllerFrontendApi
                     $attrUser['avatar'] = $fansMpUser->avatar;
                 }
             }
-
             return array_merge($attrUser,$account);
         }else{
             Yii::$app->response->statusCode = 422;
@@ -228,7 +232,7 @@ class SignInController extends \common\components\ControllerFrontendApi
         //$account  = Yii::$app->user->identity->getAccount();
 
         $proFileUser = Yii::$app->user->identity->userProfile;
-
+        $attrUser['character']   = Yii::$app->user->identity->getCharacterDetailes();
         // 默认头像
         if(isset($proFileUser->avatar_base_url) && !empty($proFileUser->avatar_base_url))
         {
