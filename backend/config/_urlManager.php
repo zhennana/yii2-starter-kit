@@ -1,7 +1,7 @@
 <?php
 return [
     'class'=>'yii\web\UrlManager',
-    'enablePrettyUrl'=>env('LINK_ASSETS'),
+    'enablePrettyUrl'=>false, //env('LINK_ASSETS'),
     'showScriptName'=>false,
     'rules'=>[
         // url rules
