@@ -1,17 +1,17 @@
 <?php
 
-namespace backend\modules\campus\controllers\api;
+namespace backend\modules\campus\controllers\api\v1;
 
 /**
-* This is the class for REST controller "CourseController".
+* This is the class for REST controller "GradeCategroyController".
 */
 
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 
-class CourseController extends \yii\rest\ActiveController
+class GradeCategroyContorller extends \yii\rest\ActiveController
 {
-public $modelClass = 'backend\modules\campus\models\Course';
+public $modelClass = 'backend\modules\campus\models\GradeCategory';
     /**
     * @inheritdoc
     */
