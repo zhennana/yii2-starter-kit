@@ -13,7 +13,7 @@ use yii\helpers\Html;
  * @var yii\web\View $this
  * @var backend\modules\campus\models\CoursewareCategory $model
  */
-$this->title = Yii::t('backend', 'Courseware Category') . " " . $model->name . ', ' . Yii::t('backend', 'Edit');
+$this->title = Yii::t('backend', '课程分类') . " " . $model->name . ', ' . Yii::t('backend', 'Edit');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Courseware Category'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => (string)$model->name, 'url' => ['view', 'category_id' => $model->category_id]];
 $this->params['breadcrumbs'][] = Yii::t('backend', 'Edit');
@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'Edit');
 <div class="giiant-crud courseware-category-update">
 
     <h1>
-        <?php echo Yii::t('backend', 'Courseware Category') ?>
+        <?php echo Yii::t('backend', '课程分类') ?>
         <small>
                         <?php echo $model->name ?>
         </small>

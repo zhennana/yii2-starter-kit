@@ -14,9 +14,9 @@ use yii\grid\GridView;
  *
  * @var yii\web\View $this
  * @var yii\data\ActiveDataProvider $dataProvider
- * @var backend\modules\campus\models\search\CoursewareCategorySearch $searchModel
+ * @var backend\modules\campus\models\search\CoursewareToFileSearch $searchModel
  */
-$this->title = Yii::t('backend', '课件分类');
+$this->title = Yii::t('backend', '课件附件');
 $this->params['breadcrumbs'][] = $this->title;
 
 
@@ -25,17 +25,17 @@ $this->params['breadcrumbs'][] = $this->title;
  */
 $actionColumnTemplates = [];
 
-//if (\Yii::$app->user->can('campus_courseware-category_view', ['route' => true])) {
+if (\Yii::$app->user->can('manager', ['route' => true])) {
 	$actionColumnTemplates[] = '{view}';
-//}
+}
 
-//if (\Yii::$app->user->can('campus_courseware-category_update', ['route' => true])) {
+if (\Yii::$app->user->can('manager', ['route' => true])) {
 	$actionColumnTemplates[] = '{update}';
-//}
+}
 
-//if (\Yii::$app->user->can('campus_courseware-category_delete', ['route' => true])) {
+if (\Yii::$app->user->can('manager', ['route' => true])) {
 	$actionColumnTemplates[] = '{delete}';
-//}
+}
 if (isset($actionColumnTemplates)) {
 	$actionColumnTemplate = implode(' ', $actionColumnTemplates);
 	$actionColumnTemplateString = $actionColumnTemplate;
@@ -44,9 +44,8 @@ if (isset($actionColumnTemplates)) {
 	$actionColumnTemplateString = "{view} {update} {delete}";
 }
 $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTemplateString.'</div>';
-
 ?>
-<div class="giiant-crud courseware-category-index">
+<div class="giiant-crud courseware-to-file-index">
 
     <?php
 //             echo $this->render('_search', ['model' =>$searchModel]);
@@ -56,20 +55,20 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
     <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
 
     <h1>
-        <?php echo Yii::t('backend', '课件分类') ?>
+        <?php echo Yii::t('backend', '课件附件') ?>
         <small>
             List
         </small>
     </h1>
     <div class="clearfix crud-navigation">
 <?php
-//if (\Yii::$app->user->can('campus_courseware-category_create', ['route' => true])) {
+if (\Yii::$app->user->can('manager', ['route' => true])) {
 ?>
         <div class="pull-left">
             <?php echo Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'New'), ['create'], ['class' => 'btn btn-success']) ?>
         </div>
 <?php
-//}
+}
 ?>
         <div class="pull-right">
 
@@ -135,13 +134,10 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
 				},
 				'contentOptions' => ['nowrap'=>'nowrap']
 			],
-			'name',
-			'description',
-			'banner_src',
-			'parent_id',
-			'creater_id',
+			'file_storage_item_id',
+			'courseware_id',
 			'status',
-			
+			'sort',
 		],
 	]); ?>
     </div>

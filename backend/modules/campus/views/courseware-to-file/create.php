@@ -11,18 +11,18 @@ use yii\helpers\Html;
 /**
  *
  * @var yii\web\View $this
- * @var backend\modules\campus\models\CoursewareCategory $model
+ * @var backend\modules\campus\models\CoursewareToFile $model
  */
 $this->title = Yii::t('backend', 'Create');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Courseware Categories'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Courseware To Files'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="giiant-crud courseware-category-create">
+<div class="giiant-crud courseware-to-file-create">
 
     <h1>
-        <?php echo Yii::t('backend', '课程分类') ?>
+        <?php echo Yii::t('backend', 'Courseware To File') ?>
         <small>
-                        <?php echo $model->name ?>
+                        <?php echo $model->courseware_to_file_id ?>
         </small>
     </h1>
 

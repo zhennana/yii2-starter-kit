@@ -11,6 +11,10 @@ use yii\helpers\StringHelper;
 * @var yii\widgets\ActiveForm $form
 */
 
+$categories= \backend\modules\campus\models\CoursewareCategory::find()->where(['parent_id'=>0])->all();
+    $categories = \yii\helpers\ArrayHelper::map(
+        $categories, 'category_id', 'name'
+    );
 ?>
 
 <div class="courseware-form">
@@ -28,40 +32,43 @@ use yii\helpers\StringHelper;
         <?php $this->beginBlock('main'); ?>
 
         <p>
-            
-
-<!-- attribute category_id -->
-			<?= $form->field($model, 'category_id')->textInput() ?>
-
-<!-- attribute level -->
-			<?= $form->field($model, 'level')->textInput() ?>
-
-<!-- attribute creater_id -->
-			<?= $form->field($model, 'creater_id')->textInput() ?>
-
-<!-- attribute parent_id -->
-			<?= $form->field($model, 'parent_id')->textInput() ?>
-
-<!-- attribute access_domain -->
-			<?= $form->field($model, 'access_domain')->textInput() ?>
-
-<!-- attribute access_other -->
-			<?= $form->field($model, 'access_other')->textInput() ?>
-
-<!-- attribute status -->
-			<?= $form->field($model, 'status')->textInput() ?>
-
-<!-- attribute items -->
-			<?= $form->field($model, 'items')->textInput() ?>
-
-<!-- attribute slug -->
-			<?= $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
-
 <!-- attribute title -->
-			<?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
 <!-- attribute body -->
-			<?= $form->field($model, 'body')->textarea(['rows' => 6]) ?>
+            <?= $form->field($model, 'body')->textarea(['rows' => 6]) ?>
+
+<!-- attribute category_id -->
+			<?= $form->field($model, 'category_id')->dropDownList($categories,[
+           // 'options'=>[$categories=>['disabled'=>'0']],
+            'prompt'=>'0']) ?>
+
+<!-- attribute level -->
+			<?php // echo $form->field($model, 'level')->textInput(); ?>
+
+<!-- attribute creater_id -->
+			<?= $form->field($model, 'creater_id')->hiddenInput(['value'=>Yii::$app->user->identity->id])->label(false) ?>
+
+<!-- attribute parent_id -->
+			<?php // echo $form->field($model, 'parent_id')->textInput() ?>
+
+            <?= $form->field($model, 'tags')->textInput() ?>
+
+<!-- attribute access_domain -->
+			<?php //$form->field($model, 'access_domain')->textInput(); ?>
+
+<!-- attribute access_other -->
+			<?php //$form->field($model, 'access_other')->textInput(); ?>
+
+<!-- attribute status -->
+<?= $form->field($model, 'status')->dropDownList(\backend\modules\campus\models\Courseware::optsStatus(),['prompt'=>'请选择']); ?>
+<!-- attribute items -->
+			<?php //echo $form->field($model, 'items')->textInput(); ?>
+
+<!-- attribute slug -->
+			<?php //echo $form->field($model, 'slug')->textInput(['maxlength' => true]); ?>
+
+
         </p>
         <?php $this->endBlock(); ?>
         

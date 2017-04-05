@@ -14,15 +14,15 @@ use yii\helpers\StringHelper;
 /**
  *
  * @var yii\web\View $this
- * @var backend\modules\campus\models\CoursewareCategory $model
+ * @var backend\modules\campus\models\CoursewareToFile $model
  * @var yii\widgets\ActiveForm $form
  */
 ?>
 
-<div class="courseware-category-form">
+<div class="courseware-to-file-form">
 
     <?php $form = ActiveForm::begin([
-		'id' => 'CoursewareCategory',
+		'id' => 'CoursewareToFile',
 		'layout' => 'horizontal',
 		'enableClientValidation' => true,
 		'errorSummaryCssClass' => 'error-summary alert alert-error'
@@ -36,22 +36,17 @@ use yii\helpers\StringHelper;
         <p>
 
 
-<!-- attribute parent_id -->
-			<?php //echo $form->field($model, 'parent_id')->textInput() ?>
+<!-- attribute file_storage_item_id -->
+			<?php echo $form->field($model, 'file_storage_item_id')->textInput() ?>
 
-<!-- attribute creater_id -->
-			<?= $form->field($model, 'creater_id')->hiddenInput(['value'=>Yii::$app->user->identity->id])->label(false) ?>
+<!-- attribute courseware_id -->
+			<?php echo $form->field($model, 'courseware_id')->textInput() ?>
 
-<!-- attribute name -->
-			<?php echo $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+<!-- attribute status -->
+			<?php echo $form->field($model, 'status')->textInput() ?>
 
-<!-- attribute description -->
-			<?php echo $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
-
-<!-- attribute banner_src -->
-			<?php echo $form->field($model, 'banner_src')->textInput(['maxlength' => true]) ?>
-			<?= $form->field($model, 'status')->dropDownList(\backend\modules\campus\models\Courseware::optsStatus(),['prompt'=>'请选择']); ?>
-
+<!-- attribute sort -->
+			<?php echo $form->field($model, 'sort')->textInput() ?>
         </p>
         <?php $this->endBlock(); ?>
 
@@ -61,7 +56,7 @@ Tabs::widget(
 		'encodeLabels' => false,
 		'items' => [
 			[
-				'label'   => Yii::t('backend', '创建课程分类'),
+				'label'   => Yii::t('backend', 'CoursewareToFile'),
 				'content' => $this->blocks['main'],
 				'active'  => true,
 			],
