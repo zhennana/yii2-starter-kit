@@ -106,7 +106,7 @@ class SignInController extends \common\components\ControllerFrontendApi
     }
 
     /**
-     * @SWG\Post(path="/sign-in/login",
+     * @SWG\Post(path="/user/api/v1/sign-in/login",
      *     tags={"100-SignIn-用户接口"},
      *     summary="用户登录[已经自测]",
      *     description="用户登录：成功返回用户信息；失败返回具体原因",
@@ -197,7 +197,7 @@ class SignInController extends \common\components\ControllerFrontendApi
 
 
     /**
-     * @SWG\Get(path="/sign-in/index",
+     * @SWG\Get(path="/user/api/v1/sign-in/index",
      *     tags={"100-SignIn-用户接口"},
      *     summary="登陆请求验证已经登陆[已经自测]",
      *     description="删除cookie，请求验证是否已经登陆。登陆过返回用户信息",
@@ -247,96 +247,7 @@ class SignInController extends \common\components\ControllerFrontendApi
     }
 
     /**
-     * @SWG\Post(path="/sign-in/signup",
-     *     tags={"100-SignIn-用户接口"},
-     *     summary="用户注册[已自测]",
-     *     description="成功返回注册完信息，失败返回具体原因",
-     *     produces={"application/json"},
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "SignupSmsForm[phone_number]",
-     *        description = "手机号",
-     *        required = true,
-     *        type = "string"
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "SignupSmsForm[password]",
-     *        description = "密码",
-     *        required = false,
-     *        type = "string"
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "SignupSmsForm[client_type]",
-     *        description = "客户端注册类型:移动端默认app",
-     *        required = true,
-     *        type = "string",
-     *        default = "app",
-     *        enum = {"app", "pc"}
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "SignupSmsForm[email]",
-     *        description = "Email",
-     *        required = false,
-     *        type = "string"
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "SignupSmsForm[username]",
-     *        description = "用户名",
-     *        required = false,
-     *        type = "string"
-     *     ),
-     *     @SWG\Response(
-     *         response = 200,
-     *         description = "注册成功，短信验证码"
-     *     ),
-     *     @SWG\Response(
-     *         response = 422,
-     *         description = "Data Validation Failed 账号或密码错误",
-     *         @SWG\Schema(ref="#/definitions/Error")
-     *     )
-     * )
-     *
-     */
-    /**
-     * 注册
-     * @return string|Response
-     */
-    public function actionSignup()
-    {
-        // exit(); // 暂停测试注册，上线后开放
-        \Yii::$app->language = 'zh-CN';
-        $model = new SignupSmsForm();
-        if ($model->load(Yii::$app->request->post())) {
-            $user = $model->signup();
-            if (isset($user->id)) {
-                if ($model->shouldBeActivated()) {
-                    return [
-                        'message' => Yii::t(
-                            'frontend',
-                            'Your account has been successfully created. Check your email for further instructions.'
-                        ),
-                        'user' => $user->attributes,
-                    ];
-                } else {
-                    Yii::$app->getUser()->login($user);
-                }
-                //$account  = $user->getAccount();
-                return array_merge($user->attributes, ['token'=>$model->token]);
-                //return $user->attributes;
-            }
-        }
-
-        Yii::$app->response->statusCode = 422;
-         //var_dump($model->getErrors());exit;
-        return $model->getErrors();
-    }
-
-    /**
-     * @SWG\POST(path="/sign-in/activation-by-phone",
+     * @SWG\POST(path="/user/api/v1/sign-in/activation-by-phone",
      *     tags={"100-SignIn-用户接口"},
      *     summary="验证码用户激活[已经自测]",
      *     description="激活用户状态user.status",
@@ -409,7 +320,7 @@ class SignInController extends \common\components\ControllerFrontendApi
     }
 
     /**
-     * @SWG\Get(path="/sign-in/reset-by-sms",
+     * @SWG\Get(path="/user/api/v1/sign-in/reset-by-sms",
      *     tags={"100-SignIn-用户接口"},
      *     summary="验证码发送[待开发]",
      *     description="发送验证码，成功返回验证码与手机号信息",
@@ -477,7 +388,7 @@ class SignInController extends \common\components\ControllerFrontendApi
     }
 
     /**
-     * @SWG\Get(path="/sign-in/reset-passwd-by-phone",
+     * @SWG\Get(path="/user/api/v1/sign-in/reset-passwd-by-phone",
      *     tags={"100-SignIn-用户接口"},
      *     summary="验证码修改密码",
      *     description="根据验证码，修改用户密码",
@@ -550,7 +461,7 @@ class SignInController extends \common\components\ControllerFrontendApi
 
 
     /**
-     * @SWG\POST(path="/sign-in/update-profile",
+     * @SWG\POST(path="/user/api/v1/sign-in/update-profile",
      *     tags={"100-SignIn-用户接口"},
      *     summary="更新用户附属信息",
      *     description="更新用户附属表信息 http://developer.qiniu.com/docs/v6/sdk/ios-sdk.html",
@@ -632,7 +543,7 @@ class SignInController extends \common\components\ControllerFrontendApi
      
 
     /**
-     * @SWG\Get(path="/sign-in/qiniu-token",
+     * @SWG\Get(path="/user/api/v1/sign-in/qiniu-token",
      *     tags={"100-SignIn-用户接口"},
      *     summary="获取七牛云Token",
      *     description="返回七牛云上传Token",
