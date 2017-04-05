@@ -1,11 +1,11 @@
 <?php
-namespace backend\modules\user\models;
+namespace backend\modules\users\models;
 
 use cheatsheet\Time;
 use common\commands\SendEmailCommand;
 use common\models\User;
 use common\models\UserToken;
-use backend\modules\user\Module;
+use backend\modules\users\Module;
 use yii\base\Exception;
 use yii\base\Model;
 use Yii;
