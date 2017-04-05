@@ -1,5 +1,5 @@
 <?php
-namespace backend\modules\user\controllers\api\v1;
+namespace backend\modules\users\controllers\api\v1;
 
 use Yii;
 use yii\web\Response;

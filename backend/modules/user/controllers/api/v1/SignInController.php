@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\user\controllers\api\v1;
+namespace backend\modules\users\controllers\api\v1;
 
 /**
 * 注册、登陆、密码找回
@@ -17,11 +17,11 @@ use yii\helpers\ArrayHelper;
 use yii\rest\OptionsAction;
 use yii\widgets\ActiveForm;
 
-use backend\modules\user\models\LoginForm;
-use backend\modules\user\models\PasswordResetRequestForm;
-use backend\modules\user\models\ResetPasswordForm;
-use backend\modules\user\models\SignupForm;
-use backend\modules\user\models\SignupSmsForm;
+use backend\modules\users\models\LoginForm;
+use backend\modules\users\models\PasswordResetRequestForm;
+use backend\modules\users\models\ResetPasswordForm;
+use backend\modules\users\models\SignupForm;
+use backend\modules\users\models\SignupSmsForm;
 
 use common\models\User;
 use common\models\UserProfile;
@@ -106,7 +106,7 @@ class SignInController extends \common\components\ControllerFrontendApi
     }
 
     /**
-     * @SWG\Post(path="/user/api/v1/sign-in/login",
+     * @SWG\Post(path="/users/api/v1/sign-in/login",
      *     tags={"100-SignIn-用户接口"},
      *     summary="用户登录[已经自测]",
      *     description="用户登录：成功返回用户信息；失败返回具体原因",
@@ -201,7 +201,7 @@ class SignInController extends \common\components\ControllerFrontendApi
 
 
     /**
-     * @SWG\Get(path="/user/api/v1/sign-in/index",
+     * @SWG\Get(path="/users/api/v1/sign-in/index",
      *     tags={"100-SignIn-用户接口"},
      *     summary="登陆请求验证已经登陆[已经自测]",
      *     description="删除cookie，请求验证是否已经登陆。登陆过返回用户信息",
@@ -251,7 +251,7 @@ class SignInController extends \common\components\ControllerFrontendApi
     }
 
     /**
-     * @SWG\POST(path="/user/api/v1/sign-in/activation-by-phone",
+     * @SWG\POST(path="/users/api/v1/sign-in/activation-by-phone",
      *     tags={"100-SignIn-用户接口"},
      *     summary="验证码用户激活[已经自测]",
      *     description="激活用户状态user.status",
@@ -324,7 +324,7 @@ class SignInController extends \common\components\ControllerFrontendApi
     }
 
     /**
-     * @SWG\Get(path="/user/api/v1/sign-in/reset-by-sms",
+     * @SWG\Get(path="/users/api/v1/sign-in/reset-by-sms",
      *     tags={"100-SignIn-用户接口"},
      *     summary="验证码发送[待开发]",
      *     description="发送验证码，成功返回验证码与手机号信息",
@@ -392,7 +392,7 @@ class SignInController extends \common\components\ControllerFrontendApi
     }
 
     /**
-     * @SWG\Get(path="/user/api/v1/sign-in/reset-passwd-by-phone",
+     * @SWG\Get(path="/users/api/v1/sign-in/reset-passwd-by-phone",
      *     tags={"100-SignIn-用户接口"},
      *     summary="验证码修改密码",
      *     description="根据验证码，修改用户密码",
@@ -465,7 +465,7 @@ class SignInController extends \common\components\ControllerFrontendApi
 
 
     /**
-     * @SWG\POST(path="/user/api/v1/sign-in/update-profile",
+     * @SWG\POST(path="/users/api/v1/sign-in/update-profile",
      *     tags={"100-SignIn-用户接口"},
      *     summary="更新用户附属信息",
      *     description="更新用户附属表信息 http://developer.qiniu.com/docs/v6/sdk/ios-sdk.html",
@@ -547,7 +547,7 @@ class SignInController extends \common\components\ControllerFrontendApi
      
 
     /**
-     * @SWG\Get(path="/user/api/v1/sign-in/qiniu-token",
+     * @SWG\Get(path="/users/api/v1/sign-in/qiniu-token",
      *     tags={"100-SignIn-用户接口"},
      *     summary="获取七牛云Token",
      *     description="返回七牛云上传Token",
