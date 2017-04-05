@@ -98,39 +98,21 @@ return $this->render('view', [
 * If creation is successful, the browser will be redirected to the 'view' page.
 * @return mixed
 */
-    public function actionCreate()
-    {
-        $model = new Courseware;
+public function actionCreate()
+{
+    $model = new Courseware;
 
-        if($model->load(Yii::$app->request->post())){
-            //var_dump($_POST, UploadedFile::getInstance($model, 'image'));exit;
-            $info = $model->CreateData(Yii::$app->request->post());
-            if($info['errorno'] == 0){
-                Yii::$app->getSession()->setFlash('alert', [
-                    'body'=>Yii::t('frontend', '保存成功'),
-                    'options'=>['class'=>'alert-success']
-                ]);
-                return $this->refresh();
-            }else{
-                $message = implode('\r\n', $info['error']);
-                Yii::$app->getSession()->setFlash('alert', [
-                    'body'=>Yii::t('frontend', '错误提示：'.$message),
-                    'options'=>['class'=>'alert-success']
-                    ]);
-                }
-            }
-        // try {
-        // if ($model->load($_POST)) {
-        //     var_dump($_POST,$_FILE);exit;
-        // return $this->redirect(['view', 'courseware_id' => $model->courseware_id]);
-        // } elseif (!\Yii::$app->request->isPost) {
-        // $model->load($_GET);
-        // }
-        // } catch (\Exception $e) {
-        // $msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
-        // $model->addError('_exception', $msg);
-        // }
-        return $this->render('create', ['model' => $model]);
+    try {
+    if ($model->load($_POST) && $model->save()) {
+    return $this->redirect(['view', 'courseware_id' => $model->courseware_id]);
+    } elseif (!\Yii::$app->request->isPost) {
+    $model->load($_GET);
+    }
+    } catch (\Exception $e) {
+    $msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
+    $model->addError('_exception', $msg);
+    }
+    return $this->render('create', ['model' => $model]);
 }
 
 /**
@@ -142,11 +124,12 @@ return $this->render('view', [
 public function actionUpdate($courseware_id)
 {
     $model = $this->findModel($courseware_id);
+
     if ($model->load($_POST) && $model->save()) {
-        return $this->redirect(Url::previous());
+    return $this->redirect(Url::previous());
     } else {
-        return $this->render('update', [
-        'model' => $model,
+    return $this->render('update', [
+    'model' => $model,
     ]);
     }
 }
