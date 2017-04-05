@@ -18,6 +18,7 @@ class Module extends \yii\base\Module
     {
         parent::init();
         \Yii::configure($this, require(__DIR__ . '/config.php'));
+        //var_dump($this);exit;
         // dump(\Yii::$app->modules);exit;
         // var_dump(\Yii::$app->get('campus'));
         //$this->layout = 'main.php';
