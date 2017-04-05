@@ -90,8 +90,8 @@ use kartik\file\FileInput;
                                     // ],
                                     //'previewFileType' => 'any',
                                     // 'uploadAsync'=>true,
-                                    // 最小上传
-                                    'minFileCount'=>1,
+                                    // //最小上传
+                                    // 'minFileCount'=>1,
 
                                     // //最大上传
                                     'maxFileCount'=>10,
