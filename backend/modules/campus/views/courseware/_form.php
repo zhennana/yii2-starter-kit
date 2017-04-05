@@ -16,6 +16,7 @@ use kartik\file\FileInput;
 * @var backend\modules\campus\models\Courseware $model
 * @var yii\widgets\ActiveForm $form
 */
+<<<<<<< HEAD
 // if(Yii::$app->session['qiniu']){
 //     var_dump(Yii::$app->session['qiniu']);exit;
 // }
@@ -25,6 +26,13 @@ use kartik\file\FileInput;
 //    // 'options' => ['multiple' => false],
 //     'pluginOptions' => ['previewFileType' => 'any', 'uploadUrl' => yii\helpers\Url::to(['token-cloud'])]
 // ]);
+=======
+
+$categories= \backend\modules\campus\models\CoursewareCategory::find()->where(['parent_id'=>0])->all();
+    $categories = \yii\helpers\ArrayHelper::map(
+        $categories, 'category_id', 'name'
+    );
+>>>>>>> refs/remotes/brucebnu/edu-manager
 ?>
 
 <div class="courseware-form">
@@ -43,6 +51,7 @@ use kartik\file\FileInput;
         <?php $this->beginBlock('main'); ?>
 
         <p>
+<<<<<<< HEAD
          
 <!-- attribute parent_id -->
           <!--   <? // = $form->field($model, 'parent_id')->textInput() ?> -->
@@ -56,6 +65,29 @@ use kartik\file\FileInput;
 <!-- attribute creater_id -->
 		<!-- 	<?  //= $form->field($model, 'creater_id')->textInput() ?> -->
 
+=======
+<!-- attribute title -->
+            <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+
+<!-- attribute body -->
+            <?= $form->field($model, 'body')->textarea(['rows' => 6]) ?>
+
+<!-- attribute category_id -->
+			<?= $form->field($model, 'category_id')->dropDownList($categories,[
+           // 'options'=>[$categories=>['disabled'=>'0']],
+            'prompt'=>'0']) ?>
+
+<!-- attribute level -->
+			<?php // echo $form->field($model, 'level')->textInput(); ?>
+
+<!-- attribute creater_id -->
+			<?= $form->field($model, 'creater_id')->hiddenInput(['value'=>Yii::$app->user->identity->id])->label(false) ?>
+
+<!-- attribute parent_id -->
+			<?php // echo $form->field($model, 'parent_id')->textInput() ?>
+
+            <?= $form->field($model, 'tags')->textInput() ?>
+>>>>>>> refs/remotes/brucebnu/edu-manager
 
 <!-- attribute slug -->
            <!--  <? //= $form->field($model, 'slug')->textInput(['maxlength' => true]) ?> -->
@@ -154,6 +186,7 @@ use kartik\file\FileInput;
 <!-- attribute body -->
          <!--    <? // = $form->field($model, 'body')->textarea(['rows' => 6]) ?> -->
 <!-- attribute access_domain -->
+<<<<<<< HEAD
 			<!-- <? //  = $form->field($model, 'access_domain')->textInput() ?> -->
 
 <!-- attribute access_other -->
@@ -164,6 +197,21 @@ use kartik\file\FileInput;
 
 <!-- attribute items -->
 		<!-- 	<? // = $form->field($model, 'items')->textInput() ?> -->
+=======
+			<?php //$form->field($model, 'access_domain')->textInput(); ?>
+
+<!-- attribute access_other -->
+			<?php //$form->field($model, 'access_other')->textInput(); ?>
+
+<!-- attribute status -->
+<?= $form->field($model, 'status')->dropDownList(\backend\modules\campus\models\Courseware::optsStatus(),['prompt'=>'请选择']); ?>
+<!-- attribute items -->
+			<?php //echo $form->field($model, 'items')->textInput(); ?>
+
+<!-- attribute slug -->
+			<?php //echo $form->field($model, 'slug')->textInput(['maxlength' => true]); ?>
+
+>>>>>>> refs/remotes/brucebnu/edu-manager
 
         </p>
         <?php $this->endBlock(); ?>

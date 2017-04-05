@@ -33,3 +33,4 @@ tests/codeception/*/_support/_generated/*
 
 backend/edu-spa/node_modules
 backend/edu-spa/dist
+backend/edu-spa-backup
