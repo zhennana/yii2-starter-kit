@@ -1,17 +1,17 @@
 <?php
 
-namespace backend\modules\campus\controllers\api;
+namespace backend\modules\campus\controllers\api\v1;
 
 /**
-* This is the class for REST controller "ApplyToPlayController".
+* This is the class for REST controller "CoursewareController".
 */
 
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 
-class ApplyToPlayController extends \yii\rest\ActiveController
+class CoursewareController extends \yii\rest\ActiveController
 {
-public $modelClass = 'backend\modules\campus\models\ApplyToPlay';
+public $modelClass = 'backend\modules\campus\models\Courseware';
     /**
     * @inheritdoc
     */

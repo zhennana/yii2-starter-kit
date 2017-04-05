@@ -31,6 +31,7 @@ abstract class Courseware extends \yii\db\ActiveRecord
     CONST COURSEWARE_STATUS_VALID   = 10;//有效
     CONST COURSEWARE_STATUS_INVALID = 20;//无效
 
+    public $image;
      /**
      * @return \yii\db\Connection the database connection used by this AR class.
      */
@@ -73,6 +74,7 @@ abstract class Courseware extends \yii\db\ActiveRecord
         return [
             [['category_id', 'level', 'creater_id', 'access_domain', 'access_other', 'status', 'items'], 'integer'],
             [[ 'title'], 'required'],
+            ['image','file'],
             [['body'], 'string'],
             ['creater_id','default','value'=>Yii::$app->user->identity->id],
             [['slug'], 'string', 'max' => 1024],
