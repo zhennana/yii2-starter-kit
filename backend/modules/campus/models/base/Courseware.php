@@ -32,18 +32,16 @@ abstract class Courseware extends \yii\db\ActiveRecord
     CONST COURSEWARE_STATUS_INVALID = 20;//无效
 
     public $image;
-     /**
-     * @return \yii\db\Connection the database connection used by this AR class.
-     */
-    public static function getDb()
-    {
-       return \Yii::$app->modules['campus']->get('campus');
-    }
+
     public static function optsStatus(){
         return [
             self::COURSEWARE_STATUS_VALID    => '有效',
             self::COURSEWARE_STATUS_INVALID =>'无效',
         ];
+    }
+
+    public static function getDb(){
+        return Yii::$app->modules['campus']->get('campus');
     }
     /**
      * @inheritdoc
