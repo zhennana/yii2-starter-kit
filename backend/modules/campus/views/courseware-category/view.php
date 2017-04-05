@@ -20,7 +20,7 @@ use dmstr\bootstrap\Tabs;
  */
 $copyParams = $model->attributes;
 
-$this->title = Yii::t('backend', 'Courseware Category');
+$this->title = Yii::t('backend', '分类详情');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Courseware Categories'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => (string)$model->name, 'url' => ['view', 'category_id' => $model->category_id]];
 $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
@@ -49,17 +49,17 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
         <!-- menu buttons -->
         <div class='pull-left'>
             <?php echo Html::a(
-	'<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('backend', 'Edit'),
+	'<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('backend', '修改'),
 	[ 'update', 'category_id' => $model->category_id],
 	['class' => 'btn btn-info']) ?>
 
             <?php echo Html::a(
-	'<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('backend', 'Copy'),
+	'<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('backend', '复制'),
 	['create', 'category_id' => $model->category_id, 'CoursewareCategory'=>$copyParams],
 	['class' => 'btn btn-success']) ?>
 
             <?php echo Html::a(
-	'<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'New'),
+	'<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'),
 	['create'],
 	['class' => 'btn btn-success']) ?>
         </div>
@@ -82,6 +82,10 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
 			'parent_id',
 			'creater_id',
 			'status',
+			[
+				'attribute'=>'status',
+				'value'=>\backend\modules\campus\models\CoursewareCategory::StatusValueLabel($model->status)
+			],
 			'name',
 			'description',
 			'banner_src',
