@@ -191,7 +191,8 @@ class ItemController extends \yii\rest\ActiveController
                 'video_id' => $i ,
                 'title'=>'Abc Song   Super Simple Songs',
                 'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
-                'video_src' => 'http://omsqlyn5t.bkt.clouddn.com/Abc%20Song%20%20%20Super%20Simple%20Songs%20480P.ogv',
+                //'video_src' => 'http://omsqlyn5t.bkt.clouddn.com/Abc%20Song%20%20%20Super%20Simple%20Songs%20480P.ogv',
+                'video_src' => ($i%2)? 'http://omsqlyn5t.bkt.clouddn.com/0.mp4' : 'http://omsqlyn5t.bkt.clouddn.com/test.mp4',
             ];
         }
 
