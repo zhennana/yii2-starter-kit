@@ -133,8 +133,8 @@ class CoursewareToFileController extends Controller
 	 * @param integer $courseware_to_file_id
 	 * @return mixed
 	 */
-	public function actionUpdate($courseware_to_file_id) {
-		$model = $this->findModel($courseware_to_file_id);
+	public function actionUpdate($id) {
+		$model = $this->findModel($id);
 
 		if ($model->load($_POST) && $model->save()) {
 			return $this->redirect(Url::previous());
@@ -153,9 +153,9 @@ class CoursewareToFileController extends Controller
 	 * @param integer $courseware_to_file_id
 	 * @return mixed
 	 */
-	public function actionDelete($courseware_to_file_id) {
+	public function actionDelete($id) {
 		try {
-			$this->findModel($courseware_to_file_id)->delete();
+			$this->findModel($id)->delete();
 		} catch (\Exception $e) {
 			$msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
 			\Yii::$app->getSession()->addFlash('error', $msg);

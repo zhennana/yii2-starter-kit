@@ -10,10 +10,12 @@ use dmstr\bootstrap\Tabs;
 $CoursewareToFileSearch = new \backend\modules\campus\models\search\CoursewareToFileSearch;
 $CoursewareToFileDataProvider = $CoursewareToFileSearch->search($_GET);
 $CoursewareToFileDataProvider->query->andwhere(['courseware_id'=>$model->courseware_id]);
+$CoursewareToFileDataProvider->query->orderby(['sort'=>SORT_DESC]);
 
 $CoursewareToCoursewareSearch  = new \backend\modules\campus\models\search\CoursewareToCoursewareSearch;
 $CoursewareToCoursewareDataProvider = $CoursewareToCoursewareSearch->search($_GET);
 $CoursewareToCoursewareDataProvider->query->andwhere(['courseware_id'=>$model->courseware_id]);
+$CoursewareToCoursewareDataProvider->query->orderby(['sort'=>SORT_DESC]);
 
 /**
 * @var yii\web\View $this
@@ -71,17 +73,10 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
         </div>
 
     </div>
+    <br />
     <div>
-        <h4>上传课件</h4>
-        <?php
-            echo common\widgets\Qiniu\UploadCourseware::widget([
-                'uptoken_url' => yii\helpers\Url::to(['token-cloud']),
-                'upload_url'  => yii\helpers\Url::to(['upload-cloud','courseware_id'=>$model->courseware_id]),
-                        //'delete_url'  => yii\helpers\Url::to(['delete-cloud'])
-            ]);
-        ?>
+        <?php $html = '<br />'.Html::a('创建课件关系',['courseware-to-courseware/create','courseware_id'=>$model->courseware_id],['class'=>'btn btn-success']).'<br  />'?>
     </div>
-
     <hr />
     <br />
     <?php $this->beginBlock('backend\modules\campus\models\Courseware'); ?>
@@ -91,26 +86,24 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
     'model' => $model,
     'attributes' => [
         'parent_id',
+        [
+            'attribute'=>'category_id',
+            'value'    =>isset($model->coursewareCategory->name) ? $model->coursewareCategory->name : ''
+        ],
         'title',
-        'creater_id',
+        'tags',
+        'level',
         [
             'attribute'=>'creater_id',
             'value'    =>isset($model->user->username) ? $model->user->username : ''
         ],
         'body:ntext',
         [
-            'attribute'=>'category_id',
-            'value'    =>isset($model->coursewareCategory->name) ? $model->coursewareCategory->name : ''
-        ],
-        'access_domain',
-        'access_other',
-        [
             'attribute'=>'status',
             'value'=>\backend\modules\campus\models\Courseware::getStatusValueLabel($model->status)
         ],
-        'tags',
-        'level',
-
+        'access_domain',
+        'access_other',
         
     ],
     ]); ?>
@@ -127,19 +120,30 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
     <?php $this->endBlock(); ?>
     
 
-    <?php $this->beginBlock('backend\modules\campus\models\CoursewareToFile')?>
+    <?php $this->beginBlock('backend\modules\campus\models\CoursewareToFile');?>
+    <div>
+    <?php
+        $qiniu = '<div>'.common\widgets\Qiniu\UploadCourseware::widget([
+                'uptoken_url' => yii\helpers\Url::to(['token-cloud']),
+                'upload_url'  => yii\helpers\Url::to(['upload-cloud','courseware_id'=>$model->courseware_id]),
+                        //'delete_url'  => yii\helpers\Url::to(['delete-cloud'])
+            ]).'</div><br /> ';
+    ?>
+    </div>
     <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main1', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
-        <?=  '<div  class="table-responsive">'.\yii\grid\GridView::widget([
+        <?php
+            
+            echo   '<div  class="table-responsive">'.$qiniu.\yii\grid\GridView::widget([
                 'layout'=>'{summary}{pager}<br/>{items}{pager}',
                 'dataProvider'=>$CoursewareToFileDataProvider,
                 'filterModel'=> $CoursewareToFileSearch,
                 'columns'=>[
-                    //  [
-                    //     'class' => 'yii\grid\ActionColumn',
-                    //     'controller' => '/courseware-to-file',
-                    //     'template' => '{update}'
-                    // ],
-                    'file_storage_item_id',
+                     [
+                        'class' => 'yii\grid\ActionColumn',
+                        'controller' => 'courseware-to-file',
+                        'template' => '{update} {delete}'
+                    ],
+                    
                     'courseware_id',
                     [
                         'class'     => \common\grid\EnumColumn::ClassName(),
@@ -147,17 +151,30 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
                         'attribute' => 'status',
                         'enum'      => \backend\modules\campus\models\CoursewareToFile::optsStatus(),
                     ],
+                    'sort',
+                    'file_storage_item_id',
                     [
-                        'attribute'=>'file',
-                        'label' => '文件',
+                        'attribute'=>'文件',
                         'format'    => 'raw',
                         'value'    =>function($model){
                             if(isset($model->fileStorageItem->url) && isset($model->fileStorageItem->file_name)){
                                 $url = $model->fileStorageItem->url.$model->fileStorageItem->file_name;
-                                 return $url;
+                                $html = Html::a('修改',['file-storage-item/update','file_storage_item_id'=>$model->fileStorageItem->file_storage_item_id]);
+                                return $url.' '.$html;
                             }else{
                                 return '未知';
                             }
+                        }
+                    ],
+                    [
+                        'attribute'=>'文件类型',
+                        'format'    => 'raw',
+                        'value'    =>function($model){
+                            if(isset($model->fileStorageItem->type)){
+                                 return $model->fileStorageItem->type;
+                                
+                            }
+                            return '';
                         }
                     ],
                    'updated_at:datetime',
@@ -175,13 +192,26 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
                 'linkSelector'=>'#pjax-main ul.pagination a, th a',
                 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) 
             ?>
-        <?=  '<div  class="table-responsive">'.\yii\grid\GridView::widget([
+        <?=  '<div  class="table-responsive">'.$html.\yii\grid\GridView::widget([
                 'layout'=>'{summary}{pager}<br/>{items}{pager}',
                 'dataProvider'=> $CoursewareToCoursewareDataProvider,
                 'filterModel'=> $CoursewareToCoursewareSearch,
                 'columns'=>[
-                    'courseware_master_id',
-                    'courseware_id',
+                    //'courseware_master_id',
+                    [
+                        'attribute'=>'courseware_master_id',
+                        'format'    => 'raw',
+                        'value'=>function($model){
+                            return 'master_id:'.$model->courseware_master_id."<br />".$model->coursewareMaster->title;
+                        }
+                    ],
+                    [
+                        'attribute'=>'courseware_id',
+                        'format'    => 'raw',
+                        'value'=>function($model){
+                            return 'courseware_id:'.$model->courseware_id."<br />".$model->courseware->title;
+                        }
+                    ],
                     'sort',
                      [
                         'class'     => \common\grid\EnumColumn::ClassName(),
@@ -213,7 +243,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
             'active'  => true,
             ],
             [
-            'label'   => '<b class="">关联课程</b>',
+            'label'   => '<b class="">关联课件</b>',
             'content' => $this->blocks['backend\modules\campus\models\CoursewareToCourseware'],
             'active'  => false,
             ],

@@ -12,12 +12,14 @@
 namespace backend\modules\campus\controllers\base;
 
 use backend\modules\campus\models\CoursewareToCourseware;
+use backend\modules\campus\models\Courseware;
 use backend\modules\campus\models\search\CoursewareToCoursewareSearch;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\helpers\Url;
 use yii\filters\AccessControl;
 use dmstr\bootstrap\Tabs;
+use yii\helpers\ArrayHelper;
 
 /**
  * CoursewareToCoursewareController implements the CRUD actions for CoursewareToCourseware model.
@@ -109,20 +111,32 @@ class CoursewareToCoursewareController extends Controller
 	 *
 	 * @return mixed
 	 */
-	public function actionCreate() {
+	public function actionCreate($courseware_id) {
 		$model = new CoursewareToCourseware;
-
+		$courseware_ids[] = Courseware::find()->where(['courseware_id'=>$courseware_id])->asArray()->one();
+		//var_dump($courseware_ids);
+		$courseware_ids = ArrayHelper::map($courseware_ids,'courseware_id','title');
+		//var_dump($courseware_ids);exit;
+		$courseware = Courseware::find()
+			->where(['status'=>Courseware::COURSEWARE_STATUS_VALID])
+			->asArray()->all();
+			//var_dump($courseware);exit;
+		$courseware = ArrayHelper::map($courseware,'courseware_id','title');
 		try {
 			if ($model->load($_POST) && $model->save()) {
-				return $this->redirect(['view', 'courseware_to_courseware_id' => $model->courseware_to_courseware_id]);
-			} elseif (!\Yii::$app->request->isPost) {
-				$model->load($_GET);
-			}
+				return $this->redirect(['courseware/view','courseware_id' => $model->courseware_master_id]);
+			// } elseif (!\Yii::$app->request->isPost) {
+			// 	$model->load($_GET);
+			 }
 		} catch (\Exception $e) {
 			$msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
 			$model->addError('_exception', $msg);
 		}
-		return $this->render('create', ['model' => $model]);
+		return $this->render('create', [
+					'model' => $model,
+					'courseware_ids'=>$courseware_ids,
+					'courseware'=>$courseware
+			]);
 	}
 
 
@@ -135,7 +149,6 @@ class CoursewareToCoursewareController extends Controller
 	 */
 	public function actionUpdate($courseware_to_courseware_id) {
 		$model = $this->findModel($courseware_to_courseware_id);
-
 		if ($model->load($_POST) && $model->save()) {
 			return $this->redirect(Url::previous());
 		} else {
