@@ -2,12 +2,14 @@
 namespace frontend\controllers;
 
 use Yii;
-use frontend\models\ContactForm;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
+use frontend\models\ContactForm;
 use frontend\models\ApplyToPlay;
 use frontend\models\Contact;
 use common\models\Article;
 use common\models\ArticleCategory;
+use common\models\school\School;
 
 /*
 use Superman2014\Aliyun\Sms\Sms\Request\V20160927 as Sms;
@@ -208,16 +210,17 @@ class SiteController extends Controller
     public function actionAjaxApply(){
         $model = new ApplyToPlay;
         $model->setScenario('AjaxApply');
+
         if (Yii::$app->request->isAjax) {
-           
-           Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
             if($model->load(Yii::$app->request->post()) && $model->save()){
                 return ['status' => true];
             }else{
-                return ['status'=>false,'errors' => $model->getErrors()];
+              // var_dump($model->getErrors());
+                return ['status' => false, 'errors' => $model->getErrors()];
             }
         }
-
     }
     /**
      * 异步提交数据
@@ -279,5 +282,23 @@ class SiteController extends Controller
         return $this->render('contact', [
             'model' => $model
         ]);
+    }
+
+    public function actionSchoolLists($province_id)
+    {
+        $query = School::find()
+            ->where(['parent_id' => 0])
+            ->andWhere(['status' => School::SCHOOL_NORMAL]);
+        $school = $query
+            ->where(['province_id' => $province_id])
+            ->all();
+
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        if ($query->count() > 0 || !empty($school)) {
+            $school = ArrayHelper::map($school, 'id', 'school_short_title');
+            return $school;
+        }else{
+            return ['0' => '暂无校区'];
+        }
     }
 }
