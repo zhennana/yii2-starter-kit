@@ -148,7 +148,8 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
                         'enum'      => \backend\modules\campus\models\CoursewareToFile::optsStatus(),
                     ],
                     [
-                        'attribute'=>'文件',
+                        'attribute'=>'file',
+                        'label' => '文件',
                         'format'    => 'raw',
                         'value'    =>function($model){
                             if(isset($model->fileStorageItem->url) && isset($model->fileStorageItem->file_name)){
