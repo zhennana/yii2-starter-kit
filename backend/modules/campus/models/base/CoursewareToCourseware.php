@@ -101,8 +101,12 @@ abstract class CoursewareToCourseware extends \yii\db\ActiveRecord
         ]);
     }
 
-
-    
+    public function getCoursewareMaster(){
+        return $this->hasOne(\backend\modules\campus\models\Courseware::className(),['courseware_id'=>'courseware_master_id']);
+    }
+    public function getCourseware(){
+        return $this->hasOne(\backend\modules\campus\models\Courseware::className(),['courseware_id'=>'courseware_id']);
+    }
     /**
      * @inheritdoc
      * @return \backend\modules\campus\models\query\CoursewareToCoursewareQuery the active query used by this AR class.

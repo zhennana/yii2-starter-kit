@@ -11,6 +11,7 @@ use yii\bootstrap\ActiveForm;
 use \dmstr\bootstrap\Tabs;
 use yii\helpers\StringHelper;
 
+//var_dump($courseware_ids);exit;
 /**
  *
  * @var yii\web\View $this
@@ -37,10 +38,10 @@ use yii\helpers\StringHelper;
 
 
 <!-- attribute courseware_master_id -->
-			<?php echo $form->field($model, 'courseware_master_id')->textInput() ?>
+			<?php echo $form->field($model, 'courseware_master_id')->dropDownList($courseware_ids) ?>
 
 <!-- attribute courseware_id -->
-			<?php echo $form->field($model, 'courseware_id')->textInput() ?>
+			<?php echo $form->field($model, 'courseware_id')->dropDownList($courseware,['prompt'=>'请选择']) ?>
 
 <!-- attribute status -->
 			<?php echo $form->field($model, 'status')->dropDownList(\backend\modules\campus\models\CoursewareToCourseware::optsStatus(),['prompt'=>'请选择']) ?>
