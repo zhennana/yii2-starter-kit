@@ -136,8 +136,15 @@ if (\Yii::$app->user->can('manager', ['route' => true])) {
 			],
 			'courseware_master_id',
 			'courseware_id',
-			'status',
 			'sort',
+			[
+	            'class'     => \common\grid\EnumColumn::ClassName(),
+	            'format'    => 'raw',
+	            'attribute' => 'status',
+	            'enum'      => \backend\modules\campus\models\CoursewareToCourseware::optsStatus(),
+            ],
+            'updated_at:datetime',
+            'created_at:datetime'
 		],
 	]); ?>
     </div>

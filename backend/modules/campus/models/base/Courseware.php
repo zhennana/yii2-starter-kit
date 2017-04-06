@@ -7,6 +7,11 @@ namespace backend\modules\campus\models\base;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 
+//use \backend\modules\campus\models\Courseware;
+//use \backend\modules\campus\models\CoursewareCategory;
+//use \backend\modules\campus\models\CoursewareToFile;
+//use \backend\modules\campus\models\CoursewareToCourseware;
+
 /**
  * This is the base-model class for table "courseware".
  *
@@ -34,12 +39,19 @@ abstract class Courseware extends \yii\db\ActiveRecord
     public static function optsStatus(){
         return [
             self::COURSEWARE_STATUS_VALID    => '有效',
-            self::COURSEWARE_STATUS_INVALID =>'无效',
+            self::COURSEWARE_STATUS_INVALID  =>'无效',
         ];
     }
-
+    public static function getStatusValueLabel($value){
+            $lable = self::optsStatus();
+            if(isset($lable[$value])){
+                return $lable[$value];
+            }
+            return $value;
+    }
     public static function getDb(){
-        return Yii::$app->modules['campus']->get('campus');
+        //return Yii::$app->modules['campus']->get('campus');
+        return Yii::$app->get('campus');
     }
     /**
      * @inheritdoc
@@ -70,9 +82,10 @@ abstract class Courseware extends \yii\db\ActiveRecord
         return [
             [['category_id', 'creater_id', 'access_domain', 'access_other', 'status'], 'integer'],
             [[ 'title'], 'required'],
-            [['body'], 'string'],
+            [['body','tags'], 'string'],
             ['creater_id','default','value'=>Yii::$app->user->identity->id],
-            [['title','tags'], 'string', 'max' => 512]
+            [['title','tags'], 'string', 'max' => 512],
+            ['slug','safe']
         ];
     }
 
@@ -115,7 +128,17 @@ abstract class Courseware extends \yii\db\ActiveRecord
         ]);
     }
 
+    public function getCoursewareCategory(){
+        return $this->hasOne(\backend\modules\campus\models\CoursewareCategory::classname(),['category_id'=>'category_id']);
+    }
 
+    public function getUser(){
+        return $this->hasOne(\common\models\User::classname(),['id'=>'creater_id']);
+    }
+
+    public function getToFile(){
+        return $this->hasMany(\backend\modules\campus\models\CoursewareToFile::classname(),['courseware_id'=>'courseware_id'])->Orderby(['sort'=>SORT_DESC]);
+    }
     
     /**
      * @inheritdoc
