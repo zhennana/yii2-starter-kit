@@ -12,11 +12,10 @@ use yii\base\InvalidParamException;
 use Yii;
 use common\components\Qiniu\Auth;
 use common\components\Qiniu\Storage\BucketManager;
-use backend\modules\campus\models\FileStorageItem;
 use yii\web\Response;
 
 
-class QiniuCarouselAction extends Action
+class QiniuCoursewareAction extends Action
 {
     public $type = 'upload';
     public $bucket = 'wakooedu';
@@ -58,40 +57,31 @@ class QiniuCarouselAction extends Action
      */
     protected function upload()
     {
-        // if($_POST){
-        //     $qiniu = [];
-        //     $qiniu[$_POST['url']] = $_POST;
-        //     Yii::$app->session['qiniu'] = $qiniu;
-        // }
-        $file = new FileStorageItem();
-        $file->school_id        = '0',
-        $file->grade_id         = '0',
-        $file->file_category_id = 10;
-        $file->user_id          = Yii::$app->user->id;
-        $file->type             = Yii::$app->request->post('type');
-        $file->size             = Yii::$app->request->post('size');
-        $file->base_url         = Yii::$app->params['qiniu'][$this->bucket]['domain'];
-        $file->path             = Yii::$app->request->post('url');
-
-        $file->name             = Yii::$app->request->post('file_name');
-        $file->hash             = Yii::$app->request->post('hash');
-        $file->status           = Yii::$app->request->post('ispublic',1);
-        //$file->file_category_id     = Yii::$app->request->post('file_category_id'); // 分类ID 一对一
-        $file->upload_ip    = Yii::$app->request->getUserIP();
-        $file->component    = 'wakooedu';
-        //$file->source_type  = $this->source_type;
-        //$file->entity_id = 0;
-
-        $data['errno']=0;
-        $data['message']='';
-        if($file->save()){
-            Yii::$app->response->data = [
-                'status' => $file->id,
-                'note' => '成功'
-            ]; 
-        }else{
-            var_dump($file->getErrors());exit;
+        //var_dump($_POST);exit;
+        if($_POST){
+            $qiniu = [];
+            $qiniu[$_POST['url']] = $_POST;
+            Yii::$app->session['qiniu'] = $qiniu;
         }
+        // $file = new Storage();
+        // $file->user_id      = Yii::$app->user->id;
+        // $file->type         = Yii::$app->request->post('type');
+        // $file->size         = Yii::$app->request->post('size');
+        // $file->base_url     = Yii::$app->params['qiniu'][$this->bucket]['domain'];
+        // $file->path    = Yii::$app->request->post('url');
+
+        // $file->name     = Yii::$app->request->post('file_name');
+        // $file->hash     = Yii::$app->request->post('hash');
+        // $file->status     = Yii::$app->request->post('ispublic',1);
+        // //$file->file_category_id     = Yii::$app->request->post('file_category_id'); // 分类ID 一对一
+        // $file->upload_ip    = Yii::$app->request->getUserIP();
+        // $file->component    = 'azure.storage.item';
+        // $file->source_type  = $this->source_type;
+        // $file->entity_id = 0;
+
+        // $data['errno']=0;
+        // $data['message']='';
+
         // if($file->save()){
 
         //     //保存相片到标签
@@ -120,8 +110,6 @@ class QiniuCarouselAction extends Action
         // return ['callback'=>$callback, 'data'=>$data];
     }
 
-    /*
-    
     public function timeline(){
         // 活动时间线
         Yii::$app->response->format = Response::FORMAT_JSON;
@@ -159,7 +147,6 @@ class QiniuCarouselAction extends Action
 		//echo $data;
 		//return ['data'=>$data];
     }
-    */
     /**
      * 隐身
      * 公开或者私有
@@ -260,7 +247,7 @@ class QiniuCarouselAction extends Action
         //         'note' => '无附件信息'
         //     ]; 
         // }
-        //var_dump($_POST);exit;
+       //var_dump($_POST);exit;
         
         $auth = new Auth(\Yii::$app->params['qiniu']['wakooedu']['access_key'], \Yii::$app->params['qiniu']['wakooedu']['secret_key']);
         $bucketMgr = new BucketManager($auth);

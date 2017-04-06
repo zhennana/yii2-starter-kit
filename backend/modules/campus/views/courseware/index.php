@@ -28,9 +28,9 @@ $this->params['breadcrumbs'][] = $this->title;
         $actionColumnTemplates[] = '{update}';
     }
 
-    // if (\Yii::$app->user->can('manager', ['route' => true])) {
-    //     $actionColumnTemplates[] = '{delete}';
-    // }
+    if (\Yii::$app->user->can('manager', ['route' => true])) {
+        $actionColumnTemplates[] = '{delete}';
+    }
     if (isset($actionColumnTemplates)) {
         $actionColumnTemplate = implode(' ', $actionColumnTemplates);
         $actionColumnTemplateString = $actionColumnTemplate;
@@ -127,17 +127,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'contentOptions' => ['nowrap'=>'nowrap']
             ],
-			// 'category_id',
-			// 'level',
-			// 'creater_id',
-			// 'parent_id',
+            'title',
+            'body',
+			'category_id',
+			'level',
+			'creater_id',
+			'parent_id',
 			// 'access_domain',
 			// 'access_other',
 			// 'status',
-			/*'items',*/
-			/*'slug',*/
-			'title',
-            //'status',
+			
+            'tags',
             [
                 'class'     =>\common\grid\EnumColumn::className(),
                 'attribute' =>'status',

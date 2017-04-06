@@ -22,7 +22,9 @@ use yii\behaviors\TimestampBehavior;
 abstract class CoursewareToFile extends \yii\db\ActiveRecord
 {
 
-
+    public static function getDb(){
+        return Yii::$app->modules['campus']->get('campus');
+    }
 
     /**
      * @inheritdoc
@@ -30,9 +32,6 @@ abstract class CoursewareToFile extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'courseware_to_file';
-    }
-    public static function getDb(){
-        return Yii::$app->modules['campus']->get('campus');
     }
 
     /**

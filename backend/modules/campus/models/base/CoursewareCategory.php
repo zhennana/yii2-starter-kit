@@ -68,15 +68,15 @@ abstract class CoursewareCategory extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'category_id' => Yii::t('backend', 'Category ID'),
+            'category_id' => Yii::t('backend', 'ID'),
             'parent_id' => Yii::t('backend', '父ID'),
-            'name' => Yii::t('backend', 'Name'),
-            'description' => Yii::t('backend', 'Description'),
-            'banner_src' => Yii::t('backend', 'Banner Src'),
-            'creater_id' => Yii::t('backend', 'Creater ID'),
-            'updated_at' => Yii::t('backend', 'Updated At'),
-            'created_at' => Yii::t('backend', 'Created At'),
-            'status' => Yii::t('backend', '正常: 10 ; 关闭：20 '),
+            'name' => Yii::t('backend', '名称'),
+            'description' => Yii::t('backend', '描述'),
+            'banner_src' => Yii::t('backend', '图片'),
+            'creater_id' => Yii::t('backend', '创建者'),
+            'updated_at' => Yii::t('backend', '更新时间'),
+            'created_at' => Yii::t('backend', '创建时间'),
+            'status' => Yii::t('backend', '状态'),
         ];
     }
 
@@ -86,7 +86,14 @@ abstract class CoursewareCategory extends \yii\db\ActiveRecord
     public function attributeHints()
     {
         return array_merge(parent::attributeHints(), [
+            'category_id' => Yii::t('backend', 'ID'),
             'parent_id' => Yii::t('backend', '父ID'),
+            'name' => Yii::t('backend', '名称'),
+            'description' => Yii::t('backend', '描述'),
+            'banner_src' => Yii::t('backend', '图片'),
+            'creater_id' => Yii::t('backend', '创建者'),
+            'updated_at' => Yii::t('backend', '更新时间'),
+            'created_at' => Yii::t('backend', '创建时间'),
             'status' => Yii::t('backend', '正常: 10 ; 关闭：20 '),
         ]);
     }

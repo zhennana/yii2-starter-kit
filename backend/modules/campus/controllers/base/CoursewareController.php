@@ -11,6 +11,7 @@ use yii\web\HttpException;
 use yii\helpers\Url;
 use yii\filters\AccessControl;
 use dmstr\bootstrap\Tabs;
+use Yii;
 
 /**
 * CoursewareController implements the CRUD actions for Courseware model.
@@ -99,19 +100,19 @@ return $this->render('view', [
 */
 public function actionCreate()
 {
-$model = new Courseware;
+    $model = new Courseware;
 
-try {
-if ($model->load($_POST) && $model->save()) {
-return $this->redirect(['view', 'courseware_id' => $model->courseware_id]);
-} elseif (!\Yii::$app->request->isPost) {
-$model->load($_GET);
-}
-} catch (\Exception $e) {
-$msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
-$model->addError('_exception', $msg);
-}
-return $this->render('create', ['model' => $model]);
+    try {
+    if ($model->load($_POST) && $model->save()) {
+    return $this->redirect(['view', 'courseware_id' => $model->courseware_id]);
+    } elseif (!\Yii::$app->request->isPost) {
+    $model->load($_GET);
+    }
+    } catch (\Exception $e) {
+    $msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
+    $model->addError('_exception', $msg);
+    }
+    return $this->render('create', ['model' => $model]);
 }
 
 /**
@@ -122,15 +123,15 @@ return $this->render('create', ['model' => $model]);
 */
 public function actionUpdate($courseware_id)
 {
-$model = $this->findModel($courseware_id);
+    $model = $this->findModel($courseware_id);
 
-if ($model->load($_POST) && $model->save()) {
-return $this->redirect(Url::previous());
-} else {
-return $this->render('update', [
-'model' => $model,
-]);
-}
+    if ($model->load($_POST) && $model->save()) {
+    return $this->redirect(Url::previous());
+    } else {
+    return $this->render('update', [
+    'model' => $model,
+    ]);
+    }
 }
 
 /**

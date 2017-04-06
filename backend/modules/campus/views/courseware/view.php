@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
     <?php endif; ?>
 
     <h1>
-        <?= Yii::t('backend', 'Courseware') ?>
+        <?= Yii::t('backend', '课件') ?>
         <small>
             <?= $model->title ?>
         </small>
@@ -72,17 +72,18 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
     <?= DetailView::widget([
     'model' => $model,
     'attributes' => [
-            'category_id',
-        'level',
+        'title',
+        'body:ntext',
+        'category_id',
         'creater_id',
         'parent_id',
         'access_domain',
         'access_other',
         'status',
-        'items',
-        'slug',
-        'title',
-        'body:ntext',
+        'tags',
+        'level',
+
+        
     ],
     ]); ?>
 
@@ -99,18 +100,26 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
 
 
     
-    <?= Tabs::widget(
-                 [
-                     'id' => 'relation-tabs',
-                     'encodeLabels' => false,
-                     'items' => [
- [
-    'label'   => '<b class=""># '.$model->courseware_id.'</b>',
-    'content' => $this->blocks['backend\modules\campus\models\Courseware'],
-    'active'  => true,
-],
- ]
-                 ]
-    );
+    <?= Tabs::widget([
+        'id' => 'relation-tabs',
+        'encodeLabels' => false,
+        'items' => [
+            [
+            'label'   => '<b class="">课件ID # '.$model->courseware_id.'</b>',
+            'content' => $this->blocks['backend\modules\campus\models\Courseware'],
+            'active'  => true,
+            ],
+            [
+            'label'   => '<b class="">附件</b>',
+            'content' => $this->blocks['backend\modules\campus\models\Courseware'],
+            'active'  => false,
+            ],
+            [
+            'label'   => '<b class="">关联课程</b>',
+            'content' => $this->blocks['backend\modules\campus\models\Courseware'],
+            'active'  => false,
+            ],
+        ]
+    ]);
     ?>
 </div>
