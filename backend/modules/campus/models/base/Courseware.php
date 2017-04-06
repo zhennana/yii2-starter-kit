@@ -80,8 +80,8 @@ abstract class Courseware extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['category_id', 'creater_id', 'access_domain', 'access_other', 'status'], 'integer'],
-            [[ 'title'], 'required'],
+            [['category_id', 'creater_id', 'access_domain', 'access_other', 'status','file_counts','page_view'], 'integer'],
+            [['title'], 'required'],
             [['body','tags'], 'string'],
             ['creater_id','default','value'=>Yii::$app->user->identity->id],
             [['title','tags'], 'string', 'max' => 512],
@@ -104,6 +104,8 @@ abstract class Courseware extends \yii\db\ActiveRecord
             'parent_id' => Yii::t('common', '父课件'),
             'access_domain' => Yii::t('common', '权限'),
             'access_other' => Yii::t('common', '分享权限'),
+            'file_counts' => Yii::t('common', '附件数'),
+            'page_view' => Yii::t('common', '预览数'),
             'status' => Yii::t('common', 'Status'),
             'tags' => Yii::t('common', '标签'),
             'created_at' => Yii::t('common', 'Created At'),

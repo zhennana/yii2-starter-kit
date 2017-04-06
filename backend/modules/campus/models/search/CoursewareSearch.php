@@ -18,7 +18,7 @@ class CoursewareSearch extends Courseware
 public function rules()
 {
 return [
-[['courseware_id', 'category_id', 'level', 'creater_id', 'parent_id', 'access_domain', 'access_other', 'status', 'created_at', 'updated_at'], 'integer'],
+[['courseware_id', 'category_id','page_view','file_counts', 'level', 'creater_id', 'parent_id', 'access_domain', 'access_other', 'status', 'created_at', 'updated_at'], 'integer'],
             [['title', 'body','tags'], 'safe'],
 ];
 }

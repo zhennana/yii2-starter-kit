@@ -126,21 +126,40 @@ if(\Yii::$app->user->can('campus_file-storage-item_create', ['route' => true])){
             },
             'contentOptions' => ['nowrap'=>'nowrap']
         ],
-			'user_id',
+			//'user_id',
+            [
+                'attribute' =>'user_id',
+                'format'    => 'raw',
+                'value'     =>function($model){
+                    return isset($model->user->username) ? $model->user->username : '';
+                }
+            ],
 			'school_id',
 			'grade_id',
 			'file_category_id',
 			'size',
 			'ispublic',
 			'status',
-			/*'page_view',*/
+			'page_view',
+            [
+                'attribute' => 'base_url',
+                'format' => 'raw',
+                'value' => function($model, $key, $index, $grid){
+                    $url = $model->url.$model->file_name;
+                    if(strstr($model->type,'image')){
+                        return Html::a('<img width="50px" height="50px" class="img-thumbnail" src="'.$url.'?imageView2/1/w/50/h/50" />', $url.'?imageView2/1/w/500/h/500', ['title' => '访问','target' => '_blank']);
+                    }else{
+                        return Html::a($model->type, $url, ['title' => '访问','target' => '_blank']);
+                    }
+                }
+            ],
 			/*'sort_rank',*/
 			/*'url:url',*/
-			/*'type',*/
-			/*'component',*/
-			/*'file_name',*/
-			/*'upload_ip',*/
-			/*'original',*/
+			'type',
+			'component',
+			'file_name',
+			'upload_ip',
+			'original',
         ],
         ]); ?>
     </div>

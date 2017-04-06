@@ -142,18 +142,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 'enum'      => $categories
             ],
 			'level',
-			'creater_id',
 			 [
                 'attribute' =>'creater_id',
                 'format'    => 'raw',
                 'value'     =>function($model){
-                        return isset($model->user->username) ? $model->user->username : '';
+                    return isset($model->user->username) ? $model->user->username : '';
                 }
             ],
 			// 'access_domain',
 			// 'access_other',
-			// 'status',
-			
+			'file_counts',
+			'page_view',
             'tags',
             [
                 'class'     =>\common\grid\EnumColumn::className(),
