@@ -212,7 +212,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
             'active'  => true,
             ],
             [
-            'label'   => '<b class="">关联课件</b>',
+            'label'   => '<b class="">关联课程</b>',
             'content' => $this->blocks['backend\modules\campus\models\CoursewareToCourseware'],
             'active'  => false,
             ],
