@@ -17,7 +17,7 @@ use backend\modules\campus\models\FileStorageItem;
 use backend\modules\campus\models\CoursewareToFile;
 
 
-class QiniuCoursewareAction extends Action
+class QiniuCoursewareCategoryAction extends Action
 {
     public $type = 'upload';
     public $bucket = 'wakooedu';
@@ -58,7 +58,7 @@ class QiniuCoursewareAction extends Action
      */
     protected function upload()
     {
-        Yii::$app->response->format = Response::FORMAT_JSON;
+        /*Yii::$app->response->format = Response::FORMAT_JSON;
 //var_dump(Yii::$app->request->post());exit;
         $type      = Yii::$app->request->post('type');
         $url       = Yii::$app->params['qiniu'][$this->bucket]['domain'].'/';
@@ -77,7 +77,7 @@ class QiniuCoursewareAction extends Action
         $files->status           = 1;//1;
         $files->original         = Yii::$app->request->post('file_name');
 
-        $files->upload_ip        =  Yii::$app->request->getUserIP();
+        //$file->upload_ip        =  Yii::$app->request->getUserIP();
         $files->component        = 'wakooedu';
 //var_dump($files->save(),$files->getErrors());exit;
        if($files->save()){
@@ -99,7 +99,7 @@ class QiniuCoursewareAction extends Action
         }else{
             var_dump($files->getErrors());exit;
         }
-        return false;
+        return false;*/
     }
     /**
      * 隐身
@@ -107,7 +107,7 @@ class QiniuCoursewareAction extends Action
      */
     protected function privacy()
     {
-
+/*
         $id = Yii::$app->request->post('id');
         $policy = Yii::$app->request->post('ispublic');
         Yii::$app->response->format = Response::FORMAT_JSON;
@@ -138,7 +138,7 @@ class QiniuCoursewareAction extends Action
                 'status' => 1,
                 'note' => '修改成功'
             ]; 
-        }
+        }*/
     }
 
     /**
