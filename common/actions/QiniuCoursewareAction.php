@@ -65,7 +65,6 @@ class QiniuCoursewareAction extends Action
         $file_name = Yii::$app->request->post('url');
         $size      = Yii::$app->request->post('size');
         $user_id   =  Yii::$app->user->identity->id;
-
         $files = new FileStorageItem();
         $files->school_id        = '0';
         $files->grade_id         = '0';
@@ -76,6 +75,8 @@ class QiniuCoursewareAction extends Action
         $files->url              = $url;
         $files->file_name        = $file_name;
         $files->status           = 1;//1;
+        $files->original         = Yii::$app->request->post('file_name');
+
         //$file->upload_ip        =  Yii::$app->request->getUserIP();
         $files->component        = 'wakooedu';
 //var_dump($files->save(),$files->getErrors());exit;
