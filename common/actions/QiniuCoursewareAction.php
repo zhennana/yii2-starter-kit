@@ -14,7 +14,7 @@ use common\components\Qiniu\Auth;
 use common\components\Qiniu\Storage\BucketManager;
 use yii\web\Response;
 use backend\modules\campus\models\FileStorageItem;
-use backend\modules\campus\models\CoursewareTofile;
+use backend\modules\campus\models\CoursewareToFile;
 
 
 class QiniuCoursewareAction extends Action
