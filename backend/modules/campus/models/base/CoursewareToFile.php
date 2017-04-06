@@ -97,7 +97,10 @@ abstract class CoursewareToFile extends \yii\db\ActiveRecord
     }
 
     public function getFileStorageItem(){
-        return $this->hasOne(\backend\modules\campus\models\FileStorageItem::className(),['file_storage_item_id'=>'file_storage_item_id']);
+        return $this->hasOne(
+            \backend\modules\campus\models\FileStorageItem::className(),
+            ['file_storage_item_id'=>'file_storage_item_id']
+        );
     }
     
     /**
