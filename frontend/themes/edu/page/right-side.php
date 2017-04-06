@@ -32,9 +32,11 @@ $school_id = School::find()
 $school_id = ArrayHelper::map($school_id, 'id', 'school_title');
 
 ?>
-
 <div class="col-sm-4 right_public">
 
+    <!-- 卷角 -->
+    <div class="corner" id="corner"></div>
+    
     <!-- 预约报名 -->
     <div class="box-body bespeak" id="enlist">
         <?php
