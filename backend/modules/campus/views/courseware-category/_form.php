@@ -4,8 +4,6 @@
  *
  * @package default
  */
-
-
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use \dmstr\bootstrap\Tabs;
@@ -18,7 +16,15 @@ use yii\helpers\StringHelper;
  * @var yii\widgets\ActiveForm $form
  */
 ?>
-
+<div>
+	<?php 
+		echo common\widgets\Qiniu\UploadCoursewareCategory::widget([
+                'uptoken_url' => yii\helpers\Url::to(['token-cloud']),
+                //'upload_url'  => yii\helpers\Url::to(['upload-cloud']),
+                        //'delete_url'  => yii\helpers\Url::to(['delete-cloud'])
+            ])
+	?>
+</div>
 <div class="courseware-category-form">
 
     <?php $form = ActiveForm::begin([
@@ -88,3 +94,37 @@ Tabs::widget(
     </div>
 
 </div>
+<script type="text/javascript">
+    function delattach(path, type) {
+    var send_data = new Object();
+    send_data.path = path;
+    if (type == 1)
+    {
+        url = "index.php?r=campus/courseware-category/delete-cloud";
+    }
+    else
+    {
+        url = "index.php?r=campus/courseware-category/delete-cloud";
+    }    
+    jQuery.ajax({
+        type: "post",
+        url: url,
+        data: send_data,
+        async: false,
+        success: function(response){
+            var pathid = path.slice(0,-4);
+            if(response.status == 1){
+                $('#pickfiles').show();
+                $('.progressContainer').remove();
+                $('thead').hide();
+                $("#widgetcarouselitem-path").remove();
+                $("#"+pathid+" .linkWrapper").removeAttr('href');
+                $("#"+pathid+" .info").html("<span class='text-red'>已删除</span>");
+            }
+//          alert(pathid);
+            
+            return true;
+        }
+    });
+}; 
+</script>

@@ -60,11 +60,11 @@ $carousel_id = isset($carousel->id) ? $carousel->id : $model->carousel_id ;
     send_data.path = path;
     if (type == 1)
     {
-        url = "index.php?r=campus/courseware/delete-cloud";
+        url = "index.php?r=campus/courseware-category/delete-cloud";
     }
     else
     {
-        url = "index.php?r=campus/courseware/delete-cloud";
+        url = "index.php?r=campus/courseware-category/delete-cloud";
     }    
     jQuery.ajax({
         type: "post",
@@ -74,6 +74,7 @@ $carousel_id = isset($carousel->id) ? $carousel->id : $model->carousel_id ;
         success: function(response){
             var pathid = path.slice(0,-4);
             if(response.status == 1){
+                $('#coursewarecategory-banner_src').val("");
                 $('#pickfiles').show();
                 $('.progressContainer').remove();
                 $('thead').hide();
