@@ -10,7 +10,7 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use \dmstr\bootstrap\Tabs;
 use yii\helpers\StringHelper;
-
+use backend\modules\campus\models\CoursewareToFile;
 /**
  *
  * @var yii\web\View $this
@@ -43,7 +43,7 @@ use yii\helpers\StringHelper;
 			<?php echo $form->field($model, 'courseware_id')->textInput() ?>
 
 <!-- attribute status -->
-			<?php echo $form->field($model, 'status')->textInput() ?>
+			<?php echo $form->field($model, 'status')->dropDownList(backend\modules\campus\models\CoursewareToFile::optsStatus()) ?>
 
 <!-- attribute sort -->
 			<?php echo $form->field($model, 'sort')->textInput() ?>

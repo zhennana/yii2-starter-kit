@@ -35,7 +35,15 @@ use yii\behaviors\TimestampBehavior;
 abstract class FileStorageItem extends \yii\db\ActiveRecord
 {
 
+    const STORAGE_STATUS_OPEN = 10;     //开启
+    const STORAGE_STATUS_DELECT = 20;   //关闭
+    public static function optsStatus(){
+        return [
+            self::STORAGE_STATUS_OPEN =>'开启',
+            self::STORAGE_STATUS_DELECT=>'关闭',
 
+        ];
+    }
 
     /**
      * @inheritdoc
