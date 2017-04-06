@@ -31,7 +31,8 @@ abstract class CoursewareToFile extends \yii\db\ActiveRecord
             ];
     }
     public static function getDb(){
-        return \Yii::$app->getModule('campus')->campus;
+        //return \Yii::$app->getModule('campus')->campus;
+        return Yii::$app->get('campus');
     }
 
     /**
