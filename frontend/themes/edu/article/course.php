@@ -1,5 +1,11 @@
 <?php
 use yii\helpers\Html;
+
+$this->title = Yii::t('frontend', '课程体系');
+// $this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Articles'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
+
+
 //默认图片
 $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.jpg'.'?imageView2/3/w/400/h/400';
 ?>
@@ -20,7 +26,7 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
                 <div class="course-list">
                     <div class="course-type">
                         <span><?php echo $value['title']?>
-                </div>
+                    </div>
 
                     <ul>
                         <?php foreach($value['articles'] as $article){
@@ -84,10 +90,7 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
             </div> 
             
         </div>
-
-        <div class="col-sm-4 right-public">
-        
-        </div>
+    <?php echo $this->render('..\page\right-side'); ?>
     </div>
 </div>
 <script>

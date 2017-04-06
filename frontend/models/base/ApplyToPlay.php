@@ -29,7 +29,6 @@ abstract class ApplyToPlay extends \yii\db\ActiveRecord
 
      public $verifyCode;
 
-
      CONST  APPLY_TO_PLAY_STATUS_AUDIT = 1;//待审核
      CONST  APPLY_TO_PLAY_STATUS_SUCCEED = 2;//审核成功
 
@@ -68,16 +67,15 @@ abstract class ApplyToPlay extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['username', 'phone_number', 'email', 'city', 'province', 'region'], 'required'],
+            [['username', 'phone_number', 'age'], 'required'],
             ['verifyCode','captcha','on'=>'AjaxApply'],
             [['verifyCode'],'required','on'=>'AjaxApply'],
-            // ['phone_number', 'string', 'min' => 11, 'max' => 11],
+            ['phone_number', 'string', 'min' => 11, 'max' => 11],
             [['phone_number'], PhoneValidator::className()],
             ['status','default','value'=>ApplyToPlay::APPLY_TO_PLAY_STATUS_AUDIT],
-            ['email','email'],
-            [['auditor_id', 'status'], 'integer'],
-            [['username', 'region'], 'string', 'max' => 255],
-            [['email', 'city', 'province'], 'string', 'max' => 128]
+            // ['email','email'],
+            [['auditor_id', 'status', 'province_id', 'school_id', 'age'], 'integer'],
+            [['username'], 'string', 'max' => 255],
         ];
     }
     public  function scenarios(){
@@ -92,16 +90,19 @@ abstract class ApplyToPlay extends \yii\db\ActiveRecord
     {
         return [
             'apply_to_play_id' => Yii::t('common', 'Apply To Play ID'),
-            'username' => Yii::t('common', '姓名'),
-            'phone_number' => Yii::t('common', '电话'),
-            'email' => Yii::t('common', '邮件'),
-            'city' => Yii::t('common', '市'),
-            'province' => Yii::t('common', '省'),
-            'auditor_id' => Yii::t('common', '审核人'),
-            'region' => Yii::t('common', '区'),
-            'verifyCode'=>Yii::t('common','验证码'),
-            'created_at' => Yii::t('common', 'Created At'),
-            'updated_at' => Yii::t('common', 'Updated At'),
+            'username'         => Yii::t('common', '姓名'),
+            'phone_number'     => Yii::t('common', '电话'),
+            'age'              => Yii::t('common', '年龄'),
+            'province_id'      => Yii::t('common', '地区'),
+            'school_id'        => Yii::t('common', '校区'),
+            // 'email'            => Yii::t('common', '邮件'),
+            // 'city'             => Yii::t('common', '市'),
+            // 'province'         => Yii::t('common', '省'),
+            'auditor_id'       => Yii::t('common', '审核人'),
+            // 'region'           => Yii::t('common', '区'),
+            'verifyCode'       =>Yii::t('common','验证码'),
+            'created_at'       => Yii::t('common', 'Created At'),
+            'updated_at'       => Yii::t('common', 'Updated At'),
         ];
     }
 
@@ -111,14 +112,17 @@ abstract class ApplyToPlay extends \yii\db\ActiveRecord
     public function attributeHints()
     {
         return array_merge(parent::attributeHints(), [
-            'username' => Yii::t('common', '报名人姓名'),
+            'username'     => Yii::t('common', '报名人姓名'),
             'phone_number' => Yii::t('common', '报名人电话'),
-            'email' => Yii::t('common', '报名人邮件'),
-            'city' => Yii::t('common', '市'),
-            'province' => Yii::t('common', '省'),
-            'auditor_id' => Yii::t('common', '审核人'),
-            'region' => Yii::t('common', '区'),
-            'status' => Yii::t('common', '报名成功：1，报名审核： 2，已过期：3'),
+            'age'          => Yii::t('common', '年龄'),
+            'province_id'  => Yii::t('common', '地区'),
+            'school_id'    => Yii::t('common', '校区'),
+            // 'email'        => Yii::t('common', '报名人邮件'),
+            // 'city'         => Yii::t('common', '市'),
+            // 'province'     => Yii::t('common', '省'),
+            'auditor_id'   => Yii::t('common', '审核人'),
+            // 'region'       => Yii::t('common', '区'),
+            'status'       => Yii::t('common', '报名成功：1，报名审核： 2，已过期：3'),
         ]);
     }
 
