@@ -112,11 +112,11 @@ class ItemController extends \yii\rest\ActiveController
             $info[$value->slug]['classify_id'] = $value->category_id;
         }
         $info['suggest'] = [
-                1 => ['id'=>1, 'keywords'=> '热门视频'],
-                2 => ['id'=>2, 'keywords'=> '三岁以下'],
-                3 => ['id'=>3, 'keywords'=> '4-5岁'],
-                4 => ['id'=>4, 'keywords'=> '6-7岁'],
-            ];
+            1 => ['id'=>1, 'keywords'=> '热门视频'],
+            2 => ['id'=>2, 'keywords'=> '幼苗'],
+            3 => ['id'=>3, 'keywords'=> '小树'],
+            4 => ['id'=>4, 'keywords'=> '大树'],
+        ];
         /*
         $info = [
             'video' => [
@@ -164,6 +164,14 @@ class ItemController extends \yii\rest\ActiveController
      *        default = 1,
      *        type = "string"
      *     ),
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "tags",
+     *        description = "suggest标签的关键词，多关键词半角逗号隔开",
+     *        required = false,
+     *        default = "热门视频",
+     *        type = "string"
+     *     ),
      *     @SWG\Response(
      *         response = 200,
      *         description = "success,返回视频数据"
@@ -171,7 +179,7 @@ class ItemController extends \yii\rest\ActiveController
      * )
      *
      */
-    public function actionListVideo($category_id = 1)
+    public function actionListVideo($category_id = 1, $tags='热门视频')
     {
         $course = new CoursewareToFile();
 
@@ -216,7 +224,7 @@ class ItemController extends \yii\rest\ActiveController
                 'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
                 'video_src' => 'http://omsqlyn5t.bkt.clouddn.com/Abc%20Song%20%20%20Super%20Simple%20Songs%20480P.ogv',
             ],
-        ];*/
+        ];
         $info = [];
         for ($i=1; $i < 26 ; $i++) { 
             $info[$i] = [
@@ -228,7 +236,7 @@ class ItemController extends \yii\rest\ActiveController
             ];
         }
 
-        return $info;
+        return $info;*/
     }
 
     /**
@@ -237,7 +245,22 @@ class ItemController extends \yii\rest\ActiveController
      *     summary="音乐产品列表",
      *     description="返回音乐列表",
      *     produces={"application/xml"},
-     *     
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "category_id",
+     *        description = "分类ID",
+     *        required = false,
+     *        default = 2,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "tags",
+     *        description = "suggest标签的关键词，多关键词半角逗号隔开",
+     *        required = false,
+     *        default = "幼苗",
+     *        type = "string"
+     *     ),
      *     @SWG\Response(
      *         response = 200,
      *         description = "success,返回音乐数据"
@@ -245,7 +268,7 @@ class ItemController extends \yii\rest\ActiveController
      * )
      *
      */
-    public function actionListMusic($category_id = 2)
+    public function actionListMusic($category_id = 2, $tags='幼苗')
     {
         $course = new CoursewareToFile();
 
@@ -316,7 +339,22 @@ class ItemController extends \yii\rest\ActiveController
      *     summary="绘本产品列表",
      *     description="返回绘本列表",
      *     produces={"application/xml"},
-     *     
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "category_id",
+     *        description = "分类ID",
+     *        required = false,
+     *        default = 3,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "tags",
+     *        description = "suggest标签的关键词，多关键词半角逗号隔开",
+     *        required = false,
+     *        default = "小树",
+     *        type = "string"
+     *     ),
      *     @SWG\Response(
      *         response = 200,
      *         description = "success,返回绘本数据"
@@ -324,12 +362,13 @@ class ItemController extends \yii\rest\ActiveController
      * )
      *
      */
-    public function actionListBook($category_id = 3)
+    public function actionListBook($category_id = 3, $tags='小树')
     {
         $course = new CoursewareToFile();
 
         $data = $course->courseware('book',$category_id);
         return $data;
+        
        /* $info = [
             1=>[
                 'book_id' =>1 ,
@@ -455,8 +494,8 @@ class ItemController extends \yii\rest\ActiveController
                 ],
             ];
         }
-    */
-        return $info;
+    
+        return $info;*/
     }
 
 

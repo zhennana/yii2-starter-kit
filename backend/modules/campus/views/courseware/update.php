@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'Edit');
 <div class="giiant-crud courseware-update">
 
     <h1>
-        <?= Yii::t('backend', 'Courseware') ?>
+        <?= Yii::t('backend', '课程') ?>
         <small>
             <?= $model->title ?>
         </small>
