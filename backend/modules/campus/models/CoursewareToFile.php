@@ -66,13 +66,13 @@ class CoursewareToFile extends BaseCoursewareToFile
                 if(in_array($v->fileStorageItem->type,['image/jpeg','image/png'])){
                   $info[$index]['banner_src'] = $v->fileStorageItem->url.$v->fileStorageItem->file_name;
                 }else{
-                  $info[$index]['banner_src'] = 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg';
+                  $info[$index]['banner_src'] = '';
                 }
                 
-                if(in_array($v->fileStorageItem->type,['video/ogg','video/mp4','video/mp3'])){
+                if(in_array($v->fileStorageItem->type,['audio/mpeg'])){
                   $info[$index]['music_src'] =  $v->fileStorageItem->url.$v->fileStorageItem->file_name;
                 }else{
-                  $info[$index]['video_src'] = 'http://omsqlyn5t.bkt.clouddn.com/Abc%20Song%20%20%20Super%20Simple%20Songs%20480P.ogv';
+                  $info[$index]['video_src'] = '';
                 }
             }
         }
@@ -94,12 +94,12 @@ class CoursewareToFile extends BaseCoursewareToFile
                     $info[$index]['img_src'][]  = $v->fileStorageItem->url.$v->fileStorageItem->file_name;
                   }
                   if(isset($info[$index]['img_src']) && empty($info[$index]['img_src'])){
-                      $info[$index]['img_src'][]  ='http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg';
+                      $info[$index]['img_src'][]  ='';
                   }
               }
             }else{
-              $info[$index]['banner_src'] =  'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg';
-              $info[$index]['img_src'][]   =  'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg';
+              $info[$index]['banner_src'] =  '';
+              $info[$index]['img_src'][]   =  '';
             }
         }
         return $info;
@@ -127,14 +127,14 @@ class CoursewareToFile extends BaseCoursewareToFile
           foreach ($value->toFile as $k => $v) {
             //var_dump($v->fileStorageItem->type);
             if(in_array($v->fileStorageItem->type,['image/jpeg','image/png'])){
-              $info[$index]['banner_src'] = $v->fileStorageItem->url.$v->fileStorageItem->original;
+              $info[$index]['banner_src'] = $v->fileStorageItem->url.$v->fileStorageItem->file_name;
             }else{
               $info[$index]['banner_src'] = 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg';
               
             }
 
             if(in_array($v->fileStorageItem->type,['video/ogg','video/mp4'])){
-              $info[$index]['video_src'] = $v->fileStorageItem->url.$v->fileStorageItem->original;
+              $info[$index]['video_src'] = $v->fileStorageItem->url.$v->fileStorageItem->file_name;
             }else{
               $info[$index]['video_src'] = 'http://omsqlyn5t.bkt.clouddn.com/Abc%20Song%20%20%20Super%20Simple%20Songs%20480P.ogv';
             }
