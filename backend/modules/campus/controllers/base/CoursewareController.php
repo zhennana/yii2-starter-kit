@@ -4,8 +4,9 @@
 
 namespace backend\modules\campus\controllers\base;
 
+use backend\modules\campus\models\CoursewareToFile;
 use backend\modules\campus\models\Courseware;
-    use backend\modules\campus\models\search\CoursewareSearch;
+use backend\modules\campus\models\search\CoursewareSearch;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\helpers\Url;
@@ -84,13 +85,21 @@ return $this->render('index', [
 */
 public function actionView($courseware_id)
 {
-\Yii::$app->session['__crudReturnUrl'] = Url::previous();
-Url::remember();
-Tabs::rememberActiveState();
+    $model = $this->findModel($courseware_id);
+    $counts = CoursewareToFile::find()->where(['courseware_id'=>$courseware_id])->count();
+    if($model->file_counts != $counts){
+        $model->file_counts = $counts;
+        $model->save();
+    }
+    
 
-return $this->render('view', [
-'model' => $this->findModel($courseware_id),
-]);
+    \Yii::$app->session['__crudReturnUrl'] = Url::previous();
+    Url::remember();
+    Tabs::rememberActiveState();
+
+    return $this->render('view', [
+    'model' => $model,
+    ]);
 }
 
 /**

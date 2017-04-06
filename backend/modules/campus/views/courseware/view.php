@@ -98,6 +98,9 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
             'value'    =>isset($model->user->username) ? $model->user->username : ''
         ],
         'body:ntext',
+        'file_counts',
+        'page_view',
+
         [
             'attribute'=>'status',
             'value'=>\backend\modules\campus\models\Courseware::getStatusValueLabel($model->status)
@@ -154,24 +157,37 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
                     'sort',
                     'file_storage_item_id',
                     [
-                        'attribute'=>'文件',
-                        'format'    => 'raw',
-                        'value'    =>function($model){
-                            if(isset($model->fileStorageItem->url) && isset($model->fileStorageItem->file_name)){
-                                $url = $model->fileStorageItem->url.$model->fileStorageItem->file_name;
-                                $html = Html::a('修改',['file-storage-item/update','file_storage_item_id'=>$model->fileStorageItem->file_storage_item_id]);
-                                return $url.' '.$html;
+                        'attribute' => 'base_url',
+                        'label' => '文件',
+                        'format' => 'raw',
+                        'value' => function($model, $key, $index, $grid){
+                            $url = $model->fileStorageItem->url.$model->fileStorageItem->file_name;
+                            if(strstr($model->fileStorageItem->type,'image')){
+                                return Html::a('<img width="50px" height="50px" class="img-thumbnail" src="'.$url.'?imageView2/1/w/50/h/50" />', $url.'?imageView2/1/w/500/h/500', ['title' => '访问','target' => '_blank']);
                             }else{
-                                return '未知';
+                                return Html::a($model->fileStorageItem->type, $url, ['title' => '访问','target' => '_blank']);
                             }
                         }
                     ],
                     [
-                        'attribute'=>'文件类型',
+                        'attribute'=>'type',
+                        'label' => '类型',
                         'format'    => 'raw',
                         'value'    =>function($model){
                             if(isset($model->fileStorageItem->type)){
                                  return $model->fileStorageItem->type;
+                                
+                            }
+                            return '';
+                        }
+                    ],
+                    [
+                        'attribute'=>'page_view',
+                        'label' => '预览量',
+                        'format'    => 'raw',
+                        'value'    =>function($model){
+                            if(isset($model->fileStorageItem->page_view)){
+                                 return $model->fileStorageItem->page_view;
                                 
                             }
                             return '';

@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php echo $model->body ?>
         </div>
     </div>
-    <?php echo $this->render('right-side'); ?>
+    <?php echo $this->render('@frontend/themes/edu/page/right-side'); ?>
 </div>
 
 

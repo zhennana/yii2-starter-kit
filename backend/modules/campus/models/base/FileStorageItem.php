@@ -139,7 +139,9 @@ abstract class FileStorageItem extends \yii\db\ActiveRecord
     //     return $this->hasOne(\backend\modules\campus\models\FileCategory::className(), ['id' => 'file_category_id']);
     // }
 
-
+    public function getUser(){
+        return $this->hasOne(\common\models\User::classname(),['id'=>'user_id']);
+    }
     
     /**
      * @inheritdoc

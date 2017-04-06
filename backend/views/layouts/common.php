@@ -153,6 +153,8 @@ $bundle = BackendAsset::register($this);
                                 ],
                                 ['label'=>Yii::t('backend', '课件关系'), 'url'=>['/campus/courseware-to-courseware/index'], 'icon'=>'<i class=" fa  fa-file-text"></i>'
                                 ],
+                                ['label'=>Yii::t('backend', '附件管理'), 'url'=>['/campus/file-storage-item/index'], 'icon'=>'<i class=" fa  fa-file-text"></i>'
+                                ],
                             ]   
                         ],
                         

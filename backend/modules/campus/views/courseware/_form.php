@@ -53,6 +53,7 @@ $categories= \backend\modules\campus\models\CoursewareCategory::find()->where(['
 			<?php // echo $form->field($model, 'parent_id')->textInput() ?>
 
             <?= $form->field($model, 'tags')->textInput() ?>
+            
 
 <!-- attribute access_domain -->
 			<?php //$form->field($model, 'access_domain')->textInput(); ?>
@@ -78,7 +79,7 @@ $categories= \backend\modules\campus\models\CoursewareCategory::find()->where(['
                     'encodeLabels' => false,
                     'items' => [ 
                         [
-    'label'   => Yii::t('backend', 'Courseware'),
+    'label'   => Yii::t('backend', '课程'),
     'content' => $this->blocks['main'],
     'active'  => true,
 ],

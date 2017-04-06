@@ -30,6 +30,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
             <?php ActiveForm::end(); ?>
         </div>
-        <?php echo $this->render('..\page\right-side'); ?>
+        <?php echo $this->render('@frontend/themes/edu/page/right-side'); ?>
     </article>
 </div>
