@@ -563,6 +563,7 @@ a.desc:after {
 .code_input input{
   padding: 0 10px;
   height: 34px;
+  width: 145px;
 }
 .footer{
   border:none;
