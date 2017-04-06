@@ -84,7 +84,8 @@ abstract class Courseware extends \yii\db\ActiveRecord
             [[ 'title'], 'required'],
             [['body','tags'], 'string'],
             ['creater_id','default','value'=>Yii::$app->user->identity->id],
-            [['title','tags'], 'string', 'max' => 512]
+            [['title','tags'], 'string', 'max' => 512],
+            ['slug','safe']
         ];
     }
 
@@ -136,7 +137,7 @@ abstract class Courseware extends \yii\db\ActiveRecord
     }
 
     public function getToFile(){
-        return $this->hasMany(\backend\modules\campus\models\CoursewareToFile::classname(),['courseware_id'=>'courseware_id']);
+        return $this->hasMany(\backend\modules\campus\models\CoursewareToFile::classname(),['courseware_id'=>'courseware_id'])->Orderby(['sort'=>SORT_DESC]);
     }
     
     /**
