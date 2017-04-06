@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= LinkPager::widget(['pagination' => $pages]); ?>
         </div>
     </div>
-    <?php echo $this->render('..\page\right-side'); ?>
+    <?php echo $this->render('@frontend/themes/edu/page/right-side'); ?>
 </div>
 
 <script>
