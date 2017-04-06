@@ -62,7 +62,8 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
     public static function getDb()
     {
         // dump(\Yii::$app->modules['campus']->get('campus'));exit;
-        return \Yii::$app->getModule('campus')->campus;
+        //return \Yii::$app->getModule('campus')->campus;
+        return Yii::$app->get('campus');
     }
 
     /**

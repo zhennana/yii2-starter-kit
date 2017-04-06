@@ -17,11 +17,12 @@ use yii\data\Pagination;
 
 use yii\rest\Controller;
 use \yii\rest\ActiveController;
+use \backend\modules\campus\models\CoursewareCategory;
 
 
 class ItemController extends \yii\rest\ActiveController
 {
-    public $modelClass = 'ecommon\models\item\Item';
+    public $modelClass = '\backend\modules\campus\models\Courseware';
 
     public $serializer = [
         'class' => 'yii\rest\Serializer',
@@ -97,7 +98,23 @@ class ItemController extends \yii\rest\ActiveController
      *
      */
     public function actionIndex(){
+
+        $all = CoursewareCategory::find()->all();
         $info = [];
+        foreach ($all as $key => $value) {
+            $info[$value->slug]['title'] = $value->name;
+            $info[$value->slug]['banner_src'] = $value->banner_src;
+            $info[$value->slug]['description'] = $value->description;
+            $info[$value->slug]['classify'] = $value->name;
+            $info[$value->slug]['classify_id'] = $value->category_id;
+        }
+        $info['suggest'] = [
+                1 => ['id'=>1, 'keywords'=> '热门视频'],
+                2 => ['id'=>2, 'keywords'=> '三岁以下'],
+                3 => ['id'=>3, 'keywords'=> '4-5岁'],
+                4 => ['id'=>4, 'keywords'=> '6-7岁'],
+            ];
+        /*
         $info = [
             'video' => [
                 'title'=>'视频',
@@ -126,7 +143,7 @@ class ItemController extends \yii\rest\ActiveController
                 3 => ['id'=>3, 'keywords'=> '4-5岁'],
                 4 => ['id'=>4, 'keywords'=> '6-7岁'],
             ],
-        ];
+        ];*/
         return $info;
     }
 
