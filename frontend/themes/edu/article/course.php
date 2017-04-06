@@ -90,7 +90,7 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
             </div> 
             
         </div>
-    <?php echo $this->render('..\page\right-side'); ?>
+    <?php echo $this->render('@frontend/themes/edu/page/right-side'); ?>
     </div>
 </div>
 <script>
