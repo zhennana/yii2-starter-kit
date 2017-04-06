@@ -245,65 +245,69 @@ class ItemController extends \yii\rest\ActiveController
      * )
      *
      */
-    public function actionListMusic()
+    public function actionListMusic($category_id = 2)
     {
-        $info = [
-            1=>[
-                'music_id' =>1 ,
-                'title'=>'Happy Birthday,Danny and the DinosaurTrack01',
-                'lyric' => '这是歌词',
-                'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
-                'music_src' => 'http://omsqlyn5t.bkt.clouddn.com/01.Happy%20Birthday,Danny%20and%20the%20DinosaurTrack01.MP3',
-            ],
-            2=>[
-                'music_id' =>2 ,
-                'title'=>'Happy Birthday,Danny and the DinosaurTrack01',
-                'lyric' => '这是歌词',
-                'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
-                'music_src' => 'http://omsqlyn5t.bkt.clouddn.com/01.Happy%20Birthday,Danny%20and%20the%20DinosaurTrack01.MP3',
-            ],
-            3=>[
-                'music_id' =>3 ,
-                'title'=>'Happy Birthday,Danny and the DinosaurTrack01',
-                'lyric' => '这是歌词',
-                'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
-                'music_src' => 'http://omsqlyn5t.bkt.clouddn.com/01.Happy%20Birthday,Danny%20and%20the%20DinosaurTrack01.MP3',
-            ],
-            4=>[
-                'music_id' =>4 ,
-                'title'=>'Happy Birthday,Danny and the DinosaurTrack01',
-                'lyric' => '这是歌词',
-                'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
-                'music_src' => 'http://omsqlyn5t.bkt.clouddn.com/01.Happy%20Birthday,Danny%20and%20the%20DinosaurTrack01.MP3',
-            ],
-            5=>[
-                'music_id' =>5 ,
-                'title'=>'Happy Birthday,Danny and the DinosaurTrack01',
-                'lyric' => '这是歌词',
-                'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
-                'music_src' => 'http://omsqlyn5t.bkt.clouddn.com/01.Happy%20Birthday,Danny%20and%20the%20DinosaurTrack01.MP3',
-            ],
-            6=>[
-                'music_id' =>6 ,
-                'title'=>'Happy Birthday,Danny and the DinosaurTrack01',
-                'lyric' => '这是歌词',
-                'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
-                'music_src' => 'http://omsqlyn5t.bkt.clouddn.com/01.Happy%20Birthday,Danny%20and%20the%20DinosaurTrack01.MP3',
-            ],
-        ];
+        $course = new CoursewareToFile();
 
-        $info = [];
-        for ($i=1; $i < 26 ; $i++) { 
-            $info[$i] = [
-                'music_id' => $i ,
-                'title'=>'Happy Birthday,Danny and the DinosaurTrack01',
-                'lyric' => '这是歌词',
-                'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
-                'music_src' => 'http://omsqlyn5t.bkt.clouddn.com/01.Happy%20Birthday,Danny%20and%20the%20DinosaurTrack01.MP3',
-            ];
-        }
+        $data = $course->courseware('music',$category_id);
+        return $data;
+        // $info = [
+        //     1=>[
+        //         'music_id' =>1 ,
+        //         'title'=>'Happy Birthday,Danny and the DinosaurTrack01',
+        //         'lyric' => '这是歌词',
+        //         'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
+        //         'music_src' => 'http://omsqlyn5t.bkt.clouddn.com/01.Happy%20Birthday,Danny%20and%20the%20DinosaurTrack01.MP3',
+        //     ],
+        //     2=>[
+        //         'music_id' =>2 ,
+        //         'title'=>'Happy Birthday,Danny and the DinosaurTrack01',
+        //         'lyric' => '这是歌词',
+        //         'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
+        //         'music_src' => 'http://omsqlyn5t.bkt.clouddn.com/01.Happy%20Birthday,Danny%20and%20the%20DinosaurTrack01.MP3',
+        //     ],
+        //     3=>[
+        //         'music_id' =>3 ,
+        //         'title'=>'Happy Birthday,Danny and the DinosaurTrack01',
+        //         'lyric' => '这是歌词',
+        //         'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
+        //         'music_src' => 'http://omsqlyn5t.bkt.clouddn.com/01.Happy%20Birthday,Danny%20and%20the%20DinosaurTrack01.MP3',
+        //     ],
+        //     4=>[
+        //         'music_id' =>4 ,
+        //         'title'=>'Happy Birthday,Danny and the DinosaurTrack01',
+        //         'lyric' => '这是歌词',
+        //         'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
+        //         'music_src' => 'http://omsqlyn5t.bkt.clouddn.com/01.Happy%20Birthday,Danny%20and%20the%20DinosaurTrack01.MP3',
+        //     ],
+        //     5=>[
+        //         'music_id' =>5 ,
+        //         'title'=>'Happy Birthday,Danny and the DinosaurTrack01',
+        //         'lyric' => '这是歌词',
+        //         'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
+        //         'music_src' => 'http://omsqlyn5t.bkt.clouddn.com/01.Happy%20Birthday,Danny%20and%20the%20DinosaurTrack01.MP3',
+        //     ],
+        //     6=>[
+        //         'music_id' =>6 ,
+        //         'title'=>'Happy Birthday,Danny and the DinosaurTrack01',
+        //         'lyric' => '这是歌词',
+        //         'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
+        //         'music_src' => 'http://omsqlyn5t.bkt.clouddn.com/01.Happy%20Birthday,Danny%20and%20the%20DinosaurTrack01.MP3',
+        //     ],
+        // ];
 
-        return $info;
+        // $info = [];
+        // for ($i=1; $i < 26 ; $i++) { 
+        //     $info[$i] = [
+        //         'music_id' => $i ,
+        //         'title'=>'Happy Birthday,Danny and the DinosaurTrack01',
+        //         'lyric' => '这是歌词',
+        //         'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
+        //         'music_src' => 'http://omsqlyn5t.bkt.clouddn.com/01.Happy%20Birthday,Danny%20and%20the%20DinosaurTrack01.MP3',
+        //     ];
+        // }
+
+        //return $info;
     }
 
     /**
@@ -320,9 +324,13 @@ class ItemController extends \yii\rest\ActiveController
      * )
      *
      */
-    public function actionListBook()
+    public function actionListBook($category_id = 3)
     {
-        $info = [
+        $course = new CoursewareToFile();
+
+        $data = $course->courseware('book',$category_id);
+        return $data;
+       /* $info = [
             1=>[
                 'book_id' =>1 ,
                 'title'=>'A Big Mistake',
@@ -447,7 +455,7 @@ class ItemController extends \yii\rest\ActiveController
                 ],
             ];
         }
-
+    */
         return $info;
     }
 
