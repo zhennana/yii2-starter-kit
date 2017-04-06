@@ -24,6 +24,7 @@ abstract class CoursewareToCourseware extends \yii\db\ActiveRecord
 
     const COURSEWARE_STATUS_OPEN = 1;//正常
     const COURSEWARE_STATUS_DELECT = 0;//删除
+    // public $sort = 1;
 
     public static function getDb(){
         return Yii::$app->modules['campus']->get('campus');

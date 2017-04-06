@@ -69,7 +69,7 @@ class QiniuCoursewareAction extends Action
         $files = new FileStorageItem();
         $files->school_id        = '0';
         $files->grade_id         = '0';
-        $files->file_category_id = 1;
+        $files->file_category_id = 3;
         $files->user_id          = $user_id;
         $files->type             = $type;
         $files->size             = $size;
