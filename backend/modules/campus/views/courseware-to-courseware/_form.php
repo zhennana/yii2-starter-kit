@@ -43,7 +43,7 @@ use yii\helpers\StringHelper;
 			<?php echo $form->field($model, 'courseware_id')->textInput() ?>
 
 <!-- attribute status -->
-			<?php echo $form->field($model, 'status')->textInput() ?>
+			<?php echo $form->field($model, 'status')->dropDownList(\backend\modules\campus\models\CoursewareToCourseware::optsStatus(),['prompt'=>'请选择']) ?>
 
 <!-- attribute sort -->
 			<?php echo $form->field($model, 'sort')->textInput() ?>

@@ -40,7 +40,7 @@ use yii\helpers\StringHelper;
 			<?php //echo $form->field($model, 'parent_id')->textInput() ?>
 
 <!-- attribute creater_id -->
-			<?= $form->field($model, 'creater_id')->hiddenInput(['value'=>Yii::$app->user->identity->id])->label(false) ?>
+			<?= $form->field($model, 'creater_id')->hiddenInput(['value'=>Yii::$app->user->identity->id])->label(false)->hint(false) ?>
 
 <!-- attribute name -->
 			<?php echo $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
@@ -50,7 +50,7 @@ use yii\helpers\StringHelper;
 
 <!-- attribute banner_src -->
 			<?php echo $form->field($model, 'banner_src')->textInput(['maxlength' => true]) ?>
-			<?= $form->field($model, 'status')->dropDownList(\backend\modules\campus\models\Courseware::optsStatus(),['prompt'=>'请选择']); ?>
+			<?= $form->field($model, 'status')->dropDownList(\backend\modules\campus\models\CoursewareCategory::optsStatus(),['prompt'=>'请选择']); ?>
 
         </p>
         <?php $this->endBlock(); ?>

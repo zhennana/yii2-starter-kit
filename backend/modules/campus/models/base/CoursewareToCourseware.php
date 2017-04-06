@@ -22,6 +22,8 @@ use yii\behaviors\TimestampBehavior;
 abstract class CoursewareToCourseware extends \yii\db\ActiveRecord
 {
 
+    const COURSEWARE_STATUS_OPEN = 1;//正常
+    const COURSEWARE_STATUS_DELECT = 0;//删除
 
     public static function getDb(){
         return Yii::$app->modules['campus']->get('campus');
@@ -36,6 +38,14 @@ abstract class CoursewareToCourseware extends \yii\db\ActiveRecord
     }
 
 
+
+    public static function optsStatus()
+    {
+        return [
+                self::COURSEWARE_STATUS_OPEN => '正常',
+                self::COURSEWARE_STATUS_DELECT => '删除'
+            ];
+    }
     /**
      * @inheritdoc
      */
@@ -68,10 +78,10 @@ abstract class CoursewareToCourseware extends \yii\db\ActiveRecord
             'courseware_to_courseware_id' => Yii::t('backend', '课件关系表自增ID'),
             'courseware_master_id' => Yii::t('backend', '主课件ID'),
             'courseware_id' => Yii::t('backend', '相关课件ID'),
-            'status' => Yii::t('backend', '1：正常；0标记删除；2待审核； '),
+            'status' => Yii::t('backend', '状态'),
             'sort' => Yii::t('backend', '默认与排序'),
-            'updated_at' => Yii::t('backend', 'Updated At'),
-            'created_at' => Yii::t('backend', 'Created At'),
+            'updated_at' => Yii::t('backend', '更新时间'),
+            'created_at' => Yii::t('backend', '创建时间'),
         ];
     }
 

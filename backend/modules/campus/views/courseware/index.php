@@ -10,7 +10,10 @@ use backend\modules\campus\models\Courseware;
 * @var yii\data\ActiveDataProvider $dataProvider
     * @var backend\modules\campus\models\search\CoursewareSearch $searchModel
 */
-
+$categories = \backend\modules\campus\models\CoursewareCategory::find()->where(['status'=>10])->all();
+$categories = \yii\helpers\ArrayHelper::map(
+        $categories, 'category_id', 'name'
+    );
 $this->title = Yii::t('backend', 'Coursewares');
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -127,12 +130,26 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'contentOptions' => ['nowrap'=>'nowrap']
             ],
+            'parent_id',
             'title',
             'body',
-			'category_id',
+			//'category_id',
+            [
+                'class'     =>\common\grid\EnumColumn::className(),
+                'attribute' =>'category_id',
+                'format'        => 'raw',
+               
+                'enum'      => $categories
+            ],
 			'level',
 			'creater_id',
-			'parent_id',
+			 [
+                'attribute' =>'creater_id',
+                'format'    => 'raw',
+                'value'     =>function($model){
+                        return isset($model->user->username) ? $model->user->username : '';
+                }
+            ],
 			// 'access_domain',
 			// 'access_other',
 			// 'status',

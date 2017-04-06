@@ -23,8 +23,22 @@ use yii\behaviors\TimestampBehavior;
  */
 abstract class CoursewareCategory extends \yii\db\ActiveRecord
 {
+    const CATEGORY_STATUS_OPEN = 10;//开启
+    const CATEGORY_STATUS_CLOSE = 20;//关闭
 
-
+    public static function optsStatus(){
+        return [
+                self::CATEGORY_STATUS_OPEN =>'开启',
+                self::CATEGORY_STATUS_CLOSE =>'关闭'
+                ];
+    }
+    public static function StatusValueLabel($value){
+            $lable = self::optsStatus();
+            if(isset($label[$value])){
+                return $label[$value];
+            }
+            return $value;
+    }
     public static function getDb(){
         return Yii::$app->modules['campus']->get('campus');
     }

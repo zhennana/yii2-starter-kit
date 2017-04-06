@@ -140,7 +140,13 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
 			'banner_src',
 			'parent_id',
 			'creater_id',
-			'status',
+			[
+                'class'     =>\common\grid\EnumColumn::className(),
+                'attribute' =>'status',
+                'format'        => 'raw',    
+                'enum'      => \backend\modules\campus\models\CoursewareCategory::optsStatus()
+            ],
+
 			
 		],
 	]); ?>

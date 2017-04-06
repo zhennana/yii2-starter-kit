@@ -45,7 +45,7 @@ abstract class FileStorageItem extends \yii\db\ActiveRecord
         return 'file_storage_item';
     }
     public static function getDb(){
-        return Yii::$app->modules['campus']->get('campus');
+        return \Yii::$app->getModule('campus')->campus;
     }
 
     /**

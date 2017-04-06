@@ -13,13 +13,14 @@ use Yii;
 use common\components\Qiniu\Auth;
 use common\components\Qiniu\Storage\BucketManager;
 use yii\web\Response;
+use backend\modules\campus\models\FileStorageItem;
+use backend\modules\campus\models\CoursewareTofile;
 
 
 class QiniuCoursewareAction extends Action
 {
     public $type = 'upload';
     public $bucket = 'wakooedu';
-    public $source_type;
     public function run()
     {
         if ($this->type == 'token') 
@@ -57,95 +58,47 @@ class QiniuCoursewareAction extends Action
      */
     protected function upload()
     {
-        //var_dump($_POST);exit;
-        if($_POST){
-            $qiniu = [];
-            $qiniu[$_POST['url']] = $_POST;
-            Yii::$app->session['qiniu'] = $qiniu;
-        }
-        // $file = new Storage();
-        // $file->user_id      = Yii::$app->user->id;
-        // $file->type         = Yii::$app->request->post('type');
-        // $file->size         = Yii::$app->request->post('size');
-        // $file->base_url     = Yii::$app->params['qiniu'][$this->bucket]['domain'];
-        // $file->path    = Yii::$app->request->post('url');
-
-        // $file->name     = Yii::$app->request->post('file_name');
-        // $file->hash     = Yii::$app->request->post('hash');
-        // $file->status     = Yii::$app->request->post('ispublic',1);
-        // //$file->file_category_id     = Yii::$app->request->post('file_category_id'); // 分类ID 一对一
-        // $file->upload_ip    = Yii::$app->request->getUserIP();
-        // $file->component    = 'azure.storage.item';
-        // $file->source_type  = $this->source_type;
-        // $file->entity_id = 0;
-
-        // $data['errno']=0;
-        // $data['message']='';
-
-        // if($file->save()){
-
-        //     //保存相片到标签
-            
-        //     $folder['TagsToUsers']['tag_id'] = Yii::$app->request->post('tag_id', 0);
-        //     $folder['TagsToUsers']['tag_name'] = Yii::$app->request->post('tag_name', '');
-        //     $folder['TagsToUsers']['tag_type'] = Yii::$app->request->post('tag_type', 0);
-        //     if(!empty($folder['TagsToUsers']['tag_id'])){
-        //         $folder['TagsToUsers']['user_id'] = Yii::$app->user->id;
-        //         $folder['TagsToUsers']['entity_id'] = $file->id;
-        //         $folder['TagsToUsers']['school_id'] = Yii::$app->user->identity->getCurrentSchoolId();
-        //         $folder['TagsToUsers']['grade_id'] = Yii::$app->user->identity->getCurrentGradeId();
-        //         $tagsToUsers = new \common\models\xwg\TagsToUsers;
-        //         if($tagsToUsers->load($folder) && $tagsToUsers->save()){
-        //             $data['message'] .= ' folder is done. ';
-        //         }
-        //     }
-        //     $data['message'] .= ' upload is done. ';
-        // }else{
-        //     $data['message'] = $file->getErrors();
-        // }
-
-        // //print_r($file->getErrors());
-        // $callback = 'callBackQiniu';
-        //
-        // return ['callback'=>$callback, 'data'=>$data];
-    }
-
-    public function timeline(){
-        // 活动时间线
         Yii::$app->response->format = Response::FORMAT_JSON;
-        $dataTimeLine = [
-            'publicIdentity'    => Yii::$app->user->identity->getPublicIdentity(),
-            'userId'            => Yii::$app->user->identity->getId(),
-            //'file_id'           => $file->id,
-            //'file_type'         => $file->type,
-            //'file_size'         => $file->size,
-            //'file_original'     => $file->original,
-            //'file_url'          => $file->url,
-            //'file_file_name'    => $file->file_name,
-            'file_ispublic'     => Yii::$app->request->post('ispublic', 0), //1 公开 (班级相册) ; 2 私有 (个人相册)
-            'files_length'      => Yii::$app->request->post('files_length', 0), //上传照片数量
+//var_dump(Yii::$app->request->post());exit;
+        $type      = Yii::$app->request->post('type');
+        $url       = Yii::$app->params['qiniu'][$this->bucket]['domain'].'/';
+        $file_name = Yii::$app->request->post('url');
+        $size      = Yii::$app->request->post('size');
+        $user_id   =  Yii::$app->user->identity->id;
 
-            'file_category_id'  => Yii::$app->request->post('file_category_id'), // 分类ID    一对一
-            'file_category_title'  => Yii::$app->request->post('file_category_title'), // 分类标题
-            'tag_type'          => Yii::$app->request->post('tag_type', 0),
-            'tag_id'            => Yii::$app->request->post('tag_id', 0),   // 标签 多对多
-            'tag_name'          => Yii::$app->request->post('tag_name', ''),
-            'created_at'        => time(),
-        ];
-
-        $saveTimeline =   \common\models\Timeline::log(
-            'qiniu',
-            'upload',
-            'image',
-            $dataTimeLine
-        );
-		//var_dump($saveTimeline);exit();
-		//$data['s'] = null;
-		if($saveTimeline){
-			echo 'done';
-		}
-		//echo $data;
-		//return ['data'=>$data];
+        $files = new FileStorageItem();
+        $files->school_id        = '0';
+        $files->grade_id         = '0';
+        $files->file_category_id = 1;
+        $files->user_id          = $user_id;
+        $files->type             = $type;
+        $files->size             = $size;
+        $files->url              = $url;
+        $files->file_name        = $file_name;
+        $files->status           = 1;//1;
+        //$file->upload_ip        =  Yii::$app->request->getUserIP();
+        $files->component        = 'wakooedu';
+//var_dump($files->save(),$files->getErrors());exit;
+       if($files->save()){
+           $courseware_file = new CoursewareToFile();
+           $courseware_file->file_storage_item_id = $files->file_storage_item_id;
+           $courseware_file->courseware_id        = $_GET['courseware_id'];
+           $courseware_file->status               = 1;
+           if($courseware_file->save()){
+                return  Yii::$app->response->data = [
+                        'status' => $files->file_storage_item_id,
+                        'note' => '成功'
+                ]; 
+           }else{
+                return   Yii::$app->response->data = [
+                        'status' =>86,
+                        'note' =>'失败'
+                ]; 
+           }
+        }else{
+            var_dump($files->getErrors());exit;
+        }
+        return false;
     }
     /**
      * 隐身
@@ -153,6 +106,7 @@ class QiniuCoursewareAction extends Action
      */
     protected function privacy()
     {
+
         $id = Yii::$app->request->post('id');
         $policy = Yii::$app->request->post('ispublic');
         Yii::$app->response->format = Response::FORMAT_JSON;
