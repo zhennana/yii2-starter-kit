@@ -17,7 +17,10 @@ use yii\data\Pagination;
 
 use yii\rest\Controller;
 use \yii\rest\ActiveController;
+use \backend\modules\campus\models\Courseware;
 use \backend\modules\campus\models\CoursewareCategory;
+use \backend\modules\campus\models\CoursewareToFile;
+use \backend\modules\campus\models\CoursewareToCourseware;
 
 
 class ItemController extends \yii\rest\ActiveController
@@ -153,7 +156,14 @@ class ItemController extends \yii\rest\ActiveController
      *     summary="视频产品列表",
      *     description="返回视频列表",
      *     produces={"application/json"},
-     *     
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "category_id",
+     *        description = "分类ID",
+     *        required = false,
+     *        default = 1,
+     *        type = "string"
+     *     ),
      *     @SWG\Response(
      *         response = 200,
      *         description = "success,返回视频数据"
@@ -161,8 +171,13 @@ class ItemController extends \yii\rest\ActiveController
      * )
      *
      */
-    public function actionListVideo()
+    public function actionListVideo($category_id = 1)
     {
+        $course = new CoursewareToFile();
+
+        $data = $course->courseware('video',$category_id);
+        return $data;
+        //var_dump($data); exit();
         /*
         $info = [
             1=>[

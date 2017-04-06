@@ -7,6 +7,11 @@ namespace backend\modules\campus\models\base;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 
+//use \backend\modules\campus\models\Courseware;
+//use \backend\modules\campus\models\CoursewareCategory;
+//use \backend\modules\campus\models\CoursewareToFile;
+//use \backend\modules\campus\models\CoursewareToCourseware;
+
 /**
  * This is the base-model class for table "courseware".
  *
@@ -128,6 +133,10 @@ abstract class Courseware extends \yii\db\ActiveRecord
 
     public function getUser(){
         return $this->hasOne(\common\models\User::classname(),['id'=>'creater_id']);
+    }
+
+    public function getToFile(){
+        return $this->hasMany(\backend\modules\campus\models\CoursewareToFile::classname(),['courseware_id'=>'courseware_id']);
     }
     
     /**
