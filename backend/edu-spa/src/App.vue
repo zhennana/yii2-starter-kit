@@ -1,7 +1,17 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view></router-view>
+
+    <div class="header"> I am header</div>
+    
+    <div class="content"> I am content
+      <div class="left"> I am left
+        <div id="leftmodules_userinfo">
+          userinfo
+        </div>
+      </div>
+      <div class="right"> I am right</div>
+    </div>
+
   </div>
 </template>
 
@@ -12,12 +22,4 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
