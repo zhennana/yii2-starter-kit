@@ -42,7 +42,7 @@ class SignInController extends \common\components\ControllerFrontendApi
     /**
      * @SWG\Swagger(
      *     schemes={"http"},
-     *     host="localhost/repositories/yii2-starter-kit/backend/web",
+     *     host="dev.wakooedu.com",
      *     basePath="",
      *     @SWG\Info(
      *         version="1.0.0",
