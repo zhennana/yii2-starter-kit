@@ -65,7 +65,7 @@ $school_id = ArrayHelper::map($school_id, 'id', 'school_title');
             <?php  echo $form->field($model,'province_id')
             ->dropDownList($province_id, [
                 'prompt'   => '选择地区',
-                'onchange' => '$.post("'.Yii::$app->urlManager->createUrl('site/school-lists').'&province_id="+$(this).val(),function(data){
+                'onchange' => '$.get("'.Url::toRoute(['site/school-lists']).'",{ province_id : $(this).val() }).done(function(data){
                         var str ="";
                         $.each(data,function(k,v){
                             str += "<option value="+k+">"+v+"</option>";
