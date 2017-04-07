@@ -142,7 +142,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'enum'      => $categories
             ],
 			'level',
-			 [
+			[
                 'attribute' =>'creater_id',
                 'format'    => 'raw',
                 'value'     =>function($model){
