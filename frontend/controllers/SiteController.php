@@ -2,12 +2,14 @@
 namespace frontend\controllers;
 
 use Yii;
-use frontend\models\ContactForm;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
+use frontend\models\ContactForm;
 use frontend\models\ApplyToPlay;
 use frontend\models\Contact;
 use common\models\Article;
 use common\models\ArticleCategory;
+use common\models\school\School;
 
 /*
 use Superman2014\Aliyun\Sms\Sms\Request\V20160927 as Sms;
@@ -30,14 +32,14 @@ class SiteController extends Controller
                 'class' => 'yii\web\ErrorAction'
             ],
             'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                  'height' => 40,
-                  'width' => 100,
-                  'minLength' => 4,
-                  'maxLength' => 4,
-                  'padding'=>0, 
-                  'offset'=>4, 
-                  'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null
+                'class'           => 'yii\captcha\CaptchaAction',
+                'height'          => 40,
+                'width'           => 100,
+                'minLength'       => 4,
+                'maxLength'       => 4,
+                'padding'         => 0,
+                'offset'          => 4,
+                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null
 
             ],
             'contact_captcha'=>[
@@ -79,62 +81,71 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-       
-       //  
-       // $model = ArticleCategory::find()
-       //  ->andwhere(['or',['id'=>[3]],['parent_id'=>[9,12]]])
-       //  ->andWhere(['status'=>ArticleCategory::STATUS_ACTIVE])
-       //  ->with(['articles'=>function($model){
-       //          return  $model->limit(1);
-       //  }])
-       //  ->asArray()
-       //  ->all();
-       //  dump($model);exit;
-      $model = ArticleCategory::find()
-        ->select(['id','parent_id'])
-        ->andwhere(['or',['id'=>[3]],['parent_id'=>[9,12]]])
-        ->andWhere(['status'=>ArticleCategory::STATUS_ACTIVE])
-        ->asArray()
-        ->all();
-      //
-      //var_dump($model);exit;
-      $course_left  = [];
-      $course_right = [];
-      $dongtai      = [];
-      foreach ($model as $key => $value) {
-          if($value['parent_id'] == 9){
-            $course_left[]  = $value['id'];
-          }elseif($value['parent_id'] == 12){
-            $course_right[] = $value['id'];
-          }else{
-            $dongtai[]      = $value['id'];
-          }
-      }
-      $model = array_column($model,'id');
-      //var_dump($model);
-      $articles = Article::find()
-        ->where(['category_id'=>$model])
-        ->orderBy(['updated_at'=>SORT_DESC])
+        $model = ArticleCategory::find()
+            ->select(['id','parent_id'])
+            ->where([
+              'or',
+              ['id'        => [3, 22]],
+              ['parent_id' => [9, 12]]
+            ])
+            ->andWhere([
+                'status' => ArticleCategory::STATUS_ACTIVE
+            ])
+            ->asArray()
+            ->all();
+
+        // dump($model);exit;
+        $course_left  = [];
+        $course_right = [];
+        $dongtai      = [];
+        $zuopin       = [];
+        foreach ($model as $key => $value) {
+            if($value['parent_id'] == 9){
+                $course_left[]  = $value['id'];
+
+            }elseif($value['parent_id'] == 12){
+                $course_right[] = $value['id'];
+
+            }elseif($value['id'] == 22){
+                $zuopin[] = $value['id'];
+
+            }elseif($value['id'] == 3){
+                $dongtai[]      = $value['id'];
+
+            }
+        }
+
+        $ids = array_column($model, 'id');
+        // dump($ids);exit;
+        $articles = Article::find()
+        ->where(['category_id' => $ids])
+        ->orderBy(['updated_at' => SORT_DESC])
         ->asArray()
         ->all(); 
-      $data = [
-          'course_left'=>[],
-          'course_right'=>[],
-          'dongtai'=>[]
-      ];
-   //dump($articles);exit;
-     foreach($articles as $key => $value){
-          if(in_array($value['category_id'],$course_left)){
-              $data['course_left'][] = $value;
-          }
 
-          if(in_array($value['category_id'],$course_right)){
-              $data['course_right'][] =$value;
-          }
+        $data = [
+          'course_left'  => [],
+          'course_right' => [],
+          'dongtai'      => [],
+          'zuopin'       => []
+        ];
 
-          if(in_array($value['category_id'],$dongtai)){
-              $data['dongtai'][]      = $value;
-          }
+        // dump($articles);exit;
+        foreach($articles as $key => $value){
+            if(in_array($value['category_id'], $course_left)){
+                $data['course_left'][] = $value;
+            }
+
+            if(in_array($value['category_id'], $course_right)){
+                $data['course_right'][] = $value;
+            }
+
+            if(in_array($value['category_id'], $dongtai)){
+                $data['dongtai'][] = $value;
+            }
+            if (in_array($value['category_id'], $zuopin)) {
+                $data['zuopin'][] = $value;
+            }
         }
         //dump($data['course_left']);exit;
             // if($value['id'] == 3){
@@ -186,7 +197,9 @@ class SiteController extends Controller
         );
         var_dump($resource);
         */
-        return $this->render('index',['model'=>$data]);
+        return $this->render('index',[
+            'model' => $data
+        ]);
     }
 
     /**
@@ -197,16 +210,17 @@ class SiteController extends Controller
     public function actionAjaxApply(){
         $model = new ApplyToPlay;
         $model->setScenario('AjaxApply');
+
         if (Yii::$app->request->isAjax) {
-           
-           Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
             if($model->load(Yii::$app->request->post()) && $model->save()){
                 return ['status' => true];
             }else{
-                return ['status'=>false,'errors' => $model->getErrors()];
+              // var_dump($model->getErrors());
+                return ['status' => false, 'errors' => $model->getErrors()];
             }
         }
-
     }
     /**
      * 异步提交数据
@@ -268,5 +282,23 @@ class SiteController extends Controller
         return $this->render('contact', [
             'model' => $model
         ]);
+    }
+
+    public function actionSchoolLists($province_id)
+    {
+        $query = School::find()
+            ->where(['parent_id' => 0])
+            ->andWhere(['status' => School::SCHOOL_NORMAL]);
+        $school = $query
+            ->where(['province_id' => $province_id])
+            ->all();
+
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        if ($query->count() > 0 || !empty($school)) {
+            $school = ArrayHelper::map($school, 'id', 'school_short_title');
+            return $school;
+        }else{
+            return ['0' => '暂无校区'];
+        }
     }
 }

@@ -7,7 +7,7 @@ use yii\helpers\Html;
 * @var backend\modules\campus\models\Courseware $model
 */
     
-$this->title = Yii::t('backend', 'Courseware') . " " . $model->title . ', ' . Yii::t('backend', 'Edit');
+$this->title = Yii::t('backend', '修改课程') . " " . $model->title . ', ' . Yii::t('backend', 'Edit');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Courseware'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => (string)$model->title, 'url' => ['view', 'courseware_id' => $model->courseware_id]];
 $this->params['breadcrumbs'][] = Yii::t('backend', 'Edit');
@@ -15,9 +15,9 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'Edit');
 <div class="giiant-crud courseware-update">
 
     <h1>
-        <?= Yii::t('backend', 'Courseware') ?>
+        <?= Yii::t('backend', '课程') ?>
         <small>
-                        <?= $model->title ?>
+            <?= $model->title ?>
         </small>
     </h1>
 

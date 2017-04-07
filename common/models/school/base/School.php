@@ -35,6 +35,9 @@ use yii\behaviors\TimestampBehavior;
 abstract class School extends \yii\db\ActiveRecord
 {
 
+    CONST SCHOOL_NORMAL = 0;            // 正常
+    CONST SCHOOL_DELETE = 1;            // 标记删除
+    CONST SCHOOL_CHECK_PENDING = 2;     // 待审核
 
 
     /**

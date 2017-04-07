@@ -156,11 +156,12 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
 <?php $this->endContent() ?>
 
 <script>
+
     var boxwidth = $(window).width();
     if(boxwidth < 768){
         $('.top_logo').remove();
         $('.navbar-brand').show();
-        var img = '<img class="img-responsive" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b8gf7g9n9bb1s5nvei1rb81ikg9.png" alt="瓦酷机器人">'
+        var img = '<img class="img-responsive" src="http://static.v1.wakooedu.com/top_logo.png?imageView2/3/w/120/h/100" alt="瓦酷机器人">'
         $('.navbar-brand').text('');
         $('.navbar-brand').append(img);
         $('.navbar-brand').addClass('col-xs-4');
@@ -168,7 +169,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
     if(navigator.userAgent.match(/mobile/i)) {
         $('.top_logo').remove();
         $('.navbar-brand').show();
-        var img = '<img class="img-responsive" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b8gf7g9n9bb1s5nvei1rb81ikg9.png" alt="瓦酷机器人">'
+        var img = '<img class="img-responsive" src="http://static.v1.wakooedu.com/top_logo.png?imageView2/3/w/120/h/100" alt="瓦酷机器人">'
         $('.navbar-brand').text('');
         $('.navbar-brand').append(img);
         $('.navbar-brand').addClass('col-xs-4');
@@ -204,10 +205,11 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
         if(boxwidth < 768){
             $('.top_logo').hide();
             $('.navbar-brand').show();
-            var img = '<img class="img-responsive" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b8gf7g9n9bb1s5nvei1rb81ikg9.png" alt="瓦酷机器人">'
+            var img = '<img class="img-responsive" src="http://static.v1.wakooedu.com/top_logo.png?imageView2/3/w/120/h/100" alt="瓦酷机器人">'
             $('.navbar-brand').text('');
             $('.navbar-brand').append(img);
-            $('.navbar-brand img').css('height','30px');
+            $('.navbar-brand img').css('height','100%');
+
             $('.navbar-brand').addClass('col-xs-4');
         }else{
             $('.top_logo').show();

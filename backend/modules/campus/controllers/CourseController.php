@@ -7,5 +7,4 @@ namespace backend\modules\campus\controllers;
 */
 class CourseController extends \backend\modules\campus\controllers\base\CourseController
 {
-
 }

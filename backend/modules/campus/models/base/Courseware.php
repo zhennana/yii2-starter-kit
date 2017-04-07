@@ -7,6 +7,11 @@ namespace backend\modules\campus\models\base;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 
+//use \backend\modules\campus\models\Courseware;
+//use \backend\modules\campus\models\CoursewareCategory;
+//use \backend\modules\campus\models\CoursewareToFile;
+//use \backend\modules\campus\models\CoursewareToCourseware;
+
 /**
  * This is the base-model class for table "courseware".
  *
@@ -21,7 +26,6 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $access_domain
  * @property integer $access_other
  * @property integer $status
- * @property integer $items
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $aliasModel
@@ -31,18 +35,23 @@ abstract class Courseware extends \yii\db\ActiveRecord
     CONST COURSEWARE_STATUS_VALID   = 10;//有效
     CONST COURSEWARE_STATUS_INVALID = 20;//无效
 
-     /**
-     * @return \yii\db\Connection the database connection used by this AR class.
-     */
-    public static function getDb()
-    {
-       return \Yii::$app->modules['campus']->get('campus');
-    }
+
     public static function optsStatus(){
         return [
             self::COURSEWARE_STATUS_VALID    => '有效',
-            self::COURSEWARE_STATUS_INVALID =>'无效',
+            self::COURSEWARE_STATUS_INVALID  =>'无效',
         ];
+    }
+    public static function getStatusValueLabel($value){
+            $lable = self::optsStatus();
+            if(isset($lable[$value])){
+                return $lable[$value];
+            }
+            return $value;
+    }
+    public static function getDb(){
+        //return Yii::$app->modules['campus']->get('campus');
+        return Yii::$app->get('campus');
     }
     /**
      * @inheritdoc
@@ -71,12 +80,12 @@ abstract class Courseware extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['category_id', 'level', 'creater_id', 'access_domain', 'access_other', 'status', 'items'], 'integer'],
-            [[ 'title'], 'required'],
-            [['body'], 'string'],
+            [['category_id', 'creater_id', 'access_domain', 'access_other', 'status','file_counts','page_view'], 'integer'],
+            [['title'], 'required'],
+            [['body','tags'], 'string'],
             ['creater_id','default','value'=>Yii::$app->user->identity->id],
-            [['slug'], 'string', 'max' => 1024],
-            [['title'], 'string', 'max' => 512]
+            [['title','tags'], 'string', 'max' => 512],
+            ['slug','safe']
         ];
     }
 
@@ -90,14 +99,15 @@ abstract class Courseware extends \yii\db\ActiveRecord
             'category_id' => Yii::t('common', '分类'),
             'level' => Yii::t('common', '级别'),
             'creater_id' => Yii::t('common', '创建者'),
-            'slug' => Yii::t('common', 'Slug'),
             'title' => Yii::t('common', '标题'),
             'body' => Yii::t('common', '教学目标'),
             'parent_id' => Yii::t('common', '父课件'),
             'access_domain' => Yii::t('common', '权限'),
             'access_other' => Yii::t('common', '分享权限'),
+            'file_counts' => Yii::t('common', '附件数'),
+            'page_view' => Yii::t('common', '预览数'),
             'status' => Yii::t('common', 'Status'),
-            'items' => Yii::t('common', 'Items'),
+            'tags' => Yii::t('common', '标签'),
             'created_at' => Yii::t('common', 'Created At'),
             'updated_at' => Yii::t('common', 'Updated At'),
         ];
@@ -111,16 +121,26 @@ abstract class Courseware extends \yii\db\ActiveRecord
         return array_merge(parent::attributeHints(), [
             'category_id' => Yii::t('common', '分类'),
             'level' => Yii::t('common', '级别：100课件；200相册；300作品'),
-            'creater_id' => Yii::t('common', '创建者'),
+            'tags' => Yii::t('common', '标签（半角逗号间隔，推荐使用）'),
             'title' => Yii::t('common', '标题'),
             'body' => Yii::t('common', '描述json：教学目标'),
             'parent_id' => Yii::t('common', '父课件'),
-            'access_domain' => Yii::t('common', '权限：10仅自己可见；20老师；30同学；0所有人'),
-            'access_other' => Yii::t('common', '其他权限 1允许分享'),
+            //'access_domain' => Yii::t('common', '权限：10仅自己可见；20老师；30同学；0所有人'),
+            //'access_other' => Yii::t('common', '其他权限 1允许分享'),
         ]);
     }
 
+    public function getCoursewareCategory(){
+        return $this->hasOne(\backend\modules\campus\models\CoursewareCategory::classname(),['category_id'=>'category_id']);
+    }
 
+    public function getUser(){
+        return $this->hasOne(\common\models\User::classname(),['id'=>'creater_id']);
+    }
+
+    public function getToFile(){
+        return $this->hasMany(\backend\modules\campus\models\CoursewareToFile::classname(),['courseware_id'=>'courseware_id'])->Orderby(['sort'=>SORT_DESC]);
+    }
     
     /**
      * @inheritdoc

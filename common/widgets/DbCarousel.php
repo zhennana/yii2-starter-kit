@@ -61,7 +61,8 @@ class DbCarousel extends Carousel
                 }
 
                 if ($item->url) {
-                    $items[$k]['content'] = Html::a($items[$k]['content'], $item->url, ['target'=>'_blank']);
+
+                    $items[$k]['content'] = Html::a($items[$k]['content'], [$item->url], ['target'=>'_blank']);
                 }
 
                 if ($item->caption) {

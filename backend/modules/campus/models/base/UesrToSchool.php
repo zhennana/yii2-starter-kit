@@ -28,7 +28,8 @@ abstract class UesrToSchool extends \yii\db\ActiveRecord
      */
     public static function getDb()
     {
-        return \Yii::$app->modules['campus']->get('campus');
+        //return \Yii::$app->modules['campus']->get('campus');
+        return Yii::$app->get('campus');
     }
 
 

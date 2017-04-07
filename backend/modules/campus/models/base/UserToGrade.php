@@ -48,12 +48,22 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
         ];
     }
 
+    public static function UserToTypelable($value){
+        $lable = self::optsUserType();
+        if(isset($lable[$value])){
+            return $lable[$value];
+        }
+            return $value;
+    }
+
      /**
      * @return \yii\db\Connection the database connection used by this AR class.
      */
     public static function getDb()
     {
-        return \Yii::$app->modules['campus']->get('campus');
+        // dump(\Yii::$app->modules['campus']->get('campus'));exit;
+        //return \Yii::$app->getModule('campus')->campus;
+        return Yii::$app->get('campus');
     }
 
     /**

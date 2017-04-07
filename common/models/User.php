@@ -9,6 +9,8 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;
+use backend\modules\campus\models\UserToGrade;
+use backend\modules\campus\models\UserToSchool;
 
 /**
  * User model
@@ -138,6 +140,64 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->hasOne(UserProfile::className(), ['user_id' => 'id']);
     }
 
+    public function getUserToSchool(){
+        return $this->hasMay(UserToSchool::className(),['user_id'=>'id']);
+    }
+    
+    /**
+     * 用户所在的班级
+     * @return [type] [description]
+     */
+    public function getUserToGrade(){
+        return $this->hasMany(UserToGrade::className(),['user_id'=>'id']);
+    }
+    /**
+     * 获取用户所在的学校
+     * @return [type] [description]
+     */
+    public function getCharacterDetailes(){
+       
+      if(!empty($this->userToGrade)){
+       return  $this->DataInit($this->userToGrade);
+       }elseif(!empty($this->userToSchool)){
+         return $this->DataInit($this->userToSchool);
+      }else{
+        
+        return $this->DataInit();
+      }
+
+
+    }
+    /**
+     * 返回的字段初始化
+     */
+    public function  DataInit($params = false){
+        //var_dump($params);exit();
+        $data = [];
+        if($params){
+            foreach ($params as $key => $value) {
+                $data[$value->school_id]['school_id'] 
+                    = $value->school_id;
+                
+                $data[$value->school_id]['type'] 
+                    = isset($value->grade_user_type) ? UserToGrade::UserToTypelable($value->grade_user_type) : '';
+                
+                $data[$value->school_id]['school_title'] 
+                    = isset($value->school->school_title)? $value->school->school_title :'';
+                
+                $data[$value->school_id]['grade'][$key]['grade_id'] 
+                    = isset($value['grade_id']) ? $value['grade_id'] : '';
+                
+                $data[$value->school_id]['grade'][$key]['grade_title'] 
+                    = isset($value->grade->grade_title) ? $value['grade_id'] : '';
+            }
+
+        }
+        rsort($data);
+        //svar_dump($data);exit;
+        return $data;
+    }
+
     /**
      * @inheritdoc
      */
@@ -156,7 +216,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return static::find()
             ->active()
-            ->andWhere(['access_token' => $token, 'status' => self::STATUS_ACTIVE])
+            ->andWhere(['access_token' => $token])
             ->one();
     }
 
@@ -170,7 +230,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return static::find()
             ->active()
-            ->andWhere(['username' => $username, 'status' => self::STATUS_ACTIVE])
+            ->andWhere(['username' => $username])
             ->one();
     }
 

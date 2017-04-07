@@ -39,10 +39,14 @@ $config = [
             'class' => 'backend\modules\i18n\Module',
             'defaultRoute'=>'i18n-message/index'
         ],
-    'campus' => [
+        'campus' => [
             'class' => 'backend\modules\campus\Module',
             'defaultRoute'=>'default/index'
         ],
+        'users'=>[
+            'class'=>'backend\modules\users\Module',
+            'defaultRoute'=>'default/index'
+        ]
     ],
     'as globalAccess'=>[
         'class'=>'\common\behaviors\GlobalAccessBehavior',

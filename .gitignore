@@ -31,5 +31,9 @@ phpunit.phar
 # Tests
 tests/codeception/*/_support/_generated/*
 
-/backend/spa/dist
-/backend/spa/node_modules
+backend/edu-spa/node_modules
+backend/edu-spa/dist
+backend/edu-spa-backup
+
+*.bz2
+*.tar
