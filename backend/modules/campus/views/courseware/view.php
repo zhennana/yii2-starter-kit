@@ -14,7 +14,7 @@ $CoursewareToFileDataProvider->query->orderby(['sort'=>SORT_DESC]);
 
 $CoursewareToCoursewareSearch  = new \backend\modules\campus\models\search\CoursewareToCoursewareSearch;
 $CoursewareToCoursewareDataProvider = $CoursewareToCoursewareSearch->search($_GET);
-$CoursewareToCoursewareDataProvider->query->andwhere(['courseware_id'=>$model->courseware_id]);
+$CoursewareToCoursewareDataProvider->query->andwhere(['courseware_master_id'=>$model->courseware_id]);
 $CoursewareToCoursewareDataProvider->query->orderby(['sort'=>SORT_DESC]);
 
 /**
