@@ -37,3 +37,6 @@ backend/edu-spa-backup
 
 *.bz2
 *.tar
+
+# SignInApi 
+backend/modules/users/controllers/api/v1/SignInApi.php
