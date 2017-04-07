@@ -82,7 +82,7 @@ class CoursewareToFile extends BaseCoursewareToFile
             if(in_array($v->fileStorageItem->type,['audio/mpeg'])){
               $info[$index]['music_src'] =  $v->fileStorageItem->url.$v->fileStorageItem->file_name;
             }else{
-              $info[$index]['video_src'] = '';
+              $info[$index]['music_src'] = '';
             }
             $v->fileStorageItem->save();
         }
