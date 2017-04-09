@@ -336,6 +336,46 @@ class SignInController extends \common\components\ControllerFrontendApi
     }
 
     /**
+     * @SWG\POST(path="/sign-in/smscode",
+     *     tags={"100-SignIn-用户接口"},
+     *     summary="验证码有效性[已经自测]",
+     *     description="激活用户状态user.status",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "token",
+     *        description = "验证码",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "验证码是否有效"
+     *     )
+     * )
+     *
+     */
+    /**
+     * 验证码用户激活
+     * @return string|Response
+     */
+    public function actionSmscode()
+    {
+        $token = Yii::$app->request->post('token',0);
+        $userToken = UserToken::find()
+            //->byType(UserToken::TYPE_PHONE_SINGUP)
+            ->byToken($token)
+            ->notExpired()
+            ->one();
+
+        if (!$userToken) {
+            return ['status'=>1, 'message'=>['验证码无效。']];
+        }else{
+            return ['status'=>0, 'message'=>['验证码有效。']];
+        }
+    }
+
+    /**
      * @SWG\POST(path="/sign-in/activation-by-phone",
      *     tags={"100-SignIn-用户接口"},
      *     summary="验证码用户激活[已经自测]",
