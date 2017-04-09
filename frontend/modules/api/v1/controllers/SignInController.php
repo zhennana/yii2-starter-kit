@@ -348,6 +348,13 @@ class SignInController extends \common\components\ControllerFrontendApi
      *        required = true,
      *        type = "string"
      *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "phone_number",
+     *        description = "手机号",
+     *        required = false,
+     *        type = "string"
+     *     ),
      *     @SWG\Response(
      *         response = 200,
      *         description = "验证码是否有效"
