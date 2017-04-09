@@ -6,7 +6,8 @@ use \dmstr\bootstrap\Tabs;
 use yii\helpers\StringHelper;
 use yii\helpers\ArrayHelper;
 use kartik\select2\Select2;
-
+use yii\helpers\Url;
+use backend\modules\campus\models\StudentRecord;
 
 /**
 * @var yii\web\View $this
@@ -73,28 +74,54 @@ use kartik\select2\Select2;
                     ]
                 ]); ?> 
 
-            <?= $form->field($model, 'user_id')->widget(Select2::className(),
-                [
-                    'data'=>$model->getlist(4,$model->course_id),
-                    'options'=>['placeholder'=>'请选择','multiple'=>true],
-                    'pluginOptions'=>[
-                        'allowClear'=> true,
-                    ],
-                    'toggleAllSettings'=>[
-                            'selectLabel' =>'<i class="glyphicon glyphicon-unchecked"></i> 全选',
-                            'unselectLabel'=>'<i class="glyphicon glyphicon-check"></i>取消全选'
-                    ],
-                    'pluginEvents'=>[
-                        "change" => "function() { 
+            <?php 
+            if($model->isNewRecord){
+                echo $form->field($model, 'user_id')->widget(Select2::className(),
+                        [
+                            'data'=>$model->getlist(4,$model->course_id),
+                            'options'=>['placeholder'=>'请选择','multiple'=>true],
+                            'pluginOptions'=>[
+                                'allowClear'=> true,
+                            ],
+                            'toggleAllSettings'=>[
+                                    'selectLabel' =>'<i class="glyphicon glyphicon-unchecked"></i> 全选',
+                                    'unselectLabel'=>'<i class="glyphicon glyphicon-check"></i>取消全选'
+                            ],
+                            'pluginEvents'=>[
+                                "change" => "function() { 
 
-                         }",
-                    ]
-                ]); ?> 
+                                 }",
+                            ]
+                        ]); 
+            }else{
+                 echo $form->field($model, 'user_id')->widget(Select2::className(),
+                        [
+                            'data'=>$model->getlist(4,$model->course_id),
+                            'options'=>['placeholder'=>'请选择'],
+                            'pluginOptions'=>[
+                                //'allowClear'=> true,
+                            ],
+                            'toggleAllSettings'=>[
+                                    'selectLabel' =>'<i class="glyphicon glyphicon-unchecked"></i> 全选',
+                                    'unselectLabel'=>'<i class="glyphicon glyphicon-check"></i>取消全选'
+                            ],
+                            'pluginEvents'=>[
+                                "change" => "function() { 
+
+                                 }",
+                            ]
+                        ]); 
+            }?> 
 <!-- attribute title -->
 			<?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
 <!-- attribute status -->
-			<?= $form->field($model, 'status')->textInput() ?>
+			<?= $form->field($model, 'status')->widget(Select2::className(),[
+                    'data'=>StudentRecord::optsStatus(),
+                    //  'pluginOptions'=>[
+                    //     'allowClear'=> true,
+                    // ],  
+            ]) ?>
 
 <!-- attribute sort -->
 			<?= $form->field($model, 'sort')->textInput() ?>
@@ -105,7 +132,7 @@ use kartik\select2\Select2;
                     'encodeLabels' => false,
                     'items' => [ 
                         [
-                            'label'   => Yii::t('backend', 'StudentRecord'),
+                            'label'   => Yii::t('backend', '学生档案'),
                             'content' => $this->blocks['main'],
                             'active'  => true,
                         ],
@@ -135,10 +162,12 @@ use kartik\select2\Select2;
 <script>
     function handleChange(type_id,id,form){
             
-            console.log('type_id:'+type_id);
-            console.log('id:'+id);
+           //console.log('type_id:'+type_id);
+            //console.log('id:'+id);
         $.ajax({
-            "url":"index.php?r=campus/student-record/ajax-form&type_id="+type_id+"&id="+id,
+            //index.php?r=campus/student-record/ajax-form&type_id="+type_id+"&id="+id
+            "url":"<?php echo Url::to('ajax-form') ?>",
+            "data":{type_id:type_id,id:id},
             'type':"GET",
             'success':function(data){
                  $(form).html(data);

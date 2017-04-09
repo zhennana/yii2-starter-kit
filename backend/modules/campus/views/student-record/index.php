@@ -110,12 +110,37 @@ if(\Yii::$app->user->can('manager')){
                 },
                 'contentOptions' => ['nowrap'=>'nowrap']
             ],
-            'user_id',
-            'school_id',
-            'grade_id',
+            [
+                'attribute'=>'user_id',
+                'value'=>function($model){
+                        return isset($model->user->username) ? $model->user->username : '';
+                }
+            ],
+            [
+                    'attribute'=>'school_id',
+                    'value'=>function($model){
+                        return isset($model->school->school_title) ? $model->school->school_title : '';
+                    }
+                ],
+            [
+                'attribute'=>'grade_id',
+                'value'=>function($model){
+                    return isset($model->grade->grade_name) ? $model->grade->grade_name  : '';
+                }
+            ],
+            [
+                'attribute'=>'course_id',
+                'label'    => '课程标题',
+                'value'=>function($model){
+                    return isset($model->course->title) ? $model->course->title  : '';
+                }
+            ],
             'title',
             'status',
             'sort',
+            'updated_at:datetime',
+            'created_at:datetime'
+
         ],
         ]); ?>
     </div>

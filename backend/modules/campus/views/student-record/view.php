@@ -13,7 +13,7 @@ use dmstr\bootstrap\Tabs;
 */
 $copyParams = $model->attributes;
 
-$this->title = Yii::t('backend', 'Student Record');
+$this->title = Yii::t('backend', '学生档案');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Student Records'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => (string)$model->title, 'url' => ['view', 'student_record_id' => $model->student_record_id]];
 $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
     <?php endif; ?>
 
     <h1>
-        <?= Yii::t('backend', 'Student Record') ?>
+        <?= Yii::t('backend', '学生档案') ?>
         <small>
             <?= $model->title ?>
         </small>
@@ -72,12 +72,36 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
     <?= DetailView::widget([
     'model' => $model,
     'attributes' => [
-            'user_id',
-        'school_id',
-        'grade_id',
-        'title',
-        'status',
-        'sort',
+            [
+            'attribute'=>'user_id',
+            'value'=>function($model){
+                return isset($model->user->username) ? $model->user->username : '';
+                }
+            ],
+            [
+            'attribute'=>'school_id',
+            'value'=>function($model){
+            return isset($model->school->school_title) ? $model->school->school_title : '';
+                }
+            ],
+            [
+                'attribute'=>'grade_id',
+                'value'=>function($model){
+                    return isset($model->grade->grade_name) ? $model->grade->grade_name  : '';
+                }
+            ],
+            [
+                'attribute'=>'course_id',
+                'label'    => '课程标题',
+                'value'=>function($model){
+                    return isset($model->course->title) ? $model->course->title  : '';
+                }
+            ],
+            'title',
+            'status',
+            'sort',
+            'updated_at:datetime',
+            'created_at:datetime'
     ],
     ]); ?>
 
