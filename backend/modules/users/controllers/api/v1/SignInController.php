@@ -35,7 +35,7 @@ use cheatsheet\Time;
 class SignInController extends \common\components\ControllerFrontendApi
 {
     public $modelClass = 'common\models\User';
-  
+    
     public function beforeAction($action)
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
