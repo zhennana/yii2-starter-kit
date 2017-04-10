@@ -11,6 +11,7 @@ use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
 
 $bundle = BackendAsset::register($this);
+
 ?>
 <?php $this->beginContent('@backend/views/layouts/base.php'); ?>
     <div class="wrapper">
