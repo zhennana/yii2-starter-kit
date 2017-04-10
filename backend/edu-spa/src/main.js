@@ -4,7 +4,7 @@ import Vue from 'vue'
 import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
-import './assets/scss/common/_common.scss'
+import './assets/stylus/common/_common.styl'
 import VueResource from 'vue-resource'
 
 import App from './App'

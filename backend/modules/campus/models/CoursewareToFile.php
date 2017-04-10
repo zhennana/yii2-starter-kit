@@ -71,19 +71,29 @@ class CoursewareToFile extends BaseCoursewareToFile
         $info[$index]['lyric']    = $value['body'];
         $info[$index]['tags']     = $value['tags'];
         $info[$index]['page_view']= $value['page_view'];
+        $info[$index]['banner_src'] = '';
+        $info[$index]['music_src'] = '';
+        $info[$index]['attachment'] =[];
+
         foreach ($value->toFile as $k => $v) {
             $v->fileStorageItem->page_view ++;
-            if(in_array($v->fileStorageItem->type,['image/jpeg','image/png'])){
+            
+
+            if(empty($info[$index]['banner_src']) && in_array($v->fileStorageItem->type, ['image/jpeg','image/png','image/png'])){
               $info[$index]['banner_src'] = $v->fileStorageItem->url.$v->fileStorageItem->file_name;
-            }else{
-              $info[$index]['banner_src'] = '';
             }
             
-            if(in_array($v->fileStorageItem->type,['audio/mpeg'])){
+            if(empty($info[$index]['music_src']) && in_array($v->fileStorageItem->type, ['audio/mpeg','audio/mp3'])){
               $info[$index]['music_src'] =  $v->fileStorageItem->url.$v->fileStorageItem->file_name;
-            }else{
-              $info[$index]['music_src'] = '';
             }
+
+            $info[$index]['attachment'][$k]=[
+              [
+                'sort:'.$v->sort.'- ID:'.$v->courseware_to_file_id,
+                $v->fileStorageItem->type,
+                $v->fileStorageItem->url.$v->fileStorageItem->file_name,
+              ]
+            ];
             $v->fileStorageItem->save();
         }
         $value->save(false);
@@ -103,23 +113,42 @@ class CoursewareToFile extends BaseCoursewareToFile
       $info[$index]['lyric']     = $value['body'];
       $info[$index]['tags']     = $value['tags'];
       $info[$index]['page_view']= $value['page_view'];
+      $info[$index]['banner_src'] = '';
+      $info[$index]['music_src'] ='';
+      $info[$index]['img_src'] = [];
+      $info[$index]['attachment'] =[];
+
       if($value->toFile){
         foreach ($value->toFile as $k => $v) {
             $v->fileStorageItem->page_view ++;
+
+            if(empty($info[$index]['music_src']) && in_array($v->fileStorageItem->type, ['audio/mpeg','audio/mp3'])){
+              $info[$index]['music_src'] =  $v->fileStorageItem->url.$v->fileStorageItem->file_name;
+            }
+
+            $first = 0;
             if(in_array($v->fileStorageItem->type,['image/jpeg','image/png'])){
-              $info[$index]['banner_src'] = $v->fileStorageItem->url.$v->fileStorageItem->file_name;
+              $first ++;
+              if($first == 1){
+                $info[$index]['banner_src'] = $v->fileStorageItem->url.$v->fileStorageItem->file_name;
+              }
+              
               $info[$index]['img_src'][]  = $v->fileStorageItem->url.$v->fileStorageItem->file_name;
+              
             }
-            if(isset($info[$index]['img_src']) && empty($info[$index]['img_src'])){
-                $info[$index]['img_src'][]  ='';
-            }
+
+            $info[$index]['attachment'][$k]=[
+              [
+                'sort:'.$v->sort.'- ID:'.$v->courseware_to_file_id,
+                $v->fileStorageItem->type,
+                $v->fileStorageItem->url.$v->fileStorageItem->file_name,
+              ]
+            ];
 
             $v->fileStorageItem->save();
         }
-      }else{
-        $info[$index]['banner_src'] =  '';
-        $info[$index]['img_src'][]   =  '';
       }
+
       $value->save(false);
 
     }
@@ -147,24 +176,31 @@ class CoursewareToFile extends BaseCoursewareToFile
         $info[$index]['body'] = $value->body;
         $info[$index]['tags']     = $value['tags'];
         $info[$index]['page_view']= $value['page_view'];
+        $info[$index]['banner_src'] = '';
+        $info[$index]['video_src'] = '';
+        $info[$index]['attachment'] =[];
 
         //var_dump($value->toFile); // ->getToFile()->getFileStorageItem()
         foreach ($value->toFile as $k => $v) {
           $v->fileStorageItem->page_view ++;
           
           //var_dump($v->fileStorageItem->type);
-          if(in_array($v->fileStorageItem->type,['image/jpeg','image/png'])){
+          
+          if(empty($info[$index]['banner_src']) && in_array($v->fileStorageItem->type,['image/jpeg','image/png'])){
             $info[$index]['banner_src'] = $v->fileStorageItem->url.$v->fileStorageItem->file_name;
-          }else{
-            $info[$index]['banner_src'] = 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg';
-            
           }
 
-          if(in_array($v->fileStorageItem->type,['video/ogg','video/mp4'])){
+          if(empty($info[$index]['video_src']) && in_array($v->fileStorageItem->type,['video/ogg','video/mp4'])){
             $info[$index]['video_src'] = $v->fileStorageItem->url.$v->fileStorageItem->file_name;
-          }else{
-            $info[$index]['video_src'] = 'http://omsqlyn5t.bkt.clouddn.com/Abc%20Song%20%20%20Super%20Simple%20Songs%20480P.ogv';
           }
+
+          $info[$index]['attachment'][$k]=[
+            [
+              'sort:'.$v->sort.'- ID:'.$v->courseware_to_file_id,
+              $v->fileStorageItem->type,
+              $v->fileStorageItem->url.$v->fileStorageItem->file_name
+            ]
+          ];
 
           $v->fileStorageItem->save();
 
