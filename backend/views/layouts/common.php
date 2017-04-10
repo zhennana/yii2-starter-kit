@@ -140,28 +140,6 @@ $bundle = BackendAsset::register($this);
                             'badgeBgClass'=>'label-success',
                         ],
                         [
-                            'label'=>Yii::t('backend', '学校管理'),
-                            'url' => '#',
-                            'icon'=>'<i class="fa fa-edit"></i>',
-                            'options'=>['class'=>'treeview'],
-                            'items'=>[
-                                ['label'=>Yii::t('backend', '学校管理'), 'url'=>['/campus/school/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'
-                                ],
-                                ['label'=>Yii::t('backend', '班级分类管理'), 'url'=>['/campus/grade-category/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'
-                                ],
-                                ['label'=>Yii::t('backend', '班级管理'), 'url'=>['/campus/grade/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'
-                                ],
-                                ['label'=>Yii::t('backend', '学员管理'), 'url'=>['/campus/user-to-grade/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'
-                                ],
-                                ['label'=>Yii::t('backend', '学员档案管理'), 'url'=>['/campus/student-record/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'
-                                ],
-                                ['label'=>Yii::t('backend', '文件管理'), 'url'=>['/campus/school/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'
-                                ],
-                                ['label'=>Yii::t('backend', '课件管理'), 'url'=>['/campus/courseware/index'], 'icon'=>'<i class="fa  fa-file-text"></i>'
-                                ], 
-                            ]
-                        ],
-                        [
                             'label'=>Yii::t('backend', '课件管理（授课）'),
                             'url' => '#',
                             'icon'=>'<i class="fa fa-edit"></i>',
@@ -169,11 +147,18 @@ $bundle = BackendAsset::register($this);
                             'items'=>[
                                 ['label'=>Yii::t('backend', '课件列表'), 'url'=>['/campus/courseware/index'], 'icon'=>'<i class="fa  fa-file-text"></i>'
                                 ], 
-                                // ['label'=>Yii::t('backend', '签到管理'), 'url'=>['/campus/sign-in/index'], 'icon'=>'<i class=" fa  fa-file-text"></i>'
-                                // ],
-
+                                ['label'=>Yii::t('backend', '课件附件'), 'url'=>['/campus/courseware-to-file/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'
+                                ],
+                                ['label'=>Yii::t('backend', '课件分类'), 'url'=>['/campus/courseware-category/index'], 'icon'=>'<i class=" fa  fa-file-text"></i>'
+                                ],
+                                ['label'=>Yii::t('backend', '课件关系'), 'url'=>['/campus/courseware-to-courseware/index'], 'icon'=>'<i class=" fa  fa-file-text"></i>'
+                                ],
+                                ['label'=>Yii::t('backend', '附件管理'), 'url'=>['/campus/file-storage-item/index'], 'icon'=>'<i class=" fa  fa-file-text"></i>'
+                                ],
                             ]   
                         ],
+                        
+                        /*
                         [
                             'label'=>Yii::t('backend', '班级管理'),
                             'url' => '#',
@@ -186,21 +171,21 @@ $bundle = BackendAsset::register($this);
                                 ],
 
                             ]   
-                        ],
+                        ], 
                         [
                             'label'=>Yii::t('backend', '课程管理（学生）'),
                             'url' => '#',
                             'icon'=>'<i class="fa fa-edit"></i>',
                             'options'=>['class'=>'treeview'],
                             'items'=>[
-                                ['label'=>Yii::t('backend', '课程设置'), 'url'=>['/campus/courseware/index'], 'icon'=>'<i class="fa  fa-file-text"></i>'
+                                ['label'=>Yii::t('backend', '课程设置'), 'url'=>['#'], 'icon'=>'<i class="fa  fa-file-text"></i>'
                                 ], 
-                                ['label'=>Yii::t('backend', '签到管理'), 'url'=>['/campus/sign-in/index'], 'icon'=>'<i class=" fa  fa-file-text"></i>'
+                                ['label'=>Yii::t('backend', '签到管理'), 'url'=>['#1'], 'icon'=>'<i class=" fa  fa-file-text"></i>'
                                 ],
 
                             ]   
                         ],
-                        
+                       
                         [
                             'label'=>Yii::t('backend', '通知管理'),
                             'url' => '#',
@@ -221,6 +206,7 @@ $bundle = BackendAsset::register($this);
                                 ],
                             ]   
                         ],
+                        */
                         [
                             'label'=>Yii::t('backend', 'Content'),
                             'url' => '#',
@@ -237,6 +223,29 @@ $bundle = BackendAsset::register($this);
                                 ], 
                                 ['label'=>Yii::t('backend', '联系我们'), 'url'=>['/campus/contact/index'], 'icon'=>'<i class=" fa  fa-file-text"></i>'
                                 ],
+                            ]
+                        ],
+                        [
+                            'label'=>Yii::t('backend', '学校管理'),
+                            'url' => '#',
+                            'icon'=>'<i class="fa fa-edit"></i>',
+                            'options'=>['class'=>'treeview'],
+                            'items'=>[
+                                ['label'=>Yii::t('backend', '学校管理'), 'url'=>['/campus/school/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'
+                                ],
+                                ['label'=>Yii::t('backend', '班级分类管理'), 'url'=>['/campus/grade-category/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'
+                                ],
+                                ['label'=>Yii::t('backend', '班级管理'), 'url'=>['/campus/grade/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'
+                                ],
+                                ['label'=>Yii::t('backend', '学员管理'), 'url'=>['/campus/user-to-grade/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'
+                                ],
+                                ['label'=>Yii::t('backend', '学员档案管理'), 'url'=>['/campus/student-record/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'
+                                ],
+                                
+                                /*
+                                ['label'=>Yii::t('backend', '课件管理'), 'url'=>['/campus/courseware/index'], 'icon'=>'<i class="fa  fa-file-text"></i>'
+                                ], 
+                                */
                             ]
                         ],
                         [

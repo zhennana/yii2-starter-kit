@@ -35,34 +35,7 @@ use cheatsheet\Time;
 class SignInController extends \common\components\ControllerFrontendApi
 {
     public $modelClass = 'common\models\User';
-    // https://github.com/zircote/swagger-php/blob/master/Examples/swagger-spec/petstore/api.php
-    // host="114.215.71.102",
-    // host="localhost/repositories/yii2-starter-kit/backend/web",
-
-    /**
-     * @SWG\Swagger(
-     *     schemes={"http"},
-     *     host="localhost/repositories/yii2-starter-kit/backend/web",
-     *     basePath="",
-     *     @SWG\Info(
-     *         version="1.0.0",
-     *         title="APP 接口在线调试",
-     *         description="This is a sample server Petstore server.  You can find out more about Swagger at <a href=""http://swagger.io"">http://swagger.io</a> or on irc.freenode.net, #swagger.  For this sample, you can use the api key ""special-key"" to test the authorization filters",
-     *         termsOfService="http://helloreverb.com/terms/",
-     *         @SWG\Contact(
-     *             email="apiteam@wordnik.com"
-     *         ),
-     *         @SWG\License(
-     *             name="Apache 2.0",
-     *             url="http://www.apache.org/licenses/LICENSE-2.0.html"
-     *         )
-     *     ),
-     *     @SWG\ExternalDocumentation(
-     *         description="Find out more about Swagger",
-     *         url="http://swagger.io"
-     *     )
-     * )
-     */
+    
     public function beforeAction($action)
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;

@@ -16,6 +16,7 @@ use yii\bootstrap\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
         <?php echo $form->field($model, 'username') ?>
         <?php echo $form->field($model, 'email') ?>
+        <?php echo $form->field($model, 'phone_number') ?>
         <?php echo $form->field($model, 'password')->passwordInput() ?>
         <?php echo $form->field($model, 'status')->dropDownList(User::statuses()) ?>
         <?php echo $form->field($model, 'roles')->checkboxList($roles) ?>

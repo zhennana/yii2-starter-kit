@@ -32,6 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'username',
             'email:email',
+            'phone_number',
             [
                 'class' => EnumColumn::className(),
                 'attribute' => 'status',

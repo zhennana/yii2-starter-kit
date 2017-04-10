@@ -17,11 +17,15 @@ use yii\data\Pagination;
 
 use yii\rest\Controller;
 use \yii\rest\ActiveController;
+use \backend\modules\campus\models\Courseware;
+use \backend\modules\campus\models\CoursewareCategory;
+use \backend\modules\campus\models\CoursewareToFile;
+use \backend\modules\campus\models\CoursewareToCourseware;
 
 
 class ItemController extends \yii\rest\ActiveController
 {
-    public $modelClass = 'ecommon\models\item\Item';
+    public $modelClass = '\backend\modules\campus\models\Courseware';
 
     public $serializer = [
         'class' => 'yii\rest\Serializer',
@@ -97,7 +101,23 @@ class ItemController extends \yii\rest\ActiveController
      *
      */
     public function actionIndex(){
+
+        $all = CoursewareCategory::find()->all();
         $info = [];
+        foreach ($all as $key => $value) {
+            $info[$value->slug]['title'] = $value->name;
+            $info[$value->slug]['banner_src'] = $value->banner_src;
+            $info[$value->slug]['description'] = $value->description;
+            $info[$value->slug]['classify'] = $value->name;
+            $info[$value->slug]['classify_id'] = $value->category_id;
+        }
+        $info['suggest'] = [
+            1 => ['id'=>1, 'keywords'=> '热门视频'],
+            2 => ['id'=>2, 'keywords'=> '幼苗'],
+            3 => ['id'=>3, 'keywords'=> '小树'],
+            4 => ['id'=>4, 'keywords'=> '大树'],
+        ];
+        /*
         $info = [
             'video' => [
                 'title'=>'视频',
@@ -126,7 +146,7 @@ class ItemController extends \yii\rest\ActiveController
                 3 => ['id'=>3, 'keywords'=> '4-5岁'],
                 4 => ['id'=>4, 'keywords'=> '6-7岁'],
             ],
-        ];
+        ];*/
         return $info;
     }
 
@@ -136,7 +156,22 @@ class ItemController extends \yii\rest\ActiveController
      *     summary="视频产品列表",
      *     description="返回视频列表",
      *     produces={"application/json"},
-     *     
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "category_id",
+     *        description = "分类ID",
+     *        required = false,
+     *        default = 1,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "tags",
+     *        description = "suggest标签的关键词，多关键词半角逗号隔开",
+     *        required = false,
+     *        default = "热门视频",
+     *        type = "string"
+     *     ),
      *     @SWG\Response(
      *         response = 200,
      *         description = "success,返回视频数据"
@@ -144,8 +179,13 @@ class ItemController extends \yii\rest\ActiveController
      * )
      *
      */
-    public function actionListVideo()
+    public function actionListVideo($category_id = 1, $tags='热门视频')
     {
+        $course = new CoursewareToFile();
+
+        $data = $course->courseware('video',$category_id);
+        return $data;
+        //var_dump($data); exit();
         /*
         $info = [
             1=>[
@@ -184,7 +224,7 @@ class ItemController extends \yii\rest\ActiveController
                 'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
                 'video_src' => 'http://omsqlyn5t.bkt.clouddn.com/Abc%20Song%20%20%20Super%20Simple%20Songs%20480P.ogv',
             ],
-        ];*/
+        ];
         $info = [];
         for ($i=1; $i < 26 ; $i++) { 
             $info[$i] = [
@@ -196,7 +236,7 @@ class ItemController extends \yii\rest\ActiveController
             ];
         }
 
-        return $info;
+        return $info;*/
     }
 
     /**
@@ -205,7 +245,22 @@ class ItemController extends \yii\rest\ActiveController
      *     summary="音乐产品列表",
      *     description="返回音乐列表",
      *     produces={"application/xml"},
-     *     
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "category_id",
+     *        description = "分类ID",
+     *        required = false,
+     *        default = 2,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "tags",
+     *        description = "suggest标签的关键词，多关键词半角逗号隔开",
+     *        required = false,
+     *        default = "幼苗",
+     *        type = "string"
+     *     ),
      *     @SWG\Response(
      *         response = 200,
      *         description = "success,返回音乐数据"
@@ -213,65 +268,69 @@ class ItemController extends \yii\rest\ActiveController
      * )
      *
      */
-    public function actionListMusic()
+    public function actionListMusic($category_id = 2, $tags='幼苗')
     {
-        $info = [
-            1=>[
-                'music_id' =>1 ,
-                'title'=>'Happy Birthday,Danny and the DinosaurTrack01',
-                'lyric' => '这是歌词',
-                'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
-                'music_src' => 'http://omsqlyn5t.bkt.clouddn.com/01.Happy%20Birthday,Danny%20and%20the%20DinosaurTrack01.MP3',
-            ],
-            2=>[
-                'music_id' =>2 ,
-                'title'=>'Happy Birthday,Danny and the DinosaurTrack01',
-                'lyric' => '这是歌词',
-                'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
-                'music_src' => 'http://omsqlyn5t.bkt.clouddn.com/01.Happy%20Birthday,Danny%20and%20the%20DinosaurTrack01.MP3',
-            ],
-            3=>[
-                'music_id' =>3 ,
-                'title'=>'Happy Birthday,Danny and the DinosaurTrack01',
-                'lyric' => '这是歌词',
-                'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
-                'music_src' => 'http://omsqlyn5t.bkt.clouddn.com/01.Happy%20Birthday,Danny%20and%20the%20DinosaurTrack01.MP3',
-            ],
-            4=>[
-                'music_id' =>4 ,
-                'title'=>'Happy Birthday,Danny and the DinosaurTrack01',
-                'lyric' => '这是歌词',
-                'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
-                'music_src' => 'http://omsqlyn5t.bkt.clouddn.com/01.Happy%20Birthday,Danny%20and%20the%20DinosaurTrack01.MP3',
-            ],
-            5=>[
-                'music_id' =>5 ,
-                'title'=>'Happy Birthday,Danny and the DinosaurTrack01',
-                'lyric' => '这是歌词',
-                'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
-                'music_src' => 'http://omsqlyn5t.bkt.clouddn.com/01.Happy%20Birthday,Danny%20and%20the%20DinosaurTrack01.MP3',
-            ],
-            6=>[
-                'music_id' =>6 ,
-                'title'=>'Happy Birthday,Danny and the DinosaurTrack01',
-                'lyric' => '这是歌词',
-                'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
-                'music_src' => 'http://omsqlyn5t.bkt.clouddn.com/01.Happy%20Birthday,Danny%20and%20the%20DinosaurTrack01.MP3',
-            ],
-        ];
+        $course = new CoursewareToFile();
 
-        $info = [];
-        for ($i=1; $i < 26 ; $i++) { 
-            $info[$i] = [
-                'music_id' => $i ,
-                'title'=>'Happy Birthday,Danny and the DinosaurTrack01',
-                'lyric' => '这是歌词',
-                'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
-                'music_src' => 'http://omsqlyn5t.bkt.clouddn.com/01.Happy%20Birthday,Danny%20and%20the%20DinosaurTrack01.MP3',
-            ];
-        }
+        $data = $course->courseware('music',$category_id);
+        return $data;
+        // $info = [
+        //     1=>[
+        //         'music_id' =>1 ,
+        //         'title'=>'Happy Birthday,Danny and the DinosaurTrack01',
+        //         'lyric' => '这是歌词',
+        //         'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
+        //         'music_src' => 'http://omsqlyn5t.bkt.clouddn.com/01.Happy%20Birthday,Danny%20and%20the%20DinosaurTrack01.MP3',
+        //     ],
+        //     2=>[
+        //         'music_id' =>2 ,
+        //         'title'=>'Happy Birthday,Danny and the DinosaurTrack01',
+        //         'lyric' => '这是歌词',
+        //         'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
+        //         'music_src' => 'http://omsqlyn5t.bkt.clouddn.com/01.Happy%20Birthday,Danny%20and%20the%20DinosaurTrack01.MP3',
+        //     ],
+        //     3=>[
+        //         'music_id' =>3 ,
+        //         'title'=>'Happy Birthday,Danny and the DinosaurTrack01',
+        //         'lyric' => '这是歌词',
+        //         'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
+        //         'music_src' => 'http://omsqlyn5t.bkt.clouddn.com/01.Happy%20Birthday,Danny%20and%20the%20DinosaurTrack01.MP3',
+        //     ],
+        //     4=>[
+        //         'music_id' =>4 ,
+        //         'title'=>'Happy Birthday,Danny and the DinosaurTrack01',
+        //         'lyric' => '这是歌词',
+        //         'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
+        //         'music_src' => 'http://omsqlyn5t.bkt.clouddn.com/01.Happy%20Birthday,Danny%20and%20the%20DinosaurTrack01.MP3',
+        //     ],
+        //     5=>[
+        //         'music_id' =>5 ,
+        //         'title'=>'Happy Birthday,Danny and the DinosaurTrack01',
+        //         'lyric' => '这是歌词',
+        //         'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
+        //         'music_src' => 'http://omsqlyn5t.bkt.clouddn.com/01.Happy%20Birthday,Danny%20and%20the%20DinosaurTrack01.MP3',
+        //     ],
+        //     6=>[
+        //         'music_id' =>6 ,
+        //         'title'=>'Happy Birthday,Danny and the DinosaurTrack01',
+        //         'lyric' => '这是歌词',
+        //         'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
+        //         'music_src' => 'http://omsqlyn5t.bkt.clouddn.com/01.Happy%20Birthday,Danny%20and%20the%20DinosaurTrack01.MP3',
+        //     ],
+        // ];
 
-        return $info;
+        // $info = [];
+        // for ($i=1; $i < 26 ; $i++) { 
+        //     $info[$i] = [
+        //         'music_id' => $i ,
+        //         'title'=>'Happy Birthday,Danny and the DinosaurTrack01',
+        //         'lyric' => '这是歌词',
+        //         'banner_src' => 'http://omsqlyn5t.bkt.clouddn.com/mistake02.jpg',
+        //         'music_src' => 'http://omsqlyn5t.bkt.clouddn.com/01.Happy%20Birthday,Danny%20and%20the%20DinosaurTrack01.MP3',
+        //     ];
+        // }
+
+        //return $info;
     }
 
     /**
@@ -280,7 +339,22 @@ class ItemController extends \yii\rest\ActiveController
      *     summary="绘本产品列表",
      *     description="返回绘本列表",
      *     produces={"application/xml"},
-     *     
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "category_id",
+     *        description = "分类ID",
+     *        required = false,
+     *        default = 3,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "tags",
+     *        description = "suggest标签的关键词，多关键词半角逗号隔开",
+     *        required = false,
+     *        default = "小树",
+     *        type = "string"
+     *     ),
      *     @SWG\Response(
      *         response = 200,
      *         description = "success,返回绘本数据"
@@ -288,9 +362,14 @@ class ItemController extends \yii\rest\ActiveController
      * )
      *
      */
-    public function actionListBook()
+    public function actionListBook($category_id = 3, $tags='小树')
     {
-        $info = [
+        $course = new CoursewareToFile();
+
+        $data = $course->courseware('book',$category_id);
+        return $data;
+        
+       /* $info = [
             1=>[
                 'book_id' =>1 ,
                 'title'=>'A Big Mistake',
@@ -395,7 +474,7 @@ class ItemController extends \yii\rest\ActiveController
             ],
         ];
         $info = [];
-        for ($i=1; $i < 26 ; $i++) { 
+        for ($i=1; $i < 26 ; $i++) {
             # code...
             $info[$i] =[
                 'book_id' => $i ,
@@ -415,8 +494,8 @@ class ItemController extends \yii\rest\ActiveController
                 ],
             ];
         }
-
-        return $info;
+    
+        return $info;*/
     }
 
 

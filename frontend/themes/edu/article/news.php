@@ -2,6 +2,10 @@
 use yii\helpers\Url;
 use yii\widgets\LinkPager;
 
+
+$this->title = Yii::t('frontend', '瓦酷动态');
+// $this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Articles'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="content clear-fix">
@@ -37,6 +41,7 @@ use yii\widgets\LinkPager;
             <?= LinkPager::widget(['pagination' => $pages]); ?>
         </div>
     </div>
+    <?php echo $this->render('@frontend/themes/edu/page/right-side'); ?>
 </div>
 
 <script>

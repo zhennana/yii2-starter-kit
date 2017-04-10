@@ -21,8 +21,19 @@ use yii\behaviors\TimestampBehavior;
  */
 abstract class CoursewareToFile extends \yii\db\ActiveRecord
 {
+    const COURSEWARE_STATUS_OPEN = 1;//正常
+    const COURSEWARE_STATUS_DELECT = 0;//删除
 
-
+    public static function optsStatus(){
+        return [
+                self::COURSEWARE_STATUS_OPEN => '正常',
+                self::COURSEWARE_STATUS_DELECT => '删除'
+            ];
+    }
+    public static function getDb(){
+        //return \Yii::$app->getModule('campus')->campus;
+        return Yii::$app->get('campus');
+    }
 
     /**
      * @inheritdoc
@@ -30,9 +41,6 @@ abstract class CoursewareToFile extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'courseware_to_file';
-    }
-    public static function getDb(){
-        return Yii::$app->modules['campus']->get('campus');
     }
 
     /**
@@ -67,10 +75,10 @@ abstract class CoursewareToFile extends \yii\db\ActiveRecord
             'courseware_to_file_id' => Yii::t('models', '课件附件关系自增ID'),
             'file_storage_item_id' => Yii::t('models', '文件ID'),
             'courseware_id' => Yii::t('models', '课件ID'),
-            'status' => Yii::t('models', '1：正常；0标记删除；2待审核； '),
-            'sort' => Yii::t('models', '默认与排序'),
-            'updated_at' => Yii::t('models', 'Updated At'),
-            'created_at' => Yii::t('models', 'Created At'),
+            'status' => Yii::t('models', '状态'),
+            'sort' => Yii::t('models', '排序'),
+            'updated_at' => Yii::t('models', '更新时间'),
+            'created_at' => Yii::t('models', '创建时间'),
         ];
     }
 
@@ -88,7 +96,12 @@ abstract class CoursewareToFile extends \yii\db\ActiveRecord
         ]);
     }
 
-
+    public function getFileStorageItem(){
+        return $this->hasOne(
+            \backend\modules\campus\models\FileStorageItem::className(),
+            ['file_storage_item_id'=>'file_storage_item_id']
+        );
+    }
     
     /**
      * @inheritdoc

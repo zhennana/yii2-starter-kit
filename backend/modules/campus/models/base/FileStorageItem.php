@@ -35,7 +35,15 @@ use yii\behaviors\TimestampBehavior;
 abstract class FileStorageItem extends \yii\db\ActiveRecord
 {
 
+    const STORAGE_STATUS_OPEN = 10;     //开启
+    const STORAGE_STATUS_DELECT = 20;   //关闭
+    public static function optsStatus(){
+        return [
+            self::STORAGE_STATUS_OPEN =>'开启',
+            self::STORAGE_STATUS_DELECT=>'关闭',
 
+        ];
+    }
 
     /**
      * @inheritdoc
@@ -45,7 +53,8 @@ abstract class FileStorageItem extends \yii\db\ActiveRecord
         return 'file_storage_item';
     }
     public static function getDb(){
-        return Yii::$app->modules['campus']->get('campus');
+        //return \Yii::$app->getModule('campus')->campus;
+        return Yii::$app->get('campus');
     }
 
     /**
@@ -130,7 +139,9 @@ abstract class FileStorageItem extends \yii\db\ActiveRecord
     //     return $this->hasOne(\backend\modules\campus\models\FileCategory::className(), ['id' => 'file_category_id']);
     // }
 
-
+    public function getUser(){
+        return $this->hasOne(\common\models\User::classname(),['id'=>'user_id']);
+    }
     
     /**
      * @inheritdoc
