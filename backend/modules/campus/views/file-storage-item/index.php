@@ -67,27 +67,23 @@ if(\Yii::$app->user->can('campus_file-storage-item_create', ['route' => true])){
         <div class="pull-right">
 
                         
-            <?= 
-            \yii\bootstrap\ButtonDropdown::widget(
-            [
-            'id' => 'giiant-relations',
-            'encodeLabel' => false,
-            'label' => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('backend', 'Relations'),
-            'dropdown' => [
-            'options' => [
-            'class' => 'dropdown-menu-right'
-            ],
-            'encodeLabels' => false,
-            'items' => [
-
-]
-            ],
-            'options' => [
-            'class' => 'btn-default'
-            ]
-            ]
-            );
-            ?>
+            <?= \yii\bootstrap\ButtonDropdown::widget(
+                    [
+                        'id' => 'giiant-relations',
+                        'encodeLabel' => false,
+                        'label' => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('backend', 'Relations'),
+                        'dropdown' => [
+                            'options' => [
+                                'class' => 'dropdown-menu-right'
+                            ],
+                            'encodeLabels' => false,
+                            'items' => []
+                        ],
+                        'options' => [
+                            'class' => 'btn-default'
+                        ]
+                    ]);
+        ?>
         </div>
     </div>
 
@@ -101,32 +97,32 @@ if(\Yii::$app->user->can('campus_file-storage-item_create', ['route' => true])){
         'firstPageLabel' => Yii::t('backend', 'First'),
         'lastPageLabel' => Yii::t('backend', 'Last'),
         ],
-                    'filterModel' => $searchModel,
-                'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
+        'filterModel' => $searchModel,
+        'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
         'headerRowOptions' => ['class'=>'x'],
         'columns' => [
-                [
-            'class' => 'yii\grid\ActionColumn',
-            'template' => $actionColumnTemplateString,
-            'buttons' => [
-                'view' => function ($url, $model, $key) {
-                    $options = [
-                        'title' => Yii::t('yii', 'View'),
-                        'aria-label' => Yii::t('yii', 'View'),
-                        'data-pjax' => '0',
-                    ];
-                    return Html::a('<span class="glyphicon glyphicon-file"></span>', $url, $options);
-                }
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => $actionColumnTemplateString,
+                'buttons' => [
+                    'view' => function ($url, $model, $key) {
+                        $options = [
+                            'title' => Yii::t('yii', 'View'),
+                            'aria-label' => Yii::t('yii', 'View'),
+                            'data-pjax' => '0',
+                        ];
+                        return Html::a('<span class="glyphicon glyphicon-file"></span>', $url, $options);
+                    }
+                ],
+                'urlCreator' => function($action, $model, $key, $index) {
+                    // using the column name as key, not mapping to 'id' like the standard generator
+                    $params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
+                    $params[0] = \Yii::$app->controller->id ? \Yii::$app->controller->id . '/' . $action : $action;
+                    return Url::toRoute($params);
+                },
+                'contentOptions' => ['nowrap'=>'nowrap']
             ],
-            'urlCreator' => function($action, $model, $key, $index) {
-                // using the column name as key, not mapping to 'id' like the standard generator
-                $params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
-                $params[0] = \Yii::$app->controller->id ? \Yii::$app->controller->id . '/' . $action : $action;
-                return Url::toRoute($params);
-            },
-            'contentOptions' => ['nowrap'=>'nowrap']
-        ],
-			//'user_id',
+            //'user_id',
             [
                 'attribute' =>'user_id',
                 'label'    =>'上传者',
@@ -135,7 +131,7 @@ if(\Yii::$app->user->can('campus_file-storage-item_create', ['route' => true])){
                     return isset($model->user->username) ? $model->user->username : '';
                 }
             ],
-			[
+            [
                 'attribute' =>'school_id',
                 'label'    =>'学校',
                 'format'    => 'raw',
@@ -143,7 +139,7 @@ if(\Yii::$app->user->can('campus_file-storage-item_create', ['route' => true])){
                     return isset($model->school->school_title) ? $model->school->school_title : '';
                 }
             ],
-			[
+            [
                 'attribute' =>'grade_id',
                 'label'    =>'班级',
                 'format'    => 'raw',
@@ -151,16 +147,18 @@ if(\Yii::$app->user->can('campus_file-storage-item_create', ['route' => true])){
                     return isset($model->grade->grade_name) ? $model->grade->grade_name : '';
                 }
             ],
-			'file_category_id',
-			//'ispublic',
-			// [
-   //              'attribute' =>'file_category_id',
-   //              'label'    =>'文件分类',
-   //              'format'    => 'raw',
-   //              'value'     =>function($model){
-   //                  return isset($model->fileCategory->title) ? $model->fileCategory->title : '';
-   //              }
-   //          ],
+            'file_category_id',
+            //'ispublic',
+           /*
+                [
+                    'attribute' =>'file_category_id',
+                    'label'    =>'文件分类',
+                    'format'    => 'raw',
+                    'value'     =>function($model){
+                        return isset($model->fileCategory->title) ? $model->fileCategory->title : '';
+                    }
+                ],
+            */
             [
                 'attribute' => 'base_url',
                 'format' => 'raw',
@@ -173,13 +171,13 @@ if(\Yii::$app->user->can('campus_file-storage-item_create', ['route' => true])){
                     }
                 }
             ],
-			/*'sort_rank',*/
-			/*'url:url',*/
+            /*'sort_rank',*/
+            /*'url:url',*/
             'size',
             'page_view',
-			'type',
-			'component',
-			'file_name',
+            'type',
+            'component',
+            'file_name',
             //'status',
             [
             'class'     => \common\grid\EnumColumn::ClassName(),
@@ -187,8 +185,8 @@ if(\Yii::$app->user->can('campus_file-storage-item_create', ['route' => true])){
             'attribute' => 'status',
             'enum'      => FileStorageItem::optsStatus(),
             ],
-			//'upload_ip',
-			'original',
+            //'upload_ip',
+            'original',
         ],
         ]); ?>
     </div>
@@ -197,5 +195,3 @@ if(\Yii::$app->user->can('campus_file-storage-item_create', ['route' => true])){
 
 
 <?php \yii\widgets\Pjax::end() ?>
-
-
