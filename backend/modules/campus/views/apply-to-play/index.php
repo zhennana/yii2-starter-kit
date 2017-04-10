@@ -129,12 +129,10 @@ if(\Yii::$app->user->can('manager', ['route' => true])){
                     },
                     'contentOptions' => ['nowrap'=>'nowrap']
             ],
-    			'username',
+                'username',
+    			'age',
     			'phone_number',
-    			'email:email',
-    			'province',
-                'city',
-    			'region',
+    			'province_id',
                 //'auditor_id',
     			//'status',
                 [
