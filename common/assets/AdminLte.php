@@ -16,6 +16,9 @@ class AdminLte extends AssetBundle
     public $js = [
         'js/app.min.js'
     ];
+    public $jsOptions = [
+        'position' => \yii\web\View::POS_HEAD
+    ];
     public $css = [
         'css/AdminLTE.min.css',
         'css/skins/_all-skins.min.css'
