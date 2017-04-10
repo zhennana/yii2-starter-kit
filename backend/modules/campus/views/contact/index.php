@@ -59,7 +59,7 @@
     if(\Yii::$app->user->can('manager', ['route' => true])){
     ?>
             <div class="pull-left">
-                <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('common', 'New'), ['create'], ['class' => 'btn btn-success']) ?>
+                <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('common', '创建'), ['create'], ['class' => 'btn btn-success']) ?>
             </div>
     <?php
     }
@@ -72,7 +72,7 @@
                     [
                         'id' => 'giiant-relations',
                         'encodeLabel' => false,
-                        'label' => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('common', 'Relations'),
+                        'label' => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('common', '相关管理'),
                         'dropdown' => [
                         'options' => [
                         'class' => 'dropdown-menu-right'
