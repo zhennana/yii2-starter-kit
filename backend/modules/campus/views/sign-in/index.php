@@ -180,7 +180,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
 
 
 <script>
-
+<?php $this->beginBlock('Audit') ?>
 // 手动选择多选框
 $(".select-on-check-one").each(function(){
     if($(".select-on-check-one:checked").length < 1){
@@ -214,7 +214,7 @@ $(document).on('click', '.audit', function (){
         var ids = $("#grid").yiiGridView("getSelectedRows");
         var data = {"ids":ids};
         $.ajax({
-            url:"index.php?r=campus/sign-in/audit",
+            url:"<?php echo Url::to(['sign-in/audit']) ?>",
             type:"post",
             datatype:"json",
             data:data,
@@ -233,5 +233,6 @@ $(document).on('click', '.audit', function (){
         });
     };
 });
-
+<?php $this->endBlock() ?>  
+<?php $this->registerJs($this->blocks['Audit']); ?> 
 </script>
