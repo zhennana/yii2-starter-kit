@@ -1,7 +1,10 @@
 <template>
   <div id="app">
 
-    <div class="header"> I am header</div>
+    <v-header></v-header>
+    <div class="content">
+      <router-view></router-view>
+    </div>
 
     <div class="content"> I am content
       <div class="left"> I am left
@@ -16,10 +19,23 @@
 </template>
 
 <script>
+  import Header from './components/header/Header.vue'
   export default {
-    name: 'app'
+    name: 'app',
+    data () {
+      return {
+        topMenuList: []
+      }
+    },
+    components: {
+      'v-header': Header
+    }
   }
 </script>
 
-<style>
+<style lang="stylus" type="text/stylus">
+  .content{
+    padding 10px;
+    background-color #e7eaec;
+  }
 </style>
