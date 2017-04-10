@@ -65,7 +65,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
 if (\Yii::$app->user->can('manager', ['route' => true])) {
 ?>
         <div class="pull-left">
-            <?php echo Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'New'), ['create'], ['class' => 'btn btn-success']) ?>
+            <!--  <?php  // echo Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'New'), ['create'], ['class' => 'btn btn-success']) ?> -->
         </div>
 <?php
 }
@@ -134,14 +134,26 @@ if (\Yii::$app->user->can('manager', ['route' => true])) {
 				},
 				'contentOptions' => ['nowrap'=>'nowrap']
 			],
-			'courseware_master_id',
-			'courseware_id',
-			'sort',
 			[
-	            'class'     => \common\grid\EnumColumn::ClassName(),
+	            'attribute'=>'courseware_master_id',
 	            'format'    => 'raw',
-	            'attribute' => 'status',
-	            'enum'      => \backend\modules\campus\models\CoursewareToCourseware::optsStatus(),
+	            'value'=>function($model){
+                	return 'master_id:'.$model->courseware_master_id."<br />".$model->coursewareMaster->title;
+            	}
+            ],
+            [
+                'attribute'=>'courseware_id',
+                'format'    => 'raw',
+                'value'=>function($model){
+                    return 'courseware_id:'.$model->courseware_id."<br />".$model->courseware->title;
+                }
+            ],
+            'sort',
+            [
+                'class'     => \common\grid\EnumColumn::ClassName(),
+                'format'    => 'raw',
+                'attribute' => 'status',
+                'enum'      => \backend\modules\campus\models\CoursewareToCourseware::optsStatus(),
             ],
             'updated_at:datetime',
             'created_at:datetime'

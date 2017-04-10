@@ -119,6 +119,7 @@ class CoursewareToCoursewareController extends Controller
 		//var_dump($courseware_ids);exit;
 		$courseware = Courseware::find()
 			->where(['status'=>Courseware::COURSEWARE_STATUS_VALID])
+			->andWhere(['NOT',['courseware_id'=>$courseware_id]])
 			->asArray()->all();
 			//var_dump($courseware);exit;
 		$courseware = ArrayHelper::map($courseware,'courseware_id','title');
@@ -149,11 +150,23 @@ class CoursewareToCoursewareController extends Controller
 	 */
 	public function actionUpdate($courseware_to_courseware_id) {
 		$model = $this->findModel($courseware_to_courseware_id);
+		$courseware_ids[] = Courseware::find()->where(['courseware_id'=>$model->courseware_master_id])->asArray()->one();
+		//var_dump($courseware_ids);
+		$courseware_ids = ArrayHelper::map($courseware_ids,'courseware_id','title');
+		//var_dump($courseware_ids);exit;
+		$courseware = Courseware::find()
+			->where(['status'=>Courseware::COURSEWARE_STATUS_VALID])
+			->andWhere(['NOT',['courseware_id'=>$model->courseware_master_id]])
+			->asArray()->all();
+			//var_dump($courseware);exit;
+		$courseware = ArrayHelper::map($courseware,'courseware_id','title');
 		if ($model->load($_POST) && $model->save()) {
 			return $this->redirect(Url::previous());
 		} else {
 			return $this->render('update', [
 					'model' => $model,
+					'courseware_ids'=>$courseware_ids,
+					'courseware'=>$courseware
 				]);
 		}
 	}

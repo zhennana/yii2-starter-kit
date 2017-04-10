@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\GridView;
-
+use backend\modules\campus\models\FileStorageItem;
 /**
 * @var yii\web\View $this
 * @var yii\data\ActiveDataProvider $dataProvider
@@ -19,17 +19,17 @@ $this->params['breadcrumbs'][] = $this->title;
 */
 $actionColumnTemplates = [];
 
-if (\Yii::$app->user->can('campus_file-storage-item_view', ['route' => true])) {
-    $actionColumnTemplates[] = '{view}';
-}
+// if (\Yii::$app->user->can('campus_file-storage-item_view', ['route' => true])) {
+//     $actionColumnTemplates[] = '{view}';
+// }
 
-if (\Yii::$app->user->can('campus_file-storage-item_update', ['route' => true])) {
-    $actionColumnTemplates[] = '{update}';
-}
+// if (\Yii::$app->user->can('campus_file-storage-item_update', ['route' => true])) {
+//     $actionColumnTemplates[] = '{update}';
+// }
 
-if (\Yii::$app->user->can('campus_file-storage-item_delete', ['route' => true])) {
-    $actionColumnTemplates[] = '{delete}';
-}
+// if (\Yii::$app->user->can('campus_file-storage-item_delete', ['route' => true])) {
+//     $actionColumnTemplates[] = '{delete}';
+// }
 if (isset($actionColumnTemplates)) {
 $actionColumnTemplate = implode(' ', $actionColumnTemplates);
     $actionColumnTemplateString = $actionColumnTemplate;
@@ -129,18 +129,38 @@ if(\Yii::$app->user->can('campus_file-storage-item_create', ['route' => true])){
 			//'user_id',
             [
                 'attribute' =>'user_id',
+                'label'    =>'上传者',
                 'format'    => 'raw',
                 'value'     =>function($model){
                     return isset($model->user->username) ? $model->user->username : '';
                 }
             ],
-			'school_id',
-			'grade_id',
+			[
+                'attribute' =>'school_id',
+                'label'    =>'学校',
+                'format'    => 'raw',
+                'value'     =>function($model){
+                    return isset($model->school->school_title) ? $model->school->school_title : '';
+                }
+            ],
+			[
+                'attribute' =>'grade_id',
+                'label'    =>'班级',
+                'format'    => 'raw',
+                'value'     =>function($model){
+                    return isset($model->grade->grade_name) ? $model->grade->grade_name : '';
+                }
+            ],
 			'file_category_id',
-			'size',
-			'ispublic',
-			'status',
-			'page_view',
+			//'ispublic',
+			// [
+   //              'attribute' =>'file_category_id',
+   //              'label'    =>'文件分类',
+   //              'format'    => 'raw',
+   //              'value'     =>function($model){
+   //                  return isset($model->fileCategory->title) ? $model->fileCategory->title : '';
+   //              }
+   //          ],
             [
                 'attribute' => 'base_url',
                 'format' => 'raw',
@@ -155,10 +175,19 @@ if(\Yii::$app->user->can('campus_file-storage-item_create', ['route' => true])){
             ],
 			/*'sort_rank',*/
 			/*'url:url',*/
+            'size',
+            'page_view',
 			'type',
 			'component',
 			'file_name',
-			'upload_ip',
+            //'status',
+            [
+            'class'     => \common\grid\EnumColumn::ClassName(),
+            'format'    => 'raw',
+            'attribute' => 'status',
+            'enum'      => FileStorageItem::optsStatus(),
+            ],
+			//'upload_ip',
 			'original',
         ],
         ]); ?>

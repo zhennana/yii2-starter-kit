@@ -72,7 +72,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
     <?= DetailView::widget([
     'model' => $model,
     'attributes' => [
-            'user_id',
+        'user_id',
         'school_id',
         'grade_id',
         'file_category_id',

@@ -33,7 +33,7 @@ abstract class CoursewareCategory extends \yii\db\ActiveRecord
                 ];
     }
     public static function StatusValueLabel($value){
-            $lable = self::optsStatus();
+            $label = self::optsStatus();
             if(isset($label[$value])){
                 return $label[$value];
             }
@@ -116,7 +116,9 @@ abstract class CoursewareCategory extends \yii\db\ActiveRecord
         ]);
     }
 
-
+    public function getUser(){
+        return $this->hasOne(\common\models\User::className(),['id'=>'creater_id']);
+    }
     
     /**
      * @inheritdoc
