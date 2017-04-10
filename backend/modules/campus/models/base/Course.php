@@ -28,7 +28,14 @@ abstract class Course extends \yii\db\ActiveRecord
 {
 
     CONST COURSE_STATUS_OPEN = 10;//正常
+    CONST COURSE_STATUS_DELECT = 20;//关闭
 
+    public static function optsStatus(){
+        return [
+            self::COURSE_STATUS_OPEN => '正常',
+            self::COURSE_STATUS_DELECT=> '无效'
+        ];
+    }
     /**
      * @inheritdoc
      */
@@ -48,7 +55,7 @@ abstract class Course extends \yii\db\ActiveRecord
         return [
             [
                 'class' => TimestampBehavior::className(),
-                'updatedAtAttribute' => false,
+                'updatedAtAttribute' => true,
             ],
         ];
     }
@@ -59,10 +66,20 @@ abstract class Course extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['school_id', 'grade_id', 'title', 'intro', 'courseware_id', 'creater_id', 'start_time', 'end_time', 'status', 'updeated_at'], 'required'],
-            [['school_id', 'grade_id', 'courseware_id', 'creater_id', 'start_time', 'end_time', 'status', 'updeated_at'], 'integer'],
+            [['school_id', 'grade_id', 'title', 'intro', 'courseware_id', 'start_time', 'end_time', 'status'], 'required'],
+            ['creater_id','default','value'=>Yii::$app->user->identity->id],
+            [['school_id', 'grade_id', 'courseware_id', 'creater_id','status'], 'integer'],
+            [['start_time','end_time'], 'filter', 'filter' => 'strtotime', 'skipOnEmpty' => true],
             [['title'], 'string', 'max' => 11],
-            [['intro'], 'string', 'max' => 128]
+            [['intro'], 'string', 'max' => 128],
+            [
+                'end_time','required',  'when' => function($model,$attribute){
+                    if($model->start_time > $model->end_time){
+                        $model->addError($attribute,'不能开始时间');
+                    }
+                }
+
+            ],
         ];
     }
 
@@ -73,15 +90,15 @@ abstract class Course extends \yii\db\ActiveRecord
     {
         return [
             'course_id' => Yii::t('common', 'Course ID'),
-            'school_id' => Yii::t('common', 'School ID'),
-            'grade_id' => Yii::t('common', 'Grade ID'),
+            'school_id' => Yii::t('common', '学校'),
+            'grade_id' => Yii::t('common', '班级'),
             'title' => Yii::t('common', '课程名称'),
             'intro' => Yii::t('common', '课程介绍'),
-            'courseware_id' => Yii::t('common', '课件ID'),
+            'courseware_id' => Yii::t('common', '课件'),
             'creater_id' => Yii::t('common', '课表创建者'),
             'start_time' => Yii::t('common', '开始时间'),
             'end_time' => Yii::t('common', '结束时间'),
-            'status' => Yii::t('common', ' 正常：10 已结束 ：20 已关闭：30'),
+            'status' => Yii::t('common', ' 状态'),
             'created_at' => Yii::t('common', 'Created At'),
             'updeated_at' => Yii::t('common', 'Updeated At'),
         ];
@@ -103,8 +120,18 @@ abstract class Course extends \yii\db\ActiveRecord
         ]);
     }
 
-
-    
+    public function getSchool(){
+        return $this->hasOne(\backend\modules\campus\models\School::className(),['school_id'=>'school_id']);
+    }
+    public function getGrade(){
+        return $this->hasOne(\backend\modules\campus\models\Grade::className(),['grade_id'=>'grade_id']);
+    }
+    public function getCourseware(){
+         return $this->hasOne(\backend\modules\campus\models\Courseware::className(),['courseware_id'=>'courseware_id']);
+    }
+    public function getUser(){
+        return $this->hasOne(\common\models\User::className(),['id'=>'creater_id']);
+    }
     /**
      * @inheritdoc
      * @return \backend\modules\campus\models\query\courseQuery the active query used by this AR class.

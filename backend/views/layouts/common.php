@@ -172,20 +172,21 @@ $bundle = BackendAsset::register($this);
 
                             ]   
                         ], 
+                        */
                         [
                             'label'=>Yii::t('backend', '课程管理（学生）'),
                             'url' => '#',
                             'icon'=>'<i class="fa fa-edit"></i>',
                             'options'=>['class'=>'treeview'],
                             'items'=>[
-                                ['label'=>Yii::t('backend', '课程设置'), 'url'=>['#'], 'icon'=>'<i class="fa  fa-file-text"></i>'
+                                ['label'=>Yii::t('backend', '课程设置'), 'url'=>['/campus/course/index'], 'icon'=>'<i class="fa  fa-file-text"></i>'
                                 ], 
-                                ['label'=>Yii::t('backend', '签到管理'), 'url'=>['#1'], 'icon'=>'<i class=" fa  fa-file-text"></i>'
+                                ['label'=>Yii::t('backend', '签到管理'), 'url'=>['/campus/sign-in/index'], 'icon'=>'<i class=" fa  fa-file-text"></i>'
                                 ],
 
                             ]   
                         ],
-                       
+                       /*
                         [
                             'label'=>Yii::t('backend', '通知管理'),
                             'url' => '#',

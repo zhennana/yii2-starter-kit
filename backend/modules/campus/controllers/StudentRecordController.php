@@ -10,13 +10,13 @@ class StudentRecordController extends \backend\modules\campus\controllers\base\S
 {
 
 	function actionAjaxForm($type_id,$id){
-
+		//var_dump($_GET);exit;
 		//var_dump($type_id,$id);exit;
 		$model = new StudentRecord;
 
 		$model = $model->getlist($type_id,$id);
 		$option = "请选择";
-		echo Html::tag('option',$option, ['value'=>'0']);
+		echo Html::tag('option',$option, ['value'=>'']);
 		foreach ($model as $key => $value) {
 		 	 echo Html::tag('option',Html::encode($value),array('value'=>$key));
 		}

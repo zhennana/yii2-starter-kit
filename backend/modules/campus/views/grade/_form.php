@@ -8,6 +8,7 @@ use yii\helpers\ArrayHelper;
 use backend\modules\campus\models\School;
 use backend\modules\campus\models\Grade;
 use backend\modules\campus\models\GradeCategory;
+use common\models\User;
 
     /**
     * @var yii\web\View $this
@@ -18,6 +19,8 @@ use backend\modules\campus\models\GradeCategory;
     $schools = ArrayHelper::map($schools,'id','school_title');
     $category_ids = GradeCategory::find()->where(['status'=>GradeCategory::CATEGORY_OPEN])->asArray()->all();
     $category_ids = ArrayHelper::map($category_ids,'grade_category_id','name');
+    $user = User::find()->where(['status'=>2])->asArray()->all();
+    $data_user = ArrayHelper::map($user,'id','username');
 ?>
 
 <div class="grade-form">
@@ -46,7 +49,7 @@ use backend\modules\campus\models\GradeCategory;
 			<?= $form->field($model, 'grade_title')->textInput() ?>
 
 <!-- attribute owner_id -->
-            <?= $form->field($model, 'owner_id')->textInput() ?>
+            <?= $form->field($model, 'owner_id')->dropDownlist($data_user,['prompt'=>'--请选择--']) ?>
 
 <!-- attribute creater_id -->
 			<!-- <? //= $form->field($model, 'creater_id')->textInput() ?> -->
