@@ -3,9 +3,10 @@ use backend\assets\BackendAsset;
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 
+// <script src="http://code.jquery.com/jquery-latest.js"></script>
+
 /* @var $this \yii\web\View */
 /* @var $content string */
-// <script src="http://code.jquery.com/jquery-latest.js"></script>
 $bundle = BackendAsset::register($this);
 
 $this->params['body-class'] = array_key_exists('body-class', $this->params) ?
@@ -18,7 +19,10 @@ $this->params['body-class'] = array_key_exists('body-class', $this->params) ?
 <html lang="<?php echo Yii::$app->language ?>">
 <head>
     <meta charset="<?php echo Yii::$app->charset ?>">
-    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    <meta name="renderer" content="webkit"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="robots" content="none,nofollow,noindex" />
 
     <?php echo Html::csrfMetaTags() ?>
     <title><?php echo Html::encode($this->title) ?></title>
