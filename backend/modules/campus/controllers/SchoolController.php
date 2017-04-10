@@ -10,7 +10,7 @@ class SchoolController extends \backend\modules\campus\controllers\base\SchoolCo
 {
 	
 	public function actionList($typeid=false ,$id = false){
-		//var_dump($typeid,$id);exit;
+		//var_dump($_GET);exit;
 		$model = new School;
 		$model = $model->getCityList($typeid,$id);
 		$aa = "--请选择区--";

@@ -43,10 +43,10 @@ class ConfigController extends \yii\rest\Controller
     /**
      * @var array
      */
-    /*public $serializer = [
-        'class' => 'yii\rest\Serializer',
-        'collectionEnvelope' => 'items'
-    ];*/
+    // public $serializer = [
+    //     'class' => 'yii\rest\Serializer',
+    //     'collectionEnvelope' => 'items'
+    // ];
 
 	/*
 	public function behaviors()
@@ -80,12 +80,12 @@ class ConfigController extends \yii\rest\Controller
     public function actions()
     {
         return [
-            'index' => [
-                'class' => 'yii\rest\IndexAction',
-                'modelClass' => $this->modelClass,
-                'checkAccess' => [],
-                'prepareDataProvider' => [$this, 'prepareDataProvider']
-            ],
+            // 'index' => [
+            //     'class' => 'yii\rest\IndexAction',
+            //     'modelClass' => $this->modelClass,
+            //     'checkAccess' => [],
+            //     'prepareDataProvider' => [$this, 'prepareDataProvider']
+            // ],
             'view' => [
                 'class' => 'yii\rest\ViewAction',
                 'modelClass' => $this->modelClass,
@@ -124,8 +124,26 @@ class ConfigController extends \yii\rest\Controller
         return $model;
     }
 
+ /**
+     * @SWG\Get(path="/users/api/v1/config/index",
+     *     tags={"测试接口"},
+     *     summary="调试接口",
+     *     description="返回主视觉信息",
+     *     produces={"application/json"},
+     * @SWG\Response(
+     *         response = 200,
+     *         description = "返回OK"
+     *     ),
+     * )
+     *
+    **/
+    public function actionIndex()
+    {
+        return ['OK'];
+    }
+
     /**
-     * @SWG\Get(path="/user/api/v1/config/init",
+     * @SWG\Get(path="/users/api/v1/config/init",
      *     tags={"800-Config-配置信息接口：获取版本更新等等"},
      *     summary="初始化",
      *     description="返回主视觉信息",

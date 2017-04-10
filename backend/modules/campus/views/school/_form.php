@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 use yii\bootstrap\ActiveForm;
 use \dmstr\bootstrap\Tabs;
@@ -62,27 +63,32 @@ $school = ArrayHelper::map($school, 'id', 'school_title');
             //->textInput() ?> -->
 
 			<!-- <?php // $form->field($model, 'latitude')
-            //->textInput() ?> -->
+            //->textInput()
+            // 
+             //   
+            // 
+            //   ?> -->
 
 			<?= $form->field($model, 'province_id')
             ->dropDownlist([0=>'--请选择省--']+$model->getCityList(1),
                 [
                // 'prompt'=>'--请选择省--',
-                'onchange'=>'
-                    $.post("'.yii::$app->urlManager->createUrl('campus/school/list').'&typeid=2&id="+$(this).val(),function(data){
-                $("select#school-city_id").html(data);
-                $("select#school-region_id").html("<option value=0>--请选择区--</option>");
-            });',
+                'onchange'=>
+                   '$.get("'.Url::toRoute(['list']).'",{ typeid:2, id:$(this).val() }).done(function(data){
+                       $("select#school-city_id").html(data);
+                       $("select#school-region_id").html("<option value=0>--请选择区--</option>");
+                })',
         ]) ?>
 
 			<?= $form->field($model, 'city_id')
             ->dropDownlist([0=>'--请选择市--']+$model->getCityList(2,$model->province_id),
             [
           //  'prompt'=>'--请选择市--',
+          //   
             'onchange'=>'
-                $.post("'.yii::$app->urlManager->createUrl('campus/school/list').'&typeid=0&id="+$(this).val(),function($data){
-                $("select#school-region_id").html($data);
-                });',
+               $.get("'.Url::toRoute(['list']).'",{ typeid:0, id:$(this).val() }).done(function(data){
+                       $("select#school-region_id").html(data);
+                })',
             ]
             ) ?>
           

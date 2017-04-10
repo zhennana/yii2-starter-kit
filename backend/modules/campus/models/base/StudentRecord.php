@@ -27,7 +27,15 @@ use yii\helpers\ArrayHelper;
  */
 abstract class StudentRecord extends \yii\db\ActiveRecord
 {
+    const STUDEN_RECORD_STATUS_VALID = 1;//正常
+    const STUDEN_RECORD_STATUS_DELECT = 0;//删除
 
+    public static  function optsStatus(){
+        return [
+            self::STUDEN_RECORD_STATUS_VALID => "正常",
+            self::STUDEN_RECORD_STATUS_DELECT => "删除",
+        ];
+    }
 
      /**
      * @return \yii\db\Connection the database connection used by this AR class.
@@ -82,7 +90,7 @@ abstract class StudentRecord extends \yii\db\ActiveRecord
             'school_id' => Yii::t('common', '学校ID'),
             'grade_id' => Yii::t('common', '班级ID'),
             'title' => Yii::t('common', '标题'),
-            'status' => Yii::t('common', '1：正常；0标记删除；2待审核；'),
+            'status' => Yii::t('common', '状态'),
             'sort' => Yii::t('common', '默认与排序'),
             'updated_at' => Yii::t('common', 'Updated At'),
             'created_at' => Yii::t('common', 'Created At'),
@@ -112,7 +120,8 @@ abstract class StudentRecord extends \yii\db\ActiveRecord
         }
         if($type_id == 2){
             $grade = Grade::find()->where(['status'=>Grade::GRADE_STATUS_OPEN, 'school_id'=>$id])->asArray()->all();
-            return ArrayHelper::map($grade,'grade_id','grade_title');
+            //var_dump($grade);exit;
+            return ArrayHelper::map($grade,'grade_id','grade_name');
         }
 
         if($type_id == 3){
@@ -121,16 +130,30 @@ abstract class StudentRecord extends \yii\db\ActiveRecord
         }
         if($type_id == 4){
             $user = SignIn::find()->where(['course_id' => $id])->asArray()->all();
+            //var_dump($user);exit;   
             $users = [];
             foreach ($user as $key => $value) {
-                $users[$key]['user_id'] = $value->user_id;
-                $users[$key]['username'] = $value->user->name;
+                $users[$key]['user_id'] = $value['student_id'];
+                $users[$key]['username'] = SignIn::getUserName($value['student_id']);
             }
+            //var_dump($users);exit;
             return ArrayHelper::map($users,'user_id','username');
         }
         return false;
     }
     
+    public function getSchool(){
+        return $this->hasOne(\backend\modules\campus\models\School::className(),['school_id'=>'school_id']);
+    }
+    public function getGrade(){
+        return $this->hasOne(\backend\modules\campus\models\Grade::className(),['grade_id'=>'grade_id']);
+    }
+    public function getCourse(){
+         return $this->hasOne(\backend\modules\campus\models\Course::className(),['course_id'=>'course_id']);
+    }
+    public function getUser(){
+        return $this->hasOne(\common\models\User::className(),['id'=>'user_id']);
+    }
     /**
      * @inheritdoc
      * @return \backend\modules\campus\models\query\StudentRecordQuery the active query used by this AR class.

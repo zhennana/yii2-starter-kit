@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\GridView;
-
+use \backend\modules\campus\models\Course;
 /**
 * @var yii\web\View $this
 * @var yii\data\ActiveDataProvider $dataProvider
@@ -19,19 +19,19 @@ $this->params['breadcrumbs'][] = $this->title;
 */
 $actionColumnTemplates = [];
 
-if (\Yii::$app->user->can('campus_course_view', ['route' => true])) {
+if (\Yii::$app->user->can('manager', ['route' => true])) {
     $actionColumnTemplates[] = '{view}';
 }
 
-if (\Yii::$app->user->can('campus_course_update', ['route' => true])) {
+if (\Yii::$app->user->can('manager', ['route' => true])) {
     $actionColumnTemplates[] = '{update}';
 }
 
-if (\Yii::$app->user->can('campus_course_delete', ['route' => true])) {
+if (\Yii::$app->user->can('manager', ['route' => true])) {
     $actionColumnTemplates[] = '{delete}';
 }
 if (isset($actionColumnTemplates)) {
-$actionColumnTemplate = implode(' ', $actionColumnTemplates);
+    $actionColumnTemplate = implode(' ', $actionColumnTemplates);
     $actionColumnTemplateString = $actionColumnTemplate;
 } else {
 Yii::$app->view->params['pageButtons'] = Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('common', 'New'), ['create'], ['class' => 'btn btn-success']);
@@ -49,44 +49,41 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
     <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
 
     <h1>
-        <?= Yii::t('models', 'Courses') ?>
+        <?= Yii::t('models', '课程管理') ?>
         <small>
-            List
+            列表
         </small>
     </h1>
     <div class="clearfix crud-navigation">
-<?php
-if(\Yii::$app->user->can('campus_course_create', ['route' => true])){
-?>
+        <?php
+        if(\Yii::$app->user->can('manager', ['route' => true])){
+        ?>
         <div class="pull-left">
             <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('common', 'New'), ['create'], ['class' => 'btn btn-success']) ?>
         </div>
-<?php
-}
-?>
+        <?php } ?>
         <div class="pull-right">
 
                         
             <?= 
             \yii\bootstrap\ButtonDropdown::widget(
-            [
-            'id' => 'giiant-relations',
-            'encodeLabel' => false,
-            'label' => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('common', 'Relations'),
-            'dropdown' => [
-            'options' => [
-            'class' => 'dropdown-menu-right'
-            ],
-            'encodeLabels' => false,
-            'items' => [
+                [
+                    'id' => 'giiant-relations',
+                    'encodeLabel' => false,
+                    'label' => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('common', 'Relations'),
+                    'dropdown' => [
+                        'options' => [
+                            'class' => 'dropdown-menu-right'
+                        ],
+                        'encodeLabels' => false,
+                        'items' => [
 
-]
-            ],
-            'options' => [
-            'class' => 'btn-default'
-            ]
-            ]
-            );
+                        ]
+                    ],
+                    'options' => [
+                        'class' => 'btn-default'
+                ]
+            ]);
             ?>
         </div>
     </div>
@@ -95,48 +92,80 @@ if(\Yii::$app->user->can('campus_course_create', ['route' => true])){
 
     <div class="table-responsive">
         <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'pager' => [
-        'class' => yii\widgets\LinkPager::className(),
-        'firstPageLabel' => Yii::t('common', 'First'),
-        'lastPageLabel' => Yii::t('common', 'Last'),
-        ],
-                    'filterModel' => $searchModel,
-                'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
-        'headerRowOptions' => ['class'=>'x'],
-        'columns' => [
-                [
-            'class' => 'yii\grid\ActionColumn',
-            'template' => $actionColumnTemplateString,
-            'buttons' => [
-                'view' => function ($url, $model, $key) {
-                    $options = [
-                        'title' => Yii::t('yii', 'View'),
-                        'aria-label' => Yii::t('yii', 'View'),
-                        'data-pjax' => '0',
-                    ];
-                    return Html::a('<span class="glyphicon glyphicon-file"></span>', $url, $options);
-                }
+            'dataProvider' => $dataProvider,
+            'pager' => [
+                'class' => yii\widgets\LinkPager::className(),
+                'firstPageLabel' => Yii::t('common', 'First'),
+                'lastPageLabel' => Yii::t('common', 'Last'),
             ],
-            'urlCreator' => function($action, $model, $key, $index) {
-                // using the column name as key, not mapping to 'id' like the standard generator
-                $params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
-                $params[0] = \Yii::$app->controller->id ? \Yii::$app->controller->id . '/' . $action : $action;
-                return Url::toRoute($params);
-            },
-            'contentOptions' => ['nowrap'=>'nowrap']
-        ],
-			'school_id',
-			'grade_id',
-			'title',
-			'intro',
-			'courseware_id',
-			'creater_id',
-			'start_time:datetime',
-			/*'end_time:datetime',*/
-			/*'status',*/
-			/*'updeated_at',*/
-        ],
+            'filterModel' => $searchModel,
+            'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
+            'headerRowOptions' => ['class'=>'x'],
+            'columns' => [
+                [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => $actionColumnTemplateString,
+                'buttons' => [
+                    'view' => function ($url, $model, $key) {
+                        $options = [
+                            'title' => Yii::t('yii', 'View'),
+                            'aria-label' => Yii::t('yii', 'View'),
+                            'data-pjax' => '0',
+                        ];
+                        return Html::a('<span class="glyphicon glyphicon-file"></span>', $url, $options);
+                    }
+                ],
+                'urlCreator' => function($action, $model, $key, $index) {
+                    // using the column name as key, not mapping to 'id' like the standard generator
+                    $params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
+                    $params[0] = \Yii::$app->controller->id ? \Yii::$app->controller->id . '/' . $action : $action;
+                    return Url::toRoute($params);
+                },
+                'contentOptions' => ['nowrap'=>'nowrap']
+            ],
+                [
+                    'attribute'=>'school_id',
+                    'value'=>function($model){
+                        return isset($model->school->school_title) ? $model->school->school_title : '';
+                    }
+                ],
+                [
+                    'attribute'=>'grade_id',
+                    'value'=>function($model){
+                        return isset($model->grade->grade_name) ? $model->grade->grade_name  : '';
+                    }
+                ],
+                [
+                    'attribute'=>'courseware_id',
+                    'value'=>function($model){
+                        return isset($model->courseware->title) ?$model->courseware->title  : '';
+                    }
+                ],
+    			//'grade_id',
+    			'title',
+    			'intro',
+    			'creater_id',
+                [
+                    'attribute'=>'creater_id',
+                    'value'=>function($model){
+                        return isset($model->user->username) ?$model->user->username : '';
+                    }
+                ],
+
+    			'start_time:datetime',
+    			'end_time:datetime',
+    			 [
+                    'class'     =>\common\grid\EnumColumn::className(),
+                    'attribute' =>'status',
+                    'format'        => 'raw',
+                    'value'     => function($model){
+                        return $model->status;
+                    },
+                    'enum'      => Course::optsStatus()
+                ],
+    			'updeated_at:datetime',
+                'created_at:datetime'
+            ],
         ]); ?>
     </div>
 
