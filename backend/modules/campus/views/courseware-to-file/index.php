@@ -111,34 +111,61 @@ if (\Yii::$app->user->can('manager', ['route' => true])) {
 		'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
 		'headerRowOptions' => ['class'=>'x'],
 		'columns' => [
-			[
-				'class' => 'yii\grid\ActionColumn',
-				'template' => $actionColumnTemplateString,
-				'buttons' => [
-					'view' => function ($url, $model, $key) {
-						$options = [
-							'title' => Yii::t('yii', 'View'),
-							'aria-label' => Yii::t('yii', 'View'),
-							'data-pjax' => '0',
-						];
-						return Html::a('<span class="glyphicon glyphicon-file"></span>', $url, $options);
-					}
-
-
-				],
-				'urlCreator' => function($action, $model, $key, $index) {
-					// using the column name as key, not mapping to 'id' like the standard generator
-					$params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
-					$params[0] = \Yii::$app->controller->id ? \Yii::$app->controller->id . '/' . $action : $action;
-					return Url::toRoute($params);
-				},
-				'contentOptions' => ['nowrap'=>'nowrap']
-			],
-			'file_storage_item_id',
-			'courseware_id',
-			'status',
-			'sort',
-		],
+		          [
+                        'class' => 'yii\grid\ActionColumn',
+                        'controller' => 'courseware-to-file',
+                        'template' => '{update} {delete}'
+                    ],
+                    
+                    'courseware_id',
+                    [
+                        'class'     => \common\grid\EnumColumn::ClassName(),
+                        'format'    => 'raw',
+                        'attribute' => 'status',
+                        'enum'      => \backend\modules\campus\models\CoursewareToFile::optsStatus(),
+                    ],
+                    'sort',
+                    'file_storage_item_id',
+                    [
+                        'attribute' => 'base_url',
+                        'label' => '文件',
+                        'format' => 'raw',
+                        'value' => function($model, $key, $index, $grid){
+                            $url = $model->fileStorageItem->url.$model->fileStorageItem->file_name;
+                            if(strstr($model->fileStorageItem->type,'image')){
+                                return Html::a('<img width="50px" height="50px" class="img-thumbnail" src="'.$url.'?imageView2/1/w/50/h/50" />', $url.'?imageView2/1/w/500/h/500', ['title' => '访问','target' => '_blank']);
+                            }else{
+                                return Html::a($model->fileStorageItem->type, $url, ['title' => '访问','target' => '_blank']);
+                            }
+                        }
+                    ],
+                    [
+                        'attribute'=>'type',
+                        'label' => '类型',
+                        'format'    => 'raw',
+                        'value'    =>function($model){
+                            if(isset($model->fileStorageItem->type)){
+                                 return $model->fileStorageItem->type;
+                                
+                            }
+                            return '';
+                        }
+                    ],
+                    [
+                        'attribute'=>'page_view',
+                        'label' => '预览量',
+                        'format'    => 'raw',
+                        'value'    =>function($model){
+                            if(isset($model->fileStorageItem->page_view)){
+                                 return $model->fileStorageItem->page_view;
+                                
+                            }
+                            return '';
+                        }
+                    ],
+                   'updated_at:datetime',
+                    'created_at:datetime'
+                ]
 	]); ?>
     </div>
 

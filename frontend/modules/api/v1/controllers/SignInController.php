@@ -35,34 +35,7 @@ use cheatsheet\Time;
 class SignInController extends \common\components\ControllerFrontendApi
 {
     public $modelClass = 'common\models\User';
-    // https://github.com/zircote/swagger-php/blob/master/Examples/swagger-spec/petstore/api.php
-    // host="114.215.71.102",
-    // host="localhost:8089/edu-manager/frontend/web",
 
-    /**
-     * @SWG\Swagger(
-     *     schemes={"http"},
-     *     host="114.215.71.102",
-     *     basePath="/api/v1",
-     *     @SWG\Info(
-     *         version="1.0.0",
-     *         title="APP 接口在线调试",
-     *         description="This is a sample server Petstore server.  You can find out more about Swagger at <a href=""http://swagger.io"">http://swagger.io</a> or on irc.freenode.net, #swagger.  For this sample, you can use the api key ""special-key"" to test the authorization filters",
-     *         termsOfService="http://helloreverb.com/terms/",
-     *         @SWG\Contact(
-     *             email="apiteam@wordnik.com"
-     *         ),
-     *         @SWG\License(
-     *             name="Apache 2.0",
-     *             url="http://www.apache.org/licenses/LICENSE-2.0.html"
-     *         )
-     *     ),
-     *     @SWG\ExternalDocumentation(
-     *         description="Find out more about Swagger",
-     *         url="http://swagger.io"
-     *     )
-     * )
-     */
     public function beforeAction($action)
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -333,6 +306,53 @@ class SignInController extends \common\components\ControllerFrontendApi
         Yii::$app->response->statusCode = 422;
          //var_dump($model->getErrors());exit;
         return $model->getErrors();
+    }
+
+    /**
+     * @SWG\POST(path="/sign-in/smscode",
+     *     tags={"100-SignIn-用户接口"},
+     *     summary="验证码有效性[已经自测]",
+     *     description="激活用户状态user.status",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "token",
+     *        description = "验证码",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "phone_number",
+     *        description = "手机号",
+     *        required = false,
+     *        type = "string"
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "验证码是否有效"
+     *     )
+     * )
+     *
+     */
+    /**
+     * 验证码用户激活
+     * @return string|Response
+     */
+    public function actionSmscode()
+    {
+        $token = Yii::$app->request->post('token',0);
+        $userToken = UserToken::find()
+            //->byType(UserToken::TYPE_PHONE_SINGUP)
+            ->byToken($token)
+            ->notExpired()
+            ->one();
+
+        if (!$userToken) {
+            return ['status'=>1, 'message'=>['验证码无效。']];
+        }else{
+            return ['status'=>0, 'message'=>['验证码有效。']];
+        }
     }
 
     /**

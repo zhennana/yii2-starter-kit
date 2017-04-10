@@ -19,7 +19,7 @@ public function rules()
 {
 return [
 [['apply_to_play_id', 'phone_number', 'auditor_id', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['username', 'email', 'city', 'province', 'region'], 'safe'],
+            [['username', 'age', 'province_id', 'school_id'], 'safe'],
 ];
 }
 
@@ -65,10 +65,9 @@ $query->andFilterWhere([
         ]);
 
         $query->andFilterWhere(['like', 'username', $this->username])
-            ->andFilterWhere(['like', 'email', $this->email])
-            ->andFilterWhere(['like', 'city', $this->city])
-            ->andFilterWhere(['like', 'province', $this->province])
-            ->andFilterWhere(['like', 'region', $this->region]);
+            ->andFilterWhere(['like', 'age', $this->age])
+            ->andFilterWhere(['like', 'province_id', $this->province_id])
+            ->andFilterWhere(['like', 'school_id', $this->school_id]);
 
 return $dataProvider;
 }
