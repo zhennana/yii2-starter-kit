@@ -2,10 +2,10 @@
 /* @var $this yii\web\View */
 /* @var $model common\models\WidgetText */
 
-$this->title = Yii::t('backend', 'Create {modelClass}', [
+$this->title = Yii::t('backend', '创建', [
     'modelClass' => 'Text Block',
 ]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Text Blocks'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '文本组件'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="text-block-create">

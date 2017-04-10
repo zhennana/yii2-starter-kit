@@ -2,7 +2,9 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
 use yii\grid\GridView;
+use backend\modules\campus\models\CnProvince;
 use backend\modules\campus\models\ApplyToPlay;
 
 /**
@@ -14,6 +16,9 @@ use backend\modules\campus\models\ApplyToPlay;
 $this->title = Yii::t('common', '预约信息');
 $this->params['breadcrumbs'][] = $this->title;
 
+
+$province_id = CnProvince::find()->asArray()->all();
+$province_id = ArrayHelper::map($province_id, 'province_id', 'province_name');
 
 /**
 * create action column template depending acces rights
@@ -132,7 +137,12 @@ if(\Yii::$app->user->can('manager', ['route' => true])){
                 'username',
     			'age',
     			'phone_number',
-    			'province_id',
+                [
+                    'class'     => \common\grid\EnumColumn::className(),
+                    'attribute' => 'province_id',
+                    'enum'      => $province_id,
+                    'format'    => 'raw',
+                ],
                 //'auditor_id',
     			//'status',
                 [
@@ -148,7 +158,7 @@ if(\Yii::$app->user->can('manager', ['route' => true])){
                     'header'   =>'操作审核',
                     'template' =>'{button}',
                     'buttons'  =>[
-                        'button'=>function($url,$model,$key){
+                        'button' => function($url,$model,$key){
                             if($model->status == ApplyToPlay::APPLY_TO_PLAY_STATUS_AUDIT ){
                                 return Html::button('审核',[
                                     'class'=>'btn btn-danger audit',

@@ -158,7 +158,7 @@
                         'button'=>function($url,$model,$key){
                             if($model->status == \backend\modules\campus\models\Contact::CONTACT_STATUS_NOT_AUDIT){
                                 return Html::button('查看',[
-                                    'class'=>'but but-danger audit',
+                                    'class'=>'btn btn-danger audit',
                                     'title'=>'查看',
                                     'id'   => $model->contact_id
                                     ]);
@@ -191,7 +191,7 @@
                 if(result.status){
                    
                     $("#"+contact_id).text("已查看");
-                    $("#"+contact_id).removeClass('but-danger').attr("disabled",true);
+                    $("#"+contact_id).removeClass('btn-danger').attr("disabled",true);
                      alert('状态更改成功');
                      window.location.reload()
                 }else{
