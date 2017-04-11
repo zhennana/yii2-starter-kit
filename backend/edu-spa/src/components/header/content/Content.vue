@@ -12,7 +12,19 @@
           <el-menu-item index="2">文章分类</el-menu-item>
         </router-link>
         <router-link :to="{path:'TextComponent'}">
-          <el-menu-item index="3">文档组件</el-menu-item>
+          <el-menu-item index="3">文本组件</el-menu-item>
+        </router-link>
+        <router-link :to="{path:'MenuComponent'}">
+          <el-menu-item index="4">菜单组件</el-menu-item>
+        </router-link>
+        <router-link :to="{path:'CarouselWidgets'}">
+          <el-menu-item index="5">Carousel Widgets</el-menu-item>
+        </router-link>
+        <router-link :to="{path:'JoinInformation'}">
+          <el-menu-item index="6">加盟信息</el-menu-item>
+        </router-link>
+        <router-link :to="{path:'ContactUs'}">
+          <el-menu-item index="7">联系我们</el-menu-item>
         </router-link>
       </el-menu>
     </el-col>

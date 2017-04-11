@@ -1,5 +1,5 @@
 <template>
-  <div>文本模块</div>
+<div>Carousel Widgets</div>
 </template>
 <script>
 
