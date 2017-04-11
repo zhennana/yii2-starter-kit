@@ -3,7 +3,7 @@
     <el-col :span="4">
       <el-menu default-active="0" class="el-menu-vertical-demo" theme="dark">
         <el-menu-item index="0">
-          <router-link :to="{path:'Hello'}">
+          <router-link :to="{path:'CollegeManagement'}">
             学校管理
           </router-link>
         </el-menu-item>
