@@ -81,15 +81,83 @@ $config = [
             'targets' => [
                 'db'=>[
                     'class' => 'yii\log\DbTarget',
+                    //'levels' => ['error', 'warning', 'info','trace','profile'], // test
                     'levels' => ['error', 'warning'],
-                    'except'=>['yii\web\HttpException:*', 'yii\i18n\I18N\*'],
+
+                    //除了except对应的分类之外，其他异常日志都记录
+                    'except'=>['yii\web\HttpException:*', 'yii\i18n\I18N\*'], 
                     'prefix'=>function () {
+                        $logged_ip = !Yii::$app->getRequest()->getUserIP() ? '' : Yii::$app->getRequest()->getUserIP();
+                        $user_id = isset(Yii::$app->user->identity->id) ? Yii::$app->user->identity->id : 0;
                         $url = !Yii::$app->request->isConsoleRequest ? Yii::$app->request->getUrl() : null;
-                        return sprintf('[%s][%s]', Yii::$app->id, $url);
+                        
+                        return sprintf(
+                            '[%s] [IP: %s] [user_id: %s] [%s]', 
+                            Yii::$app->id, $logged_ip, $user_id, $url
+                        );
                     },
+                    'logVars'=>['_SERVER'],
+                    'logTable'=>'{{%system_log}}',
+                ],
+                //在原配置的基础上，增加以下配置（新增一个FileTarget）
+                //Yii::info(join(" ",$data), 'users\isguest');
+                //Yii::info(join(" ",$data), 'users\behavior');
+                'users_FileTarget' => [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['error', 'warning','info','trace','profile'],
                     'logVars'=>[],
-                    'logTable'=>'{{%system_log}}'
-                ]
+                    //表示以yii\db\或者app\models\开头的分类都会写入这个文件
+                    'categories'=>['users\*'],
+                    //表示写入到文件sql.log中
+                    //'logFile'=>'@runtime/logs/users_behavior.log',
+                    'logFile' => '@runtime/logs/users_behavior.log',
+                    'maxFileSize'=> 1024, //Maximum log file size, in kilo-bytes. Defaults to 10240, meaning 10MB.
+                    'maxLogFiles'=> 10,
+                ],
+                // 微信API
+                // Yii::info(json_encode($info), 'wechat\path');
+                'wechat_FileTarget' => [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['error', 'warning','info','trace','profile'],
+                    'logVars'=>[],
+                    //表示以yii\db\或者app\models\开头的分类都会写入这个文件
+                    'categories'=>['wechat\*'],
+                    //表示写入到文件sql.log中
+                    //'logFile'=>'@runtime/logs/users_behavior.log',
+                    'logFile' => '@runtime/wechat_api_log/info.log',
+                    'maxFileSize'=> 1024, //Maximum log file size, in kilo-bytes. Defaults to 10240, meaning 10MB.
+                    'maxLogFiles'=> 10,
+                ],
+
+                // online debug
+                // Yii::info(json_encode($info), 'debug\exception');
+                'debug_FileTarget' => [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['error', 'warning','info','trace','profile'],
+                    'logVars'=>[],
+                    //表示以yii\db\或者app\models\开头的分类都会写入这个文件
+                    'categories'=>['debug\*'],
+                    //表示写入到文件sql.log中
+                    //'logFile'=>'@runtime/logs/users_behavior.log',
+                    'logFile' => '@runtime/online_debug/info.log',
+                    'maxFileSize'=> 1024, //Maximum log file size, in kilo-bytes. Defaults to 10240, meaning 10MB.
+                    'maxLogFiles'=> 10,
+                ],
+
+                // online payment
+                // Yii::info(json_encode($info), 'payment\exception');
+                'payment_FileTarget' => [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['error', 'warning','info','trace','profile'],
+                    'logVars'=>[],
+                    //表示以yii\db\或者app\models\开头的分类都会写入这个文件
+                    'categories'=>['payment\*'],
+                    //表示写入到文件sql.log中
+                    //'logFile'=>'@runtime/logs/users_behavior.log',
+                    'logFile' => '@runtime/payment/info.log',
+                    'maxFileSize'=> 1024, //Maximum log file size, in kilo-bytes. Defaults to 10240, meaning 10MB.
+                    'maxLogFiles'=> 10,
+                ],
             ],
         ],
 
@@ -181,7 +249,7 @@ $config = [
             //'es' => 'Español',
             //'vi' => 'Tiếng Việt',
             'zh-CN' => '简体中文',
-            'pl-PL' => 'Polski (PL)',
+            //'pl-PL' => 'Polski (PL)',
         ],
         // defines codes for the names of countries, https://zh.wikipedia.org/wiki/ISO_3166-1
         // Currency code, https://zh.wikipedia.org/wiki/ISO_4217
@@ -197,7 +265,11 @@ $config = [
             'PHP' => '菲律宾披索',
         */
 
-    ],
+    ], // component 结束
+    
+    // Yii::$app->params['something']
+    // 'params' => require(__DIR__.'/params.php'),
+
 ];
 
 if (YII_ENV_PROD) {
