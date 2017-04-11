@@ -7,7 +7,7 @@ use yii\helpers\Html;
 * @var backend\modules\campus\models\School $model
 */
 
-$this->title = Yii::t('backend', 'Create');
+$this->title = Yii::t('backend', '创建');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '学校'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="clearfix crud-navigation">
         <div class="pull-left">
             <?=            
-            Html::a(Yii::t('backend', '返回上一级'),
+            Html::a(Yii::t('backend', '取消'),
             \yii\helpers\Url::previous(),
             ['class' => 'btn btn-default']) ?>
         </div>

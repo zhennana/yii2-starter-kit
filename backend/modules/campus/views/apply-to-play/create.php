@@ -7,14 +7,14 @@ use yii\helpers\Html;
 * @var backend\modules\campus\models\ApplyToPlay $model
 */
 
-$this->title = Yii::t('common', 'Create');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('common', 'Apply To Plays'), 'url' => ['index']];
+$this->title = Yii::t('backend', '创建');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '预约信息'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="giiant-crud apply-to-play-create">
 
     <h1>
-        <?= Yii::t('common', 'Apply To Play') ?>
+        <?= Yii::t('backend', '预约信息') ?>
         <small>
                         <?= $model->apply_to_play_id ?>
         </small>
@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="clearfix crud-navigation">
         <div class="pull-left">
             <?=             Html::a(
-            Yii::t('common', 'Cancel'),
+            Yii::t('backend', '取消'),
             \yii\helpers\Url::previous(),
             ['class' => 'btn btn-default']) ?>
         </div>

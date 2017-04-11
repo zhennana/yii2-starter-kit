@@ -116,7 +116,7 @@ $school = ArrayHelper::map($school, 'id', 'school_title');
                    'encodeLabels' => false,
                      'items' => [ 
                         [
-                            'label'   => Yii::t('backend', StringHelper::basename('backend\modules\campus\models\School')),
+                            'label'   => Yii::t('backend', '学校'),
                             'content' => $this->blocks['main'],
                             'active'  => true,
                         ], 
@@ -130,7 +130,7 @@ $school = ArrayHelper::map($school, 'id', 'school_title');
 
         <?= Html::submitButton(
             '<span class="glyphicon glyphicon-check"></span> ' .
-            ($model->isNewRecord ? Yii::t('backend', 'Create') : Yii::t('backend', 'Save')),
+            ($model->isNewRecord ? Yii::t('backend', '创建') : Yii::t('backend', '更新')),
             [
             'id' => 'save-' . $model->formName(),
             'class' => 'btn btn-success'

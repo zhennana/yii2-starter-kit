@@ -18,7 +18,7 @@ use yii\bootstrap\ActiveForm;
     <?php echo $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
     <?php echo $form->field($model, 'slug')
-        ->hint(Yii::t('backend', 'If you\'ll leave this field empty, slug will be generated automatically'))
+        ->hint(Yii::t('backend', '如果该字段留空，系统将自动生成一个slug'))
         ->textInput(['maxlength' => true]) ?>
 
     <?php echo $form->field($model, 'category_id')->dropDownList(\yii\helpers\ArrayHelper::map(
@@ -73,7 +73,7 @@ use yii\bootstrap\ActiveForm;
 
     <div class="form-group">
         <?php echo Html::submitButton(
-            $model->isNewRecord ? Yii::t('backend', 'Create') : Yii::t('backend', 'Update'),
+            $model->isNewRecord ? Yii::t('backend', '创建') : Yii::t('backend', '更新'),
             ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 

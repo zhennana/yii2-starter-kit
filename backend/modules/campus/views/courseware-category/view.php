@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
     <?php endif; ?>
 
     <h1>
-        <?php echo Yii::t('backend', 'Courseware Category') ?>
+        <?php echo Yii::t('backend', '课件分类') ?>
         <small>
             <?php echo $model->name ?>
         </small>
@@ -66,7 +66,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
 
         <div class="pull-right">
             <?php echo Html::a('<span class="glyphicon glyphicon-list"></span> '
-	. Yii::t('backend', 'Full list'), ['index'], ['class'=>'btn btn-default']) ?>
+	. Yii::t('backend', '返回'), ['index'], ['class'=>'btn btn-default']) ?>
         </div>
 
     </div>
@@ -80,15 +80,25 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
 		'model' => $model,
 		'attributes' => [
 			'parent_id',
-			'creater_id',
-			'status',
+			[
+				'attribute'=>'creater_id',
+				'value'=>isset($model->user->username)? $model->user->username : '',
+			],
+			'name',
+			'description',
+			[
+				'attribute'=>'banner_src',
+				 'format'    => 'raw',
+				'label'	=>'图片',
+				'value'=>function($model){
+                    return Html::a('<img width="50px" height="50px" class="img-thumbnail" src="'.$model->banner_src.'?imageView2/1/w/50/h/50" />', $model->banner_src.'?imageView2/1/w/500/h/500', ['title' => '访问','target' => '_blank']);
+					
+				}
+			],
 			[
 				'attribute'=>'status',
 				'value'=>\backend\modules\campus\models\CoursewareCategory::StatusValueLabel($model->status)
 			],
-			'name',
-			'description',
-			'banner_src',
 		],
 	]); ?>
 
