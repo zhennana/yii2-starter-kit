@@ -19,7 +19,7 @@ $group_category_ids = ArrayHelper::map($group_category_ids,'grade_category_id','
     * @var backend\modules\campus\models\search\GradeSearch $searchModel
 */
 
-$this->title = Yii::t('backend', 'Grades');
+$this->title = Yii::t('backend', 'Graddes');
 $this->params['breadcrumbs'][] = $this->title;
 
 

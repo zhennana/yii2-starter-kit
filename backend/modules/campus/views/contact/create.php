@@ -7,23 +7,23 @@ use yii\helpers\Html;
 * @var backend\modules\campus\models\Contact $model
 */
 
-$this->title = Yii::t('common', 'Create');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('common', 'Contacts'), 'url' => ['index']];
+$this->title = Yii::t('backend', '创建');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '联系我们'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="giiant-crud contact-create">
 
     <h1>
-        <?= Yii::t('common', 'Contact') ?>
+        <?= Yii::t('backend', '联系我们') ?>
         <small>
-                        <?= $model->contact_id ?>
+            <?= $model->contact_id ?>
         </small>
     </h1>
 
     <div class="clearfix crud-navigation">
         <div class="pull-left">
-            <?=             Html::a(
-            Yii::t('common', 'Cancel'),
+            <?= Html::a(
+            Yii::t('backend', '取消'),
             \yii\helpers\Url::previous(),
             ['class' => 'btn btn-default']) ?>
         </div>
@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <hr />
 
     <?= $this->render('_form', [
-    'model' => $model,
+        'model' => $model,
     ]); ?>
 
 </div>

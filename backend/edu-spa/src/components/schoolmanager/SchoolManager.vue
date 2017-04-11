@@ -7,10 +7,18 @@
             学校管理
           </router-link>
         </el-menu-item>
-        <el-menu-item index="1">班级分类管理</el-menu-item>
-        <el-menu-item index="2">班级管理</el-menu-item>
-        <el-menu-item index="3">学员管理</el-menu-item>
-        <el-menu-item index="4">学员档案管理</el-menu-item>
+        <el-menu-item index="1">
+          <router-link :to="{path:'ClassClassificationManagement'}">班级分类管理</router-link>
+        </el-menu-item>
+        <el-menu-item index="2">
+          <router-link :to="{path:'ClassManagement'}">班级管理</router-link>
+        </el-menu-item>
+        <el-menu-item index="3">
+          <router-link :to="{path:'StudentManagement'}">学员管理</router-link>
+        </el-menu-item>
+        <el-menu-item index="4">
+          <router-link :to="{path:'StudentRecordsManagement'}">学员档案管理</router-link>
+        </el-menu-item>
       </el-menu>
     </el-col>
     <div class="child-content">
@@ -28,7 +36,7 @@
   }
 </script>
 
-<style lang="stylus" type="text/stylus" scoped>
+<style lang="stylus" type="text/stylus" scoped rel="stylesheet/stylus">
   .el-menu
     & > li > a
       display block

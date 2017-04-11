@@ -36,6 +36,18 @@
             name: 'CourseManager',
             path: 'CourseManager',
             title: '课程管理'
+          },
+          {
+            id: '2',
+            name: 'CoursewareManagement',
+            path: 'CoursewareManagement',
+            title: '课件管理'
+          },
+          {
+            id: '3',
+            name: 'content',
+            path: 'content',
+            title: '内容'
           }
         ]
       }
@@ -43,8 +55,10 @@
   }
 </script>
 
-<style lang="stylus" type="text/stylus">
+<style lang="stylus" type="text/stylus" rel="stylesheet/stylus">
   header-bg-color = #324157;
+  *
+    padding:0; margin:0;
   .header
     height 60px;
     position relative;
@@ -67,6 +81,7 @@
         display block
         width 100%;
         height 100%;
+        padding:0 7px;
         text-decoration none;
       }
 

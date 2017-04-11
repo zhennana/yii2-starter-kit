@@ -7,14 +7,14 @@ use yii\grid\GridView;
 /* @var $searchModel backend\models\search\WidgetMenuSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('backend', 'Widget Menus');
+$this->title = Yii::t('backend', '菜单组件');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="widget-menu-index">
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('backend', 'Create {modelClass}', [
+        <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建', [
             'modelClass' => 'Widget Menu',
         ]), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
