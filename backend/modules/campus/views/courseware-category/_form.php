@@ -5,6 +5,7 @@
  * @package default
  */
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\bootstrap\ActiveForm;
 use \dmstr\bootstrap\Tabs;
 use yii\helpers\StringHelper;
@@ -94,17 +95,18 @@ Tabs::widget(
     </div>
 
 </div>
-<script type="text/javascript">
+<script>
+
     function delattach(path, type) {
     var send_data = new Object();
     send_data.path = path;
     if (type == 1)
     {
-        url = "index.php?r=campus/courseware-category/delete-cloud";
+        url = "<?php echo Url::to(['delete-cloud']) ;?>";
     }
     else
     {
-        url = "index.php?r=campus/courseware-category/delete-cloud";
+        url = "<?php echo Url::to(['delete-cloud']) ;?>";
     }    
     jQuery.ajax({
         type: "post",
@@ -120,6 +122,7 @@ Tabs::widget(
                 $("#widgetcarouselitem-path").remove();
                 $("#"+pathid+" .linkWrapper").removeAttr('href');
                 $("#"+pathid+" .info").html("<span class='text-red'>已删除</span>");
+                $("#coursewarecategory-banner_src").val('');
             }
 //          alert(pathid);
             

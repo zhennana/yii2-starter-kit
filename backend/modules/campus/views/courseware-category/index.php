@@ -135,11 +135,20 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
 				},
 				'contentOptions' => ['nowrap'=>'nowrap']
 			],
-			'name',
-			'description',
-			'banner_src',
 			'parent_id',
 			'creater_id',
+			'name',
+			'description',
+			[
+			'attribute'=>'banner_src',
+			'format'    => 'raw',
+			'label'	=>'图片',
+			'value'=>function($model){
+                return Html::a('<img width="50px" height="50px" class="img-thumbnail" src="'.$model->banner_src.'?imageView2/1/w/50/h/50" />', $model->banner_src.'?imageView2/1/w/500/h/500', ['title' => '访问','target' => '_blank']);
+					
+				}
+			],
+			
 			[
                 'class'     =>\common\grid\EnumColumn::className(),
                 'attribute' =>'status',
