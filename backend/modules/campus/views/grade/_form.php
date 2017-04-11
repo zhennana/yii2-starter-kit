@@ -76,7 +76,7 @@ use common\models\User;
             'encodeLabels' => false,
             'items' => [                   
                 [
-                    'label'   => Yii::t('backend', 'Grade'),
+                    'label'   => Yii::t('backend', '班级管理'),
                     'content' => $this->blocks['main'],
                     'active'  => true,
                 ],
@@ -89,7 +89,7 @@ use common\models\User;
 
         <?= Html::submitButton(
         '<span class="glyphicon glyphicon-check"></span> ' .
-        ($model->isNewRecord ? Yii::t('backend', 'Create') : Yii::t('backend', 'Save')),
+        ($model->isNewRecord ? Yii::t('backend', '创建') : Yii::t('backend', '更新')),
         [
         'id' => 'save-' . $model->formName(),
         'class' => 'btn btn-success'
