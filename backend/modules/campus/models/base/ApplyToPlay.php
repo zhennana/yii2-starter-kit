@@ -90,16 +90,17 @@ abstract class ApplyToPlay extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'apply_to_play_id' => Yii::t('common', 'Apply To Play ID'),
-            'username'         => Yii::t('common', '姓名'),
-            'age'              => Yii::t('common', '报名人年龄'),
-            'phone_number'     => Yii::t('common', '电话'),
-            'province_id'      => Yii::t('common', '省'),
-            'school_id'        => Yii::t('common', '校区'),
-            'auditor_id'       => Yii::t('common', '审核人'),
-            'verifyCode'       => Yii::t('common','验证码'),
-            'created_at'       => Yii::t('common', 'Created At'),
-            'updated_at'       => Yii::t('common', 'Updated At'),
+            'apply_to_play_id' => Yii::t('backend', 'Apply To Play ID'),
+            'username'         => Yii::t('backend', '姓名'),
+            'age'              => Yii::t('backend', '报名人年龄'),
+            'phone_number'     => Yii::t('backend', '电话'),
+            'province_id'      => Yii::t('backend', '地区'),
+            'school_id'        => Yii::t('backend', '校区'),
+            'auditor_id'       => Yii::t('backend', '审核人'),
+            'status'           => Yii::t('backend', '状态'),
+            'verifyCode'       => Yii::t('backend','验证码'),
+            'created_at'       => Yii::t('backend', '创建时间'),
+            'updated_at'       => Yii::t('backend', '更新时间'),
         ];
     }
 
@@ -109,17 +110,15 @@ abstract class ApplyToPlay extends \yii\db\ActiveRecord
     public function attributeHints()
     {
         return array_merge(parent::attributeHints(), [
-            'username' => Yii::t('common', '报名人姓名'),
-            'age' => Yii::t('common', '报名人年龄'),
-            'phone_number' => Yii::t('common', '报名人电话'),
-            'province_id' => Yii::t('common', '省'),
-            'school_id' => Yii::t('common', '校区'),
-            'auditor_id' => Yii::t('common', '审核人'),
-            'status' => Yii::t('common', '报名成功：1，报名审核： 2，已过期：3'),
+            'username'     => Yii::t('backend', '报名人姓名'),
+            'age'          => Yii::t('backend', '报名人年龄'),
+            'phone_number' => Yii::t('backend', '报名人电话'),
+            'province_id'  => Yii::t('backend', '地区'),
+            'school_id'    => Yii::t('backend', '校区'),
+            'auditor_id'   => Yii::t('backend', '审核人'),
+            'status'       => Yii::t('backend', '报名成功：1，报名审核： 2，已过期：3'),
         ]);
     }
-
-
     
     /**
      * @inheritdoc

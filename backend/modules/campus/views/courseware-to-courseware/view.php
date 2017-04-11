@@ -12,7 +12,7 @@ use yii\grid\GridView;
 use yii\widgets\DetailView;
 use yii\widgets\Pjax;
 use dmstr\bootstrap\Tabs;
-
+use backend\modules\campus\models\CoursewareToCourseware;
 /**
  *
  * @var yii\web\View $this
@@ -20,7 +20,7 @@ use dmstr\bootstrap\Tabs;
  */
 $copyParams = $model->attributes;
 
-$this->title = Yii::t('backend', 'Courseware To Courseware');
+$this->title = Yii::t('backend', '课件关系详情');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Courseware To Coursewares'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => (string)$model->courseware_to_courseware_id, 'url' => ['view', 'courseware_to_courseware_id' => $model->courseware_to_courseware_id]];
 $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
     <?php endif; ?>
 
     <h1>
-        <?php echo Yii::t('backend', 'Courseware To Courseware') ?>
+        <?php echo Yii::t('backend', '课件关系详情') ?>
         <small>
             <?php echo $model->courseware_to_courseware_id ?>
         </small>
@@ -53,15 +53,15 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
 	[ 'update', 'courseware_to_courseware_id' => $model->courseware_to_courseware_id],
 	['class' => 'btn btn-info']) ?>
 
-            <?php echo Html::a(
-	'<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('backend', 'Copy'),
-	['create', 'courseware_to_courseware_id' => $model->courseware_to_courseware_id, 'CoursewareToCourseware'=>$copyParams],
-	['class' => 'btn btn-success']) ?>
-
-            <?php echo Html::a(
-	'<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'New'),
-	['create'],
-	['class' => 'btn btn-success']) ?>
+            <!--  <?php // echo Html::a(
+	// '<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('backend', 'Copy'),
+	// ['create', 'courseware_to_courseware_id' => $model->courseware_to_courseware_id, 'CoursewareToCourseware'=>$copyParams],
+	// ['class' => 'btn btn-success']) ?>-->
+<!--  
+     <?php //echo Html::a(
+	// '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'New'),
+	// ['create'],
+	// ['class' => 'btn btn-success']) ?> -->
         </div>
 
         <div class="pull-right">
@@ -79,10 +79,27 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
     <?php echo DetailView::widget([
 		'model' => $model,
 		'attributes' => [
-			'courseware_master_id',
-			'courseware_id',
-			'status',
-			'sort',
+			[
+	            'attribute'=>'courseware_master_id',
+	            'format'    => 'raw',
+	            'value'=>function($model){
+                	return $model->coursewareMaster->title;
+            	}
+            ],
+            [
+                'attribute'=>'courseware_id',
+                'format'    => 'raw',
+                'value'=>function($model){
+                    return $model->courseware->title;
+                }
+            ],
+	       	[
+	            'attribute'=>'status',
+	            'format'    => 'raw',
+	            'value'=>CoursewareToCourseware::LabelStatusValue($model->status)
+            ],
+            'updated_at:datetime',
+            'created_at:datetime'
 		],
 	]); ?>
 

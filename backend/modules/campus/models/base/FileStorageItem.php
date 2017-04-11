@@ -35,14 +35,22 @@ use yii\behaviors\TimestampBehavior;
 abstract class FileStorageItem extends \yii\db\ActiveRecord
 {
 
-    const STORAGE_STATUS_OPEN = 10;     //开启
-    const STORAGE_STATUS_DELECT = 20;   //关闭
+    const STORAGE_STATUS_OPEN = 1;     //开启
+    const STORAGE_STATUS_DELECT = 0;   //关闭
     public static function optsStatus(){
         return [
             self::STORAGE_STATUS_OPEN =>'开启',
             self::STORAGE_STATUS_DELECT=>'关闭',
 
         ];
+    }
+
+    public static function LabelStatusValue(){
+        $label = self::optsStatus();
+        if(isset($label[$value])){
+            return $label[$value];
+        }
+        return $value;
     }
 
     /**
@@ -98,7 +106,7 @@ abstract class FileStorageItem extends \yii\db\ActiveRecord
             'grade_id' => Yii::t('models', 'Grade ID'),
             'file_category_id' => Yii::t('models', '文件分类'),
             'type' => Yii::t('models', '文件类型'),
-            'size' => Yii::t('models', 'Size'),
+            'size' => Yii::t('models', '文件大小'),
             'component' => Yii::t('models', 'Component'),
             'upload_ip' => Yii::t('models', 'Upload Ip'),
             'ispublic' => Yii::t('models', '是否公开，1公开2私有'),
@@ -107,7 +115,7 @@ abstract class FileStorageItem extends \yii\db\ActiveRecord
             'original' => Yii::t('models', '原始名称'),
             'updated_at' => Yii::t('models', 'Updated At'),
             'created_at' => Yii::t('models', 'Created At'),
-            'status' => Yii::t('models', '是否删除1正常0'),
+            'status' => Yii::t('models', '状态'),
             'page_view' => Yii::t('models', '预览量'),
             'sort_rank' => Yii::t('models', '排序分值'),
         ];
@@ -134,14 +142,21 @@ abstract class FileStorageItem extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    // public function getFileCategory()
-    // {
-    //     return $this->hasOne(\backend\modules\campus\models\FileCategory::className(), ['id' => 'file_category_id']);
-    // }
+    public function getFileCategory()
+    {
+        return $this->hasOne(\backend\modules\campus\models\FileCategory::className(), ['id' => 'file_category_id']);
+    }
 
+    public function getSchool(){
+         return $this->hasOne(\backend\modules\campus\models\School::className(), ['school_id' => 'school_id']);
+    }
+    public function getGrade(){
+         return $this->hasOne(\backend\modules\campus\models\Grade::className(), ['grade_id' => 'grade_id']);
+    }
     public function getUser(){
         return $this->hasOne(\common\models\User::classname(),['id'=>'user_id']);
     }
+
     
     /**
      * @inheritdoc

@@ -7,14 +7,14 @@ use yii\helpers\Html;
 * @var backend\modules\campus\models\GradeCategroy $model
 */
 
-$this->title = Yii::t('cruds', 'Create');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('models', 'Grade Categroys'), 'url' => ['index']];
+$this->title = Yii::t('backend', '创建');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '班级分类管理'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="giiant-crud grade-categroy-create">
 
     <h1>
-        <?= Yii::t('models', 'Grade Categroy') ?>
+        <?= Yii::t('models', '班级分类管理') ?>
         <small>
             <?= $model->name ?>
         </small>
@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="clearfix crud-navigation">
         <div class="pull-left">
             <?=             Html::a(
-            Yii::t('cruds', 'Cancel'),
+            Yii::t('backend', '取消'),
             \yii\helpers\Url::previous(),
             ['class' => 'btn btn-default']) ?>
         </div>

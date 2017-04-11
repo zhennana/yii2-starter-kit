@@ -57,7 +57,7 @@ Tabs::widget(
 		'encodeLabels' => false,
 		'items' => [
 			[
-				'label'   => Yii::t('backend', 'CoursewareToCourseware'),
+				'label'   => Yii::t('backend', '课件关系'),
 				'content' => $this->blocks['main'],
 				'active'  => true,
 			],

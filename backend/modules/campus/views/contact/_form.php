@@ -16,10 +16,10 @@ use yii\helpers\StringHelper;
 <div class="contact-form">
 
     <?php $form = ActiveForm::begin([
-    'id' => 'Contact',
-    'layout' => 'horizontal',
-    'enableClientValidation' => true,
-    'errorSummaryCssClass' => 'error-summary alert alert-error'
+        'id'                     => 'Contact',
+        'layout'                 => 'horizontal',
+        'enableClientValidation' => true,
+        'errorSummaryCssClass'   => 'error-summary alert alert-error'
     ]
     );
     ?>
@@ -58,7 +58,7 @@ use yii\helpers\StringHelper;
                     'encodeLabels' => false,
                     'items' => [ 
                         [
-    'label'   => Yii::t('common', 'Contact'),
+    'label'   => Yii::t('backend', '联系我们'),
     'content' => $this->blocks['main'],
     'active'  => true,
 ],
@@ -72,7 +72,7 @@ use yii\helpers\StringHelper;
 
         <?= Html::submitButton(
         '<span class="glyphicon glyphicon-check"></span> ' .
-        ($model->isNewRecord ? Yii::t('common', 'Create') : Yii::t('common', 'Save')),
+        ($model->isNewRecord ? Yii::t('backend', '创建') : Yii::t('backend', '更新')),
         [
         'id' => 'save-' . $model->formName(),
         'class' => 'btn btn-success'

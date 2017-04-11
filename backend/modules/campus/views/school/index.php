@@ -10,7 +10,8 @@ use yii\grid\GridView;
     * @var backend\modules\campus\models\search\SchoolSearch $searchModel
 */
 
-
+$this->title = Yii::t('backend', '学校管理');
+$this->params['breadcrumbs'][] = $this->title;
 
 /**
 * create action column template depending acces rights
@@ -33,7 +34,7 @@ use yii\grid\GridView;
         $actionColumnTemplate = implode(' ', $actionColumnTemplates);
         $actionColumnTemplateString = $actionColumnTemplate;
     } else {
-        Yii::$app->view->params['pageButtons'] = Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'New'), ['create'], ['class' => 'btn btn-success']);
+        Yii::$app->view->params['pageButtons'] = Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'), ['create'], ['class' => 'btn btn-success']);
         $actionColumnTemplateString = "{view} {update} {delete}";
     }
 ?>
@@ -72,7 +73,7 @@ use yii\grid\GridView;
                 [
                     'id' => 'giiant-relations',
                     'encodeLabel' => false,
-                    'label' => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('backend', 'Relations'),
+                    'label' => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('backend', '相关管理'),
                     'dropdown' => [
                         'options' => [
                         'class' => 'dropdown-menu-right'
@@ -118,7 +119,7 @@ use yii\grid\GridView;
                         },
                         'contentOptions' => ['nowrap'=>'nowrap']
                     ],
-                    'id',
+                    // 'id',
         			'parent_id',
         			'school_id',
                     'school_title',
@@ -126,7 +127,7 @@ use yii\grid\GridView;
                     [
                         'attribute'=>'province_id',
                         'value'=>function($model){
-                            if($model->province->province_name){
+                            if($model->province){
                                 return $model->province->province_name;
                             }
                             return '未知';
@@ -135,7 +136,7 @@ use yii\grid\GridView;
                     [
                         'attribute'=>'city_id',
                         'value'=>function($model){
-                            if($model->city->city_name){
+                            if($model->city){
                                 return $model->city->city_name;
                             }
                             return '未知';
@@ -144,7 +145,7 @@ use yii\grid\GridView;
                     [
                         'attribute'=>'region_id',
                         'value'=>function($model){
-                            if($model->region->region_name){
+                            if($model->region){
                                 return $model->region->region_name;
                             }
                             return '未知';

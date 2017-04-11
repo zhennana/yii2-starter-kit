@@ -13,10 +13,10 @@ use dmstr\bootstrap\Tabs;
 */
 $copyParams = $model->attributes;
 
-$this->title = Yii::t('common', 'Apply To Play');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('common', 'Apply To Plays'), 'url' => ['index']];
+$this->title = Yii::t('backend', '预约信息');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '预约信息'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => (string)$model->apply_to_play_id, 'url' => ['view', 'apply_to_play_id' => $model->apply_to_play_id]];
-$this->params['breadcrumbs'][] = Yii::t('common', 'View');
+$this->params['breadcrumbs'][] = Yii::t('backend', '查看');
 ?>
 <div class="giiant-crud apply-to-play-view">
 
@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = Yii::t('common', 'View');
     <?php endif; ?>
 
     <h1>
-        <?= Yii::t('common', 'Apply To Play') ?>
+        <?= Yii::t('backend', '预约信息') ?>
         <small>
             <?= $model->apply_to_play_id ?>
         </small>
@@ -42,24 +42,24 @@ $this->params['breadcrumbs'][] = Yii::t('common', 'View');
         <!-- menu buttons -->
         <div class='pull-left'>
             <?= Html::a(
-            '<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('common', 'Edit'),
+            '<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('backend', '更新'),
             [ 'update', 'apply_to_play_id' => $model->apply_to_play_id],
             ['class' => 'btn btn-info']) ?>
 
             <?= Html::a(
-            '<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('common', 'Copy'),
+            '<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('backend', '复制'),
             ['create', 'apply_to_play_id' => $model->apply_to_play_id, 'ApplyToPlay'=>$copyParams],
             ['class' => 'btn btn-success']) ?>
 
             <?= Html::a(
-            '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('common', 'New'),
+            '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '新建'),
             ['create'],
             ['class' => 'btn btn-success']) ?>
         </div>
 
         <div class="pull-right">
             <?= Html::a('<span class="glyphicon glyphicon-list"></span> '
-            . Yii::t('common', 'Full list'), ['index'], ['class'=>'btn btn-default']) ?>
+            . Yii::t('backend', '返回列表'), ['index'], ['class'=>'btn btn-default']) ?>
         </div>
 
     </div>
@@ -70,26 +70,27 @@ $this->params['breadcrumbs'][] = Yii::t('common', 'View');
 
     
     <?= DetailView::widget([
-    'model' => $model,
+    'model'      => $model,
     'attributes' => [
-            'username',
+        'username',
+        'age',
         'phone_number',
-        'email:email',
-        'city',
-        'province',
-        'region',
-        'status',
+        'province_id',
+        'school_id',
         'auditor_id',
+        'status',
+        'created_at:datetime',
+        'updated_at:datetime',
     ],
     ]); ?>
 
     
     <hr/>
 
-    <?= Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('common', 'Delete'), ['delete', 'apply_to_play_id' => $model->apply_to_play_id],
+    <?= Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('backend', '删除'), ['delete', 'apply_to_play_id' => $model->apply_to_play_id],
     [
     'class' => 'btn btn-danger',
-    'data-confirm' => '' . Yii::t('common', 'Are you sure to delete this item?') . '',
+    'data-confirm' => '' . Yii::t('backend', '确定要删除该项目吗？') . '',
     'data-method' => 'post',
     ]); ?>
     <?php $this->endBlock(); ?>

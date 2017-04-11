@@ -41,6 +41,14 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
         ];
     }
 
+    public static function getStatusLabel($value){
+        $lable = self::optsStatus();
+        if(isset($lable[$value])){
+            return $lable[$value];
+        }
+            return $value;
+    }
+
     public static function optsUserType(){
         return [
             self::GRADE_USER_TYPE_STUDENT=>'学生',//,
@@ -105,16 +113,16 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'user_to_grade_id' => Yii::t('common', '学生与班级关系自增ID'),
-            'user_id' => Yii::t('common', '用户ID'),
-            'school_id' => Yii::t('common', '学校ID'),
-            'grade_id' => Yii::t('common', '班级ID'),
-            'user_title_id_at_grade' => Yii::t('common', '用户在班级的描述性展示Title，没有逻辑'),
-            'status' => Yii::t('common', '1：正常；0标记删除；2待审核；3已经转班; 4已经退休 '),
-            'sort' => Yii::t('common', '默认与排序'),
-            'grade_user_type' => Yii::t('common', '关系类型: 用户学校关系表类型的子类型'),
-            'updated_at' => Yii::t('common', 'Updated At'),
-            'created_at' => Yii::t('common', 'Created At'),
+            'user_to_grade_id'       => Yii::t('backend', '自增ID'),
+            'user_id'                => Yii::t('backend', '用户'),
+            'school_id'              => Yii::t('backend', '学校'),
+            'grade_id'               => Yii::t('backend', '班级'),
+            'user_title_id_at_grade' => Yii::t('backend', '展示标题'),
+            'status'                 => Yii::t('backend', '状态'),
+            'sort'                   => Yii::t('backend', '默认与排序'),
+            'grade_user_type'        => Yii::t('backend', '关系类型'),
+            'updated_at'             => Yii::t('backend', '更新时间'),
+            'created_at'             => Yii::t('backend', '创建时间'),
         ];
     }
 
@@ -124,14 +132,14 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
     public function attributeHints()
     {
         return array_merge(parent::attributeHints(), [
-            'user_to_grade_id' => Yii::t('common', '学生与班级关系自增ID'),
-            'user_id' => Yii::t('common', '用户ID'),
-            'school_id' => Yii::t('common', '学校ID'),
-            'grade_id' => Yii::t('common', '班级ID'),
-            'user_title_id_at_grade' => Yii::t('common', '用户在班级的描述性展示Title，没有逻辑'),
-            'status' => Yii::t('common', '1：正常；0标记删除；2待审核；3已经转班; 4已经退休 '),
-            'sort' => Yii::t('common', '默认与排序'),
-            'grade_user_type' => Yii::t('common', '关系类型: 用户学校关系表类型的子类型'),
+            'user_to_grade_id'       => Yii::t('backend', '自增ID'),
+            'user_id'                => Yii::t('backend', '创建后不可更改'),
+            // 'school_id'              => Yii::t('backend', '学校ID'),
+            // 'grade_id'               => Yii::t('backend', '班级ID'),
+            'user_title_id_at_grade' => Yii::t('backend', '用户在班级的描述性标题，仅展示'),
+            // 'status'                 => Yii::t('backend', '状态'),
+            'sort'                   => Yii::t('backend', '排序'),
+            'grade_user_type'        => Yii::t('backend', '用户与学校的关系或类型'),
         ]);
     }
     public function getGrade(){

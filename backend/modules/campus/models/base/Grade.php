@@ -39,7 +39,7 @@ abstract class Grade extends \yii\db\ActiveRecord
     public static function optsGraduate(){
         return [
             self::GRADE_NOT_GRADUATE => '未毕业',
-            self::GRANE_GRADUATE => '毕业',
+            self::GRANE_GRADUATE     => '已毕业',
         ];
     }
 
@@ -114,19 +114,19 @@ abstract class Grade extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'grade_id' => Yii::t('common', '班级ID'),
-            'school_id' => Yii::t('common', '学校ID'),
-            'grade_name' => Yii::t('common', '班级名'),
-            'grade_title' => Yii::t('common', '几班'),
-            'group_category_id' => Yii::t('common','班级类型'),
-            'owner_id' => Yii::t('common', '班主任'),
-            'creater_id' => Yii::t('common', '创建者ID'),
-            'updated_at' => Yii::t('common', '创建时间戳'),
-            'created_at' => Yii::t('common', '创建时间戳'),
-            'sort' => Yii::t('common', '默认与排序'),
-            'status' => Yii::t('common', '状态:10 正常；0标记删除'),
-            'graduate' => Yii::t('common', '0未毕业；1毕业'),
-            'time_of_graduation' => Yii::t('common', '毕业时间：年表示第几届'),
+            'grade_id'           => Yii::t('common', '班级ID'),
+            'school_id'          => Yii::t('common', '学校'),
+            'grade_name'         => Yii::t('common', '班级名'),
+            'grade_title'        => Yii::t('common', '几班'),
+            'group_category_id'  => Yii::t('common', '班级分类'),
+            'owner_id'           => Yii::t('common', '班主任'),
+            'creater_id'         => Yii::t('common', '创建者'),
+            'updated_at'         => Yii::t('common', '创建时间'),
+            'created_at'         => Yii::t('common', '创建时间'),
+            'sort'               => Yii::t('common', '排序'),
+            'status'             => Yii::t('common', '活动状态'),
+            'graduate'           => Yii::t('common', '毕业状态'),
+            'time_of_graduation' => Yii::t('common', '毕业时间'),
             'time_of_enrollment' => Yii::t('common', '入学时间'),
         ];
     }
@@ -137,21 +137,21 @@ abstract class Grade extends \yii\db\ActiveRecord
     public function attributeHints()
     {
         return array_merge(parent::attributeHints(), [
-            'grade_id' => Yii::t('common', '班级ID'),
-            'school_id' => Yii::t('common', '学校ID'),
-            'group_category_id' => Yii::t('common','班级分类'),
+            // 'grade_id'                  => Yii::t('common', '班级ID'),
+            // 'school_id'                 => Yii::t('common', '学校ID'),
+            // 'group_category_id'         => Yii::t('common','班级分类'),
             // 'classroom_group_levels' => Yii::t('common', '班级名称'),
-            'grade_name' => Yii::t('common', '班级'),
-            'grade_title' => Yii::t('common', '几班'),
-            'owner_id' => Yii::t('common', '所属班主任ID'),
-            'creater_id' => Yii::t('common', '创建者ID'),
-            'updated_at' => Yii::t('common', '创建时间戳'),
-            'created_at' => Yii::t('common', '创建时间戳'),
-            'sort' => Yii::t('common', '默认与排序'),
-            'status' => Yii::t('common', '状态:10 正常；0标记删除'),
-            'graduate' => Yii::t('common', '0未毕业；1毕业'),
-            'time_of_graduation' => Yii::t('common', '毕业时间：年表示第几届'),
-            'time_of_enrollment' => Yii::t('common', '入学时间'),
+            'grade_name'                => Yii::t('common', '班级名称'),
+            'grade_title'               => Yii::t('common', '请填写数字'),
+            // 'owner_id'                  => Yii::t('common', '班主任'),
+            'creater_id'                => Yii::t('common', '创建者'),
+            'updated_at'                => Yii::t('common', '更新时间'),
+            'created_at'                => Yii::t('common', '创建时间'),
+            'sort'                      => Yii::t('common', '排序'),
+            'status'                    => Yii::t('common', '状态'),
+            'graduate'                  => Yii::t('common', '0未毕业；1毕业'),
+            'time_of_graduation'        => Yii::t('common', '毕业时间：年表示第几届'),
+            'time_of_enrollment'        => Yii::t('common', '入学时间'),
         ]);
     }
 
@@ -172,6 +172,22 @@ abstract class Grade extends \yii\db\ActiveRecord
     
     public function getGradeCategory(){
         return $this->hasOne(\backend\modules\campus\models\GradeCategory::ClassName(),['grade_category_id'=>'group_category_id']);
+    }
+
+    public static function getUserName($id)
+    {
+        $user = \common\models\User::findOne($id);
+        $name = '';
+        if(isset($user->realname) && !empty($user->realname)){
+            return $user->realname;
+        }
+        if(isset($user->username) && !empty($user->username)){
+           return $user->username;
+        }
+        // if(isset($user->phone_number) && !empty($user->phone_number)){
+        //     return $user->phone_number;
+        // }
+        return $name;
     }
 
     /**

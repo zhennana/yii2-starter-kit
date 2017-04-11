@@ -35,11 +35,28 @@ use cheatsheet\Time;
 class SignInController extends \common\components\ControllerFrontendApi
 {
     public $modelClass = 'common\models\User';
-    
+    public $serializer = [
+        'class' => 'common\rest\Serializer', // 返回格式数据化字段
+        'collectionEnvelope' => 'result',    // 制定数据字段名称
+        'errno' => 0,                        // 错误处理数字
+        'message' => [ 'OK' ],                   // 文本提示
+    ];
+    /**
+     * @param  [action] yii\rest\IndexAction
+     * @return [type] 
+     */
     public function beforeAction($action)
     {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        //Yii::$app->controller->detachBehavior('access');
+        $format = Yii::$app->getRequest()->getQueryParam('format', 'json');
+
+        if($format == 'xml'){
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_XML;
+        }else{
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        }
+
+        // 移除access行为，参数为空全部移除
+        // Yii::$app->controller->detachBehavior('access');
         return $action;
     }
     
@@ -48,28 +65,11 @@ class SignInController extends \common\components\ControllerFrontendApi
     */
     public function behaviors()
     {
-        return ArrayHelper::merge(
-            parent::behaviors(),
-            [
-                'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                    'allow' => true,
-                    'matchCallback' => function ($rule, $action) {
-                        return true;
-                        // var_dump($this->module->id . '_' . $this->id . '_' . $action->id); exit();
-                        return \Yii::$app->user->can(
-                            $this->module->id . '_' . $this->id . '_' . $action->id, 
-                            ['route' => true]
-                        );
-                    },
-                    ]
-                ]
-                ]
-            ]
-        );
+        $behaviors = parent::behaviors();
+        $behaviors['contentNegotiator']['formats']['text/html'] = Response::FORMAT_HTML;
+        return $behaviors;
     }
+
 
     public function actions()
     {
@@ -128,20 +128,15 @@ class SignInController extends \common\components\ControllerFrontendApi
         // Accept-Language  zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3
         
         \Yii::$app->language = 'zh-CN';
-        // \Yii::$app->modules['campus']->get('campus');
         $model = new LoginForm();
         $model->load($_POST);
-        //$module =;
-       // var_dump(Yii::$app->get($module->campus));exit;
-        // Yii::$app->response->format = Response::FORMAT_JSON;
-
         if($model->login()){
             $attrUser = $model->user->attributes;
             if(isset($attrUser['password_hash'])){
                 unset($attrUser['password_hash']);
             }
             $attrUser['avatar'] = '';
-             $account = [];
+            $account = [];
             // //$account  = $model->user->getAccount();
             $proFileUser = $model->user->userProfile;
             $attrUser['character']   = $model->user->getCharacterDetailes();
@@ -156,13 +151,16 @@ class SignInController extends \common\components\ControllerFrontendApi
                     $attrUser['avatar'] = $fansMpUser->avatar;
                 }
             }
+            Yii::$app->response->statusCode = 200;
             return array_merge($attrUser,$account);
         }else{
-            Yii::$app->response->statusCode = 422;
-            $info = $model->getErrors();
+            Yii::$app->response->statusCode = 200;
+            $this->serializer['errno'] = 1;
+            //$this->serializer->errno = 422;
+            $this->serializer['message'] = [$model->getErrors()];
             $language['language'] = [Yii::$app->language];
-            return  $model->getErrors();
             //return array_merge($info,$language);
+            return [];
         }
         /*
         return [
@@ -191,9 +189,9 @@ class SignInController extends \common\components\ControllerFrontendApi
         
         if(\Yii::$app->user->isGuest){
             Yii::$app->response->statusCode = 422;
-            return [
-                'message' => ['未登录，登陆验证失败']
-            ];
+            $this->seralizeer['errno']   = 1;
+            $this->serializer['message'] = ['登录失败，请重新登录'];
+            return [];
         }
 
         $attrUser = Yii::$app->user->identity->attributes;
@@ -265,6 +263,8 @@ class SignInController extends \common\components\ControllerFrontendApi
             ->one();
 //var_dump($userToken);  exit();
         if (!$userToken) {
+            $this->seralizeer['errno']   = 1;
+            $this->serializer['message'] = ['验证码无效。'];
             //throw new BadRequestHttpException;
             return ['message'=>['验证码无效。']];
         }
@@ -494,11 +494,11 @@ class SignInController extends \common\components\ControllerFrontendApi
             $key = $model->avatar_path;
             if($key != $data['key']){
                 $auth = new Auth(
-                    \Yii::$app->params['qiniu']['yajol-static']['access_key'], 
-                    \Yii::$app->params['qiniu']['yajol-static']['secret_key']
+                    \Yii::$app->params['qiniu']['wakooedu']['access_key'], 
+                    \Yii::$app->params['qiniu']['wakooedu']['secret_key']
                 );
                 $bucketMgr = new BucketManager($auth);
-                $bucket = \Yii::$app->params['qiniu']['yajol-static']['bucket'];
+                $bucket = \Yii::$app->params['qiniu']['wakooedu']['bucket'];
                 $key = $model->avatar_path;
                 $err = $bucketMgr->delete($bucket, $key);
 //var_dump($err); exit();
@@ -534,14 +534,15 @@ class SignInController extends \common\components\ControllerFrontendApi
      */
     public function actionQiniuToken()
     {
-        $auth = new Auth(\Yii::$app->params['qiniu']['yajol-static']['access_key'], \Yii::$app->params['qiniu']['yajol-static']['secret_key']);
+        $auth = new Auth(\Yii::$app->params['qiniu']['wakooedu']['access_key'], \Yii::$app->params['qiniu']['wakooedu']['secret_key']);
         $policy['returnBody'] = '{"name": $(fname),"size": $(fsize),"type": $(mimeType),"hash": $(etag),"key":$(key)}';
-        $token = $auth->uploadToken(\Yii::$app->params['qiniu']['yajol-static']['bucket'],null,3600,$policy);
+        $token = $auth->uploadToken(\Yii::$app->params['qiniu']['wakooedu']['bucket'],null,3600,$policy);
         Yii::$app->response->format = Response::FORMAT_JSON;
         
         Yii::$app->response->data = [
             'uptoken' => $token
         ]; 
+        return [];
         //echo '{"uptoken": "'.$token.'"}';
     }
 

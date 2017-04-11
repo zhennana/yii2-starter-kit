@@ -21,7 +21,7 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $created_at
  * @property string $aliasModel
  */
-abstract class UesrToSchool extends \yii\db\ActiveRecord
+abstract class UserToSchool extends \yii\db\ActiveRecord
 {
      /**
      * @return \yii\db\Connection the database connection used by this AR class.
@@ -108,7 +108,7 @@ abstract class UesrToSchool extends \yii\db\ActiveRecord
      */
     public static function find()
     {
-        return new \backend\modules\campus\models\query\UesrToSchool(get_called_class());
+        return new \backend\modules\campus\models\query\UserToSchool(get_called_class());
     }
 
 

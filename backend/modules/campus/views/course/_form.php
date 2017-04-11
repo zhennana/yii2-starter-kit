@@ -24,13 +24,11 @@ $Courseware = ArrayHelper::map($Courseware,'courseware_id','title');
 <div class="course-form">
 
     <?php $form = ActiveForm::begin([
-    'id' => 'Course',
-    'layout' => 'horizontal',
-    'enableClientValidation' => true,
-    'errorSummaryCssClass' => 'error-summary alert alert-error'
-    ]
-    );
-    ?>
+        'id'                     => 'Course',
+        'layout'                 => 'horizontal',
+        'enableClientValidation' => true,
+        'errorSummaryCssClass'   => 'error-summary alert alert-error'
+    ]); ?>
 
     <div class="">
         <?php $this->beginBlock('main'); ?>
@@ -42,13 +40,13 @@ $Courseware = ArrayHelper::map($Courseware,'courseware_id','title');
 
 <!-- attribute school_id -->
 			<?= $form->field($model, 'school_id')->widget(Select2::ClassName(),[
-                    'data'=>$model->getlist(),
-                    'options'=>['placeholder'=>'请选择'],
-                    'pluginOptions'=>[
+                    'data'          => $model->getlist(),
+                    'options'       => ['placeholder' => '请选择'],
+                    'pluginOptions' => [
                         'allowClear'=> true,
                     ],
-                    'pluginEvents'=>[
-                        "change" => "function() { 
+                    'pluginEvents' => [
+                        "change" => "function() {
                              handleChange(1,this.value,'#course-grade_id');
                         }",
                     ]
@@ -57,10 +55,10 @@ $Courseware = ArrayHelper::map($Courseware,'courseware_id','title');
 <!-- attribute grade_id -->
 			<?= $form->field($model, 'grade_id')->widget(Select2::className(),
                 [
-                    'data'=>$model->getlist(1,$model->school_id),
-                    'options'=>['placeholder'=>'请选择'],
-                    'pluginOptions'=>[
-                        'allowClear'=> true,
+                    'data'          => $model->getlist(1,$model->school_id),
+                    'options'       => ['placeholder' => '请选择'],
+                    'pluginOptions' => [
+                        'allowClear' => true,
                     ],
                 ]); ?>           
 
@@ -71,48 +69,48 @@ $Courseware = ArrayHelper::map($Courseware,'courseware_id','title');
 			<?= $form->field($model, 'courseware_id')
                 ->widget(Select2::className(),
                 [
-                    'data'=>$Courseware,
-                    'options'=>['placeholder'=>'请选择课件'],
-                    'pluginOptions'=>[
-                        'allowClear'=>true,
+                    'data'          => $Courseware,
+                    'options'       => ['placeholder' => '请选择课件'],
+                    'pluginOptions' => [
+                        'allowClear' => true,
                     ],
                 ]);
             ?>
-           <?php  if($model->isNewRecord){
+            <?php if($model->isNewRecord){
                     $model->start_time = time();
                     $model->end_time   = time()+40*60;
-        } ?> 
+            } ?> 
 <!-- attribute start_time -->
             <?php echo $form->field($model, 'start_time')
-                        ->widget(
-                            DateTimeWidget::className(),
-                            [
-                                //'clientOptions' => ,
-                                'locale' => Yii::$app->language,
-                                'phpDatetimeFormat' => 'yyyy-MM-dd\'T\'HH:mm:ssZZZZZ',
-                                //'phpDatetimeFormat' => 'yyyy-MM-dd',
-                            ]) 
+                ->widget(
+                    DateTimeWidget::className(),
+                    [
+                        //'clientOptions' => ,
+                        'locale'            => Yii::$app->language,
+                        'phpDatetimeFormat' => 'yyyy-MM-dd\'T\'HH:mm:ssZZZZZ',
+                        //'phpDatetimeFormat' => 'yyyy-MM-dd',
+                    ]) 
             ?>
 <!-- attribute end_time -->
             <?php echo $form->field($model, 'end_time')
-                        ->widget(
-                            DateTimeWidget::className(),
-                            [
-                                //'clientOptions' => ,
-                                'locale' => Yii::$app->language,
-                                'phpDatetimeFormat' => 'yyyy-MM-dd\'T\'HH:mm:ssZZZZZ',
-                                //'phpDatetimeFormat' => 'yyyy-MM-dd',
-                            ]) 
+                ->widget(
+                    DateTimeWidget::className(),
+                    [
+                        //'clientOptions' => ,
+                        'locale'            => Yii::$app->language,
+                        'phpDatetimeFormat' => 'yyyy-MM-dd\'T\'HH:mm:ssZZZZZ',
+                        //'phpDatetimeFormat' => 'yyyy-MM-dd',
+                    ]) 
             ?>
 <!-- attribute status -->
 			<!-- attribute courseware_id -->
             <?= $form->field($model, 'status')
                 ->widget(Select2::className(),
                 [
-                    'data'=>Course::optsStatus(),
-                   //'options'=>['placeholder'=>'请选择课件'],
-                    'pluginOptions'=>[
-                        'allowClear'=>true,
+                    'data'          => Course::optsStatus(),
+                    // 'options'       => ['placeholder'=>'请选择课件'],
+                    'pluginOptions' => [
+                        'allowClear' => true,
                     ],
                 ]);
             ?>
@@ -120,31 +118,29 @@ $Courseware = ArrayHelper::map($Courseware,'courseware_id','title');
         </p>
         <?php $this->endBlock(); ?>
         
-        <?=
-    Tabs::widget([
+        <?= Tabs::widget([
             'encodeLabels' => false,
-            'items' => [ 
+            'items'        => [ 
                 [
-                    'label'   => Yii::t('models', 'Course'),
+                    'label'   => Yii::t('backend', '课程管理'),
                     'content' => $this->blocks['main'],
                     'active'  => true,
                 ],
             ]
-    ]);
-    ?>
+        ]); ?>
+
         <hr/>
 
         <?php echo $form->errorSummary($model); ?>
 
         <?= Html::submitButton(
         '<span class="glyphicon glyphicon-check"></span> ' .
-        ($model->isNewRecord ? Yii::t('common', 'Create') : Yii::t('common', 'Save')),
-        [
-        'id' => 'save-' . $model->formName(),
-        'class' => 'btn btn-success'
-        ]
-        );
-        ?>
+        ($model->isNewRecord ? Yii::t('backend', '创建') : Yii::t('backend', '保存')),
+            [
+                'id'    => 'save-' . $model->formName(),
+                'class' => 'btn btn-success'
+            ]
+        ); ?>
 
         <?php ActiveForm::end(); ?>
 
@@ -154,7 +150,7 @@ $Courseware = ArrayHelper::map($Courseware,'courseware_id','title');
 <script>
     function handleChange(type_id,id,form){
         $.ajax({
-            "url":"<?php echo Url::to(['ajax-form'])?>",
+            "url":"<?php echo Url::to(['course/ajax-form'])?>",
             "data":{type_id:type_id,id:id},
             'type':"GET",
             'success':function(data){

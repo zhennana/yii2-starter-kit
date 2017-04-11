@@ -27,7 +27,7 @@ use yii\bootstrap\ActiveForm;
 
     <div class="form-group">
         <?php echo Html::submitButton(
-            $model->isNewRecord ? Yii::t('backend', 'Create') : Yii::t('backend', 'Update'),
+            $model->isNewRecord ? Yii::t('backend', '创建') : Yii::t('backend', '更新'),
             ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']
         ) ?>
     </div>

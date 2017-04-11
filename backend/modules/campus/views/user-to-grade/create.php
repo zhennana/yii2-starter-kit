@@ -7,14 +7,14 @@ use yii\helpers\Html;
 * @var backend\modules\campus\models\UserToGrade $model
 */
 
-$this->title = Yii::t('backend', 'Create');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'User To Grades'), 'url' => ['index']];
+$this->title = Yii::t('backend', '创建');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '学员管理'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="giiant-crud user-to-grade-create">
 
     <h1>
-        <?= Yii::t('backend', 'User To Grade') ?>
+        <?= Yii::t('backend', '学员管理') ?>
         <small>
             <?= $model->user_to_grade_id ?>
         </small>
@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="clearfix crud-navigation">
         <div class="pull-left">
             <?=             Html::a(
-            Yii::t('backend', 'Cancel'),
+            Yii::t('backend', '取消'),
             \yii\helpers\Url::previous(),
             ['class' => 'btn btn-default']) ?>
         </div>
@@ -32,8 +32,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <hr />
 
     <?= $this->render('_form', [
-    'model' => $model,
-    'info'  => isset($info)? $info : null,
+        'model' => $model,
+        'info'  => isset($info)? $info : null,
     ]); ?>
 
 </div>
