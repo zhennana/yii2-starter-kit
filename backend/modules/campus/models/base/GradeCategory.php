@@ -33,6 +33,14 @@ abstract class GradeCategory extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getStatusLabel($value){
+        $labels = self::optsStatus();
+        if(isset($labels[$value])){
+            return $labels[$value];
+        }
+        return $value;
+    }
+
     public static function getDb(){
        //return \Yii::$app->modules['campus']->get('campus');
         return Yii::$app->get('campus');
@@ -78,13 +86,13 @@ abstract class GradeCategory extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'grade_category_id' => Yii::t('common', '分类ID'),
-            'parent_id' => Yii::t('common', '父分类'),
-            'name' => Yii::t('common', 'Name'),
-            'creater_id' => Yii::t('common', '创建者'),
-            'updated_at' => Yii::t('common', 'Updated At'),
-            'created_at' => Yii::t('common', 'Created At'),
-            'status' => Yii::t('common', '状态'),
+            'grade_category_id' => Yii::t('backend', '分类ID'),
+            'parent_id'         => Yii::t('backend', '父分类'),
+            'name'              => Yii::t('backend', '名称'),
+            'creater_id'        => Yii::t('backend', '创建者'),
+            'updated_at'        => Yii::t('backend', '更新时间'),
+            'created_at'        => Yii::t('backend', '创建时间'),
+            'status'            => Yii::t('backend', '状态'),
         ];
     }
 
@@ -94,12 +102,26 @@ abstract class GradeCategory extends \yii\db\ActiveRecord
     public function attributeHints()
     {
         return array_merge(parent::attributeHints(), [
-            'parent_id' => Yii::t('common', '父ID'),
-            'status' => Yii::t('common', '正常: 10 ; 关闭：20 '),
+            'parent_id' => Yii::t('backend', '父分类'),
+            'status'    => Yii::t('backend', '状态'),
         ]);
     }
 
-
+    public static function getUserName($id)
+    {
+        $user = \common\models\User::findOne($id);
+        $name = '';
+        if(isset($user->realname) && !empty($user->realname)){
+            return $user->realname;
+        }
+        if(isset($user->username) && !empty($user->username)){
+           return $user->username;
+        }
+        // if(isset($user->phone_number) && !empty($user->phone_number)){
+        //     return $user->phone_number;
+        // }
+        return $name;
+    }
     
     /**
      * @inheritdoc
