@@ -188,8 +188,10 @@ class User extends ActiveRecord implements IdentityInterface
                 $data[$value->school_id]['grade'][$key]['grade_id'] 
                     = isset($value['grade_id']) ? $value['grade_id'] : '';
                 
-                $data[$value->school_id]['grade'][$key]['grade_title'] 
+                $data[$value->school_id]['grade'][$key]['grade_name'] 
                     = isset($value->grade->grade_title) ? $value['grade_id'] : '';
+                rsort($data[$value->school_id]['grade']);
+
             }
 
         }
