@@ -127,7 +127,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute'=>'province_id',
                         'value'=>function($model){
-                            if($model->province->province_name){
+                            if($model->province){
                                 return $model->province->province_name;
                             }
                             return '未知';
@@ -136,7 +136,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute'=>'city_id',
                         'value'=>function($model){
-                            if($model->city->city_name){
+                            if($model->city){
                                 return $model->city->city_name;
                             }
                             return '未知';
@@ -145,7 +145,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute'=>'region_id',
                         'value'=>function($model){
-                            if($model->region->region_name){
+                            if($model->region){
                                 return $model->region->region_name;
                             }
                             return '未知';
