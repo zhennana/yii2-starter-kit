@@ -128,13 +128,8 @@ class SignInController extends \common\components\ControllerFrontendApi
         // Accept-Language  zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3
         
         \Yii::$app->language = 'zh-CN';
-        // \Yii::$app->modules['campus']->get('campus');
         $model = new LoginForm();
         $model->load($_POST);
-        //$module =;
-       // var_dump(Yii::$app->get($module->campus));exit;
-        // Yii::$app->response->format = Response::FORMAT_JSON;
-
         if($model->login()){
             $attrUser = $model->user->attributes;
             if(isset($attrUser['password_hash'])){
@@ -159,10 +154,11 @@ class SignInController extends \common\components\ControllerFrontendApi
             Yii::$app->response->statusCode = 200;
             return array_merge($attrUser,$account);
         }else{
-            Yii::$app->response->statusCode = 422;
-            $this->serializer->errorno = 422;
-            $this->serializer->message = $model->getErrors();
-            //$language['language'] = [Yii::$app->language];
+            Yii::$app->response->statusCode = 200;
+            $this->serializer['errno'] = 1;
+            //$this->serializer->errno = 422;
+            $this->serializer['message'] = [$model->getErrors()];
+            $language['language'] = [Yii::$app->language];
             //return array_merge($info,$language);
             return [];
         }
@@ -193,9 +189,9 @@ class SignInController extends \common\components\ControllerFrontendApi
         
         if(\Yii::$app->user->isGuest){
             Yii::$app->response->statusCode = 422;
-            return [
-                'message' => ['未登录，登陆验证失败']
-            ];
+            $this->seralizeer['errno']   = 1;
+            $this->serializer['message'] = ['登录失败，请重新登录'];
+            return [];
         }
 
         $attrUser = Yii::$app->user->identity->attributes;
@@ -267,6 +263,8 @@ class SignInController extends \common\components\ControllerFrontendApi
             ->one();
 //var_dump($userToken);  exit();
         if (!$userToken) {
+            $this->seralizeer['errno']   = 1;
+            $this->serializer['message'] = ['验证码无效。'];
             //throw new BadRequestHttpException;
             return ['message'=>['验证码无效。']];
         }
@@ -496,11 +494,11 @@ class SignInController extends \common\components\ControllerFrontendApi
             $key = $model->avatar_path;
             if($key != $data['key']){
                 $auth = new Auth(
-                    \Yii::$app->params['qiniu']['yajol-static']['access_key'], 
-                    \Yii::$app->params['qiniu']['yajol-static']['secret_key']
+                    \Yii::$app->params['qiniu']['wakooedu']['access_key'], 
+                    \Yii::$app->params['qiniu']['wakooedu']['secret_key']
                 );
                 $bucketMgr = new BucketManager($auth);
-                $bucket = \Yii::$app->params['qiniu']['yajol-static']['bucket'];
+                $bucket = \Yii::$app->params['qiniu']['wakooedu']['bucket'];
                 $key = $model->avatar_path;
                 $err = $bucketMgr->delete($bucket, $key);
 //var_dump($err); exit();
@@ -536,14 +534,15 @@ class SignInController extends \common\components\ControllerFrontendApi
      */
     public function actionQiniuToken()
     {
-        $auth = new Auth(\Yii::$app->params['qiniu']['yajol-static']['access_key'], \Yii::$app->params['qiniu']['yajol-static']['secret_key']);
+        $auth = new Auth(\Yii::$app->params['qiniu']['wakooedu']['access_key'], \Yii::$app->params['qiniu']['wakooedu']['secret_key']);
         $policy['returnBody'] = '{"name": $(fname),"size": $(fsize),"type": $(mimeType),"hash": $(etag),"key":$(key)}';
-        $token = $auth->uploadToken(\Yii::$app->params['qiniu']['yajol-static']['bucket'],null,3600,$policy);
+        $token = $auth->uploadToken(\Yii::$app->params['qiniu']['wakooedu']['bucket'],null,3600,$policy);
         Yii::$app->response->format = Response::FORMAT_JSON;
         
         Yii::$app->response->data = [
             'uptoken' => $token
         ]; 
+        return [];
         //echo '{"uptoken": "'.$token.'"}';
     }
 
