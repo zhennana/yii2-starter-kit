@@ -10,7 +10,7 @@
         * @var backend\modules\campus\models\search\ContactSearch $searchModel
     */
 
-    $this->title = Yii::t('common', '联系我们');
+    $this->title = Yii::t('backend', '联系我们');
     $this->params['breadcrumbs'][] = $this->title;
 
 
@@ -34,7 +34,7 @@
     $actionColumnTemplate = implode(' ', $actionColumnTemplates);
         $actionColumnTemplateString = $actionColumnTemplate;
     } else {
-    Yii::$app->view->params['pageButtons'] = Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('common', 'New'), ['create'], ['class' => 'btn btn-success']);
+    Yii::$app->view->params['pageButtons'] = Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'), ['create'], ['class' => 'btn btn-success']);
         $actionColumnTemplateString = "{view} {update} {delete}";
     }
     $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTemplateString.'</div>';
@@ -49,7 +49,7 @@
         <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
 
         <h1>
-            <?= Yii::t('common', '联系我们') ?>
+            <?= Yii::t('backend', '联系我们') ?>
             <small>
                 列表
             </small>
@@ -59,7 +59,7 @@
     if(\Yii::$app->user->can('manager', ['route' => true])){
     ?>
             <div class="pull-left">
-                <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('common', '创建'), ['create'], ['class' => 'btn btn-success']) ?>
+                <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'), ['create'], ['class' => 'btn btn-success']) ?>
             </div>
     <?php
     }
@@ -72,7 +72,7 @@
                     [
                         'id' => 'giiant-relations',
                         'encodeLabel' => false,
-                        'label' => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('common', '相关管理'),
+                        'label' => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('backend', '相关管理'),
                         'dropdown' => [
                         'options' => [
                         'class' => 'dropdown-menu-right'
@@ -97,8 +97,8 @@
                 'dataProvider' => $dataProvider,
                 'pager' => [
                 'class' => yii\widgets\LinkPager::className(),
-                'firstPageLabel' => Yii::t('common', 'First'),
-                'lastPageLabel' => Yii::t('common', 'Last'),
+                'firstPageLabel' => Yii::t('backend', '首页'),
+                'lastPageLabel' => Yii::t('backend', '尾页'),
                 ],
                 'filterModel' => $searchModel,
                 'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
@@ -110,8 +110,8 @@
                         'buttons' => [
                         'view' => function ($url, $model, $key) {
                             $options = [
-                                'title' => Yii::t('yii', 'View'),
-                                'aria-label' => Yii::t('yii', 'View'),
+                                'title' => Yii::t('backend', '查看'),
+                                'aria-label' => Yii::t('backend', '查看'),
                                 'data-pjax' => '0',
                             ];
                             return Html::a('<span class="glyphicon glyphicon-file"></span>', $url, $options);
@@ -176,7 +176,6 @@
 
     </div>
 
-
     <?php \yii\widgets\Pjax::end() ?>
 
 <script>
@@ -184,12 +183,11 @@
         contact_id = $(this).attr("id");
         var data = {"contact_id":contact_id};
         $.ajax({
-            url:"index.php?r=campus/contact/update-audit",
+            url:"<?php echo Url::to(['update-audit']) ?>",
             type : "POST",
             data :data,
             success:function(result){
                 if(result.status){
-                   
                     $("#"+contact_id).text("已查看");
                     $("#"+contact_id).removeClass('btn-danger').attr("disabled",true);
                      alert('状态更改成功');
