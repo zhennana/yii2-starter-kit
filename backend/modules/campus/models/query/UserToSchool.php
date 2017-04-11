@@ -7,7 +7,7 @@ namespace backend\modules\campus\models\query;
  *
  * @see \backend\modules\campus\models\UesrToSchool
  */
-class UesrToSchool extends \yii\db\ActiveQuery
+class UserToSchool extends \yii\db\ActiveQuery
 {
     /*public function active()
     {

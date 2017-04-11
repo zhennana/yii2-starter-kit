@@ -35,11 +35,28 @@ use cheatsheet\Time;
 class SignInController extends \common\components\ControllerFrontendApi
 {
     public $modelClass = 'common\models\User';
-    
+    public $serializer = [
+        'class' => 'common\rest\Serializer', // 返回格式数据化字段
+        'collectionEnvelope' => 'result',    // 制定数据字段名称
+        'errno' => 0,                        // 错误处理数字
+        'message' => [ 'OK' ],                   // 文本提示
+    ];
+    /**
+     * @param  [action] yii\rest\IndexAction
+     * @return [type] 
+     */
     public function beforeAction($action)
     {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        //Yii::$app->controller->detachBehavior('access');
+        $format = Yii::$app->getRequest()->getQueryParam('format', 'json');
+
+        if($format == 'xml'){
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_XML;
+        }else{
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        }
+
+        // 移除access行为，参数为空全部移除
+        // Yii::$app->controller->detachBehavior('access');
         return $action;
     }
     
@@ -48,28 +65,11 @@ class SignInController extends \common\components\ControllerFrontendApi
     */
     public function behaviors()
     {
-        return ArrayHelper::merge(
-            parent::behaviors(),
-            [
-                'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                    'allow' => true,
-                    'matchCallback' => function ($rule, $action) {
-                        return true;
-                        // var_dump($this->module->id . '_' . $this->id . '_' . $action->id); exit();
-                        return \Yii::$app->user->can(
-                            $this->module->id . '_' . $this->id . '_' . $action->id, 
-                            ['route' => true]
-                        );
-                    },
-                    ]
-                ]
-                ]
-            ]
-        );
+        $behaviors = parent::behaviors();
+        $behaviors['contentNegotiator']['formats']['text/html'] = Response::FORMAT_HTML;
+        return $behaviors;
     }
+
 
     public function actions()
     {
@@ -141,7 +141,7 @@ class SignInController extends \common\components\ControllerFrontendApi
                 unset($attrUser['password_hash']);
             }
             $attrUser['avatar'] = '';
-             $account = [];
+            $account = [];
             // //$account  = $model->user->getAccount();
             $proFileUser = $model->user->userProfile;
             $attrUser['character']   = $model->user->getCharacterDetailes();
@@ -156,13 +156,15 @@ class SignInController extends \common\components\ControllerFrontendApi
                     $attrUser['avatar'] = $fansMpUser->avatar;
                 }
             }
+            Yii::$app->response->statusCode = 200;
             return array_merge($attrUser,$account);
         }else{
             Yii::$app->response->statusCode = 422;
-            $info = $model->getErrors();
-            $language['language'] = [Yii::$app->language];
-            return  $model->getErrors();
+            $this->serializer->errorno = 422;
+            $this->serializer->message = $model->getErrors();
+            //$language['language'] = [Yii::$app->language];
             //return array_merge($info,$language);
+            return [];
         }
         /*
         return [

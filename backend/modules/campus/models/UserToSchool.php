@@ -3,13 +3,13 @@
 namespace backend\modules\campus\models;
 
 use Yii;
-use \backend\modules\campus\models\base\UesrToSchool as BaseUesrToSchool;
+use \backend\modules\campus\models\base\UserToSchool as BaseUserToSchool;
 use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "users_to_school".
  */
-class UesrToSchool extends BaseUesrToSchool
+class UesrToSchool extends BaseUserToSchool
 {
 
 public function behaviors()
