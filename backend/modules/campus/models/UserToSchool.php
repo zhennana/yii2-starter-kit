@@ -3,7 +3,7 @@
 namespace backend\modules\campus\models;
 
 use Yii;
-use \backend\modules\campus\models\base\UesrToSchool as BaseUesrToSchool;
+use \backend\modules\campus\models\base\UserToSchool as BaseUserToSchool;
 use yii\helpers\ArrayHelper;
 
 /**
