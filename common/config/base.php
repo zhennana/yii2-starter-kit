@@ -213,6 +213,7 @@ $config = [
             ],
             require(Yii::getAlias('@backend/config/_urlManager.php'))
         ),
+        // Yii::$app->urlManagerFrontend->createUrl(["post/view","id"=>$post->i‌​d])
         'urlManagerFrontend' => \yii\helpers\ArrayHelper::merge(
             [
                 'hostInfo' => Yii::getAlias('@frontendUrl')

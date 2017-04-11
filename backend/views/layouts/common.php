@@ -9,9 +9,16 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
-
 $bundle = BackendAsset::register($this);
 
+$avatar = '';
+if(!Yii::$app->user->isGuest){
+    $avatar = Yii::$app->user->identity->userProfile->getAvatar($this->assetManager->getAssetUrl($bundle, 'img/anonymous.jpg'));
+}else{
+    $avatar = $this->assetManager->getAssetUrl($bundle, 'img/anonymous.jpg');
+}
+
+$avatar .= '?imageView2/3/w/215/h/215';
 ?>
 <?php $this->beginContent('@backend/views/layouts/base.php'); ?>
     <div class="wrapper">
@@ -32,6 +39,16 @@ $bundle = BackendAsset::register($this);
                 </a>
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
+                    	<li id="timeline-notifications" class="notifications-menu">
+                            <a href="<?php echo Yii::getAlias('@frontendUrl') ?>">
+                                前台
+                            </a>
+                        </li>
+                        <li id="timeline-notifications" class="notifications-menu">
+                            <a href="<?php echo Yii::getAlias('@backendUrl') ?>">
+                                后台
+                            </a>
+                        </li>
                         <li id="timeline-notifications" class="notifications-menu">
                             <a href="<?php echo Url::to(['/timeline-event/index']) ?>">
                                 <i class="fa fa-bell"></i>
@@ -71,13 +88,13 @@ $bundle = BackendAsset::register($this);
                         <!-- User Account: style can be found in dropdown.less -->
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <img src="<?php echo Yii::$app->user->identity->userProfile->getAvatar($this->assetManager->getAssetUrl($bundle, 'img/anonymous.jpg')) ?>" class="user-image">
+                                <img src="<?php echo $avatar; ?>" class="user-image">
                                 <span><?php echo Yii::$app->user->identity->username ?> <i class="caret"></i></span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header light-blue">
-                                    <img src="<?php echo Yii::$app->user->identity->userProfile->getAvatar($this->assetManager->getAssetUrl($bundle, 'img/anonymous.jpg')) ?>" class="img-circle" alt="User Image" />
+                                    <img src="<?php echo $avatar; ?>" class="img-circle" alt="User Image" />
                                     <p>
                                         <?php echo Yii::$app->user->identity->username ?>
                                         <small>
@@ -112,7 +129,7 @@ $bundle = BackendAsset::register($this);
                 <!-- Sidebar user panel -->
                 <div class="user-panel">
                     <div class="pull-left image">
-                        <img src="<?php echo Yii::$app->user->identity->userProfile->getAvatar($this->assetManager->getAssetUrl($bundle, 'img/anonymous.jpg')) ?>" class="img-circle" />
+                        <img src="<?php echo $avatar; ?>" class="img-circle" />
                     </div>
                     <div class="pull-left info">
                         <p><?php echo Yii::t('backend', 'Hello, {username}', ['username'=>Yii::$app->user->identity->getPublicIdentity()]) ?></p>
@@ -177,7 +194,7 @@ $bundle = BackendAsset::register($this);
                         [
                             'label'=>Yii::t('backend', '课程管理（学生）'),
                             'url' => '#',
-                            'icon'=>'<i class="fa fa-edit"></i>',
+                            'icon'=>'<i class="fa fa-mortar-board"></i>',
                             'options'=>['class'=>'treeview'],
                             'items'=>[
                                 ['label'=>Yii::t('backend', '课程设置'), 'url'=>['/campus/course/index'], 'icon'=>'<i class="fa  fa-file-text"></i>'
@@ -230,7 +247,7 @@ $bundle = BackendAsset::register($this);
                         [
                             'label'=>Yii::t('backend', '学校管理'),
                             'url' => '#',
-                            'icon'=>'<i class="fa fa-edit"></i>',
+                            'icon'=>'<i class="fa fa-university"></i>',
                             'options'=>['class'=>'treeview'],
                             'items'=>[
                                 ['label'=>Yii::t('backend', '学校管理'), 'url'=>['/campus/school/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'
@@ -292,8 +309,23 @@ $bundle = BackendAsset::register($this);
                                     'badge'=>\backend\models\SystemLog::find()->count(),
                                     'badgeBgClass'=>'label-danger',
                                 ],
-                            ]
-                        ]
+                            ],
+                        ],
+                        [
+                            'label'=>Yii::t('backend', '后台API'),
+                            'icon'=>'<i class="fa fa-space-shuttle"></i>',
+                            'url'=> URL::to(['/site/doc']),
+                            //'badge'=> TimelineEvent::find()->today()->count(),
+                            //'badgeBgClass'=>'label-success',
+                        ],
+                        [
+                            'label'=>Yii::t('backend', '前台API'),
+                            'icon'=>'<i class="fa fa-space-shuttle"></i>',
+                            'url'=> Yii::getAlias('@frontendUrl').'/site/frontend-doc',
+                            //'badge'=> TimelineEvent::find()->today()->count(),
+                            //'badgeBgClass'=>'label-success',
+                        ],
+
                     ]
                 ]) ?>
             </section>

@@ -1,16 +1,16 @@
 <?php
     // https://github.com/zircote/swagger-php/blob/master/Examples/swagger-spec/petstore/api.php
     // host="114.215.71.102",
-    // host="localhost/repositories/yii2-starter-kit/backend/web",
+    // host="localhost:8089/edu-manager/frontend/web",
 
     /**
      * @SWG\Swagger(
      *     schemes={"http"},
-     *     host="localhost/repositories/yii2-starter-kit/backend/web",
-     *     basePath="",
+     *     host="localhost:8089/edu-manager/frontend/web",
+     *     basePath="/api/v1",
      *     @SWG\Info(
      *         version="1.0.0",
-     *         title="后台API接口",
+     *         title="前台API接口",
      *         description="This is a sample server Petstore server.  You can find out more about Swagger at <a href=""http://swagger.io"">http://swagger.io</a> or on irc.freenode.net, #swagger.  For this sample, you can use the api key ""special-key"" to test the authorization filters",
      *         termsOfService="http://helloreverb.com/terms/",
      *         @SWG\Contact(

@@ -119,6 +119,7 @@ $data_user = ArrayHelper::map($user,'id','username');
                     ]
             ]) ?>
 
+<!-- attribute grade_id -->
             <?= $form->field($model, 'grade_id')->widget(Select2::className(),[
                     'data'=>ArrayHelper::map(Grade::find()
                                     ->where(['status'=>Grade::GRADE_STATUS_OPEN
@@ -130,7 +131,7 @@ $data_user = ArrayHelper::map($user,'id','username');
                     ]
             ]) ?>
 <!-- attribute user_title_id_at_grade -->
-			<?= $form->field($model, 'user_title_id_at_grade')->textInput()->label('标题') ?>
+			<?= $form->field($model, 'user_title_id_at_grade')->textInput() ?>
 
 <!-- attribute status -->
             <?=  $form->field($model,'status')->widget(Select2::className(),[
@@ -141,6 +142,8 @@ $data_user = ArrayHelper::map($user,'id','username');
                                 'allowClear' => false
                             ],
             ])->label('状态')?>
+
+<!-- attribute grade_user_type -->
             <?=  $form->field($model,'grade_user_type')->widget(Select2::className(),[
                         'data'=>UserToGrade::optsUserType(),
                         'hideSearch' => true,
@@ -149,6 +152,9 @@ $data_user = ArrayHelper::map($user,'id','username');
                                 'allowClear' => false
                             ],
             ])->label('类型')?>
+
+<!-- attribute sort -->
+            <?= $form->field($model, 'sort')->textInput() ?>
         </p>
         <?php $this->endBlock(); ?>
         
@@ -158,7 +164,7 @@ $data_user = ArrayHelper::map($user,'id','username');
                     'encodeLabels' => false,
                     'items' => [ 
                         [
-                            'label'   => Yii::t('backend', 'UserToGrade'),
+                            'label'   => Yii::t('backend', '学员管理'),
                             'content' => $this->blocks['main'],
                             'active'  => true,
                         ],
@@ -172,7 +178,7 @@ $data_user = ArrayHelper::map($user,'id','username');
 
         <?= Html::submitButton(
         '<span class="glyphicon glyphicon-check"></span> ' .
-        ($model->isNewRecord ? Yii::t('backend', 'Create') : Yii::t('backend', 'Save')),
+        ($model->isNewRecord ? Yii::t('backend', '创建') : Yii::t('backend', '更新')),
         [
         'id' => 'save-' . $model->formName(),
         'class' => 'btn btn-success'

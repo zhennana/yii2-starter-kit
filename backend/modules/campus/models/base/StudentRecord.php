@@ -37,6 +37,14 @@ abstract class StudentRecord extends \yii\db\ActiveRecord
         ];
     }
 
+    public static function getStatusLabel($value){
+        $labels = self::optsStatus();
+        if(isset($labels[$value])){
+            return $labels[$value];
+        }
+        return $value;
+    }
+
      /**
      * @return \yii\db\Connection the database connection used by this AR class.
      */
@@ -86,14 +94,15 @@ abstract class StudentRecord extends \yii\db\ActiveRecord
     {
         return [
             'student_record_id' => Yii::t('common', '自增ID'),
-            'user_id' => Yii::t('common', '用户ID'),
-            'school_id' => Yii::t('common', '学校ID'),
-            'grade_id' => Yii::t('common', '班级ID'),
-            'title' => Yii::t('common', '标题'),
-            'status' => Yii::t('common', '状态'),
-            'sort' => Yii::t('common', '默认与排序'),
-            'updated_at' => Yii::t('common', 'Updated At'),
-            'created_at' => Yii::t('common', 'Created At'),
+            'user_id'           => Yii::t('common', '用户ID'),
+            'school_id'         => Yii::t('common', '学校ID'),
+            'grade_id'          => Yii::t('common', '班级ID'),
+            'course_id'         => Yii::t('common', '课程ID'),
+            'title'             => Yii::t('common', '标题'),
+            'status'            => Yii::t('common', '状态'),
+            'sort'              => Yii::t('common', '排序'),
+            'updated_at'        => Yii::t('common', '更新时间'),
+            'created_at'        => Yii::t('common', '创建时间'),
         ];
     }
 
@@ -104,12 +113,13 @@ abstract class StudentRecord extends \yii\db\ActiveRecord
     {
         return array_merge(parent::attributeHints(), [
             'student_record_id' => Yii::t('common', '自增ID'),
-            'user_id' => Yii::t('common', '用户ID'),
-            'school_id' => Yii::t('common', '学校ID'),
-            'grade_id' => Yii::t('common', '班级ID'),
-            'title' => Yii::t('common', '标题'),
-            'status' => Yii::t('common', '1：正常；0标记删除；2待审核；'),
-            'sort' => Yii::t('common', '默认与排序'),
+            'user_id'           => Yii::t('common', '用户ID'),
+            'school_id'         => Yii::t('common', '学校ID'),
+            'grade_id'          => Yii::t('common', '班级ID'),
+            'course_id'         => Yii::t('common', '课程ID'),
+            'title'             => Yii::t('common', '标题'),
+            'status'            => Yii::t('common', '状态'),
+            'sort'              => Yii::t('common', '排序'),
         ]);
     }
 
