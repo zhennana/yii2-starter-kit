@@ -6,6 +6,7 @@ use yii\grid\GridView;
 use yii\widgets\DetailView;
 use yii\widgets\Pjax;
 use dmstr\bootstrap\Tabs;
+use \backend\modules\campus\models\Course;
 
 /**
 * @var yii\web\View $this
@@ -13,10 +14,10 @@ use dmstr\bootstrap\Tabs;
 */
 $copyParams = $model->attributes;
 
-$this->title = Yii::t('models', 'Course');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('models', 'Courses'), 'url' => ['index']];
+$this->title = Yii::t('backend', '课程管理');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '课程管理'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => (string)$model->title, 'url' => ['view', 'course_id' => $model->course_id]];
-$this->params['breadcrumbs'][] = Yii::t('common', 'View');
+$this->params['breadcrumbs'][] = Yii::t('backend', '查看');
 ?>
 <div class="giiant-crud course-view">
 
@@ -30,7 +31,7 @@ $this->params['breadcrumbs'][] = Yii::t('common', 'View');
     <?php endif; ?>
 
     <h1>
-        <?= Yii::t('models', 'Course') ?>
+        <?= Yii::t('backend', '课程管理') ?>
         <small>
             <?= $model->title ?>
         </small>
@@ -42,24 +43,24 @@ $this->params['breadcrumbs'][] = Yii::t('common', 'View');
         <!-- menu buttons -->
         <div class='pull-left'>
             <?= Html::a(
-            '<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('common', 'Edit'),
+            '<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('backend', '更新'),
             [ 'update', 'course_id' => $model->course_id],
             ['class' => 'btn btn-info']) ?>
 
             <?= Html::a(
-            '<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('common', 'Copy'),
+            '<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('backend', '复制'),
             ['create', 'course_id' => $model->course_id, 'Course'=>$copyParams],
             ['class' => 'btn btn-success']) ?>
 
             <?= Html::a(
-            '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('common', 'New'),
+            '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '新建'),
             ['create'],
             ['class' => 'btn btn-success']) ?>
         </div>
 
         <div class="pull-right">
             <?= Html::a('<span class="glyphicon glyphicon-list"></span> '
-            . Yii::t('common', 'Full list'), ['index'], ['class'=>'btn btn-default']) ?>
+            . Yii::t('backend', '返回列表'), ['index'], ['class'=>'btn btn-default']) ?>
         </div>
 
     </div>
@@ -68,48 +69,68 @@ $this->params['breadcrumbs'][] = Yii::t('common', 'View');
 
     <?php $this->beginBlock('backend\modules\campus\models\Course'); ?>
 
-    
     <?= DetailView::widget([
-    'model' => $model,
-    'attributes' => [
-            'school_id',
-        'grade_id',
-        'title',
-        'intro',
-        'courseware_id',
-        'creater_id',
-        'start_time:datetime',
-        'end_time:datetime',
-        'status',
-        'updeated_at',
-    ],
+        'model'      => $model,
+        'attributes' => [
+            [
+                'attribute' => 'school_id',
+                'value'     => function($model){
+                    return isset($model->school->school_title) ? $model->school->school_title : '';
+                }
+            ],
+            [
+                'attribute' => 'grade_id',
+                'value'     => function($model){
+                    return isset($model->grade->grade_name) ? $model->grade->grade_name : '';
+                }
+            ],
+            'title',
+            'intro',
+            [
+                'attribute' => 'courseware_id',
+                'value'     => function($model){
+                    return isset($model->courseware->title) ? $model->courseware->title : '';
+                }
+            ],
+            [
+                'attribute' => 'creater_id',
+                'value' => function($model){
+                    return isset($model->user->username) ? $model->user->username : '';
+                }
+            ],
+            'start_time:datetime',
+            'end_time:datetime',
+            [
+                'attribute' => 'status',
+                'value' => Course::getStatusValueLabel($model->status),
+            ],
+            'created_at:datetime',
+            'updeated_at:datetime',
+        ],
     ]); ?>
 
-    
     <hr/>
 
-    <?= Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('common', 'Delete'), ['delete', 'course_id' => $model->course_id],
-    [
-    'class' => 'btn btn-danger',
-    'data-confirm' => '' . Yii::t('common', 'Are you sure to delete this item?') . '',
-    'data-method' => 'post',
-    ]); ?>
+    <?= Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('backend', '删除'),
+        ['delete', 'course_id' => $model->course_id],
+        [
+            'class'        => 'btn btn-danger',
+            'data-confirm' => '' . Yii::t('backend', '确定删除该项目吗？') . '',
+            'data-method'  => 'post',
+        ]
+    ); ?>
+
     <?php $this->endBlock(); ?>
-
-
     
-    <?= Tabs::widget(
-                 [
-                     'id' => 'relation-tabs',
-                     'encodeLabels' => false,
-                     'items' => [
- [
-    'label'   => '<b class=""># '.$model->course_id.'</b>',
-    'content' => $this->blocks['backend\modules\campus\models\Course'],
-    'active'  => true,
-],
- ]
-                 ]
-    );
-    ?>
+    <?= Tabs::widget([
+        'id'           => 'relation-tabs',
+        'encodeLabels' => false,
+        'items'        => [
+            [
+                'label'   => '<b class=""># '.$model->course_id.'</b>',
+                'content' => $this->blocks['backend\modules\campus\models\Course'],
+                'active'  => true,
+            ],
+        ]
+    ]); ?>
 </div>

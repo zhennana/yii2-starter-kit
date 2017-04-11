@@ -13,11 +13,11 @@ use yii\widgets\ActiveForm;
 <div class="course-search">
 
     <?php $form = ActiveForm::begin([
-    'action' => ['index'],
-    'method' => 'get',
+        'action' => ['index'],
+        'method' => 'get',
     ]); ?>
 
-    		<?= $form->field($model, 'course_id') ?>
+		<?= $form->field($model, 'course_id') ?>
 
 		<?= $form->field($model, 'school_id') ?>
 
@@ -42,8 +42,8 @@ use yii\widgets\ActiveForm;
 		<?php // echo $form->field($model, 'updeated_at') ?>
 
     <div class="form-group">
-        <?= Html::submitButton(Yii::t('common', 'Search'), ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton(Yii::t('common', 'Reset'), ['class' => 'btn btn-default']) ?>
+        <?= Html::submitButton(Yii::t('backend', '搜索'), ['class' => 'btn btn-primary']) ?>
+        <?= Html::resetButton(Yii::t('backend', '重置'), ['class' => 'btn btn-default']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

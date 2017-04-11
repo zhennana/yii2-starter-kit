@@ -13,10 +13,10 @@ use dmstr\bootstrap\Tabs;
 */
 $copyParams = $model->attributes;
 
-$this->title = Yii::t('backend', 'School');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Schools'), 'url' => ['index']];
+$this->title = Yii::t('backend', '学校');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '学校'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => (string)$model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = Yii::t('backend', 'View');
+$this->params['breadcrumbs'][] = Yii::t('backend', '查看');
 ?>
 <div class="giiant-crud school-view">
 
@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
     <?php endif; ?>
 
     <h1>
-        <?= Yii::t('backend', 'School') ?>        <small>
+        <?= Yii::t('backend', '学校') ?>        <small>
             <?= $model->id ?>        </small>
     </h1>
 
@@ -40,24 +40,24 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
         <!-- menu buttons -->
         <div class='pull-left'>
             <?= Html::a(
-            '<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('backend', 'Edit'),
+            '<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('backend', '更新'),
             [ 'update', 'id' => $model->id],
             ['class' => 'btn btn-info']) ?>
 
             <?= Html::a(
-            '<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('backend', 'Copy'),
+            '<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('backend', '复制'),
             ['create', 'id' => $model->id, 'School'=>$copyParams],
             ['class' => 'btn btn-success']) ?>
 
             <?= Html::a(
-            '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'New'),
+            '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'),
             ['create'],
             ['class' => 'btn btn-success']) ?>
         </div>
 
         <div class="pull-right">
             <?= Html::a('<span class="glyphicon glyphicon-list"></span> '
-            . Yii::t('backend', 'Full list'), ['index'], ['class'=>'btn btn-default']) ?>
+            . Yii::t('backend', '返回列表'), ['index'], ['class'=>'btn btn-default']) ?>
         </div>
 
     </div>
@@ -96,10 +96,10 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
     
     <hr/>
 
-    <?= Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('backend', 'Delete'), ['delete', 'id' => $model->id],
+    <?= Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('backend', '删除'), ['delete', 'id' => $model->id],
     [
     'class' => 'btn btn-danger',
-    'data-confirm' => '' . Yii::t('backend', 'Are you sure to delete this item?') . '',
+    'data-confirm' => '' . Yii::t('backend', '确定要删除该项目吗？') . '',
     'data-method' => 'post',
     ]); ?>
     <?php $this->endBlock(); ?>
