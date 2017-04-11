@@ -9,7 +9,7 @@ use yii\helpers\ArrayHelper;
 /**
  * This is the model class for table "users_to_school".
  */
-class UesrToSchool extends BaseUserToSchool
+class UserToSchool extends BaseUserToSchool
 {
 
 public function behaviors()
