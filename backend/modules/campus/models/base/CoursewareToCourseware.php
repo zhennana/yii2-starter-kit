@@ -48,6 +48,14 @@ abstract class CoursewareToCourseware extends \yii\db\ActiveRecord
                 self::COURSEWARE_STATUS_DELECT => '删除'
             ];
     }
+
+    public static function LabelStatusValue($value){
+        $lable = self::optsStatus();
+        if(isset($lable[$value])){
+            return $lable[$value];
+        }
+        return $value;
+    }
     /**
      * @inheritdoc
      */
