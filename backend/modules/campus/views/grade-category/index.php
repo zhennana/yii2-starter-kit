@@ -14,7 +14,7 @@ $parent_ids = ArrayHelper::map($parent_ids,'grade_category_id','name');
     * @var backend\modules\campus\models\search\GradeCategorySearch $searchModel
 */
 
-$this->title = Yii::t('models', 'Grade Categroys');
+$this->title = Yii::t('backend', '班级分类管理');
 $this->params['breadcrumbs'][] = $this->title;
 
 
@@ -53,9 +53,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
 
     <h1>
-        <?= Yii::t('models', 'Grade Categroys') ?>
+        <?= Yii::t('backend', '班级分类管理') ?>
         <small>
-            List
+            列表
         </small>
     </h1>
     <div class="clearfix crud-navigation">
@@ -63,7 +63,7 @@ $this->params['breadcrumbs'][] = $this->title;
 if(\Yii::$app->user->can('manager', ['route' => true])){
 ?>
         <div class="pull-left">
-            <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('cruds', '创建'), ['create'], ['class' => 'btn btn-success']) ?>
+            <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'), ['create'], ['class' => 'btn btn-success']) ?>
         </div>
 <?php
 }
@@ -76,7 +76,7 @@ if(\Yii::$app->user->can('manager', ['route' => true])){
                 [
                     'id' => 'giiant-relations',
                     'encodeLabel' => false,
-                    'label' => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('common', 'Relations'),
+                    'label' => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('backend', '相关管理'),
                     'dropdown' => [
                         'options' => [
                             'class' => 'dropdown-menu-right'
@@ -101,8 +101,8 @@ if(\Yii::$app->user->can('manager', ['route' => true])){
             'dataProvider' => $dataProvider,
             'pager' => [
                 'class' => yii\widgets\LinkPager::className(),
-                'firstPageLabel' => Yii::t('cruds', 'First'),
-                'lastPageLabel' => Yii::t('cruds', 'Last'),
+                'firstPageLabel' => Yii::t('backend', '首页'),
+                'lastPageLabel' => Yii::t('backend', '尾页'),
              ],
             'filterModel' => $searchModel,
             'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
@@ -114,8 +114,8 @@ if(\Yii::$app->user->can('manager', ['route' => true])){
                     'buttons' => [
                         'view' => function ($url, $model, $key) {
                             $options = [
-                                'title' => Yii::t('yii', 'View'),
-                                'aria-label' => Yii::t('yii', 'View'),
+                                'title' => Yii::t('backend', '查看'),
+                                'aria-label' => Yii::t('backend', '查看'),
                                 'data-pjax' => '0',
                             ];
                             return Html::a('<span class="glyphicon glyphicon-file"></span>', $url, $options);
@@ -131,17 +131,21 @@ if(\Yii::$app->user->can('manager', ['route' => true])){
         ],
 			'grade_category_id',
             [
-                'class' =>\common\grid\EnumColumn::className(),
-                'attribute'=>'parent_id',
-                'enum' => $parent_ids,
+                'class'     =>\common\grid\EnumColumn::className(),
+                'attribute' =>'parent_id',
+                'enum'      => $parent_ids,
 
             ],
-			'creater_id',
-			//'status',
             [
-                'class' =>\common\grid\EnumColumn::className(),
-                'attribute'=>'status',
-                'enum' => GradeCategory::optsStatus()
+                'attribute' => 'creater_id',
+                'value'     => function($model){
+                    return GradeCategory::getUserName($model->creater_id);
+                }
+            ],
+            [
+                'class'     =>\common\grid\EnumColumn::className(),
+                'attribute' =>'status',
+                'enum'      => GradeCategory::optsStatus()
 
             ],
 			'name',
