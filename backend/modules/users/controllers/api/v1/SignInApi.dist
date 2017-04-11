@@ -2,6 +2,17 @@
     // https://github.com/zircote/swagger-php/blob/master/Examples/swagger-spec/petstore/api.php
     // host="114.215.71.102",
     // host="localhost/repositories/yii2-starter-kit/backend/web",
+    /**
+     * 标准规范 2017-04-11
+     * vue android iOS  
+     * errno : '0' string
+     * 0   正常
+     * 300 警告提示
+     * 400 致命错误提示
+     * 
+     * message : string
+     * 
+     */
 
     /**
      * @SWG\Swagger(
