@@ -16,7 +16,7 @@ use yii\helpers\ArrayHelper;
     * @var backend\modules\campus\models\search\UserToGradeSearch $searchModel
 */
 
-$this->title = Yii::t('backend', 'User To Grades');
+$this->title = Yii::t('backend', '学员管理');
 $this->params['breadcrumbs'][] = $this->title;
 
 
@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
     $actionColumnTemplate = implode(' ', $actionColumnTemplates);
         $actionColumnTemplateString = $actionColumnTemplate;
     } else {
-        Yii::$app->view->params['pageButtons'] = Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'New'), ['create'], ['class' => 'btn btn-success']);
+        Yii::$app->view->params['pageButtons'] = Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'), ['create'], ['class' => 'btn btn-success']);
         $actionColumnTemplateString = "{view} {update} {delete}";
     }
         $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTemplateString.'</div>';
@@ -55,9 +55,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
 
     <h1>
-        <?= Yii::t('backend', '班级管理') ?>
+        <?= Yii::t('backend', '学员管理') ?>
         <small>
-            List
+            列表
         </small>
     </h1>
     <div class="clearfix crud-navigation">
@@ -65,7 +65,7 @@ $this->params['breadcrumbs'][] = $this->title;
         if(\Yii::$app->user->can('manager', ['route' => true])){
     ?>
         <div class="pull-left">
-            <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'New'), ['create'], ['class' => 'btn btn-success']) ?>
+            <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'), ['create'], ['class' => 'btn btn-success']) ?>
         </div>
     <?php } ?>
         <div class="pull-right">
@@ -76,7 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'id' => 'giiant-relations',
                 'encodeLabel' => false,
-                'label' => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('backend', 'Relations'),
+                'label' => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('backend', '相关管理'),
                 'dropdown' => [
                     'options' => [
                             'class' => 'dropdown-menu-right'
@@ -100,8 +100,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'dataProvider' => $dataProvider,
             'pager' => [
                 'class' => yii\widgets\LinkPager::className(),
-                'firstPageLabel' => Yii::t('backend', 'First'),
-                'lastPageLabel' => Yii::t('backend', 'Last'),
+                'firstPageLabel' => Yii::t('backend', '首页'),
+                'lastPageLabel' => Yii::t('backend', '尾页'),
             ],
             'filterModel' => $searchModel,
             'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
@@ -113,8 +113,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     'buttons' => [
                         'view' => function ($url, $model, $key) {
                             $options = [
-                                'title' => Yii::t('yii', 'View'),
-                                'aria-label' => Yii::t('yii', 'View'),
+                                'title' => Yii::t('backend', '查看'),
+                                'aria-label' => Yii::t('backend', '查看'),
                                 'data-pjax' => '0',
                             ];
                             return Html::a('<span class="glyphicon glyphicon-file"></span>', $url, $options);

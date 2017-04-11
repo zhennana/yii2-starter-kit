@@ -132,7 +132,7 @@ use backend\modules\campus\models\StudentRecord;
                     'encodeLabels' => false,
                     'items' => [ 
                         [
-                            'label'   => Yii::t('backend', '学生档案'),
+                            'label'   => Yii::t('backend', '学员档案管理'),
                             'content' => $this->blocks['main'],
                             'active'  => true,
                         ],
@@ -145,7 +145,7 @@ use backend\modules\campus\models\StudentRecord;
 
         <?= Html::submitButton(
         '<span class="glyphicon glyphicon-check"></span> ' .
-        ($model->isNewRecord ? Yii::t('backend', 'Create') : Yii::t('backend', 'Save')),
+        ($model->isNewRecord ? Yii::t('backend', '创建') : Yii::t('backend', '更新')),
         [
         'id' => 'save-' . $model->formName(),
         'class' => 'btn btn-success'
