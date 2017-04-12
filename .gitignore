@@ -41,4 +41,4 @@ backend/edu-spa-backup
 # SignInApi 
 backend/modules/users/controllers/api/v1/SignInApi.php
 frontend/modules/api/v1/controllers/SignInApi.php
-frontend/controllers/api/SignInApi.php
+frontend/controllers/edu/SignInApi.php
