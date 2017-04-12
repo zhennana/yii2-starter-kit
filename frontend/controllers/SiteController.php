@@ -88,7 +88,7 @@ class SiteController extends Controller
                 //这里配置需要扫描的目录,不支持yii的alias,所以需要这里直接获取到真实地址
                 'scanDir' => [
                     //Yii::getAlias('@frontend/controllers/api'),
-                    Yii::getAlias('@frontend/controllers/api/'),
+                    Yii::getAlias('@frontend/controllers/edu/'),
                     //Yii::getAlias('@api/modules/v1/models'),
                     //Yii::getAlias('@api/models'),
                 ],
