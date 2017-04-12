@@ -5,13 +5,11 @@ import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 import './assets/stylus/common/_common.styl'
-import VueResource from 'vue-resource'
 
 import App from './App'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
-Vue.use(VueResource)
 
 /* eslint-disable no-new */
 new Vue({
