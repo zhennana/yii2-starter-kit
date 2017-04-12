@@ -51,9 +51,8 @@ public function behaviors()
       return $fields;
     }
 
-    public function extraFields(){
+    /*public function extraFields(){
        $fields = parent::extraFields();
-       var_dump($fields);exit;
       return $fields;
-    }
+    }*/
 }

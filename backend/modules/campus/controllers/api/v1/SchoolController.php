@@ -186,6 +186,7 @@ class SchoolController extends \yii\rest\ActiveController
     **/
     public function actionIndex(){
         $searchModel = new SchoolSearch;
+        $searchModel->load(\yii::$app->request->queryParams,'');
         $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
         $dataProvider->sort = [
             'defaultOrder' => ['created_at' => SORT_DESC]
@@ -195,13 +196,13 @@ class SchoolController extends \yii\rest\ActiveController
     }
 
      /**
-     * @SWG\Get(path="/campus/api/v1/school/update",
+     * @SWG\Post(path="/campus/api/v1/school/update?id=1",
      *     tags={"200-School-学校接口"},
      *     summary="查询所有学校",
      *     description="返回学校信息",
      *     produces={"application/json"},
      *     @SWG\Parameter(
-     *        in = "query",
+     *        in = "formData",
      *        name = "parent_id",
      *        description = "主校ID",
      *        required = false,
@@ -209,7 +210,7 @@ class SchoolController extends \yii\rest\ActiveController
      *        type = "integer"
      *     ),
      *     @SWG\Parameter(
-     *        in = "query",
+     *        in = "formData",
      *        name = "school_title",
      *        description = "学校名称",
      *        required = false,
@@ -217,7 +218,7 @@ class SchoolController extends \yii\rest\ActiveController
      *        type = "string"
      *     ),
      *     @SWG\Parameter(
-     *        in = "query",
+     *        in = "formData",
      *        name = "school_short_title",
      *        description = "学校简称",
      *        required = false,
@@ -225,7 +226,7 @@ class SchoolController extends \yii\rest\ActiveController
      *        type = "string"
      *     ),
      *     @SWG\Parameter(
-     *        in = "query",
+     *        in = "formData",
      *        name = "school_slogan",
      *        description = "学校标语",
      *        required = false,
@@ -233,7 +234,7 @@ class SchoolController extends \yii\rest\ActiveController
      *        type = "string"
      *     ),
      *     @SWG\Parameter(
-     *        in = "query",
+     *        in = "formData",
      *        name = "school_logo_path",
      *        description = "Logo路径",
      *        required = false,
@@ -241,7 +242,7 @@ class SchoolController extends \yii\rest\ActiveController
      *        type = "string"
      *     ),
      *     @SWG\Parameter(
-     *        in = "query",
+     *        in = "formData",
      *        name = "school_backgroud_path",
      *        description = "背景图路径",
      *        required = false,
@@ -249,7 +250,7 @@ class SchoolController extends \yii\rest\ActiveController
      *        type = "string"
      *     ),
      *     @SWG\Parameter(
-     *        in = "query",
+     *        in = "formData",
      *        name = "province_id",
      *        description = "省",
      *        required = false,
@@ -257,7 +258,7 @@ class SchoolController extends \yii\rest\ActiveController
      *        type = "integer"
      *     ),
      *     @SWG\Parameter(
-     *        in = "query",
+     *        in = "formData",
      *        name = "city_id",
      *        description = "城市",
      *        required = false,
@@ -265,7 +266,7 @@ class SchoolController extends \yii\rest\ActiveController
      *        type = "integer"
      *     ),
      *     @SWG\Parameter(
-     *        in = "query",
+     *        in = "formData",
      *        name = "region_id",
      *        description = "区县",
      *        required = false,
@@ -273,7 +274,7 @@ class SchoolController extends \yii\rest\ActiveController
      *        type = "integer"
      *     ),
      *     @SWG\Parameter(
-     *        in = "query",
+     *        in = "formData",
      *        name = "address",
      *        description = "区县",
      *        required = false,
@@ -281,7 +282,7 @@ class SchoolController extends \yii\rest\ActiveController
      *        type = "string"
      *     ),
      *     @SWG\Parameter(
-     *        in = "query",
+     *        in = "formData",
      *        name = "status",
      *        description = "状态：0正常；1标记删除",
      *        required = false,
@@ -290,7 +291,7 @@ class SchoolController extends \yii\rest\ActiveController
      *        enum = {0,1}
      *     ),
      *     @SWG\Parameter(
-     *        in = "query",
+     *        in = "formData",
      *        name = "sort",
      *        description = "排序",
      *        required = false,

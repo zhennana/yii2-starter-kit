@@ -133,6 +133,7 @@ public $modelClass = 'backend\modules\campus\models\Grade';
      **/
     public function actionIndex(){
             $searchModel = new GradeSearch;
+            $searchModel->load(\yii::$app->request->queryParams,'');
             $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
             $dataProvider->sort = [
                 'defaultOrder' => ['created_at' => SORT_DESC]
@@ -162,7 +163,7 @@ public $modelClass = 'backend\modules\campus\models\Grade';
     
     
     /**
-     * @SWG\Post(path="/campus/api/v1/grade/update",
+     * @SWG\Post(path="/campus/api/v1/grade/update?id=1",
      *     tags={"300-Grade-班级管理接口"},
      *     summary="修改班级数据",
      *     description="修改班级数据",
