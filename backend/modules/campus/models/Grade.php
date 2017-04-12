@@ -31,4 +31,28 @@ public function behaviors()
              ]
         );
     }
+/**
+ * 模型返回添加数据
+ * @return [type] [description]
+ */
+    public function fields()
+    {
+      $fields = parent::fields();
+      $field = [
+        'school_title'=>function($model){
+            return $model->school->school_title;
+        },
+        'group_category_name'=>function($model){
+            return $model->gradeCategory->name;
+        }
+      ];
+      $fields = ArrayHelper::merge($fields,$field);
+      unset($field);
+      return $fields;
+    }
+
+    /*public function extraFields(){
+       $fields = parent::extraFields();
+      return $fields;
+    }*/
 }
