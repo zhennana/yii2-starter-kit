@@ -17,8 +17,9 @@ const getters = {
 
 const mutations = {
   clearUserInfo (state) {
-    state.user = ''
-    localStorage.addData('user', '')
+    state.user = false
+    localStorage.removeData('user')
+    console.log('clear success!!!')
   },
   receivedUserInfoFromRemote (state, user) {
     state.user = user

@@ -11,28 +11,7 @@ import App from './App'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
-
-// Vue.directive('permission', {
-//   bind (el) {
-//     console.log('bind')
-//     console.log(el)
-//   },
-//   insert () {
-//     console.log('insert')
-//   },
-//   update (el, binding) {
-//     console.log('update')
-//     el.style.display = 'none'
-//     console.log(el)
-//     console.log(binding)
-//   },
-//   componentUpdated () {
-//     console.log('componentUpdated')
-//   },
-//   unbind () {
-//     console.log('unbind')
-//   }
-// })
+// -----------------------   自定义指令   ------------------------
 Vue.directive('permission',
   function (el, binding) {
     console.log('update')
@@ -41,10 +20,27 @@ Vue.directive('permission',
     } else {
       el.style.display = 'none'
     }
-
     console.log(el)
     console.log(binding)
   })
+
+// ----------------------- router 钩子函数  ------------------------
+router.beforeEach((to, from, next) => {
+  if (to.meta.requireAuth) {
+    if (store.state.userInfo.user) {
+      next()
+    } else {
+      next({
+        path: '/login',
+        query: {
+          redirect: to.fullPath
+        }
+      })
+    }
+  } else {
+    next()
+  }
+})
 
 /* eslint-disable no-new */
 new Vue({
