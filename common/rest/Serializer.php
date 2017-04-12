@@ -34,7 +34,8 @@ use yii\rest\Serializer as BaseSerializer;
 class Serializer extends BaseSerializer
 {
     /**
-     * @var string the name of the query parameter containing the information about which fields should be returned
+     * @var string the name of the query p
+     * arameter containing the information about which fields should be returned
      * for a [[Model]] object. If the parameter is not provided or empty, the default set of fields as defined
      * by [[Model::fields()]] will be returned.
      */
@@ -120,8 +121,11 @@ class Serializer extends BaseSerializer
      */
     public $preserveKeys = false;
 
+    //数组转字符串以什么分开
+    public $symbol = ',';
+
     public $errno = 0;
-    public $message;
+    public $message = '';
 
     /**
      * @inheritdoc
@@ -158,11 +162,35 @@ class Serializer extends BaseSerializer
 
         } else {
             return [
-                'errno' => $this->errno,
-                'message' => $this->message,
+                'errno' => (string)$this->errno,
+                'message' => (string)$this->ArrayToString(),
                 $this->collectionEnvelope => $data,
             ];
         }
+    }
+    /**
+     * 多维数组转一维数组
+     * @return [type] [description]
+     */
+    public function ArrayToArray(){
+        static $data = [];
+        if(empty($this->message) || is_string($this->message) || is_int($this->message)){
+            $data[]= $this->message; 
+        }
+        
+        if(is_array($this->message)){
+            foreach ($this->message as $key => $value) {
+               $this->message = $value;
+               $this->ArrayToString();
+            }
+        }   
+        return $data;
+    }
+    /**
+     * 一维数组转字符串
+     */
+    public function ArrayToString(){
+       return  implode($this->symbol,$this->ArrayToArray());
     }
 
     /**
@@ -191,6 +219,7 @@ class Serializer extends BaseSerializer
     protected function serializeDataProvider($dataProvider)
     {
         if ($this->preserveKeys) {
+          
             $models = $dataProvider->getModels();
         } else {
             $models = array_values($dataProvider->getModels());
@@ -210,9 +239,9 @@ class Serializer extends BaseSerializer
         } 
 
         $result = [
-            'errno' => $this->errno,
-            'message' => $this->message,
-            $this->collectionEnvelope => $models,
+            'errno' => (string)$this->errno,
+            'message' => (string)$this->ArrayToString(),
+             $this->collectionEnvelope => $models,
         ];
 
         if ($pagination !== false) {
@@ -272,7 +301,12 @@ class Serializer extends BaseSerializer
             return null;
         } else {
             list ($fields, $expand) = $this->getRequestedFields();
-            return $model->toArray($fields, $expand);
+            $data = $model->toArray($fields, $expand);
+            return [
+                'errno' => (string)$this->errno,
+                'message' => (string)$this->ArrayToString(),
+                 $this->collectionEnvelope => $data,
+            ];
         }
     }
 
@@ -284,15 +318,21 @@ class Serializer extends BaseSerializer
     protected function serializeModelErrors($model)
     {
         $this->response->setStatusCode(422, 'Data Validation Failed.');
-        $result = [];
-        foreach ($model->getFirstErrors() as $name => $message) {
+        $this->message =  $model->getFirstErrors();
+       // $result = [];
+        return [
+            'errno' => (string)400,
+            'message' => (string)$this->ArrayToString(),
+             $this->collectionEnvelope => [],
+            ];
+        /*foreach ($model->getFirstErrors() as $name => $message) {
             $result[] = [
                 'field' => $name,
                 'message' => $message,
             ];
-        }
+        }*/
 
-        return $result;
+       // return $result;
     }
 
     /**
