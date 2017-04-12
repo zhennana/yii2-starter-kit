@@ -58,6 +58,8 @@ import FileManagement from '../components/header/other/FileManagement'
 // ----------------------------未知--------------------------------------
 
 import Home from '../components/header/home/Home'
+import Login from '../components/login/Login.vue'
+import Main from '../components/main/Main.vue'
 
 Vue.use(Router)
 
@@ -65,6 +67,16 @@ export default new Router({
   routes: [
     {
       path: '/',
+      name: 'Login',
+      component: Login
+    },
+    {
+      path: '/main',
+      name: 'main',
+      component: Main
+    },
+    {
+      path: '/home',
       name: 'home',
       component: Home
     },
