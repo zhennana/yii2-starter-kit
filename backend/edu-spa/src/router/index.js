@@ -3,61 +3,61 @@ import Router from 'vue-router'
 
 // ---------------------------学校管理目录下-------------------------
 
-import SchoolManager from '../components/header/schoolmanager/SchoolManager'
-import CourseManager from '../components/header/coursemanager/CourseManager'
-import ClassClassificationManagement from '../components/header/schoolmanager/ClassClassifcationManagement'
-import ClassManagement from '../components/header/schoolmanager/ClassManagement'
-import CollegeManagement from '../components/header/schoolmanager/CollegeManagement'
-import StudentManagement from '../components/header/schoolmanager/StudentManagement'
-import StudentRecordsManagement from '../components/header/schoolmanager/StudentRecordsManagement'
+import SchoolManager from '../components/schoolmanager/SchoolManager'
+import CourseManager from '../components/coursemanager/CourseManager'
+import ClassClassificationManagement from '../components/schoolmanager/ClassClassifcationManagement'
+import ClassManagement from '../components/schoolmanager/ClassManagement'
+import CollegeManagement from '../components/schoolmanager/CollegeManagement'
+import StudentManagement from '../components/schoolmanager/StudentManagement'
+import StudentRecordsManagement from '../components/schoolmanager/StudentRecordsManagement'
 
 // ----------------------------课程管理目录下------------------------------------------
 
-import AttendanceManagement from '../components/header/coursemanager/AttendanceManagement'
-import Curriculum from '../components/header/coursemanager/Curriculum'
+import AttendanceManagement from '../components/coursemanager/AttendanceManagement'
+import Curriculum from '../components/coursemanager/Curriculum'
 
 // --------------------------------课件管理目录下-----------------------------------------
 
-import CoursewareManagement from '../components/header/coursewareManagement/CoursewareManagement'
-import CoursewareList from '../components/header/coursewareManagement/CoursewareList'
-import CoursewareAccessories from '../components/header/coursewareManagement/CoursewareAccessories'
-import CoursewareClassification from '../components/header/coursewareManagement/CoursewareClassification'
-import CoursewareRelation from '../components/header/coursewareManagement/CoursewareRelation'
-import AttachmentManagement from '../components/header/coursewareManagement/AttachmentManagement'
+import CoursewareManagement from '../components/coursewareManagement/CoursewareManagement'
+import CoursewareList from '../components/coursewareManagement/CoursewareList'
+import CoursewareAccessories from '../components/coursewareManagement/CoursewareAccessories'
+import CoursewareClassification from '../components/coursewareManagement/CoursewareClassification'
+import CoursewareRelation from '../components/coursewareManagement/CoursewareRelation'
+import AttachmentManagement from '../components/coursewareManagement/AttachmentManagement'
 
 // ---------------------------------内容目录下------------------------------------------
 
-import Content from '../components/header/content/Content'
-import StaticPage from '../components/header/content/StaticPage'
-import Article from '../components/header/content/Article'
-import ArticleClassification from '../components/header/content/ArticleClassification'
-import TextComponent from '../components/header/content/TextComponent'
-import MenuComponent from '../components/header/content/MenuComponent'
-import CarouselWidgets from '../components/header/content/CarouselWidgets'
-import JoinInformation from '../components/header/content/JoinInformation'
-import ContactUs from '../components/header/content/ContactUs'
+import Content from '../components/content/Content'
+import StaticPage from '../components/content/StaticPage'
+import Article from '../components/content/Article'
+import ArticleClassification from '../components/content/ArticleClassification'
+import TextComponent from '../components/content/TextComponent'
+import MenuComponent from '../components/content/MenuComponent'
+import CarouselWidgets from '../components/content/CarouselWidgets'
+import JoinInformation from '../components/content/JoinInformation'
+import ContactUs from '../components/content/ContactUs'
 
 // --------------------------------时间轴-------------------------------------
 
-import TimeAxis from '../components/header/timeAxis/TimeAxis'
+import TimeAxis from '../components/timeAxis/TimeAxis'
 
 // ------------------------------用户管理-------------------------------
 
-import UserManagement from '../components/header/UserManagement/UserManagement'
+import UserManagement from '../components/UserManagement/UserManagement'
 
 // --------------------------------其他---------------------------------------
 
-import Other from '../components/header/other/Other'
-import InternationalSourceInformation from '../components/header/other/internationalization/InternationalSourceInformation'
-import InternationalInformation from '../components/header/other/internationalization/InternationalInformation'
-import jsonStorage from '../components/header/other/jsonStorage'
-import FileStore from '../components/header/other/FileStore'
-import Cache from '../components/header/other/Cache'
-import FileManagement from '../components/header/other/FileManagement'
+import Other from '../components/other/Other'
+import InternationalSourceInformation from '../components/other/internationalization/InternationalSourceInformation'
+import InternationalInformation from '../components/other/internationalization/InternationalInformation'
+import jsonStorage from '../components/other/jsonStorage'
+import FileStore from '../components/other/FileStore'
+import Cache from '../components/other/Cache'
+import FileManagement from '../components/other/FileManagement'
 
 // ----------------------------未知--------------------------------------
 
-import Home from '../components/header/home/Home'
+import Home from '../components/home/Home'
 import Login from '../components/login/Login.vue'
 import Main from '../components/main/Main.vue'
 
