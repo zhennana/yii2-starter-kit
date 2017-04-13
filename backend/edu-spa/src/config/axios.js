@@ -10,8 +10,7 @@ const instance = axios.create({
     'Content-Type': 'application/x-www-form-urlencoded',
     'Accept': 'application/json'
   },
-  // 自带Cookie 信息验证
-  withCredentials: true,
+  withCredentials: false,
   validateStatus: function (status) {
     return status === 200
   }

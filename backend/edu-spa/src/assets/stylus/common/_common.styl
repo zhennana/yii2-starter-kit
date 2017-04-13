@@ -2,6 +2,21 @@ border-height = 1px;
 header-height = 50px;
 min-width = 1024px;
 
+.clear-fix
+  zoom: 1;
+  &:befor
+    content: "";
+    display: table;
+  &:after
+    content: "";
+    clear: both;
+    display: table;
+
 body
   min-width min-width;
+  font-family: '微软雅黑';
+
+
+
+
 
