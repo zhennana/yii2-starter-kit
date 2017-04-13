@@ -103,7 +103,7 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
         return [
             [['user_id', 'school_id', 'grade_id'], 'required'],
             [['user_id', 'school_id', 'grade_id', 'user_title_id_at_grade', 'status', 'sort', 'grade_user_type'], 'integer'],
-            [['user_id', 'school_id', 'grade_id', 'grade_user_type'], 'unique', 'targetAttribute' => ['user_id', 'school_id', 'grade_id', 'grade_user_type'], 'message' => 'The combination of 用户ID, 学校ID, 班级ID and 关系类型: 用户学校关系表类型的子类型 has already been taken.']
+            [['school_id'],'unique', 'targetAttribute' => ['user_id','school_id', 'grade_id', 'grade_user_type'], 'message' => '用户已经存在本班级']
         ];
     }
 

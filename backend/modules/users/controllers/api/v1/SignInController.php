@@ -121,12 +121,14 @@ class SignInController extends \common\components\ControllerFrontendApi
      */
     public function actionLogin()
     {
+
         // echo $aaa;
         // "x-mobile-powered-by": "IOS/5.6.14",
         // "x-mobile-powered-by": "Android/5.6.14",
         // Yii::$app->getUser()->login($user);
         // Accept-Language  zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3
-        
+        $response = \Yii::$app->getResponse();
+        $response->getHeaders()->set('Access-Control-Allow-Origin',"*");
         \Yii::$app->language = 'zh-CN';
         $model = new LoginForm();
         $model->load($_POST);
@@ -537,23 +539,34 @@ class SignInController extends \common\components\ControllerFrontendApi
         $auth = new Auth(\Yii::$app->params['qiniu']['wakooedu']['access_key'], \Yii::$app->params['qiniu']['wakooedu']['secret_key']);
         $policy['returnBody'] = '{"name": $(fname),"size": $(fsize),"type": $(mimeType),"hash": $(etag),"key":$(key)}';
         $token = $auth->uploadToken(\Yii::$app->params['qiniu']['wakooedu']['bucket'],null,3600,$policy);
-        Yii::$app->response->format = Response::FORMAT_JSON;
+        return $token;
+        //Yii::$app->response->format = Response::FORMAT_JSON;
         
-        Yii::$app->response->data = [
-            'uptoken' => $token
-        ]; 
-        return [];
+        // Yii::$app->response->data = [
+        //     'uptoken' => $token
+        // ]; 
+        
         //echo '{"uptoken": "'.$token.'"}';
     }
 
 
-    /**
-     * @return Response
+     /**
+     * @SWG\Get(path="/users/api/v1/sign-in/logout",
+     *     tags={"100-SignIn-用户接口"},
+     *     summary="退出",
+     *     description="退出",
+     *     produces={"application/json"},
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "返回Token"
+     *     )
+     * )
+     *
      */
     public function actionLogout()
     {
-        Yii::$app->user->logout();
-        return $this->goHome();
+        return Yii::$app->user->logout();
+        
     }
 
     public function actiolAuthKey()
