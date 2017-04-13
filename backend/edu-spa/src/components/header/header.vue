@@ -23,49 +23,13 @@
     name: 'Header',
     data () {
       return {
-        activeIndex: 'SchoolManager',
+        activeIndex: 'School',
         topMenuList: [
           {
             id: '0',
-            name: 'SchoolManager',
-            path: 'SchoolManager',
+            name: 'School',
+            path: 'School',
             title: '学校管理'
-          },
-          {
-            id: '1',
-            name: 'CourseManager',
-            path: 'CourseManager',
-            title: '课程管理'
-          },
-          {
-            id: '2',
-            name: 'CoursewareManagement',
-            path: 'CoursewareManagement',
-            title: '课件管理'
-          },
-          {
-            id: '3',
-            name: 'content',
-            path: 'content',
-            title: '内容'
-          },
-          {
-            id: '4',
-            name: 'TimeAxis',
-            path: 'TimeAxis',
-            title: '时间轴'
-          },
-          {
-            id: '5',
-            name: 'UserManagement',
-            path: 'UserManagement',
-            title: '用户管理'
-          },
-          {
-            id: '6',
-            name: 'Other',
-            path: 'Other',
-            title: '其他'
           }
         ]
       }
