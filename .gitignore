@@ -33,7 +33,6 @@ tests/codeception/*/_support/_generated/*
 
 backend/edu-spa/node_modules
 backend/edu-spa/dist
-backend/edu-spa-backup
 
 *.bz2
 *.tar
@@ -41,4 +40,4 @@ backend/edu-spa-backup
 # SignInApi 
 backend/modules/users/controllers/api/v1/SignInApi.php
 frontend/modules/api/v1/controllers/SignInApi.php
-frontend/controllers/api/SignInApi.php
+frontend/controllers/edu/SignInApi.php
