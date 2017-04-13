@@ -3,21 +3,9 @@
     <el-col :span="4">
       <el-menu default-active="0" class="el-menu-vertical-demo" theme="dark">
         <el-menu-item index="0">
-          <router-link :to="{path:'CollegeManagement'}">
+          <router-link :to="{path:'school-college'}">
             学校管理
           </router-link>
-        </el-menu-item>
-        <el-menu-item index="1">
-          <router-link :to="{path:'ClassClassificationManagement'}">班级分类管理</router-link>
-        </el-menu-item>
-        <el-menu-item index="2">
-          <router-link :to="{path:'ClassManagement'}">班级管理</router-link>
-        </el-menu-item>
-        <el-menu-item index="3">
-          <router-link :to="{path:'StudentManagement'}">学员管理</router-link>
-        </el-menu-item>
-        <el-menu-item index="4">
-          <router-link :to="{path:'StudentRecordsManagement'}">学员档案管理</router-link>
         </el-menu-item>
       </el-menu>
     </el-col>
