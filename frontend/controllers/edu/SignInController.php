@@ -6,24 +6,16 @@ namespace frontend\controllers\edu;
 * 注册、登陆、密码找回
 */
 use yii;
-use yii\filters\auth\CompositeAuth;
-use yii\filters\auth\HttpBasicAuth;
-use yii\filters\auth\HttpBearerAuth;
-use yii\filters\auth\QueryParamAuth;
 use yii\web\Response;
 
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\rest\OptionsAction;
-use yii\widgets\ActiveForm;
 
-use frontend\modules\user\models\LoginForm;
-use frontend\modules\user\models\PasswordResetRequestForm;
-use frontend\modules\user\models\ResetPasswordForm;
-use frontend\modules\user\models\SignupForm;
-use frontend\modules\user\models\SignupSmsForm;
+use frontend\models\resources\LoginForm;
+use frontend\models\resources\UserForm;
+use frontend\models\resources\User;
 
-use common\models\User;
 use common\models\UserProfile;
 use common\models\UserToken;
 
@@ -40,10 +32,10 @@ class SignInController extends \common\components\ControllerFrontendApi
      * @var array
      */
     public $serializer = [
-        'class' => 'common\rest\Serializer',    // 返回格式数据化字段
-        'collectionEnvelope' => 'result',       // 制定数据字段名称
-        'errno' => 0,                           // 错误处理数字
-        'message' => 'OK',                      // 文本提示
+        'class'              => 'common\rest\Serializer',
+        'collectionEnvelope' => 'result',
+        'errno'              => 0,
+        'message'            => 'OK',
     ];
 
     /**
@@ -100,7 +92,7 @@ class SignInController extends \common\components\ControllerFrontendApi
     /**
      * @SWG\Post(path="/sign-in/login",
      *     tags={"100-SignIn-用户接口"},
-     *     summary="用户登录[完成]",
+     *     summary="用户登录[已经自测]",
      *     description="用户登录：成功返回用户信息；失败返回具体原因",
      *     produces={"application/json"},
      *     @SWG\Parameter(
@@ -120,7 +112,7 @@ class SignInController extends \common\components\ControllerFrontendApi
      *     @SWG\Parameter(
      *        in = "formData",
      *        name = "LoginForm[rememberMe]",
-     *        description = "勾选记住我",
+     *        description = "勾选记住我：1勾选；0不勾选",
      *        required = false,
      *        type = "integer",
      *        default = 1,
@@ -128,7 +120,7 @@ class SignInController extends \common\components\ControllerFrontendApi
      *     ),
      *     @SWG\Response(
      *         response = 200,
-     *         description = "success,cookie值PHPSESSID与_identity加入请求头，返回用户个人信息"
+     *         description = "登陆成功，返回用户信息"
      *     ),
      *     @SWG\Response(
      *         response = 422,
@@ -173,7 +165,6 @@ class SignInController extends \common\components\ControllerFrontendApi
             Yii::$app->response->statusCode = 422;
             $this->serializer['errno']      = 1;
             $this->serializer['message']    = $model->getErrors();
-            // var_dump($model->getErrors());exit;
             return $this->serializer['message'];
         }
     }
@@ -182,15 +173,23 @@ class SignInController extends \common\components\ControllerFrontendApi
     /**
      * @SWG\Get(path="/sign-in/index",
      *     tags={"100-SignIn-用户接口"},
-     *     summary="登陆请求验证已经登陆[完成]",
-     *     description="删除cookie，请求验证是否已经登陆。登陆过返回用户信息",
+     *     summary="登陆请求验证已经登陆[已经自测]",
+     *     description="验证是否已经登陆。已登录则返回用户信息",
      *     produces={"application/json"},
      *     @SWG\Response(
      *         response = 200,
-     *         description = "返回登陆验证信息"
+     *         description = "登陆验证成功，返回登录用户信息"
+     *     ),
+     *     @SWG\Response(
+     *         response = 422,
+     *         description = "登陆验证失败，返回失败信息"
      *     )
      * )
      *
+     */
+    /**
+     * [actionIndex description]
+     * @return [type] [description]
      */
     public function actionIndex()
     {
@@ -198,7 +197,7 @@ class SignInController extends \common\components\ControllerFrontendApi
         if(\Yii::$app->user->isGuest){
             Yii::$app->response->statusCode = 422;
             $this->serializer['errno']      = 1;
-            $this->serializer['message']    = '未登录，登陆验证失败';
+            $this->serializer['message']    = '登陆验证失败，请登录';
             return $this->serializer['message'];
         }
 
@@ -226,224 +225,10 @@ class SignInController extends \common\components\ControllerFrontendApi
     }
 
     /**
-     * @SWG\Post(path="/sign-in/signup",
+     * @SWG\Get(path="/sign-in/send-sms",
      *     tags={"100-SignIn-用户接口"},
-     *     summary="用户注册[待开发]",
-     *     description="成功返回注册完信息，失败返回具体原因",
-     *     produces={"application/json"},
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "SignupSmsForm[phone_number]",
-     *        description = "手机号",
-     *        required = true,
-     *        type = "string"
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "SignupSmsForm[password]",
-     *        description = "密码",
-     *        required = false,
-     *        type = "string"
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "SignupSmsForm[client_type]",
-     *        description = "客户端注册类型:移动端默认app",
-     *        required = true,
-     *        type = "string",
-     *        default = "app",
-     *        enum = {"app", "pc"}
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "SignupSmsForm[email]",
-     *        description = "Email",
-     *        required = false,
-     *        type = "string"
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "SignupSmsForm[username]",
-     *        description = "用户名",
-     *        required = false,
-     *        type = "string"
-     *     ),
-     *     @SWG\Response(
-     *         response = 200,
-     *         description = "注册成功，短信验证码"
-     *     ),
-     *     @SWG\Response(
-     *         response = 422,
-     *         description = "Data Validation Failed 账号或密码错误",
-     *         @SWG\Schema(ref="#/definitions/Error")
-     *     )
-     * )
-     *
-     */
-    /**
-     * 注册
-     * @return string|Response
-     */
-    public function actionSignup()
-    {
-        // exit(); // 暂停测试注册，上线后开放
-        \Yii::$app->language = 'zh-CN';
-        $model = new SignupSmsForm();
-        if ($model->load(Yii::$app->request->post())) {
-            $user = $model->signup();
-            if (isset($user->id)) {
-                if ($model->shouldBeActivated()) {
-                    $this->serializer['message'] = Yii::t(
-                        'frontend',
-                        'Your account has been successfully created. Check your email for further instructions.'
-                    );
-                    return $user->attributes;
-                } else {
-                    Yii::$app->getUser()->login($user);
-                }
-                //$account  = $user->getAccount();
-                return array_merge($user->attributes, ['token'=>$model->token]);
-                //return $user->attributes;
-            }
-        }
-
-        Yii::$app->response->statusCode = 422;
-        $this->serializer['errno']      = 1;
-        $this->serializer['message']    = $model->getErrors();
-         //var_dump($model->getErrors());exit;
-        return $this->serializer['message'];
-    }
-
-    /**
-     * @SWG\POST(path="/sign-in/smscode",
-     *     tags={"100-SignIn-用户接口"},
-     *     summary="验证码有效性[完成]",
-     *     description="验证码有效性",
-     *     produces={"application/json"},
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "token",
-     *        description = "验证码",
-     *        required = true,
-     *        type = "string"
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "phone_number",
-     *        description = "手机号",
-     *        required = false,
-     *        type = "string"
-     *     ),
-     *     @SWG\Response(
-     *         response = 200,
-     *         description = "有效返回信息及验证码，无效返回错误信息"
-     *     )
-     * )
-     *
-     */
-    /**
-     * 验证码用户激活
-     * @return string|Response
-     */
-    public function actionSmscode()
-    {
-        $token = Yii::$app->request->post('token',0);
-        $userToken = UserToken::find()
-            //->byType(UserToken::TYPE_PHONE_SINGUP)
-            ->byToken($token)
-            ->notExpired()
-            ->one();
-
-        if (!$userToken) {
-            $this->serializer['errno'] = 1;
-            $this->serializer['message'] = '无效的验证码';
-            return $this->serializer['message'];
-        }else{
-            $this->serializer['message'] = '有效的验证码';
-            return Yii::$app->request->post('token',0);
-        }
-    }
-
-    /**
-     * @SWG\POST(path="/sign-in/activation-by-phone",
-     *     tags={"100-SignIn-用户接口"},
-     *     summary="验证码用户激活[完成]",
-     *     description="激活用户状态user.status",
-     *     produces={"application/json"},
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "token",
-     *        description = "验证码",
-     *        required = true,
-     *        type = "string"
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "password",
-     *        description = "需要修改的明文密码，可选参数",
-     *        required = false,
-     *        type = "string"
-     *     ),
-     *     @SWG\Response(
-     *         response = 200,
-     *         description = "用户激活成功"
-     *     )
-     * )
-     *
-     */
-    /**
-     * 验证码用户激活
-     * @return string|Response
-     */
-    public function actionActivationByPhone()
-    {
-        $token = Yii::$app->request->post('token',0);
-        $password = Yii::$app->request->post('password',null);
-        $userToken = UserToken::find()
-            // ->byType(UserToken::TYPE_PHONE_SINGUP)
-            ->byToken($token)
-            ->notExpired()
-            ->one();
-// var_dump($userToken);exit();
-        if (!$userToken) {
-            $this->serializer['errno']   = 1;
-            $this->serializer['message'] = '无效的验证码';
-            return $this->serializer['message'];
-        }
-
-        $user = $userToken->user;
-        if ($user->status == User::STATUS_ACTIVE) {
-            $userToken->delete();
-            Yii::$app->getUser()->login($user);
-            $this->serializer['message'] = '您的账户已经是激活状态';
-            return $user->attributes;
-        }
-
-
-        $info = [
-            'status' => User::STATUS_ACTIVE,
-        ];
-
-        if($user->safety<=1){
-            $info['safety'] = $user->safety+2;
-        }
-        if($password){
-            $info['password_hash'] = Yii::$app->getSecurity()->generatePasswordHash($password);
-        }
-
-        $user->updateAttributes($info);
-        $userToken->delete();
-        Yii::$app->getUser()->login($user);
-
-        $this->serializer['message'] = '您的账户已成功激活';
-        return $user->attributes;
-    }
-
-    /**
-     * @SWG\Get(path="/sign-in/reset-by-sms",
-     *     tags={"100-SignIn-用户接口"},
-     *     summary="验证码发送[完成]",
-     *     description="发送验证码，成功返回验证码与手机号信息",
+     *     summary="发送验证码[已经自测]",
+     *     description="发送验证码，成功返回验证码与用户信息",
      *     produces={"application/json"},
      *     @SWG\Parameter(
      *        in = "query",
@@ -455,40 +240,54 @@ class SignInController extends \common\components\ControllerFrontendApi
      *     @SWG\Parameter(
      *        in = "query",
      *        name = "type",
-     *        description = "发送验证码类型",
+     *        description = "发送验证码类型：signup注册；repasswd重置密码。默认signup",
      *        required = true,
      *        type = "string",
-     *        enum = {"repasswd", "singup"}
+     *        enum = {"signup", "repasswd"}
      *     ),
      *     @SWG\Response(
      *         response = 200,
-     *         description = "用户激活成功"
+     *         description = "验证码发送成功"
      *     )
      * )
      *
      */
     /**
-     * 验证码发送
-     * @return string|Response
+     * [actionSendSms 发送验证码]
+     * @param  [type] $phone_number [手机号]
+     * @param  string $type         [验证码类型]
+     * @return [type]               [description]
      */
-    public function actionResetBySms($phone_number, $type='singup')
+    public function actionSendSms($phone_number, $type='signup')
     {
         \Yii::$app->language = 'zh-CN';
         $user = User::find()->where(['phone_number'=>$phone_number])->one();
-        if(!$user){
-            $this->serializer['errno']   = 1;
-            $this->serializer['message'] = '手机号不存在';
-            return $this->serializer['message'];
+        $type = ($type == 'signup') ? UserToken::TYPE_PHONE_SIGNUP : UserToken::TYPE_PHONE_REPASSWD;
+
+        if (!$user) {
+            $user = new User;
+            $user->phone_number = $phone_number;
+            $user->status       = User::STATUS_NOT_ACTIVE;
+            $user->setPassword(UserToken::randomCode(6));
+            if(!$user->save()) {
+                $this->serializer['errno']   = 1;
+                $this->serializer['message'] = $user->getErrors();
+                return $this->serializer['message'];
+            }
+            $user->afterSignup();
         }
-// var_dump($user); exit();
-        $type =  ($type == 'singup') ? UserToken::TYPE_PHONE_SINGUP : UserToken::TYPE_PHONE_REPASSWD;
 
-        UserToken::deleteAll([
-            'user_id' => $user->id,
-            'type' => $type,
-        ]);
+        $token = UserToken::find()->where([
+            'user_id'=>$user->id
+        ])->andWhere([
+            'type'=>$type
+        ])->one();
 
-        $code = UserToken::randomCode();
+        if ($token) {
+            $token->delete();
+        }
+
+        $code  = UserToken::randomCode();
         $token = UserToken::create(
             $user->id,
             $type,
@@ -496,84 +295,105 @@ class SignInController extends \common\components\ControllerFrontendApi
             $code
         );
         $info = [
-            'pin'   => $code,
+            'token' => $code,
             'phone' => $user->phone_number,
         ];
-        if($token){ // 发送短信
+        if($token){
+            // 发送短信
             ymSms($info);
         }
         return $info;
     }
 
     /**
-     * @SWG\Get(path="/sign-in/reset-passwd-by-phone",
+     * @SWG\Post(path="/sign-in/signup",
      *     tags={"100-SignIn-用户接口"},
-     *     summary="验证码修改密码[完成]",
-     *     description="根据验证码，修改用户密码",
+     *     summary="用户注册[已经自测]",
+     *     description="成功返回注册完信息，失败返回具体原因",
      *     produces={"application/json"},
      *     @SWG\Parameter(
-     *        in = "query",
-     *        name = "token",
+     *        in = "formData",
+     *        name = "UserForm[phone_number]",
+     *        description = "手机号",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "UserForm[password]",
+     *        description = "密码",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "UserForm[token]",
      *        description = "验证码",
      *        required = true,
      *        type = "string"
      *     ),
      *     @SWG\Parameter(
-     *        in = "query",
-     *        name = "newpasswd",
-     *        description = "新密码",
+     *        in = "formData",
+     *        name = "UserForm[client_type]",
+     *        description = "客户端注册类型:移动端默认app",
      *        required = true,
-     *        type = "string"
+     *        type = "string",
+     *        default = "app",
+     *        enum = {"app", "pc"}
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "UserForm[type]",
+     *        description = "发送验证码类型：signup注册；repasswd重置密码。默认signup",
+     *        required = true,
+     *        type = "string",
+     *        default = "signup",
+     *        enum = {"signup", "repasswd"}
      *     ),
      *     @SWG\Response(
      *         response = 200,
-     *         description = "用户密码修改成功"
+     *         description = "注册成功，返回用户信息"
+     *     ),
+     *     @SWG\Response(
+     *         response = 422,
+     *         description = "注册失败，返回具体原因"
      *     )
      * )
      *
      */
     /**
-     * 短信验证修改密码
-     * @return string|Response
+     * [actionSignup 用户注册]
+     * @return [type] [description]
      */
-    public function actionResetPasswdByPhone($token,$newpasswd)
+    public function actionSignup()
     {
         \Yii::$app->language = 'zh-CN';
-        $token = UserToken::find()
-            ->byType(UserToken::TYPE_PHONE_REPASSWD)
-            ->byToken($token)
-            ->notExpired()
-            ->one();
-        if (!$token) {
-            //throw new BadRequestHttpException;
-            //Yii::$app->response->statusCode = 422;
-            $this->serializer['errno']   = 1;
-            $this->serializer['message'] = '验证码不存在';
-            return $this->serializer['message'];
+        $model = new UserForm();
+        if ($model->load(Yii::$app->request->post())) {
+
+            $user = $model->signup();
+
+            if (isset($user->id)) {
+                if ($model->shouldBeActivated()) {
+                    $this->serializer['message'] = Yii::t('frontend', '账号注册成功');
+                    return $user->attributes;
+                } else {
+                    Yii::$app->getUser()->login($user);
+                }
+                return array_merge($user->attributes, ['token'=>$model->token]);
+            }
         }
 
-        $user = $token->user;
-        $info = [
-            'status' => User::STATUS_ACTIVE,
-            'password_hash' => Yii::$app->getSecurity()->generatePasswordHash($newpasswd)
-        ];
-        if($user->safety<=1){
-            $info['safety'] = $user->safety+2;
-        }
-        $user->updateAttributes($info);
-        $token->delete();
-        Yii::$app->getUser()->login($user);
-
-        return $user->attributes;
+        Yii::$app->response->statusCode = 422;
+        $this->serializer['errno']      = 1;
+        $this->serializer['message']    = $model->getErrors();
+        return $this->serializer['message'];
     }
-
-
-
 
     /**
      * @SWG\POST(path="/sign-in/update-profile",
      *     tags={"100-SignIn-用户接口"},
-     *     summary="更新用户附属信息",
+     *     summary="更新用户附属信息(头像等)[已经自测]",
      *     description="更新用户附属表信息 http://developer.qiniu.com/docs/v6/sdk/ios-sdk.html",
      *     produces={"application/json"},
      *     @SWG\Parameter(
@@ -592,7 +412,7 @@ class SignInController extends \common\components\ControllerFrontendApi
      *     ),
      *     @SWG\Response(
      *         response = 200,
-     *         description = "头像修改成功"
+     *         description = "更新成功"
      *     )
      * )
      *
@@ -685,7 +505,6 @@ class SignInController extends \common\components\ControllerFrontendApi
         ]; 
         //echo '{"uptoken": "'.$token.'"}';
     }
-
 
     /**
      * @return Response
