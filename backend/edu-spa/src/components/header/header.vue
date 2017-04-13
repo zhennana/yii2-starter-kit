@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <div class="logo">
-      <router-link to="/">
+      <router-link to="/Main">
         <img src="../../assets/img/logo.png"/>
       </router-link>
 
@@ -76,7 +76,9 @@
 <style lang="stylus" type="text/stylus" rel="stylesheet/stylus">
   header-bg-color = #324157;
   *
-    padding:0; margin:0;
+    padding: 0;
+    margin: 0;
+
   .header
     height 60px;
     position relative;
@@ -95,11 +97,11 @@
     .top-menu
       margin-left 10%;
       width 90%;
-      & > li > a{
+      & > li > a {
         display block
         width 100%;
         height 100%;
-        padding:0 7px;
+        padding: 0 7px;
         text-decoration none;
       }
 

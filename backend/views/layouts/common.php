@@ -311,21 +311,58 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                 ],
                             ],
                         ],
-                        [
-                            'label'=>Yii::t('backend', '后台API'),
-                            'icon'=>'<i class="fa fa-space-shuttle"></i>',
-                            'url'=> URL::to(['/site/doc']),
-                            //'badge'=> TimelineEvent::find()->today()->count(),
-                            //'badgeBgClass'=>'label-success',
-                        ],
-                        [
-                            'label'=>Yii::t('backend', '前台API'),
-                            'icon'=>'<i class="fa fa-space-shuttle"></i>',
-                            'url'=> Yii::getAlias('@frontendUrl').'/site/frontend-doc',
-                            //'badge'=> TimelineEvent::find()->today()->count(),
-                            //'badgeBgClass'=>'label-success',
-                        ],
 
+
+                        [
+                            'label'=>Yii::t('backend', '开发工具'),
+                            'url' => '#',
+                            'icon'=>'<i class="fa fa-heart"></i>',
+                            'visible'=>Yii::$app->user->can('administrator'),
+                            'options'=>['class'=>'treeview'],
+                            'items'=>[
+                                [
+                                    'label'=>Yii::t('backend', '前台API'),
+                                    'icon'=>'<i class="fa fa-database"></i>',
+                                    'options'=>['class'=>'treeview'],
+                                    'url'=> Yii::getAlias('@frontendUrl').'/site/frontend-doc',
+                                    'visible'=>Yii::$app->user->can('administrator')
+                                    //'badge'=> TimelineEvent::find()->today()->count(),
+                                    //'badgeBgClass'=>'label-success',
+                                ],
+                                [
+                                    'label'=>Yii::t('backend', '前台脚手架'),
+                                    'icon'=>'<i class="fa fa-hand-o-right"></i>',
+                                    'options'=>['class'=>'treeview'],
+                                    'url'=>Yii::getAlias('@frontendUrl').'/gii',
+                                    'visible'=>Yii::$app->user->can('administrator')
+                                    //'badge'=> TimelineEvent::find()->today()->count(),
+                                    //'badgeBgClass'=>'label-success',
+                                ],
+                                [
+                                    'label'=>Yii::t('backend', '后台API'),
+                                    'icon'=>'<i class="fa fa-database"></i>',
+                                    'options'=>['class'=>'treeview'],
+                                    'url'=> URL::to(['/site/doc']),
+                                    'visible'=>Yii::$app->user->can('administrator')
+                                    //'badge'=> TimelineEvent::find()->today()->count(),
+                                    //'badgeBgClass'=>'label-success',
+                                ],
+                                [
+                                    'label'=>Yii::t('backend', '后台脚手架'),
+                                    'icon'=>'<i class="fa fa-hand-o-right"></i>',
+                                    'url'=>['/gii'],
+                                    'visible'=>Yii::$app->user->can('administrator'),
+                                    //'badge'=> TimelineEvent::find()->today()->count(),
+                                    //'badgeBgClass'=>'label-success',
+                                ],
+                                
+                                /*
+                                ['label'=>Yii::t('backend', '课件管理'), 'url'=>['/campus/courseware/index'], 'icon'=>'<i class="fa  fa-file-text"></i>'
+                                ], 
+                                */
+                            ]
+                        ],
+                        
                     ]
                 ]) ?>
             </section>

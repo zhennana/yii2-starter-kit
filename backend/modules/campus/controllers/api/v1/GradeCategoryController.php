@@ -74,7 +74,7 @@ class GradeCategoryController extends \yii\rest\ActiveController
     ];
 
     /**
-     * @SWG\get(path="/campus/api/v1/grade-category/index",
+     * @SWG\Get(path="/campus/api/v1/grade-category/index",
      *     tags={"300-Grade-班级管理接口"},
      *     summary="查询全部分类",
      *     description="查询全部分类",
