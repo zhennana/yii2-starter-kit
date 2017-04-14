@@ -79,7 +79,7 @@ public $modelClass = 'backend\modules\campus\models\Courseware';
      *        name = "courseware_id",
      *        description = "课件id",
      *        required = false,
-     *        default = "0",
+     *        default = "",
      *        type = "integer"
      *     ),
      *     @SWG\Parameter(
@@ -137,8 +137,8 @@ public $modelClass = 'backend\modules\campus\models\Courseware';
     /**
      * @SWG\Post(path="/campus/api/v1/courseware/update&id=1",
      *     tags={"400-Courseware-课件管理接口"},
-     *     summary="返回所有课件",
-     *     description="返回所有课件",
+     *     summary="修改课件",
+     *     description="修改课件",
      *     produces={"application/json"},
      *     @SWG\Parameter(
      *        in = "formData",
@@ -167,7 +167,15 @@ public $modelClass = 'backend\modules\campus\models\Courseware';
      *     @SWG\Parameter(
      *        in = "formData",
      *        name = "body",
-     *        description = "课件详情",
+     *        description = "教学目标",
+     *        required = false,
+     *        default = "",
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "tags",
+     *        description = "标签",
      *        required = false,
      *        default = "",
      *        type = "string"
@@ -188,4 +196,129 @@ public $modelClass = 'backend\modules\campus\models\Courseware';
      * )
      *
     **/
+
+
+     /**
+     * @SWG\Post(path="/campus/api/v1/courseware/create",
+     *     tags={"400-Courseware-课件管理接口"},
+     *     summary="创建课件",
+     *     description="创建课件",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "Courseware[courseware_id]",
+     *        description = "课件id",
+     *        required = false,
+     *        default = "0",
+     *        type = "integer"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "Courseware[category_id]",
+     *        description = "课件分类",
+     *        required = false,
+     *        default = "",
+     *        type = "integer"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "Courseware[title]",
+     *        description = "标题",
+     *        required = false,
+     *        default = "",
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "Courseware[body]",
+     *        description = "教学目标",
+     *        required = false,
+     *        default = "",
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "tags",
+     *        description = "标签 以逗号隔开",
+     *        required = false,
+     *        default = "",
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "Courseware[status]",
+     *        description = "状态",
+     *        required = false,
+     *        default = "",
+     *        type = "integer",
+     *        enum = {10,20}
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "FileStorageItem[0][school_id]",
+     *        description = "学校id",
+     *        required = false,
+     *        default = "0",
+     *        type = "integer",
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "FileStorageItem[0][grade_id]",
+     *        description = "班级id",
+     *        required = false,
+     *        default = "0",
+     *        type = "integer",
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "FileStorageItem[0][file_category_id]",
+     *        description = "文件分类",
+     *        required = true,
+     *        default = "3",
+     *        type = "integer",
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "FileStorageItem[0][type]",
+     *        description = "文件类型",
+     *        required = true,
+     *        default = "",
+     *        type = "string",
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "FileStorageItem[0][file_name]",
+     *        description = "服务器保存的名称",
+     *        required = true,
+     *        default = "",
+     *        type = "string",
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "FileStorageItem[0][original]",
+     *        description = "文件的原始名",
+     *        required = true,
+     *        default = "",
+     *        type = "string",
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "返回课件信息,FileStorageItem 是上传文件后七牛云返回的信息"
+     *     ),
+     * )
+     *
+    **/
+    public function actionCreate()
+    {
+        $model = new  $this->modelClass;
+        if($_POST){
+            return  $model->AddCollection($_POST);
+        }else{
+            $this->serializer['errno' ]    = 400;                        
+            $this->serializer['message']   =  "数据为空";
+            return [];
+        }
+
+       
+    }
 }
