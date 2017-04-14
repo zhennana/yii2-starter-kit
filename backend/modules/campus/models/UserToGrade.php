@@ -52,7 +52,7 @@ public function behaviors()
                 $model->school_id = $data['school_id'];
                 $model->grade_id  = $data['grade_id'];
                 $model->user_title_id_at_grade = $data['user_title_id_at_grade'];
-                $model->status = $data['status'];
+                $model->status    = $data['status'];
                 $model->grade_user_type = $data['grade_user_type'];
                 if(!$model->save()){
                     $info['error'][$key] = $model->getErrors();
@@ -62,4 +62,43 @@ public function behaviors()
       }
       return $info;
     }
+  /**
+   * 
+   * @param  [type] $data [description]
+   * @return [type]       [description]
+   */
+  public function batch_create($data){
+        $info = [
+            'message' =>[]
+        ];
+        $param = [];
+        $param = $data['user_id'];
+        foreach ($param as $key => $value) {
+          //$is_checkout = $this->is_checkout($data);
+          //if($is_checkout == 0){
+              $model    = new UserToGrade;
+              $data['user_id'] = $value;
+              $model->load($data,'');
+              if(!$model->save()){
+                $info['error'][$key] = $model->getErrors();
+                continue;
+              }else{
+                $info['message'][] = $model->attributes;
+              }
+        //  }
+        }
+        return $info;
+  }
+
+  /**
+   * 检查数据是否存在
+   * @param  array   $param [description]
+   * @param  boolean $value [description]
+   * @return boolean        [description]
+   */
+  public function is_checkout($param = [])
+  {
+    $count = self::find()->where($param)->count();
+    return $count;
+  }
 }
