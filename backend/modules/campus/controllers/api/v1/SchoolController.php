@@ -76,7 +76,7 @@ class SchoolController extends \yii\rest\ActiveController
 
     /**
      * @SWG\Get(path="/campus/api/v1/school/index",
-     *     tags={"200-School-学校接口"},
+     *     tags={"200-School-学校管理接口"},
      *     summary="查询所有学校",
      *     description="返回学校信息",
      *     produces={"application/json"},
@@ -185,6 +185,8 @@ class SchoolController extends \yii\rest\ActiveController
      *
     **/
     public function actionIndex(){
+        // $response = \Yii::$app->getResponse();
+        // $response->getHeaders()->set('Access-Control-Allow-Origin',"*");
         $searchModel = new SchoolSearch;
         $searchModel->load(\yii::$app->request->queryParams,'');
         $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
@@ -197,7 +199,7 @@ class SchoolController extends \yii\rest\ActiveController
 
      /**
      * @SWG\Post(path="/campus/api/v1/school/update?id=1",
-     *     tags={"200-School-学校接口"},
+     *     tags={"200-School-学校管理接口"},
      *     summary="查询所有学校",
      *     description="返回学校信息",
      *     produces={"application/json"},
@@ -276,7 +278,7 @@ class SchoolController extends \yii\rest\ActiveController
      *     @SWG\Parameter(
      *        in = "formData",
      *        name = "address",
-     *        description = "区县",
+     *        description = "具体地址",
      *        required = false,
      *        default = "2222",
      *        type = "string"
@@ -308,7 +310,7 @@ class SchoolController extends \yii\rest\ActiveController
 
     /**
      * @SWG\Get(path="/campus/api/v1/school/view",
-     *     tags={"200-School-学校接口"},
+     *     tags={"200-School-学校管理接口"},
      *     summary="查询学校",
      *     description="根据ID查询学校信息",
      *     produces={"application/json"},
@@ -331,7 +333,7 @@ class SchoolController extends \yii\rest\ActiveController
 
     /**
      * @SWG\Post(path="/campus/api/v1/school/create",
-     *     tags={"200-School-学校接口"},
+     *     tags={"200-School-学校管理接口"},
      *     summary="创建学校",
      *     description="返回创建学校信息",
      *     produces={"application/json"},
@@ -453,5 +455,40 @@ class SchoolController extends \yii\rest\ActiveController
             //$this->serializer->message = $model->getErrors();
         }
         return $model;
+    }
+
+    /**
+     * @SWG\Get(path="/campus/api/v1/school/standard-address",
+     *     tags={"200-School-学校管理接口"},
+     *     summary="查询所有学校",
+     *     description="返回学校信息",
+     *     produces={"application/json"},
+     * @SWG\Parameter(
+     *        in = "query",
+     *        name = "type_id",
+     *        description = "0省，1市，2区",
+     *        required = false,
+     *        default = "0",
+     *        type = "integer"
+     *     ),
+     *@SWG\Parameter(
+     *        in = "query",
+     *        name = "id",
+     *        description = "省 市 的key",
+     *        required = false,
+     *        default = "0",
+     *        type = "integer"
+     *     ),
+     *@SWG\Response(
+     *         response = 200,
+     *         description = "返回创建学校信息"
+     *     ),
+     * )
+     */
+    public function actionStandardAddress($type_id = 0,$id = 0){
+        $model = new $this->modelClass;
+        //var_dump($type_id,$id);exit;
+        return $model->getAddresslist($type_id,$id);
+
     }
 }
