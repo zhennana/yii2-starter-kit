@@ -34,7 +34,7 @@ class SignInController extends \common\components\ControllerFrontendApi
     public $serializer = [
         'class'              => 'common\rest\Serializer',
         'collectionEnvelope' => 'result',
-        'errno'              => 0,
+        // 'errno'              => 0,
         'message'            => 'OK',
     ];
 
@@ -143,6 +143,10 @@ class SignInController extends \common\components\ControllerFrontendApi
 
         if($model->login()){
             $attrUser = $model->user->attributes;
+
+            $attrUser['ID'] = $attrUser['id'];
+            unset($attrUser['id']);
+
             if(isset($attrUser['password_hash'])){
                 unset($attrUser['password_hash']);
             }
