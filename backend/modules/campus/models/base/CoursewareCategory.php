@@ -76,7 +76,8 @@ abstract class CoursewareCategory extends \yii\db\ActiveRecord
             [['name', 'description', 'banner_src', 'creater_id', 'status'], 'required'],
             [['name'], 'string', 'max' => 225],
             [['slug'], 'string', 'max' => 32],
-            [['description', 'banner_src'], 'string', 'max' => 255]
+            [['description', 'banner_src'], 'string', 'max' => 255],
+            [['parent_id'], 'default','value' => 0]
         ];
     }
 
@@ -87,7 +88,7 @@ abstract class CoursewareCategory extends \yii\db\ActiveRecord
     {
         return [
             'category_id' => Yii::t('backend', 'ID'),
-            'parent_id' => Yii::t('backend', '父ID'),
+            'parent_id' => Yii::t('backend', '父分类'),
             'name' => Yii::t('backend', '名称'),
             'description' => Yii::t('backend', '描述'),
             'banner_src' => Yii::t('backend', '图片'),
@@ -105,7 +106,7 @@ abstract class CoursewareCategory extends \yii\db\ActiveRecord
     {
         return array_merge(parent::attributeHints(), [
             'category_id' => Yii::t('backend', 'ID'),
-            'parent_id' => Yii::t('backend', '父ID'),
+            'parent_id' => Yii::t('backend', '默认顶级分类'),
             'name' => Yii::t('backend', '名称'),
             'description' => Yii::t('backend', '描述'),
             'banner_src' => Yii::t('backend', '图片'),

@@ -150,9 +150,10 @@ class CoursewareCategoryController extends Controller
 			return $this->redirect(Url::previous());
 		} else {
 			$parent_category = CoursewareCategory::find()
-				->where(['<>','category_id',$model->category_id])
+				->where(['<>','category_id',$category_id])
 			    ->andWhere(['status' => CoursewareCategory::CATEGORY_STATUS_OPEN])
 			    ->asArray()->all();
+			// var_dump($category_id);exit;
 			$parent_category = ArrayHelper::map($parent_category,'category_id','name');
 			return $this->render('update', [
 					'model' => $model,
