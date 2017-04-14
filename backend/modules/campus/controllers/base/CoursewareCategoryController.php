@@ -16,6 +16,7 @@ use backend\modules\campus\models\search\CoursewareCategorySearch;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
 use yii\filters\AccessControl;
 use dmstr\bootstrap\Tabs;
 
@@ -122,7 +123,16 @@ class CoursewareCategoryController extends Controller
 			$msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
 			$model->addError('_exception', $msg);
 		}
-		return $this->render('create', ['model' => $model]);
+
+		$parent_category = CoursewareCategory::find()
+		    ->where(['status' => CoursewareCategory::CATEGORY_STATUS_OPEN])
+		    ->asArray()->all();
+		$parent_category = ArrayHelper::map($parent_category,'category_id','name');
+
+		return $this->render('create', [
+			'model' => $model,
+			'parent_category' => $parent_category
+		]);
 	}
 
 
@@ -139,8 +149,15 @@ class CoursewareCategoryController extends Controller
 		if ($model->load($_POST) && $model->save()) {
 			return $this->redirect(Url::previous());
 		} else {
+			$parent_category = CoursewareCategory::find()
+				->where(['<>','category_id',$category_id])
+			    ->andWhere(['status' => CoursewareCategory::CATEGORY_STATUS_OPEN])
+			    ->asArray()->all();
+			// var_dump($category_id);exit;
+			$parent_category = ArrayHelper::map($parent_category,'category_id','name');
 			return $this->render('update', [
 					'model' => $model,
+					'parent_category' => $parent_category
 				]);
 		}
 	}

@@ -240,8 +240,8 @@ class UserToGradeController extends \yii\rest\ActiveController
     /**
      * @SWG\Post(path="/campus/api/v1/user-to-grade/update?id=9",
      *     tags={"300-Grade-班级管理接口"},
-     *     summary="创建班级学员关系表",
-     *     description="返回班级学员",
+     *     summary="修改班级学员关系表",
+     *     description="修改班级学员关系表",
      *     produces={"application/json"},
      * @SWG\Parameter(
      *      in = "formData",
