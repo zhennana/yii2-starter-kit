@@ -19,7 +19,6 @@
         v-model="password">
       </el-input>
       <el-button class="login-btn" type="primary" @click="login">点我登录</el-button>
-      <el-button type="primary" @click="exit">模拟退出登录 之后换地方</el-button>
       <el-button type="primary" @click="go">测试是否可以进入 main</el-button>
 
     </div>
@@ -52,9 +51,6 @@
         }).catch(error => {
           console.log(error)
         })
-      },
-      exit () {
-        this.$store.commit('clearUserInfo')
       },
       go () {
         this.$router.push({

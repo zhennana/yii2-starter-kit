@@ -13,12 +13,20 @@
           {{item.title}}
         </router-link>
       </el-menu-item>
+      <el-submenu index="100">
+        <template slot="title">设置</template>
+        <el-menu-item index="2-1">其他1</el-menu-item>
+        <el-menu-item index="2-2">其他2</el-menu-item>
+        <el-menu-item index="2-3" @click="logout">退出</el-menu-item>
+      </el-submenu>
     </el-menu>
 
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+  import Login from '../../api/login'
+
   export default {
     name: 'Header',
     data () {
@@ -32,6 +40,22 @@
             title: '学校管理'
           }
         ]
+      }
+    },
+    methods: {
+      logout () {
+        Login.logout().then(response => {
+          if (response.errno === '0') {
+            this.$store.commit('clearUserInfo')
+            this.$router.push({
+              path: '/'
+            })
+          } else {
+            this.showMsg(response.message)
+          }
+        }).catch(error => {
+          console.log(error)
+        })
       }
     }
   }
@@ -65,7 +89,6 @@
         display block
         width 100%;
         height 100%;
-        padding: 0 7px;
         text-decoration none;
       }
 
