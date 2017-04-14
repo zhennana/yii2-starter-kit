@@ -3,7 +3,7 @@
     <el-col :span="4">
       <el-menu default-active="0" class="el-menu-vertical-demo" theme="dark">
         <el-menu-item index="0">
-          <router-link :to="{path:'school-college'}">
+          <router-link :to="{path:'campus-college'}">
             学校管理
           </router-link>
         </el-menu-item>
@@ -17,7 +17,7 @@
 
 <script>
   export default {
-    name: 'school-manager',
+    name: 'campus-manager',
     data () {
       return {}
     }

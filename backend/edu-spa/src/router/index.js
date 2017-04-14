@@ -3,8 +3,8 @@ import Router from 'vue-router'
 
 // ---------------------------学校管理目录下-------------------------
 
-import School from '../components/school/School'
-import SchoolCollege from '../components/school/SchoolCollege'
+import Campus from '../components/campus/Campus'
+import campusCollege from '../components/campus/campusCollege'
 
 // ----------------------------未知--------------------------------------
 
@@ -54,18 +54,18 @@ export default new Router({
           }
         },
         {
-          path: '/school',
-          name: 'school',
-          component: School,
-          redirect: '/school-college',
+          path: '/campus',
+          name: 'campus',
+          component: Campus,
+          redirect: '/campus-college',
           meta: {
             requireAuth: true
           },
           children: [
             {
-              path: '/school-college',
-              name: 'school-college',
-              component: SchoolCollege,
+              path: '/campus-college',
+              name: 'campus-college',
+              component: campusCollege,
               meta: {
                 requireAuth: true
               }
