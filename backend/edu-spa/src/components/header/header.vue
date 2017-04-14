@@ -35,8 +35,8 @@
         topMenuList: [
           {
             id: '0',
-            name: 'School',
-            path: 'School',
+            name: 'campus',
+            path: 'campus',
             title: '学校管理'
           }
         ]
