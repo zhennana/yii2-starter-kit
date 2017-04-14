@@ -44,7 +44,9 @@ use yii\helpers\StringHelper;
 
 
 <!-- attribute parent_id -->
-			<?php //echo $form->field($model, 'parent_id')->textInput() ?>
+			<?php echo $form->field($model, 'parent_id')->dropDownList(
+                $parent_category,['prompt'=>'请选择']
+            ) ?>
 
 <!-- attribute creater_id -->
 			<?= $form->field($model, 'creater_id')->hiddenInput(['value'=>Yii::$app->user->identity->id])->label(false)->hint(false) ?>
