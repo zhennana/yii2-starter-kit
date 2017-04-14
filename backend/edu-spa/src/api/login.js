@@ -16,5 +16,14 @@ export default {
         return response.data
       }
     })
+  },
+  logout () {
+    return axios.get('users/api/v1/sign-in/logout').then(response => {
+      if (response.status !== 200) {
+        throw new Error('接口返回失败')
+      } else {
+        return response.data
+      }
+    })
   }
 }

@@ -19,12 +19,10 @@ const mutations = {
   clearUserInfo (state) {
     state.user = false
     localStorage.removeData('user')
-    console.log('clear success!!!')
   },
   receivedUserInfoFromRemote (state, user) {
     state.user = user
     localStorage.addData('user', user)
-    console.log('save successful')
   },
   receivedUserInfoFromLocal (state, user) {
     state.user = user
