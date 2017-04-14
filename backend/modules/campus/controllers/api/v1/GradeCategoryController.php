@@ -169,8 +169,8 @@ class GradeCategoryController extends \yii\rest\ActiveController
     /**
      * @SWG\Get(path="/campus/api/v1/grade-category/view",
      *     tags={"300-Grade-班级管理接口"},
-     *     summary="创建班级分类",
-     *     description="修改班级分类",
+     *     summary="查看班级详情",
+     *     description="查看班级详情",
      *     produces={"application/json"},
      * @SWG\Parameter(
      *        in = "query",
