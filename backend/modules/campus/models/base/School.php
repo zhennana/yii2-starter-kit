@@ -167,7 +167,8 @@ abstract class School extends \yii\db\ActiveRecord
     /**
     * 三级联动地区
     **/
-    public function getCitylist($typeid = 0,$id=false){
+    public function getCitylist($typeid = 0,$id = false){
+        var_dump($typeid ,$id );exit;
         if($typeid == 1){
             $province = CnProvince::find()->asArray()->all();
             return  ArrayHelper::map($province, 'province_id', 'province_name');
