@@ -39,6 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php echo $this->render('_form', [
 		'model' => $model,
+        'parent_category' => $parent_category
 	]); ?>
 
 </div>
