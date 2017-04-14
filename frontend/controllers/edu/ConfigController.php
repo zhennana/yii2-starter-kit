@@ -94,9 +94,9 @@ class ConfigController extends \common\rest\Controller
     {
 
         // 精品课程
-        for ($i=1; $i < 5; $i++) { 
+        for ($i=0; $i < 4; $i++) { 
             $course_items[] = [
-                'course_id'       => $i,
+                'course_id'       => '1',
                 'course_imgUrl'   => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/yajolyajol_activity_banner_01.png?imageView2/1/w/128/h/128',
                 'course_title'    => '全脑速记',
                 'course_featured' => '精品',
@@ -105,9 +105,9 @@ class ConfigController extends \common\rest\Controller
         }
 
         // 专题推荐
-        for ($i=1; $i < 3; $i++) { 
+        for ($i=0; $i < 2; $i++) { 
             $recommend_items[] = [
-                'recommend_id'       => $i,
+                'recommend_id'       => '2',
                 'recommend_imgUrl'   => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/yajolyajol_activity_banner_01.png?imageView2/1/w/128/h/128',
                 'recommend_title'    => '育综合性人才，建四化学校',
                 'recommend_featured' => '精品',
@@ -116,20 +116,20 @@ class ConfigController extends \common\rest\Controller
 
         $data = [
             [
-                'stream_id'       => 1,
+                'stream_id'       => '1',
                 'stream_type'     => 'APP',
                 'stream_name'     => '精品课程',
                 'stream_item_sum' => '4',
-                'stream_status'   => 1,   // 1表示显示，0表示不显示
+                'stream_status'   => '1',   // 1表示显示，0表示不显示
                 'stream_target'   => 'APP',
                 'stream_items'    => $course_items,
             ],
             [
-                'stream_id'       => 2,
+                'stream_id'       => '2',
                 'stream_type'     => 'URL',
                 'stream_name'     => '专题推荐',
                 'stream_item_sum' => '2',
-                'stream_status'   => 1,   // 1表示显示，0表示不显示
+                'stream_status'   => '1',   // 1表示显示，0表示不显示
                 'stream_target'   => 'URL',
                 'stream_items'    => $recommend_items,
             ],
@@ -316,14 +316,14 @@ class ConfigController extends \common\rest\Controller
         if ($type == 'all' || $type =='banner') {
             $data['banner'] = [
                 [
-                    'banner_id'      => 1,
+                    'banner_id'      => '1',
                     'banner_type'    => 'url',
                     'banner_caption' => "燕郊在线，服务燕郊人",
                     'banner_imgUrl'  => "http://7xsm8j.com2.z0.glb.qiniucdn.com/yajol.jpg?imageView2/1/w/640/h/282",
                     'banner_target'  => "http://www.yajol.com",
                 ],
                 [
-                    'banner_id'      => 2,
+                    'banner_id'      => '2',
                     'banner_type'    => 'url',
                     'banner_caption' => "社区超市",
                     'banner_imgUrl'  => "http://7xsm8j.com2.z0.glb.qiniucdn.com/O2Omarketbanner.jpg?imageView2/1/w/640/h/282",
@@ -335,7 +335,7 @@ class ConfigController extends \common\rest\Controller
         if ($type == 'all' || $type == 'button') {
             $data['button'] = [
                 [
-                    'button_id'     => 1,
+                    'button_id'     => '1',
                     'button_type'   => 'url',
                     'button_icon'   => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/articles.png',
                     'button_name'   => '走进光大',
@@ -343,7 +343,7 @@ class ConfigController extends \common\rest\Controller
                     'button_target' => Yii::$app->request->hostInfo.Url::to(['article/view', 'id' => 1]),
                 ],
                 [
-                    'button_id'     => 2,
+                    'button_id'     => '2',
                     'button_type'   => 'url',
                     'button_icon'   => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/vegetable.png',
                     'button_name'   => '小学部',
@@ -351,7 +351,7 @@ class ConfigController extends \common\rest\Controller
                     'button_target' => Yii::$app->request->hostInfo.Url::to(['article/index']),
                 ],
                 [
-                    'button_id'     => 3,
+                    'button_id'     => '3',
                     'button_type'   => 'url',
                     'button_icon'   => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/chille.png',
                     'button_name'   => '中学部',
@@ -359,7 +359,7 @@ class ConfigController extends \common\rest\Controller
                     'button_target' => Yii::$app->request->hostInfo.Url::to(['article/index']),
                 ],
                 [
-                    'button_id'     => 4,
+                    'button_id'     => '4',
                     'button_type'   => 'url',
                     'button_icon'   => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/dried_fruit_and_nuts.png',
                     'button_name'   => '国际部',
@@ -367,7 +367,7 @@ class ConfigController extends \common\rest\Controller
                     'button_target' => Yii::$app->request->hostInfo.Url::to(['article/index']),
                 ],
                 [
-                    'button_id'     => 5,
+                    'button_id'     => '5',
                     'button_type'   => 'url',
                     'button_icon'   => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/wholesale_category.png',
                     'button_name'   => '特长部',
@@ -375,7 +375,7 @@ class ConfigController extends \common\rest\Controller
                     'button_target' => Yii::$app->request->hostInfo.Url::to(['article/index']),
                 ],
                 [
-                    'button_id'     => 6,
+                    'button_id'     => '6',
                     'button_type'   => 'url',
                     'button_icon'   => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/cigarette_drink.png',
                     'button_name'   => '教育教学',
@@ -383,7 +383,7 @@ class ConfigController extends \common\rest\Controller
                     'button_target' => Yii::$app->request->hostInfo.Url::to(['article/index']),
                 ],
                 [
-                    'button_id'     => 7,
+                    'button_id'     => '7',
                     'button_type'   => 'url',
                     'button_icon'   => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/snack_food.png',
                     'button_name'   => '海外游学',
@@ -391,7 +391,7 @@ class ConfigController extends \common\rest\Controller
                     'button_target' => Yii::$app->request->hostInfo.Url::to(['article/index']),
                 ],
                 [
-                    'button_id'     => 8,
+                    'button_id'     => '8',
                     'button_type'   => 'url',
                     'button_icon'   => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/learn.png',
                     'button_name'   => '招生专栏',
@@ -399,7 +399,7 @@ class ConfigController extends \common\rest\Controller
                     'button_target' => Yii::$app->request->hostInfo.Url::to(['article/index']),
                 ],
                 [
-                    'button_id'     => 9,
+                    'button_id'     => '9',
                     'button_type'   => 'url',
                     'button_icon'   => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/fast-food.png',
                     'button_name'   => '招贤纳士',
@@ -407,7 +407,7 @@ class ConfigController extends \common\rest\Controller
                     'button_target' => Yii::$app->request->hostInfo.Url::to(['article/index']),
                 ],
                 [
-                    'button_id'     => 10,
+                    'button_id'     => '10',
                     'button_type'   => 'url',
                     'button_icon'   => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/articles.png',
                     'button_name'   => '在线报名',
