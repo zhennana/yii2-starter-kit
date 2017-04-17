@@ -80,15 +80,23 @@ class SchoolController extends \yii\rest\ActiveController
      *     summary="查询所有学校",
      *     description="返回学校信息",
      *     produces={"application/json"},
-     *     @SWG\Parameter(
+     * @SWG\Parameter(
      *        in = "query",
      *        name = "parent_id",
      *        description = "主校ID",
      *        required = false,
-     *        default = "0",
+     *        default = "",
      *        type = "integer"
      *     ),
-     *     @SWG\Parameter(
+     * @SWG\Parameter(
+     *        in = "query",
+     *        name = "parent_id",
+     *        description = "主校ID",
+     *        required = false,
+     *        default = "",
+     *        type = "integer"
+     *     ),
+     * @SWG\Parameter(
      *        in = "query",
      *        name = "school_title",
      *        description = "学校名称",
@@ -96,7 +104,7 @@ class SchoolController extends \yii\rest\ActiveController
      *        default = "",
      *        type = "string"
      *     ),
-     *     @SWG\Parameter(
+     * @SWG\Parameter(
      *        in = "query",
      *        name = "school_short_title",
      *        description = "学校简称",
@@ -104,7 +112,7 @@ class SchoolController extends \yii\rest\ActiveController
      *        default = "",
      *        type = "string"
      *     ),
-     *     @SWG\Parameter(
+     * @SWG\Parameter(
      *        in = "query",
      *        name = "school_slogan",
      *        description = "学校标语",
@@ -112,7 +120,7 @@ class SchoolController extends \yii\rest\ActiveController
      *        default = "",
      *        type = "string"
      *     ),
-     *     @SWG\Parameter(
+     * @SWG\Parameter(
      *        in = "query",
      *        name = "school_logo_path",
      *        description = "Logo路径",
@@ -120,7 +128,7 @@ class SchoolController extends \yii\rest\ActiveController
      *        default = "",
      *        type = "string"
      *     ),
-     *     @SWG\Parameter(
+     * @SWG\Parameter(
      *        in = "query",
      *        name = "school_backgroud_path",
      *        description = "背景图路径",
@@ -128,7 +136,7 @@ class SchoolController extends \yii\rest\ActiveController
      *        default = "",
      *        type = "string"
      *     ),
-     *     @SWG\Parameter(
+     * @SWG\Parameter(
      *        in = "query",
      *        name = "province_id",
      *        description = "省",
@@ -136,7 +144,7 @@ class SchoolController extends \yii\rest\ActiveController
      *        default = "",
      *        type = "integer"
      *     ),
-     *     @SWG\Parameter(
+     * @SWG\Parameter(
      *        in = "query",
      *        name = "city_id",
      *        description = "城市",
@@ -144,7 +152,7 @@ class SchoolController extends \yii\rest\ActiveController
      *        default = "",
      *        type = "integer"
      *     ),
-     *     @SWG\Parameter(
+     * @SWG\Parameter(
      *        in = "query",
      *        name = "region_id",
      *        description = "区县",
@@ -152,7 +160,7 @@ class SchoolController extends \yii\rest\ActiveController
      *        default = "",
      *        type = "integer"
      *     ),
-     *     @SWG\Parameter(
+     * @SWG\Parameter(
      *        in = "query",
      *        name = "address",
      *        description = "区县",
@@ -160,7 +168,7 @@ class SchoolController extends \yii\rest\ActiveController
      *        default = "",
      *        type = "string"
      *     ),
-     *     @SWG\Parameter(
+     * @SWG\Parameter(
      *        in = "query",
      *        name = "status",
      *        description = "状态：0正常；1标记删除",
@@ -169,15 +177,7 @@ class SchoolController extends \yii\rest\ActiveController
      *        type = "integer",
      *        enum = {0,1}
      *     ),
-     *     @SWG\Parameter(
-     *        in = "query",
-     *        name = "sort",
-     *        description = "排序",
-     *        required = false,
-     *        default = "1",
-     *        type = "integer"
-     *     ),
-     *     @SWG\Response(
+     *  @SWG\Response(
      *         response = 200,
      *         description = "返回创建学校信息"
      *     ),
