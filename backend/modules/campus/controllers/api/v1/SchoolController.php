@@ -82,7 +82,7 @@ class SchoolController extends \yii\rest\ActiveController
      *     produces={"application/json"},
      * @SWG\Parameter(
      *        in = "query",
-     *        name = "parent_id",
+     *        name = "id",
      *        description = "主校ID",
      *        required = false,
      *        default = "",
@@ -163,7 +163,7 @@ class SchoolController extends \yii\rest\ActiveController
      * @SWG\Parameter(
      *        in = "query",
      *        name = "address",
-     *        description = "区县",
+     *        description = "详情地址",
      *        required = false,
      *        default = "",
      *        type = "string"
