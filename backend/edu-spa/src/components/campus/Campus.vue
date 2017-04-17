@@ -2,9 +2,9 @@
   <div>
     <el-col :span="4">
       <el-menu default-active="0" class="el-menu-vertical-demo" theme="dark">
-        <el-menu-item index="0">
-          <router-link :to="{path:'campus-college'}">
-            学校管理
+        <el-menu-item v-for="menu in menuList" :index="menu.id" :key="menu.id">
+          <router-link :to="{path:menu.path}">
+            {{menu.title}}
           </router-link>
         </el-menu-item>
       </el-menu>
@@ -19,7 +19,22 @@
   export default {
     name: 'campus-manager',
     data () {
-      return {}
+      return {
+        menuList: [
+          {
+            id: '0',
+            name: 'campus',
+            path: 'campus',
+            title: '学校管理'
+          },
+          {
+            id: '1',
+            name: 'class',
+            path: 'class',
+            title: '班级管理'
+          }
+        ]
+      }
     }
   }
 </script>
@@ -32,9 +47,10 @@
       height 100%
       color #bfcbd9;
       text-decoration none;
-     .el-menu-item.is-active
+    .el-menu-item.is-active
       & a
         color: #20a0ff;
+
   .child-content
     margin-left 250px
 </style>
