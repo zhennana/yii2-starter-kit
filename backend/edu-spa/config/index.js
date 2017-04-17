@@ -32,6 +32,10 @@ module.exports = {
       '/users': {
         target: 'http://dev.backend.wakooedu.com',
         changeOrigin: true
+      },
+      '/campus': {
+        target: 'http://dev.backend.wakooedu.com',
+        changeOrigin: true
       }
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"
