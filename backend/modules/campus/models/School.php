@@ -49,13 +49,14 @@ class School extends BaseSchool
     }
 	public function getAddresslist($typeid = 0,$id = 0){
         if($typeid == 1){
-            $region  = CnRegion::find()->where(['city_id'=>$id])->asArray()->all();
-           	return $region;
+            $city    = CnCity::find()->where(['province_id'=>$id])->asArray()->all();
+            return $city;
+            
             //return  ArrayHelper::map($region, 'region_id', 'region_name');
         }
         if($typeid == 2){
-            $city    = CnCity::find()->where(['province_id'=>$id])->asArray()->all();
-            return $city;
+            $region  = CnRegion::find()->where(['city_id'=>$id])->asArray()->all();
+            return $region;
             //return  ArrayHelper::map($city, 'city_id', 'city_name');
         }
         

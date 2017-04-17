@@ -37,22 +37,43 @@ public function behaviors()
  */
     public function fields()
     {
-      $fields = parent::fields();
-      $field = [
-        'school_title'=>function($model){
-            return $model->school->school_title;
-        },
-        'group_category_name'=>function($model){
-            return $model->gradeCategory->name;
-        }
-      ];
-      $fields = ArrayHelper::merge($fields,$field);
-      unset($field);
-      return $fields;
+
+      return ArrayHelper::merge(
+             parent::fields(),
+             [
+                'school_title'=>function($model){
+                    return isset($model->school->school_title) ? $model->school->school_title : '';
+                },
+                'group_category_name'=>function($model){
+                    return isset($model->gradeCategory->name) ? $model->gradeCategory->name : '';
+                },
+                'status_label' => function($model){
+                  //var_dump($model->status);exit;
+                     return self::getStatusValueLabel($model->status);
+                },
+                'updated_at'  => function($model){
+                    return date('Y-m-d H:i:s',$model->updated_at);
+                },
+                'created_at'  => function($model){
+                  return date('Y-m-d H:i:s',$model->created_at);
+                },
+                'graduate_label'=>function($model){
+                  return self::getGraduateValue($model->graduate);
+                },
+                'owner_label' =>function($model){
+                  return self::getUserName($model->owner_id);
+                }
+             ]
+        );
     }
 
-    /*public function extraFields(){
-       $fields = parent::extraFields();
-      return $fields;
-    }*/
+    public function extraFields(){
+      var_dump(1132);exit;
+       return ArrayHelper::merage(
+              parent::extraFields(),[
+              'school'=>function(){
+                 return '123';
+              }]
+              );
+    }
 }
