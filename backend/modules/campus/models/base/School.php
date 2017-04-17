@@ -190,6 +190,9 @@ abstract class School extends \yii\db\ActiveRecord
     public function getRegion(){
         return $this->hasOne(\backend\modules\campus\models\CnRegion::ClassName(),['region_id'=>'region_id']);
     }
+    public function getSchool(){
+        return $this->hasOne(\backend\modules\campus\models\School::ClassName(),['parent_id'=>'school_id']);
+    }
     /**
      * @inheritdoc
      * @return \backend\modules\campus\models\query\SchoolQuery the active query used by this AR class.
