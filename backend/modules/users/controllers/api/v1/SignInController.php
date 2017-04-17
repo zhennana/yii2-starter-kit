@@ -558,7 +558,7 @@ class SignInController extends \common\components\ControllerFrontendApi
      *     produces={"application/json"},
      *     @SWG\Response(
      *         response = 200,
-     *         description = "返回Token"
+     *         description = "true"
      *     )
      * )
      *

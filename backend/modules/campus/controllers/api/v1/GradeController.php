@@ -247,8 +247,8 @@ public $modelClass = 'backend\modules\campus\models\Grade';
      /**
      * @SWG\Post(path="/campus/api/v1/grade/create",
      *     tags={"300-Grade-班级管理接口"},
-     *     summary="修改班级数据",
-     *     description="修改班级数据",
+     *     summary="创建班级",
+     *     description="创建班级",
      *     produces={"application/json"},
      * @SWG\Parameter(
      *        in = "formData",
