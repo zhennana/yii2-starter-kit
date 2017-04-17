@@ -474,14 +474,14 @@ class SchoolController extends \yii\rest\ActiveController
      *@SWG\Parameter(
      *        in = "query",
      *        name = "id",
-     *        description = "省 市 的key",
+     *        description = "省 区 市 的id",
      *        required = false,
      *        default = "0",
      *        type = "integer"
      *     ),
      *@SWG\Response(
      *         response = 200,
-     *         description = "返回创建学校信息"
+     *         description = "获取省 不用传值。 获取市 type_id传1,id传省id。 获取区 type_id传2，id传区的id"
      *     ),
      * )
      */
