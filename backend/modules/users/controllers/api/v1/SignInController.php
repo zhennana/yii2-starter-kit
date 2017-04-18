@@ -127,8 +127,6 @@ class SignInController extends \common\components\ControllerFrontendApi
         // "x-mobile-powered-by": "Android/5.6.14",
         // Yii::$app->getUser()->login($user);
         // Accept-Language  zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3
-        $response = \Yii::$app->getResponse();
-        $response->getHeaders()->set('Access-Control-Allow-Origin',"*");
         \Yii::$app->language = 'zh-CN';
         $model = new LoginForm();
         $model->load($_POST);

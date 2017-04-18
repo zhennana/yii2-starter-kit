@@ -159,16 +159,15 @@ class User extends ActiveRecord implements IdentityInterface
     public function getCharacterDetailes(){
        
       if(!empty($this->userToGrade)){
-       return  $this->DataInit($this->userToGrade);
+            return  $this->DataInit($this->userToGrade);
        }elseif(!empty($this->userToSchool)){
-         return $this->DataInit($this->userToSchool);
+            return $this->DataInit($this->userToSchool);
       }else{
         
         return $this->DataInit();
       }
-
-
     }
+
     /**
      * 返回的字段初始化
      */
