@@ -94,43 +94,41 @@ class ConfigController extends \common\rest\Controller
     public function actionIndex()
     {
 
-        // 精品课程
         for ($i=1; $i < 5; $i++) { 
             $course_items[] = [
-                'course_id'       => (string)$i,
-                'course_imgUrl'   => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/yajolyajol_activity_banner_01.png?imageView2/1/w/128/h/128',
-                'course_title'    => '全脑速记',
+                'item_id'     => (string)$i,
+                'item_type'   => 'URL',
+                'item_title'  => '全脑速记',
+                'item_target' => 'http://www.yajol.com',
+                'imgUrl'      => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/yajolyajol_activity_banner_01.png?imageView2/1/w/128/h/128',
 
             ];
         }
 
-        // 专题推荐
         for ($i=1; $i < 3; $i++) {
             $recommend_items[] = [
-                'recommend_id'       => (string)$i,
-                'recommend_imgUrl'   => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/yajolyajol_activity_banner_01.png?imageView2/1/w/128/h/128',
-                'recommend_title'    => '育综合性人才，建四化学校',
+                'item_id'     => (string)$i,
+                'item_type'   => 'APP',
+                'item_title'  => '育综合性人才，建四化学校',
+                'item_target' => Yii::$app->request->hostInfo.Url::to(['api/courseware/view','id'=>1]),
+                'imgUrl'      => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/yajolyajol_activity_banner_01.png?imageView2/1/w/128/h/128',
             ];
         }
 
         $data = [
             [
                 'stream_id'       => '1',
-                'stream_type'     => 'APP',
+                'stream_type'     => '1',
                 'stream_name'     => '精品课程',
-                'stream_item_sum' => '4',
                 'stream_status'   => '1',   // 1表示显示，0表示不显示
-                'stream_target'   => 'http://www.yajol.com',
-                'stream_items1'    => $course_items,
+                'stream_items'    => $course_items,
             ],
             [
-                'stream_id'       => '2',
-                'stream_type'     => 'URL',
-                'stream_name'     => '专题推荐',
-                'stream_item_sum' => '2',
-                'stream_status'   => '1',   // 1表示显示，0表示不显示
-                'stream_target'   => 'http://www.yajol.com',
-                'stream_items2'    => $recommend_items,
+                'stream_id'     => '2',
+                'stream_type'   => '2',
+                'stream_name'   => '专题推荐',
+                'stream_status' => '1',   // 1表示显示，0表示不显示
+                'stream_items' => $recommend_items,
             ],
         ];
 
@@ -316,13 +314,13 @@ class ConfigController extends \common\rest\Controller
         for ($i=1; $i < 3 ; $i++) {
             if($i%2==0){
                 $data[$i]['banner_id']      = ''.$i;
-                $data[$i]['banner_type']    = 'Url';
+                $data[$i]['banner_type']    = 'URL';
                 $data[$i]['banner_caption'] = $title[$i];
                 $data[$i]['banner_imgUrl']  = $img[$i];
                 $data[$i]['banner_target']  = 'http://www.yajol.com';
         }else{
                 $data[$i]['banner_id']      = ''.$i;
-                $data[$i]['banner_type']    = 'App';
+                $data[$i]['banner_type']    = 'APP';
                 $data[$i]['banner_caption'] = $title[$i];
                 $data[$i]['banner_imgUrl']  = $img[$i];
                 $data[$i]['banner_target']  = Yii::$app->request->hostInfo.Url::to(['api/courseware/view','id'=>1]);
