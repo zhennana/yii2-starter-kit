@@ -314,12 +314,20 @@ class ConfigController extends \common\rest\Controller
         $data = [];
         //var_dump($data);exit();
         for ($i=1; $i < 3 ; $i++) {
-            $data[$i]['banner_id']      = ''.$i;
-            $data[$i]['banner_type']    = 'url';
-            $data[$i]['banner_caption'] = $title[$i];
-            $data[$i]['banner_imgUrl']  = $img[$i];
-            $data[$i]['banner_target']  = 'http://www.yajol.com';
+            if($i%2==0){
+                $data[$i]['banner_id']      = ''.$i;
+                $data[$i]['banner_type']    = 'Url';
+                $data[$i]['banner_caption'] = $title[$i];
+                $data[$i]['banner_imgUrl']  = $img[$i];
+                $data[$i]['banner_target']  = 'http://www.yajol.com';
+        }else{
+                $data[$i]['banner_id']      = ''.$i;
+                $data[$i]['banner_type']    = 'App';
+                $data[$i]['banner_caption'] = $title[$i];
+                $data[$i]['banner_imgUrl']  = $img[$i];
+                $data[$i]['banner_target']  = Yii::$app->request->hostInfo.Url::to(['api/courseware/view','id'=>1]);
         }
+    }
         sort($data);
         return $data;
     }
@@ -392,7 +400,7 @@ class ConfigController extends \common\rest\Controller
     **/
 
     public function actionMy(){
-        
+
         if(Yii::$app->user->isGuest){
             $this->serializer['errno']      = 422;
             $this->serializer['message']    = '请您先登录';
@@ -411,7 +419,7 @@ class ConfigController extends \common\rest\Controller
             return [
                 'account' =>Yii::$app->user->identity->username,
                 'lavel'   => '',
-                'grade'   => '',
+                'grade'   => Yii::$app->user->identity,
                 'parents' => '',
             ];
         }
