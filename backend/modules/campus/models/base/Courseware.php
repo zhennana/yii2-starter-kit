@@ -80,9 +80,10 @@ abstract class Courseware extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['category_id', 'creater_id', 'access_domain', 'access_other', 'status','file_counts','page_view'], 'integer'],
+            [['category_id', 'creater_id', 'access_domain', 'access_other', 'status','file_counts','page_view','parent_id'], 'integer'],
             [['title'], 'required'],
             [['body','tags'], 'string'],
+            ['parent_id','default','value' => 0],
             ['creater_id','default','value'=>Yii::$app->user->identity->id],
             [['title','tags'], 'string', 'max' => 512],
             ['slug','safe']
