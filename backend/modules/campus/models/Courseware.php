@@ -18,6 +18,10 @@ use yii\web\UploadedFile;
 class Courseware extends BaseCourseware
 {
 
+// 获取插入文件后的id
+private $storage_ids = [];
+private $error       = [];
+
 public function behaviors()
     {
         return ArrayHelper::merge(
@@ -36,6 +40,73 @@ public function behaviors()
                   # custom validation rules
              ]
         );
+    }
+
+    public function AddCollection($data)
+    {
+        if(!isset($data['Courseware']) && !isset($data['FileStorageItem'])){
+            $this->addErrors(['error'=>'数据不能为空']);
+            return $this;
+        }
+
+        $transaction = $this->db->beginTransaction();
+        $this->load($data['Courseware'],'');
+        if($this->save() === false){
+            $transaction->rollBack();
+            return $this;
+        }
+
+        //创建文件
+        $storage = $this->AddFileStorageItem($data['FileStorageItem']);
+//var_dump($storage);exit;
+        if(isset($this->error['FileStorageItem'])){
+            $transaction->rollBack();
+            return $storage;
+        }
+
+        //创建文件课件关系
+       $CoursewareToFile = $this->addCoursewareToFile($this->courseware_id);
+
+        if(isset($this->error['CoursewareToFile'])){
+            $transaction->rollBack();
+            return $CoursewareToFile;
+        }
+ 
+//var_dump($this);exit;
+        $transaction->commit();
+        return $this;
+
+    }
+
+    public function AddFileStorageItem($data){
+        foreach ($data as $key => $value) {
+           $model = new FileStorageItem();
+           $value['user_id']   = Yii::$app->user->identity->id;
+           $value['url']       = Yii::$app->params['qiniu']['wakooedu']['domain'].'/';
+           $value['status']    = 1;
+           $value['upload_ip'] = Yii::$app->request->getUserIP();
+           $model->load($value,'');
+           if(!$model->save()){
+                $this->error['FileStorageItem'] = $model->getErrors();
+                return $model;
+           }
+           $this->storage_ids[$key] = $model->file_storage_item_id;
+        }
+
+    }
+
+    public function addCoursewareToFile($courseware_id)
+    {
+        foreach ($this->storage_ids as $key => $value) {
+            $model = new CoursewareToFile();
+            $model->file_storage_item_id = $value;
+            $model->courseware_id        = $courseware_id;
+            $model->status               = 1;
+            if(!$model->save()){
+                $this->error['CoursewareToFile'] = $model->getErrors();
+                return $model;
+            }
+        }
     }
 /*
     public function CreateData(){
