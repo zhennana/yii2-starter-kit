@@ -5,6 +5,8 @@ namespace backend\modules\campus\models;
 use Yii;
 use \backend\modules\campus\models\base\Grade as BaseGrade;
 use yii\helpers\ArrayHelper;
+use backend\modules\campus\models\GradeCategory;
+use backend\modules\campus\models\School;
 
 /**
  * This is the model class for table "grade".
@@ -68,12 +70,52 @@ public function behaviors()
     }
 
     public function extraFields(){
-      var_dump(1132);exit;
        return ArrayHelper::merage(
               parent::extraFields(),[
               'school'=>function(){
                  return '123';
               }]
               );
+    }
+    /**
+     * 下拉框 数据
+     * @param  [type] $type [description]
+     * @return [type]       [description]
+     */
+    public function DropDownGather(){
+       $data =[];
+       $data['school'] = $this->DropDownSchool();
+       $data['grade_category'] = $this->DropDownGradeCategory();
+       $data['status'] = $this->DropDownStatus();
+       return $data;
+    }
+
+    /**
+     * 获取学校下拉框
+     */
+    public function DropDownSchool(){
+      return  School::find()->select(['school_id','school_title'])->where(['status'=>School::SCHOOL_STATUS_OPEN])->asArray()->all();
+    }
+    /**
+     * 获取班级
+     */
+    public function DropDownGradeCategory(){
+       return GradeCategory::find()->select(['grade_category_id','name'])->where(['status'=>GradeCategory::CATEGORY_OPEN])->asArray()->all();
+    }
+
+    /**
+     * 状态
+     */
+    public function DropDownStatus(){
+      return [
+          [
+            'status_id'    =>   self::GRADE_STATUS_OPEN ,
+            'status_label' => '开启'
+          ],
+          [
+            'status_id'=>  self::GRANE_STATUS_DELECT,
+            'status_label' => '删除'
+          ]
+      ];
     }
 }
