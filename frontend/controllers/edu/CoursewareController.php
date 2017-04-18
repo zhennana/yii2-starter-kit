@@ -137,22 +137,21 @@ class CoursewareController extends \common\rest\Controller
             ->andWhere(['courseware_id' => $courseware_id])
             ->asArray()
             ->one();
-        $sub_courseware = $modelClass::find()
-            ->where(['status' => $modelClass::COURSEWARE_STATUS_VALID])
-            ->andWhere(['parent_id' => $courseware_id])
-            ->asArray()
-            ->all();
-        foreach ($sub_courseware as $value) {
-            $value['fileUrl'] = 'http://omsqlyn5t.bkt.clouddn.com/o_1bd0vghqqab37pr165sluc1sgq9.mp4';
-            $data[] = $value;
-        }
-
         if (!$courseware) {
             return [];
         }
         $courseware['fileUrl'] = 'http://omsqlyn5t.bkt.clouddn.com/o_1bd0vghqqab37pr165sluc1sgq9.mp4';
-        $courseware['sub_courseware'] = $data;
-        return $courseware;
+        /*$sub_courseware = $modelClass::find()
+            ->where(['status' => $modelClass::COURSEWARE_STATUS_VALID])
+            ->andWhere(['parent_id' => $courseware_id])
+            ->asArray()
+            ->all();*/
+       for ($i=0; $i < 5; $i++) { 
+            $data[$i] = $courseware;
+       }
+       $courseware['sub_courseware'] = $data;
+       return $courseware;
+
     }
 
 
