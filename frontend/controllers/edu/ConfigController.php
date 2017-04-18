@@ -325,7 +325,7 @@ class ConfigController extends \common\rest\Controller
                 $data[$i]['banner_type']    = 'App';
                 $data[$i]['banner_caption'] = $title[$i];
                 $data[$i]['banner_imgUrl']  = $img[$i];
-                $data[$i]['banner_target']  = Url::to(['api/courseware/view','id'=>1]);
+                $data[$i]['banner_target']  = Yii::$app->request->hostInfo.Url::to(['api/courseware/view','id'=>1]);
         }
     }
         sort($data);
