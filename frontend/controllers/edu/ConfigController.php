@@ -94,23 +94,21 @@ class ConfigController extends \common\rest\Controller
     {
 
         // 精品课程
-        for ($i=0; $i < 4; $i++) { 
+        for ($i=1; $i < 5; $i++) { 
             $course_items[] = [
-                'course_id'       => '1',
+                'course_id'       => (string)$i,
                 'course_imgUrl'   => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/yajolyajol_activity_banner_01.png?imageView2/1/w/128/h/128',
                 'course_title'    => '全脑速记',
-                'course_featured' => '精品',
 
             ];
         }
 
         // 专题推荐
-        for ($i=0; $i < 2; $i++) { 
+        for ($i=1; $i < 3; $i++) {
             $recommend_items[] = [
-                'recommend_id'       => '2',
+                'recommend_id'       => (string)$i,
                 'recommend_imgUrl'   => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/yajolyajol_activity_banner_01.png?imageView2/1/w/128/h/128',
                 'recommend_title'    => '育综合性人才，建四化学校',
-                'recommend_featured' => '精品',
             ];
         }
 
@@ -121,7 +119,7 @@ class ConfigController extends \common\rest\Controller
                 'stream_name'     => '精品课程',
                 'stream_item_sum' => '4',
                 'stream_status'   => '1',   // 1表示显示，0表示不显示
-                'stream_target'   => 'APP',
+                'stream_target'   => 'http://www.yajol.com',
                 'stream_items'    => $course_items,
             ],
             [
@@ -130,7 +128,7 @@ class ConfigController extends \common\rest\Controller
                 'stream_name'     => '专题推荐',
                 'stream_item_sum' => '2',
                 'stream_status'   => '1',   // 1表示显示，0表示不显示
-                'stream_target'   => 'URL',
+                'stream_target'   => 'http://www.yajol.com',
                 'stream_items'    => $recommend_items,
             ],
         ];
@@ -285,23 +283,14 @@ class ConfigController extends \common\rest\Controller
 
 
     /**
-     * @SWG\Get(path="/config/primary-vision",
+     * @SWG\Get(path="/config/banner",
      *     tags={"800-Config-配置信息接口"},
-     *     summary="主视觉(banner、按钮、按钮下方模块)",
-     *     description="返回主视觉信息",
+     *     summary="Banner",
+     *     description="返回Banner",
      *     produces={"application/json"},
-     *     @SWG\Parameter(
-     *        in = "query",
-     *        name = "type",
-     *        description = "选择主视觉类型，默认all",
-     *        required = false,
-     *        type = "string",
-     *        default = "all",
-     *        enum = {"all","banner","button","block"}
-     *     ),
      *     @SWG\Response(
      *         response = 200,
-     *         description = "返回主视觉"
+     *         description = "返回Banner"
      *     ),
      * )
      *
@@ -311,138 +300,81 @@ class ConfigController extends \common\rest\Controller
      * @param  string $type [description]
      * @return [type]       [description]
      */
-    public function actionPrimaryVision($type='all')
+    public function actionBanner()
     {
-        if ($type == 'all' || $type =='banner') {
-            $data['banner'] = [
-                [
-                    'banner_id'      => '1',
-                    'banner_type'    => 'url',
-                    'banner_caption' => "燕郊在线，服务燕郊人",
-                    'banner_imgUrl'  => "http://7xsm8j.com2.z0.glb.qiniucdn.com/yajol.jpg?imageView2/1/w/640/h/282",
-                    'banner_target'  => "http://www.yajol.com",
-                ],
-                [
-                    'banner_id'      => '2',
-                    'banner_type'    => 'url',
-                    'banner_caption' => "社区超市",
-                    'banner_imgUrl'  => "http://7xsm8j.com2.z0.glb.qiniucdn.com/O2Omarketbanner.jpg?imageView2/1/w/640/h/282",
-                    'banner_target'  => "http://www.yajol.com",
-                ],
-            ];
+        $img=[
+            1 => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/573ed468312f3.jpg?imageView2/1/w/640/h/282',
+            2 => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/bannerone.jpg?imageView2/1/w/640/h/282'
+        ];
+        $title=[
+            1 => '直击精品课程',
+            2 => '冠军品质，值得信赖'
+        ];
+        $data = [];
+        //var_dump($data);exit();
+        for ($i=1; $i < 3 ; $i++) {
+            $data[$i]['banner_id']      = ''.$i;
+            $data[$i]['banner_type']    = 'url';
+            $data[$i]['banner_caption'] = $title[$i];
+            $data[$i]['banner_imgUrl']  = $img[$i];
+            $data[$i]['banner_target']  = 'http://www.yajol.com';
         }
-
-        if ($type == 'all' || $type == 'button') {
-            $data['button'] = [
-                [
-                    'button_id'     => '1',
-                    'button_type'   => 'url',
-                    'button_icon'   => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/articles.png',
-                    'button_name'   => '走进光大',
-                    'button_sort'   => '1',
-                    'button_target' => Yii::$app->request->hostInfo.Url::to(['article/view', 'id' => 1]),
-                ],
-                [
-                    'button_id'     => '2',
-                    'button_type'   => 'url',
-                    'button_icon'   => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/vegetable.png',
-                    'button_name'   => '小学部',
-                    'button_sort'   => '2',
-                    'button_target' => Yii::$app->request->hostInfo.Url::to(['article/index']),
-                ],
-                [
-                    'button_id'     => '3',
-                    'button_type'   => 'url',
-                    'button_icon'   => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/chille.png',
-                    'button_name'   => '中学部',
-                    'button_sort'   => '3',
-                    'button_target' => Yii::$app->request->hostInfo.Url::to(['article/index']),
-                ],
-                [
-                    'button_id'     => '4',
-                    'button_type'   => 'url',
-                    'button_icon'   => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/dried_fruit_and_nuts.png',
-                    'button_name'   => '国际部',
-                    'button_sort'   => '4',
-                    'button_target' => Yii::$app->request->hostInfo.Url::to(['article/index']),
-                ],
-                [
-                    'button_id'     => '5',
-                    'button_type'   => 'url',
-                    'button_icon'   => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/wholesale_category.png',
-                    'button_name'   => '特长部',
-                    'button_sort'   => '5',
-                    'button_target' => Yii::$app->request->hostInfo.Url::to(['article/index']),
-                ],
-                [
-                    'button_id'     => '6',
-                    'button_type'   => 'url',
-                    'button_icon'   => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/cigarette_drink.png',
-                    'button_name'   => '教育教学',
-                    'button_sort'   => '6',
-                    'button_target' => Yii::$app->request->hostInfo.Url::to(['article/index']),
-                ],
-                [
-                    'button_id'     => '7',
-                    'button_type'   => 'url',
-                    'button_icon'   => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/snack_food.png',
-                    'button_name'   => '海外游学',
-                    'button_sort'   => '7',
-                    'button_target' => Yii::$app->request->hostInfo.Url::to(['article/index']),
-                ],
-                [
-                    'button_id'     => '8',
-                    'button_type'   => 'url',
-                    'button_icon'   => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/learn.png',
-                    'button_name'   => '招生专栏',
-                    'button_sort'   => '8',
-                    'button_target' => Yii::$app->request->hostInfo.Url::to(['article/index']),
-                ],
-                [
-                    'button_id'     => '9',
-                    'button_type'   => 'url',
-                    'button_icon'   => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/fast-food.png',
-                    'button_name'   => '招贤纳士',
-                    'button_sort'   => '9',
-                    'button_target' => Yii::$app->request->hostInfo.Url::to(['article/index']),
-                ],
-                [
-                    'button_id'     => '10',
-                    'button_type'   => 'url',
-                    'button_icon'   => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/articles.png',
-                    'button_name'   => '在线报名',
-                    'button_sort'   => '10',
-                    'button_target' => Yii::$app->request->hostInfo.Url::to(['article/index']),
-                ],
-            ];
-        }
-
-        if ($type == 'all' || $type == 'block') {
-            $data['block'] = [
-                [
-                    'block_name'   => 'top',
-                    'block_title'  => '中国梦，教育梦',
-                    'block_target' => Yii::$app->request->hostInfo.Url::to(['article/view', 'id' => 1]),
-                    'img_url'      => 'http://7xutvv.com2.z0.glb.qiniucdn.com/o_1b69dmmq11uefuon1e89o181ek5l.jpg',
-                ],
-                [
-                    'block_name'   => 'left',
-                    'block_title'  => '教学楼',
-                    'block_target' => Yii::$app->request->hostInfo.Url::to(['article/view', 'id' => 1]),
-                    'img_url'      => 'http://7xutvv.com2.z0.glb.qiniucdn.com/o_1b663qa4p1a4p1v85hjf1usphgs26.jpg',
-                ],
-                [
-                    'block_name'   => 'right',
-                    'block_title'  => '物理实验室',
-                    'block_target' => Yii::$app->request->hostInfo.Url::to(['article/view', 'id' => 1]),
-                    'img_url'      => 'http://7xutvv.com2.z0.glb.qiniucdn.com/o_1b662vj931cj5sas1uhs1i2m14eo2c.jpg',
-                ],
-            ];
-        }
-
+        sort($data);
         return $data;
     }
 
+    /**
+     * @SWG\Get(path="/config/button",
+     *     tags={"800-Config-配置信息接口"},
+     *     summary="按钮",
+     *     description="返回首页按钮",
+     *     produces={"application/json"},
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "返回首页按钮"
+     *     ),
+     * )
+     *
+    **/
+    public function actionButton()
+    {
+        $icon = [
+            1  => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/ShanSong.png?imageView2/1/w/86/h/86', 
+            2  => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/PiFa.png?imageView2/1/w/86/h/86',
+            3  => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/miaoshou.jpg?imageView2/1/w/86/h/86',
+            4  => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/Tel.png?imageView2/1/w/86/h/86',
+            5  => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/BianMin.png?imageView2/1/w/86/h/86',
+            6  => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/market.png?imageView2/1/w/86/h/86',
+            7  => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/shangjia.jpg?imageView2/1/w/86/h/86',
+            8  => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/chuyou.jpg?imageView2/1/w/86/h/86',
+            9  => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/Tel.png?imageView2/1/w/86/h/86',
+            10 => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/ShanSong.png?imageView2/1/w/86/h/86', 
+        ];
+
+        $title = [
+            1  => '走进光大',
+            2  => '小学部',
+            3  => '中学部',
+            4  => '国际版',
+            5  => '特长部',
+            6  => '教育教学',
+            7  => '海外游学',
+            8  => '招生专栏',
+            9  => '招贤纳士',
+            10 => '在线报名',
+        ];
+
+        for ($i=1; $i < 9 ; $i++) {
+            $data[$i]['button_id']   = ''. $i;
+            $data[$i]['button_type'] = 'URL'; // 类型：url跳转，还是APP内部跳转
+            $data[$i]['button_icon'] = $icon[$i] ; // 
+
+            $data[$i]['button_name']   = $title[$i];
+            $data[$i]['button_target'] = 'http://www.yajol.com';
+        }
+        sort($data);
+        return $data;
+    }
 
 
 }

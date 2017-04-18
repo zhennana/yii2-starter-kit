@@ -45,7 +45,7 @@ abstract class Grade extends \yii\db\ActiveRecord
 
     public static function getGraduateValue($value){
         $label = self::optsGraduate();
-        if($label[$value]){
+        if(isset($label[$value])){
             return $label[$value];
         }
         return $value;

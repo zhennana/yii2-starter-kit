@@ -168,7 +168,6 @@ abstract class School extends \yii\db\ActiveRecord
     * 三级联动地区
     **/
     public function getCitylist($typeid = 0,$id = false){
-        var_dump($typeid ,$id );exit;
         if($typeid == 1){
             $province = CnProvince::find()->asArray()->all();
             return  ArrayHelper::map($province, 'province_id', 'province_name');
@@ -189,6 +188,9 @@ abstract class School extends \yii\db\ActiveRecord
     }
     public function getRegion(){
         return $this->hasOne(\backend\modules\campus\models\CnRegion::ClassName(),['region_id'=>'region_id']);
+    }
+    public function getSchool(){
+        return $this->hasOne(\backend\modules\campus\models\School::ClassName(),['parent_id'=>'school_id']);
     }
     /**
      * @inheritdoc
