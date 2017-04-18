@@ -6,13 +6,11 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 import './assets/stylus/common/_common.styl'
 import store from './store'
-import VueResource from 'vue-resource'
 
 import App from './App'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
-Vue.use(VueResource)
 // -----------------------   自定义指令   ------------------------
 Vue.directive('permission',
   function (el, binding) {
