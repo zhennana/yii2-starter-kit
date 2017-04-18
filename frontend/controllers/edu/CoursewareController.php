@@ -128,16 +128,30 @@ class CoursewareController extends \common\rest\Controller
     **/
     public function actionView($courseware_id)
     {
+        $data = [];
         $modelClass = $this->modelClass;
 
-        // 父课件与文件
+        // 父课件
         $courseware = $modelClass::find()
             ->where(['status' => $modelClass::COURSEWARE_STATUS_VALID])
             ->andWhere(['courseware_id' => $courseware_id])
             ->asArray()
             ->one();
+        if (!$courseware) {
+            return [];
+        }
+        $courseware['fileUrl'] = 'http://omsqlyn5t.bkt.clouddn.com/o_1bd0vghqqab37pr165sluc1sgq9.mp4';
+        /*$sub_courseware = $modelClass::find()
+            ->where(['status' => $modelClass::COURSEWARE_STATUS_VALID])
+            ->andWhere(['parent_id' => $courseware_id])
+            ->asArray()
+            ->all();*/
+       for ($i=0; $i < 5; $i++) { 
+            $data[$i] = $courseware;
+       }
+       $courseware['sub_courseware'] = $data;
+       return $courseware;
 
-        return $courseware;
     }
 
 
