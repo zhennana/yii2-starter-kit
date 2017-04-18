@@ -7,6 +7,7 @@
         <el-button type="info" class="fl append el-icon-plus" v-on:click="dialogFormVisible = true">创建</el-button>
       </el-col>
     </el-row>
+
     <!--搜素学校-->
     <div class="search-school">
       <el-form :label-position="labelPosition" label-width="100px" class="clearFix exhibition-top">
@@ -87,12 +88,75 @@
         <el-button @click="dialogFormVisible = false">取 消</el-button>
       </div>
     </el-dialog>
+
+    <el-form :label-position="labelPosition" label-width="100px" :model="campus" class="clearFix exhibition-top">
+      <el-form-item label="学校ID" class="fl search-above">
+        <el-input v-model="campus.id"></el-input>
+      </el-form-item>
+      <el-form-item label="主校ID" class="fl search-above">
+        <el-input v-model="campus.parent_id"></el-input>
+      </el-form-item>
+      <el-form-item label="学校名称" class="fl search-above">
+        <el-input v-model="campus.school_title"></el-input>
+      </el-form-item>
+      <el-form-item label="学校简称" class="fl search-above">
+        <el-input v-model="campus.school_short_title"></el-input>
+      </el-form-item>
+      <el-form-item label="学校标语" class="fl search-above">
+        <el-input v-model="campus.school_slogan"></el-input>
+      </el-form-item>
+      <el-form-item label="Logo路径" class="fl search-above">
+        <el-input v-model="campus.school_logo_path"></el-input>
+      </el-form-item>
+      <el-form-item label="背景图路径" class="fl search-above">
+        <el-input v-model="campus.school_backgroud_path"></el-input>
+      </el-form-item>
+      <el-form-item label="省" class="fl search-above">
+        <el-input v-model="campus.province_id"></el-input>
+      </el-form-item>
+      <el-form-item label="城市" class="fl search-above">
+        <el-input v-model="campus.city_id"></el-input>
+      </el-form-item>
+      <el-form-item label="区县" class="fl search-above">
+        <el-input v-model="campus.region_id"></el-input>
+      </el-form-item>
+      <el-form-item label="具体地址(街道)" class="fl search-above">
+        <el-input v-model="campus.address"></el-input>
+      </el-form-item>
+      <el-form-item label="是否已经删除" class="fl search-above">
+        <el-select v-model="campus.status" placeholder="学校是已否删除">
+          <el-option label="未删除" value="0"></el-option>
+          <el-option label="已删除" value="1"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-button type="primary" icon="search" class="fl" @click="displaySchool">搜索</el-button>
+    </el-form>
+    <el-table
+      :data="result"
+      style="width: 100%">
+      <el-table-column
+        prop="id"
+        label="id"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="school_title"
+        label="名称"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="address"
+        label="地址">
+      </el-table-column>
+    </el-table>
+
   </div>
 </template>
 
 <script>
   import Campus from '../../api/campus'
   export default {
+
     created () {
       this.displaySchool()
     },
@@ -114,6 +178,7 @@
           address: '',
           status: ''
         },
+
         promptText: [
           '学校ID',
           '主校ID',
@@ -146,16 +211,18 @@
         formLabelWidth: '120px'
       }
     },
+
     methods: {
-      // 展示学校
       displaySchool () {
         Campus.getSchool(this.campus).then(response => {
           if (response.errno === '0') {
-            this.campusResult = response.result
+            this.result = response.result
+
           }
         }).catch(error => {
           console.log(error)
         })
+
       },
 //       创建学校
       createSchool () {
@@ -163,6 +230,7 @@
           if (response.errno === '0') {
           }
         })
+
       }
     }
   }
@@ -196,6 +264,7 @@
     margin-left:20px;
   .exhibition-top
     text-align :center;
+
     margin-left:20px;
   .search-above
     margin-right:10px;
@@ -204,4 +273,5 @@
   .search-school
     .button-display-school
       margin-top:23px;
+
 </style>

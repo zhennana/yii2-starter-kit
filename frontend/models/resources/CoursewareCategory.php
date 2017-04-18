@@ -29,6 +29,13 @@ class CoursewareCategory extends BaseCoursewareCategory
         );
     }
 
+    /**
+     * [get_category 课件分类无限级递归]
+     * @param  [type]  $model [description]
+     * @param  integer $pid   [description]
+     * @return [type]         [description]
+     */
+    /*
     public static function get_category($model, $pid = 0)
     {
         $data = [];
@@ -40,6 +47,7 @@ class CoursewareCategory extends BaseCoursewareCategory
         }
         return $data;
     }
+    */
 
 }
 
