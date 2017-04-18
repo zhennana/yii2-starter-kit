@@ -11,6 +11,7 @@ use yii\helpers\Url;
 
 use frontend\modules\api\v1\resources\Article;
 use frontend\models\resources\Course;
+use frontend\models\resources\UsersToUsers;
 
 class ConfigController extends \common\rest\Controller
 {
@@ -93,45 +94,29 @@ class ConfigController extends \common\rest\Controller
     public function actionIndex()
     {
 
-        // 精品课程
-        for ($i=1; $i < 5; $i++) { 
-            $course_items[] = [
-                'course_id'       => (string)$i,
-                'course_imgUrl'   => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/yajolyajol_activity_banner_01.png?imageView2/1/w/128/h/128',
-                'course_title'    => '全脑速记',
-
-            ];
-        }
-
-        // 专题推荐
-        for ($i=1; $i < 3; $i++) {
+        for ($i=1; $i < 4; $i++) {
             $recommend_items[] = [
-                'recommend_id'       => (string)$i,
-                'recommend_imgUrl'   => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/yajolyajol_activity_banner_01.png?imageView2/1/w/128/h/128',
-                'recommend_title'    => '育综合性人才，建四化学校',
+                'coursee_id'     => (string)$i,
+                'type'   => '文件的类型',
+                'title'       => '育综合性人才，建四化学校',
+                'target_url' => Yii::$app->request->hostInfo.Url::to(['api/courseware/view','id'=>1]),
+                'imgUrl'      => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/yajolyajol_activity_banner_01.png?imageView2/1/w/128/h/128',
             ];
         }
 
         $data = [
             [
-                'stream_id'       => '1',
-                'stream_type'     => 'APP',
-                'stream_name'     => '精品课程',
-                'stream_item_sum' => '4',
-                'stream_status'   => '1',   // 1表示显示，0表示不显示
-                'stream_target'   => 'http://www.yajol.com',
-                'stream_items'    => $course_items,
+                'type'     => '1',
+                'name'     => '精品课程',
+                'target_url'=> '这里是更多的跳转',
+                'items'    => $recommend_items,
             ],
             [
-                'stream_id'       => '2',
-                'stream_type'     => 'URL',
-                'stream_name'     => '专题推荐',
-                'stream_item_sum' => '2',
-                'stream_status'   => '1',   // 1表示显示，0表示不显示
-                'stream_target'   => 'http://www.yajol.com',
-                'stream_items'    => $recommend_items,
-            ],
-        ];
+                'type'     => '2',
+                'name'     => '精选课程',
+                'target_url'=> '这里是更多的跳转',
+                'items'    => $recommend_items,
+            ]];
 
         return $data;
     }
@@ -313,12 +298,20 @@ class ConfigController extends \common\rest\Controller
         $data = [];
         //var_dump($data);exit();
         for ($i=1; $i < 3 ; $i++) {
-            $data[$i]['banner_id']      = ''.$i;
-            $data[$i]['banner_type']    = 'url';
-            $data[$i]['banner_caption'] = $title[$i];
-            $data[$i]['banner_imgUrl']  = $img[$i];
-            $data[$i]['banner_target']  = 'http://www.yajol.com';
+            if($i%2==0){
+                $data[$i]['banner_id']      = ''.$i;
+                $data[$i]['banner_type']    = 'URL';
+                $data[$i]['banner_caption'] = $title[$i];
+                $data[$i]['banner_imgUrl']  = $img[$i];
+                $data[$i]['banner_target']  = 'http://www.yajol.com';
+        }else{
+                $data[$i]['banner_id']      = ''.$i;
+                $data[$i]['banner_type']    = 'APP';
+                $data[$i]['banner_caption'] = $title[$i];
+                $data[$i]['banner_imgUrl']  = $img[$i];
+                $data[$i]['banner_target']  = Yii::$app->request->hostInfo.Url::to(['api/courseware/view','id'=>1]);
         }
+    }
         sort($data);
         return $data;
     }
@@ -376,5 +369,45 @@ class ConfigController extends \common\rest\Controller
         return $data;
     }
 
+    /**
+     * @SWG\Get(path="/config/my",
+     *     tags={"800-Config-配置信息接口"},
+     *     summary="我的页面",
+     *     description="我的页面",
+     *     produces={"application/json"},
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "返回我的信息"
+     *     ),
+     * )
+     *
+    **/
 
+    public function actionMy(){
+
+        if(Yii::$app->user->isGuest){
+            $this->serializer['errno']      = 422;
+            $this->serializer['message']    = '请您先登录';
+            return [];
+        }
+
+        $model = UsersToUsers::find()->where(['user_right_id'=>Yii::$app->user->identity->id])->one();
+        if($model){
+          return [
+              'account'=>Yii::$app->user->identity->username,
+              'lavel'  => '',
+              'grade'  => $model->getGrade(),
+              'parents'=> UsersToUsers::getUserName($model->user_left_id).'的家长',
+           ];
+        }else{
+            return [
+                'account' =>Yii::$app->user->identity->username,
+                'lavel'   => '',
+                'grade'   => Yii::$app->user->identity,
+                'parents' => '',
+            ];
+        }
+    
+  
+      }
 }

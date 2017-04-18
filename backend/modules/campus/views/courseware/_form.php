@@ -15,6 +15,17 @@ $categories= \backend\modules\campus\models\CoursewareCategory::find()->where(['
     $categories = \yii\helpers\ArrayHelper::map(
         $categories, 'category_id', 'name'
     );
+if ($model->isNewRecord) {
+    $parent = \backend\modules\campus\models\Courseware::find()
+        ->where(['parent_id' => 0])
+        ->all();
+}else{
+    $parent = \backend\modules\campus\models\Courseware::find()
+        ->where(['parent_id' => 0])
+        ->andWhere(['<>','courseware_id',$model->courseware_id])
+        ->all();
+}
+$parent = \yii\helpers\ArrayHelper::map($parent, 'courseware_id', 'title');
 ?>
 
 <div class="courseware-form">
@@ -32,6 +43,11 @@ $categories= \backend\modules\campus\models\CoursewareCategory::find()->where(['
         <?php $this->beginBlock('main'); ?>
 
         <p>
+<!-- attribute parent_id -->
+			<?php echo $form->field($model, 'parent_id')->dropDownList($parent,[
+           // 'options'=>[$categories=>['disabled'=>'0']],
+            'prompt'=>'请选择']) ?>
+
 <!-- attribute title -->
             <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
@@ -39,18 +55,16 @@ $categories= \backend\modules\campus\models\CoursewareCategory::find()->where(['
             <?= $form->field($model, 'body')->textarea(['rows' => 6]) ?>
 
 <!-- attribute category_id -->
-			<?= $form->field($model, 'category_id')->dropDownList($categories,[
+            <?= $form->field($model, 'category_id')->dropDownList($categories,[
            // 'options'=>[$categories=>['disabled'=>'0']],
             'prompt'=>'请选择']) ?>
 
 <!-- attribute level -->
-			<?php // echo $form->field($model, 'level')->textInput(); ?>
+            <?php // echo $form->field($model, 'level')->textInput(); ?>
 
 <!-- attribute creater_id -->
-			<?= $form->field($model, 'creater_id')->hiddenInput(['value'=>Yii::$app->user->identity->id])->label(false) ?>
+            <?= $form->field($model, 'creater_id')->hiddenInput(['value'=>Yii::$app->user->identity->id])->label(false) ?>
 
-<!-- attribute parent_id -->
-			<?php // echo $form->field($model, 'parent_id')->textInput() ?>
 
             <?= $form->field($model, 'tags')->textInput() ?>
             
