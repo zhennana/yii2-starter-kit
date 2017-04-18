@@ -109,7 +109,7 @@ class CoursewareController extends \common\rest\Controller
     /**
      * @SWG\Get(path="/courseware/view",
      *     tags={"300-Courseware-课件接口"},
-     *     summary="课件内容[待开发]",
+     *     summary="课件内容",
      *     description="返回课件内容和相关课件列表",
      *     produces={"application/json"},
      *     @SWG\Parameter(

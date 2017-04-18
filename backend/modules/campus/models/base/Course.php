@@ -60,7 +60,7 @@ abstract class Course extends \yii\db\ActiveRecord
      * @inheritdoc
      */
     public static function getDb(){
-       return \Yii::$app->modules['campus']->get('campus');
+       return \Yii::$app->get('campus');
     }
 
     /**
