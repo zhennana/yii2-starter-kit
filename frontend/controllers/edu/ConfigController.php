@@ -117,18 +117,18 @@ class ConfigController extends \common\rest\Controller
 
         $data = [
             [
-                'stream_id'       => '1',
-                'stream_type'     => '1',
-                'stream_name'     => '精品课程',
-                'stream_status'   => '1',   // 1表示显示，0表示不显示
-                'stream_items'    => $course_items,
+                'ID'       => '1',
+                'type'     => '1',
+                'name'     => '精品课程',
+                'status'   => '1',   // 1表示显示，0表示不显示
+                'items'    => $course_items,
             ],
             [
-                'stream_id'     => '2',
-                'stream_type'   => '2',
-                'stream_name'   => '专题推荐',
-                'stream_status' => '1',   // 1表示显示，0表示不显示
-                'stream_items' => $recommend_items,
+                'ID'     => '2',
+                'type'   => '2',
+                'name'   => '专题推荐',
+                'status' => '1',   // 1表示显示，0表示不显示
+                'items' => $recommend_items,
             ],
         ];
 
