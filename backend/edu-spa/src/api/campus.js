@@ -5,9 +5,7 @@ import axios from '../config/axios'
 // import qs from 'qs'
 
 export default {
-
   // 展示学校
-
   getSchool (params) {
     return axios.get('/campus/api/v1/school/index', {
       params: params
@@ -18,7 +16,6 @@ export default {
         return response.data
       }
     })
-
   },
   // 创建学校
   appendSchool (params) {
@@ -31,6 +28,5 @@ export default {
         return response.data
       }
     })
-
   }
 }
