@@ -320,7 +320,7 @@ public $modelClass = 'backend\modules\campus\models\Grade';
      * @SWG\Parameter(
      *        in = "query",
      *        name = "type",
-     *        description = "类型 传1 获取学校 传2 获取班级分类 传3 获取状态 不传获取全部数据",
+     *        description = "类型 传1 获取学校 传2 获取班级分类 传3 获取状态 传4 获取结业状态 传5 获取班主任  不传获取全部数据",
      *        required = false,
      *        type = "integer"
      *     ),
@@ -342,6 +342,12 @@ public $modelClass = 'backend\modules\campus\models\Grade';
 
        if($type == 3){
             return $model->DropDownStatus();
+       }
+       if($type == 4){
+            return $model->DropDownGraduate();
+       }
+       if($type == 5){
+            return $model->DropDownGradUser();
        }
        //var_dump($type);exit;
        if($type == 0){

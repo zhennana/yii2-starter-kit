@@ -7,6 +7,7 @@ use \backend\modules\campus\models\base\Grade as BaseGrade;
 use yii\helpers\ArrayHelper;
 use backend\modules\campus\models\GradeCategory;
 use backend\modules\campus\models\School;
+use common\models\User;
 
 /**
  * This is the model class for table "grade".
@@ -87,6 +88,8 @@ public function behaviors()
        $data['school'] = $this->DropDownSchool();
        $data['grade_category'] = $this->DropDownGradeCategory();
        $data['status'] = $this->DropDownStatus();
+       $data['graduate'] = $this->DropDownGraduate();
+       $data['user']     = $this->DropDownGradUser();
        return $data;
     }
 
@@ -107,15 +110,31 @@ public function behaviors()
      * 状态
      */
     public function DropDownStatus(){
-      return [
-          [
-            'status_id'    =>   self::GRADE_STATUS_OPEN ,
-            'status_label' => '开启'
-          ],
-          [
-            'status_id'=>  self::GRANE_STATUS_DELECT,
-            'status_label' => '删除'
-          ]
-      ];
+      $label = self::optsStatus();
+      $data = [];
+      foreach ($label as $key => $value) {
+          $data[$key]['status_id'] = $key;
+          $data[$key]['status_label'] = $value;
+      }
+      sort($data);
+      return $data;
     }
-}
+    /**
+     * 获取毕业状态
+     */
+    public function DropDownGraduate(){
+      $label = self::optsGraduate();
+      $data = [];
+      foreach ($label as $key => $value) {
+          $data[$key]['graduate_id'] = $key;
+          $data[$key]['graduate_label'] = $value;
+      }
+      sort($data);
+      return $data;
+    }
+
+    public function DropDownGradUser(){
+      $user = User::find()->select(['id','username'])->where(['status'=>2])->asArray()->all();
+      return $user;
+    }
+ }

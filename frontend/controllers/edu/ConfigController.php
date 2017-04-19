@@ -94,43 +94,29 @@ class ConfigController extends \common\rest\Controller
     public function actionIndex()
     {
 
-        for ($i=1; $i < 5; $i++) { 
-            $course_items[] = [
-                'item_id'     => (string)$i,
-                'item_type'   => 'URL',
-                'item_title'  => '全脑速记',
-                'item_target' => 'http://www.yajol.com',
-                'imgUrl'      => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/yajolyajol_activity_banner_01.png?imageView2/1/w/128/h/128',
-
-            ];
-        }
-
-        for ($i=1; $i < 3; $i++) {
+        for ($i=1; $i < 4; $i++) {
             $recommend_items[] = [
-                'item_id'     => (string)$i,
-                'item_type'   => 'APP',
-                'item_title'  => '育综合性人才，建四化学校',
-                'item_target' => Yii::$app->request->hostInfo.Url::to(['api/courseware/view','id'=>1]),
+                'coursee_id'     => (string)$i,
+                'type'   => '文件的类型',
+                'title'       => '育综合性人才，建四化学校',
+                'target_url' => Yii::$app->request->hostInfo.Url::to(['api/courseware/view','id'=>1]),
                 'imgUrl'      => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/yajolyajol_activity_banner_01.png?imageView2/1/w/128/h/128',
             ];
         }
 
         $data = [
             [
-                'ID'       => '1',
                 'type'     => '1',
                 'name'     => '精品课程',
-                'status'   => '1',   // 1表示显示，0表示不显示
-                'items'    => $course_items,
+                'target_url'=> '这里是更多的跳转',
+                'items'    => $recommend_items,
             ],
             [
-                'ID'     => '2',
-                'type'   => '2',
-                'name'   => '专题推荐',
-                'status' => '1',   // 1表示显示，0表示不显示
-                'items' => $recommend_items,
-            ],
-        ];
+                'type'     => '2',
+                'name'     => '精选课程',
+                'target_url'=> '这里是更多的跳转',
+                'items'    => $recommend_items,
+            ]];
 
         return $data;
     }
