@@ -115,13 +115,13 @@ class ConfigController extends \common\rest\Controller
 
         $data = [
             [
-                'type'     => '1',
+                'type'     => '3',
                 'name'     => '精品课程',
                 'target_url'=> '这里是更多的跳转',
                 'items'    => $recommend_items,
             ],
             [
-                'type'     => '2',
+                'type'     => '4',
                 'name'     => '精选课程',
                 'target_url'=> '这里是更多的跳转',
                 'items'    => $recommend_items1,
