@@ -309,4 +309,52 @@ public $modelClass = 'backend\modules\campus\models\Grade';
      *     )
      * )
      */
+    
+
+    /**
+     * @SWG\Get(path="/campus/api/v1/grade/form-list",
+     *     tags={"300-Grade-班级管理接口"},
+     *     summary="获取下拉框所需要的参数",
+     *     description="获取下拉框所需要的参数",
+     *     produces={"application/json"},
+     * @SWG\Parameter(
+     *        in = "query",
+     *        name = "type",
+     *        description = "类型 传1 获取学校 传2 获取班级分类 传3 获取状态 传4 获取结业状态 传5 获取班主任  不传获取全部数据",
+     *        required = false,
+     *        type = "integer"
+     *     ),
+     * @SWG\Response(
+     *         response = 200,
+     *         description = "200 返回成功"
+     *     )
+     * )
+     */
+    
+    public function actionFormList($type = 0){
+        $model = new  $this->modelClass;
+       if($type == 1){
+            return $model->DropDownSchool();
+       }
+       if($type == 2){
+            return $model->DropDownGradeCategory();
+       }
+
+       if($type == 3){
+            return $model->DropDownStatus();
+       }
+       if($type == 4){
+            return $model->DropDownGraduate();
+       }
+       if($type == 5){
+            return $model->DropDownGradUser();
+       }
+       //var_dump($type);exit;
+       if($type == 0){
+            return $model->DropDownGather();
+       }
+       $this->serializer['errno'] = '422';
+       $this->serializer['message'] = '找不到数据';
+       return [];
+    }
 }

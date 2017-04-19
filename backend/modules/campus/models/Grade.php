@@ -5,6 +5,9 @@ namespace backend\modules\campus\models;
 use Yii;
 use \backend\modules\campus\models\base\Grade as BaseGrade;
 use yii\helpers\ArrayHelper;
+use backend\modules\campus\models\GradeCategory;
+use backend\modules\campus\models\School;
+use common\models\User;
 
 /**
  * This is the model class for table "grade".
@@ -68,7 +71,6 @@ public function behaviors()
     }
 
     public function extraFields(){
-      var_dump(1132);exit;
        return ArrayHelper::merage(
               parent::extraFields(),[
               'school'=>function(){
@@ -76,4 +78,63 @@ public function behaviors()
               }]
               );
     }
-}
+    /**
+     * 下拉框 数据
+     * @param  [type] $type [description]
+     * @return [type]       [description]
+     */
+    public function DropDownGather(){
+       $data =[];
+       $data['school'] = $this->DropDownSchool();
+       $data['grade_category'] = $this->DropDownGradeCategory();
+       $data['status'] = $this->DropDownStatus();
+       $data['graduate'] = $this->DropDownGraduate();
+       $data['user']     = $this->DropDownGradUser();
+       return $data;
+    }
+
+    /**
+     * 获取学校下拉框
+     */
+    public function DropDownSchool(){
+      return  School::find()->select(['school_id','school_title'])->where(['status'=>School::SCHOOL_STATUS_OPEN])->asArray()->all();
+    }
+    /**
+     * 获取班级
+     */
+    public function DropDownGradeCategory(){
+       return GradeCategory::find()->select(['grade_category_id','name'])->where(['status'=>GradeCategory::CATEGORY_OPEN])->asArray()->all();
+    }
+
+    /**
+     * 状态
+     */
+    public function DropDownStatus(){
+      $label = self::optsStatus();
+      $data = [];
+      foreach ($label as $key => $value) {
+          $data[$key]['status_id'] = $key;
+          $data[$key]['status_label'] = $value;
+      }
+      sort($data);
+      return $data;
+    }
+    /**
+     * 获取毕业状态
+     */
+    public function DropDownGraduate(){
+      $label = self::optsGraduate();
+      $data = [];
+      foreach ($label as $key => $value) {
+          $data[$key]['graduate_id'] = $key;
+          $data[$key]['graduate_label'] = $value;
+      }
+      sort($data);
+      return $data;
+    }
+
+    public function DropDownGradUser(){
+      $user = User::find()->select(['id','username'])->where(['status'=>2])->asArray()->all();
+      return $user;
+    }
+ }

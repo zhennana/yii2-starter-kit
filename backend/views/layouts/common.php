@@ -303,6 +303,11 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                     'icon'=>'<i class="fa fa-angle-double-right"></i>'
                                 ],
                                 [
+                                    'label'=>Yii::t('backend', 'PHP Info'),
+                                    'url'=>['/system-information/info'],
+                                    'icon'=>'<i class="fa fa-angle-double-right"></i>'
+                                ],
+                                [
                                     'label'=>Yii::t('backend', 'Logs'),
                                     'url'=>['/log/index'],
                                     'icon'=>'<i class="fa fa-angle-double-right"></i>',

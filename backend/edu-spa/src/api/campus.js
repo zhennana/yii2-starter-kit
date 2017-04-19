@@ -28,5 +28,17 @@ export default {
         return response.data
       }
     })
+  },
+  // 三级联动
+  provinceCity (params) {
+    return axios.get('/campus/api/v1/school/standard-address', {
+      params: params
+    }).then(response => {
+      if (response.status !== 200) {
+        throw new Error('接口返回失败')
+      } else {
+        return response.data
+      }
+    })
   }
 }
