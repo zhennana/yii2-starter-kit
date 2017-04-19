@@ -12,6 +12,7 @@ use yii\helpers\Url;
 use frontend\modules\api\v1\resources\Article;
 use frontend\models\resources\Course;
 use frontend\models\resources\UsersToUsers;
+use frontend\models\resources\Courseware;
 
 class ConfigController extends \common\rest\Controller
 {
@@ -92,8 +93,16 @@ class ConfigController extends \common\rest\Controller
     **/
 
     public function actionIndex()
-    {
-
+    {  
+        for ($i=1; $i < 5; $i++) {
+            $recommend_items1[] = [
+                'coursee_id'     => (string)$i,
+                'type'   => '文件的类型',
+                'title'       => '育综合性人才，建四化学校',
+                'target_url' => Yii::$app->request->hostInfo.Url::to(['api/courseware/view','id'=>1]),
+                'imgUrl'      => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/yajolyajol_activity_banner_01.png?imageView2/1/w/128/h/128',
+            ];
+        }
         for ($i=1; $i < 4; $i++) {
             $recommend_items[] = [
                 'coursee_id'     => (string)$i,
@@ -115,9 +124,8 @@ class ConfigController extends \common\rest\Controller
                 'type'     => '2',
                 'name'     => '精选课程',
                 'target_url'=> '这里是更多的跳转',
-                'items'    => $recommend_items,
+                'items'    => $recommend_items1,
             ]];
-
         return $data;
     }
 
