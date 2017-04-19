@@ -38,4 +38,14 @@ class SystemInformationController extends Controller
             return $this->render('fail');
         }
     }
+
+    public function actionInfo()
+    {
+        return $this->render('info');
+    }
+
+    public function actionPhpinfo()
+    {
+        return phpinfo();
+    }
 }

@@ -59,11 +59,13 @@
     "superman2014/aliyun-php-sdk-sms": "dev-master",
     "superman2014/aliyun-php-sdk-core": "dev-master",
     "linslin/yii2-curl" : "*",
-    "kartik-v/yii2-widget-fileinput": "@dev"
+    "kartik-v/yii2-widget-fileinput": "@dev",
+    "codeception/codeception": "2.1.*"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "^2.0.0",
     "yiisoft/yii2-gii": "^2.0.0",
+    "yiisoft/yii2-codeception": "^2.0.0",
     "yiisoft/yii2-faker": "^2.0.0",
     "codeception/specify": "^0.4.3",
     "codeception/verify": "^0.3.0",
