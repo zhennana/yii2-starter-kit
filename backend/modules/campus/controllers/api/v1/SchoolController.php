@@ -491,4 +491,40 @@ class SchoolController extends \yii\rest\ActiveController
         return $model->getAddresslist($type_id,$id);
 
     }
+
+    /**
+     * @SWG\Get(path="/campus/api/v1/school/drop-downs",
+     *     tags={"200-School-学校管理接口"},
+     *     summary="创建学校的下拉框接口",
+     *     description="返回下拉框数据",
+     *     produces={"application/json"},
+     * @SWG\Parameter(
+     *        in = "query",
+     *        name = "type",
+     *        description = "1 父学校 2 学校的状态",
+     *        required = false,
+     *        default = "0",
+     *        type = "integer"
+     *     ),
+     *@SWG\Response(
+     *         response = 200,
+     *         description = "1 父学校 2 学校的状态"
+     *     ),
+     * )
+     */
+    public function actionDropDowns($type = 0){
+        $model = new $this->modelClass;
+        if($type == 1){
+           return $model->DropDownSchool();
+        }
+        if($type == 2){
+            return $model->DropDownStatus();
+        }
+        if($type == 0){
+            return $model->DropDownGather();
+        }
+        $this->serializer['errno'] = '422';
+        $this->serializer['message'] = '找不到数据';
+        return [];
+    }
 }
