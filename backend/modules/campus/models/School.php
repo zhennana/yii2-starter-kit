@@ -62,7 +62,40 @@ class School extends BaseSchool
         
         $province = CnProvince::find()->asArray()->all();
         return $province;
-        //return  ArrayHelper::map($province, 'province_id', 'province_name');
-           
+        //return  ArrayHelper::map($province, 'province_id', 'province_name');     
     }
+    /**
+     * 下拉框 数据
+     * @param  [type] $type [description]
+     * @return [type]       [description]
+     */
+    public function DropDownGather(){
+       $data =[];
+       $data['school'] = $this->DropDownSchool();
+       $data['status'] = $this->DropDownStatus();
+       return $data;
+    }
+    /**
+     * 状态
+     */
+    public function DropDownStatus(){
+      $label = self::optsStatus();
+      $data = [];
+      foreach ($label as $key => $value) {
+          $data[$key]['status_id'] = $key;
+          $data[$key]['status_label'] = $value;
+      }
+      sort($data);
+      return $data;
+    }
+
+    /**
+     * 顶级学校
+     */
+    public function DropDownSchool(){
+         return  School::find()->select(['school_id','school_title'])
+                        ->andwhere(['parent_id'=>'0','status'=>School::SCHOOL_STATUS_OPEN])
+                        ->asArray()->all();
+    }
+
 }

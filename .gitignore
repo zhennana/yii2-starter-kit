@@ -39,5 +39,6 @@ backend/edu-spa/dist
 
 # SignInApi 
 backend/modules/users/controllers/api/v1/SignInApi.php
+backend/edu-spa/launcher
 frontend/modules/api/v1/controllers/SignInApi.php
 frontend/controllers/edu/SignInApi.php
