@@ -2,7 +2,7 @@
  * Created by Administrator on 2017-04-14.
  */
 import axios from '../config/axios'
-// import qs from 'qs'
+import qs from 'qs'
 
 export default {
   // 展示学校
@@ -19,9 +19,7 @@ export default {
   },
   // 创建学校
   appendSchool (params) {
-    return axios.post('/campus/api/v1/school/create', {
-      params: params
-    }).then(response => {
+    return axios.post('/campus/api/v1/school/create', qs.stringify(params)).then(response => {
       if (response.status !== 200) {
         throw new Error('接口返回失败')
       } else {
@@ -40,5 +38,9 @@ export default {
         return response.data
       }
     })
+  },
+  // 获取学校状态
+  getSchoolState (params) {
+
   }
 }

@@ -1,14 +1,23 @@
 <template>
-  <div>
-    <el-select v-model="getCity.id" placeholder="省份" v-on:change="obtainCity()" style="width:150px">
-      <el-option v-for="(val, key, index) in depositProvince" :label="val.province_name" :value="val.province_id" :key="val.province_id"></el-option>
-    </el-select>
-    <el-select v-model="getCounty.id" placeholder="市" v-on:change="obtainCounty()" style="width:150px">
-      <el-option v-for="(val, key, index) in depositCity" :label="val.city_name" :value="val.city_id" :key="val.city_id"></el-option>
-    </el-select>
-    <el-select v-model="countySelect" placeholder="县（区）" style="width:150px">
-      <el-option v-for="(val, key, index) in urbanCounty" :label="val.region_name" :value="val.region_id" :key="val.region_id"></el-option>
-    </el-select>
+  <div class="clearFix">
+    <div class="fl select-top-boss">
+      <div class="select-top">省</div>
+      <el-select v-model="threeCombinations.province.id" placeholder="省份" v-on:change="obtainCity()">
+        <el-option v-for="(val, key, index) in depositProvince" :label="val.province_name" :value="val.province_id" :key="val.province_id"></el-option>
+      </el-select>
+    </div>
+    <div class="fl">
+      <div class="select-top">市</div>
+      <el-select v-model="threeCombinations.city.id" placeholder="市" v-on:change="obtainCounty()">
+        <el-option v-for="(val, key, index) in depositCity" :label="val.city_name" :value="val.city_id" :key="val.city_id"></el-option>
+      </el-select>
+    </div>
+    <div class="fl">
+      <div class="select-top">县</div>
+      <el-select v-model="threeCombinations.county.id" v-on:change="sendOutCounty" placeholder="县（区）">
+        <el-option v-for="(val, key, index) in urbanCounty" :label="val.region_name" :value="val.region_id" :key="val.region_id"></el-option>
+      </el-select>
+    </div>
   </div>
 </template>
 <script>
@@ -21,22 +30,28 @@
       return {
         // 存放省份的数据
         depositProvince: [],
-        // 获取市的数据
-        getCity: {
-          type_id: '1',
-          id: ''
-        },
         // 存放市的数据
         depositCity: [],
-        // 获取县的数据
-        getCounty: {
-          type_id: '2',
-          id: ''
-        },
         // 存放县的数据
         urbanCounty: [],
-        // 绑定到县select的数据
-        countySelect: ''
+        // 省市县三个组合
+        threeCombinations: {
+          // 存放省的数据 用来获取市
+          province: {
+            type_id: '1',
+            id: ''
+          },
+          // 存放市的数据 用来获取县
+          city: {
+            type_id: '2',
+            id: ''
+          },
+          // 存放县的数据
+          county: {
+            type_id: '3',
+            id: ''
+          }
+        }
       }
     },
     methods: {
@@ -45,6 +60,7 @@
         Campus.provinceCity(this.depositProvince).then(response => {
           if (response.errno === '0') {
             this.depositProvince = response.result
+            this.$emit('obtainCity', this.threeCombinations)
           }
         }).catch(error => {
           console.log(error)
@@ -52,11 +68,12 @@
       },
 //    三级联动  获取市
       obtainCity () {
-        Campus.provinceCity(this.getCity).then(response => {
+        Campus.provinceCity(this.threeCombinations.province).then(response => {
           if (response.errno === '0') {
-            this.getCounty.id = ''
+            this.threeCombinations.city.id = ''
             this.depositCity = []
             this.depositCity = response.result
+            this.$emit('obtainCity', this.threeCombinations)
           }
         }).catch(error => {
           console.log(error)
@@ -64,19 +81,38 @@
       },
 //   三级联动 获取县
       obtainCounty () {
-        Campus.provinceCity(this.getCounty).then(response => {
+        Campus.provinceCity(this.threeCombinations.city).then(response => {
           if (response.errno === '0') {
-            this.countySelect = ''
+            this.threeCombinations.county.id = ''
             this.urbanCounty = []
             this.urbanCounty = response.result
+            this.$emit('obtainCity', this.threeCombinations)
           }
         }).catch(error => {
           console.log(error)
         })
+      },
+//  给父组件发县的ID
+      sendOutCounty () {
+        this.$emit('obtainCity', this.threeCombinations)
       }
     }
   }
 </script>
 <style lang="stylus" type="text/stylus" rel="stylesheet/stylus">
-
+  .fl
+    float:fl;
+  .clearFix:after
+    clear:both;
+    display:block;
+    content: '';
+  .select-top-boss
+    text-align: center;
+  .clearFix
+    zoom:1;
+  .select-top
+    margin-bottom:10px;
+    font-size: 14px;
+    color: #48576a;
+    vertical-align: middle;
 </style>
