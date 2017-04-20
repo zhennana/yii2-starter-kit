@@ -31,20 +31,12 @@
           <el-form-item label="背景图路径" class="fl search-above">
             <el-input v-model="campus.school_backgroud_path" class="search-above"></el-input>
           </el-form-item>
-          <el-form-item label="省" class="fl search-above">
-            <el-input v-model="campus.province_id" class="search-above"></el-input>
-          </el-form-item>
-          <el-form-item label="城市" class="fl search-above">
-            <el-input v-model="campus.city_id" class="search-above"></el-input>
-          </el-form-item>
-          <el-form-item label="区县" class="fl search-above">
-            <el-input v-model="campus.region_id" class="search-above"></el-input>
-          </el-form-item>
+        <threeLevel-linkage class="fl"></threeLevel-linkage>
           <el-form-item label="具体地址" class="fl search-above">
             <el-input v-model="campus.address" class="search-above"></el-input>
           </el-form-item>
         <!--三级联动-->
-        <threeLevel-linkage></threeLevel-linkage>
+
         <el-button type="primary" icon="search" class="fl button-display-school" @click="displaySchool">搜索</el-button>
       </el-form>
     </div>

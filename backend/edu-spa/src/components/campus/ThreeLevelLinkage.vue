@@ -1,12 +1,12 @@
 <template>
   <div>
-    <el-select v-model="getCity.id" placeholder="省份" v-on:change="obtainCity()">
+    <el-select v-model="getCity.id" placeholder="省份" v-on:change="obtainCity()" style="width:150px">
       <el-option v-for="(val, key, index) in depositProvince" :label="val.province_name" :value="val.province_id" :key="val.province_id"></el-option>
     </el-select>
-    <el-select v-model="getCounty.id" placeholder="市" v-on:change="obtainCounty()">
+    <el-select v-model="getCounty.id" placeholder="市" v-on:change="obtainCounty()" style="width:150px">
       <el-option v-for="(val, key, index) in depositCity" :label="val.city_name" :value="val.city_id" :key="val.city_id"></el-option>
     </el-select>
-    <el-select v-model="countySelect" placeholder="县（区）">
+    <el-select v-model="countySelect" placeholder="县（区）" style="width:150px">
       <el-option v-for="(val, key, index) in urbanCounty" :label="val.region_name" :value="val.region_id" :key="val.region_id"></el-option>
     </el-select>
   </div>

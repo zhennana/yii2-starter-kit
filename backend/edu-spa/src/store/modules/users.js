@@ -6,7 +6,7 @@ import localStorage from '../../localstorage/localStorage'
 
 const state = {
   user: JSON.parse(localStorage.getData('user')),
-  prems: true
+  prems: false
 }
 
 const getters = {
