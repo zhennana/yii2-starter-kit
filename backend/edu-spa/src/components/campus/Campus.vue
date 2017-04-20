@@ -53,4 +53,5 @@
 
   .child-content
     margin-left 250px
+    margin-right 20px
 </style>

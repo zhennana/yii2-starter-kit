@@ -15,7 +15,7 @@ const instance = axios.create({
   },
   withCredentials: false,
   validateStatus: function (status) {
-    return status === 200
+    return status >= 200 && status <= 299
   }
 })
 
