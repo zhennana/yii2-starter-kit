@@ -85,6 +85,7 @@ public function behaviors()
      */
     public function DropDownGather(){
        $data =[];
+       //var_dump($this->DropDownSchool());exit;
        $data['school'] = $this->DropDownSchool();
        $data['grade_category'] = $this->DropDownGradeCategory();
        $data['status'] = $this->DropDownStatus();
@@ -97,13 +98,16 @@ public function behaviors()
      * 获取学校下拉框
      */
     public function DropDownSchool(){
-      return  School::find()->select(['school_id','school_title'])->where(['status'=>School::SCHOOL_STATUS_OPEN])->asArray()->all();
+      $model =   School::find()->select(['school_id','school_title'])->where(['status'=>School::SCHOOL_STATUS_OPEN])->all();
+      return $model;
+     
+
     }
     /**
      * 获取班级
      */
     public function DropDownGradeCategory(){
-       return GradeCategory::find()->select(['grade_category_id','name'])->where(['status'=>GradeCategory::CATEGORY_OPEN])->asArray()->all();
+       return GradeCategory::find()->select(['grade_category_id','name'])->where(['status'=>GradeCategory::CATEGORY_OPEN])->all();
     }
 
     /**
@@ -134,7 +138,7 @@ public function behaviors()
     }
 
     public function DropDownGradUser(){
-      $user = User::find()->select(['id','username'])->where(['status'=>2])->asArray()->all();
+      $user = User::find()->select(['id','username'])->where(['status'=>2])->all();
       return $user;
     }
  }
