@@ -86,25 +86,14 @@ class CoursewareCategoryController extends \common\rest\Controller
      */
     public function actionIndex()
     {
-        $modelClass = $this->modelClass;
+        $modelClass =  new $this->modelClass;
+        // $category = $modelClass::find()
+        //     ->andWhere(['status' => $modelClass::CATEGORY_STATUS_OPEN])
+        //    // ->asArray()
+        //     ->all();
+    return  $modelClass->categoryList();
 
-        $category = $modelClass::find()
-            ->where(['parent_id' => 0])
-            ->andWhere(['status' => $modelClass::CATEGORY_STATUS_OPEN])
-            ->asArray()
-            ->all();
-
-        foreach ($category as $value) {
-            $sub_category = $modelClass::find()
-                ->where(['parent_id' => $value['category_id']])
-                ->andWhere(['status' => $modelClass::CATEGORY_STATUS_OPEN])
-                ->asArray()
-                ->all();
-            $value['sub_category'] = $sub_category;
-            $data[] = $value;
-        }
-
-        return $data;
+    exit;
     }
 
 

@@ -2,8 +2,8 @@
 namespace frontend\models\resources;
 
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 use backend\modules\campus\models\CoursewareCategory as BaseCoursewareCategory;
-
 /**
  * 
  */
@@ -29,26 +29,50 @@ class CoursewareCategory extends BaseCoursewareCategory
         );
     }
 
+    public function fields(){
+            $fields =  ArrayHelper::merge(
+                    parent::fields(),
+                    [
+                        'descriptions'=>'description'
+                    ]);
+             unset($fields['description']);
+            return $fields;
+    }
+
     /**
      * [get_category 课件分类无限级递归]
      * @param  [type]  $model [description]
      * @param  integer $pid   [description]
      * @return [type]         [description]
      */
-    /*
-    public static function get_category($model, $pid = 0)
+    public function categoryList()
     {
+        $model = self::find()->where(['status'=>self::CATEGORY_STATUS_OPEN])->asArray()->all();
+        return  self::formatByApi($model);
+    }
+
+    public static  function formatByApi($parame,$pid = 0){
         $data = [];
-        foreach ($model as $key => $value) {
-           if($model[$key]['parent_id'] == $pid){
-                $value['sub_category'] = self::get_category($model,$value['category_id']);
-                $data[] = $value;
+        $clid = [];
+        //$parame = ArrayHelper::index($parame,'category_id');
+        foreach ($parame as $key => $value) {
+            if($value['parent_id'] == $pid){
+                $value['descriptions'] =  $value['description'];
+                unset($parame[$key],$value['description']);
+                $clid = self::formatByApi($parame,$value['category_id']); 
+                if(!empty($clid)){
+                    $value['child'] =  $clid;
+                }else{
+                    //$value['child'] =  $clid;
+                    $value['url']   = \Yii::$app->request->hostInfo.Url::to(['courseware/list','category_id'=>$value['category_id']]);
+                }
+
+                $data[]    = $value;
             }
+
         }
         return $data;
     }
-    */
-
 }
 
 ?>
