@@ -83,7 +83,7 @@ class SchoolController extends \yii\rest\ActiveController
      * @SWG\Parameter(
      *        in = "query",
      *        name = "id",
-     *        description = "主校ID",
+     *        description = "学校ID",
      *        required = false,
      *        default = "",
      *        type = "integer"

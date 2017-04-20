@@ -58,6 +58,7 @@ class Courseware extends BaseCourseware
     {
         // var_dump($model);exit;
     }
+    
     /**
      * 首页流数据
      * @return [type] [description]
