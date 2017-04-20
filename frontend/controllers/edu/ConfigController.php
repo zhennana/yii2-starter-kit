@@ -76,14 +76,6 @@ class ConfigController extends \common\rest\Controller
      *     summary="信息流列表",
      *     description="返回首页流",
      *     produces={"application/json"},
-     *     @SWG\Parameter(
-     *        in = "query",
-     *        name = "user_id",
-     *        description = "用户ID，没有登录默认0",
-     *        required = false,
-     *        default = 0,
-     *        type = "string"
-     *     ),
      *     @SWG\Response(
      *         response = 200,
      *         description = "无需填写，直接返回数据"
@@ -93,25 +85,29 @@ class ConfigController extends \common\rest\Controller
     **/
 
     public function actionIndex()
-    {  
-        for ($i=1; $i < 5; $i++) {
-            $recommend_items1[] = [
-                'coursee_id'     => (string)$i,
-                'type'   => '文件的类型',
-                'title'       => '育综合性人才，建四化学校',
-                'target_url' => Yii::$app->request->hostInfo.Url::to(['api/courseware/view','id'=>1]),
-                'imgUrl'      => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/yajolyajol_activity_banner_01.png?imageView2/1/w/128/h/128',
-            ];
-        }
+    {
+        /* $model = new Courseware ;
+         return $model->streamData();*/
+        
         for ($i=1; $i < 4; $i++) {
             $recommend_items[] = [
                 'coursee_id'     => (string)$i,
                 'type'   => '文件的类型',
                 'title'       => '育综合性人才，建四化学校',
                 'target_url' => Yii::$app->request->hostInfo.Url::to(['api/courseware/view','id'=>1]),
-                'imgUrl'      => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/yajolyajol_activity_banner_01.png?imageView2/1/w/128/h/128',
+                'imgUrl'      => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/yajolyajol_activity_banner_01.png?imageView2/1/w/640/h/282',
+            ];
+        } 
+        for ($i=1; $i < 5; $i++) {
+            $recommend_items1[] = [
+                'coursee_id'     => (string)$i,
+                'type'   => '文件的类型',
+                'title'       => '育综合性人才，建四化学校',
+                'target_url' => Yii::$app->request->hostInfo.Url::to(['api/courseware/view','id'=>1]),
+                'imgUrl'      => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/yajolyajol_activity_banner_01.png?imageView2/1/w/200/h/100',
             ];
         }
+
 
         $data = [
             [
@@ -126,6 +122,7 @@ class ConfigController extends \common\rest\Controller
                 'target_url'=> '这里是更多的跳转',
                 'items'    => $recommend_items1,
             ]];
+        
         return $data;
     }
 
@@ -307,17 +304,17 @@ class ConfigController extends \common\rest\Controller
         //var_dump($data);exit();
         for ($i=1; $i < 3 ; $i++) {
             if($i%2==0){
-                $data[$i]['banner_id']      = ''.$i;
-                $data[$i]['banner_type']    = 'URL';
-                $data[$i]['banner_caption'] = $title[$i];
-                $data[$i]['banner_imgUrl']  = $img[$i];
-                $data[$i]['banner_target']  = 'http://www.yajol.com';
+                $data[$i]['courseware_id']      = ''.$i;
+                $data[$i]['type']    = 'image';
+                $data[$i]['title'] = $title[$i];
+                $data[$i]['imgUrl']  = $img[$i];
+                $data[$i]['target_url']  = Yii::$app->request->hostInfo.Url::to(['api/courseware/view','id'=>1]);
         }else{
-                $data[$i]['banner_id']      = ''.$i;
-                $data[$i]['banner_type']    = 'APP';
-                $data[$i]['banner_caption'] = $title[$i];
-                $data[$i]['banner_imgUrl']  = $img[$i];
-                $data[$i]['banner_target']  = Yii::$app->request->hostInfo.Url::to(['api/courseware/view','id'=>1]);
+                $data[$i]['courseware_id']      = ''.$i;
+                $data[$i]['type']    = 'APP';
+                $data[$i]['title'] = $title[$i];
+                $data[$i]['imgUrl']  = $img[$i];
+                $data[$i]['target_url']  = Yii::$app->request->hostInfo.Url::to(['api/courseware/view','id'=>1]);
         }
     }
         sort($data);
