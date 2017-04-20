@@ -86,9 +86,9 @@ class ConfigController extends \common\rest\Controller
 
     public function actionIndex()
     {
-         $model = new Courseware ;
-         return $model->streamData();
-        /*
+        /* $model = new Courseware ;
+         return $model->streamData();*/
+        
         for ($i=1; $i < 4; $i++) {
             $recommend_items[] = [
                 'coursee_id'     => (string)$i,
@@ -122,8 +122,8 @@ class ConfigController extends \common\rest\Controller
                 'target_url'=> '这里是更多的跳转',
                 'items'    => $recommend_items1,
             ]];
-        */
-       // return $data;
+        
+        return $data;
     }
 
     /**
