@@ -13,5 +13,12 @@ export default {
     }).catch(error => {
       console.log(error)
     })
+  },
+  getClassFormInfo () {
+    return axios.get('/campus/api/v1/grade/form-list').then(response => {
+      return response.data
+    }).catch(error => {
+      console.log(error)
+    })
   }
 }
