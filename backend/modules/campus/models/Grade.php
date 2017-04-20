@@ -65,6 +65,9 @@ public function behaviors()
                 },
                 'owner_label' =>function($model){
                   return self::getUserName($model->owner_id);
+                },
+                'creater_label' => function($model){
+                  return self::getUserName($model->creater_id);
                 }
              ]
         );
