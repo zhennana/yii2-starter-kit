@@ -20,8 +20,6 @@ Vue.directive('permission',
     } else {
       el.style.display = 'none'
     }
-    console.log(el)
-    console.log(binding)
   })
 
 // ----------------------- router 钩子函数  ------------------------
