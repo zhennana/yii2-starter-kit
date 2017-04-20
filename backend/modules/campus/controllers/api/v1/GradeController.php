@@ -250,13 +250,6 @@ public $modelClass = 'backend\modules\campus\models\Grade';
      *     summary="创建班级",
      *     description="创建班级",
      *     produces={"application/json"},
-     * @SWG\Parameter(
-     *        in = "formData",
-     *        name = "grade_id",
-     *        description = "班级id",
-     *        required = true,
-     *        type = "string"
-     *     ),
      *@SWG\Parameter(
      *        in = "formData",
      *        name = "school_id",
@@ -274,6 +267,13 @@ public $modelClass = 'backend\modules\campus\models\Grade';
      *@SWG\Parameter(
      *        in = "formData",
      *        name = "grade_name",
+     *        description = "班级名称（string）",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *@SWG\Parameter(
+     *        in = "formData",
+     *        name = "grade_title",
      *        description = "班级名称（string）",
      *        required = true,
      *        type = "string"
