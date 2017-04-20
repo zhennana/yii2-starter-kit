@@ -121,6 +121,9 @@ abstract class CoursewareCategory extends \yii\db\ActiveRecord
         return $this->hasOne(\common\models\User::className(),['id'=>'creater_id']);
     }
     
+    public function getCourseware(){
+        return $this->hasMany(\backend\modules\campus\models\Courseware::className(),['category_id'=>'category_id']);
+    }
     /**
      * @inheritdoc
      * @return \backend\modules\campus\models\query\CoursewareCategoryQuery the active query used by this AR class.
