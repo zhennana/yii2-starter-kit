@@ -141,11 +141,16 @@ abstract class Courseware extends \yii\db\ActiveRecord
 
     public function getToFile(){
         return $this->hasMany(
-            \backend\modules\campus\models\CoursewareToFile::classname(),
+            \backend\modules\campus\models\CoursewareToFile::className(),
             ['courseware_id'=>'courseware_id'])->Orderby(['sort'=>SORT_DESC]
         );
     }
-    
+
+    public function getCoursewareToCourseware(){
+        return $this->hasMany(\backend\modules\campus\models\CoursewareToCourseware::className(),
+            ['courseware_master_id'=>'courseware_id']);
+    }
+   
     /**
      * @inheritdoc
      * @return \backend\modules\campus\models\query\CoursewareQuery the active query used by this AR class.
