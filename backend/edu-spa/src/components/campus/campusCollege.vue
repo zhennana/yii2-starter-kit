@@ -114,7 +114,7 @@
             <el-input v-model="modifyData.school_backgroud_path" auto-complete="off"></el-input>
           </el-form-item>
           <!--三级联动-->
-          <threeLevel-linkage v-on:obtainCity="modifyProvinces" class="modify-threeLevel" :initData="initData" v-bind:msg="msg"></threeLevel-linkage>
+          <threeLevel-linkage v-on:obtainCity="modifyProvinces" class="modify-threeLevel" v-bind:init-data="initData" v-bind:msg="msg"></threeLevel-linkage>
           <el-form-item label="具体地址" :label-width="formLabelWidth" class="modify-increase-width">
             <el-input v-model="modifyData.address" auto-complete="off"></el-input>
           </el-form-item>
@@ -283,7 +283,11 @@
 //        for (let key in campusResult) {
 //          this.initData[key] = campusResult[key]
 //        }
-        Object.assign(this.initData, campusResult)
+
+        this.initData.province_id = campusResult.province_id
+        this.initData.city_id = campusResult.city_id
+        this.initData.region_id = campusResult.region_id
+
         this.modifyData = {}
         // 给创建省赋值
         this.modifyData.province_id = campusResult.province_id
