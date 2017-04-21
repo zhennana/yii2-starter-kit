@@ -3,6 +3,7 @@ namespace frontend\controllers\edu;
 
 use Yii;
 use yii\web\Response;
+use yii\helpers\ArrayHelper;
 use frontend\models\resources\CoursewareToFile;
 
 
@@ -90,20 +91,13 @@ class CoursewareController extends \common\rest\Controller
     public function actionList($category_id)
     {
         $data = [];
-        $modelClass = $this->modelClass;
+        $modelClass = new  $this->modelClass;
         $model = $modelClass::find()
             ->where(['status' => $modelClass::COURSEWARE_STATUS_VALID])
             ->andWhere(['category_id' => $category_id])
-            ->andWhere(['parent_id' => 0])
-            ->asArray()
+            ->andWhere(['courseware_id' => $modelClass->prentCourseware()])
             ->all();
-        foreach ($model as $value) {
-            // 课件图标
-            $value['imgUrl'] = 'http://7xsm8j.com2.z0.glb.qiniucdn.com/ShanSong.png?imageView2/1/w/86/h/86';
-            $data[] = $value;
-        }
-
-        return $data;
+        return $model;
     }
 
     /**
@@ -129,8 +123,28 @@ class CoursewareController extends \common\rest\Controller
     public function actionView($courseware_id)
     {
         $data = [];
-        $modelClass = $this->modelClass;
+        $modelClass =   new $this->modelClass;
 
+        $modelClass = $modelClass::find()
+            ->where(['courseware_id'=>$courseware_id])
+            ->andWhere(['status'=>$modelClass::COURSEWARE_STATUS_VALID])
+            ->one();
+        $data = $modelClass->toArray();
+        foreach ($modelClass->coursewareToCourseware as $key => $value) {
+                    if(isset($value->courseware)){
+                      // var_dump( $value->courseware->fields());exit;
+                        $data['items'][$key] = $value->courseware;
+                    }
+        }
+       return  $data;
+      //return $data;
+       // ->with(['coursewareToCourseware'=>function($model){
+       //     return $model->with(['courseware']);
+       // }])
+       //->asArray()
+            
+       // var_dump();exit;
+/*
         // 父课件
         $courseware = $modelClass::find()
             ->where(['status' => $modelClass::COURSEWARE_STATUS_VALID])
@@ -145,12 +159,13 @@ class CoursewareController extends \common\rest\Controller
             ->where(['status' => $modelClass::COURSEWARE_STATUS_VALID])
             ->andWhere(['parent_id' => $courseware_id])
             ->asArray()
-            ->all();*/
+            ->all();
        for ($i=0; $i < 5; $i++) { 
             $data[$i] = $courseware;
        }
        $courseware['sub_courseware'] = $data;
-       return $courseware;
+*/
+       return $model;
 
     }
 
