@@ -64,7 +64,7 @@ public $modelClass = 'backend\modules\campus\models\Grade';
     public function actions()
     {
         $actions = parent::actions();
-        unset($actions['index'],$actions['create']);
+        unset($actions['index']);
         return $actions;
     }
 
@@ -202,7 +202,6 @@ public $modelClass = 'backend\modules\campus\models\Grade';
      *        description = "班主任",
      *        required = true,
      *        type = "integer",
-     *        enum ={10,0}
      *     ),  
      *@SWG\Parameter(
      *        in = "formData",
@@ -250,13 +249,6 @@ public $modelClass = 'backend\modules\campus\models\Grade';
      *     summary="创建班级",
      *     description="创建班级",
      *     produces={"application/json"},
-     * @SWG\Parameter(
-     *        in = "formData",
-     *        name = "grade_id",
-     *        description = "班级id",
-     *        required = true,
-     *        type = "string"
-     *     ),
      *@SWG\Parameter(
      *        in = "formData",
      *        name = "school_id",
@@ -280,11 +272,17 @@ public $modelClass = 'backend\modules\campus\models\Grade';
      *     ),
      *@SWG\Parameter(
      *        in = "formData",
+     *        name = "grade_title",
+     *        description = "几班",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *@SWG\Parameter(
+     *        in = "formData",
      *        name = "owner_id",
      *        description = "班主任",
      *        required = true,
      *        type = "integer",
-     *        enum ={10,0}
      *     ),  
      *@SWG\Parameter(
      *        in = "formData",

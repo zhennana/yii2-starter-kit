@@ -76,14 +76,6 @@ class ConfigController extends \common\rest\Controller
      *     summary="信息流列表",
      *     description="返回首页流",
      *     produces={"application/json"},
-     *     @SWG\Parameter(
-     *        in = "query",
-     *        name = "user_id",
-     *        description = "用户ID，没有登录默认0",
-     *        required = false,
-     *        default = 0,
-     *        type = "string"
-     *     ),
      *     @SWG\Response(
      *         response = 200,
      *         description = "无需填写，直接返回数据"
@@ -94,22 +86,22 @@ class ConfigController extends \common\rest\Controller
 
     public function actionIndex()
     {
-        // $model = new Courseware ;
-        // return $model->streamData();
-        
+         $model = new Courseware ;
+         return $model->streamData();
+        /*
         for ($i=1; $i < 4; $i++) {
             $recommend_items[] = [
                 'coursee_id'     => (string)$i,
-                'type'   => '文件的类型',
+                'type'   => 'image',
                 'title'       => '育综合性人才，建四化学校',
                 'target_url' => Yii::$app->request->hostInfo.Url::to(['api/courseware/view','id'=>1]),
-                'imgUrl'      => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/yajolyajol_activity_banner_01.png?imageView2/1/w/400/h/200',
+                'imgUrl'      => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/yajolyajol_activity_banner_01.png?imageView2/1/w/640/h/282',
             ];
-        }
+        } 
         for ($i=1; $i < 5; $i++) {
             $recommend_items1[] = [
                 'coursee_id'     => (string)$i,
-                'type'   => '文件的类型',
+                'type'   => 'video',
                 'title'       => '育综合性人才，建四化学校',
                 'target_url' => Yii::$app->request->hostInfo.Url::to(['api/courseware/view','id'=>1]),
                 'imgUrl'      => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/yajolyajol_activity_banner_01.png?imageView2/1/w/200/h/100',
@@ -129,7 +121,7 @@ class ConfigController extends \common\rest\Controller
                 'name'     => '精选课程',
                 'target_url'=> '这里是更多的跳转',
                 'items'    => $recommend_items1,
-            ]];
+            ]];*/
         
         return $data;
     }
