@@ -127,6 +127,7 @@ class CoursewareController extends \common\rest\Controller
 
         $modelClass = $modelClass::find()
             ->where(['courseware_id'=>$courseware_id])
+            ->andWhere(['status'=>$modelClass::COURSEWARE_STATUS_VALID])
             ->one();
         $data = $modelClass->toArray();
         foreach ($modelClass->coursewareToCourseware as $key => $value) {
