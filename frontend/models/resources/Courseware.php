@@ -54,6 +54,11 @@ class Courseware extends BaseCourseware
         );
     }
 
+
+    public function getCoursewareToCourseware(){
+        return $this->hasMany(\frontend\models\resources\CoursewareToCourseware::className(),
+            ['courseware_master_id'=>'courseware_id']);
+    }
     public function formatByApi($model, $file)
     {
         // var_dump($model);exit;
@@ -74,7 +79,7 @@ class Courseware extends BaseCourseware
                 $params[$key]['type'] = $value->counts;
                 $params[$key]['name'] = $value->coursewareCategory->name;
                 $params[$key]['target_url'] = '跳转' ;
-                $params[$key]['item']       = $model;
+                $params[$key]['items']       = $model;
                 unset($model);
         }
         continue;
