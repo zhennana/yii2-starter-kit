@@ -18,6 +18,7 @@
         <el-option v-for="(val, key, index) in urbanCounty" :label="val.region_name" :value="val.region_id" :key="val.region_id"></el-option>
       </el-select>
     </div>
+    <div>{{ msg }}</div>
   </div>
 </template>
 <script>
@@ -25,6 +26,12 @@
   export default {
     created () {
       this.threeLevelLinkage()
+    },
+    mounted () {
+//      this.initSelect()
+    },
+    updated () {
+      console.log(this.initData)
     },
     data () {
       return {
@@ -35,27 +42,80 @@
         // 存放县的数据
         urbanCounty: [],
         // 省市县三个组合
-        threeCombinations: {
+//        threeCombinations: {
+//          // 存放省的数据 用来获取市
+//          province: {
+//            type_id: '1',
+//            id: this.initData.province_id
+//          },
+//          // 存放市的数据 用来获取县
+//          city: {
+//            type_id: '2',
+//            id: this.initData.city_id
+//          },
+//          // 存放县的数据
+//          county: {
+//            type_id: '3',
+//            id: this.initData.region_id
+//          }
+//        },
+        arr: []
+      }
+    },
+    computed: {
+      threeCombinations () {
+        return {
           // 存放省的数据 用来获取市
           province: {
             type_id: '1',
-            id: ''
+            id: this.initData.province_id
           },
           // 存放市的数据 用来获取县
           city: {
             type_id: '2',
-            id: ''
+            id: this.initData.city_id
           },
           // 存放县的数据
           county: {
             type_id: '3',
-            id: ''
+            id: this.initData.region_id
           }
         }
       }
     },
+    props: {
+      initData: {
+        type: Object,
+        default () {
+          return {
+            province_id: '',
+            city_id: '',
+            region_id: ''
+          }
+        }
+      },
+      msg: {
+        type: String,
+        default () { return 'aaa' }
+      }
+    },
     methods: {
-//     三级联动   获取省
+      initSelect () {
+        console.log(this.initData)
+        for (let key in this.initData) {
+          if (key === 'province_id') {
+            this.threeCombinations.province.id = this.initData[key]
+          } else if (key === 'city_id') {
+            this.threeCombinations.city.id = this.initData[key]
+          } else if (key === 'region_id') {
+            this.threeCombinations.county.id = this.initData[key]
+          }
+        }
+        this.threeCombinations.province.id = this.initData.province_id
+        this.threeCombinations.city.id = this.initData.city_id
+        this.threeCombinations.county.id = this.initData.region_id
+      },
+     // 三级联动   获取省
       threeLevelLinkage () {
         Campus.provinceCity(this.depositProvince).then(response => {
           if (response.errno === '0') {
