@@ -248,7 +248,8 @@ public $modelClass = 'backend\modules\campus\models\Grade';
         }
         $model->load($_POST,'');
         if($model->save()){
-            $model = $model::findOne($model->grade_id);
+            var_dump($_POST);exit;
+            $model = $model->toArray([],[],true);
         };
 
        return $model;
