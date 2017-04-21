@@ -1,5 +1,6 @@
 <template>
   <div>
+    <el-input v-model="msg"></el-input>
     <el-row>
       <el-col :span="12" class="header-top clearFix">
         <h2 class="fl">学院管理</h2>
@@ -8,11 +9,13 @@
       </el-col>
     </el-row>
     <!--搜素学校-->
-    <div class="search-school">
+    <div class="search-school clearFix">
       <el-form :label-position="labelPosition" label-width="60" class="clearFix exhibition-top">
-          <el-form-item label="学校ID" class="fl search-above">
-            <el-input v-model="campus.id" class="search-above"></el-input>
-          </el-form-item>
+        <el-form-item label="学校名" class="fl search-above">
+          <el-select v-model="campus.id" placeholder="学校名">
+            <el-option v-for="item in dischargeState.school" :label="item.school_title" :value="item.school_id" :key="item.school_id"></el-option>
+          </el-select>
+        </el-form-item>
           <el-form-item label="主校ID" class="fl search-above">
             <el-input v-model="campus.parent_id" class="search-above"></el-input>
           </el-form-item>
@@ -31,70 +34,142 @@
           <el-form-item label="背景图路径" class="fl search-above">
             <el-input v-model="campus.school_backgroud_path" class="search-above"></el-input>
           </el-form-item>
-        <threeLevel-linkage class="fl"></threeLevel-linkage>
+        <div>
+        </div>
+        <el-form-item label="学校是否开启" class="fl search-above" >
+        <el-select v-model="campus.status" placeholder="">
+          <el-option v-for="item in dischargeState.status" :label="item.status_label" :value="item.status_id" :key="item.status_id">
+          </el-option>
+        </el-select>
+        </el-form-item>
+        <!--三级联动-->
+        <threeLevel-linkage class="fl" v-on:obtainCity="incrementTotal" :initData="initData"></threeLevel-linkage>
           <el-form-item label="具体地址" class="fl search-above">
             <el-input v-model="campus.address" class="search-above"></el-input>
           </el-form-item>
-        <!--三级联动-->
-
         <el-button type="primary" icon="search" class="fl button-display-school" @click="displaySchool">搜索</el-button>
       </el-form>
     </div>
     <!--展示学校-->
-
     <div class="display-school">
-      <el-table :data="campusResult" style="width: 100%">
-        <el-table-column prop="id" label="学校ID" width="180"></el-table-column>
-        <el-table-column prop="school_title" label="名称" width="180"></el-table-column>
+      <el-table :data="campusResult" border style="width: 100%">
+        <el-table-column fixed prop="id" label="学校ID" width="100"></el-table-column>
+        <el-table-column prop="school_title" label="名称" width="120"></el-table-column>
         <el-table-column prop="province" label="省份" width="120"></el-table-column>
-        <el-table-column prop="city" label="市" width="120"></el-table-column>
+        <el-table-column prop="city" label="市区" width="120"></el-table-column>
         <el-table-column prop="region" label="县区" width="120"></el-table-column>
-        <el-table-column prop="address" label="地址"></el-table-column>
-        <el-table-column prop="status_label" label="学校是否开启"></el-table-column>
+        <el-table-column prop="address" label="地址" width="300"></el-table-column>
+        <el-table-column prop="status_label" label="学校是否开启" width="150"></el-table-column>
+        <el-table-column prop="province_id" label="省份" width="120"></el-table-column>
+        <el-table-column prop="city_id" label="市区" width="120" style="display:none"></el-table-column>
+        <el-table-column prop="region_id" label="县区" width="120" style="display:none"></el-table-column>
+        <el-table-column fixed="right" label="操作" width="300" style="display:none">
+          <template scope="scope">
+            <el-button type="info" v-on:click="lookDetails(scope.row)">查看</el-button>
+            <el-button type="success" v-on:click="modifyAlert(scope.row)">修改</el-button>
+            <el-button type="danger">删除</el-button>
+          </template>
+        </el-table-column>
       </el-table>
+    </div>
+    <!--展示学校详情-->
+    <div class="dischargeState">
+      <el-dialog title="学校详情" v-model="dialogVisible">
+        <el-table :data="exhibitionDetails" border style="width: 100%">
+          <el-table-column fixed prop="id" label="学校ID" width="150"></el-table-column>
+          <el-table-column prop="parent_id" label="主校ID" width="120"></el-table-column>
+          <el-table-column prop="school_title" label="学校名称" width="120"></el-table-column>
+          <el-table-column prop="school_short_title" label="学校简称" width="120"></el-table-column>
+          <el-table-column prop="school_slogan" label="学校标语" width="120"></el-table-column>
+          <el-table-column prop="school_logo_path" label="Logo路径" width="120"></el-table-column>
+          <el-table-column prop="school_backgroud_path" label="背景图路径" width="120"></el-table-column>
+          <el-table-column prop="province" label="省" width="120"></el-table-column>
+          <el-table-column prop="city" label="城市" width="120"></el-table-column>
+          <el-table-column prop="region" label="区县" width="120"></el-table-column>
+          <el-table-column prop="address" label="详情地址" width="200"></el-table-column>
+          <el-table-column prop="status_label" label="状态" width="120"></el-table-column>
+        </el-table>
+      </el-dialog>
+    </div>
+    <!--修改学校-->
+    <div class="modify">
+      <el-dialog title="修改学校" v-model="modify">
+        <el-form :model="modifyData" :label-position="modifyLabelStatus">
+          <el-form-item label="主校ID" :label-width="formLabelWidth" class="modify-increase-width">
+            <el-input v-model="modifyData.parent_id" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="学校名称" :label-width="formLabelWidth" class="modify-increase-width">
+            <el-input v-model="modifyData.school_title" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="学校简称" :label-width="formLabelWidth" class="modify-increase-width">
+            <el-input v-model="modifyData.school_short_title" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="学校标语" :label-width="formLabelWidth" class="modify-increase-width">
+            <el-input v-model="modifyData.school_slogan" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="Logo路径" :label-width="formLabelWidth" class="modify-increase-width">
+            <el-input v-model="modifyData.school_logo_path" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="背景图路径" :label-width="formLabelWidth" class="modify-increase-width">
+            <el-input v-model="modifyData.school_backgroud_path" auto-complete="off"></el-input>
+          </el-form-item>
+          <!--三级联动-->
+          <threeLevel-linkage v-on:obtainCity="modifyProvinces" class="modify-threeLevel" v-bind:init-data="initData" v-bind:msg="msg"></threeLevel-linkage>
+          <el-form-item label="具体地址" :label-width="formLabelWidth" class="modify-increase-width">
+            <el-input v-model="modifyData.address" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="状态" class="search-above modify-increase-width">
+            <el-select v-model="modifyData.status" placeholder="">
+              <el-option v-for="item in dischargeState.status" :label="item.status_label" :value="item.status_id" :key="item.status_id">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="modifySchool">确 定</el-button>
+          <el-button @click="modify = false">取 消</el-button>
+        </div>
+      </el-dialog>
     </div>
     <!--创建学校的弹出框-->
     <el-dialog title="创建学校" v-model="dialogFormVisible">
       <el-form :model="build" class="clearFix">
-        <el-form-item label="主校ID" :label-width="formLabelWidth" class="fl" >
-          <el-input v-model="build.parent_id" auto-complete="off" placeholder="可不填"></el-input>
+        <el-form-item label="主校ID" class="fl">
+          <el-select v-model="build.parent_id" placeholder="可不填">
+            <el-option v-for="item in dischargeState.school" :label="item.school_title" :value="item.school_id" :key="item.school_id"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="学校名称" :label-width="formLabelWidth" class="fl">
-          <el-input v-model="build.school_title" auto-complete="off" placeholder="必填"></el-input>
+          <el-input v-model="build.school_title" placeholder="必填"></el-input>
         </el-form-item>
         <el-form-item label="学校简称" :label-width="formLabelWidth" class="fl">
-          <el-input v-model="build.school_short_title" auto-complete="off" placeholder="可不填"></el-input>
+          <el-input v-model="build.school_short_title" placeholder="可不填"></el-input>
         </el-form-item>
         <el-form-item label="学校标语" :label-width="formLabelWidth" class="fl">
-          <el-input v-model="build.school_slogan" auto-complete="off" placeholder="可不填"></el-input>
+          <el-input v-model="build.school_slogan" placeholder="可不填"></el-input>
         </el-form-item>
         <el-form-item label="Logo路径" :label-width="formLabelWidth" class="fl">
-          <el-input v-model="build.school_logo_path" auto-complete="off" placeholder="可不填"></el-input>
+          <el-input v-model="build.school_logo_path" placeholder="可不填"></el-input>
         </el-form-item>
         <el-form-item label="背景图路径" :label-width="formLabelWidth" class="fl">
-          <el-input v-model="build.school_backgroud_path" auto-complete="off" placeholder="可不填"></el-input>
+          <el-input v-model="build.school_backgroud_path" placeholder="可不填"></el-input>
         </el-form-item>
-        <el-form-item label="省份" :label-width="formLabelWidth" class="fl">
-          <el-input v-model="build.province_id" auto-complete="off" placeholder="必填"></el-input>
-        </el-form-item>
-        <el-form-item label="城市" :label-width="formLabelWidth" class="fl">
-          <el-input v-model="build.city_id" auto-complete="off" placeholder="必填"></el-input>
-        </el-form-item>
-        <el-form-item label="区县" :label-width="formLabelWidth" class="fl">
-          <el-input v-model="build.region_id" auto-complete="off" placeholder="必填"></el-input>
-        </el-form-item>
+        <threeLevel-linkage class="fl" v-on:obtainCity="createProvinces"></threeLevel-linkage>
         <el-form-item label="详细地址" :label-width="formLabelWidth" class="fl">
-          <el-input v-model="build.address" auto-complete="off" placeholder="可不填"></el-input>
+          <el-input v-model="build.address" placeholder="可不填"></el-input>
+        </el-form-item>
+        <el-form-item label="排序" :label-width="formLabelWidth" class="fl">
+          <el-input v-model="build.sort" placeholder="必填"></el-input>
         </el-form-item>
         <el-form-item label="学校是否开启" :label-width="formLabelWidth" class="fl">
-          <el-select v-model="build.status" placeholder="可不选">
-            <el-option label="未删除" value="0"></el-option>
-            <el-option label="已删除" value="1"></el-option>
+          <el-select v-model="build.status" placeholder="必选">
+            <el-option label="开启" value="0"></el-option>
+            <el-option label="未开启" value="1"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+        <el-button type="primary" v-on:click="createSchool">确 定</el-button>
         <el-button @click="dialogFormVisible = false">取 消</el-button>
       </div>
     </el-dialog>
@@ -107,12 +182,16 @@
   export default {
     created () {
       this.displaySchool()
-      this.threeLevelLinkage()
+      this.schoolState()
+    },
+    mounted () {
     },
     data () {
       return {
+        msg: '333333',
         labelPosition: 'top',
-        // 展示学校的数据
+        modifyLabelStatus: 'left',
+        // 搜索学校的数据
         campus: {
           id: '',
           parent_id: '',
@@ -127,6 +206,7 @@
           address: '',
           status: ''
         },
+        // 展示学校的数据
         campusResult: [],
         // 创建学校的数据
         dialogFormVisible: false,
@@ -140,7 +220,8 @@
           province_id: '',
           region_id: '',
           address: '',
-          status: ''
+          status: '',
+          sort: ''
         },
         formLabelWidth: '100px',
         // 存放省份的数据
@@ -160,7 +241,22 @@
         // 存放县的数据
         urbanCounty: [],
         // 绑定到县select的数据
-        countySelect: ''
+        countySelect: '',
+        // 获取学校状态数据
+        campusState: {
+          type: ''
+        },
+        // 存放所有校区和学校状态
+        dischargeState: {},
+        // 展示学校详情的数据
+        exhibitionDetails: [],
+        // 学校详情弹出框控制的数据
+        dialogVisible: false,
+        // 修改学校弹出框控制的数据
+        modify: false,
+        // 更改学校的数据
+        modifyData: {},
+        initData: {}
       }
     },
     components: { ThreeLevelLinkage },
@@ -175,42 +271,92 @@
           console.log(error)
         })
       },
-//       创建学校
+      // 查看学校详情
+      lookDetails (campusResult) {
+        console.log(campusResult)
+        this.exhibitionDetails = []
+        this.dialogVisible = true
+        this.exhibitionDetails.push(campusResult)
+      },
+      // 修改学校打开弹出框
+      modifyAlert (campusResult) {
+//        for (let key in campusResult) {
+//          this.initData[key] = campusResult[key]
+//        }
+
+        this.initData.province_id = campusResult.province_id
+        this.initData.city_id = campusResult.city_id
+        this.initData.region_id = campusResult.region_id
+
+        this.modifyData = {}
+        // 给创建省赋值
+        this.modifyData.province_id = campusResult.province_id
+        // 给创建市赋值
+        this.modifyData.city_id = campusResult.city_id
+        // 给创建县赋值
+        this.modifyData.region_id = campusResult.region_id
+        this.modify = true
+        this.modifyData = campusResult
+      },
+      // 修改学校
+      modifySchool () {
+        console.log(this.modifyData)
+        if (this.modifyData.school_title !== '' && this.modifyData.province_id !== '' && this.modifyData.city_id !== '' && this.modifyData.region_id !== '' && this.modifyData.status !== '' && this.modifyData.sort !== '') {
+          Campus.modifyCampus(this.modifyData).then(response => {
+            if (response.errno === '0') {
+            }
+          }).catch(error => {
+            console.log(error)
+          })
+        } else {
+          alert('学校名称 省  城市 区县 学校是否开启 排序 不可为空，请填写')
+        }
+      },
+      // 创建学校
       createSchool () {
-        Campus.appendSchool(this.build).then(response => {
-          if (response.errno === '0') {
-          }
-        })
+        if (this.build.school_title !== '' && this.build.province_id !== '' && this.build.city_id !== '' && this.build.region_id !== '' && this.build.status !== '' && this.build.sort !== '') {
+          Campus.appendSchool(this.build).then(response => {
+            if (response.errno === '0') {
+              for (let key in this.build) {
+                this.build[key] = ''
+              }
+              this.dialogFormVisible = false
+            }
+          }).catch(error => {
+            console.log(error)
+          })
+        } else {
+          this.$message.error('学校名称 省  城市 区县 学校是否开启 排序 不可为空，请填写')
+        }
       },
-//     三级联动   获取省
-      threeLevelLinkage () {
-        Campus.provinceCity(this.depositProvince).then(response => {
-          if (response.errno === '0') {
-            this.depositProvince = response.result
-          }
-        }).catch(error => {
-          console.log(error)
-        })
+      incrementTotal (threeCombinations) {
+        // 给所搜省赋值
+        this.campus.province_id = threeCombinations.province.id
+        // 给所搜市赋值
+        this.campus.city_id = threeCombinations.city.id
+        // 给所搜县赋值
+        this.campus.region_id = threeCombinations.county.id
       },
-//    三级联动  获取市
-      obtainCity () {
-        Campus.provinceCity(this.getCity).then(response => {
-          if (response.errno === '0') {
-            this.getCounty.id = ''
-            this.depositCity = []
-            this.depositCity = response.result
-          }
-        }).catch(error => {
-          console.log(error)
-        })
+      createProvinces (threeCombinations) {
+        // 给创建省赋值
+        this.build.province_id = threeCombinations.province.id
+        // 给创建市赋值
+        this.build.city_id = threeCombinations.city.id
+        // 给创建县赋值
+        this.build.region_id = threeCombinations.county.id
       },
-//   三级联动 获取县
-      obtainCounty () {
-        Campus.provinceCity(this.getCounty).then(response => {
+      modifyProvinces (threeCombinations) {
+        // 给更改省赋值
+        this.modifyData.province_id = threeCombinations.province.id
+        // 给更改市赋值
+        this.modifyData.city_id = threeCombinations.city.id
+        // 给更改县赋值
+        this.modifyData.region_id = threeCombinations.county.id
+      },
+      schoolState () {
+        Campus.getSchoolState(this.campusState.type).then(response => {
           if (response.errno === '0') {
-            this.countySelect = ''
-            this.urbanCounty = []
-            this.urbanCounty = response.result
+            this.dischargeState = response.result
           }
         }).catch(error => {
           console.log(error)
@@ -338,4 +484,15 @@
     border-bottom:0.02rem solid #0071B8;
   .address ul .active
     color:#0071B8;
+  .dischargeState
+    .el-dialog--small
+      width:1500px;
+  .modify-threeLevel
+    margin-bottom:20px;
+  .modify-increase-width
+    .el-form-item__content
+      width:600px;
+      .el-select
+        .el-input
+          width:600px;
 </style>
