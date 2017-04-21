@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!--头部区域-->
     <div class="class-header">
       <div class="create-wrapper">
         <el-button class="create" type="success" icon="plus" @click="handleCreateClick">创建</el-button>
@@ -7,38 +8,50 @@
       <div class="search">
         <el-form :inline="true" class="demo-form-inline">
           <el-form-item label="学校">
-            <el-select placeholder="学校" v-model="searchForm.school">
-              <el-option label="学校一" value="shanghai"></el-option>
-              <el-option label="学校二" value="beijing"></el-option>
-            </el-select>
+            <el-input placeholder="学校" v-model="searchForm.school">
+            </el-input>
           </el-form-item>
 
           <el-form-item label="班级分类">
-            <el-input placeholder="班级分类"></el-input>
+            <el-input placeholder="班级分类" v-model="searchForm.grade_cat">
+
+            </el-input>
           </el-form-item>
 
           <el-form-item label="班级名称">
-            <el-input placeholder="班级名称"></el-input>
+            <el-input placeholder="班级名称" v-model="searchForm.grade_name"></el-input>
+          </el-form-item>
+
+          <el-form-item label="班主任">
+            <el-input v-model="searchForm.owner" placeholder="班主任">
+
+            </el-input>
           </el-form-item>
 
           <el-form-item label="创建者">
-            <el-input placeholder="创建者"></el-input>
+            <el-input placeholder="创建者" v-model="searchForm.creator"></el-input>
           </el-form-item>
 
-          <el-form-item label="创建者">
-            <el-input placeholder="创建者"></el-input>
+          <el-form-item label="状态">
+            <el-select style="width: 120px" v-model="searchForm.status" placeholder="请选择状态">
+              <el-option
+                v-for="item in formInfo.status"
+                :label="item.status_label"
+                :key="item.status_id"
+                :value="item.status_id">
+              </el-option>
+            </el-select>
           </el-form-item>
 
-          <el-form-item label="创建者">
-            <el-input placeholder="创建者"></el-input>
-          </el-form-item>
-
-          <el-form-item label="创建者">
-            <el-input placeholder="创建者"></el-input>
-          </el-form-item>
-
-          <el-form-item label="创建者">
-            <el-input placeholder="创建者"></el-input>
+          <el-form-item label="结业状态">
+            <el-select style="width: 120px" v-model="searchForm.graduateStatus" placeholder="结业状态">
+              <el-option
+                v-for="item in formInfo.graduate"
+                :label="item.graduate_label"
+                :key="item.graduate_id"
+                :value="item.graduate_id">
+              </el-option>
+            </el-select>
           </el-form-item>
 
           <el-form-item label="日期">
@@ -50,20 +63,21 @@
 
             </el-date-picker>
           </el-form-item>
+
           <el-form-item>
-            <el-button type="primary" @click="onSubmit">查询</el-button>
+            <el-button type="primary" @click="onSearchSubmit">查询</el-button>
           </el-form-item>
         </el-form>
 
       </div>
     </div>
+    <!--表格展示数据-->
     <div class="class-table">
       <el-table
         border
         :data="tData"
         v-loading.body="loading"
         stripe
-        @selection-change="handleSelectionChange"
         style="width: 100%">
         <el-table-column
           v-for="item in tHeader"
@@ -75,14 +89,9 @@
 
         <el-table-column
           label="操作"
-          width="250"
+          width="180"
           fixed="right">
           <template scope="scope">
-            <el-button type="info"
-                       size="small"
-                       icon="edit"
-                       @click="handleBrowse(scope.$index, scope.row)">查看
-            </el-button>
             <el-button
               size="small"
               type="success"
@@ -100,13 +109,14 @@
 
       </el-table>
     </div>
+    <!--创建班级form-->
     <div class="create-dialog">
-      <el-dialog title="创建班级" v-model="dialogFormVisible" size="small">
+      <el-dialog title="创建班级" v-model="createVisible" size="small">
         <!--创建班级表单-->
         <el-form id="create-form" :model="createForm" :rules="rules" ref="createForm" label-width="100px"
                  class="demo-ruleForm">
-          <el-form-item label="学校名称" prop="schoolName">
-            <el-select v-model="createForm.schoolName" placeholder="请选择学校">
+          <el-form-item label="学校名称" prop="school_id">
+            <el-select v-model="createForm.school_id" placeholder="请选择学校">
               <el-option
                 v-for="item in formInfo.school"
                 :label="item.school_title"
@@ -116,8 +126,8 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item label="班级分类" prop="classifyName">
-            <el-select v-model="createForm.classifyName" placeholder="请选择分类">
+          <el-form-item label="班级分类" prop="group_category_id">
+            <el-select v-model="createForm.group_category_id" placeholder="请选择分类">
               <el-option
                 v-for="item in formInfo.grade_category"
                 :label="item.name"
@@ -127,16 +137,16 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item label="班级名称" prop="className">
-            <el-input v-model="createForm.className"></el-input>
+          <el-form-item label="班级名称" prop="grade_name">
+            <el-input v-model="createForm.grade_name"></el-input>
           </el-form-item>
 
-          <el-form-item label="班级号" prop="number">
-            <el-input type="text" v-model="createForm.number"></el-input>
+          <el-form-item label="班级号" prop="grade_title">
+            <el-input type="text" v-model="createForm.grade_title"></el-input>
           </el-form-item>
 
-          <el-form-item label="班主任" prop="owner">
-            <el-select v-model="createForm.owner" placeholder="请选择班主任">
+          <el-form-item label="班主任" prop="owner_id">
+            <el-select v-model="createForm.owner_id" placeholder="请选择班主任">
               <el-option
                 v-for="item in formInfo.user"
                 :label="item.username"
@@ -163,13 +173,84 @@
         </el-form>
 
         <!--<create-class-->
-          <!--v-bind:create-form="createForm"-->
-          <!--v-bind:form-info="formInfo">-->
+        <!--v-bind:create-form="createForm"-->
+        <!--v-bind:form-info="formInfo">-->
         <!--</create-class>-->
 
         <div slot="footer" class="dialog-footer">
-          <el-button @click="dialogFormVisible = false">取 消</el-button>
+          <el-button @click="createVisible = false">取 消</el-button>
           <el-button type="primary" @click="create('createForm')">确 定</el-button>
+        </div>
+
+      </el-dialog>
+    </div>
+    <!--更新班级form-->
+    <div class="edit-dialog">
+      <el-dialog title="创建班级" v-model="editVisible" size="small">
+        <!--创建班级表单-->
+        <el-form id="create-form" :model="editForm" :rules="rules" ref="editForm" label-width="100px"
+                 class="demo-ruleForm">
+          <el-form-item label="学校名称" prop="data.school_id">
+            <el-select v-model="editForm.data.school_id" placeholder="请选择学校">
+              <el-option
+                v-for="item in formInfo.school"
+                :label="item.school_title"
+                :key="item.school_id"
+                :value="item.school_id">
+              </el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="班级分类" prop="data.group_category_id">
+            <el-select v-model="editForm.data.group_category_id" placeholder="请选择分类">
+              <el-option
+                v-for="item in formInfo.grade_category"
+                :label="item.name"
+                :key="item.grade_category_id"
+                :value="item.grade_category_id">
+              </el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="班级名称" prop="data.grade_name">
+            <el-input v-model="editForm.data.grade_name"></el-input>
+          </el-form-item>
+
+          <el-form-item label="班级号" prop="data.grade_title">
+            <el-input type="text" v-model="editForm.data.grade_title"></el-input>
+          </el-form-item>
+
+          <el-form-item label="班主任" prop="data.owner_id">
+            <el-select v-model="editForm.data.owner_id" placeholder="请选择班主任">
+              <el-option
+                v-for="item in formInfo.user"
+                :label="item.username"
+                :key="item.id"
+                :value="item.id">
+              </el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="排序" prop="data.sort">
+            <el-input v-model="editForm.data.sort"></el-input>
+          </el-form-item>
+
+          <el-form-item label="活动状态" prop="data.status">
+            <el-select v-model="editForm.data.status" placeholder="请选择状态">
+              <el-option
+                v-for="item in formInfo.status"
+                :label="item.status_label"
+                :key="item.status_id"
+                :value="item.status_id">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-form>
+
+
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="editVisible = false">取 消</el-button>
+          <el-button type="primary" @click="update('editForm')">更新</el-button>
         </div>
 
       </el-dialog>
@@ -180,7 +261,6 @@
 
 <script>
   import Class from '../../api/class'
-  import CreateClass from '../../components/campus/CreateClass'
   export default {
     name: 'class',
     created () {
@@ -223,11 +303,10 @@
         loading: false,
         searchForm: {
           school: '',
-          classify: '',
-          className: '',
+          grade_cat: '',
+          grade_name: '',
           creator: '',
           owner: '',
-          sort: '',
           status: '',
           graduateStatus: '',
           time: ''
@@ -235,73 +314,91 @@
         tHeader: [
           {
             key: 0,
+            label: '主校ID',
+            prop: 'school_id'
+          },
+          {
+            key: 1,
             label: '学校',
             prop: 'school_title'
           },
           {
-            key: 1,
+            key: 2,
             label: '班级分类',
             prop: 'group_category_name'
           },
           {
-            key: 2,
+            key: 3,
             label: '班级名称',
             prop: 'grade_name'
           },
           {
-            key: 3,
-            label: '创建者id',
-            prop: 'creater_id'
+            key: 4,
+            label: '创建者',
+            prop: 'creater_label'
           },
           {
-            key: 4,
+            key: 5,
             label: '班主任',
             prop: 'owner_label'
           },
           {
-            key: 5,
+            key: 6,
             label: '排序',
             prop: 'sort'
           },
           {
-            key: 6,
+            key: 7,
             label: '活动状态',
             prop: 'status_label'
           },
           {
-            key: 7,
+            key: 8,
             label: '结业状态',
             prop: 'graduate_label'
           },
           {
-            key: 8,
+            key: 9,
             label: '创建时间',
             prop: 'created_at'
           },
           {
-            key: 9,
+            key: 10,
             label: '更新时间',
             prop: 'updated_at'
           }
         ],
         tData: [],
         params: {},
-        dialogFormVisible: false,
+        createVisible: false,
         createForm: {
-          schoolName: '',
-          classifyName: '',
-          className: '',
-          number: '',
-          owner: '',
+          school_id: '',
+          group_category_id: '',
+          grade_name: '',
+          grade_title: '',
+          owner_id: '',
           sort: '',
           status: ''
         },
+        editVisible: false,
+        editForm: {
+          index: '',
+          data: {
+            school_id: '',
+            group_category_id: '',
+            grade_name: '',
+            grade_title: '',
+            owner_id: '',
+            sort: '',
+            status: ''
+          }
+        },
         formInfo: {},
         rules: {
-          className: [
+          grade_name: [
             {required: true, message: '请输入班级名称', trigger: 'blur'}
           ],
-          number: [
+          grade_title: [
             {required: true, message: '请输入班级号', trigger: 'blur'},
             {
               validator: (rule, value, callback) => {
@@ -327,13 +424,13 @@
               trigger: 'blur'
             }
           ],
-          schoolName: [
+          school_id: [
             {required: true, message: '请选择学校', trigger: 'change'}
           ],
-          classifyName: [
+          group_category_id: [
             {required: true, message: '请选择分类', trigger: 'change'}
           ],
-          owner: [
+          owner_id: [
             {required: true, message: '请选择班主任', trigger: 'change'}
           ],
           status: [
@@ -349,7 +446,7 @@
           if (response.errno === '0') {
             this.tData = response.result
           } else {
-            this.showMsg(response.message)
+            this.showErrorMsg(response.message)
           }
           this.loading = false
         }).catch(error => {
@@ -363,43 +460,88 @@
           if (response.errno === '0') {
             this.formInfo = response.result
           } else {
-            this.showMsg(response.message)
+            this.showErrorMsg(response.message)
           }
           console.log(this.formInfo)
         }).catch(error => {
           console.log(error)
         })
       },
-      showMsg (errorMsg) {
-        this.$alert(errorMsg, '提示', {
-          confirmButtonText: '确定'
-        })
+      showErrorMsg (errorMsg) {
+        this.this.$message.error(errorMsg)
       },
-      handleSelectionChange (selects) {
+      showSuccessMsg (msg) {
+        this.$message({message: msg, type: 'success'})
       },
       handleCreateClick () {
-        this.dialogFormVisible = true
+        this.createVisible = true
       },
-      onSubmit () {
+      onSearchSubmit () {
         console.log(this.searchForm)
       },
       create (formName) {
         this.$refs[formName].validate((valid) => {
-          console.log(valid)
           if (valid) {
-            alert('submit!')
-            this.dialogFormVisible = false
+            this.createVisible = false
+            Class.createClass(this.createForm).then((response) => {
+              console.log(response)
+              if (response.errno === '0') {
+                this.showSuccessMsg(response.message)
+                this.getClassData()
+              } else {
+                this.showErrorMsg(response.message)
+              }
+            }).catch((error) => {
+              console.log(error)
+            })
           } else {
-            console.log('error submit!!')
             return false
           }
         })
-        console.log(this.createForm)
+      },
+      handleEdit (index, row) {
+        Object.assign(this.editForm.data, row)
+        this.editForm.index = index
+        this.editVisible = true
+      },
+      update (formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            this.editVisible = false
+            Class.updateClass(this.editForm.data).then(response => {
+              if (response.errno === '0') {
+                this.tData[this.editForm.index] = response.result
+                this.showSuccessMsg(response.message)
+                this.editForm.data = {}
+                this.editForm.index = 0
+              } else {
+                this.showErrorMsg(response.message)
+              }
+            }).catch((error) => {
+              console.log(error)
+            })
+          } else {
+            return false
+          }
+        })
+      },
+
+      handleDelete (index, row) {
+        this.editForm.index = index
+        Object.assign(this.editForm.data, row)
+        Class.deleteClass(this.editForm.data).then(response => {
+          if (response.errno === '0') {
+            this.tData[this.editForm.index] = response.result
+            this.showSuccessMsg(response.message)
+          } else {
+            this.showErrorMsg(response.message)
+          }
+        }).catch(error => {
+          console.log(error)
+        })
       }
     },
-    components: {
-      CreateClass
-    }
+    components: {}
   }
 </script>
 
@@ -413,9 +555,13 @@
       .el-form-item__content
         width inherit;
 
-  .class-table
-    margin-right 20px;
   .create-dialog
+    .el-form-item__content
+      width 70%
+      .el-select
+        width 100%
+
+  .edit-dialog
     .el-form-item__content
       width 70%
       .el-select
