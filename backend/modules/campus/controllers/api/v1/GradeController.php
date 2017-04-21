@@ -8,6 +8,7 @@ namespace backend\modules\campus\controllers\api\v1;
 
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 use yii\web\Response;
 use backend\modules\campus\models\search\GradeSearch;
 
@@ -64,7 +65,7 @@ public $modelClass = 'backend\modules\campus\models\Grade';
     public function actions()
     {
         $actions = parent::actions();
-        unset($actions['index']);
+        unset($actions['index'],$actions['update']);
         return $actions;
     }
 
@@ -132,6 +133,7 @@ public $modelClass = 'backend\modules\campus\models\Grade';
      * )
      **/
     public function actionIndex(){
+
             $searchModel = new GradeSearch;
             $searchModel->load(\yii::$app->request->queryParams,'');
             $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
@@ -139,7 +141,7 @@ public $modelClass = 'backend\modules\campus\models\Grade';
                 'defaultOrder' => ['created_at' => SORT_DESC]
             ];
             return $dataProvider;
-     }
+    }
     
     /**
      * @SWG\Get(path="/campus/api/v1/grade/view",
@@ -163,7 +165,7 @@ public $modelClass = 'backend\modules\campus\models\Grade';
     
     
     /**
-     * @SWG\Post(path="/campus/api/v1/grade/update?id=1",
+     * @SWG\Post(path="/campus/api/v1/grade/update",
      *     tags={"300-Grade-班级管理接口"},
      *     summary="修改班级数据",
      *     description="修改班级数据",
@@ -172,22 +174,22 @@ public $modelClass = 'backend\modules\campus\models\Grade';
      *        in = "formData",
      *        name = "grade_id",
      *        description = "班级id",
-     *        required = true,
-     *        type = "string"
+     *        required = false,
+     *        type = "integer"
      *     ),
      *@SWG\Parameter(
      *        in = "formData",
      *        name = "school_id",
      *        description = "学校id",
      *        required = true,
-     *        type = "string"
+     *        type = "integer"
      *     ),   
      *@SWG\Parameter(
      *        in = "formData",
      *        name = "group_category_id",
      *        description = "班级分类",
      *        required = true,
-     *        type = "string"
+     *        type = "integer"
      *     ),   
      *@SWG\Parameter(
      *        in = "formData",
@@ -195,6 +197,13 @@ public $modelClass = 'backend\modules\campus\models\Grade';
      *        description = "班级名称（string）",
      *        required = true,
      *        type = "string"
+     *     ),
+     *@SWG\Parameter(
+     *        in = "formData",
+     *        name = "grade_title",
+     *        description = "几班",
+     *        required = true,
+     *        type = "integer"
      *     ),
      *@SWG\Parameter(
      *        in = "formData",
@@ -226,21 +235,25 @@ public $modelClass = 'backend\modules\campus\models\Grade';
      *     )
      * )
      */
-  /*  
-    public function actionUpdate($id = 10){
-        
+   
+    public function actionUpdate(){
+         //$this->findModel($id);
        $model =  new $this->modelClass;
-       $model = $model::findOne($id);
-        if(!$model){
+       $model = $model::findOne(\Yii::$app->request->post('grade_id'));
+      //return $model;
+       if(!$model){
             $this->serializer['errno']   = 400;
             $this->serializer['message'] = "数据异常";
             return [];
         }
-        $model->load(\Yii::$app->request->post(),'');
-        $model->save();
-        return $model;
+        $model->load($_POST,'');
+        if($model->save()){
+            $model = $model::findOne($model->grade_id);
+        };
+
+       return $model;
     }
-*/
+
 
     
      /**
@@ -307,6 +320,9 @@ public $modelClass = 'backend\modules\campus\models\Grade';
      *     )
      * )
      */
+    public function actionCreate(){
+        return $_POST;
+    }
     
 
     /**
