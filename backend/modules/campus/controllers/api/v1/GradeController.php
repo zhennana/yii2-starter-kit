@@ -320,9 +320,6 @@ public $modelClass = 'backend\modules\campus\models\Grade';
      *     )
      * )
      */
-    public function actionCreate(){
-        return $_POST;
-    }
     
 
     /**
