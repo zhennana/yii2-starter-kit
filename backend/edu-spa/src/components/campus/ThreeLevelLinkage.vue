@@ -31,6 +31,7 @@
 //      this.initSelect()
     },
     updated () {
+      console.log('数据')
       console.log(this.initData)
     },
     data () {
