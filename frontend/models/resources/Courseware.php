@@ -38,7 +38,7 @@ class Courseware extends BaseCourseware
             parent::fields(),
             [
                 'target_url'=>function($model){
-                    return  \Yii::$app->request->hostInfo.Url::to(['api/courseware/view','id'=>$model->courseware_id]);
+                    return  \Yii::$app->request->hostInfo.Url::to(['edu/courseware/view','courseware_id'=>$model->courseware_id]);
                 },
                 'imgUrl' => function($model){
                     if(isset($model->toFile[0]->fileStorageItem->url)&& isset($model->toFile[0]->fileStorageItem->file_name)){
