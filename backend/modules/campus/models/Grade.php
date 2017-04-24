@@ -30,7 +30,6 @@ public function behaviors()
         return ArrayHelper::merge(
              parent::rules(),
              [
-                  # custom validation rules
              ]
         );
     }
@@ -40,7 +39,6 @@ public function behaviors()
  */
     public function fields()
     {
-
       return ArrayHelper::merge(
              parent::fields(),
              [
@@ -68,18 +66,26 @@ public function behaviors()
                 },
                 'creater_label' => function($model){
                   return self::getUserName($model->creater_id);
-                }
+                },
+                // 'school_id' =>function(){
+                //       return (int)$this->school_id;
+                //  },
+                //  'group_category_id'=>function(){
+                //       return (int)$this->group_category_id;
+                //  }
+
              ]
         );
     }
 
     public function extraFields(){
-       return ArrayHelper::merage(
-              parent::extraFields(),[
-              'school'=>function(){
-                 return '123';
-              }]
-              );
+       return ArrayHelper::merge(
+                parent::extraFields(),
+                [
+                'school'=>function(){
+                   return '123';
+                }
+              ]);
     }
     /**
      * 下拉框 数据
@@ -101,7 +107,7 @@ public function behaviors()
      * 获取学校下拉框
      */
     public function DropDownSchool(){
-      $model =   School::find()->select(['school_id','school_title'])->where(['status'=>School::SCHOOL_STATUS_OPEN])->all();
+      $model = School::find()->select(['school_id','school_title'])->where(['status'=>School::SCHOOL_STATUS_OPEN])->all();
       return $model;
      
 
