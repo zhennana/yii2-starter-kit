@@ -60,7 +60,7 @@ class SchoolController extends \yii\rest\ActiveController
     public function actions()
     {
         $actions = parent::actions();
-        unset($actions['index'],$actions['create']);
+        unset($actions['index'],$actions['create'],$actions['update']);
         return $actions;
     }
 
@@ -198,11 +198,19 @@ class SchoolController extends \yii\rest\ActiveController
     }
 
      /**
-     * @SWG\Post(path="/campus/api/v1/school/update?id=1",
+     * @SWG\Post(path="/campus/api/v1/school/update",
      *     tags={"200-School-学校管理接口"},
      *     summary="查询所有学校",
      *     description="返回学校信息",
      *     produces={"application/json"},
+     *@SWG\Parameter(
+     *        in = "formData",
+     *        name = "school_id",
+     *        description = "ID",
+     *        required = false,
+     *        default = "1",
+     *        type = "integer"
+     *     ),
      *     @SWG\Parameter(
      *        in = "formData",
      *        name = "parent_id",
@@ -307,6 +315,19 @@ class SchoolController extends \yii\rest\ActiveController
      * )
      *
     **/
+
+    public function actionUpdate(){
+       $model =  new $this->modelClass;
+       $model = $model::findOne((int)\Yii::$app->request->post('school_id'));
+      //return $model;
+       if(!$model){
+            $this->serializer['errno']   = 400;
+            $this->serializer['message'] = "数据异常";
+            return [];
+        }
+        $model->load($_POST,'');
+        return $model;
+    }
 
     /**
      * @SWG\Get(path="/campus/api/v1/school/view",
