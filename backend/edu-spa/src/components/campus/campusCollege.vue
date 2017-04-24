@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!--头-->
     <el-row>
       <el-col :span="12" class="header-top clearFix">
         <h2 class="fl">学院管理</h2>
@@ -113,19 +114,19 @@
           <div class="clearFix">
             <div class="select-top-boss fl">
               <div class="select-top">省</div>
-              <el-select v-model="modifyData.province" :value="threeCombinations.province.id" placeholder="省份" v-on:change="obtainCity()">
-                <el-option v-for="(val, key, index) in depositProvince" :label="val.province_name" :value="val.province_id" :key="val.province_id"></el-option>
+              <el-select v-model="modifyData.province" :value="getCity.id" placeholder="省份" v-on:change="obtainCity()">
+                <el-option v-for="(val, key, index) in depositProvince" :label="val.province_name" :value="val.province_id" :key="val.province_id" ></el-option>
               </el-select>
             </div>
             <div class="fl">
               <div class="select-top">市</div>
-              <el-select v-model="modifyData.city" :value="threeCombinations.city.id" placeholder="市" v-on:change="obtainCounty()">
+              <el-select v-model="modifyData.city" :value="getCounty.id" placeholder="市" v-on:change="obtainCounty()">
                 <el-option v-for="(val, key, index) in depositCity" :label="val.city_name" :value="val.city_id" :key="val.city_id"></el-option>
               </el-select>
             </div>
             <div class="fl">
               <div class="select-top">县</div>
-              <el-select v-model="modifyData.region" :value="threeCombinations.county.id" placeholder="县（区）">
+              <el-select v-model="modifyData.region" :value="depositCounty.id" placeholder="县（区）">
                 <el-option v-for="(val, key, index) in urbanCounty" :label="val.region_name" :value="val.region_id" :key="val.region_id"></el-option>
               </el-select>
             </div>
@@ -147,47 +148,49 @@
       </el-dialog>
     </div>
     <!--创建学校的弹出框-->
-    <el-dialog title="创建学校" v-model="dialogFormVisible">
-      <el-form :model="build" class="clearFix">
-        <el-form-item label="主校ID" class="fl">
-          <el-select v-model="build.parent_id" placeholder="可不填">
-            <el-option v-for="item in dischargeState.school" :label="item.school_title" :value="item.school_id" :key="item.school_id"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="学校名称" :label-width="formLabelWidth" class="fl">
-          <el-input v-model="build.school_title" placeholder="必填"></el-input>
-        </el-form-item>
-        <el-form-item label="学校简称" :label-width="formLabelWidth" class="fl">
-          <el-input v-model="build.school_short_title" placeholder="可不填"></el-input>
-        </el-form-item>
-        <el-form-item label="学校标语" :label-width="formLabelWidth" class="fl">
-          <el-input v-model="build.school_slogan" placeholder="可不填"></el-input>
-        </el-form-item>
-        <el-form-item label="Logo路径" :label-width="formLabelWidth" class="fl">
-          <el-input v-model="build.school_logo_path" placeholder="可不填"></el-input>
-        </el-form-item>
-        <el-form-item label="背景图路径" :label-width="formLabelWidth" class="fl">
-          <el-input v-model="build.school_backgroud_path" placeholder="可不填"></el-input>
-        </el-form-item>
-        <threeLevel-linkage class="fl" v-on:obtainCity="createProvinces"></threeLevel-linkage>
-        <el-form-item label="详细地址" :label-width="formLabelWidth" class="fl">
-          <el-input v-model="build.address" placeholder="可不填"></el-input>
-        </el-form-item>
-        <el-form-item label="排序" :label-width="formLabelWidth" class="fl">
-          <el-input v-model="build.sort" placeholder="必填"></el-input>
-        </el-form-item>
-        <el-form-item label="学校是否开启" :label-width="formLabelWidth" class="fl">
-          <el-select v-model="build.status" placeholder="必选">
-            <el-option label="开启" value="0"></el-option>
-            <el-option label="未开启" value="1"></el-option>
-          </el-select>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" v-on:click="createSchool">确 定</el-button>
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-      </div>
-    </el-dialog>
+    <div class="create-school">
+      <el-dialog title="创建学校" v-model="dialogFormVisible">
+        <el-form :model="build" class="clearFix">
+          <el-form-item label="主校ID" class="create-school-input create-school-select">
+            <el-select v-model="build.parent_id" placeholder="可不填">
+              <el-option v-for="item in dischargeState.school" :label="item.school_title" :value="item.school_id" :key="item.school_id"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="学校名称" class="create-school-input">
+            <el-input v-model="build.school_title" placeholder="必填"></el-input>
+          </el-form-item>
+          <el-form-item label="学校简称" class="create-school-input">
+            <el-input v-model="build.school_short_title" placeholder="可不填"></el-input>
+          </el-form-item>
+          <el-form-item label="学校标语" class="create-school-input">
+            <el-input v-model="build.school_slogan" placeholder="可不填"></el-input>
+          </el-form-item>
+          <el-form-item label="Logo路径" class="create-school-input">
+            <el-input v-model="build.school_logo_path" placeholder="可不填"></el-input>
+          </el-form-item>
+          <el-form-item label="背景图路径" class="create-school-input">
+            <el-input v-model="build.school_backgroud_path" placeholder="可不填"></el-input>
+          </el-form-item>
+          <threeLevel-linkage v-on:obtainCity="createProvinces"></threeLevel-linkage>
+          <el-form-item label="详细地址" class="create-school-input">
+            <el-input v-model="build.address" placeholder="可不填"></el-input>
+          </el-form-item>
+          <el-form-item label="排序" class="create-school-input">
+            <el-input v-model="build.sort" placeholder="必填"></el-input>
+          </el-form-item>
+          <el-form-item label="学校是否开启" class="create-school-input">
+            <el-select v-model="build.status" placeholder="必选">
+              <el-option label="开启" value="0"></el-option>
+              <el-option label="未开启" value="1"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button type="primary" v-on:click="createSchool">确 定</el-button>
+          <el-button @click="dialogFormVisible = false">取 消</el-button>
+        </div>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
@@ -272,6 +275,10 @@
           type_id: '2',
           id: ''
         },
+        depositCounty: {
+          type_id: '3',
+          id: ''
+        },
         // 存放县的数据
         urbanCounty: [],
         // 绑定到县select的数据
@@ -313,22 +320,20 @@
       },
       // 修改学校打开弹出框
       modifyAlert (index, campusResult) {
-        this.obtainCity()
-        this.obtainCounty()
-        console.log(this.campusResult[index])
         this.modify = true
         this.modifyData = campusResult[index]
         this.threeCombinations.county.id = campusResult[index].region_id
         this.threeCombinations.province.id = campusResult[index].province_id
         this.threeCombinations.city.id = campusResult[index].city_id
-        console.log(this.threeCombinations)
       },
       // 修改学校
       modifySchool () {
-        console.log(this.modifyData)
         if (this.modifyData.school_title !== '' && this.modifyData.province_id !== '' && this.modifyData.city_id !== '' && this.modifyData.region_id !== '' && this.modifyData.status !== '' && this.modifyData.sort !== '') {
           Campus.modifyCampus(this.modifyData).then(response => {
             if (response.errno === '0') {
+              this.displaySchool()
+              console.log(this.modifyData)
+              this.modify = false
             }
           }).catch(error => {
             console.log(error)
@@ -391,8 +396,13 @@
       },
       //    三级联动  获取市
       obtainCity () {
-        Campus.provinceCity(this.threeCombinations.province).then(response => {
+        this.getCity.id = this.modifyData.province
+        Campus.provinceCity(this.getCity).then(response => {
           if (response.errno === '0') {
+            if (this.modify === true) {
+              this.modifyData.city = ''
+              this.modifyData.region = ''
+            }
             this.depositCity = []
             this.depositCity = response.result
           }
@@ -402,8 +412,12 @@
       },
 //   三级联动 获取县
       obtainCounty () {
-        Campus.provinceCity(this.threeCombinations.city).then(response => {
+        this.getCounty.id = this.modifyData.city
+        Campus.provinceCity(this.getCounty).then(response => {
           if (response.errno === '0') {
+            if (this.modify === true) {
+              this.modifyData.region = ''
+            }
             this.urbanCounty = []
             this.urbanCounty = response.result
           }
@@ -546,4 +560,14 @@
           width:600px;
   .hidden
     display:none;
+  .create-school
+    .create-school-input
+    .create-school-select
+      .el-form-item__label
+        float:left;
+      .el-form-item__content
+        float:left;
+      .el-input
+        margin-left:-100;
+        width:600px;
 </style>

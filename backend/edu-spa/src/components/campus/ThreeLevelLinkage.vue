@@ -115,7 +115,6 @@
     },
     methods: {
       initSelect () {
-        console.log(this.initData)
         for (let key in this.initData) {
           if (key === 'province_id') {
             this.threeCombinations.province.id = this.initData[key]
