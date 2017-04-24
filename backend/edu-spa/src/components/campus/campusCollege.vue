@@ -111,26 +111,12 @@
             <el-input v-model="modifyData.school_backgroud_path" auto-complete="off"></el-input>
           </el-form-item>
           <!--三级联动-->
-          <div class="clearFix">
-            <div class="select-top-boss fl">
-              <div class="select-top">省</div>
-              <el-select v-model="modifyData.province" :value="getCity.id" placeholder="省份" v-on:change="obtainCity()">
-                <el-option v-for="(val, key, index) in depositProvince" :label="val.province_name" :value="val.province_id" :key="val.province_id" ></el-option>
-              </el-select>
-            </div>
-            <div class="fl">
-              <div class="select-top">市</div>
-              <el-select v-model="modifyData.city" :value="getCounty.id" placeholder="市" v-on:change="obtainCounty()">
-                <el-option v-for="(val, key, index) in depositCity" :label="val.city_name" :value="val.city_id" :key="val.city_id"></el-option>
-              </el-select>
-            </div>
-            <div class="fl">
-              <div class="select-top">县</div>
-              <el-select v-model="modifyData.region" :value="depositCounty.id" placeholder="县（区）">
-                <el-option v-for="(val, key, index) in urbanCounty" :label="val.region_name" :value="val.region_id" :key="val.region_id"></el-option>
-              </el-select>
-            </div>
-          </div>
+          <address-cascader
+            v-bind:init-data="initData"
+            v-on:province-select="provinceSelect"
+            v-on:city-select="citySelect"
+            v-on:region-select="regionSelect">
+          </address-cascader>
           <el-form-item label="具体地址" :label-width="formLabelWidth" class="modify-increase-width">
             <el-input v-model="modifyData.address" auto-complete="off"></el-input>
           </el-form-item>
@@ -143,7 +129,7 @@
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button type="primary" @click="modifySchool">确 定</el-button>
-          <el-button @click="modify = false">取 消</el-button>
+          <el-button @click="cancelModify">取 消</el-button>
         </div>
       </el-dialog>
     </div>
@@ -196,12 +182,12 @@
 
 <script>
   import Campus from '../../api/campus'
+  import AddressCascader from '../select/AddressCascader.vue'
   import ThreeLevelLinkage from './ThreeLevelLinkage'
   export default {
     created () {
       this.displaySchool()
       this.schoolState()
-      this.threeLevelLinkage()
     },
     mounted () {
     },
@@ -297,10 +283,14 @@
         modify: false,
         // 更改学校的数据
         modifyData: {},
-        initData: {}
+        initData: {
+          province_id: 110000,
+          city_id: 110100,
+          region_id: 110101
+        }
       }
     },
-    components: { ThreeLevelLinkage },
+    components: {ThreeLevelLinkage, AddressCascader},
     methods: {
       // 展示学校
       displaySchool () {
@@ -312,27 +302,33 @@
           console.log(error)
         })
       },
+
       // 查看学校详情
       lookDetails (campusResult) {
         this.exhibitionDetails = []
         this.dialogVisible = true
         this.exhibitionDetails.push(campusResult)
       },
+
       // 修改学校打开弹出框
       modifyAlert (index, campusResult) {
+        this.initData.province_id = campusResult[index].province_id
+        this.initData.city_id = campusResult[index].city_id
+        this.initData.region_id = campusResult[index].region_id
         this.modify = true
         this.modifyData = campusResult[index]
-        this.threeCombinations.county.id = campusResult[index].region_id
-        this.threeCombinations.province.id = campusResult[index].province_id
-        this.threeCombinations.city.id = campusResult[index].city_id
       },
-      // 修改学校
+      // 修改学校确定按钮
       modifySchool () {
         if (this.modifyData.school_title !== '' && this.modifyData.province_id !== '' && this.modifyData.city_id !== '' && this.modifyData.region_id !== '' && this.modifyData.status !== '' && this.modifyData.sort !== '') {
+          this.modifyData.province_id = this.initData.province_id
+          this.modifyData.city_id = this.initData.city_id
+          this.modifyData.region_id = this.initData.region_id
           Campus.modifyCampus(this.modifyData).then(response => {
+            if (Number(this.modifyData.city === false)) {
+            }
             if (response.errno === '0') {
               this.displaySchool()
-              console.log(this.modifyData)
               this.modify = false
             }
           }).catch(error => {
@@ -341,6 +337,11 @@
         } else {
           alert('学校名称 省 城市 区县 学校是否开启 排序 不可为空，请填写')
         }
+      },
+      // 修改学校取消按钮
+      cancelModify () {
+        this.modify = false
+        this.displaySchool()
       },
       // 创建学校
       createSchool () {
@@ -384,46 +385,17 @@
           console.log(error)
         })
       },
-      // 三级联动   获取省
-      threeLevelLinkage () {
-        Campus.provinceCity(this.depositProvince).then(response => {
-          if (response.errno === '0') {
-            this.depositProvince = response.result
-          }
-        }).catch(error => {
-          console.log(error)
-        })
+      provinceSelect (provinceId) {
+        console.log(provinceId)
+        this.initData.province_id = provinceId
       },
-      //    三级联动  获取市
-      obtainCity () {
-        this.getCity.id = this.modifyData.province
-        Campus.provinceCity(this.getCity).then(response => {
-          if (response.errno === '0') {
-            if (this.modify === true) {
-              this.modifyData.city = ''
-              this.modifyData.region = ''
-            }
-            this.depositCity = []
-            this.depositCity = response.result
-          }
-        }).catch(error => {
-          console.log(error)
-        })
+      citySelect (cityId) {
+        console.log(cityId)
+        this.initData.city_id = cityId
       },
-//   三级联动 获取县
-      obtainCounty () {
-        this.getCounty.id = this.modifyData.city
-        Campus.provinceCity(this.getCounty).then(response => {
-          if (response.errno === '0') {
-            if (this.modify === true) {
-              this.modifyData.region = ''
-            }
-            this.urbanCounty = []
-            this.urbanCounty = response.result
-          }
-        }).catch(error => {
-          console.log(error)
-        })
+      regionSelect (regionId) {
+        console.log(regionId)
+        this.initData.region_id = regionId
       }
     }
   }
