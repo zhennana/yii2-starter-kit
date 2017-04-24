@@ -121,8 +121,29 @@ public $modelClass = 'backend\modules\campus\models\Grade';
      *     ),
      * @SWG\Parameter(
      *     in = "query",
-     *     name = "status",
-     *     description = "根据状态查询状态",
+     *     name = "school_title",
+     *     description = "班级名",
+     *     required    = false,
+     *     type =  "string"
+     * ),
+     * @SWG\Parameter(
+     *     in = "query",
+     *     name = "group_category_name",
+     *     description = "分类名",
+     *     required    = false,
+     *     type =  "string"
+     * ),
+     * @SWG\Parameter(
+     *     in = "query",
+     *     name = "owner_label",
+     *     description = "班主任",
+     *     required    = false,
+     *     type =  "string"
+     * ),
+     * @SWG\Parameter(
+     *     in = "query",
+     *     name = "creater_label",
+     *     description = "创建者",
      *     required    = false,
      *     type =  "string"
      * ),
@@ -136,8 +157,9 @@ public $modelClass = 'backend\modules\campus\models\Grade';
             // $a = is_numeric();
             // return $a;
             $searchModel = new GradeSearch;
-            $searchModel->load(\yii::$app->request->queryParams,'');
-            $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
+           // var_dump(\Yii::$app->request->queryParams);exit;
+            //$searchModel->load(\yii::$app->request->queryParams,'');
+            $dataProvider = $searchModel->Apisearch(\Yii::$app->request->queryParams);
             $dataProvider->sort = [
                 'defaultOrder' => ['created_at' => SORT_DESC]
             ];
