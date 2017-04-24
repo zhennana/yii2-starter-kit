@@ -135,6 +135,34 @@ abstract class School extends \yii\db\ActiveRecord
             'sort'                  => Yii::t('backend', '排序'),
         ];
     }
+
+    public function fields(){
+        return ArrayHelper::merge(
+            parent::fields(),
+            [
+            'school_id'=>function(){
+                return (int)$this->school_id;
+            },
+            'parent_id'=>function(){
+                return (int)$this->parent_id;
+            } ,
+            'province_id'=>function(){
+                return (int)$this->province_id;
+            },
+            'city_id'=>function(){
+                return (int)$this->city_id;
+            },
+            'created_id'=>function(){
+                return (int)$this->created_id;
+            },
+            'region_id'=>function(){
+                return (int)$this->region_id;
+            },
+            'status'=>function(){
+                return (int)$this->status;
+            }
+        ]);
+    }
     
 
     
