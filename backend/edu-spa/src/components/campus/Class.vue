@@ -1,5 +1,13 @@
 <template>
   <div>
+
+    <address-cascader
+      v-bind:init-data="initData"
+      v-on:province-select="provinceSelect"
+      v-on:city-select="citySelect"
+      v-on:region-select="regionSelect">
+    </address-cascader>
+
     <!--头部区域-->
     <div class="class-header">
       <div class="create-wrapper">
@@ -256,11 +264,13 @@
       </el-dialog>
     </div>
 
+
   </div>
 </template>
 
 <script>
   import Class from '../../api/class'
+  import AddressCascader from '../select/AddressCascader.vue'
   export default {
     name: 'class',
     created () {
@@ -425,17 +435,22 @@
             }
           ],
           school_id: [
-            {required: true, message: '请选择学校', trigger: 'change'}
+            {required: true, type: 'number', message: '请选择学校', trigger: 'change'}
           ],
           group_category_id: [
-            {required: true, message: '请选择分类', trigger: 'change'}
+            {required: true, type: 'number', message: '请选择分类', trigger: 'change'}
           ],
           owner_id: [
-            {required: true, message: '请选择班主任', trigger: 'change'}
+            {required: true, type: 'number', message: '请选择班主任', trigger: 'change'}
           ],
           status: [
             {required: true, type: 'number', message: '请选择状态', trigger: 'change'}
           ]
+        },
+        initData: {
+          province_id: '110000',
+          city_id: '',
+          region_id: ''
         }
       }
     },
@@ -539,9 +554,23 @@
         }).catch(error => {
           console.log(error)
         })
+      },
+      provinceSelect (provinceId) {
+        console.log(provinceId)
+        this.initData.province_id = provinceId
+      },
+      citySelect (cityId) {
+        console.log(cityId)
+        this.initData.city_id = cityId
+      },
+      regionSelect (regionId) {
+        console.log(regionId)
+        this.initData.region_id = regionId
       }
     },
-    components: {}
+    components: {
+      AddressCascader
+    }
   }
 </script>
 

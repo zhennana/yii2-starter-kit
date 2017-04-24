@@ -66,6 +66,7 @@
     },
     computed: {
       threeCombinations () {
+        console.log(1111)
         return {
           // 存放省的数据 用来获取市
           province: {

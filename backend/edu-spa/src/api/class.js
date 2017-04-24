@@ -60,7 +60,7 @@ export default {
    */
   deleteClass (info) {
     info.status = 0
-    return axios.post('/campus/api/v1/grade/update?id=' + info.grade_id, qs.stringify(info))
+    return axios.post('/campus/api/v1/grade/update', qs.stringify(info))
       .then(response => {
         if (response.status === 200) {
           return response.data
