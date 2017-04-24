@@ -1,6 +1,5 @@
 <template>
   <div>
-    <el-input v-model="msg"></el-input>
     <el-row>
       <el-col :span="12" class="header-top clearFix">
         <h2 class="fl">学院管理</h2>
@@ -43,7 +42,7 @@
         </el-select>
         </el-form-item>
         <!--三级联动-->
-        <threeLevel-linkage class="fl" v-on:obtainCity="incrementTotal" :initData="initData"></threeLevel-linkage>
+        <threeLevel-linkage class="fl" v-on:obtainCity="incrementTotal"></threeLevel-linkage>
           <el-form-item label="具体地址" class="fl search-above">
             <el-input v-model="campus.address" class="search-above"></el-input>
           </el-form-item>
@@ -60,13 +59,10 @@
         <el-table-column prop="region" label="县区" width="120"></el-table-column>
         <el-table-column prop="address" label="地址" width="300"></el-table-column>
         <el-table-column prop="status_label" label="学校是否开启" width="150"></el-table-column>
-        <el-table-column prop="province_id" label="省份" width="120"></el-table-column>
-        <el-table-column prop="city_id" label="市区" width="120" style="display:none"></el-table-column>
-        <el-table-column prop="region_id" label="县区" width="120" style="display:none"></el-table-column>
         <el-table-column fixed="right" label="操作" width="300" style="display:none">
           <template scope="scope">
             <el-button type="info" v-on:click="lookDetails(scope.row)">查看</el-button>
-            <el-button type="success" v-on:click="modifyAlert(scope.row)">修改</el-button>
+            <el-button type="success" v-on:click="modifyAlert(scope.$index, campusResult)">修改</el-button>
             <el-button type="danger">删除</el-button>
           </template>
         </el-table-column>
@@ -114,7 +110,26 @@
             <el-input v-model="modifyData.school_backgroud_path" auto-complete="off"></el-input>
           </el-form-item>
           <!--三级联动-->
-          <threeLevel-linkage v-on:obtainCity="modifyProvinces" class="modify-threeLevel" v-bind:init-data="initData" v-bind:msg="msg"></threeLevel-linkage>
+          <div class="clearFix">
+            <div class="select-top-boss fl">
+              <div class="select-top">省</div>
+              <el-select v-model="modifyData.province" :value="threeCombinations.province.id" placeholder="省份" v-on:change="obtainCity()">
+                <el-option v-for="(val, key, index) in depositProvince" :label="val.province_name" :value="val.province_id" :key="val.province_id"></el-option>
+              </el-select>
+            </div>
+            <div class="fl">
+              <div class="select-top">市</div>
+              <el-select v-model="modifyData.city" :value="threeCombinations.city.id" placeholder="市" v-on:change="obtainCounty()">
+                <el-option v-for="(val, key, index) in depositCity" :label="val.city_name" :value="val.city_id" :key="val.city_id"></el-option>
+              </el-select>
+            </div>
+            <div class="fl">
+              <div class="select-top">县</div>
+              <el-select v-model="modifyData.region" :value="threeCombinations.county.id" placeholder="县（区）">
+                <el-option v-for="(val, key, index) in urbanCounty" :label="val.region_name" :value="val.region_id" :key="val.region_id"></el-option>
+              </el-select>
+            </div>
+          </div>
           <el-form-item label="具体地址" :label-width="formLabelWidth" class="modify-increase-width">
             <el-input v-model="modifyData.address" auto-complete="off"></el-input>
           </el-form-item>
@@ -183,6 +198,7 @@
     created () {
       this.displaySchool()
       this.schoolState()
+      this.threeLevelLinkage()
     },
     mounted () {
     },
@@ -224,6 +240,24 @@
           sort: ''
         },
         formLabelWidth: '100px',
+        // 省市县三个组合
+        threeCombinations: {
+          // 存放省的数据 用来获取市
+          province: {
+            type_id: '1',
+            id: ''
+          },
+          // 存放市的数据 用来获取县
+          city: {
+            type_id: '2',
+            id: ''
+          },
+          // 存放县的数据
+          county: {
+            type_id: '3',
+            id: ''
+          }
+        },
         // 存放省份的数据
         depositProvince: [],
         // 获取市的数据
@@ -273,30 +307,21 @@
       },
       // 查看学校详情
       lookDetails (campusResult) {
-        console.log(campusResult)
         this.exhibitionDetails = []
         this.dialogVisible = true
         this.exhibitionDetails.push(campusResult)
       },
       // 修改学校打开弹出框
-      modifyAlert (campusResult) {
-//        for (let key in campusResult) {
-//          this.initData[key] = campusResult[key]
-//        }
-
-        this.initData.province_id = campusResult.province_id
-        this.initData.city_id = campusResult.city_id
-        this.initData.region_id = campusResult.region_id
-
-        this.modifyData = {}
-        // 给创建省赋值
-        this.modifyData.province_id = campusResult.province_id
-        // 给创建市赋值
-        this.modifyData.city_id = campusResult.city_id
-        // 给创建县赋值
-        this.modifyData.region_id = campusResult.region_id
+      modifyAlert (index, campusResult) {
+        this.obtainCity()
+        this.obtainCounty()
+        console.log(this.campusResult[index])
         this.modify = true
-        this.modifyData = campusResult
+        this.modifyData = campusResult[index]
+        this.threeCombinations.county.id = campusResult[index].region_id
+        this.threeCombinations.province.id = campusResult[index].province_id
+        this.threeCombinations.city.id = campusResult[index].city_id
+        console.log(this.threeCombinations)
       },
       // 修改学校
       modifySchool () {
@@ -309,7 +334,7 @@
             console.log(error)
           })
         } else {
-          alert('学校名称 省  城市 区县 学校是否开启 排序 不可为空，请填写')
+          alert('学校名称 省 城市 区县 学校是否开启 排序 不可为空，请填写')
         }
       },
       // 创建学校
@@ -345,18 +370,42 @@
         // 给创建县赋值
         this.build.region_id = threeCombinations.county.id
       },
-      modifyProvinces (threeCombinations) {
-        // 给更改省赋值
-        this.modifyData.province_id = threeCombinations.province.id
-        // 给更改市赋值
-        this.modifyData.city_id = threeCombinations.city.id
-        // 给更改县赋值
-        this.modifyData.region_id = threeCombinations.county.id
-      },
       schoolState () {
         Campus.getSchoolState(this.campusState.type).then(response => {
           if (response.errno === '0') {
             this.dischargeState = response.result
+          }
+        }).catch(error => {
+          console.log(error)
+        })
+      },
+      // 三级联动   获取省
+      threeLevelLinkage () {
+        Campus.provinceCity(this.depositProvince).then(response => {
+          if (response.errno === '0') {
+            this.depositProvince = response.result
+          }
+        }).catch(error => {
+          console.log(error)
+        })
+      },
+      //    三级联动  获取市
+      obtainCity () {
+        Campus.provinceCity(this.threeCombinations.province).then(response => {
+          if (response.errno === '0') {
+            this.depositCity = []
+            this.depositCity = response.result
+          }
+        }).catch(error => {
+          console.log(error)
+        })
+      },
+//   三级联动 获取县
+      obtainCounty () {
+        Campus.provinceCity(this.threeCombinations.city).then(response => {
+          if (response.errno === '0') {
+            this.urbanCounty = []
+            this.urbanCounty = response.result
           }
         }).catch(error => {
           console.log(error)
@@ -495,4 +544,6 @@
       .el-select
         .el-input
           width:600px;
+  .hidden
+    display:none;
 </style>
