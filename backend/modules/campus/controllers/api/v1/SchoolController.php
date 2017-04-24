@@ -326,6 +326,7 @@ class SchoolController extends \yii\rest\ActiveController
             return [];
         }
         $model->load($_POST,'');
+        $model->save();
         return $model;
     }
 
