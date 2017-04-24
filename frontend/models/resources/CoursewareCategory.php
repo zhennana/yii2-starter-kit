@@ -65,9 +65,8 @@ class CoursewareCategory extends BaseCoursewareCategory
                 }else{
                     if($pid != 0){
                         //continue;
-                        $value['url']   = \Yii::$app->request->hostInfo.Url::to(['courseware/list','category_id'=>$value['category_id']]);
+                        $value['url']   = \Yii::$app->request->hostInfo.Url::to(['edu/courseware/list','category_id'=>$value['category_id']]);
                     }else{
-                        continue;
                     }
                 }
 
@@ -79,4 +78,3 @@ class CoursewareCategory extends BaseCoursewareCategory
     }
 }
 
-?>

@@ -133,7 +133,8 @@ public $modelClass = 'backend\modules\campus\models\Grade';
      * )
      **/
     public function actionIndex(){
-
+            // $a = is_numeric();
+            // return $a;
             $searchModel = new GradeSearch;
             $searchModel->load(\yii::$app->request->queryParams,'');
             $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
@@ -239,7 +240,7 @@ public $modelClass = 'backend\modules\campus\models\Grade';
     public function actionUpdate(){
          //$this->findModel($id);
        $model =  new $this->modelClass;
-       $model = $model::findOne(\Yii::$app->request->post('grade_id'));
+       $model = $model::findOne((int)\Yii::$app->request->post('grade_id'));
       //return $model;
        if(!$model){
             $this->serializer['errno']   = 400;
@@ -247,12 +248,11 @@ public $modelClass = 'backend\modules\campus\models\Grade';
             return [];
         }
         $model->load($_POST,'');
-        if($model->save()){
-            var_dump($_POST);exit;
-            $model = $model->toArray([],[],true);
-        };
+      if($model->save()){
+           return $model::findOne($model->grade_id);
+      }
 
-       return $model;
+        return $model;
     }
 
 
