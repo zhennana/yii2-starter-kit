@@ -313,6 +313,7 @@
       // 修改学校打开弹出框
       modifyAlert (index, campusResult) {
         this.initData.province_id = campusResult[index].province_id
+        console.log(1)
         this.initData.city_id = campusResult[index].city_id
         this.initData.region_id = campusResult[index].region_id
         this.modify = true
