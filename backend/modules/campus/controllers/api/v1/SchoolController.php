@@ -317,7 +317,6 @@ class SchoolController extends \yii\rest\ActiveController
     **/
 
     public function actionUpdate(){
-         //$this->findModel($id);
        $model =  new $this->modelClass;
        $model = $model::findOne((int)\Yii::$app->request->post('school_id'));
       //return $model;
@@ -327,9 +326,6 @@ class SchoolController extends \yii\rest\ActiveController
             return [];
         }
         $model->load($_POST,'');
-        if($model->save()){
-            return $model::findOne($model->school_id);
-        } 
         return $model;
     }
 

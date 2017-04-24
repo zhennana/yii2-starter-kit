@@ -238,7 +238,7 @@ public $modelClass = 'backend\modules\campus\models\Grade';
      */
    
     public function actionUpdate(){
-         //$this->findModel($id);
+       //$this->findModel($id);
        $model =  new $this->modelClass;
        $model = $model::findOne((int)\Yii::$app->request->post('grade_id'));
       //return $model;
@@ -248,10 +248,6 @@ public $modelClass = 'backend\modules\campus\models\Grade';
             return [];
         }
         $model->load($_POST,'');
-      if($model->save()){
-           return $model::findOne($model->grade_id);
-      }
-
         return $model;
     }
 

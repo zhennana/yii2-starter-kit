@@ -14,15 +14,17 @@ use backend\modules\campus\models\CnRegion;
  */
 class School extends BaseSchool
 {
+
     /**
- * 模型返回添加数据
- * @return [type] [description]
- */
+     * 模型返回添加数据,并改变数据类型
+     * @return [type] [description]
+     */
     public function fields()
     {
        return ArrayHelper::merge(
              parent::fields(),
              [
+
                 'parent_school_title'   => function($model){
                     return isset($model->school->school_title) ? $model->school->school_title : '' ;
                 },

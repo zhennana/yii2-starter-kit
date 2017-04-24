@@ -48,10 +48,11 @@ class CoursewareCategory extends BaseCoursewareCategory
     public function categoryList()
     {
         $model = self::find()->where(['status'=>self::CATEGORY_STATUS_OPEN])->asArray()->all();
-        return  self::formatByApi($model);
+        $data =  self::formatByApi($model);
+        return $data;
     }
 
-    public static  function formatByApi($parame,$pid = 0){
+    public static  function formatByApi($parame,$pid = 0,$level = 1){
         $data = [];
         $clid = [];
         //$parame = ArrayHelper::index($parame,'category_id');
@@ -59,14 +60,18 @@ class CoursewareCategory extends BaseCoursewareCategory
             if($value['parent_id'] == $pid){
                 $value['descriptions'] =  $value['description'];
                 unset($parame[$key],$value['description']);
-                $clid = self::formatByApi($parame,$value['category_id']); 
+                $clid = self::formatByApi($parame,$value['category_id'],$level+1);
+                
+                if(in_array($level,[1,2]) && empty($clid)){
+                    continue;
+                } 
+
                 if(!empty($clid)){
                     $value['child'] =  $clid;
                 }else{
-                    if($pid != 0){
+                    if($level == 3){
                         //continue;
                         $value['url']   = \Yii::$app->request->hostInfo.Url::to(['edu/courseware/list','category_id'=>$value['category_id']]);
-                    }else{
                     }
                 }
 

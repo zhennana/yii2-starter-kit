@@ -154,6 +154,31 @@ abstract class Grade extends \yii\db\ActiveRecord
             'time_of_enrollment'        => Yii::t('common', '入学时间'),
         ]);
     }
+    public function fields(){
+        return array_merge(parent::fields(),[
+                'creater_id'=>function(){
+                    return (int)$this->creater_id;
+                },
+                'school_id'=>function(){
+                    return (int)$this->school_id;
+                },
+                'owner_id'=>function(){
+                    return (int)$this->owner_id;
+                },
+                'sort'=>function(){
+                    return (int)$this->sort;
+                },
+                'status'=>function(){
+                    return (int)$this->status;
+                },
+                'group_category_id'=>function(){
+                    return (int)$this->group_category_id;
+                },
+                'grade_title'=>function(){
+                    return (int)$this->grade_title;
+                }
+            ]);
+    }
 
     /**
      * @return \yii\db\ActiveQuery
