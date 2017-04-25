@@ -72,7 +72,7 @@ class UserToGradeController extends \yii\rest\ActiveController
     /**
      * @SWG\Get(path="/campus/api/v1/user-to-grade/index",
      *     tags={"300-Grade-班级管理接口"},
-     *     summary="查询所有学校",
+     *     summary="查询所有班级学员",
      *     description="返回用户学员管理",
      *     produces={"application/json"},
      * @SWG\Parameter(
@@ -141,7 +141,7 @@ class UserToGradeController extends \yii\rest\ActiveController
     /**
      * @SWG\Get(path="/campus/api/v1/user-to-grade/view",
      *     tags={"300-Grade-班级管理接口"},
-     *     summary="查询所有学校",
+     *     summary="班级学员关系表创建",
      *     description="返回用户学员管理",
      *     produces={"application/json"},
      * @SWG\Parameter(
