@@ -96,6 +96,23 @@ abstract class GradeCategory extends \yii\db\ActiveRecord
         ];
     }
 
+    public function fields(){
+        return array_merge(
+                parent::fields(),
+                [
+                    'status'=>function(){
+                        return (int)$this->status;
+                    },
+                    'parent_id'=>function(){
+                        return (int)$this->parent_id;
+                    },
+                    'grade_category_id'=>function(){
+                        return (int)$this->grade_category_id;
+                    }
+                ]
+            );
+    }
+
     /**
      * @inheritdoc
      */
@@ -122,7 +139,10 @@ abstract class GradeCategory extends \yii\db\ActiveRecord
         // }
         return $name;
     }
-    
+    public function getParents(){
+        return $this->hasOne(\backend\modules\campus\models\GradeCategory::className(),['grade_category_id'=>'parent_id']);
+    }
+
     /**
      * @inheritdoc
      * @return \backend\modules\campus\models\query\GradeCategoryQuery the active query used by this AR class.

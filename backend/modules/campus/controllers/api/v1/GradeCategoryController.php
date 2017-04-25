@@ -61,7 +61,7 @@ class GradeCategoryController extends \yii\rest\ActiveController
     public function actions()
     {
         $actions = parent::actions();
-        unset($actions['index']);
+        unset($actions['index'],$actions['update']);
         return $actions;
     }
 
@@ -187,11 +187,19 @@ class GradeCategoryController extends \yii\rest\ActiveController
      */
 
      /**
-     * @SWG\Post(path="/campus/api/v1/grade-category/update?id=1",
+     * @SWG\Post(path="/campus/api/v1/grade-category/update",
      *     tags={"300-Grade-班级管理接口"},
      *     summary="修改班级分类",
      *     description="修改班级分类",
      *     produces={"application/json"},
+     *@SWG\Parameter(
+     *        in = "formData",
+     *        name = "grade_category_id",
+     *        description = "班级id",
+     *        default  = 0,
+     *        required = true,
+     *        type = "integer"
+     *     ), 
      * @SWG\Parameter(
      *        in = "formData",
      *        name = "parent_id",
@@ -224,6 +232,21 @@ class GradeCategoryController extends \yii\rest\ActiveController
      *     )
      * )
      */
+    
+    public function actionUpdate(){
+        $model = new $this->modelClass;
+        $model = $model::findOne((int)\Yii::$app->request->post('grade_category_id'));
+        if(!$model){
+            $this->serializer['errno']   = 400;
+            $this->serializer['message'] = "数据异常";
+            return [];
+        }
+        $model->load($_POST,'');
+        $model->save();
+        return $model;
+    }
+
+    
 
    
 }

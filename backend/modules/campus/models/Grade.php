@@ -107,7 +107,10 @@ public function behaviors()
      * 获取学校下拉框
      */
     public function DropDownSchool(){
-      $model = School::find()->select(['school_id','school_title'])->where(['status'=>School::SCHOOL_STATUS_OPEN])->all();
+     ;
+      //$fields = $model->fields();
+      $model = School::find()->where(['status'=>School::SCHOOL_STATUS_OPEN])->all();
+
       return $model;
      
 

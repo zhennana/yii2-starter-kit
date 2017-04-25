@@ -31,4 +31,26 @@ public function behaviors()
              ]
         );
     }
+
+  public function fields(){
+        return array_merge(
+                parent::fields(),
+                [
+                  'parent_label'=>function($model){
+                      return isset($model->parents->name) ? $model->parents->name : '0' ;
+                  },
+                  'updated_at'=>function(){
+                      return date('Y-m-d H:i:s',$this->updated_at);
+                  },
+                  'created_at'=>function(){
+                    return date('Y-m-d H:i:s',$this->created_at);
+                  },
+                  'status_label'=>function(){
+                    return GradeCategory::getStatusLabel($this->status);
+                  }
+
+
+                ]
+            );
+    }
 }
