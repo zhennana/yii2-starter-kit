@@ -53,4 +53,18 @@ public function behaviors()
                 ]
             );
     }
+  // public function parentCategoory(){
+  //   return self::find()->where(['status'=>self::CATEGORY_OPEN])->andWhere(['NOT',['parent_id'=>0]])->all();
+  // }
+  
+  public function DropDownStatus(){
+      $label = self::optsStatus();
+      $data = [];
+      foreach ($label as $key => $value) {
+          $data[$key]['status_id'] = $key;
+          $data[$key]['status_label'] = $value;
+      }
+      sort($data);
+      return $data;
+    }
 }

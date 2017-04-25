@@ -186,6 +186,8 @@ class GradeCategoryController extends \yii\rest\ActiveController
      * )
      */
 
+
+
      /**
      * @SWG\Post(path="/campus/api/v1/grade-category/update",
      *     tags={"300-Grade-班级管理接口"},
@@ -246,6 +248,41 @@ class GradeCategoryController extends \yii\rest\ActiveController
         return $model;
     }
 
+
+    /**
+     * @SWG\Get(path="/campus/api/v1/grade-category/form-list",
+     *     tags={"300-Grade-班级管理接口"},
+     *     summary="创建分类所需要下拉框数据",
+     *     description="下拉框所需数据",
+     *     produces={"application/json"},
+     * @SWG\Parameter(
+     *        in = "query",
+     *        name = "type",
+     *        description = "根据type 返回不同下拉框数据",
+     *        required = false,
+     *        type = "integer"
+     *     ), 
+     * @SWG\Response(
+     *         response = 200,
+     *         description = "200 返回成功"
+     *     )
+     * )
+     */
+
+
+    public function actionFormList($type = 0){
+        $model = new  $this->modelClass;
+        // if($type == 1){
+
+        // }
+        // if($type == 2){}
+        if($type == 0){
+            return $model->DropDownStatus();
+        }
+       $this->serializer['errno'] = '422';
+       $this->serializer['message'] = '找不到数据';
+       return [];
+    }
     
 
    
