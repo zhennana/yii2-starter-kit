@@ -32,6 +32,12 @@
             name: 'class',
             path: 'class',
             title: '班级管理'
+          },
+          {
+            id: '2',
+            name: 'classification',
+            path: 'classification',
+            title: '班级分类管理'
           }
         ]
       }
