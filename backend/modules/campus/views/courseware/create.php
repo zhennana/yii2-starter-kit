@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="giiant-crud courseware-create">
 
     <h1>
-        <?= Yii::t('backend', 'Courseware') ?>
+        <?= Yii::t('backend', '课件') ?>
         <small>
                         <?= $model->title ?>
         </small>
@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="clearfix crud-navigation">
         <div class="pull-left">
             <?=             Html::a(
-            Yii::t('backend', 'Cancel'),
+            Yii::t('backend', '返回'),
             \yii\helpers\Url::previous(),
             ['class' => 'btn btn-default']) ?>
         </div>
