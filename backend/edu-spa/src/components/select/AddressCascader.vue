@@ -42,6 +42,8 @@
   export default {
     components: {ElOption},
     name: 'address-cascader',
+    updated () {
+    },
     created () {
       this.getProvince()
       this.getCities(this.initData.province_id)
@@ -52,9 +54,9 @@
         type: Object,
         default () {
           return {
-            province_id: '',
-            city_id: '',
-            region_id: ''
+            province_id: 0,
+            city_id: 0,
+            region_id: 0
           }
         }
       }
@@ -92,7 +94,6 @@
         Address.getCities(provinceId).then(response => {
           if (response.errno === '0') {
             this.cities = response.result
-            this.$emit('city-select', this.cities[0].city_id)
           }
         }).catch(error => {
           console.log(error)
@@ -102,7 +103,6 @@
         Address.getRegions(cityId).then(response => {
           if (response.errno === '0') {
             this.regions = response.result
-            this.$emit('region-select', this.regions[0].region_id)
           }
         }).catch(error => {
           console.log(error)

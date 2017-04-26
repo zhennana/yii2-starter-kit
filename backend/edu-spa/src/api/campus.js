@@ -53,9 +53,7 @@ export default {
   },
   // 修改学校
   modifyCampus (params) {
-    return axios.post('/campus/api/v1/school/update', qs.stringify({
-      params
-    })).then(response => {
+    return axios.post('/campus/api/v1/school/update', qs.stringify(params)).then(response => {
       if (response.status !== 200) {
         throw new Error('接口返回失败')
       } else {

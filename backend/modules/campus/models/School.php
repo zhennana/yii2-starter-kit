@@ -14,15 +14,17 @@ use backend\modules\campus\models\CnRegion;
  */
 class School extends BaseSchool
 {
+
     /**
- * 模型返回添加数据
- * @return [type] [description]
- */
+     * 模型返回添加数据,并改变数据类型
+     * @return [type] [description]
+     */
     public function fields()
     {
        return ArrayHelper::merge(
              parent::fields(),
              [
+
                 'parent_school_title'   => function($model){
                     return isset($model->school->school_title) ? $model->school->school_title : '' ;
                 },
@@ -49,18 +51,18 @@ class School extends BaseSchool
     }
 	public function getAddresslist($typeid = 0,$id = 0){
         if($typeid == 1){
-            $city    = CnCity::find()->where(['province_id'=>$id])->asArray()->all();
+            $city    = CnCity::find()->select(['city_id','city_name'])->where(['province_id'=>$id])->all();
             return $city;
             
             //return  ArrayHelper::map($region, 'region_id', 'region_name');
         }
         if($typeid == 2){
-            $region  = CnRegion::find()->where(['city_id'=>$id])->asArray()->all();
+            $region  = CnRegion::find()->select(['region_id','region_name'])->where(['city_id'=>$id])->all();
             return $region;
             //return  ArrayHelper::map($city, 'city_id', 'city_name');
         }
         
-        $province = CnProvince::find()->asArray()->all();
+        $province = CnProvince::find()->all();
         return $province;
         //return  ArrayHelper::map($province, 'province_id', 'province_name');     
     }
@@ -95,7 +97,7 @@ class School extends BaseSchool
     public function DropDownSchool(){
          return  School::find()->select(['school_id','school_title'])
                         ->andwhere(['parent_id'=>'0','status'=>School::SCHOOL_STATUS_OPEN])
-                        ->asArray()->all();
+                        ->all();
     }
 
 }
