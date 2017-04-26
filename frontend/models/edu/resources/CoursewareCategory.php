@@ -1,9 +1,9 @@
 <?php
-namespace frontend\models\resources;
+namespace frontend\models\edu\resources;
 
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
-use backend\modules\campus\models\CoursewareCategory as BaseCoursewareCategory;
+use frontend\models\base\CoursewareCategory as BaseCoursewareCategory;
 /**
  * 
  */

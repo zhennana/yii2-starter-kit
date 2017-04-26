@@ -1,11 +1,11 @@
 <?php
-namespace frontend\models\resources;
+namespace frontend\models\edu\resources;
 
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
-use backend\modules\campus\models\Courseware as BaseCourseware;
-use backend\modules\campus\models\CoursewareToCourseware;
-use backend\modules\campus\models\CoursewareCategory;
+use frontend\models\base\Courseware  as BaseCourseware;
+use frontend\models\base\CoursewareToCourseware;
+use frontend\models\base\CoursewareCategory;
 
 /**
  * 
@@ -56,7 +56,7 @@ class Courseware extends BaseCourseware
 
 
     public function getCoursewareToCourseware(){
-        return $this->hasMany(\frontend\models\resources\CoursewareToCourseware::className(),
+        return $this->hasMany(\frontend\models\edu\resources\CoursewareToCourseware::className(),
             ['courseware_master_id'=>'courseware_id']);
     }
     public function formatByApi($model, $file)
