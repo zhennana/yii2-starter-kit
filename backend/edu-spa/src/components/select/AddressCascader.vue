@@ -44,6 +44,8 @@
     name: 'address-cascader',
     created () {
       this.getProvince()
+      this.getCities(this.initData.province_id)
+      this.getRegions(this.initData.city_id)
     },
     props: {
       initData: {

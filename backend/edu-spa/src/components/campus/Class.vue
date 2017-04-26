@@ -1,13 +1,5 @@
 <template>
   <div>
-
-    <address-cascader
-      v-bind:init-data="initData"
-      v-on:province-select="provinceSelect"
-      v-on:city-select="citySelect"
-      v-on:region-select="regionSelect">
-    </address-cascader>
-
     <!--头部区域-->
     <div class="class-header">
       <div class="create-wrapper">
@@ -16,12 +8,12 @@
       <div class="search">
         <el-form :inline="true" class="demo-form-inline">
           <el-form-item label="学校">
-            <el-input placeholder="学校" v-model="searchForm.school">
+            <el-input placeholder="学校" v-model="searchForm.school_title">
             </el-input>
           </el-form-item>
 
           <el-form-item label="班级分类">
-            <el-input placeholder="班级分类" v-model="searchForm.grade_cat">
+            <el-input placeholder="班级分类" v-model="searchForm.group_category_name">
 
             </el-input>
           </el-form-item>
@@ -31,13 +23,13 @@
           </el-form-item>
 
           <el-form-item label="班主任">
-            <el-input v-model="searchForm.owner" placeholder="班主任">
+            <el-input v-model="searchForm.owner_label" placeholder="班主任">
 
             </el-input>
           </el-form-item>
 
           <el-form-item label="创建者">
-            <el-input placeholder="创建者" v-model="searchForm.creator"></el-input>
+            <el-input placeholder="创建者" v-model="searchForm.creater_label"></el-input>
           </el-form-item>
 
           <el-form-item label="状态">
@@ -52,7 +44,7 @@
           </el-form-item>
 
           <el-form-item label="结业状态">
-            <el-select style="width: 120px" v-model="searchForm.graduateStatus" placeholder="结业状态">
+            <el-select style="width: 120px" v-model="searchForm.graduate" placeholder="结业状态">
               <el-option
                 v-for="item in formInfo.graduate"
                 :label="item.graduate_label"
@@ -74,6 +66,7 @@
 
           <el-form-item>
             <el-button type="primary" @click="onSearchSubmit">查询</el-button>
+            <el-button type="primary" @click="onSearchReset">重置</el-button>
           </el-form-item>
         </el-form>
 
@@ -255,7 +248,6 @@
           </el-form-item>
         </el-form>
 
-
         <div slot="footer" class="dialog-footer">
           <el-button @click="editVisible = false">取 消</el-button>
           <el-button type="primary" @click="update('editForm')">更新</el-button>
@@ -264,6 +256,15 @@
       </el-dialog>
     </div>
 
+    <div class="block">
+      <el-pagination
+        @current-change="handleCurrentChange"
+        :current-page="pagination.currentPage"
+        :page-size="pagination.perPage"
+        layout="prev, pager, next, jumper"
+        :total="pagination.totalCount">
+      </el-pagination>
+    </div>
 
   </div>
 </template>
@@ -312,14 +313,15 @@
         },
         loading: false,
         searchForm: {
-          school: '',
-          grade_cat: '',
+          school_title: '',
+          group_category_name: '',
           grade_name: '',
-          creator: '',
-          owner: '',
+          creater_label: '',
+          owner_label: '',
           status: '',
-          graduateStatus: '',
-          time: ''
+          graduate: '',
+          time: '',
+          page: 1
         },
         tHeader: [
           {
@@ -379,7 +381,6 @@
           }
         ],
         tData: [],
-        params: {},
         createVisible: false,
         createForm: {
           school_id: '',
@@ -447,19 +448,18 @@
             {required: true, type: 'number', message: '请选择状态', trigger: 'change'}
           ]
         },
-        initData: {
-          province_id: '110000',
-          city_id: '',
-          region_id: ''
+        pagination: {
+          currentPage: 1
         }
       }
     },
     methods: {
       getClassData () {
         this.loading = true
-        Class.getClassData(this.params).then(response => {
+        Class.getClassData(this.searchForm).then(response => {
           if (response.errno === '0') {
             this.tData = response.result
+            this.pagination = response._meta
           } else {
             this.showErrorMsg(response.message)
           }
@@ -477,7 +477,6 @@
           } else {
             this.showErrorMsg(response.message)
           }
-          console.log(this.formInfo)
         }).catch(error => {
           console.log(error)
         })
@@ -492,7 +491,13 @@
         this.createVisible = true
       },
       onSearchSubmit () {
-        console.log(this.searchForm)
+        this.getClassData()
+      },
+      onSearchReset () {
+        for (let key in this.searchForm) {
+          this.searchForm[key] = ''
+        }
+        this.getClassData()
       },
       create (formName) {
         this.$refs[formName].validate((valid) => {
@@ -540,7 +545,6 @@
           }
         })
       },
-
       handleDelete (index, row) {
         this.editForm.index = index
         Object.assign(this.editForm.data, row)
@@ -555,17 +559,10 @@
           console.log(error)
         })
       },
-      provinceSelect (provinceId) {
-        console.log(provinceId)
-        this.initData.province_id = provinceId
-      },
-      citySelect (cityId) {
-        console.log(cityId)
-        this.initData.city_id = cityId
-      },
-      regionSelect (regionId) {
-        console.log(regionId)
-        this.initData.region_id = regionId
+      handleCurrentChange (current) {
+        this.pagination.currentPage = current
+        this.searchForm.page = current
+        this.getClassData()
       }
     },
     components: {
@@ -595,4 +592,7 @@
       width 70%
       .el-select
         width 100%
+
+  .block
+    margin 20px;
 </style>
