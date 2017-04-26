@@ -1,13 +1,13 @@
 <?php
-namespace frontend\models\resources;
+namespace frontend\models\base;
 
 use yii\helpers\ArrayHelper;
-use backend\modules\campus\models\CoursewareToFile as BaseCoursewareToFile;
-
+use yii\helpers\Url;
+use backend\modules\campus\models\CoursewareCategory as BaseCoursewareCategory;
 /**
  * 
  */
-class CoursewareToFile extends BaseCoursewareToFile
+class CoursewareCategory extends BaseCoursewareCategory
 {
     public function behaviors()
     {
@@ -28,7 +28,5 @@ class CoursewareToFile extends BaseCoursewareToFile
             ]
         );
     }
-
 }
 
-?>

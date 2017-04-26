@@ -12,9 +12,9 @@ use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\rest\OptionsAction;
 
-use frontend\models\resources\LoginForm;
-use frontend\models\resources\UserForm;
-use frontend\models\resources\User;
+use frontend\models\edu\resources\LoginForm;
+use frontend\models\edu\resources\UserForm;
+use frontend\models\edu\resources\User;
 
 use common\models\UserProfile;
 use common\models\UserToken;
