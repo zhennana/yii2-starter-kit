@@ -1,13 +1,13 @@
 <template>
   <div>
     <!--头-->
-    <el-row>
-      <el-col :span="12" class="header-top clearFix">
+    <div class="clearFix header-college">
+      <div class="header-top clearFix">
         <h2 class="fl">学院管理</h2>
         <!--创建学校按钮-->
         <el-button type="info" class="fl append el-icon-plus" v-on:click="dialogFormVisible = true">创建</el-button>
-      </el-col>
-    </el-row>
+      </div>
+    </div>
     <!--搜素学校-->
     <div class="search-school clearFix">
       <el-form :label-position="labelPosition" label-width="60" class="clearFix exhibition-top">
@@ -177,6 +177,19 @@
         </div>
       </el-dialog>
     </div>
+    <!--分页-->
+    <div class="paging">
+      <div class="block">
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="meta.currentPage"
+          :page-size="meta.perPage"
+          layout="prev, pager, next, jumper"
+          :total="meta.totalCount">
+        </el-pagination>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -209,7 +222,8 @@
           city_id: '',
           region_id: '',
           address: '',
-          status: ''
+          status: '',
+          page: 1
         },
         // 展示学校的数据
         campusResult: [],
@@ -287,7 +301,8 @@
           province_id: 110000,
           city_id: 110100,
           region_id: 110101
-        }
+        },
+        meta: {}
       }
     },
     components: {ThreeLevelLinkage, AddressCascader},
@@ -297,6 +312,7 @@
         Campus.getSchool(this.campus).then(response => {
           if (response.errno === '0') {
             this.campusResult = response.result
+            this.meta = response._meta
           }
         }).catch(error => {
           console.log(error)
@@ -387,16 +403,20 @@
         })
       },
       provinceSelect (provinceId) {
-        console.log(provinceId)
         this.initData.province_id = provinceId
       },
       citySelect (cityId) {
-        console.log(cityId)
         this.initData.city_id = cityId
       },
       regionSelect (regionId) {
-        console.log(regionId)
         this.initData.region_id = regionId
+      },
+      handleSizeChange (val) {
+        console.log(`每页 ${val} 条`)
+      },
+      handleCurrentChange (val) {
+        this.campus.page = val
+        this.displaySchool()
       }
     }
   }
@@ -407,16 +427,16 @@
     clear:both;
     display :block;
     content: '';
-  .clearFix
-    zoom:1;
   .fr
     float:right;
   .fl
     float:left;
   li
     list-style:none;
+  .header-college
+    height:50px;
+    padding-top:20px;
   .header-top
-    margin-top:20px;
     margin-left:20px;
     .append
       margin-left:10px;
@@ -543,4 +563,7 @@
       .el-input
         margin-left:-100;
         width:600px;
+  .paging
+    margin-top:10px;
+    margin-left:300px;
 </style>
