@@ -61,7 +61,7 @@ class GradeCategoryController extends \yii\rest\ActiveController
     public function actions()
     {
         $actions = parent::actions();
-        unset($actions['index']);
+        unset($actions['index'],$actions['update']);
         return $actions;
     }
 
@@ -186,12 +186,22 @@ class GradeCategoryController extends \yii\rest\ActiveController
      * )
      */
 
+
+
      /**
-     * @SWG\Post(path="/campus/api/v1/grade-category/update?id=1",
+     * @SWG\Post(path="/campus/api/v1/grade-category/update",
      *     tags={"300-Grade-班级管理接口"},
      *     summary="修改班级分类",
      *     description="修改班级分类",
      *     produces={"application/json"},
+     *@SWG\Parameter(
+     *        in = "formData",
+     *        name = "grade_category_id",
+     *        description = "班级id",
+     *        default  = 0,
+     *        required = true,
+     *        type = "integer"
+     *     ), 
      * @SWG\Parameter(
      *        in = "formData",
      *        name = "parent_id",
@@ -224,6 +234,56 @@ class GradeCategoryController extends \yii\rest\ActiveController
      *     )
      * )
      */
+    
+    public function actionUpdate(){
+        $model = new $this->modelClass;
+        $model = $model::findOne((int)\Yii::$app->request->post('grade_category_id'));
+        if(!$model){
+            $this->serializer['errno']   = 400;
+            $this->serializer['message'] = "数据异常";
+            return [];
+        }
+        $model->load($_POST,'');
+        $model->save();
+        return $model;
+    }
+
+
+    /**
+     * @SWG\Get(path="/campus/api/v1/grade-category/form-list",
+     *     tags={"300-Grade-班级管理接口"},
+     *     summary="创建分类所需要下拉框数据",
+     *     description="下拉框所需数据",
+     *     produces={"application/json"},
+     * @SWG\Parameter(
+     *        in = "query",
+     *        name = "type",
+     *        description = "根据type 返回不同下拉框数据",
+     *        required = false,
+     *        type = "integer"
+     *     ), 
+     * @SWG\Response(
+     *         response = 200,
+     *         description = "200 返回成功"
+     *     )
+     * )
+     */
+
+
+    public function actionFormList($type = 0){
+        $model = new  $this->modelClass;
+        // if($type == 1){
+
+        // }
+        // if($type == 2){}
+        if($type == 0){
+            return $model->DropDownStatus();
+        }
+       $this->serializer['errno'] = '422';
+       $this->serializer['message'] = '找不到数据';
+       return [];
+    }
+    
 
    
 }

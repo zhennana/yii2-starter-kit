@@ -97,7 +97,7 @@ class School extends BaseSchool
     public function DropDownSchool(){
          return  School::find()->select(['school_id','school_title'])
                         ->andwhere(['parent_id'=>'0','status'=>School::SCHOOL_STATUS_OPEN])
-                        ->asArray()->all();
+                        ->all();
     }
 
 }

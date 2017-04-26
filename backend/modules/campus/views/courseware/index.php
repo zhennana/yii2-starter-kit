@@ -14,7 +14,7 @@ $categories = \backend\modules\campus\models\CoursewareCategory::find()->where([
 $categories = \yii\helpers\ArrayHelper::map(
         $categories, 'category_id', 'name'
     );
-$this->title = Yii::t('backend', 'Coursewares');
+$this->title = Yii::t('backend', '课件管理');
 $this->params['breadcrumbs'][] = $this->title;
 
 
@@ -64,7 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
         if(\Yii::$app->user->can('manager', ['route' => true])){
     ?>
         <div class="pull-left">
-            <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'New'), ['create'], ['class' => 'btn btn-success']) ?>
+            <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'), ['create'], ['class' => 'btn btn-success']) ?>
         </div>
     <?php
     }
