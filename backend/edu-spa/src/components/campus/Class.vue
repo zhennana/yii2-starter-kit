@@ -269,7 +269,7 @@
 </template>
 
 <script>
-  import Class from '../../api/class'
+  import Class from '../../api/campus/class'
   import AddressCascader from '../select/AddressCascader.vue'
   export default {
     name: 'class',

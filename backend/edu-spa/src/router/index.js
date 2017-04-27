@@ -7,6 +7,12 @@ import Campus from '../components/campus/Campus'
 import campusCollege from '../components/campus/campusCollege'
 import Class from '../components/campus/Class.vue'
 import Classification from '../components/campus/Classification'
+import Student from '../components/campus/Student'
+
+// -----------------------------课件管理目录下--------------------------
+
+import Courseware from '../components/courseware/Courseware'
+import CoursewareList from '../components/courseware/CoursewareList'
 
 // ----------------------------未知--------------------------------------
 
@@ -84,6 +90,33 @@ export default new Router({
               path: '/classification',
               name: 'classification',
               component: Classification,
+              meta: {
+                requireAuth: true
+              }
+            },
+            {
+              path: '/student',
+              name: 'student',
+              component: Student,
+              meta: {
+                requireAuth: true
+              }
+            }
+          ]
+        },
+        {
+          path: '/courseware',
+          name: 'Courseware',
+          component: Courseware,
+          redirect: '/courseware-list',
+          meta: {
+            requireAuth: true
+          },
+          children: [
+            {
+              path: '/courseware-list',
+              name: 'courseware-list',
+              component: CoursewareList,
               meta: {
                 requireAuth: true
               }

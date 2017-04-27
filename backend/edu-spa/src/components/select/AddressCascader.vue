@@ -37,7 +37,7 @@
 </template>
 
 <script>
-  import Address from '../../api/address'
+  import Address from '../../api/common/address'
   import ElOption from './option.vue'
   export default {
     components: {ElOption},

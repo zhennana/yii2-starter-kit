@@ -1,12 +1,11 @@
 /**
- * Created by Administrator on 2017-04-25.
+ * Created by Administrator on 2017-04-26.
  */
-import axios from '../config/axios'
+import axios from '../../config/axios'
 // import qs from 'qs'
 export default {
-  // 查询班级分类
-  getClassification (params) {
-    return axios.get('/campus/api/v1/grade-category/index', {
+  getstudent (params) {
+    return axios.get('/campus/api/v1/user-to-grade/index', {
       params: params
     }).then(response => {
       if (response.status !== 200) {
