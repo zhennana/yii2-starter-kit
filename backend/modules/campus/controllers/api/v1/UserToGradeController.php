@@ -378,7 +378,7 @@ class UserToGradeController extends \yii\rest\ActiveController
      * @SWG\Parameter(
      *      in = "query",
      *      name = "school_id",
-     *      description = "type是5 必须传school_id",
+     *      description = "type是6 必须传school_id",
      *      required    = false,
      *      type        = "integer"
      *      ),
