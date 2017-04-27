@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\models\resources;
+namespace frontend\models\base;
 
 use Yii;
 use \backend\modules\campus\models\base\CoursewareToCourseware as BaseCoursewareToCourseware;
@@ -30,9 +30,5 @@ public function behaviors()
                   # custom validation rules
              ]
         );
-    }
-
-  public function getCourseware(){
-        return $this->hasOne(\frontend\models\resources\Courseware::className(),['courseware_id'=>'courseware_id']);
     }
 }

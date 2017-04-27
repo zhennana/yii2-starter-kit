@@ -3,14 +3,14 @@ namespace frontend\controllers\edu;
 
 use Yii;
 use yii\web\Response;
-use frontend\models\resources\CoursewareCategory;
+use frontend\models\edu\resources\CoursewareCategory;
 
 class CoursewareCategoryController extends \common\rest\Controller
 {
     /**
      * @var string
      */
-    public $modelClass = 'frontend\models\resources\CoursewareCategory';
+    public $modelClass = 'frontend\models\edu\resources\CoursewareCategory';
 
     /**
      * @var array

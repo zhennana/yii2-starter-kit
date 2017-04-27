@@ -4,7 +4,7 @@ namespace frontend\controllers\edu;
 use Yii;
 use yii\web\Response;
 use yii\helpers\ArrayHelper;
-use frontend\models\resources\CoursewareToFile;
+use frontend\models\edu\resources\CoursewareToFile;
 
 
 class CoursewareController extends \common\rest\Controller
@@ -12,10 +12,10 @@ class CoursewareController extends \common\rest\Controller
     /**
      * @var string
      */
-    public $modelClass = 'frontend\models\resources\Courseware';
+    public $modelClass = 'frontend\models\edu\resources\Courseware';
 
     /**
-     * @var array
+     * @var arrayss
      */
     public $serializer = [
         'class' => 'common\rest\Serializer',    // 返回格式数据化字段
@@ -129,13 +129,16 @@ class CoursewareController extends \common\rest\Controller
             ->where(['courseware_id'=>$courseware_id])
             ->andWhere(['status'=>$modelClass::COURSEWARE_STATUS_VALID])
             ->one();
-        $data = $modelClass->toArray();
-        foreach ($modelClass->coursewareToCourseware as $key => $value) {
-                    if(isset($value->courseware)){
-                      // var_dump( $value->courseware->fields());exit;
-                        $data['items'][$key] = $value->courseware;
-                    }
-        }
+        if($modelClass){
+            $data = $modelClass->toArray();
+            foreach ($modelClass->coursewareToCourseware as $key => $value) {
+                        if(isset($value->courseware)){
+                          
+                            //var_dump( $value->courseware->fields());exit;
+                            $data['items'][$key] = $value->courseware;
+                        }
+            }
+    }
        return  $data;
       //return $data;
        // ->with(['coursewareToCourseware'=>function($model){
