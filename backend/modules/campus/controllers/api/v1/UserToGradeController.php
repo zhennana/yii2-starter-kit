@@ -56,7 +56,7 @@ class UserToGradeController extends \yii\rest\ActiveController
     public function actions()
     {
         $actions = parent::actions();
-        unset($actions['index'],$actions['create']);
+        unset($actions['index'],$actions['create'],$actions['update']);
         return $actions;
     }
 
@@ -108,18 +108,56 @@ class UserToGradeController extends \yii\rest\ActiveController
      *      ), 
      * @SWG\Parameter(
      *      in = "query",
-     *      name = "user_title_id_at_grade",
-     *      description = "用户在班级的描述性展示行",
+     *      name = "user_label",
+     *      description = "根据用户名搜索",
      *      required    = false,
-     *      type        = "integer"
-     *      ), 
+     *      type        = "string"
+     *      ),
+     * @SWG\Parameter(
+     *      in = "query",
+     *      name = "time_filter",
+     *      description = "根据更新或者创建时间进行时间搜索",
+     *      required    = false,
+     *      type        = "string",
+     *      enum        = {"created_at","updated_at"}
+     *      ),
+     * @SWG\Parameter(
+     *      in = "query",
+     *      name = "start_time",
+     *      description = "开始时间",
+     *      required    = false,
+     *      type        = "string",
+     *      ),  
+     * @SWG\Parameter(
+     *      in = "query",
+     *      name = "end_time",
+     *      description = "结束时间",
+     *      required    = false,
+     *      type        = "string",
+     *      ),   
+     * @SWG\Parameter(
+     *      in = "query",
+     *      name = "user_title_id_at_grade",
+     *      description = "用户在班级的描述性展示行 10学生。20老师。30家长",
+     *      required    = false,
+     *      type        = "integer",
+     *      enum        = {10,20,30}
+     *      ),
      * @SWG\Parameter(
      *      in="query",
-     *      name = "statuse",
+     *      name = "grade_user_type",
+     *      description = "状态 10:学生;20：老师",
+     *      required    = false,
+     *      type        = "integer",
+     *      enum        = {10,20}
+     *      ),  
+     * @SWG\Parameter(
+     *      in="query",
+     *      name = "status",
      *      description = "状态 1:正常;0:删除;3已转办；4已退休",
      *      required    = false,
      *      type        = "integer",
-     *      enum        = {0,1}
+     *      enum        = {0,1,3,4}
      *      ), 
      *
      * @SWG\Response(
@@ -131,8 +169,8 @@ class UserToGradeController extends \yii\rest\ActiveController
     **/
     public function actionIndex(){
         $searchModel = new UserToGradeSearch;
-        $searchModel->load(\yii::$app->request->queryParams,'');
-        $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
+       // $searchModel->load(\yii::$app->request->queryParams,'');
+        $dataProvider = $searchModel->searchApi(\Yii::$app->request->queryParams);
         $dataProvider->sort = [
             'defaultOrder' => ['created_at' => SORT_DESC]
         ];
@@ -194,12 +232,14 @@ class UserToGradeController extends \yii\rest\ActiveController
      *      name = "user_title_id_at_grade",
      *      description = "用户在班级的描述性展示行",
      *      required    = true,
-     *      type        = "integer"
+     *      type        = "integer",
+     *      default     = "10",
+     *      enum        = {10,20,30}
      *      ), 
      * @SWG\Parameter(
      *      in="formData",
      *      name = "grade_user_type",
-     *      description = "状态 10:老师;20：家长",
+     *      description = "状态 10:学生;20：老师",
      *      required    = true,
      *      default     = 10,
      *      type        = "integer",
@@ -239,11 +279,19 @@ class UserToGradeController extends \yii\rest\ActiveController
 
 
     /**
-     * @SWG\Post(path="/campus/api/v1/user-to-grade/update?id=9",
+     * @SWG\Post(path="/campus/api/v1/user-to-grade/update",
      *     tags={"300-Grade-班级管理接口"},
      *     summary="修改班级学员关系表",
      *     description="修改班级学员关系表",
      *     produces={"application/json"},
+     *
+     *  @SWG\Parameter(
+     *      in = "formData",
+     *      name = "user_to_grade_id",
+     *      description = "班级关系表id",
+     *      required    = true,
+     *      type        = "integer"
+     *      ),  
      * @SWG\Parameter(
      *      in = "formData",
      *      name = "user_id",
@@ -271,7 +319,9 @@ class UserToGradeController extends \yii\rest\ActiveController
      *      name = "user_title_id_at_grade",
      *      description = "用户在班级的描述性展示行",
      *      required    = true,
-     *      type        = "integer"
+     *      type        = "integer",
+     *      default     = "10",
+     *      enum        = {10,20,30}
      *      ), 
      * @SWG\Parameter(
      *      in="formData",
@@ -299,6 +349,17 @@ class UserToGradeController extends \yii\rest\ActiveController
      * )
      *
     **/
+    public function actionUpdate(){
+        $model = UserToGrade::find((int)\Yii::$app->request->post('user_to_grade_id'));
+        if(!$model){
+            $this->serializer['errno'] = '422';
+            $this->serializer['message'] = '数据异常';
+            return [];
+        }
+        $model->load($_POST,'');
+        $model->save();
+        return $model;
+    }
 
 
     /**
@@ -317,7 +378,7 @@ class UserToGradeController extends \yii\rest\ActiveController
      * @SWG\Parameter(
      *      in = "query",
      *      name = "school_id",
-     *      description = "type是5 必须传school_id",
+     *      description = "type是6 必须传school_id",
      *      required    = false,
      *      type        = "integer"
      *      ),
@@ -354,7 +415,6 @@ class UserToGradeController extends \yii\rest\ActiveController
         }
         $this->serializer['errno'] = '422';
         $this->serializer['message'] = '找不到数据';
-        return [];
         return [];
     }
 }
