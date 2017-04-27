@@ -1,8 +1,8 @@
 <?php
-namespace frontend\models\resources;
+namespace frontend\models\edu\resources;
 
 use Yii;
-use \backend\modules\campus\models\base\UsersToUsers as BaseUsersToUsers;
+use frontend\models\base\UsersToUsers as BaseUsersToUsers;
 use yii\helpers\ArrayHelper;
 
 /**

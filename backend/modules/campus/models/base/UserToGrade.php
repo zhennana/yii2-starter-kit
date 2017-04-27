@@ -31,6 +31,7 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
 
     CONST GRADE_USER_TYPE_STUDENT   = 10 ; //学生
     CONST GRADE_USER_TYOE_TEACHER   = 20 ; //老师
+    CONST GRADE_USER_TYOE_PARENTS   = 30 ; //家长
 
     public static function optsStatus(){
         return [
@@ -55,9 +56,26 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
             self::GRADE_USER_TYOE_TEACHER=>'老师',//,
         ];
     }
+    //用户在班级的描述性展示Title，没有逻辑
+    public static function optsUserTitleType(){
+        return [
+            self::GRADE_USER_TYPE_STUDENT=>'学生',//,
+            self::GRADE_USER_TYOE_TEACHER=>'老师',//,
+            self::GRADE_USER_TYOE_PARENTS=> '家长'
+        ];
+    }
 
     public static function UserToTypelable($value){
         $lable = self::optsUserType();
+        if(isset($lable[$value])){
+            return $lable[$value];
+        }
+            return $value;
+    }
+
+
+    public static function UserTitleTypelable($value){
+        $lable = self::optsUserTitleType();
         if(isset($lable[$value])){
             return $lable[$value];
         }

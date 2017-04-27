@@ -9,6 +9,7 @@ namespace backend\modules\campus\controllers\api\v1;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use backend\modules\campus\models\search\UserToGradeSearch;
+use backend\modules\campus\models\UserToGrade;
 class UserToGradeController extends \yii\rest\ActiveController
 {
     public $modelClass = 'backend\modules\campus\models\UserToGrade';
@@ -298,4 +299,62 @@ class UserToGradeController extends \yii\rest\ActiveController
      * )
      *
     **/
+
+
+    /**
+     * @SWG\Get(path="/campus/api/v1/user-to-grade/form-list",
+     *     tags={"300-Grade-班级管理接口"},
+     *     summary="创建班级学员所需要的下拉框数据",
+     *     description="创建班级学员所需要的下拉框数据",
+     *     produces={"application/json"},
+     * @SWG\Parameter(
+     *      in = "query",
+     *      name = "type",
+     *      description = "获取那些下拉框",
+     *      required    = false,
+     *      type        = "integer"
+     *      ),
+     * @SWG\Parameter(
+     *      in = "query",
+     *      name = "school_id",
+     *      description = "type是5 必须传school_id",
+     *      required    = false,
+     *      type        = "integer"
+     *      ),
+     * @SWG\Response(
+     *         response = 200,
+     *         description = "传1 获取状态; 传2 grade_user_type 关系类型; 传3 user_title_id_at_grade用户在班级的描述性展示Title，没有逻辑; 传4 获取用户;传5 获取学校；传6跟school_id 获取班级。
+             不传获取除班级以外的全部数据 "
+     *     ),
+     * )
+     *
+    **/
+    public function actionFormList($type = 0,$school_id = false){
+        $model = new  $this->modelClass;
+        if($type == 1){
+            return $model->DropDownLabel(UserToGrade::optsStatus());
+        };
+        if($type == 2){
+            return $model->DropDownLabel(UserToGrade::optsUserType());
+        };
+        if($type == 3){
+            return $model->DropDownLabel(UserToGrade::optsUserTitleType());
+        }
+        if($type == 4){
+            return $model->DropDownUser();
+        }
+        if($type == 5){
+            return $model->DropDownSchool();
+        }
+        if($type == 6 && isset($school_id)){
+            return $model->DropDownGrade($school_id);
+        }
+        if($type == 0){
+            return $model->DropDownGather();
+        }
+        $this->serializer['errno'] = '422';
+        $this->serializer['message'] = '找不到数据';
+        return [];
+        return [];
+    }
 }

@@ -107,14 +107,12 @@ public function behaviors()
      * 获取学校下拉框
      */
     public function DropDownSchool(){
-     ;
       //$fields = $model->fields();
       $model = School::find()->where(['status'=>School::SCHOOL_STATUS_OPEN])->all();
-
       return $model;
-     
-
     }
+
+    
     /**
      * 获取班级
      */

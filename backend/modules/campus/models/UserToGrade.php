@@ -5,6 +5,7 @@ namespace backend\modules\campus\models;
 use Yii;
 use \backend\modules\campus\models\base\UserToGrade as BaseUserToGrade;
 use yii\helpers\ArrayHelper;
+use common\models\User;
 
 /**
  * This is the model class for table "users_to_grade".
@@ -30,6 +31,37 @@ public function behaviors()
                   # custom validation rules
              ]
         );
+    }
+    public function fields(){
+      return array_merge(
+          parent::fields(),
+          [
+            'school_label'=>function(){
+                return isset($this->school->school_title)? $this->school->school_title : '';
+            },
+            'grade_label'=>function(){
+                return isset($this->grade->grade_name) ?  $this->grade->grade_name : '';
+            },
+            'status_label'=>function(){
+              return self::getStatusLabel($this->status);
+            },
+            'grade_user_type_label'=>function(){
+              return self::UserToTypelable($this->grade_user_type);
+            },
+            'user_title_id_at_grade_Label'=>function(){
+              return self::UserTitleTypelable($this->user_title_id_at_grade);
+            },
+            'user_label'=>function(){
+              return isset($this->user->username) ? $this->user->username : '';
+            },
+            'updated_at'=>function(){
+              return date('Y-m-d H:i:s',$this->updated_at);
+            },
+            'created_at'=>function(){
+              return date('Y-m-d H:i:s',$this->created_at);
+            }
+          ]
+        ) ;
     }
 
     /**
@@ -101,4 +133,61 @@ public function behaviors()
     $count = self::find()->where($param)->count();
     return $count;
   }
+
+/**
+ * 状态
+ */
+  public function DropDownLabel($label){
+      $data = [];
+      foreach ($label as $key => $value) {
+          $data[$key]['key'] = $key;
+          $data[$key]['value'] = $value;
+      }
+      sort($data);
+      return $data;
+    }
+  /**
+   * 获取用户
+   */
+  public function DropDownUser(){
+    return User::find()->select(['id','username'])->where(['status'=>2])->all();
+  }
+
+  public function DropDownschool(){
+    $model =  School::find()->select(['school_id','school_title'])->where(['status'=>School::SCHOOL_STATUS_OPEN])->asArray()->all();
+    $data = [];
+     foreach ($model as $key => $value) {
+        $data[$key]['school_id'] = (int)$value['school_id'];
+        $data[$key]['school_title'] = $value['school_title'];
+    }
+     return $data;
+  }
+
+  /**
+   * 返回某学校下的班级
+   * @param [type] $school_id [description]
+   */
+  public function DropDownGrade($school_id){
+    $model =  Grade::find()->select(['grade_id','grade_name'])->where(['school_id'=>$school_id,'status'=>Grade::GRADE_STATUS_OPEN])->asArray()->all();
+    $data = [];
+    foreach ($model as $key => $value) {
+        $data[$key]['grade_id'] = (int)$value['grade_id'];
+        $data[$key]['grade_name'] = $value['grade_name'];
+    }
+    unset($model);
+    return $data;
+
+  }
+  /**
+   * 返回所有下拉框集合
+   */
+  public function DropDownGather(){
+    $data = [];
+    $data['status']           = $this->DropDownLabel(self::optsStatus());
+    $data['user_type']        = $this->DropDownLabel(self::optsUserType());
+    $data['user_title_type']  = $this->DropDownLabel(self::optsUserTitleType());
+    $data['user']             = $this->DropDownUser();
+    $data['school']           = $this->DropDownSchool();
+    return $data;
+  }    
 }

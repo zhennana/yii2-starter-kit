@@ -48,8 +48,6 @@ public function behaviors()
                   'status_label'=>function(){
                     return GradeCategory::getStatusLabel($this->status);
                   }
-
-
                 ]
             );
     }

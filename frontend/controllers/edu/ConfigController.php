@@ -10,9 +10,9 @@ use yii\web\HttpException;
 use yii\helpers\Url;
 
 use frontend\modules\api\v1\resources\Article;
-use frontend\models\resources\Course;
-use frontend\models\resources\UsersToUsers;
-use frontend\models\resources\Courseware;
+use frontend\models\edu\resources\Course;
+use frontend\models\edu\resources\UsersToUsers;
+use frontend\models\edu\resources\Courseware;
 
 class ConfigController extends \common\rest\Controller
 {
@@ -86,7 +86,7 @@ class ConfigController extends \common\rest\Controller
 
     public function actionIndex()
     {
-         $model = new Courseware ;
+         $model = new Courseware;
          return $model->streamData();
         /*
         for ($i=1; $i < 4; $i++) {
