@@ -77,7 +77,19 @@ abstract class CoursewareCategory extends \yii\db\ActiveRecord
             [['name'], 'string', 'max' => 225],
             [['slug'], 'string', 'max' => 32],
             [['description', 'banner_src'], 'string', 'max' => 255],
-            [['parent_id'], 'default','value' => 0]
+            [['parent_id'], 'default','value' => 0],
+            ['status','filter','filter'=>function(){
+                      return (int)$this->status;
+                 }
+            ],
+            ['parent_id','filter','filter'=>function(){
+                      return (int)$this->parent_id;
+                 }
+            ],
+            ['creater_id','filter','filter'=>function(){
+                      return (int)$this->creater_id;
+                 }
+            ],
         ];
     }
 
@@ -123,6 +135,10 @@ abstract class CoursewareCategory extends \yii\db\ActiveRecord
     
     public function getCourseware(){
         return $this->hasMany(\backend\modules\campus\models\Courseware::className(),['category_id'=>'category_id']);
+    }
+
+    public function getParentCoursewareCategory(){
+        return $this->hasOne(\backend\modules\campus\models\CoursewareCategory::className(),['category_id'=>'parent_id']);
     }
     /**
      * @inheritdoc
