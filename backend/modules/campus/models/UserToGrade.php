@@ -159,6 +159,7 @@ public function behaviors()
      foreach ($model as $key => $value) {
         $data[$key]['school_id'] = (int)$value['school_id'];
         $data[$key]['school_title'] = $value['school_title'];
+        $data[$key]['grade']        = [];
     }
      return $data;
   }
