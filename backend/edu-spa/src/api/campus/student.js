@@ -14,5 +14,16 @@ export default {
         return response.data
       }
     })
+  },
+  getSelectData (params) {
+    return axios.get('/campus/api/v1/user-to-grade/form-list', {
+      params: params
+    }).then(response => {
+      if (response.status !== 200) {
+        throw new Error('返回接口失败')
+      } else {
+        return response.data
+      }
+    })
   }
 }

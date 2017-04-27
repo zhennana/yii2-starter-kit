@@ -23,7 +23,7 @@
           <el-input v-model="searchData.name"></el-input>
         </el-form-item>
         <el-form-item label="选择查询时间">
-          <el-select v-model="searchData.times" class="choice-mode-time">
+          <el-select v-model="searchData.time_filter" class="choice-mode-time">
             <el-option label="修改时间" value="updated_at"></el-option>
             <el-option label="创建时间" value="created_at"></el-option>
           </el-select>
@@ -173,7 +173,7 @@
           // 结束时间
           start_time: '',
           // 查找修改时间还是查找创建时间
-          times: 'updated_at',
+          time_filter: 'updated_at',
           status: '',
           page: ''
         },
@@ -229,7 +229,7 @@
     },
     methods: {
       onSubmit () {
-        if (this.depositTIme === !'') {
+        if (this.depositTIme !== '') {
           this.searchData.end_time = this.depositTIme[0].getTime() / 1000
           this.searchData.start_time = this.depositTIme[1].getTime() / 1000
         }
