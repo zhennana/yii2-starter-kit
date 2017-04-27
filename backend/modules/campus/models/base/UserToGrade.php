@@ -28,6 +28,7 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
     CONST USER_GRADE_STATUS_RETIRED = 4 ; //退休；
     CONST USER_GRADE_STATUS_CHANGE  = 3 ; //转班；
     CONST USER_GRADE_STATUS_DELETE  = 0 ; // 删除；
+    CONST USER_GRADE_STATUS_AUDIT   = 2 ; //审核；
 
     CONST GRADE_USER_TYPE_STUDENT   = 10 ; //学生
     CONST GRADE_USER_TYOE_TEACHER   = 20 ; //老师
@@ -121,7 +122,7 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
         return [
             [['user_id', 'school_id', 'grade_id'], 'required'],
             [['user_id', 'school_id', 'grade_id', 'user_title_id_at_grade', 'status', 'sort', 'grade_user_type'], 'integer'],
-            [['school_id'],'unique', 'targetAttribute' => ['user_id','school_id', 'grade_id', 'grade_user_type'], 'message' => '用户已经存在本班级']
+            [['user_id'],'unique', 'targetAttribute' => ['user_id','school_id', 'grade_id', 'grade_user_type'], 'message' => '用户已经存在本班级']
         ];
     }
 
