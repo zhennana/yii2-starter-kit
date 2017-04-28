@@ -1,11 +1,5 @@
 <template>
   <div>
-    <el-cascader
-      :options="schoolAndClass"
-      @change="schoolClassSlect"
-      :props="classProps"
-      change-on-select
-    ></el-cascader>
     <!--创建按钮-->
     <div class="header-student clearFix">
       <el-button type="info" class="fl append el-icon-plus" v-on:click="dialogFormVisible = true">创建</el-button>
@@ -19,18 +13,13 @@
         <el-form-item label="用户">
           <el-input v-model="lookupData.user_label"></el-input>
         </el-form-item>
-        <el-form-item label="学校">
-          <el-select v-model="lookupData.school_id" placeholder="请选择">
-            <el-option
-              v-for="item in selectTotal.school"
-              :label="item.school_title"
-              :key="item.school_id"
-              :value="item.school_id">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="班级id">
-          <el-input v-model="lookupData.grade_id"></el-input>
+        <el-form-item label="学校 班级选择" class="school-class-select">
+          <el-cascader
+            :options="schoolAndClass"
+            @change="schoolClassSlect"
+            :props="classProps"
+            change-on-select
+          ></el-cascader>
         </el-form-item>
         <el-form-item label="展示标题">
           <el-select v-model="lookupData.user_title_id_at_grade" placeholder="请选择">
@@ -115,7 +104,7 @@
           width="270">
           <template scope="scope">
             <el-button type="success" @click="detailsAlert(scope.row)">查看</el-button>
-            <el-button type="warning" @click="selectData">修改</el-button>
+            <el-button type="warning" @click="modify(scope.row)">修改</el-button>
             <el-button type="danger">删除</el-button>
           </template>
         </el-table-column>
@@ -142,6 +131,47 @@
           <el-table-column prop="user_title_id_at_grade_Label" label="user_title_id_at_grade_Label" width="120"></el-table-column>
           <el-table-column prop="user_label" label="user_label" width="120"></el-table-column>
         </el-table>
+      </el-dialog>
+    </div>
+    <!--修改-->
+    <div class="modify-alert">
+      <el-dialog title="修改" v-model="dialogModify" :close-on-click-modal="false">
+        <el-form :model="modifyData" class="modify-item">
+          <el-form-item label="班级关系表id" :label-width="formLabelWidth">
+            <div>{{modifyData.user_to_grade_id}}</div>
+          </el-form-item>
+          <el-form-item label="用户id" :label-width="formLabelWidth">
+            <div>{{modifyData.user_id}}</div>
+          </el-form-item>
+          <el-form-item label="学校 班级选择" class="school-class-select">
+            <el-cascader
+              :options="modifyTwoLinkage"
+              v-model="defaultValue"
+              @change="modifySchoolClassSlect"
+              :props="classProps"
+              change-on-select
+            ></el-cascader>
+          </el-form-item>
+          <el-form-item label="学校id" :label-width="formLabelWidth">
+            <el-input v-model="modifyData.school_id" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="班级id" :label-width="formLabelWidth">
+            <el-input v-model="modifyData.grade_id" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="用户在班级的描述性展示行" :label-width="formLabelWidth">
+            <el-input v-model="modifyData.user_title_id_at_grade" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="用户类型" :label-width="formLabelWidth">
+            <el-input v-model="modifyData.grade_user_type" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="状态" :label-width="formLabelWidth">
+            <el-input v-model="modifyData.status" auto-complete="off"></el-input>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="dialogModify = false">确 定</el-button>
+          <el-button @click="dialogModify = false">取 消</el-button>
+        </div>
       </el-dialog>
     </div>
   </div>
@@ -203,14 +233,19 @@
         detailsControl: false,
         schoolAndClass: [],
         classProps: {
-          label: 'school_title',
-          value: 'school_id',
+          label: 'label',
+          value: 'value',
           children: 'grade'
         },
         getSlectClass: {
           type: 6,
           school_id: ''
-        }
+        },
+        modifyData: {},
+        dialogModify: false,
+        formLabelWidth: '100px',
+        modifyTwoLinkage: [],
+        defaultValue: []
       }
     },
     methods: {
@@ -237,6 +272,7 @@
           if (response.errno === '0') {
             this.selectTotal = response.result
             this.schoolAndClass = response.result.school
+            this.modifyTwoLinkage = response.result.school
           }
         }).catch(error => {
           console.log(error)
@@ -247,15 +283,44 @@
         Student.getSelectData(this.getSlectClass).then(response => {
           if (response.errno === '0') {
             for (let i = 0; i < this.schoolAndClass.length; i++) {
-              if (this.schoolAndClass[i].school_id === val[0]) {
-                this.schoolAndClass[i].grade = []
-                this.schoolAndClass[i].grade.push(response.result)
+              if (this.schoolAndClass[i].value === val[0]) {
+                this.schoolAndClass[i].grade = response.result
               }
             }
+            this.lookupData.school_id = val[0]
+            this.lookupData.grade_id = val[1]
           }
         }).catch(error => {
           console.log(error)
         })
+      },
+      modifySchoolClassSlect (val) {
+        this.getSlectClass.school_id = val[0]
+        Student.getSelectData(this.getSlectClass).then(response => {
+          if (response.errno === '0') {
+            for (let i = 0; i < this.modifyTwoLinkage.length; i++) {
+              if (this.modifyTwoLinkage[i].value === val[0]) {
+                this.modifyTwoLinkage[i].grade = response.result
+              }
+            }
+            this.modifyData.school_id = val[0]
+            this.modifyData.grade_id = val[1]
+          }
+        }).catch(error => {
+          console.log(error)
+        })
+      },
+      modify (val) {
+        this.getSlectClass.school_id = val.school_id
+        let arr = []
+        arr.push(val.school_id)
+        this.modifySchoolClassSlect(arr)
+        this.defaultValue = []
+        this.defaultValue.push(val.school_id)
+        this.defaultValue.push(val.grade_id)
+        console.log(this.defaultValue)
+        this.dialogModify = true
+        this.modifyData = val
       }
     }
   }
@@ -270,4 +335,14 @@
         margin-left:5px;
   .exhibition
     margin-left:30px;
+  .lookup
+    .school-class-select
+      .el-form-item__content
+        width:260px;
+      .el-cascader
+        width:100%;
+  .modify-alert
+    .modify-item
+      .el-form-item__content
+        width:600px;
 </style>
