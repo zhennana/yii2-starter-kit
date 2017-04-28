@@ -157,11 +157,12 @@ public function behaviors()
     $model =  School::find()->select(['school_id','school_title'])->where(['status'=>School::SCHOOL_STATUS_OPEN])->asArray()->all();
     $data = [];
      foreach ($model as $key => $value) {
-        $data[$key]['school_id'] = (int)$value['school_id'];
-        $data[$key]['school_title'] = $value['school_title'];
+        $data[$key]['key'] = (int)$value['school_id'];
+        $data[$key]['value'] = $value['school_title'];
         $data[$key]['grade']        = [];
     }
-     return $data;
+    unset($model);
+    return $data;
   }
 
   /**
@@ -172,8 +173,8 @@ public function behaviors()
     $model =  Grade::find()->select(['grade_id','grade_name'])->where(['school_id'=>$school_id,'status'=>Grade::GRADE_STATUS_OPEN])->asArray()->all();
     $data = [];
     foreach ($model as $key => $value) {
-        $data[$key]['grade_id'] = (int)$value['grade_id'];
-        $data[$key]['grade_name'] = $value['grade_name'];
+        $data[$key]['key'] = (int)$value['grade_id'];
+        $data[$key]['value'] = $value['grade_name'];
     }
     unset($model);
     return $data;
