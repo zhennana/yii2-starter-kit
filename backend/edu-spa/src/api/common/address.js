@@ -1,7 +1,7 @@
 /**
  * Created by YJZX-LCH on 2017-04-21.
  */
-import axios from '../config/axios'
+import axios from '../../config/axios'
 
 export default {
   getProvince () {

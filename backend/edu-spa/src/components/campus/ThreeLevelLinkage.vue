@@ -21,7 +21,7 @@
   </div>
 </template>
 <script>
-  import Campus from '../../api/campus'
+  import Campus from '../../api/campus/campus'
   export default {
     created () {
       this.threeLevelLinkage()

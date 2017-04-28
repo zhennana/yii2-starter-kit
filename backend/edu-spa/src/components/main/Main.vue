@@ -9,7 +9,7 @@
 
 <script>
   import Header from '../../components/header/Header.vue'
-  import login from '../../api/login'
+  import login from '../../api/user/login'
   export default {
     name: 'main',
     data () {
