@@ -25,7 +25,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import Login from '../../api/login'
+  import Login from '../../api/user/login'
 
   export default {
     name: 'Header',
@@ -38,6 +38,12 @@
             name: 'campus',
             path: 'campus',
             title: '学校管理'
+          },
+          {
+            id: '0',
+            name: 'courseware',
+            path: 'courseware',
+            title: '课件管理'
           }
         ]
       }

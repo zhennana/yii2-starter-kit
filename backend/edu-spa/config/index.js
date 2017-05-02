@@ -34,6 +34,7 @@ module.exports = {
         changeOrigin: true
       },
       '/campus': {
+        // http://192.168.5.108/repositories/yii2-starter-kit/backend/web
         target: 'http://dev.backend.wakooedu.com',
         changeOrigin: true
       }
