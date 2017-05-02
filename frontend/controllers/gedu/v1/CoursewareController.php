@@ -1,5 +1,5 @@
 <?php
-namespace frontend\controllers\edu;
+namespace frontend\controllers\gedu\v1;
 
 use Yii;
 use yii\web\Response;

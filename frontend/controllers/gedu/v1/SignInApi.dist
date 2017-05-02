@@ -7,7 +7,7 @@
      * @SWG\Swagger(
      *     schemes={"http"},
      *     host="localhost:8089/edu-manager/frontend/web",
-     *     basePath="/edu",
+     *     basePath="/gedu/v1",
      *     @SWG\Info(
      *         version="1.0.0",
      *         title="前台API接口",
