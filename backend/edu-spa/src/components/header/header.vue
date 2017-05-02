@@ -7,7 +7,6 @@
 
     </div>
     <el-menu theme="dark" :default-active="activeIndex" class="el-menu-demo top-menu" mode="horizontal">
-
       <el-menu-item v-for="item in topMenuList" :index="item.name" :key="item.name">
         <router-link :to="{path:item.path}">
           {{item.title}}
@@ -62,7 +61,8 @@
         }).catch(error => {
           console.log(error)
         })
-      }
+      },
+      handleSelect () {}
     }
   }
 </script>

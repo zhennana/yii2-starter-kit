@@ -1,20 +1,20 @@
 <template>
   <div class="clearFix">
     <div class="fl select-top-boss">
-      <div class="select-top">省</div>
-      <el-select v-model="threeCombinations.province.id" placeholder="省份" v-on:change="obtainCity()">
+      <span class="select-top">省</span>
+      <el-select v-model="threeCombinations.province.id" placeholder="省份" v-on:change="obtainCity()" class="drop-down-box">
         <el-option v-for="(val, key, index) in depositProvince" :label="val.province_name" :value="val.province_id" :key="val.province_id"></el-option>
       </el-select>
     </div>
-    <div class="fl">
-      <div class="select-top">市</div>
-      <el-select v-model="threeCombinations.city.id" placeholder="市" v-on:change="obtainCounty()">
+    <div class="fl select-top-boss">
+      <span class="select-top">市</span>
+      <el-select v-model="threeCombinations.city.id" placeholder="市" v-on:change="obtainCounty()" class="drop-down-box">
         <el-option v-for="(val, key, index) in depositCity" :label="val.city_name" :value="val.city_id" :key="val.city_id"></el-option>
       </el-select>
     </div>
-    <div class="fl">
-      <div class="select-top">县</div>
-      <el-select v-model="threeCombinations.county.id" v-on:change="sendOutCounty" placeholder="县（区）">
+    <div class="fl select-top-boss">
+      <span class="select-top">县</span>
+      <el-select v-model="threeCombinations.county.id" v-on:change="sendOutCounty" placeholder="县（区）" class="drop-down-box">
         <el-option v-for="(val, key, index) in urbanCounty" :label="val.region_name" :value="val.region_id" :key="val.region_id"></el-option>
       </el-select>
     </div>
@@ -179,11 +179,20 @@
     content: '';
   .select-top-boss
     text-align: center;
+    input
+      border-top:none;
+      border-left:none;
+      border-right:none;
+      border-radius :0;
   .clearFix
     zoom:1;
   .select-top
-    margin-bottom:10px;
+    width:40px;
+    line-height:36px;
+    display inline-block;
+    text-align:right;
     font-size: 14px;
     color: #48576a;
-    vertical-align: middle;
+  .drop-down-box
+    margin-left:10px;
 </style>
