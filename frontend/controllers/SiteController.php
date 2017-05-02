@@ -111,7 +111,7 @@ class SiteController extends Controller
                     //Yii::getAlias('@api/models'),
                 ],
                 //api_key 是文档浏览key,文档放到线上，我们并不需要让每个人都能看到，所以可以通过设置这项来实现。配置后浏览文档时需要在右上角的api_key输入框中输入配置的值，才能正常访问文档.
-                'api_key' => '8688',
+                'api_key' => '8868',
             ],
         ];
     }
