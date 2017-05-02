@@ -90,7 +90,7 @@
     </div>
     <!--修改学校-->
     <div class="modify">
-      <el-dialog title="修改学校" v-model="modify">
+      <el-dialog title="修改学校" v-model="modify" :close-on-click-modal="false">
         <el-form :model="modifyData" :label-position="modifyLabelStatus">
           <el-form-item label="主校ID" :label-width="formLabelWidth" class="modify-increase-width">
             <el-input v-model="modifyData.parent_id" auto-complete="off"></el-input>
@@ -135,7 +135,7 @@
     </div>
     <!--创建学校的弹出框-->
     <div class="create-school">
-      <el-dialog title="创建学校" v-model="dialogFormVisible">
+      <el-dialog title="创建学校" v-model="dialogFormVisible" :close-on-click-modal="false">
         <el-form :model="build" class="clearFix">
           <el-form-item label="主校ID" class="create-school-input create-school-select">
             <el-select v-model="build.parent_id" placeholder="可不填">
@@ -194,7 +194,7 @@
 </template>
 
 <script>
-  import Campus from '../../api/campus'
+  import Campus from '../../api/campus/campus'
   import AddressCascader from '../select/AddressCascader.vue'
   import ThreeLevelLinkage from './ThreeLevelLinkage'
   export default {

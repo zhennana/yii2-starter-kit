@@ -1,7 +1,7 @@
 /**
  * Created by YJZX-LCH on 2017-04-11.
  */
-import axios from '../config/axios'
+import axios from '../../config/axios'
 import qs from 'qs'
 
 export default {

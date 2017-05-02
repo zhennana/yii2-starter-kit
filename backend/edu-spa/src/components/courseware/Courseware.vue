@@ -14,44 +14,24 @@
     </div>
   </div>
 </template>
-
 <script>
   export default {
-    name: 'campus-manager',
+    name: 'courseware',
     data () {
       return {
         menuList: [
           {
             id: '0',
-            name: 'campus',
-            path: 'campus',
-            title: '学校管理'
-          },
-          {
-            id: '1',
-            name: 'class',
-            path: 'class',
-            title: '班级管理'
-          },
-          {
-            id: '2',
-            name: 'classification',
-            path: 'classification',
-            title: '班级分类管理'
-          },
-          {
-            id: '3',
-            name: 'student',
-            path: 'student',
-            title: '学员管理'
+            name: 'courseware-list',
+            path: 'courseware-list',
+            title: '课件列表'
           }
         ]
       }
     }
   }
 </script>
-
-<style lang="stylus" type="text/stylus" scoped rel="stylesheet/stylus">
+<style lang="stylus" type="text/stylus" rel="stylesheet/stylus">
   .el-menu
     & > li > a
       display block
