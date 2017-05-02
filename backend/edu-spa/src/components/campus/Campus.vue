@@ -64,6 +64,5 @@
         color: #20a0ff;
 
   .child-content
-    margin-left 250px
-    margin-right 20px
+    margin-left 200px
 </style>
