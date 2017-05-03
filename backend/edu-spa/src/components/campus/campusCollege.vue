@@ -1,57 +1,70 @@
 <template>
   <div>
     <!--头-->
-    <div class="clearFix header-college">
-      <div class="header-top clearFix">
-        <h2 class="fl">学院管理</h2>
-        <!--创建学校按钮-->
-        <el-button type="info" class="fl append el-icon-plus" v-on:click="dialogFormVisible = true">创建</el-button>
-      </div>
+    <div class="header-college">
+      <el-breadcrumb separator="/" style="overflow:hidden">
+        <el-breadcrumb-item :to="{ path: '/Main' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/campus'}">学校管理</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/campus-college'}">学院管理</el-breadcrumb-item>
+      </el-breadcrumb>
     </div>
     <!--搜素学校-->
-    <div class="search-school clearFix">
-      <el-form :label-position="labelPosition" label-width="60" class="clearFix exhibition-top">
-        <el-form-item label="学校名" class="fl search-above">
-          <el-select v-model="campus.id" placeholder="学校名">
-            <el-option v-for="item in dischargeState.school" :label="item.school_title" :value="item.school_id" :key="item.school_id"></el-option>
-          </el-select>
-        </el-form-item>
-          <el-form-item label="主校ID" class="fl search-above">
-            <el-input v-model="campus.parent_id" class="search-above"></el-input>
+    <div class="search-school-box clearFix">
+      <div class="search-button-total">
+        <el-button type="primary" icon="search" class="button-display-school" @click="displaySchool" id="button-display-school">搜索</el-button>
+        <el-button type="primary" v-bind:class="buttonState" @click="changeButtonState" id="display-search-input"></el-button>
+        <el-form class="school-name" :label-position="campusName" label-width="80px">
+          <el-form-item label="学校名" class="search-above" style="display:inline-block">
+            <el-select v-model="campus.id" placeholder="学校名">
+              <el-option v-for="item in dischargeState.school" :label="item.school_title" :value="item.school_id" :key="item.school_id"></el-option>
+            </el-select>
           </el-form-item>
-          <el-form-item label="学校名称" class="fl search-above">
-            <el-input v-model="campus.school_title" class="search-above"></el-input>
-          </el-form-item>
-          <el-form-item label="学校简称" class="fl search-above">
-            <el-input v-model="campus.school_short_title" class="search-above"></el-input>
-          </el-form-item>
-          <el-form-item label="学校标语" class="fl search-above">
-            <el-input v-model="campus.school_slogan" class="search-above"></el-input>
-          </el-form-item>
-          <el-form-item label="Logo路径" class="fl search-above">
-            <el-input v-model="campus.school_logo_path" class="search-above"></el-input>
-          </el-form-item>
-          <el-form-item label="背景图路径" class="fl search-above">
-            <el-input v-model="campus.school_backgroud_path" class="search-above"></el-input>
-          </el-form-item>
-        <div>
-        </div>
-        <el-form-item label="学校是否开启" class="fl search-above" >
-        <el-select v-model="campus.status" placeholder="">
-          <el-option v-for="item in dischargeState.status" :label="item.status_label" :value="item.status_id" :key="item.status_id">
-          </el-option>
-        </el-select>
-        </el-form-item>
-        <!--三级联动-->
-        <threeLevel-linkage class="fl" v-on:obtainCity="incrementTotal"></threeLevel-linkage>
-          <el-form-item label="具体地址" class="fl search-above">
-            <el-input v-model="campus.address" class="search-above"></el-input>
-          </el-form-item>
-        <el-button type="primary" icon="search" class="fl button-display-school" @click="displaySchool">搜索</el-button>
-      </el-form>
+          <!--三级联动-->
+          <threeLevel-linkage class="search-linkage" v-on:obtainCity="incrementTotal"></threeLevel-linkage>
+        </el-form>
+      </div>
+        <transition name="el-zoom-in-top">
+          <div v-show="displaySearchInput" class="transition-box">
+            <div class="search-school">
+              <el-form :label-position="labelPosition" label-width="100px" class="clearFix exhibition-top">
+                <el-form-item label="主校ID" class="fl search-above">
+                  <el-input v-model="campus.parent_id" class="search-above"></el-input>
+                </el-form-item>
+                <el-form-item label="学校名称" class="fl search-above">
+                  <el-input v-model="campus.school_title" class="search-above"></el-input>
+                </el-form-item>
+                <el-form-item label="学校简称" class="fl search-above">
+                  <el-input v-model="campus.school_short_title" class="search-above"></el-input>
+                </el-form-item>
+                <el-form-item label="学校标语" class="fl search-above">
+                  <el-input v-model="campus.school_slogan" class="search-above"></el-input>
+                </el-form-item>
+                <el-form-item label="Logo路径" class="fl search-above">
+                  <el-input v-model="campus.school_logo_path" class="search-above"></el-input>
+                </el-form-item>
+                <el-form-item label="背景图路径" class="fl search-above">
+                  <el-input v-model="campus.school_backgroud_path" class="search-above"></el-input>
+                </el-form-item>
+                <el-form-item label="学校是否开启" class="fl search-above" >
+                  <el-select v-model="campus.status" placeholder="">
+                    <el-option v-for="item in dischargeState.status" :label="item.status_label" :value="item.status_id" :key="item.status_id">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+                <el-form-item label="具体地址" class="fl search-above">
+                  <el-input v-model="campus.address" class="search-above"></el-input>
+                </el-form-item>
+              </el-form>
+            </div>
+          </div>
+        </transition>
+      <!--创建学校按钮-->
     </div>
     <!--展示学校-->
     <div class="display-school">
+      <div class="useFunction">
+        <el-button type="info" class="fl append el-icon-plus" v-on:click="dialogFormVisible = true">创建</el-button>
+      </div>
       <el-table :data="campusResult" border style="width: 100%">
         <el-table-column fixed prop="id" label="学校ID" width="100"></el-table-column>
         <el-table-column prop="school_title" label="名称" width="120"></el-table-column>
@@ -207,7 +220,7 @@
     data () {
       return {
         msg: '333333',
-        labelPosition: 'top',
+        labelPosition: 'right',
         modifyLabelStatus: 'left',
         // 搜索学校的数据
         campus: {
@@ -302,7 +315,13 @@
           city_id: 110100,
           region_id: 110101
         },
-        meta: {}
+        meta: {},
+        displaySearchInput: true,
+        buttonState: {
+          'el-icon-caret-top': false,
+          'el-icon-caret-bottom': true
+        },
+        campusName: 'right'
       }
     },
     components: {ThreeLevelLinkage, AddressCascader},
@@ -417,15 +436,24 @@
       handleCurrentChange (val) {
         this.campus.page = val
         this.displaySchool()
+      },
+      changeButtonState () {
+        this.displaySearchInput = !this.displaySearchInput
+        for (let key in this.buttonState) {
+          this.buttonState[key] = !this.buttonState[key]
+        }
       }
     }
   }
 </script>
 
 <style lang="stylus" type="text/stylus" rel="stylesheet/stylus">
+  *
+    margin:0;
+    padding:0;
   .clearFix:after
     clear:both;
-    display :block;
+    display:block;
     content: '';
   .fr
     float:right;
@@ -434,31 +462,44 @@
   li
     list-style:none;
   .header-college
-    height:50px;
     padding-top:20px;
+    margin-left:25px;
   .header-top
+    overflow:hidden;
     margin-left:20px;
-    .append
-      margin-left:10px;
-      span
-        margin-left:5px;
-    h2
-      font-size:36px;
+  .append
+    margin-left:10px;
+    padding:9px;
+    span
+      padding-left:5px;
   .el-form-item__content
     width:100px;
   .display-school
+    background:#FFF;
     margin-left:20px;
   .exhibition-top
     text-align :center;
     margin-left:20px;
   .search-above
     margin-right:5px;
+    input
+      border-top:none;
+      border-left:none;
+      border-right:none;
+      border-radius:0;
   .el-dialog--small
     width:80%;
-  .search-school
-    .button-display-school
-      margin-top:23px;
-      margin-left:20px;
+  .search-school-box
+    overflow:hidden;
+    background:#fff;
+    margin-left:20px;
+    border:1px solid #dfdfdf;
+    margin-top: 10px;
+    margin-bottom:10px;
+  .search-button-total
+    padding-top:20px;
+    margin-bottom:20px;
+    margin-left:10px;
   /*三级联动的样式*/
   .myAddress
     width: 100%;
@@ -566,4 +607,16 @@
   .paging
     margin-top:10px;
     margin-left:300px;
+  #display-search-input
+    margin-left:-5px;
+    border-radius:0 4px 4px 0;
+    padding:9px 5px;
+  #button-display-school
+    border-radius:4px 0 0 4px;
+    padding:9px;
+  .school-name
+    display:inline-block;
+  .search-linkage
+    display:inline-block;
+    margin-bottom:-13px;
 </style>
