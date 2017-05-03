@@ -162,10 +162,24 @@
             <el-input v-model="modifyData.user_title_id_at_grade" auto-complete="off"></el-input>
           </el-form-item>
           <el-form-item label="用户类型" :label-width="formLabelWidth">
-            <el-input v-model="modifyData.grade_user_type" auto-complete="off"></el-input>
+            <el-select v-model="modifyData.grade_user_type" placeholder="请选择">
+              <el-option
+                v-for="item in selectTotal.user_title_type"
+                :label="item.value"
+                :key="item.key"
+                :value="item.key">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="状态" :label-width="formLabelWidth">
-            <el-input v-model="modifyData.status" auto-complete="off"></el-input>
+            <el-select v-model="modifyData.status" placeholder="请选择">
+              <el-option
+                v-for="item in selectTotal.status"
+                :label="item.value"
+                :key="item.key"
+                :value="item.key">
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -321,6 +335,7 @@
         console.log(this.defaultValue)
         this.dialogModify = true
         this.modifyData = val
+        console.log(this.modifyData.grade_user_type)
       }
     }
   }

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <el-col :span="4">
-      <el-menu default-active="0" class="el-menu-vertical-demo" theme="dark">
+    <el-col :span="3">
+      <el-menu default-active="0" class="el-menu-vertical-demo nav-campus" theme="dark" >
         <el-menu-item v-for="menu in menuList" :index="menu.id" :key="menu.id">
           <router-link :to="{path:menu.path}">
             {{menu.title}}
@@ -64,6 +64,5 @@
         color: #20a0ff;
 
   .child-content
-    margin-left 250px
-    margin-right 20px
+    margin-left 200px
 </style>
