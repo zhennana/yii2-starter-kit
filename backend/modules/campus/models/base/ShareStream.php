@@ -120,7 +120,7 @@ abstract class ShareStream extends \yii\db\ActiveRecord
     {
        $user = \common\models\User::findOne($id);
        $proFileUser = $user->userProfile;
-       $avatar = '';
+       $avatar = Yii::$app->params['user_avatar'];
        // 默认头像
         if(isset($proFileUser->avatar_base_url) && !empty($proFileUser->avatar_base_url))
         {

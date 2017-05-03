@@ -144,16 +144,28 @@ class SignInController extends \common\components\ControllerFrontendApi
         if($model->login()){
             $attrUser = $model->user->attributes;
 
-            $attrUser['ID'] = $attrUser['id'];
+            $attrUser['user_id'] = $attrUser['id'];
             unset($attrUser['id']);
 
             if(isset($attrUser['password_hash'])){
                 unset($attrUser['password_hash']);
             }
-            $attrUser['avatar'] = '';
+            $attrUser['avatar'] = Yii::$app->params['user_avatar'];
+            //Yii::$app->authManager->getUserIdsByRole(user);
+            //Yii::$app->authManager->getItem(12)
+            //1 跳转老师  2跳转家长
+            if(Yii::$app->user->can('user')){
+                $attrUser['user_role'] = '1';
+            }
+            if(Yii::$app->user->can('manager')){
+                $attrUser['user_role'] = '2';
+            }
+            //用户所在的学校班级
+            $attrUser['character'] = $model->user->getCharacterDetailes();
 
+            // 获取全部权限;
+            
             $proFileUser = $model->user->userProfile;
-
             // 默认头像
             if(isset($proFileUser->avatar_base_url) && !empty($proFileUser->avatar_base_url))
             {
@@ -210,9 +222,16 @@ class SignInController extends \common\components\ControllerFrontendApi
         if(isset($attrUser['password_hash'])){
             unset($attrUser['password_hash']);
         }
-        $attrUser['avatar'] = '';
+         $attrUser['avatar'] = Yii::$app->params['user_avatar'];
         //$account  = Yii::$app->user->identity->getAccount();
-
+        if(Yii::$app->user->can('user')){
+            $attrUser['user_role'] = '1';
+        }
+        if(Yii::$app->user->can('manager')){
+            $attrUser['user_role'] = '2';
+        }
+        //用户所在的学校班级
+        $attrUser['character'] = Yii::$app->user->identity->getCharacterDetailes();
         $proFileUser = Yii::$app->user->identity->userProfile;
 
        // 默认头像
@@ -475,7 +494,7 @@ class SignInController extends \common\components\ControllerFrontendApi
         }
 
         if (!$model->save(false)) {
-            $this->serializer['errno']   = 1;
+            $this->serializer['errno']   = 422;
             $this->serializer['message'] = $model->getErrors();
             return [];
         }
