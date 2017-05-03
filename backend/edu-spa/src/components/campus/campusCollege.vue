@@ -63,7 +63,7 @@
     <!--展示学校-->
     <div class="display-school">
       <div class="useFunction">
-        <el-button type="info" class="fl append el-icon-plus" v-on:click="dialogFormVisible = true">创建</el-button>
+        <el-button type="info" class="append el-icon-plus" v-on:click="dialogFormVisible = true" id="append">创建</el-button>
       </div>
       <el-table :data="campusResult" border style="width: 100%">
         <el-table-column fixed prop="id" label="学校ID" width="100"></el-table-column>
@@ -83,7 +83,7 @@
       </el-table>
     </div>
     <!--展示学校详情-->
-    <div class="dischargeState">
+    <div class="discharge-state">
       <el-dialog title="学校详情" v-model="dialogVisible">
         <el-table :data="exhibitionDetails" border style="width: 100%">
           <el-table-column fixed prop="id" label="学校ID" width="150"></el-table-column>
@@ -105,11 +105,20 @@
     <div class="modify">
       <el-dialog title="修改学校" v-model="modify" :close-on-click-modal="false">
         <el-form :model="modifyData" :label-position="modifyLabelStatus">
+          <el-form-item label="学校名称" :label-width="formLabelWidth" class="modify-increase-width create-bottom-gules">
+            <el-input v-model="modifyData.school_title" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="状态" :label-width="formLabelWidth" class="search-above modify-increase-width create-bottom-gules">
+            <el-select v-model="modifyData.status" placeholder="">
+              <el-option v-for="item in dischargeState.status" :label="item.status_label" :value="item.status_id" :key="item.status_id">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="具体地址" :label-width="formLabelWidth" class="modify-increase-width">
+            <el-input v-model="modifyData.address" auto-complete="off"></el-input>
+          </el-form-item>
           <el-form-item label="主校ID" :label-width="formLabelWidth" class="modify-increase-width">
             <el-input v-model="modifyData.parent_id" auto-complete="off"></el-input>
-          </el-form-item>
-          <el-form-item label="学校名称" :label-width="formLabelWidth" class="modify-increase-width">
-            <el-input v-model="modifyData.school_title" auto-complete="off"></el-input>
           </el-form-item>
           <el-form-item label="学校简称" :label-width="formLabelWidth" class="modify-increase-width">
             <el-input v-model="modifyData.school_short_title" auto-complete="off"></el-input>
@@ -125,20 +134,12 @@
           </el-form-item>
           <!--三级联动-->
           <address-cascader
+            class="modify-linkage create-bottom-gules"
             v-bind:init-data="initData"
             v-on:province-select="provinceSelect"
             v-on:city-select="citySelect"
             v-on:region-select="regionSelect">
           </address-cascader>
-          <el-form-item label="具体地址" :label-width="formLabelWidth" class="modify-increase-width">
-            <el-input v-model="modifyData.address" auto-complete="off"></el-input>
-          </el-form-item>
-          <el-form-item label="状态" class="search-above modify-increase-width">
-            <el-select v-model="modifyData.status" placeholder="">
-              <el-option v-for="item in dischargeState.status" :label="item.status_label" :value="item.status_id" :key="item.status_id">
-              </el-option>
-            </el-select>
-          </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button type="primary" @click="modifySchool">确 定</el-button>
@@ -148,15 +149,25 @@
     </div>
     <!--创建学校的弹出框-->
     <div class="create-school">
-      <el-dialog title="创建学校" v-model="dialogFormVisible" :close-on-click-modal="false">
-        <el-form :model="build" class="clearFix">
+      <el-dialog title="创建学校" v-model="dialogFormVisible" :close-on-click-modal="false" size="large">
+        <el-form :model="build" :label-position="campusName" label-width="80px">
+          <el-form-item label="学校名称" class="create-school-input create-school-name">
+            <el-input v-model="build.school_title" placeholder="必填"></el-input>
+          </el-form-item>
+          <threeLevel-linkage v-on:obtainCity="createProvinces" class="create-bottom-gules"></threeLevel-linkage>
+          <el-form-item label="学校是否开启" class="create-school-input create-bottom-gules">
+            <el-select v-model="build.status" placeholder="必选">
+              <el-option label="开启" value="0"></el-option>
+              <el-option label="未开启" value="1"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="排序" class="create-school-input create-bottom-gules">
+            <el-input v-model="build.sort" placeholder="必填"></el-input>
+          </el-form-item>
           <el-form-item label="主校ID" class="create-school-input create-school-select">
             <el-select v-model="build.parent_id" placeholder="可不填">
               <el-option v-for="item in dischargeState.school" :label="item.school_title" :value="item.school_id" :key="item.school_id"></el-option>
             </el-select>
-          </el-form-item>
-          <el-form-item label="学校名称" class="create-school-input">
-            <el-input v-model="build.school_title" placeholder="必填"></el-input>
           </el-form-item>
           <el-form-item label="学校简称" class="create-school-input">
             <el-input v-model="build.school_short_title" placeholder="可不填"></el-input>
@@ -170,18 +181,8 @@
           <el-form-item label="背景图路径" class="create-school-input">
             <el-input v-model="build.school_backgroud_path" placeholder="可不填"></el-input>
           </el-form-item>
-          <threeLevel-linkage v-on:obtainCity="createProvinces"></threeLevel-linkage>
           <el-form-item label="详细地址" class="create-school-input">
             <el-input v-model="build.address" placeholder="可不填"></el-input>
-          </el-form-item>
-          <el-form-item label="排序" class="create-school-input">
-            <el-input v-model="build.sort" placeholder="必填"></el-input>
-          </el-form-item>
-          <el-form-item label="学校是否开启" class="create-school-input">
-            <el-select v-model="build.status" placeholder="必选">
-              <el-option label="开启" value="0"></el-option>
-              <el-option label="未开启" value="1"></el-option>
-            </el-select>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -221,7 +222,7 @@
       return {
         msg: '333333',
         labelPosition: 'right',
-        modifyLabelStatus: 'left',
+        modifyLabelStatus: 'right',
         // 搜索学校的数据
         campus: {
           id: '',
@@ -348,7 +349,6 @@
       // 修改学校打开弹出框
       modifyAlert (index, campusResult) {
         this.initData.province_id = campusResult[index].province_id
-        console.log(1)
         this.initData.city_id = campusResult[index].city_id
         this.initData.region_id = campusResult[index].region_id
         this.modify = true
@@ -468,10 +468,11 @@
     overflow:hidden;
     margin-left:20px;
   .append
-    margin-left:10px;
-    padding:9px;
     span
       padding-left:5px;
+  #append
+    margin-left:10px;
+    padding:9px;
   .el-form-item__content
     width:100px;
   .display-school
@@ -581,9 +582,18 @@
     border-bottom:0.02rem solid #0071B8;
   .address ul .active
     color:#0071B8;
-  .dischargeState
+  .discharge-state
     .el-dialog--small
       width:1500px;
+    thead
+      .cell
+        font-weight: bold;
+  .modify
+    input
+      border-top:none;
+      border-left:none;
+      border-right:none;
+      border-radius :0;
   .modify-threeLevel
     margin-bottom:20px;
   .modify-increase-width
@@ -595,15 +605,40 @@
   .hidden
     display:none;
   .create-school
+    overflow hidden;
+    .select-top-boss
+      margin-bottom:20px;
+      span
+        width:68px;
+        padding: 11px 12px 11px 0;
+        line-height:1;
+    .drop-down-box
+      margin-left:0;
+      margin-right:16px;
+      input
+        width:300px;
+    .el-form-item__content
+      width:300px;
     .create-school-input
+      width:400px;
+      display:inline-block;
+      .el-input
+        width:300px;
+      input
+        border-top:none;
+        border-left:none;
+        border-right:none;
+        border-radius:0;
+        width:300px;
     .create-school-select
-      .el-form-item__label
-        float:left;
-      .el-form-item__content
-        float:left;
       .el-input
         margin-left:-100;
-        width:600px;
+        width:300px;
+  .create-school-name
+    margin-left:407px;
+    input
+      border-bottom:1px solid #f44336;
+      outline:none;
   .paging
     margin-top:10px;
     margin-left:300px;
@@ -619,4 +654,19 @@
   .search-linkage
     display:inline-block;
     margin-bottom:-13px;
+  .useFunction
+    padding:10px 0;
+    overflow: hidden;
+  .create-bottom-gules
+    input
+      border-bottom:1px solid #f44336;
+  .display-school
+    thead
+      .cell
+        font-weight:bold;
+  .modify-linkage
+    margin-bottom:10px;
+    margin-left:20px;
+    .el-select
+      margin-right:15px;
 </style>
