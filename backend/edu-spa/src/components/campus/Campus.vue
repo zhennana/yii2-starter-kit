@@ -1,7 +1,10 @@
 <template>
   <div>
     <el-col :span="3">
-      <el-menu default-active="0" class="el-menu-vertical-demo nav-campus" theme="dark" >
+      <el-menu default-active="0" class="el-menu-vertical-demo nav-campus" v-bind:style="{height: visibleAreaHeight.height + 'px'}" theme="dark">
+        <div class="user-information el-icon-menu">
+          用户信息
+        </div>
         <el-menu-item v-for="menu in menuList" :index="menu.id" :key="menu.id">
           <router-link :to="{path:menu.path}">
             {{menu.title}}
@@ -45,7 +48,10 @@
             path: 'student',
             title: '学员管理'
           }
-        ]
+        ],
+        visibleAreaHeight: {
+          height: document.documentElement.clientHeight
+        }
       }
     }
   }
@@ -64,5 +70,18 @@
         color: #20a0ff;
 
   .child-content
-    margin-left 200px
+    margin-left 200px;
+    margin-top:60px;
+  .nav-campus
+    position:fixed;
+    left:0;
+    top:60px;
+    z-index:1000;
+    width:200px;
+  .user-information
+    padding:20px 0 20px 20px;
+    width:180px;
+    border-bottom:1px solid #dfdfdf;
+    cursor:pointer;
+    color:#58B7FF;
 </style>

@@ -75,10 +75,13 @@
 
   .header
     height 60px;
-    position relative;
+    position fixed;
+    top:0;
+    left:0;
     width 100%;
     font-size 0;
     background header-bg-color;
+    z-index:1000;
     .logo
       display inline;
       position absolute;
