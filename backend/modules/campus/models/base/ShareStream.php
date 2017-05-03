@@ -58,7 +58,7 @@ abstract class ShareStream extends \yii\db\ActiveRecord
         return [
             [['body'], 'required'],
             [['auditor_id', 'status','user_id'], 'integer'],
-            [['user_id','school_id'],'string'],
+            [['school_id','grade_id'],'string'],
             ['user_id','default','value'=>isset(Yii::$app->user->identity->id) ? Yii::$app->user->identity->id  : '' ],
             ['status','default','value'=>self::SHARESTREAM_STATUS_OPEN],
             [['body'], 'string', 'max' => 256]
@@ -114,6 +114,24 @@ abstract class ShareStream extends \yii\db\ActiveRecord
         //     return $user->phone_number;
         // }
         return $name;
+    }
+    //获取用户头像
+    public function getUserAvatar($id)
+    {
+       $user = \common\models\User::findOne($id);
+       $proFileUser = $user->userProfile;
+       $avatar = '';
+       // 默认头像
+        if(isset($proFileUser->avatar_base_url) && !empty($proFileUser->avatar_base_url))
+        {
+           return  $avatar = $proFileUser->avatar_base_url.$proFileUser->avatar_path;
+        }else{
+            $fansMpUser = isset($user->fansMp) ? $user->fansMp : '';
+            if($fansMpUser){
+               return  $avatar = $fansMpUser->avatar;
+            }
+        }
+        return $avatar;
     }
     /**
      * @inheritdoc

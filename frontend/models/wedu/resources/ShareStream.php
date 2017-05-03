@@ -48,6 +48,9 @@ class ShareStream extends BaseShareStream
                     },
                     'created_at'=>function(){
                         return date('Y-m-d h:i:s',$this->created_at);
+                    },
+                    'user_avatar'=>function(){
+                        return $this->getUserAvatar($this->user_id);
                     }
                 ]
             );
@@ -59,6 +62,7 @@ class ShareStream extends BaseShareStream
 
         if(isset($data['FileStorageItem'])){
             $transaction = $this->db->beginTransaction();
+            //var_dump();exit;
             $this->load($data['ShareStream'],'');
             if($this->save() == false){
                 $transaction->rollBack();
