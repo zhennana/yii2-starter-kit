@@ -6,8 +6,8 @@
     /**
      * @SWG\Swagger(
      *     schemes={"http"},
-     *     host="localhost:8089/edu-manager/frontend/web",
-     *     basePath="/edu",
+     *     host="192.168.5.108/repositories/yii2-starter-kit/frontend/web",
+     *     basePath="/wedu/v1",
      *     @SWG\Info(
      *         version="1.0.0",
      *         title="前台API接口",
