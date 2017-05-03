@@ -74,15 +74,15 @@ class ShareStreamController extends \common\rest\Controller
      *        name = "ShareStream[school_id]",
      *        description = "学校id",
      *        required = true,
-     *        default = "0",
+     *        default = "",
      *        type = "integer"
      *     ),
      *     @SWG\Parameter(
      *        in = "formData",
      *        name = "ShareStream[grade_id]",
-     *        description = "课件id",
+     *        description = "班级ID",
      *        required = true,
-     *        default = "0",
+     *        default = "",
      *        type = "integer"
      *     ),
      *     @SWG\Parameter(
@@ -90,7 +90,7 @@ class ShareStreamController extends \common\rest\Controller
      *        name = "ShareStream[body]",
      *        description = "分享内容",
      *        required = true,
-     *        default = "0",
+     *        default = "",
      *        type = "integer"
      *     ),
      *     @SWG\Parameter(
