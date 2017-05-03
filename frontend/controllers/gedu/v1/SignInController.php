@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\controllers\edu;
+namespace frontend\controllers\gedu\v1;
 
 /**
 * 注册、登陆、密码找回
