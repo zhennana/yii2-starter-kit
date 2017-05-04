@@ -4,11 +4,10 @@ namespace frontend\controllers\wedu\v1;
 use Yii;
 use yii\web\Response;
 use yii\data\ActiveDataProvider;
-use frontend\models\wedu\resources\ShareStream;
-use backend\modules\campus\models\UserToGrade;
 
-class ShareStreamController extends \common\rest\Controller
+class NoticeController extends \common\rest\Controller
 {
+     public $modelClass = 'frontend\models\wedu\resources\Notice'; 
     /**
      * @var array
      */
@@ -56,5 +55,43 @@ class ShareStreamController extends \common\rest\Controller
         return $actions;
     }
 
-    public $modelClass = 'frontend\models\wedu\resources\Notice';   
+   
+
+
+    /**
+     * @SWG\Get(path="/notice/index",
+     *     tags={"500-Notice-通知消息列表"},
+     *     summary="message",
+     *     description="返回通知消息",
+     *     produces={"application/json"},
+     *
+     * @SWG\Parameter(
+     *        in = "query",
+     *        name = "type",
+     *        description = "1消息通知 ；2老师对学生说的话， ",
+     *        required = false,
+     *        default = 1,
+     *        type = "string"
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "返回Banner"
+     *     ),
+     * )
+     *
+    **/
+
+    /**
+     * 
+     * @param  [type] $type [description]
+     * @return [type]       [description]
+     */
+    public function actionIndex($type = 1)
+    {
+        $model = new  $this->modelClass;
+        $model = $model::find()->select(['message','created_at'])->where(['category'=>$type,'receiver_id'=>Yii::$app->user->identity->id]);
+        return new ActiveDataProvider([
+                    'query'=>$model]);
+        return $model;
+    }  
 }
