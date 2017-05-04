@@ -36,15 +36,6 @@
                 <el-form-item label="学校简称" class="fl search-above">
                   <el-input v-model="campus.school_short_title" class="search-above"></el-input>
                 </el-form-item>
-                <el-form-item label="学校标语" class="fl search-above">
-                  <el-input v-model="campus.school_slogan" class="search-above"></el-input>
-                </el-form-item>
-                <el-form-item label="Logo路径" class="fl search-above">
-                  <el-input v-model="campus.school_logo_path" class="search-above"></el-input>
-                </el-form-item>
-                <el-form-item label="背景图路径" class="fl search-above">
-                  <el-input v-model="campus.school_backgroud_path" class="search-above"></el-input>
-                </el-form-item>
                 <el-form-item label="学校是否开启" class="fl search-above" >
                   <el-select v-model="campus.status" placeholder="">
                     <el-option v-for="item in dischargeState.status" :label="item.status_label" :value="item.status_id" :key="item.status_id">
@@ -65,15 +56,15 @@
       <div class="useFunction">
         <el-button type="info" class="append el-icon-plus" v-on:click="dialogFormVisible = true" id="append">创建</el-button>
       </div>
-      <el-table :data="campusResult" border style="width: 100%">
-        <el-table-column fixed prop="id" label="学校ID" width="100"></el-table-column>
-        <el-table-column prop="school_title" label="名称" width="120"></el-table-column>
+      <el-table :data="campusResult" border style="width: 100%; text-align: center;">
+        <el-table-column fixed prop="id" label="学校ID" width="80"></el-table-column>
+        <el-table-column prop="school_title" label="名称" width="180"></el-table-column>
         <el-table-column prop="province" label="省份" width="120"></el-table-column>
         <el-table-column prop="city" label="市区" width="120"></el-table-column>
         <el-table-column prop="region" label="县区" width="120"></el-table-column>
         <el-table-column prop="address" label="地址" width="300"></el-table-column>
         <el-table-column prop="status_label" label="学校是否开启" width="150"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="300" style="display:none">
+        <el-table-column fixed="right" label="操作" width="246">
           <template scope="scope">
             <el-button type="info" v-on:click="lookDetails(scope.row)">查看</el-button>
             <el-button type="success" v-on:click="modifyAlert(scope.$index, campusResult)">修改</el-button>
@@ -85,20 +76,44 @@
     <!--展示学校详情-->
     <div class="discharge-state">
       <el-dialog title="学校详情" v-model="dialogVisible">
-        <el-table :data="exhibitionDetails" border style="width: 100%">
-          <el-table-column fixed prop="id" label="学校ID" width="150"></el-table-column>
-          <el-table-column prop="parent_id" label="主校ID" width="120"></el-table-column>
-          <el-table-column prop="school_title" label="学校名称" width="120"></el-table-column>
-          <el-table-column prop="school_short_title" label="学校简称" width="120"></el-table-column>
-          <el-table-column prop="school_slogan" label="学校标语" width="120"></el-table-column>
-          <el-table-column prop="school_logo_path" label="Logo路径" width="120"></el-table-column>
-          <el-table-column prop="school_backgroud_path" label="背景图路径" width="120"></el-table-column>
-          <el-table-column prop="province" label="省" width="120"></el-table-column>
-          <el-table-column prop="city" label="城市" width="120"></el-table-column>
-          <el-table-column prop="region" label="区县" width="120"></el-table-column>
-          <el-table-column prop="address" label="详情地址" width="200"></el-table-column>
-          <el-table-column prop="status_label" label="状态" width="120"></el-table-column>
-        </el-table>
+        <el-form :model="exhibitionDetails">
+          <el-form-item label="学校ID" :label-width="formLabelWidth">
+            <div class="details-content">{{exhibitionDetails.id}}</div>
+          </el-form-item>
+          <el-form-item label="主校ID" :label-width="formLabelWidth">
+            <div class="details-content">{{exhibitionDetails.parent_id}}</div>
+          </el-form-item>
+          <el-form-item label="学校名称" :label-width="formLabelWidth">
+            <div class="details-content">{{exhibitionDetails.school_title}}</div>
+          </el-form-item>
+          <el-form-item label="学校简称" :label-width="formLabelWidth">
+            <div class="details-content">{{exhibitionDetails.school_short_title}}</div>
+          </el-form-item>
+          <el-form-item label="学校标语" :label-width="formLabelWidth">
+            <div class="details-content">{{exhibitionDetails.school_slogan}}</div>
+          </el-form-item>
+          <el-form-item label="Logo路径" :label-width="formLabelWidth">
+            <div class="details-content">{{exhibitionDetails.school_logo_path}}</div>
+          </el-form-item>
+          <el-form-item label="背景图路径" :label-width="formLabelWidth">
+            <div class="details-content">{{exhibitionDetails.school_backgroud_path}}</div>
+          </el-form-item>
+          <el-form-item label="省" :label-width="formLabelWidth">
+            <div class="details-content">{{exhibitionDetails.province}}</div>
+          </el-form-item>
+          <el-form-item label="城市" :label-width="formLabelWidth">
+            <div class="details-content">{{exhibitionDetails.city}}</div>
+          </el-form-item>
+          <el-form-item label="区县" :label-width="formLabelWidth">
+            <div class="details-content">{{exhibitionDetails.region}}</div>
+          </el-form-item>
+          <el-form-item label="详情地址" :label-width="formLabelWidth">
+            <div class="details-content">{{exhibitionDetails.address}}</div>
+          </el-form-item>
+          <el-form-item label="状态" :label-width="formLabelWidth">
+            <div class="details-content">{{exhibitionDetails.status_label}}</div>
+          </el-form-item>
+        </el-form>
       </el-dialog>
     </div>
     <!--修改学校-->
@@ -304,7 +319,7 @@
         // 存放所有校区和学校状态
         dischargeState: {},
         // 展示学校详情的数据
-        exhibitionDetails: [],
+        exhibitionDetails: {},
         // 学校详情弹出框控制的数据
         dialogVisible: false,
         // 修改学校弹出框控制的数据
@@ -317,10 +332,10 @@
           region_id: 110101
         },
         meta: {},
-        displaySearchInput: true,
+        displaySearchInput: false,
         buttonState: {
-          'el-icon-caret-top': false,
-          'el-icon-caret-bottom': true
+          'el-icon-caret-top': true,
+          'el-icon-caret-bottom': false
         },
         campusName: 'right'
       }
@@ -341,9 +356,10 @@
 
       // 查看学校详情
       lookDetails (campusResult) {
-        this.exhibitionDetails = []
+        this.exhibitionDetails = {}
         this.dialogVisible = true
-        this.exhibitionDetails.push(campusResult)
+        this.exhibitionDetails = campusResult
+        console.log(this.exhibitionDetails)
       },
 
       // 修改学校打开弹出框
@@ -582,9 +598,6 @@
     border-bottom:0.02rem solid #0071B8;
   .address ul .active
     color:#0071B8;
-  .discharge-state
-    .el-dialog--small
-      width:1500px;
     thead
       .cell
         font-weight: bold;
@@ -664,9 +677,15 @@
     thead
       .cell
         font-weight:bold;
+        text-align: center;
   .modify-linkage
     margin-bottom:10px;
     margin-left:20px;
     .el-select
       margin-right:15px;
+  .details-content
+    width:500%;
+    border-bottom:1px solid #dfdfdf;
+    line-height:40px;
+    height:40px;
 </style>
