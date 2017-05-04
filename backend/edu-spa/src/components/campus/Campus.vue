@@ -76,7 +76,7 @@
     position:fixed;
     left:0;
     top:60px;
-    z-index:1000;
+    z-index:500;
     width:200px;
   .user-information
     padding:20px 0 20px 20px;
