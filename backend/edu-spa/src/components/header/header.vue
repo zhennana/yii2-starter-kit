@@ -28,6 +28,7 @@
         </el-checkbox-group>
         <el-button type="success" @click="Close">成功按钮</el-button>
         <el-button type="warning" @click="Close">警告按钮</el-button>
+        123456
       </div>
       </div>
   </div>
