@@ -13,6 +13,8 @@ use frontend\modules\api\v1\resources\Article;
 use frontend\models\edu\resources\Course;
 use frontend\models\edu\resources\UsersToUsers;
 use frontend\models\edu\resources\Courseware;
+use frontend\models\wedu\resources\Notice;
+use frontend\models\wedu\resources\CourseOrderItem;
 
 class ConfigController extends \common\rest\Controller
 {
@@ -70,19 +72,19 @@ class ConfigController extends \common\rest\Controller
         return $actions;
     }
 
-    /**
-     * @SWG\Get(path="/config/index",
-     *     tags={"800-Config-配置信息接口"},
-     *     summary="信息流列表",
-     *     description="返回首页流",
-     *     produces={"application/json"},
-     *     @SWG\Response(
-     *         response = 200,
-     *         description = "无需填写，直接返回数据"
-     *     ),
-     * )
-     *
-    **/
+   /**
+    * @SWG\Get(path="/config/index",
+    *     tags={"800-Config-配置信息接口"},
+    *     summary="信息流列表",
+    *     description="返回首页流",
+    *     produces={"application/json"},
+    *     @SWG\Response(
+    *         response = 200,
+    *         description = "无需填写，直接返回数据"
+    *     ),
+    * )
+    *
+   */
 
     public function actionIndex()
     {
@@ -371,6 +373,41 @@ class ConfigController extends \common\rest\Controller
             $data[$i]['button_target'] = 'http://www.yajol.com';
         }
         sort($data);
+        return $data;
+    }
+
+    /**
+     * @SWG\Get(path="/config/account",
+     *     tags={"800-Config-配置信息接口"},
+     *     summary="我的页面",
+     *     description="返回通知 老师说的话 课程相关 以上课程 我的照片 关于我们",
+     *     produces={"application/json"},
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "返回通知 老师说的话 课程相关 以上课程 我的照片 关于我们"
+     *     ),
+     * )
+     *
+    **/
+    public function actionAccount(){
+        $data = [
+             'message'=>['label'=>'通知'],
+             'teacher_said'=>['label'=>'老师说的话'],
+             'course_item_order'=>['label'=>'课程相关'],
+             'above_course'     =>['label'=>'以上课程'],
+             'my_photos'        =>['label'=>'我的照片'],
+             'about'            =>['label'=>'关于我们']
+        ];
+        if(Yii::$app->user->identity->id){
+            $user_id = Yii::$app->user->identity->id;
+        }else{
+            return [];
+        }
+        $notice = new Notice;
+        $course_order = new CourseOrderItem;
+        $data['message'] = array_merge($data['message'],$notice->message(1));
+        $data['teacher_said'] = array_merge($data['message'],$notice->message(2));;
+        $data['course_item_order'] = array_merge($data['course_item_order'],$course_order->statistical());
         return $data;
     }
 }

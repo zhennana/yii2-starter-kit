@@ -50,30 +50,40 @@ public function behaviors()
         ]);
     }
 
-    public function CascaderOption(){
+    public static function cascaderOption(){
            $model = self::find()->select(['category_id as value','name as label','parent_id'])
-                                      ->where([])
-                                      ->asArray()
-                                      ->all();
-            return self::init_data($model);
+                      ->where(['status'=>self::CATEGORY_STATUS_OPEN])
+                      ->asArray()
+                      ->all();
+            return self::initData($model);
     }
-
-    public  static function init_data($model,$pid = 0,$level = 1,$node = 2){
+    /**
+     * 获取父分类
+     * @param  [type]  $model [description]
+     * @param  integer $pid   [description]
+     * @param  integer $level [description]
+     * @param  integer $node  [description]
+     * @return [type]         [description]
+     */
+    public  static function initData($model,$pid = 0,$level = 1,$node = 2){
               $data = [];
-              if($level > $node ){
-                  return false;
+              $children = [];
+              if($level > $node){
+                return $data;
               }
-              foreach ($model as $key => $value) {
+              foreach ($model as $key => $value){
                   if($value['parent_id'] == $pid){
                       unset($model[$key]);
-                      $children = self::init_data($model,$value['parent_id'],$level+1);
                       unset($value['parent_id']);
+                      $children = self::initData($model,$value['value'],$level+1);
+                      
                       if(!empty($children)){
                         $value['children'] = $children;
                       }
-                      
+
                       $data[] = $value;
                   }
+                  
                 } 
                 return $data; 
     }

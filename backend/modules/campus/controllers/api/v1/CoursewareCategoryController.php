@@ -54,7 +54,7 @@ class CoursewareCategoryController extends \yii\rest\ActiveController
 
 	public function actions(){
 		$actions = parent::actions();
-		unset($actions['index']);
+		unset($actions['index'],$actions['update']);
 		return $actions;
 	}
 
@@ -98,7 +98,6 @@ class CoursewareCategoryController extends \yii\rest\ActiveController
 	 * 		description = "状态 10:正常；20：关闭",
 	 * 		required    = false,
 	 * 		type 		= "string",
-	 * 		default     = "10",
 	 * 		enum        = {10,20}
 	 * 	),
 	 * @SWG\Response(
@@ -112,7 +111,7 @@ class CoursewareCategoryController extends \yii\rest\ActiveController
 		$searchModel->load(\Yii::$app->request->queryParams,'');
 		$dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
 		$dataProvider->sort = [
-				'defaultOrder'=>['updated_at'=>SORT_DESC]
+			'defaultOrder'=>['updated_at'=>SORT_DESC]
 		];
 		return $dataProvider;
 	}
@@ -139,7 +138,7 @@ class CoursewareCategoryController extends \yii\rest\ActiveController
 	
 
 	/**
-	 *@SWG\Post(path="/campus/api/v1/courseware-category/update?id=1",
+	 *@SWG\Post(path="/campus/api/v1/courseware-category/update",
 	 * 	tags = {"400-Courseware-课件管理接口"},
 	 * 	summary = "修改课件分类",
 	 * 	description = "修改课件分类",
@@ -148,7 +147,7 @@ class CoursewareCategoryController extends \yii\rest\ActiveController
 	 * 		in="formData",
 	 * 		name="category_id",
 	 * 		description = "分类id",
-	 * 		required = false,
+	 * 		required = true,
 	 * 		type    = "integer"
 	 * 	),
 	 * 	@SWG\Parameter(
@@ -180,8 +179,21 @@ class CoursewareCategoryController extends \yii\rest\ActiveController
 	 * 	)
 	 * )
 	 */
+	public function actionUpdate(){
+		$model = new $this->modelClass;
+		$model = $model::findOne((int)\Yii::$app->request->post('category_id'));
+		if(!$model){
+			$this->serializer['errno']   = 400;
+            $this->serializer['message'] = "数据异常";
+            return [];
+		}
+		$model->load($_POST,'');
+		$model->save();
+		return $model;
+	}
+
 	
-		/**
+	/**
 	 *@SWG\Post(path="/campus/api/v1/courseware-category/create",
 	 * 	tags = {"400-Courseware-课件管理接口"},
 	 * 	summary = "创建课件分类",
@@ -237,5 +249,22 @@ class CoursewareCategoryController extends \yii\rest\ActiveController
 	 * 	)
 	 * )
 	 */
+	
+	/**
+	 *@SWG\Get(path="/campus/api/v1/courseware-category/cascader",
+	 * 	tags = {"400-Courseware-课件管理接口"},
+	 * 	summary = "父班级分类",
+	 * 	description = "父班级分类",
+	 * 	produces = {"application/json"},
+	 * @SWG\Response(
+	 * 		response = 200,
+	 * 		description = "返回创建班级信息"
+	 * 	)
+	 * )
+	 */
+
+	public function actionCascader(){
+		return \backend\modules\campus\models\CoursewareCategory::cascaderOption();
+	}
 
 }
