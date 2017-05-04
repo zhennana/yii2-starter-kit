@@ -228,9 +228,7 @@ $config = [
         )
     ],
     'params' => [
-    //"R4vEzNpx66ZuT3ybo4D1C0pr9giRvdrBFjOVqFd-"
-    //XtWvhPK2WTFUBUaJKji3C-0EusRyWtPqXwIqy_wd;
-    //http://static.v1.wakooedu.com
+        'user_avatar'=>'http://static.v1.wakooedu.com/o_1bf6nmv571qb6rva18c1c4r1kjq9.png',
         'qiniu'=>[
             'wakooedu'=>[
                 'access_key'=>env('QINIU_ACCESS_KEY'),

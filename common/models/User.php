@@ -142,7 +142,7 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     public function getUserToSchool(){
-        return $this->hasMay(UserToSchool::className(),['user_id'=>'id']);
+        return $this->hasOne(UserToSchool::className(),['user_id'=>'id'])->orderBy(['created_at'=> 'SORT_SESC']);
     }
     
     /**
@@ -150,7 +150,7 @@ class User extends ActiveRecord implements IdentityInterface
      * @return [type] [description]
      */
     public function getUserToGrade(){
-        return $this->hasMany(UserToGrade::className(),['user_id'=>'id']);
+        return $this->hasOne(UserToGrade::className(),['user_id'=>'id'])->orderBy(['created_at'=>'SORT_SESC']);
     }
     /**
      * 获取用户所在的学校
@@ -158,47 +158,54 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getCharacterDetailes(){
        
+      $data = [];
       if(!empty($this->userToGrade)){
-            return  $this->DataInit($this->userToGrade);
+            return $this->userToGrade->toArray(['grade_id','grade_label','school_id','school_label']);
        }elseif(!empty($this->userToSchool)){
-            return $this->DataInit($this->userToSchool);
-      }else{
-        
-        return $this->DataInit();
+            return $this->userToSchool->toArray(['grade_id','grade_label','school_id','school_label']);
       }
+       
+     return [];
     }
 
     /**
      * 返回的字段初始化
      */
-    public function  DataInit($params = false){
+    /*
+    public function  DataInit($params = false ){
         //var_dump($params);exit();
         $data = [];
         if($params){
             foreach ($params as $key => $value) {
-                $data[$value->school_id]['school_id'] 
-                    = $value->school_id;
-                
-                $data[$value->school_id]['type'] 
-                    = isset($value->grade_user_type) ? UserToGrade::UserToTypelable($value->grade_user_type) : '';
-                
-                $data[$value->school_id]['school_title'] 
-                    = isset($value->school->school_title)? $value->school->school_title :'';
-                
-                $data[$value->school_id]['grade'][$key]['grade_id'] 
-                    = isset($value['grade_id']) ? $value['grade_id'] : '';
-                
-                $data[$value->school_id]['grade'][$key]['grade_name'] 
-                    = isset($value->grade->grade_title) ? $value['grade_id'] : '';
-                rsort($data[$value->school_id]['grade']);
-
+                var_dump($value);exit;
             }
-
         }
+        // if($params){
+        //     foreach ($params as $key => $value) {
+        //         $data[$value->school_id]['school_id'] 
+        //             = $value->school_id;
+                
+        //         $data[$value->school_id]['type'] 
+        //             = isset($value->grade_user_type) ? UserToGrade::UserToTypelable($value->grade_user_type) : '';
+                
+        //         $data[$value->school_id]['school_title'] 
+        //             = isset($value->school->school_title)? $value->school->school_title :'';
+                
+        //         $data[$value->school_id]['grade'][$key]['grade_id'] 
+        //             = isset($value['grade_id']) ? $value['grade_id'] : '';
+                
+        //         $data[$value->school_id]['grade'][$key]['grade_name'] 
+        //             = isset($value->grade->grade_title) ? $value['grade_id'] : '';
+        //         rsort($data[$value->school_id]['grade']);
+
+        //     }
+
+        // }
         rsort($data);
         //svar_dump($data);exit;
         return $data;
     }
+    */
 
     /**
      * @inheritdoc
@@ -210,7 +217,6 @@ class User extends ActiveRecord implements IdentityInterface
             ->andWhere(['id' => $id])
             ->one();
     }
-
     /**
      * @inheritdoc
      */

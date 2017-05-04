@@ -1,5 +1,5 @@
 <?php
-namespace frontend\controllers\edu;
+namespace frontend\controllers\wedu\v1;
 
 use Yii;
 use yii\web\Response;
@@ -373,46 +373,4 @@ class ConfigController extends \common\rest\Controller
         sort($data);
         return $data;
     }
-
-    /**
-     * @SWG\Get(path="/config/my",
-     *     tags={"800-Config-配置信息接口"},
-     *     summary="我的页面",
-     *     description="我的页面",
-     *     produces={"application/json"},
-     *     @SWG\Response(
-     *         response = 200,
-     *         description = "返回我的信息"
-     *     ),
-     * )
-     *
-    **/
-
-    public function actionMy(){
-
-        if(Yii::$app->user->isGuest){
-            $this->serializer['errno']      = 422;
-            $this->serializer['message']    = '请您先登录';
-            return [];
-        }
-
-        $model = UsersToUsers::find()->where(['user_right_id'=>Yii::$app->user->identity->id])->one();
-        if($model){
-          return [
-              'account'=>Yii::$app->user->identity->username,
-              'lavel'  => '',
-              'grade'  => $model->getGrade(),
-              'parents'=> UsersToUsers::getUserName($model->user_left_id).'的家长',
-           ];
-        }else{
-            return [
-                'account' =>Yii::$app->user->identity->username,
-                'lavel'   => '',
-                'grade'   => Yii::$app->user->identity,
-                'parents' => '',
-            ];
-        }
-    
-  
-      }
 }
