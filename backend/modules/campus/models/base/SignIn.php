@@ -149,7 +149,6 @@ abstract class SignIn extends \yii\db\ActiveRecord
         // }
         return $name;
     }
-
     /**
      * @inheritdoc
      * @return \backend\modules\campus\models\query\SignInQuery the active query used by this AR class.

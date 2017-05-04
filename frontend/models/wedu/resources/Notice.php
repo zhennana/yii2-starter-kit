@@ -32,6 +32,20 @@ public function behaviors()
         );
     }
 
+    public function fields(){
+      return ArrayHelper::merge(
+         parent::fields(),
+         [
+              'updated_at'=> function(){
+                  return date('Y-m-d H:i:s',$this->updated_at);
+              },
+              'created_at'=>function(){
+                return  date('Y-m-d H:i:s',$this->created_at);
+              }
+         ]
+    );
+}
+
     public function message($category){
       $data = self::find()->select('message')
                 ->where([
