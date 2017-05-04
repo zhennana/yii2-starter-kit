@@ -19,15 +19,28 @@
         <el-menu-item index="2-3" @click="logout">退出</el-menu-item>
       </el-submenu>
     </el-menu>
-
+    <div class="switch-school" @click="openElasticLayer">切换学校</div>
+    <div class="elastic-layer" v-bind:style="layerStyle" v-bind:class="{elastic_layer: isElastic_layer}">
+      <div class="elastic-layer-option">
+        <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+        <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
+          <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>
+        </el-checkbox-group>
+        <el-button type="success" @click="Close">成功按钮</el-button>
+        <el-button type="warning" @click="Close">警告按钮</el-button>
+      </div>
+      </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import Login from '../../api/user/login'
-
+  const cityOptions = ['上海', '北京', '广州', '深圳']
   export default {
     name: 'Header',
+    created () {
+      console.log(this.layerStyle)
+    },
     data () {
       return {
         activeIndex: 'School',
@@ -36,7 +49,7 @@
             id: '0',
             name: 'campus',
             path: 'campus',
-            title: '学校管理'
+            title: '教务管理'
           },
           {
             id: '0',
@@ -44,7 +57,18 @@
             path: 'courseware',
             title: '课件管理'
           }
-        ]
+        ],
+        layerStyle: {
+          marginTop: -document.documentElement.clientHeight / 2 + 'px',
+          marginLeft: -document.documentElement.clientWidth / 2 + 'px',
+          width: document.documentElement.clientWidth + 'px',
+          height: document.documentElement.clientHeight + 'px'
+        },
+        checkAll: true,
+        checkedCities: ['上海', '北京'],
+        cities: cityOptions,
+        isIndeterminate: true,
+        isElastic_layer: true
       }
     },
     methods: {
@@ -62,7 +86,22 @@
           console.log(error)
         })
       },
-      handleSelect () {}
+      handleSelect () {},
+      handleCheckAllChange (event) {
+        this.checkedCities = event.target.checked ? cityOptions : []
+        this.isIndeterminate = false
+      },
+      handleCheckedCitiesChange (value) {
+        let checkedCount = value.length
+        this.checkAll = checkedCount === this.cities.length
+        this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length
+      },
+      Close () {
+        this.isElastic_layer = true
+      },
+      openElasticLayer () {
+        this.isElastic_layer = false
+      }
     }
   }
 </script>
@@ -100,5 +139,39 @@
         height 100%;
         text-decoration none;
       }
-
+  .switch-school
+    position: absolute;
+    right:50px;
+    top:25px;
+    z-index:3000;
+    font-size:16px;
+    cursor:pointer;
+  .elastic-layer
+    position:fixed;
+    left:50%;
+    top:50%;
+    background-color:rgba(0, 0, 0, 0.3);
+    z-index: 3000;
+    .el-checkbox-group
+      .el-checkbox
+        color:#fff;
+    .el-checkbox
+      .el-checkbox__label
+        color:#fff;
+  .elastic-layer-option
+    position:absolute;
+    top:60px;
+    right:30px;
+    .el-checkbox-group
+      overflow hidden;
+      margin-top:20px;
+      .el-checkbox
+        overflow hidden;
+        .el-checkbox__inner
+          display:inline-block;
+          margin-top:-5px;
+        .el-checkbox__label
+          display:inline-block;
+  .elastic_layer
+    display:none;
 </style>
