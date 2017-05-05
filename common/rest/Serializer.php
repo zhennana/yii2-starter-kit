@@ -155,17 +155,14 @@ class Serializer extends BaseSerializer
             return $this->serializeModelErrors($data);
 
         } elseif ($data instanceof Arrayable) {
+
             return $this->serializeModel($data);
 
         } elseif ($data instanceof DataProviderInterface) {
             return $this->serializeDataProvider($data);
 
         } else {
-            return [
-                'errno' => (string)$this->errno,
-                'message' => (string)$this->ArrayToString(),
-                $this->collectionEnvelope => $data,
-            ];
+           return $this->serializeDataArray($data);
         }
     }
     /**
@@ -210,6 +207,30 @@ class Serializer extends BaseSerializer
             is_string($expand) ? preg_split('/\s*,\s*/', $expand, -1, PREG_SPLIT_NO_EMPTY) : [],
         ];
     }
+    /**
+     * 数组分页
+     * @param  [type] $data [description]
+     * @return [type]       [description]
+     */
+    protected function serializeDataArray($data){
+        if(isset($data['pages']) && is_object($data['pages']) && ($data['pages'] instanceof Pagination)){
+            $pagination = $data['pages'];
+            unset($data['pages']);
+            $result = [
+                'errno' => (string)$this->errno,
+                'message' => (string)$this->ArrayToString(),
+                $this->collectionEnvelope => $data,
+            ];
+            $this->addPaginationHeaders($pagination);
+            return array_merge($result, $this->serializePagination($pagination));
+        }else{
+            return [
+                'errno' => (string)$this->errno,
+                'message' => (string)$this->ArrayToString(),
+                $this->collectionEnvelope => $data,
+            ];
+        }
+    }
 
     /**
      * Serializes a data provider.
@@ -219,7 +240,6 @@ class Serializer extends BaseSerializer
     protected function serializeDataProvider($dataProvider)
     {
         if ($this->preserveKeys) {
-          
             $models = $dataProvider->getModels();
         } else {
             $models = array_values($dataProvider->getModels());
@@ -243,7 +263,6 @@ class Serializer extends BaseSerializer
             'message' => (string)$this->ArrayToString(),
              $this->collectionEnvelope => $models,
         ];
-
         if ($pagination !== false) {
             return array_merge($result, $this->serializePagination($pagination));
         } else {
@@ -260,6 +279,7 @@ class Serializer extends BaseSerializer
      */
     protected function serializePagination($pagination)
     {
+
         return [
             $this->linksEnvelope => Link::serialize($pagination->getLinks(true)),
             $this->metaEnvelope => [
@@ -350,7 +370,6 @@ class Serializer extends BaseSerializer
                 $models[$i] = ArrayHelper::toArray($model);
             }
         }
-
         return $models;
     }
 }
