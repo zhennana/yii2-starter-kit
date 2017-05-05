@@ -131,6 +131,7 @@ class CourseController extends \common\rest\Controller
     	$studentRecord = StudentRecord::find()
     		->select(['course_id','student_record_id'])
 	    	->where(['user_id'=>Yii::$app->user->identity->id,'course_id'=>$course_id])
+	    	->andWhere(['status'=>StudentRecord::STUDEN_RECORD_STATUS_VALID])
 	    	->with(['course','studentRecordValue'=>function($query){
 	    			$query->select(['student_record_value_id','student_record_id','body']);
 	    			$query->with(['studentRecordValueToFile'=>function($query){
@@ -141,11 +142,62 @@ class CourseController extends \common\rest\Controller
 	    	->asArray()
 	    	->one();
 	    $data = [];
-	    //return $studentRecord;
 	    $data['title'] = isset($studentRecord['course']['title']) ? $studentRecord['course']['title'] : '' ;
 	    $data['intro'] = isset($studentRecord['course']['intro']) ? $studentRecord['course']['title'] : '';
 	    $data['expression'] = isset($studentRecord['studentRecordValue'][0]['body']) ? $studentRecord['studentRecordValue'][0]['body']:'';
-	    $data['image_url'] 		= isset($studentRecord['studentRecordValue'][0]['studentRecordValueToFile']['fileStorageItem']) ? $studentRecord['studentRecordValue'][0]['studentRecordValueToFile']['fileStorageItem'] : [];
+	    $data['image_url']  = [];
+	    if(isset($studentRecord['studentRecordValue'][0]['studentRecordValueToFile'])){
+	    	$file = $studentRecord['studentRecordValue'][0]['studentRecordValueToFile'];
+	    		foreach ($file as $key => $value) {
+	    			 $data['image_url'][] = $value['fileStorageItem']['url'].$value['fileStorageItem']['file_name']	;
+	    		}
+	    }
 	    return $data;
+    }
+
+    /**
+     * @SWG\Get(path="/course/my-photos",
+     *     tags={"700-Course-课程课表"},
+     *     summary="我的照片",
+     *     description="我的照片",
+     *     produces={"application/json"},
+     *  @SWG\Parameter(
+     *        in = "query",
+     *        name = "type",
+     *        description = "课程id",
+     *        required = false,
+     *        type = "integer"
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "已上过的课程"
+     *     ),
+     * )
+     *
+    **/
+    public function actionMyPhotos(){
+    	$studentRecord = StudentRecord::find()
+	    	->where(['user_id'=>Yii::$app->user->identity->id])
+	    	->with(['studentRecordValue'=>function($query){
+	    		$query->with(['studentRecordValueToFile'=>function($query){
+	    			$query->with('fileStorageItem');
+	    		}]);
+	    	}])
+	    	->asArray()
+	    	->all();
+	    //$pages = new Pagination(['totalCount' =>$studentRecord->count(), 'pageSize' => '1']);
+    	//$studentRecord =  $studentRecord->offset($pages->offset)->limit($pages->limit)->asArray()->all();
+	    $data = [];
+	    foreach ($studentRecord as $key => $value) {
+	    	foreach ($value['studentRecordValue'] as  $studentRecordValue) {
+	    		foreach ($studentRecordValue['studentRecordValueToFile'] as  $studentRecordValueToFile) {
+	    			 if($studentRecordValueToFile['fileStorageItem']){
+	    			 	   $file = $studentRecordValueToFile['fileStorageItem'];
+	    			 		$data[] = $file['url'].$file['file_name'];
+	    			 }
+	    		}
+	    	}
+	    }
+	return $data;
     }
 }

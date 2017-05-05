@@ -10,5 +10,4 @@ use frontend\models\base\StudentRecord as BaseStudentRecord;
  */
 class StudentRecord extends BaseStudentRecord
 {
-	
 }
