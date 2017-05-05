@@ -12,6 +12,9 @@ use Yii;
 use yii\helpers\Url;
 use common\models\PhoneValidator;
 use ecommon\models\user\UserAccount;
+
+use common\components\aliyunMNS\SendSMSMessage;
+
 /**
  * Signup form
  */
@@ -25,6 +28,7 @@ class SignupSmsForm extends Model
     public $email;
     public $client_type;
     public $token;
+    public $messageId;
 
     /**
      * @var
@@ -89,30 +93,40 @@ class SignupSmsForm extends Model
         if($this->client_type == 'app' && empty($this->password)){
             $this->password = UserToken::randomCode(6);
         }
+        $instance = new SendSMSMessage();
+
+        // 判断用户存在
         $user_model = User::find()->where(['phone_number'=>$this->phone_number])->one();
+
         if($user_model){
             if($user_model->status == User::STATUS_NOT_ACTIVE){ //未激活用户信息
                     $code = UserToken::find()->where(['user_id'=>$user_model->id])
-                    ->andWhere(['type'=>UserToken::TYPE_PHONE_SINGUP])->one();
+                    ->andWhere(['type'=>UserToken::TYPE_PHONE_SIGNUP])->one();
 
-                    $code->delete();
+                    if($code) {
+                        $code->delete();
+                    }
+
                     $this->token = UserToken::randomCode();
                     $token = UserToken::create(
                         $user_model->id,
-                        UserToken::TYPE_PHONE_SINGUP,
+                        UserToken::TYPE_PHONE_SIGNUP,
                         Time::SECONDS_IN_A_DAY,
                         $this->token
                     );
-
+                    /*
                     ymSms([
                         'message' => $this->token.' 验证码',
                         'phone' => $user_model->phone_number,
-                    ]);
+                    ]);*/
+                    $this->messageId = $instance->registerCode($user_model->phone_number,['code' => $this->token]);
             }else{
                 return  $this->addError('phone_number',Yii::t('frontend','This username has already been taken.'));
             }
             return $user_model;
         }
+
+        // 用户不存在
         if ($this->validate()) {
             //var_dump($user);exit;
                 $shouldBeActivated = true;
@@ -127,20 +141,26 @@ class SignupSmsForm extends Model
                 return $user->getErrors();
                 //throw new Exception("User couldn't be  saved");
             };
-            $user->afterSignup();
+            $user->afterSignup([
+                'address' => '',
+            ]);
+
             if ($shouldBeActivated) {
                 $this->token = UserToken::randomCode();
                 $token = UserToken::create(
                     $user->id,
-                    UserToken::TYPE_PHONE_SINGUP,
+                    UserToken::TYPE_PHONE_SIGNUP,
                     Time::SECONDS_IN_A_DAY,
                     $this->token
                 );
                 if($token){ // 发送短信
+                    /*
                     ymSms([
                         'message'=>$this->token.' 验证码',
                         'phone'=>$user->phone_number,
                     ]);
+                    */
+                    $this->messageId = $instance->registerCode($user->phone_number,['code' => $this->token]);
                 }
             }
                 //$account  = new UserAccount();

@@ -272,10 +272,31 @@ $avatar .= '?imageView2/3/w/215/h/215';
                             'options' => ['class' => 'header']
                         ],
                         [
-                            'label'=>Yii::t('backend', 'Users'),
+                            'label'=>Yii::t('backend', '用户管理'),
+                            'url' => '#',
                             'icon'=>'<i class="fa fa-users"></i>',
-                            'url'=>['/user/index'],
-                            'visible'=>Yii::$app->user->can('administrator')
+                            'visible'=>Yii::$app->user->can('administrator'),
+                            'options'=>['class'=>'treeview'],
+                            'items'=>[
+                                [
+                                    'label'=>Yii::t('backend', '用户管理'),
+                                    'icon'=>'<i class="fa fa-database"></i>',
+                                    'options'=>['class'=>'treeview'],
+                                    'url'=>['/user/index'],
+                                    'visible'=>Yii::$app->user->can('administrator')
+                                    //'badge'=> TimelineEvent::find()->today()->count(),
+                                    //'badgeBgClass'=>'label-success',
+                                ],
+                                [
+                                    'label'=>Yii::t('backend', '验证码管理'),
+                                    'icon'=>'<i class="fa fa-hand-o-right"></i>',
+                                    'options'=>['class'=>'treeview'],
+                                    'url'=>['/user-token/index'],
+                                    'visible'=>Yii::$app->user->can('administrator')
+                                    //'badge'=> TimelineEvent::find()->today()->count(),
+                                    //'badgeBgClass'=>'label-success',
+                                ],
+                            ]
                         ],
                         [
                             'label'=>Yii::t('backend', 'Other'),

@@ -32,6 +32,8 @@ use common\components\Qiniu\Storage\BucketManager;
 
 use cheatsheet\Time;
 
+use common\components\aliyunMNS\SendSMSMessage;
+
 class SignInController extends \common\components\ControllerFrontendApi
 {
     public $modelClass = 'common\models\User';
@@ -298,7 +300,7 @@ class SignInController extends \common\components\ControllerFrontendApi
                     Yii::$app->getUser()->login($user);
                 }
                 //$account  = $user->getAccount();
-                return array_merge($user->attributes, ['token'=>$model->token]);
+                return array_merge($user->attributes, ['token'=>$model->token, 'messageId'=> $model->messageId]);
                 //return $user->attributes;
             }
         }
@@ -343,11 +345,11 @@ class SignInController extends \common\components\ControllerFrontendApi
     {
         $token = Yii::$app->request->post('token',0);
         $userToken = UserToken::find()
-            //->byType(UserToken::TYPE_PHONE_SINGUP)
+            //->byType(UserToken::TYPE_PHONE_SIGNUP)
             ->byToken($token)
             ->notExpired()
             ->one();
-
+//var_dump($userToken);
         if (!$userToken) {
             return ['status'=>1, 'message'=>['验证码无效。']];
         }else{
@@ -391,7 +393,7 @@ class SignInController extends \common\components\ControllerFrontendApi
         $token = Yii::$app->request->post('token',0);
         $password = Yii::$app->request->post('password',null);
         $userToken = UserToken::find()
-            ->byType(UserToken::TYPE_PHONE_SINGUP)
+            ->byType(UserToken::TYPE_PHONE_SIGNUP)
             ->byToken($token)
             ->notExpired()
             ->one();
@@ -447,7 +449,7 @@ class SignInController extends \common\components\ControllerFrontendApi
      *        description = "发送验证码类型",
      *        required = true,
      *        type = "string",
-     *        enum = {"repasswd", "singup"}
+     *        enum = {"repasswd", "signup"}
      *     ),
      *     @SWG\Response(
      *         response = 200,
@@ -460,8 +462,11 @@ class SignInController extends \common\components\ControllerFrontendApi
      * 验证码发送
      * @return string|Response
      */
-    public function actionResetBySms($phone_number, $type='singup')
+    public function actionResetBySms($phone_number, $type='signup')
     {
+        $code = UserToken::randomCode();
+        $instance = new SendSMSMessage();
+
         \Yii::$app->language = 'zh-CN';
         $user = User::find()->where(['phone_number'=>$phone_number])->one();
         if(!$user){
@@ -471,28 +476,33 @@ class SignInController extends \common\components\ControllerFrontendApi
                 ]
             ];
         }
-// var_dump($user); exit();
-        $type =  ($type == 'singup') ? UserToken::TYPE_PHONE_SINGUP : UserToken::TYPE_PHONE_REPASSWD;
+
+        $type =  ($type == 'signup') ? UserToken::TYPE_PHONE_SIGNUP : UserToken::TYPE_PHONE_REPASSWD;
 
         UserToken::deleteAll([
             'user_id' => $user->id,
             'type' => $type,
         ]);
 
-        $code = UserToken::randomCode();
+        
         $token = UserToken::create(
             $user->id,
             $type,
             Time::SECONDS_IN_A_DAY,
             $code
         );
+
+        if($token){ // 发送短信
+            $res = $instance->registerCode($user->phone_number,['code' => $code]);
+        }
+
         $info = [
             'message'=>$code.' 验证码',
             'phone'=>$user->phone_number,
+            'messageId' => $res,
+            'status' => $res ? 0 : 500 ,
         ];
-        if($token){ // 发送短信
-            ymSms($info);
-        }
+
         return $info;
     }
 
@@ -612,7 +622,7 @@ class SignInController extends \common\components\ControllerFrontendApi
     public function actionUpdateProfile()
     {
         $avatar_base_url = 'http://7xrpkx.com1.z0.glb.clouddn.com/';
-        $avatar_base_url = 'http://7xsm8j.com1.z0.glb.clouddn.com/';
+        $avatar_base_url = \Yii::$app->params['qiniu']['static-v1']['domain'];
         $user_id = Yii::$app->request->post('user_id');
         $data = Yii::$app->request->post('json_data');
         $data = json_decode($data, true);
@@ -626,11 +636,11 @@ class SignInController extends \common\components\ControllerFrontendApi
             $key = $model->avatar_path;
             if($key != $data['key']){
                 $auth = new Auth(
-                    \Yii::$app->params['qiniu']['yajol-static']['access_key'], 
-                    \Yii::$app->params['qiniu']['yajol-static']['secret_key']
+                    \Yii::$app->params['qiniu']['static-v1']['access_key'], 
+                    \Yii::$app->params['qiniu']['static-v1']['secret_key']
                 );
                 $bucketMgr = new BucketManager($auth);
-                $bucket = \Yii::$app->params['qiniu']['yajol-static']['bucket'];
+                $bucket = \Yii::$app->params['qiniu']['static-v1']['bucket'];
                 $key = $model->avatar_path;
                 $err = $bucketMgr->delete($bucket, $key);
 //var_dump($err); exit();
@@ -666,13 +676,26 @@ class SignInController extends \common\components\ControllerFrontendApi
      */
     public function actionQiniuToken()
     {
-        $auth = new Auth(\Yii::$app->params['qiniu']['yajol-static']['access_key'], \Yii::$app->params['qiniu']['yajol-static']['secret_key']);
+        $auth = new Auth(
+            \Yii::$app->params['qiniu']['static-v1']['access_key'], 
+            \Yii::$app->params['qiniu']['static-v1']['secret_key']
+        );
+
         $policy['returnBody'] = '{"name": $(fname),"size": $(fsize),"type": $(mimeType),"hash": $(etag),"key":$(key)}';
-        $token = $auth->uploadToken(\Yii::$app->params['qiniu']['yajol-static']['bucket'],null,3600,$policy);
+
+        $token = $auth->uploadToken(
+            \Yii::$app->params['qiniu']['static-v1']['bucket'],
+            null,
+            3600,
+            $policy
+        );
+
         Yii::$app->response->format = Response::FORMAT_JSON;
         
         Yii::$app->response->data = [
-            'uptoken' => $token
+            'uptoken' => $token,
+            'domain' => \Yii::$app->params['qiniu']['static-v1']['domain'],
+            'bucket' => \Yii::$app->params['qiniu']['static-v1']['bucket'],
         ]; 
         //echo '{"uptoken": "'.$token.'"}';
     }
