@@ -5,6 +5,8 @@ use Yii;
 use yii\web\Response;
 use yii\data\ActiveDataProvider;
 use frontend\models\wedu\resources\SignIn;
+use backend\modules\campus\models\StudentRecordValue;
+use backend\modules\campus\models\StudentRecord;
 
 class CourseController extends \common\rest\Controller
 {
@@ -62,7 +64,7 @@ class CourseController extends \common\rest\Controller
     /**
      * @SWG\Get(path="/course/index",
      *     tags={"700-Course-课程课表"},
-     *     summary="message",
+     *     summary="以上过课的课程列表",
      *     description="课程列表",
      *     produces={"application/json"},
      *
@@ -92,5 +94,46 @@ class CourseController extends \common\rest\Controller
     		}
     	}
     	return $data;
-    }  
+    }
+
+     /**
+     * @SWG\Get(path="/course/details",
+     *     tags={"700-Course-课程课表"},
+     *     summary="每节课学生课程表现",
+     *     description="课程列表",
+     *     produces={"application/json"},
+     *  @SWG\Parameter(
+     *        in = "query",
+     *        name = "course_id",
+     *        description = "课程id",
+     *        required = false,
+     *        type = "integer"
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "已上过的课程"
+     *     ),
+     * )
+     *
+    **/
+    public function actionDetails(){
+    	$studentRecord = StudentRecord::find()
+    		->select(['course_id','student_record_id'])
+	    	->where(['user_id'=>1,'course_id'=>1])
+	    	->with(['course','studentRecordValue'=>function($query){
+	    			$query->select(['student_record_value_id','student_record_id']);
+	    			$query->with(['studentRecordValueToFile'=>function($query){
+	    					$query->select(['student_record_value_id','file_storage_item_id']);
+	    					$query->with('fileStorageItem');
+	    			}]);
+	    	}])
+	    	->asArray()
+	    	->one();
+	    $data = [];
+	    $data['title'] = $studentRecord['course']['title'];
+	    $data['intro'] = $studentRecord['course']['intro'];
+	    $data['expression'] = isset($studentRecord['studentRecordValue']['body'])?$studentRecord['studentRecordValue']['body']:'';
+	    $data['photo'] 		= isset($studentRecord['studentRecordValue']['studentRecordValueToFile']['fileStorageItem']) ? $studentRecord['studentRecordValue']['studentRecordValueToFile']['fileStorageItem'] : [];
+	    return $data;
+    }
 }

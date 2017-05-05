@@ -70,7 +70,7 @@ class CourseOrderItemController extends \common\rest\Controller
      *     summary="message",
      *     description="返回用户缴费情况",
      *     produces={"application/json"},
-     *
+   
      *     @SWG\Response(
      *         response = 200,
      *         description = "返回用户缴费列表"
