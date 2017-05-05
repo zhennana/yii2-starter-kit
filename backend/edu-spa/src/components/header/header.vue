@@ -24,11 +24,10 @@
       <div class="elastic-layer-option">
         <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
         <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
-          <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>
+          <el-checkbox v-for="city in cities" :label="city.school_id" :value="city" :key="city">{{city.school_title}}</el-checkbox>
         </el-checkbox-group>
-        <el-button type="success" @click="Close">成功按钮</el-button>
-        <el-button type="warning" @click="Close">警告按钮</el-button>
-        123456
+        <el-button type="success" @click="Close">确定</el-button>
+        <el-button type="warning" @click="Close">取消</el-button>
       </div>
       </div>
   </div>
@@ -36,11 +35,13 @@
 
 <script type="text/ecmascript-6">
   import Login from '../../api/user/login'
-  const cityOptions = ['上海', '北京', '广州', '深圳']
+  import Campus from '../../api/campus/campus'
+  const cityOptions = []
   export default {
     name: 'Header',
     created () {
       console.log(this.layerStyle)
+      this.ChoiceSchool()
     },
     data () {
       return {
@@ -66,10 +67,11 @@
           height: document.documentElement.clientHeight + 'px'
         },
         checkAll: true,
-        checkedCities: ['上海', '北京'],
+        checkedCities: [],
         cities: cityOptions,
         isIndeterminate: true,
-        isElastic_layer: true
+        isElastic_layer: true,
+        schoolId: ''
       }
     },
     methods: {
@@ -93,6 +95,7 @@
         this.isIndeterminate = false
       },
       handleCheckedCitiesChange (value) {
+        console.log(value)
         let checkedCount = value.length
         this.checkAll = checkedCount === this.cities.length
         this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length
@@ -102,6 +105,19 @@
       },
       openElasticLayer () {
         this.isElastic_layer = false
+      },
+      ChoiceSchool () {
+        Campus.getSchool(this.schoolId).then(response => {
+          if (response.errno === '0') {
+            for (let i = 0; i < response.result.length; i++) {
+              cityOptions.push({school_title: response.result[i].school_title,
+                school_id: response.result[i].school_id})
+            }
+            console.log(cityOptions)
+          }
+        }).catch(error => {
+          console.log(error)
+        })
       }
     }
   }
@@ -168,6 +184,8 @@
       margin-top:20px;
       .el-checkbox
         overflow hidden;
+        display:block;
+        margin-left:0;
         .el-checkbox__inner
           display:inline-block;
           margin-top:-5px;
