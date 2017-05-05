@@ -13,6 +13,14 @@ class CourseOrderItemController extends \common\rest\Controller
     /**
      * @var array
      */
+    
+    // $this->linksEnvelope => Link::serialize($pagination->getLinks(true)),
+    // $this->metaEnvelope => [
+    //     'totalCount' => $pagination->totalCount,
+    //     'pageCount' => $pagination->getPageCount(),
+    //     'currentPage' => $pagination->getPage() + 1,
+    //     'perPage' => $pagination->getPageSize(),
+    // ],
     public $serializer = [
         'class' => 'common\rest\Serializer',    // 返回格式数据化字段
         'collectionEnvelope' => 'result',       // 制定数据字段名称

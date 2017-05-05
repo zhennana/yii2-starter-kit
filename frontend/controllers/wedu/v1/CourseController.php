@@ -5,8 +5,8 @@ use Yii;
 use yii\web\Response;
 use yii\data\ActiveDataProvider;
 use frontend\models\wedu\resources\SignIn;
-use backend\modules\campus\models\StudentRecordValue;
-use backend\modules\campus\models\StudentRecord;
+use frontend\models\wedu\resources\StudentRecord;
+use yii\data\Pagination;
 
 class CourseController extends \common\rest\Controller
 {
@@ -83,8 +83,12 @@ class CourseController extends \common\rest\Controller
      */
     public function actionIndex()
     {	
-    	$signin = SignIn::find()->where(['student_id'=>Yii::$app->user->identity->id])->all();
+    	$signin = SignIn::find()->where(['student_id'=>Yii::$app->user->identity->id]);
+    	$pages = new Pagination(['totalCount' =>$signin->count(), 'pageSize' => '10']);
+    	$signin =  $signin->offset($pages->offset)->limit($pages->limit)->all();
     	if(!$signin){
+    		$this->serializer['errno'] = 300;
+    		$this->serializer['message'] = '数据是空的';
     		return [];
     	}
     	foreach ($signin as $key => $value) {
@@ -93,6 +97,8 @@ class CourseController extends \common\rest\Controller
     			$data[$key]['image_url'] = Yii::$app->params['user_avatar'];
     		}
     	}
+    	//添加分页
+    	$data['pages'] = $pages;
     	return $data;
     }
 
@@ -106,7 +112,7 @@ class CourseController extends \common\rest\Controller
      *        in = "query",
      *        name = "course_id",
      *        description = "课程id",
-     *        required = false,
+     *        required = true,
      *        type = "integer"
      *     ),
      *     @SWG\Response(
@@ -116,12 +122,17 @@ class CourseController extends \common\rest\Controller
      * )
      *
     **/
-    public function actionDetails(){
+    public function actionDetails($course_id){
+    	if(!isset(Yii::$app->user->identity->id)){
+    		$this->serializer['errno'] 		= '300';
+    		$this->serializer['message'] 	= '请先登录';
+    		return [];
+    	}
     	$studentRecord = StudentRecord::find()
     		->select(['course_id','student_record_id'])
-	    	->where(['user_id'=>1,'course_id'=>1])
+	    	->where(['user_id'=>Yii::$app->user->identity->id,'course_id'=>$course_id])
 	    	->with(['course','studentRecordValue'=>function($query){
-	    			$query->select(['student_record_value_id','student_record_id']);
+	    			$query->select(['student_record_value_id','student_record_id','body']);
 	    			$query->with(['studentRecordValueToFile'=>function($query){
 	    					$query->select(['student_record_value_id','file_storage_item_id']);
 	    					$query->with('fileStorageItem');
@@ -130,10 +141,11 @@ class CourseController extends \common\rest\Controller
 	    	->asArray()
 	    	->one();
 	    $data = [];
-	    $data['title'] = $studentRecord['course']['title'];
-	    $data['intro'] = $studentRecord['course']['intro'];
-	    $data['expression'] = isset($studentRecord['studentRecordValue']['body'])?$studentRecord['studentRecordValue']['body']:'';
-	    $data['photo'] 		= isset($studentRecord['studentRecordValue']['studentRecordValueToFile']['fileStorageItem']) ? $studentRecord['studentRecordValue']['studentRecordValueToFile']['fileStorageItem'] : [];
+	    //return $studentRecord;
+	    $data['title'] = isset($studentRecord['course']['title']) ? $studentRecord['course']['title'] : '' ;
+	    $data['intro'] = isset($studentRecord['course']['intro']) ? $studentRecord['course']['title'] : '';
+	    $data['expression'] = isset($studentRecord['studentRecordValue'][0]['body']) ? $studentRecord['studentRecordValue'][0]['body']:'';
+	    $data['image_url'] 		= isset($studentRecord['studentRecordValue'][0]['studentRecordValueToFile']['fileStorageItem']) ? $studentRecord['studentRecordValue'][0]['studentRecordValueToFile']['fileStorageItem'] : [];
 	    return $data;
     }
 }
