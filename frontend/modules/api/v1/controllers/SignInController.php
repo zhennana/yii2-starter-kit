@@ -433,7 +433,7 @@ class SignInController extends \common\components\ControllerFrontendApi
     /**
      * @SWG\Get(path="/sign-in/reset-by-sms",
      *     tags={"100-SignIn-用户接口"},
-     *     summary="验证码发送[待开发]",
+     *     summary="用户表已经存在的手机号用户，验证码发送测试[已经测试]",
      *     description="发送验证码，成功返回验证码与手机号信息",
      *     produces={"application/json"},
      *     @SWG\Parameter(
