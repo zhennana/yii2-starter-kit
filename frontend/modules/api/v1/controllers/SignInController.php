@@ -576,13 +576,99 @@ class SignInController extends \common\components\ControllerFrontendApi
         return $user->attributes;
     }
 
+    /**
+     * @SWG\POST(path="/sign-in/update-local-profile",
+     *     tags={"100-SignIn-用户接口"},
+     *     summary="更新用户附属信息",
+     *     description="更新用户附属表信息",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "user[user_id]",
+     *        description = "用户ID",
+     *        required = true,
+     *        default = 1,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "user[realname]",
+     *        description = "真实姓名",
+     *        required = false,
+     *        default = "牛佳杰",
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "user[avatar_base_url]",
+     *        description = "头像域名",
+     *        required = false,
+     *        default = "http://omsqlyn5t.bkt.clouddn.com/",
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "user[avatar_path]",
+     *        description = "头像路径",
+     *        required = false,
+     *        default = "touxiang_06.png",
+     *        type = "string"
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "修改成功"
+     *     )
+     * )
+     *
+     */
+    public function actionUpdateLocalProfile()
+    {
 
+        $user = Yii::$app->request->post('user');
+        $user['user_id'] = isset($user['user_id']) ? intval($user['user_id']) : 0 ;
+        $user['realname'] = isset($user['realname']) ? $user['realname'] : '' ;
+        $user['avatar_base_url'] = isset($user['avatar_base_url']) ? $user['avatar_base_url'] : '' ;
+        $user['avatar_path'] = isset($user['avatar_path']) ? $user['avatar_path'] : '' ;
+
+//var_dump($user); exit();
+        if(empty($user['user_id'])){
+            return [
+                'message' => 'user ID is not null.',
+            ];
+        }
+        $userInfo = $userProfileInfo = [];
+
+        if(!empty($user['avatar_base_url']) && !empty($user['avatar_path'])){
+            $model = UserProfile::findOne($user['user_id']);
+            if($model){ // 更新
+                $model->avatar_base_url = $user['avatar_base_url'];
+                $model->avatar_path = $user['avatar_path'];
+                $model->save(false);
+            }else{ // 创建
+                $model = new UserProfile();
+                $model->user_id = $user['user_id'];
+                $model->avatar_base_url = $user['avatar_base_url'];
+                $model->avatar_path = $user['avatar_path'];
+                $model->save(false);
+            }
+            $userProfileInfo = $model->attributes;
+        }
+
+        if(!empty($user['realname'])){
+            $model = User::findOne($user['user_id']);
+            $model->realname = $user['realname'];
+            $model->save(false);
+            $userInfo = $model->attributes;
+        }
+
+        return array_merge($userInfo, $userProfileInfo);
+    }
 
 
     /**
      * @SWG\POST(path="/sign-in/update-profile",
      *     tags={"100-SignIn-用户接口"},
-     *     summary="更新用户附属信息",
+     *     summary="七牛云接口返回，更新用户附属信息",
      *     description="更新用户附属表信息 http://developer.qiniu.com/docs/v6/sdk/ios-sdk.html",
      *     produces={"application/json"},
      *     @SWG\Parameter(
@@ -664,7 +750,7 @@ class SignInController extends \common\components\ControllerFrontendApi
     /**
      * @SWG\Get(path="/sign-in/qiniu-token",
      *     tags={"100-SignIn-用户接口"},
-     *     summary="获取七牛云Token",
+     *     summary="获取七牛云Token，用于客户端上传七牛云",
      *     description="返回七牛云上传Token",
      *     produces={"application/json"},
      *     @SWG\Response(

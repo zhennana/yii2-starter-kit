@@ -126,7 +126,7 @@ class ConfigController extends \yii\rest\Controller
 
     /**
      * @SWG\Get(path="/config/init",
-     *     tags={"800-Config-配置信息接口：获取版本更新等等"},
+     *     tags={"800-Config-配置信息接口"},
      *     summary="初始化",
      *     description="返回主视觉信息",
      *     produces={"application/json"},
@@ -253,8 +253,48 @@ class ConfigController extends \yii\rest\Controller
         ];
 
         return $info;
+    }
 
+    /**
+     * @SWG\Get(path="/config/default-avatar",
+     *     tags={"800-Config-配置信息接口"},
+     *     summary="获取默认头像",
+     *     description="返回默认头像地址信息",
+     *     produces={"application/json"},
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "返回默认头像地址信息"
+     *     ),
+     * )
+     *
+    **/
+    public function actionDefaultAvatar()
+    {
+        $data = [
+            'male' => [
+                [
+                    'avatar_path' => 'http://omsqlyn5t.bkt.clouddn.com/',
+                    'avatar_base_url' => 'touxiang_04.png',
+                ],
+                [
+                    'avatar_path' => 'http://omsqlyn5t.bkt.clouddn.com/',
+                    'avatar_base_url' => 'touxiang_03.png',
+                ],
+            ],
 
+            'female' => [
+                [
+                    'avatar_path' => 'http://omsqlyn5t.bkt.clouddn.com/',
+                    'avatar_base_url' => 'touxiang_05.png',
+                ],
+                [
+                    'avatar_path' => 'http://omsqlyn5t.bkt.clouddn.com/',
+                    'avatar_base_url' => 'touxiang_06.png',
+                ],
+            ],
+
+        ];
+        return $data;
     }
 
     public function actionFeedback(){
