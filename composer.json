@@ -60,7 +60,8 @@
     "superman2014/aliyun-php-sdk-core": "dev-master",
     "linslin/yii2-curl" : "*",
     "kartik-v/yii2-widget-fileinput": "@dev",
-    "codeception/codeception": "2.1.*"
+    "codeception/codeception": "2.1.*",
+    "chinayin/mns-sdk-php": "^1.3"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "^2.0.0",
