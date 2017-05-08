@@ -83,6 +83,11 @@ class CourseController extends \common\rest\Controller
      */
     public function actionIndex()
     {	
+    	if(!isset(Yii::$app->user->identity->id)){
+    		$this->serializer['errno'] 		= '300';
+    		$this->serializer['message'] 	= '请先登录';
+    		return [];
+    	}
     	$signin = SignIn::find()->where(['student_id'=>Yii::$app->user->identity->id]);
     	$pages = new Pagination(['totalCount' =>$signin->count(), 'pageSize' => '10']);
     	$signin =  $signin->offset($pages->offset)->limit($pages->limit)->all();
@@ -176,6 +181,11 @@ class CourseController extends \common\rest\Controller
      *
     **/
     public function actionMyPhotos(){
+    	if(!isset(Yii::$app->user->identity->id)){
+    		$this->serializer['errno'] 		= '300';
+    		$this->serializer['message'] 	= '请先登录';
+    		return [];
+    	}
     	$studentRecord = StudentRecord::find()
 	    	->where(['user_id'=>Yii::$app->user->identity->id])
 	    	->with(['studentRecordValue'=>function($query){
@@ -193,7 +203,12 @@ class CourseController extends \common\rest\Controller
 	    		foreach ($studentRecordValue['studentRecordValueToFile'] as  $studentRecordValueToFile) {
 	    			 if($studentRecordValueToFile['fileStorageItem']){
 	    			 	   $file = $studentRecordValueToFile['fileStorageItem'];
-	    			 		$data[] = $file['url'].$file['file_name'];
+	    			 		// $data[]['imagr_original'] = $file['url'].$file['file_name'];
+	    			 		// $data[]['imagr_shrinkage'] = $file['url'].$file['file_name'];
+	    			 		$data[] = [
+	    			 			'image_original'=>$file['url'].$file['file_name'],
+	    			 			'image_shrinkage'=>$file['url'].$file['file_name'],
+	    			 		];
 	    			 }
 	    		}
 	    	}
