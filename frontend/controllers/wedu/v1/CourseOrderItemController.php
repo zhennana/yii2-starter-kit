@@ -90,6 +90,11 @@ class CourseOrderItemController extends \common\rest\Controller
      * 课件订单展示
      */
     public function actionIndex(){
+        if(!isset(Yii::$app->user->identity->id)){
+            $this->serializer['errno']   = 300;
+            $this->serializer['message'] = '请你先登录';
+            return  [];
+        }
         $model = new $this->modelClass;
         $data['detalis'] = $model::find()
             ->select(['total_course','presented_course','real_price','created_at'])

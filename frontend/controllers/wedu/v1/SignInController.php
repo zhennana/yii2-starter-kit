@@ -120,7 +120,7 @@ class SignInController extends \common\components\ControllerFrontendApi
      *     ),
      *     @SWG\Response(
      *         response = 200,
-     *         description = "登陆成功，返回用户信息"
+     *         description = "登陆成功，返回用户信息  //user_type = 2 跳转老师；user_type = 1 跳转家长"
      *     ),
      *     @SWG\Response(
      *         response = 422,
@@ -142,8 +142,15 @@ class SignInController extends \common\components\ControllerFrontendApi
         $model->load($_POST);
 
         if($model->login()){
+            //检测用户是否 有班级学校
+            if(!$model->user->is_userToGrade()){
+                $this->serializer['errno'] = 300;
+                $this->serializer['message'] = '未找到您所在的学校班级，请联系管理员';
+                return [];
+            }
+            
+            
             $attrUser = $model->user->attributes;
-
             $attrUser['user_id'] = $attrUser['id'];
             unset($attrUser['id']);
 
@@ -153,18 +160,11 @@ class SignInController extends \common\components\ControllerFrontendApi
             $attrUser['avatar'] = Yii::$app->params['user_avatar'];
             //Yii::$app->authManager->getUserIdsByRole(user);
             //Yii::$app->authManager->getItem(12)
-            //1 跳转老师  2跳转家长
-            if(Yii::$app->user->can('user')){
-                $attrUser['user_role'] = '1';
-            }
-            if(Yii::$app->user->can('manager')){
-                $attrUser['user_role'] = '2';
-            }
-            //用户所在的学校班级
-            $attrUser['character'] = $model->user->getCharacterDetailes();
 
-            // 获取全部权限;
-            
+            //用户所在的学校班级
+            //user_type= 2 是 老师；user_type = 1 是家长; 老师用户都存在默认展示老师
+            $attrUser['user_role'] = $model->user->getCharacterDetailes();
+
             $proFileUser = $model->user->userProfile;
             // 默认头像
             if(isset($proFileUser->avatar_base_url) && !empty($proFileUser->avatar_base_url))
