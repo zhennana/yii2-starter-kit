@@ -65,7 +65,7 @@ class ShareStreamController extends \common\rest\Controller
 
      /**
      * @SWG\Post(path="/share-stream/create",
-     *     tags={"400-分享"},
+     *     tags={"400-Share-Stream-分享"},
      *     summary="发布分享",
      *     description="分享",
      *     produces={"application/json"},
@@ -139,7 +139,7 @@ class ShareStreamController extends \common\rest\Controller
 
     /**
      * @SWG\Get(path="/share-stream/index",
-     *     tags={"400-分享"},
+     *     tags={"400-Share-Stream-分享"},
      *     summary="分享列表展示",
      *     description="分享",
      *     produces={"application/json"},
@@ -189,7 +189,7 @@ class ShareStreamController extends \common\rest\Controller
         $sql  .= ") or (school_id = 0 and grade_id = 0) ";
         $sql  .= " or (school_id = $school_id and grade_id = 0) ";
         // //var_dump($sql);exit;
-         $models = $models::findBySql($sql)->all();
+        $models = $models::findBySql($sql)->all();
         return $models;
     }   
 }
