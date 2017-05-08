@@ -34,11 +34,14 @@ class ShareStream extends BaseShareStream
         return ArrayHelper::merge(
                 parent::fields(),
                 [
-                    'imageUrl'=>function(){
+                    'imageUrls'=>function(){
                         $date = [];
                       foreach ($this->shareToFile as $key => $value) {
                             if(isset($value->fileStorageItem)){
-                                $data[] = $value->fileStorageItem->url.$value->fileStorageItem->file_name;
+                                $data[] = [
+                                        'image_original'=>$value->fileStorageItem->url.$value->fileStorageItem->file_name,
+                                         'image_shrinkage'=>$value->fileStorageItem->url.$value->fileStorageItem->file_name.'?imageView2/3/w/400/h/400',
+                                        ];
                             }
                       }
                       return $data;
@@ -46,9 +49,9 @@ class ShareStream extends BaseShareStream
                     'user_label'=>function(){
                         return $this->getUserName($this->user_id);
                     },
-                    'created_at'=>function(){
-                        return date('Y-m-d h:i:s',$this->created_at);
-                    },
+                    // 'created_at'=>function(){
+                    //     return date('Y-m-d h:i:s',$this->created_at);
+                    // },
                     'user_avatar'=>function(){
                         return $this->getUserAvatar($this->user_id);
                     }
