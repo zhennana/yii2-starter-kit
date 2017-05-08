@@ -60,7 +60,7 @@ $this->params['breadcrumbs'][] = Yii::t('models', '查看');
 
         <div class="pull-right">
             <?= Html::a('<span class="glyphicon glyphicon-list"></span> '
-            . Yii::t('models', '列表'), ['index'], ['class'=>'btn btn-default']) ?>
+            . Yii::t('models', '返回列表'), ['index'], ['class'=>'btn btn-default']) ?>
         </div>
 
     </div>
@@ -72,12 +72,42 @@ $this->params['breadcrumbs'][] = Yii::t('models', '查看');
     <?= DetailView::widget([
         'model'      => $model,
         'attributes' => [
-            'school_id',
-            'grade_id',
-            'course_id',
-            'student_id',
-            'teacher_id',
-            'auditor_id',
+            [
+                'attribute' => 'school_id',
+                'value'     => function($model){
+                    return isset($model->school->school_title) ? $model->school->school_title : '';
+                }
+            ],
+            [
+                'attribute' => 'grade_id',
+                'value'     => function($model){
+                    return isset($model->grade->grade_name) ? $model->grade->grade_name : '';
+                }
+            ],
+            [
+                'attribute' => 'course_id',
+                'value'     => function($model){
+                    return isset($model->course->title) ? $model->course->title : '';
+                }
+            ],
+            [
+                'attribute' => 'student_id',
+                'value'     => function($model){
+                    return SignIn::getUserName($model->student_id);
+                }
+            ],
+            [
+                'attribute' => 'teacher_id',
+                'value'     => function($model){
+                    return SignIn::getUserName($model->teacher_id);
+                }
+            ],
+            [
+                'attribute' => 'auditor_id',
+                'value'     => function($model){
+                    return SignIn::getUserName($model->auditor_id);
+                }
+            ],
             [
                 'attribute' => 'status',
                 'value' => $model->getSignInStatusLabel($model->status),

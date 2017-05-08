@@ -19,7 +19,7 @@ class UserSearch extends User
     {
         return [
             [['id', 'status', 'created_at', 'updated_at', 'logged_at'], 'integer'],
-            [['username', 'auth_key', 'password_hash', 'email'], 'safe'],
+            [['username', 'phone_number', 'auth_key', 'password_hash', 'email'], 'safe'],
         ];
     }
 
@@ -39,7 +39,6 @@ class UserSearch extends User
     public function search($params)
     {
         $query = User::find();
-
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);

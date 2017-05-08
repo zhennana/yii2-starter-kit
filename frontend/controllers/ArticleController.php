@@ -2,15 +2,16 @@
 
 namespace frontend\controllers;
 
-use common\models\Article;
-use common\models\ArticleAttachment;
-use frontend\models\search\ArticleSearch;
 use Yii;
+use yii\data\Pagination;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use common\models\ArticleCategory;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
+use common\models\Article;
+use common\models\ArticleAttachment;
+use frontend\models\search\ArticleSearch;
 
 /**
  * @author Eugene Terentev <eugene@terentev.net>
@@ -80,11 +81,26 @@ class ArticleController extends Controller
         return $this->render('course',['model'=>$data]);
     }
 
-    public function  actionNews(){
-        // return 'dada';
-        return $this->render('news',['model'=>NULL]);
-    }
     /**
+     * [actionNews description]
+     * @return [type] [description]
+     */
+    public function actionNews(){
+        $query = Article::find()->where(['category_id' => 3]);
+        $pages = new Pagination([
+            'totalCount' => $query->count(),
+            'pageSize'   => '10',
+        ]);
+        $model = $query->offset($pages->offset)
+            ->limit($pages->limit)
+            ->all();
+
+        return $this->render('news',[
+            'model' => $model,
+            'pages' => $pages
+        ]);
+    }
+
      /**
      * [获取新闻列表数据]
      * @param  integer $pager [页码]
@@ -93,7 +109,7 @@ class ArticleController extends Controller
      * @param  boolean $end   [是否跳转最后一页]
      * @return [type]         [description]
      */
-    public function actionGetNews($pager = 0, $first= false,$limit=5,$end =false ){
+    /*public function actionGetNews($pager = 0, $first= false,$limit=5,$end =false ){
      
             $model_category =  Article::find()
                 ->select(['id','published_at','title','body'])
@@ -113,7 +129,7 @@ class ArticleController extends Controller
                 $replace =["\r\n", "\r","\n"," "];
                 $image = '';
                 $image = getImgs($value['body']);
-                $value['url'] = Url::to(['article/viwe','id'=>$value['id']]);
+                $value['url'] = Url::to(['article/view','id'=>$value['id']]);
                 $value['image'] = isset($image[0]) ? $image[0] : '' ;
                 $value['body']  = str_replace($replace,"",strip_tags($value['body'])); 
                 $value['body']  = substr_auto($value['body'],100);
@@ -122,5 +138,5 @@ class ArticleController extends Controller
             }
            // var_dump($data);exit;
          return $data;
-    }
+    }*/
 }

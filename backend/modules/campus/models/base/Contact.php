@@ -27,7 +27,7 @@ abstract class Contact extends \yii\db\ActiveRecord
 
     public $verifyCode; 
     CONST CONTACT_STATUS_NOT_AUDIT = 1; //未查看
-    CONST CONTACT_STATUS_APPROVED  = 2; //以查看
+    CONST CONTACT_STATUS_APPROVED  = 2; //已查看
     /**
      * @inheritdoc
      */
@@ -36,10 +36,18 @@ abstract class Contact extends \yii\db\ActiveRecord
         return 'contact';
     }
 
+    public static function getStatusLabel($value){
+        $labels = self::OptsStatus();
+        if(isset($labels[$value])){
+            return $labels[$value];
+        }
+        return $value;
+    }
+
     public static function OptsStatus(){
         return [
-           self::CONTACT_STATUS_NOT_AUDIT   => '未查看',
-            self::CONTACT_STATUS_APPROVED    => '以查看'
+            self::CONTACT_STATUS_NOT_AUDIT   => '未查看',
+            self::CONTACT_STATUS_APPROVED    => '已查看'
         ];
     }
 
@@ -94,8 +102,8 @@ abstract class Contact extends \yii\db\ActiveRecord
             'verifyCode'=>Yii::t('backend','验证码'),
             'body' => Yii::t('backend', '留言内容'),
             'status' => Yii::t('backend', '状态'),
-            'updated_at' => Yii::t('backend', 'Updated At'),
-            'created_at' => Yii::t('backend', 'Created At'),
+            'updated_at' => Yii::t('backend', '更新时间'),
+            'created_at' => Yii::t('backend', '创建时间'),
         ];
     }
 

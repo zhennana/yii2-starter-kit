@@ -28,9 +28,11 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
     CONST USER_GRADE_STATUS_RETIRED = 4 ; //退休；
     CONST USER_GRADE_STATUS_CHANGE  = 3 ; //转班；
     CONST USER_GRADE_STATUS_DELETE  = 0 ; // 删除；
+    CONST USER_GRADE_STATUS_AUDIT   = 2 ; //审核；
 
     CONST GRADE_USER_TYPE_STUDENT   = 10 ; //学生
     CONST GRADE_USER_TYOE_TEACHER   = 20 ; //老师
+    CONST GRADE_USER_TYOE_PARENTS   = 30 ; //家长
 
     public static function optsStatus(){
         return [
@@ -41,11 +43,44 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
         ];
     }
 
+    public static function getStatusLabel($value){
+        $lable = self::optsStatus();
+        if(isset($lable[$value])){
+            return $lable[$value];
+        }
+            return $value;
+    }
+
     public static function optsUserType(){
         return [
             self::GRADE_USER_TYPE_STUDENT=>'学生',//,
             self::GRADE_USER_TYOE_TEACHER=>'老师',//,
         ];
+    }
+    //用户在班级的描述性展示Title，没有逻辑
+    public static function optsUserTitleType(){
+        return [
+            self::GRADE_USER_TYPE_STUDENT=>'学生',//,
+            self::GRADE_USER_TYOE_TEACHER=>'老师',//,
+            self::GRADE_USER_TYOE_PARENTS=> '家长'
+        ];
+    }
+
+    public static function UserToTypelable($value){
+        $lable = self::optsUserType();
+        if(isset($lable[$value])){
+            return $lable[$value];
+        }
+            return $value;
+    }
+
+
+    public static function UserTitleTypelable($value){
+        $lable = self::optsUserTitleType();
+        if(isset($lable[$value])){
+            return $lable[$value];
+        }
+            return $value;
     }
 
      /**
@@ -53,7 +88,9 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
      */
     public static function getDb()
     {
-        return \Yii::$app->modules['campus']->get('campus');
+        // dump(\Yii::$app->modules['campus']->get('campus'));exit;
+        //return \Yii::$app->getModule('campus')->campus;
+        return Yii::$app->get('campus');
     }
 
     /**
@@ -85,7 +122,7 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
         return [
             [['user_id', 'school_id', 'grade_id'], 'required'],
             [['user_id', 'school_id', 'grade_id', 'user_title_id_at_grade', 'status', 'sort', 'grade_user_type'], 'integer'],
-            [['user_id', 'school_id', 'grade_id', 'grade_user_type'], 'unique', 'targetAttribute' => ['user_id', 'school_id', 'grade_id', 'grade_user_type'], 'message' => 'The combination of 用户ID, 学校ID, 班级ID and 关系类型: 用户学校关系表类型的子类型 has already been taken.']
+            [['user_id'],'unique', 'targetAttribute' => ['user_id','school_id', 'grade_id', 'grade_user_type'], 'message' => '用户已经存在本班级']
         ];
     }
 
@@ -95,16 +132,16 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'user_to_grade_id' => Yii::t('common', '学生与班级关系自增ID'),
-            'user_id' => Yii::t('common', '用户ID'),
-            'school_id' => Yii::t('common', '学校ID'),
-            'grade_id' => Yii::t('common', '班级ID'),
-            'user_title_id_at_grade' => Yii::t('common', '用户在班级的描述性展示Title，没有逻辑'),
-            'status' => Yii::t('common', '1：正常；0标记删除；2待审核；3已经转班; 4已经退休 '),
-            'sort' => Yii::t('common', '默认与排序'),
-            'grade_user_type' => Yii::t('common', '关系类型: 用户学校关系表类型的子类型'),
-            'updated_at' => Yii::t('common', 'Updated At'),
-            'created_at' => Yii::t('common', 'Created At'),
+            'user_to_grade_id'       => Yii::t('backend', '自增ID'),
+            'user_id'                => Yii::t('backend', '用户'),
+            'school_id'              => Yii::t('backend', '学校'),
+            'grade_id'               => Yii::t('backend', '班级'),
+            'user_title_id_at_grade' => Yii::t('backend', '展示标题'),
+            'status'                 => Yii::t('backend', '状态'),
+            'sort'                   => Yii::t('backend', '默认与排序'),
+            'grade_user_type'        => Yii::t('backend', '关系类型'),
+            'updated_at'             => Yii::t('backend', '更新时间'),
+            'created_at'             => Yii::t('backend', '创建时间'),
         ];
     }
 
@@ -114,14 +151,14 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
     public function attributeHints()
     {
         return array_merge(parent::attributeHints(), [
-            'user_to_grade_id' => Yii::t('common', '学生与班级关系自增ID'),
-            'user_id' => Yii::t('common', '用户ID'),
-            'school_id' => Yii::t('common', '学校ID'),
-            'grade_id' => Yii::t('common', '班级ID'),
-            'user_title_id_at_grade' => Yii::t('common', '用户在班级的描述性展示Title，没有逻辑'),
-            'status' => Yii::t('common', '1：正常；0标记删除；2待审核；3已经转班; 4已经退休 '),
-            'sort' => Yii::t('common', '默认与排序'),
-            'grade_user_type' => Yii::t('common', '关系类型: 用户学校关系表类型的子类型'),
+            'user_to_grade_id'       => Yii::t('backend', '自增ID'),
+            'user_id'                => Yii::t('backend', '创建后不可更改'),
+            // 'school_id'              => Yii::t('backend', '学校ID'),
+            // 'grade_id'               => Yii::t('backend', '班级ID'),
+            'user_title_id_at_grade' => Yii::t('backend', '用户在班级的描述性标题，仅展示'),
+            // 'status'                 => Yii::t('backend', '状态'),
+            'sort'                   => Yii::t('backend', '排序'),
+            'grade_user_type'        => Yii::t('backend', '用户与学校的关系或类型'),
         ]);
     }
     public function getGrade(){

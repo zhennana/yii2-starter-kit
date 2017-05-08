@@ -28,7 +28,7 @@ class UserToken extends ActiveRecord
     const TYPE_PASSWORD_RESET = 'password_reset';
 
     // TODO
-    CONST TYPE_PHONE_SINGUP = 'phone_singup';
+    CONST TYPE_PHONE_SIGNUP = 'phone_signup';
     CONST TYPE_PHONE_RESENT = 'phone_resent';
     CONST TYPE_PHONE_REPASSWD = 'phone_repasswd';
 

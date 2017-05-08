@@ -64,15 +64,15 @@ public function actionIndex()
     $searchModel  = new StudentRecordSearch;
     $dataProvider = $searchModel->search($_GET);
 
-Tabs::clearLocalStorage();
+    Tabs::clearLocalStorage();
 
-Url::remember();
-\Yii::$app->session['__crudReturnUrl'] = null;
+    Url::remember();
+    \Yii::$app->session['__crudReturnUrl'] = null;
 
-return $this->render('index', [
-'dataProvider' => $dataProvider,
-    'searchModel' => $searchModel,
-]);
+    return $this->render('index', [
+    'dataProvider' => $dataProvider,
+        'searchModel' => $searchModel,
+    ]);
 }
 
 /**
@@ -99,18 +99,29 @@ return $this->render('view', [
 */
 public function actionCreate()
 {
-$model = new StudentRecord;
-
-try {
-if ($model->load($_POST) && $model->save()) {
-return $this->redirect(['view', 'student_record_id' => $model->student_record_id]);
-} elseif (!\Yii::$app->request->isPost) {
-$model->load($_GET);
-}
-} catch (\Exception $e) {
-$msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
-$model->addError('_exception', $msg);
-}
+    $model = new StudentRecord;
+    if($_POST){
+        $info = $model->create($_POST['StudentRecord']);
+        if($info['errorno'] == 0 ){
+            return $this->redirect(['student-record/index']);
+        }else{
+            //var_dumP($info);exit;
+            \Yii::$app->getSession()->setFlash('alert', [
+                    'body'=>"错误提示：".implode(',',$info['error']),
+                    //'options'=>['class'=>'alert-danger']
+                ]);
+        }
+    }
+// try {
+// if ($model->load($_POST) && $model->save()) {
+// return $this->redirect(['view', 'student_record_id' => $model->student_record_id]);
+// } elseif (!\Yii::$app->request->isPost) {
+// $model->load($_GET);
+// }
+// } catch (\Exception $e) {
+// $msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
+// $model->addError('_exception', $msg);
+// }
 return $this->render('create', ['model' => $model]);
 }
 

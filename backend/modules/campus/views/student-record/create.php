@@ -7,14 +7,14 @@ use yii\helpers\Html;
 * @var backend\modules\campus\models\StudentRecord $model
 */
 
-$this->title = Yii::t('backend', 'Create');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Student Records'), 'url' => ['index']];
+$this->title = Yii::t('backend', '创建');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '学员档案管理'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="giiant-crud student-record-create">
 
     <h1>
-        <?= Yii::t('backend', 'Student Record') ?>
+        <?= Yii::t('backend', '学员档案管理') ?>
         <small>
                         <?= $model->title ?>
         </small>
@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="clearfix crud-navigation">
         <div class="pull-left">
             <?=             Html::a(
-            Yii::t('backend', 'Cancel'),
+            Yii::t('backend', '取消'),
             \yii\helpers\Url::previous(),
             ['class' => 'btn btn-default']) ?>
         </div>
@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <hr />
 
     <?= $this->render('_form', [
-    'model' => $model,
+        'model' => $model,
     ]); ?>
 
 </div>

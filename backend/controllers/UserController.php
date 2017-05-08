@@ -42,7 +42,6 @@ class UserController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
-
     /**
      * Displays a single User model.
      * @param integer $id

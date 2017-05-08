@@ -1,41 +1,51 @@
 <?php
-    use yii\helpers\Url;
+use yii\helpers\Url;
+use yii\widgets\LinkPager;
+
+
+$this->title = Yii::t('frontend', '瓦酷动态');
+// $this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Articles'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<script src="https://unpkg.com/vue@2.2.6/dist/vue.min.js" type="text/javascript"></script>
 <div class="content clear-fix">
     <div id="news" class="col-sm-8">
         <h1>WAKOO NEWS</h1>
         <div class="news-list">
+        <?php foreach ($model as $key => $value) {
+            $imageUrl = getImgs($value->body);
+            $imageUrl = $imageUrl[0] ? $imageUrl[0] : 'http://static.v1.wakooedu.com/top_logo.png';
+        ?>
             <ul>
                 <li v-for="item in newsList" class="clear-fix">
-                    <a :href="item.url">
-                        <img v-bind:src="item.image"  />
+                    <a href="<?php echo Url::to(['article/view','id'=>$value->id]) ?>">
+                        <img src="<?php echo $imageUrl; ?>?imageView2/3/w/400/h/400"  />
                         <div class="news-info">
-                            <h3>{{item.title}}</h3>
-                            <span>{{ new Date( item.published_at * 1000).format('yyyy-MM-dd')}}     瓦酷机器人</span>
-                            <p>{{ item.body }}</p>
+                            <h3><?php echo $value->title ?></h3>
+                            <span>
+                                <?php
+                                    $timeInfo = '';
+                                    $timeInfo .= date('Y-m-d H:i:s', $value->published_at);
+                                    $timeInfo .= ' 瓦酷创客空间';
+                                    echo $timeInfo;
+                                ?>
+                            </span>
+                            <p><?php echo substr_auto(strip_tags($value->body),200) ?></p>
                         </div>  
                     </a>
                 </li>
             </ul>
+        <?php } ?>
         </div>
         <div id="pager_u">
-            <ul class="pagination">
-                <li class="first" v-bind:class="{ 'disabled' : cur==1 }"><span v-on:click="firstClick" >首页</span></li>
-                <li v-bind:class="{ 'disabled' : cur==1 }"><span v-on:click="preClick">&laquo;</span></li>
-                <li v-for="page in pages" v-bind:class="{ 'active' : cur == page }">
-                    <span v-on:click="pageClick(page)">{{page}}</span>
-                </li>
-                <li v-bind:class="{ 'disabled' : cur==totalPage }"><span v-on:click="nextClick">&raquo;</span></li>
-                <li class="end" v-bind:class="{ 'disabled' : cur==totalPage }"><span v-on:click="lastClick"  >尾页</span></li>
-            </ul>
+            <?= LinkPager::widget(['pagination' => $pages]); ?>
         </div>
     </div>
+    <?php echo $this->render('@frontend/themes/edu/page/right-side'); ?>
 </div>
 
 <script>
-    var news = new Vue({
+/*    var news = new Vue({
         el:'#news',
         data:{
             newsList:'',
@@ -55,7 +65,7 @@
                 //加载数据
                 var _that = this;
                 $.ajax({
-                    url: '<?php echo Url::to(['article/get-news']) ?>',
+                    url: '<?php //echo Url::to(['article/get-news']) ?>',
                     type: 'GET',
                     dataType: 'json',
                     data: {pager: _that.cur-1,limit:_that.pageNum},
@@ -190,11 +200,11 @@
 
     /** 
      * 时间对象的格式化; 
-     */  
+       
     Date.prototype.format = function(format) {  
         /* 
          * eg:format="yyyy-MM-dd hh:mm:ss"; 
-         */  
+           
         var o = {  
             "M+" : this.getMonth() + 1, // month  
             "d+" : this.getDate(), // day  
@@ -219,5 +229,5 @@
             }  
         }  
         return format;  
-    }
+    }*/
 </script>

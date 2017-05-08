@@ -9,6 +9,8 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;
+use backend\modules\campus\models\UserToGrade;
+use backend\modules\campus\models\UserToSchool;
 
 /**
  * User model
@@ -122,6 +124,7 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             'username' => Yii::t('common', 'Username'),
             'email' => Yii::t('common', 'E-mail'),
+            'phone_number' => Yii::t('common', '手机号'),
             'status' => Yii::t('common', 'Status'),
             'access_token' => Yii::t('common', 'API access token'),
             'created_at' => Yii::t('common', 'Created at'),
@@ -138,6 +141,72 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->hasOne(UserProfile::className(), ['user_id' => 'id']);
     }
 
+    public function getUserToSchool(){
+        return $this->hasOne(UserToSchool::className(),['user_id'=>'id'])->orderBy(['created_at'=> 'SORT_SESC']);
+    }
+    
+    /**
+     * 用户所在的班级
+     * @return [type] [description]
+     */
+    public function getUserToGrade(){
+        return $this->hasOne(UserToGrade::className(),['user_id'=>'id'])->orderBy(['created_at'=>'SORT_SESC']);
+    }
+    /**
+     * 获取用户所在的学校
+     * @return [type] [description]
+     */
+    public function getCharacterDetailes(){
+       
+      $data = [];
+      if(!empty($this->userToGrade)){
+            return $this->userToGrade->toArray(['grade_id','grade_label','school_id','school_label']);
+       }elseif(!empty($this->userToSchool)){
+            return $this->userToSchool->toArray(['grade_id','grade_label','school_id','school_label']);
+      }
+       
+     return [];
+    }
+
+    /**
+     * 返回的字段初始化
+     */
+    /*
+    public function  DataInit($params = false ){
+        //var_dump($params);exit();
+        $data = [];
+        if($params){
+            foreach ($params as $key => $value) {
+                var_dump($value);exit;
+            }
+        }
+        // if($params){
+        //     foreach ($params as $key => $value) {
+        //         $data[$value->school_id]['school_id'] 
+        //             = $value->school_id;
+                
+        //         $data[$value->school_id]['type'] 
+        //             = isset($value->grade_user_type) ? UserToGrade::UserToTypelable($value->grade_user_type) : '';
+                
+        //         $data[$value->school_id]['school_title'] 
+        //             = isset($value->school->school_title)? $value->school->school_title :'';
+                
+        //         $data[$value->school_id]['grade'][$key]['grade_id'] 
+        //             = isset($value['grade_id']) ? $value['grade_id'] : '';
+                
+        //         $data[$value->school_id]['grade'][$key]['grade_name'] 
+        //             = isset($value->grade->grade_title) ? $value['grade_id'] : '';
+        //         rsort($data[$value->school_id]['grade']);
+
+        //     }
+
+        // }
+        rsort($data);
+        //svar_dump($data);exit;
+        return $data;
+    }
+    */
+
     /**
      * @inheritdoc
      */
@@ -148,7 +217,6 @@ class User extends ActiveRecord implements IdentityInterface
             ->andWhere(['id' => $id])
             ->one();
     }
-
     /**
      * @inheritdoc
      */
@@ -156,7 +224,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return static::find()
             ->active()
-            ->andWhere(['access_token' => $token, 'status' => self::STATUS_ACTIVE])
+            ->andWhere(['access_token' => $token])
             ->one();
     }
 
@@ -170,7 +238,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return static::find()
             ->active()
-            ->andWhere(['username' => $username, 'status' => self::STATUS_ACTIVE])
+            ->andWhere(['username' => $username])
             ->one();
     }
 
@@ -244,6 +312,14 @@ class User extends ActiveRecord implements IdentityInterface
             self::STATUS_ACTIVE => Yii::t('common', 'Active'),
             self::STATUS_DELETED => Yii::t('common', 'Deleted')
         ];
+    }
+
+    public static function getStatusLabel($value){
+        $labels = self::statuses();
+        if(isset($labels[$value])){
+            return $labels[$value];
+        }
+        return $value;
     }
 
     /**

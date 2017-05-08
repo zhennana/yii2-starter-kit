@@ -39,10 +39,14 @@ $config = [
             'class' => 'backend\modules\i18n\Module',
             'defaultRoute'=>'i18n-message/index'
         ],
-    'campus' => [
+        'campus' => [
             'class' => 'backend\modules\campus\Module',
             'defaultRoute'=>'default/index'
         ],
+        'users'=>[
+            'class'=>'backend\modules\users\Module',
+            'defaultRoute'=>'default/index'
+        ]
     ],
     'as globalAccess'=>[
         'class'=>'\common\behaviors\GlobalAccessBehavior',
@@ -90,6 +94,7 @@ $config = [
 if (YII_ENV_DEV) {
     $config['modules']['gii'] = [
         'class'=>'yii\gii\Module',
+        'allowedIPs' => ['127.0.0.1', '::1'],
         'generators' => [
             'crud' => [
                 'class'=>'yii\gii\generators\crud\Generator',

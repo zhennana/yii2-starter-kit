@@ -7,13 +7,13 @@ use yii\grid\GridView;
 /* @var $searchModel backend\models\search\WidgetCarouselSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('backend', 'Widget Carousels');
+$this->title = Yii::t('backend', '轮播组件');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="widget-carousel-index">
 
     <p>
-        <?php echo Html::a(Yii::t('backend', 'Create {modelClass}', [
+        <?php echo Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建', [
                 'modelClass' => 'Widget Carousel',
             ]), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
@@ -33,8 +33,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'class'=>\common\grid\EnumColumn::className(),
                 'attribute'=>'status',
                 'enum'=>[
-                    Yii::t('backend', 'Disabled'),
-                    Yii::t('backend', 'Enabled')
+                    Yii::t('backend', '无效'),
+                    Yii::t('backend', '有效')
                 ],
             ],
 

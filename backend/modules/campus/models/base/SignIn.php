@@ -37,7 +37,8 @@ abstract class SignIn extends \yii\db\ActiveRecord
     }
 
     public static function getDb(){
-       return \Yii::$app->modules['campus']->get('campus');
+        //return \Yii::$app->modules['campus']->get('campus');
+        return Yii::$app->get('campus');
     }
 
     /**
@@ -70,11 +71,11 @@ abstract class SignIn extends \yii\db\ActiveRecord
     {
         return [
             'signin_id'  => Yii::t('common', '签到记录ID'),
-            'school_id'  => Yii::t('common', '学校ID'),
-            'grade_id'   => Yii::t('common', '班级ID'),
-            'course_id'  => Yii::t('common', '课程ID'),
-            'student_id' => Yii::t('common', '学员ID'),
-            'teacher_id' => Yii::t('common', '教师ID'),
+            'school_id'  => Yii::t('common', '学校'),
+            'grade_id'   => Yii::t('common', '班级'),
+            'course_id'  => Yii::t('common', '课程'),
+            'student_id' => Yii::t('common', '学员'),
+            'teacher_id' => Yii::t('common', '教师'),
             'auditor_id' => Yii::t('common', '审核人'),
             'status'     => Yii::t('common', '状态'),
             'updated_at' => Yii::t('common', '更新时间'),
@@ -89,13 +90,13 @@ abstract class SignIn extends \yii\db\ActiveRecord
     {
         return array_merge(parent::attributeHints(), [
             'signin_id'  => Yii::t('common', '签到记录ID'),
-            'school_id'  => Yii::t('common', '学校ID'),
-            'grade_id'   => Yii::t('common', '班级ID'),
-            'course_id'  => Yii::t('common', '课程ID'),
-            'student_id' => Yii::t('common', '学员ID'),
-            'teacher_id' => Yii::t('common', '教师ID'),
-            'auditor_id' => Yii::t('common', '审核人'),
-            'status'     => Yii::t('common', '状态'),
+            // 'school_id'  => Yii::t('common', '学校'),
+            // 'grade_id'   => Yii::t('common', '班级'),
+            // 'course_id'  => Yii::t('common', '课程'),
+            // 'student_id' => Yii::t('common', '学员'),
+            // 'teacher_id' => Yii::t('common', '教师'),
+            'auditor_id' => Yii::t('common', '创建后不可变更'),
+            'status'     => Yii::t('common', '是否已被查看'),
             'updated_at' => Yii::t('common', '更新时间'),
             'created_at' => Yii::t('common', '签到时间'),
         ]);
@@ -148,7 +149,6 @@ abstract class SignIn extends \yii\db\ActiveRecord
         // }
         return $name;
     }
-
     /**
      * @inheritdoc
      * @return \backend\modules\campus\models\query\SignInQuery the active query used by this AR class.

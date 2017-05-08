@@ -29,7 +29,7 @@ $carousel_id = isset($carousel->id) ? $carousel->id : $model->carousel_id ;
     
     <?php echo $form->field($model, 'order')->textInput() ?>
 
-    <?php echo $form->field($model, 'url')->hiddenInput(['maxlength' => 1024,'value'=>'/'])->label(false) ?>
+    <?php echo $form->field($model, 'url')->textInput(['maxlength' => 1024])->label(false) ?>
     <?php echo $form->field($model,'base_url')->hiddenInput(['value'=>Yii::$app->params['qiniu']['wakooedu']['domain']])->label('') ?>
 
     <?php echo $form->field($model, 'caption')->widget(
@@ -48,7 +48,7 @@ $carousel_id = isset($carousel->id) ? $carousel->id : $model->carousel_id ;
     <?php echo $form->field($model, 'status')->checkbox() ?>
 
     <div class="form-group">
-        <?php echo Html::submitButton($model->isNewRecord ? Yii::t('backend', 'Create') : Yii::t('backend', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?php echo Html::submitButton($model->isNewRecord ? Yii::t('backend', '创建') : Yii::t('backend', '更新'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
@@ -60,11 +60,11 @@ $carousel_id = isset($carousel->id) ? $carousel->id : $model->carousel_id ;
     send_data.path = path;
     if (type == 1)
     {
-        url = "index.php?r=campus/courseware/delete-cloud";
+        url = "index.php?r=campus/courseware-category/delete-cloud";
     }
     else
     {
-        url = "index.php?r=campus/courseware/delete-cloud";
+        url = "index.php?r=campus/courseware-category/delete-cloud";
     }    
     jQuery.ajax({
         type: "post",
@@ -74,6 +74,7 @@ $carousel_id = isset($carousel->id) ? $carousel->id : $model->carousel_id ;
         success: function(response){
             var pathid = path.slice(0,-4);
             if(response.status == 1){
+                $('#coursewarecategory-banner_src').val("");
                 $('#pickfiles').show();
                 $('.progressContainer').remove();
                 $('thead').hide();

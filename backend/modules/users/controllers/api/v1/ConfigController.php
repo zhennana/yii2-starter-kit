@@ -1,0 +1,354 @@
+<?php
+namespace backend\modules\users\controllers\api\v1;
+
+use Yii;
+use yii\web\Response;
+use frontend\modules\api\v1\resources\Article;
+use yii\data\ActiveDataProvider;
+use yii\rest\ActiveController;
+use yii\web\ForbiddenHttpException;
+use yii\web\HttpException;
+use yii\helpers\Url;
+
+/**
+ *
+ * Class DeveloperController
+ * index.php?r=api/v1/developer
+ * curl -i -H 'Accept:application/json' 'http://home.yajol.com/index.php?r=api/v1/article/'
+ * curl -i -H 'Accept:application/xml' 'http://home.yajol.com/index.php?r=api/v1/article/'
+ *
+ * X-Pagination-Total-Count: 数据项总数；
+ * X-Pagination-Page-Count: 页面总数；
+ * X-Pagination-Current-Page: 当前页面（基于1）；
+ * X-Pagination-Per-Page: 每页数据项数目；
+ * Link: 允许用户对资源数据进行页面遍历的一系列导航链接。
+ * @author Bruce Niu <bruce.bnu@gmail.com>
+ */
+class ConfigController extends \common\rest\Controller
+{
+    /**
+     * @var string
+     */
+    public $modelClass = 'frontend\modules\api\v1\resources\Article';
+
+    /**
+     * @var array
+     */
+    public $serializer = [
+        'class' => 'common\rest\Serializer', // 返回格式数据化字段
+        'collectionEnvelope' => 'result',    // 制定数据字段名称
+        /**
+         * 300 警告提示
+         * 400 致命错误提示
+         *         $this->serializer['errno'] = 1001;
+         *         $this->serializer['message'] = '警告提示';
+         */
+        'errno' => 0,                        // 错误处理数字
+        'message' => [ 'OK' ],                   // 文本提示
+    ];
+
+    /**
+     * @param  [action] yii\rest\IndexAction
+     * @return [type] 
+     */
+    public function beforeAction($action)
+    {
+        $format = Yii::$app->getRequest()->getQueryParam('format', 'json');
+
+        if($format == 'xml'){
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_XML;
+        }else{
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        }
+
+        // 移除access行为，参数为空全部移除
+        // Yii::$app->controller->detachBehavior('access');
+        return $action;
+    }
+
+    /**
+     * @param  [type]
+     * @param  [type]
+     * @return [type]
+     */
+    public function afterAction($action, $result){
+        /*
+        $result = parent::afterAction($action, $result);
+
+        if($action->id == 'index'){ //check controller action ID
+            $result['custom_val'] = 111;
+        }
+        */
+// var_dump($action, $result); exit();
+        $result = parent::afterAction($action, $result);
+
+        return $result;
+    }
+
+	/*
+	public function behaviors()
+	{
+	    return [
+	        'access' => [
+	            'class' => \yii\filters\AccessControl::className(),
+	            'rules' => [
+	                [
+	                    'allow' => true,
+	                    'roles' => ['@','?'],
+	                ],
+	            ],
+	            'denyCallback' => function ($rule, $action) {
+	                throw new \yii\web\ForbiddenHttpException('aaaaaaaaaaaaaaaaaaa');
+	            }
+	        ],
+	    ];
+	}
+	*/
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors['contentNegotiator']['formats']['text/html'] = Response::FORMAT_HTML;
+        return $behaviors;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function actions()
+    {
+        return [
+            /*
+            'index' => [
+                'class' => 'yii\rest\IndexAction',
+                'modelClass' => $this->modelClass,
+                'checkAccess' => [],
+                'prepareDataProvider' => [$this, 'prepareDataProvider']
+            ],
+            */
+            'view' => [
+                'class' => 'yii\rest\ViewAction',
+                'modelClass' => $this->modelClass,
+                'findModel' => [$this, 'findModel']
+            ],
+            'options' => [
+                'class' => 'yii\rest\OptionsAction'
+            ]
+        ];
+    }
+
+    /**
+     * @return ActiveDataProvider
+     */
+    public function prepareDataProvider()
+    {
+        return new ActiveDataProvider(array(
+            'query' => Article::find()->published()
+        ));
+    }
+
+    /**
+     * @param $id
+     * @return array|null|\yii\db\ActiveRecord
+     * @throws HttpException
+     */
+    public function findModel($id)
+    {
+        $model = Article::find()
+            ->published()
+            ->andWhere(['id' => (int) $id])
+            ->one();
+        if (!$model) {
+            throw new HttpException(404);
+        }
+        return $model;
+    }
+
+    /**
+     * @SWG\Get(path="/users/api/v1/config/index",
+     *     tags={"测试接口"},
+     *     summary="调试接口",
+     *     description="返回主视觉信息",
+     *     produces={"application/json"},
+     * @SWG\Response(
+     *         response = 200,
+     *         description = "返回OK"
+     *     ),
+     * )
+     *
+    **/
+    public function actionIndex()
+    {
+        return ['OK'];
+    }
+
+    /**
+     * @SWG\Get(path="/users/api/v1/config/init",
+     *     tags={"800-Config-配置信息接口：获取版本更新等等"},
+     *     summary="初始化",
+     *     description="返回主视觉信息",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "user_id",
+     *        description = "用户ID",
+     *        required = false,
+     *        default = 0,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "server_version",
+     *        description = "服务端版本（奇数测试版本，偶数为正式版本）",
+     *        required = false,
+     *        default = "1.0.2",
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "client_version",
+     *        description = "客户端版本：1.0.2 ; Android/4.5",
+     *        required = false,
+     *        default = "1.0.2",
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "time_stamp",
+     *        description = "缓存时间戳",
+     *        required = false,
+     *        default = "",
+     *        type = "string"
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "forced_updating=1,强制更新"
+     *     ),
+     * )
+     *
+    **/
+    /**
+     * 线上版本 2016-08-15
+     * IOS 2.24
+     * 安卓：2.20
+     *
+     * 测试版本号
+    */
+    public function actionInit($user_id=0, $server_version=0, $client_version=0, $time_stamp=0)
+    {
+        $info = [];
+        $info['cache_stamp'] = strtotime('2010-08-15 21:00:00');
+        $info['cache'] = false;
+
+        if($time_stamp == $info['cache_stamp']){
+            $info['cache'] = true;
+        }
+
+        $info['do_business'] = [
+            'active' => 'open', // close and open
+            'tips' => '系统维护中。请您谅解，紧急联系方式：400-400-40000',
+            'call_up' => '400-400-40000',
+        ];
+
+        // 手动配置
+        $info['update']['ios'] = [
+            // APP store 审核，
+            // 0 关闭不提示；
+            // 1 打开提示更新
+            'show_upgrade_status' => '1',
+
+            'updated_version'   => '2.58.2', // 手动填写
+
+            // 为真显示强制更新 0.不强制更新；1.强制更新; 
+            'forced_updating'   => '1', // 1慎用
+            
+            'server_version'    => $server_version,
+            'client_version'    => $client_version,
+            
+            // 服务端维护范围
+            'range_server_version' => [
+                '1.1'
+            ],
+
+            // ios上线配置
+            'description'       => "更新描述：\r\n新增了QQ分享，修复了已知bug",
+
+
+            // ios安装地址
+            'install_address'   => 'https://itunes.apple.com/cn/app/yan-jiao-zai-xian/id1055400570?mt=8',
+            'tip'       => '更新失败，请去应用商店或官网直接下载安装',
+            // 客户端维护范围
+            'range_client_version' => [
+                '2.58.2', // 9.1
+            ],
+            // ios上线配置完
+        ];
+
+        $info['update']['android'] = [
+             // 是否有新版本更新提示：1：有新版本提示框；0没有；
+            'show_upgrade_status' => '1',
+
+             //'version_code' => '', // 安卓特有，CRM数据库字段支持
+            'updated_version'   => '2.52', // 2.44
+
+            // 强制更新
+            // 为真显示强制更新 0.不强制更新；1.强制更新; 
+            'forced_updating'   => '1', 
+
+            
+            'server_version'    => $server_version,
+            'client_version'    => $client_version,
+            
+
+            // 安卓上线配置
+            'description'       => "更新描述：\r\n新增了QQ分享，修复了已知bug",
+
+            
+
+            // svn 版本号： 2801 10-31 17:57
+            'install_address'   => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/yajol_v2.52_2016-12-21_anzhi_252_1_360_sign.apk',
+            
+        ];
+
+        return $info;
+
+
+    }
+
+    public function actionFeedback(){
+        $data = [
+            'errorno' => '0',
+            'errors'  => '',
+        ];
+        /*
+        if(Yii::$app->user->isGuest){
+            $data['errorno']  = __LINE__;
+            $data['errors']   = '用户没有登录';
+            return $data;
+        }
+
+        if(!isset($_POST['content']) && empty($_POST['content'])){
+            $data['errorno']  = __LINE__;
+            $data['errors']   = '反馈内容不能为空';
+            return $data;
+        }
+
+        if(!isset($_POST['client_source_type']) && empty($_POST['client_source_type'])){
+            $data['errorno']  = __LINE__;
+            $data['errors']   = '反馈类型不能为空';
+            return $data;
+        }
+
+        $feedback = new Feedback;
+        //$feedback->setattribute = null;
+        $feedback->feedback_rater     = Yii::$app->user->identity->id;
+        $feedback->content            = $_POST['content'];
+        $feedback->client_source_type = $_POST['client_source_type'];
+        if(!$feedback->save()){
+            $data['errorno'] = __LINE__;
+            $data['errors']  = $feedback->getErrors();
+        }*/
+
+        return $data;
+    }
+
+}

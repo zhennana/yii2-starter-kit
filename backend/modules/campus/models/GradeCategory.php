@@ -31,4 +31,38 @@ public function behaviors()
              ]
         );
     }
+
+  public function fields(){
+        return array_merge(
+                parent::fields(),
+                [
+                  'parent_label'=>function($model){
+                      return isset($model->parents->name) ? $model->parents->name : '0' ;
+                  },
+                  'updated_at'=>function(){
+                      return date('Y-m-d H:i:s',$this->updated_at);
+                  },
+                  'created_at'=>function(){
+                    return date('Y-m-d H:i:s',$this->created_at);
+                  },
+                  'status_label'=>function(){
+                    return GradeCategory::getStatusLabel($this->status);
+                  }
+                ]
+            );
+    }
+  // public function parentCategoory(){
+  //   return self::find()->where(['status'=>self::CATEGORY_OPEN])->andWhere(['NOT',['parent_id'=>0]])->all();
+  // }
+  
+  public function DropDownStatus(){
+      $label = self::optsStatus();
+      $data = [];
+      foreach ($label as $key => $value) {
+          $data[$key]['status_id'] = $key;
+          $data[$key]['status_label'] = $value;
+      }
+      sort($data);
+      return $data;
+    }
 }
