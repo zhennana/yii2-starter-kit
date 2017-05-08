@@ -3,9 +3,11 @@ namespace frontend\controllers\wedu\v1;
 
 use Yii;
 use yii\web\Response;
+use yii\helpers\ArrayHelper;
 use yii\data\ActiveDataProvider;
 use frontend\models\wedu\resources\ShareStream;
 use backend\modules\campus\models\UserToGrade;
+use yii\data\Pagination;
 
 class ShareStreamController extends \common\rest\Controller
 {
@@ -189,7 +191,10 @@ class ShareStreamController extends \common\rest\Controller
         $sql  .= ") or (school_id = 0 and grade_id = 0) ";
         $sql  .= " or (school_id = $school_id and grade_id = 0) ";
         // //var_dump($sql);exit;
-        $models = $models::findBySql($sql)->all();
-        return $models;
+        $models = $models::findBySql($sql);
+        $pages = new Pagination(['totalCount' =>$models->count(), 'pageSize' => '1']);
+        $models =  $models->offset($pages->offset)->limit($pages->limit)->all();
+        $data['pages'] = $pages;
+        return  ArrayHelper::merge($models,$data);
     }   
 }
