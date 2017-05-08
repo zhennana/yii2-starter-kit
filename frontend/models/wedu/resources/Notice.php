@@ -58,7 +58,7 @@ public function behaviors()
       if($data){
         $data['count'] = $this->messageCount($category);
       }else{
-        $data = [];
+        $data = '';
       }
       return $data;
     }
