@@ -216,6 +216,12 @@ class SignInController extends \common\components\ControllerFrontendApi
             $this->serializer['message']    = '登陆验证失败，请登录';
             return $this->serializer['message'];
         }
+            //检测用户是否 有班级学校
+        if(!Yii::$app->user->identity->is_userToGrade()){
+                $this->serializer['errno'] = 300;
+                $this->serializer['message'] = '未找到您所在的学校班级，请联系管理员';
+                return [];
+            }
 
         $attrUser = Yii::$app->user->identity->attributes;
 
@@ -223,15 +229,8 @@ class SignInController extends \common\components\ControllerFrontendApi
             unset($attrUser['password_hash']);
         }
          $attrUser['avatar'] = Yii::$app->params['user_avatar'];
-        //$account  = Yii::$app->user->identity->getAccount();
-        if(Yii::$app->user->can('user')){
-            $attrUser['user_role'] = '1';
-        }
-        if(Yii::$app->user->can('manager')){
-            $attrUser['user_role'] = '2';
-        }
         //用户所在的学校班级
-        $attrUser['character'] = Yii::$app->user->identity->getCharacterDetailes();
+        $attrUser['user_role'] = Yii::$app->user->identity->getCharacterDetailes();
         $proFileUser = Yii::$app->user->identity->userProfile;
 
        // 默认头像
