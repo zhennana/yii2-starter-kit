@@ -47,16 +47,18 @@ public function behaviors()
 }
 
     public function message($category){
+      //echo $category;
       $data = self::find()->select('message')
                 ->where([
                     'category'=>$category,
                     'receiver_id'=>Yii::$app->user->identity->id
                   ])
+                ->orderby(['created_at'=>'SORT_DESC'])
                 ->asArray()->one();
       if($data){
         $data['count'] = $this->messageCount($category);
       }else{
-        $data = [];
+        $data = '';
       }
       return $data;
     }
@@ -70,6 +72,7 @@ public function behaviors()
                     ])
                 ->count();
     }
+
     public function messageList(){
       return self::find()->select('message')->asArray()->all();
     }

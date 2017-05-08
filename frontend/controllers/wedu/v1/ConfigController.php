@@ -394,19 +394,21 @@ class ConfigController extends \common\rest\Controller
              'message'=>['label'=>'通知'],
              'teacher_said'=>['label'=>'老师说的话'],
              'course_item_order'=>['label'=>'课程相关'],
-             'above_course'     =>['label'=>'以上课程'],
+             'above_course'     =>['label'=>'已上课程'],
              'my_photos'        =>['label'=>'我的照片'],
              'about'            =>['label'=>'关于我们']
         ];
         if(Yii::$app->user->identity->id){
             $user_id = Yii::$app->user->identity->id;
         }else{
+            $this->serializer['errno'] = 300;
+            $this->serializer['message'] = '请你先登录';
             return [];
         }
         $notice = new Notice;
         $course_order = new CourseOrderItem;
-        $data['message'] = array_merge($data['message'],$notice->message(1));
-        $data['teacher_said'] = array_merge($data['message'],$notice->message(2));;
+        $data['message'] = array_merge($data['message'],$notice->message(Notice::CATEGORY_ONE));
+        $data['teacher_said'] = array_merge($data['teacher_said'],$notice->message(Notice::CATEGORY_TWO));;
         $data['course_item_order'] = array_merge($data['course_item_order'],$course_order->statistical());
         return $data;
     }
