@@ -35,7 +35,7 @@ class ShareStream extends BaseShareStream
                 parent::fields(),
                 [
                     'imageUrls'=>function(){
-                        $date = [];
+                      $data = [];
                       foreach ($this->shareToFile as $key => $value) {
                             if(isset($value->fileStorageItem)){
                                 $data[] = [
@@ -51,7 +51,7 @@ class ShareStream extends BaseShareStream
                     },
                     // 'created_at'=>function(){
                     //     return date('Y-m-d h:i:s',$this->created_at);
-                    // },
+                    // }, 
                     'user_avatar'=>function(){
                         return $this->getUserAvatar($this->user_id);
                     }
