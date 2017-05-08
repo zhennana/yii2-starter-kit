@@ -2,7 +2,7 @@
   <div>
     <el-col :span="3">
       <el-menu default-active="0" class="el-menu-vertical-demo nav-campus" v-bind:style="{height: visibleAreaHeight.height + 'px'}" theme="dark">
-        <div class="user-information el-icon-menu">
+        <div class="user-information el-icon-menu" @click="showUserFunction">
           用户信息
         </div>
         <el-menu-item v-for="menu in menuList" :index="menu.id" :key="menu.id">
@@ -12,6 +12,19 @@
         </el-menu-item>
       </el-menu>
     </el-col>
+    <div class="user-function" v-bind:class="{user_function_none: ifUserFunctionNone}">
+      <ul>
+        <li>
+          <el-button :plain="true" type="info" class="user-function-button">更换头像</el-button>
+        </li>
+        <li>
+          <el-button :plain="true" type="info" class="user-function-button">修改密码</el-button>
+        </li>
+        <li>
+          <el-button :plain="true" type="info" class="user-function-button">退出登录</el-button>
+        </li>
+      </ul>
+    </div>
     <div class="child-content">
       <router-view></router-view>
     </div>
@@ -19,6 +32,9 @@
 </template>
 
 <script>
+  import Vue from 'vue'
+  import Vuex from 'vuex'
+  Vue.use(Vuex)
   export default {
     name: 'campus-manager',
     data () {
@@ -51,7 +67,13 @@
         ],
         visibleAreaHeight: {
           height: document.documentElement.clientHeight
-        }
+        },
+        ifUserFunctionNone: true
+      }
+    },
+    methods: {
+      showUserFunction () {
+        this.ifUserFunctionNone = !this.ifUserFunctionNone
       }
     }
   }
@@ -84,4 +106,22 @@
     border-bottom:1px solid #dfdfdf;
     cursor:pointer;
     color:#58B7FF;
+  .user-function
+    font-size:16px;
+    position:fixed;
+    top:61px;
+    left:210px;
+    width:231px;
+    z-index: 500;
+    background:#324157;
+    .user-function-button
+      width:100%
+      margin-top:10px;
+      border:none;
+      font-size:16px;
+      background:#324157;
+      color:#fff;
+      text-align: left;
+  .user_function_none
+    display:none;
 </style>
