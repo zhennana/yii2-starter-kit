@@ -15,6 +15,7 @@ use frontend\models\edu\resources\UsersToUsers;
 use frontend\models\edu\resources\Courseware;
 use frontend\models\wedu\resources\Notice;
 use frontend\models\wedu\resources\CourseOrderItem;
+use frontend\models\wedu\resources\StudentRecord;
 
 class ConfigController extends \common\rest\Controller
 {
@@ -405,11 +406,21 @@ class ConfigController extends \common\rest\Controller
             $this->serializer['message'] = '请你先登录';
             return [];
         }
-        $notice = new Notice;
-        $course_order = new CourseOrderItem;
-        $data['message'] = array_merge($data['message'],$notice->message(Notice::CATEGORY_ONE));
-        $data['teacher_said'] = array_merge($data['teacher_said'],$notice->message(Notice::CATEGORY_TWO));;
-        $data['course_item_order'] = array_merge($data['course_item_order'],$course_order->statistical());
+        $notice         = new Notice;
+        $course_order   = new CourseOrderItem;
+        $my_photos = new StudentRecord;
+        $student_record  =  StudentRecord::find()
+                            ->where(['user_id'=>$user_id])
+                            ->with('course')
+                            ->orderBy(['created_at'=>'SORT_SESC'])
+                            ->asArray()
+                            ->one();
+        
+        $data['message']                   = array_merge($data['message'],$notice->message(Notice::CATEGORY_ONE));
+        $data['teacher_said']              = array_merge($data['teacher_said'],$notice->message(Notice::CATEGORY_TWO));
+        $data['course_item_order']         = array_merge($data['course_item_order'],$course_order->statistical());
+        $data['above_course']['title']     = isset($student_record['course']['intro']) ? $student_record['course']['intro']: '';
+        $data['my_photos']                 = $my_photos->image_merge(3);
         return $data;
     }
 }

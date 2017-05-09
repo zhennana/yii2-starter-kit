@@ -4,6 +4,7 @@ namespace frontend\controllers\wedu\v1;
 use Yii;
 use yii\web\Response;
 use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
 use frontend\models\wedu\resources\SignIn;
 use frontend\models\wedu\resources\StudentRecord;
 use yii\data\Pagination;
@@ -138,9 +139,11 @@ class CourseController extends \common\rest\Controller
 	    	->where(['user_id'=>Yii::$app->user->identity->id,'course_id'=>$course_id])
 	    	->andWhere(['status'=>StudentRecord::STUDEN_RECORD_STATUS_VALID])
 	    	->with(['course','studentRecordValue'=>function($query){
-	    			$query->select(['student_record_value_id','student_record_id','body']);
+	    			
+                    $query->select(['student_record_value_id','student_record_id','body']);
 	    			$query->with(['studentRecordValueToFile'=>function($query){
-	    					$query->select(['student_record_value_id','file_storage_item_id']);
+	    					
+                            $query->select(['student_record_value_id','file_storage_item_id']);
 	    					$query->with('fileStorageItem');
 	    			}]);
 	    	}])
@@ -166,16 +169,9 @@ class CourseController extends \common\rest\Controller
      *     summary="我的照片",
      *     description="我的照片",
      *     produces={"application/json"},
-     *  @SWG\Parameter(
-     *        in = "query",
-     *        name = "type",
-     *        description = "课程id",
-     *        required = false,
-     *        type = "integer"
-     *     ),
      *     @SWG\Response(
      *         response = 200,
-     *         description = "已上过的课程"
+     *         description = "已上过的课程,我发布的照片的全部图片"
      *     ),
      * )
      *
@@ -186,33 +182,39 @@ class CourseController extends \common\rest\Controller
     		$this->serializer['message'] 	= '请先登录';
     		return [];
     	}
-    	$studentRecord = StudentRecord::find()
-	    	->where(['user_id'=>Yii::$app->user->identity->id])
-	    	->with(['studentRecordValue'=>function($query){
-	    		$query->with(['studentRecordValueToFile'=>function($query){
-	    			$query->with('fileStorageItem');
-	    		}]);
-	    	}])
-	    	->asArray()
-	    	->all();
-	    //$pages = new Pagination(['totalCount' =>$studentRecord->count(), 'pageSize' => '1']);
-    	//$studentRecord =  $studentRecord->offset($pages->offset)->limit($pages->limit)->asArray()->all();
-	    $data = [];
-	    foreach ($studentRecord as $key => $value) {
-	    	foreach ($value['studentRecordValue'] as  $studentRecordValue) {
-	    		foreach ($studentRecordValue['studentRecordValueToFile'] as  $studentRecordValueToFile) {
-	    			 if($studentRecordValueToFile['fileStorageItem']){
-	    			 	   $file = $studentRecordValueToFile['fileStorageItem'];
-	    			 		// $data[]['imagr_original'] = $file['url'].$file['file_name'];
-	    			 		// $data[]['imagr_shrinkage'] = $file['url'].$file['file_name'];
-	    			 		$data[] = [
-	    			 			'image_original'=>$file['url'].$file['file_name'],
-	    			 			'image_shrinkage'=>$file['url'].$file['file_name'],
-	    			 		];
-	    			 }
-	    		}
-	    	}
-	    }
-	return $data;
+            $studentRecord = new  StudentRecord;
+            //$studentRecord->imageSqlTwo();
+        return new ArrayDataProvider([
+                 'allModels'=>$studentRecord->image_merge(),
+                 'pagination'=>[
+                    'pageSize'=>3
+                ]]);
+    	// $studentRecord = StudentRecord::find()
+	    // 	->where(['user_id'=>Yii::$app->user->identity->id])
+	    // 	->with(['studentRecordValue'=>function($query){
+	    // 		$query->with(['studentRecordValueToFile'=>function($query){
+     //                //$query->limit(1);
+	    // 			$query->with('fileStorageItem');
+	    // 		}]);
+	    // 	}])
+	    // 	->asArray()
+	    // 	->all();
+	    // //$pages = new Pagination(['totalCount' =>$studentRecord->count(), 'pageSize' => '1']);
+    	// //$studentRecord =  $studentRecord->offset($pages->offset)->limit($pages->limit)->asArray()->all();
+	    // $data = [];
+	    // foreach ($studentRecord as $key => $value) {
+	    // 	foreach ($value['studentRecordValue'] as  $studentRecordValue) {
+	    // 		foreach ($studentRecordValue['studentRecordValueToFile'] as  $studentRecordValueToFile) {
+	    // 			 if($studentRecordValueToFile['fileStorageItem']){
+	    // 			 	   $file = $studentRecordValueToFile['fileStorageItem'];
+	    // 			 		$data[] = [
+	    // 			 			'image_original'=>$file['url'].$file['file_name'],
+	    // 			 			'image_shrinkage'=>$file['url'].$file['file_name'],
+	    // 			 		];
+	    // 			 }
+	    // 		}
+	    // 	}
+	    // }
+	   //return $data;
     }
 }
