@@ -41,7 +41,7 @@ class StudentRecord extends BaseStudentRecord
 				->from('share_stream as s')
 				->leftJoin(['f'=>'share_to_file'],'f.share_stream_id = s.share_stream_id')
 				->leftJoin(['i'=>'file_storage_item'],'f.file_storage_item_id = i.file_storage_item_id')
-				->where(['s.user_id'=>Yii::$app->user->identity->id])
+				->where(['s.author_id'=>Yii::$app->user->identity->id])
 				->asArray()
 				->all();
 		return $SharaStream;

@@ -187,7 +187,7 @@ class CourseController extends \common\rest\Controller
         return new ArrayDataProvider([
                  'allModels'=>$studentRecord->image_merge(),
                  'pagination'=>[
-                    'pageSize'=>3
+                    'pageSize'=> 3
                 ]]);
     	// $studentRecord = StudentRecord::find()
 	    // 	->where(['user_id'=>Yii::$app->user->identity->id])
