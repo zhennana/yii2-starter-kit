@@ -188,15 +188,16 @@ class ShareStreamController extends \common\rest\Controller
         $models = new $this->modelClass;
         $modelQuery = $models::find()
                 ->from('share_stream as r')
-                ->select(['body','r.share_stream_id','r.author_id'])
+                ->select(['body','r.share_stream_id','r.author_id','r.created_at'])
                 ->JoinWith(['shareToGrade as s'])
                 ->where(['OR',
                     ['s.school_id'=>$school_id,'s.grade_id'=>$grade_id],
-                    ['r.author_id'=> Yii::$app->user->identity->id]]);
+                    ['r.author_id'=> Yii::$app->user->identity->id]])
+                ->orderBy(['created_at'=>SORT_DESC]);
         return new ActiveDataProvider([
                     'query'=>$modelQuery,
                     'pagination'=>[
-                        'pageSize'=>2
+                        'pageSize'=>4
                     ]
             ]);
      
