@@ -57,9 +57,8 @@ abstract class ShareStream extends \yii\db\ActiveRecord
     {
         return [
             [['body'], 'required'],
-            [['auditor_id', 'status','user_id'], 'integer'],
-            [['school_id','grade_id'],'string'],
-            ['user_id','default','value'=>isset(Yii::$app->user->identity->id) ? Yii::$app->user->identity->id  : '' ],
+            [['status','author_id'], 'integer'],
+            ['author_id','default','value'=>isset(Yii::$app->user->identity->id) ? Yii::$app->user->identity->id  : '' ],
             ['status','default','value'=>self::SHARESTREAM_STATUS_OPEN],
             [['body'], 'string', 'max' => 256]
         ];
@@ -72,10 +71,10 @@ abstract class ShareStream extends \yii\db\ActiveRecord
     {
         return [
             'share_stream_id' => Yii::t('backend', 'Share Stream ID'),
-            'user_id' => Yii::t('backend', 'User ID'),
-            'auditor_id' => Yii::t('backend', 'Auditor ID'),
-            'school_id' => Yii::t('backend', 'School ID'),
-            'grade_id' => Yii::t('backend', '审核人'),
+            'author_id' => Yii::t('backend', 'User ID'),
+            //'auditor_id' => Yii::t('backend', 'Auditor ID'),
+           // 'school_id' => Yii::t('backend', 'School ID'),
+            //'grade_id' => Yii::t('backend', '审核人'),
             'body' => Yii::t('backend', '消息内容'),
             'status' => Yii::t('backend', '状态'),
             'updated_at' => Yii::t('backend', 'Updated At'),
@@ -89,7 +88,7 @@ abstract class ShareStream extends \yii\db\ActiveRecord
     public function attributeHints()
     {
         return array_merge(parent::attributeHints(), [
-            'grade_id' => Yii::t('backend', '审核人'),
+           // 'grade_id' => Yii::t('backend', '审核人'),
             'body' => Yii::t('backend', '消息内容'),
             'status' => Yii::t('backend', '状态'),
         ]);
@@ -100,8 +99,13 @@ abstract class ShareStream extends \yii\db\ActiveRecord
         return $this->hasmany(\backend\modules\campus\models\ShareToFile::className(),['share_stream_id'=>'share_stream_id']);
     }
 
+    public function getShareToGrade(){
+        return $this->hasmany(\backend\modules\campus\models\ShareStreamToGrade::className(),['share_stream_id'=>'share_stream_id']);
+    }
+
     public  function getUserName($id)
     {
+
         $user = \common\models\User::findOne($id);
         $name = '';
         if(isset($user->realname) && !empty($user->realname)){
