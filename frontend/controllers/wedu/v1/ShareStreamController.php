@@ -192,7 +192,8 @@ class ShareStreamController extends \common\rest\Controller
                 ->JoinWith(['shareToGrade as s'])
                 ->where(['OR',
                     ['s.school_id'=>$school_id,'s.grade_id'=>$grade_id],
-                    ['r.author_id'=> Yii::$app->user->identity->id]]);
+                    ['r.author_id'=> Yii::$app->user->identity->id]])
+                ->orderBy(['created_at'=>SORT_DESC]);
         return new ActiveDataProvider([
                     'query'=>$modelQuery,
                     'pagination'=>[
