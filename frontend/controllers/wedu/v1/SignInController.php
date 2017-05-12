@@ -450,11 +450,11 @@ class SignInController extends \common\components\ControllerFrontendApi
     */
     /*
     {"name":"header.jpg","size":203100,"type":"image\/jpeg","hash":"FoTl-Zw-aJehckIRja4u_KHmGtYi","key":"1470045842510.jpg"}
-
      */
     public function actionUpdateProfile()
     {
-        $avatar_base_url = Yii::$app->params['qiniu']['wakooedu'];
+        $avatar_base_url = Yii::$app->params['qiniu']['wakooedu']['domain'];
+        //var_dump($avatar_base_url);exit;
         $user_id         = Yii::$app->request->post('user_id');
         $data            = Yii::$app->request->post('json_data');
         $data            = json_decode($data, true);
