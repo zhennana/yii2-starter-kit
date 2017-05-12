@@ -128,7 +128,8 @@ abstract class ShareStream extends \yii\db\ActiveRecord
        // 默认头像
         if(isset($proFileUser->avatar_base_url) && !empty($proFileUser->avatar_base_url))
         {
-           return  $avatar = $proFileUser->avatar_base_url.$proFileUser->avatar_path;
+            
+           return  $avatar = $proFileUser->avatar_base_url.'/'.$proFileUser->avatar_path;
         }else{
             $fansMpUser = isset($user->fansMp) ? $user->fansMp : '';
             if($fansMpUser){
