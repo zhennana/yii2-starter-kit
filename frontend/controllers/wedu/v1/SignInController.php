@@ -454,8 +454,7 @@ class SignInController extends \common\components\ControllerFrontendApi
      */
     public function actionUpdateProfile()
     {
-        $avatar_base_url = 'http://7xrpkx.com1.z0.glb.clouddn.com/';
-        $avatar_base_url = 'http://7xsm8j.com1.z0.glb.clouddn.com/';
+        $avatar_base_url = Yii::$app->params['qiniu']['wakooedu'];
         $user_id         = Yii::$app->request->post('user_id');
         $data            = Yii::$app->request->post('json_data');
         $data            = json_decode($data, true);
