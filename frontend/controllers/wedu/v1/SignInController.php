@@ -429,7 +429,9 @@ class SignInController extends \common\components\ControllerFrontendApi
      *        in = "formData",
      *        name = "json_data",
      *        description = "七牛返回的JSON数据",
+     *        
      *        required = true,
+     *        
      *        type = "string"
      *     ),
      *     @SWG\Response(
@@ -496,7 +498,7 @@ class SignInController extends \common\components\ControllerFrontendApi
             $this->serializer['message'] = $model->getErrors();
             return [];
         }
-        return $model->attributes;
+        return ['avatar_url'=>$model->attributes['avatar_base_url'].'/'.$model->attributes['avatar_path']];
     }
 
      
