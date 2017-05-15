@@ -169,7 +169,7 @@ class SignInController extends \common\components\ControllerFrontendApi
             // 默认头像
             if(isset($proFileUser->avatar_base_url) && !empty($proFileUser->avatar_base_url))
             {
-                $attrUser['avatar'] = $proFileUser->avatar_base_url.$proFileUser->avatar_path;
+                $attrUser['avatar'] = $proFileUser->avatar_base_url.'/'.$proFileUser->avatar_path;
             }else{
                 $fansMpUser = isset($model->user->fansMp) ? $model->user->fansMp : '';
                 if($fansMpUser){
@@ -429,7 +429,9 @@ class SignInController extends \common\components\ControllerFrontendApi
      *        in = "formData",
      *        name = "json_data",
      *        description = "七牛返回的JSON数据",
+     *        
      *        required = true,
+     *        
      *        type = "string"
      *     ),
      *     @SWG\Response(
@@ -450,12 +452,11 @@ class SignInController extends \common\components\ControllerFrontendApi
     */
     /*
     {"name":"header.jpg","size":203100,"type":"image\/jpeg","hash":"FoTl-Zw-aJehckIRja4u_KHmGtYi","key":"1470045842510.jpg"}
-
      */
     public function actionUpdateProfile()
     {
-        $avatar_base_url = 'http://7xrpkx.com1.z0.glb.clouddn.com/';
-        $avatar_base_url = 'http://7xsm8j.com1.z0.glb.clouddn.com/';
+        $avatar_base_url = Yii::$app->params['qiniu']['wakooedu']['domain'];
+        //var_dump($avatar_base_url);exit;
         $user_id         = Yii::$app->request->post('user_id');
         $data            = Yii::$app->request->post('json_data');
         $data            = json_decode($data, true);
@@ -497,7 +498,7 @@ class SignInController extends \common\components\ControllerFrontendApi
             $this->serializer['message'] = $model->getErrors();
             return [];
         }
-        return $model->attributes;
+        return ['avatar_url'=>$model->attributes['avatar_base_url'].'/'.$model->attributes['avatar_path']];
     }
 
      

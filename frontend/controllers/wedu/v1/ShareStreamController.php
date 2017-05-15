@@ -175,26 +175,31 @@ class ShareStreamController extends \common\rest\Controller
      * @return [type]             [description]
      */
     public function actionIndex($school_id = false ,$grade_id= false){
-        if(!$school_id){
+        if(!$school_id && !$grade_id){
             $this->serializer['errno']   = '422';
             $this->serializer['message'] = '找不到你所在的学校或者班级';
             return [];
         }
-        $models = new $this->modelClass;
-        $sql = '';
-        $sql .= "SELECT * FROM share_stream where ";
-        $sql .= " (find_in_set($school_id,school_id) ";
-        if($grade_id){
-             $sql .= " and find_in_set($grade_id,grade_id) ";
+        if(!isset(Yii::$app->user->identity->id)){
+            $this->serializer['errno']   = '422';
+            $this->serializer['message'] = '请登录';
+            return [];
         }
-       
-        $sql  .= ") or (school_id = 0 and grade_id = 0) ";
-        $sql  .= " or (school_id = $school_id and grade_id = 0) ";
-        // //var_dump($sql);exit;
-        $models = $models::findBySql($sql);
-        $pages = new Pagination(['totalCount' =>$models->count(), 'pageSize' => '1']);
-        $models =  $models->offset($pages->offset)->limit($pages->limit)->all();
-        $data['pages'] = $pages;
-        return  ArrayHelper::merge($models,$data);
+        $models = new $this->modelClass;
+        $modelQuery = $models::find()
+                ->from('share_stream as r')
+                ->select(['body','r.share_stream_id','r.author_id','r.created_at'])
+                ->JoinWith(['shareToGrade as s'])
+                ->where(['OR',
+                    ['s.school_id'=>$school_id,'s.grade_id'=>$grade_id],
+                    ['r.author_id'=> Yii::$app->user->identity->id]])
+                ->orderBy(['created_at'=>SORT_DESC]);
+        return new ActiveDataProvider([
+                    'query'=>$modelQuery,
+                    'pagination'=>[
+                        'pageSize'=>4
+                    ]
+            ]);
+     
     }   
 }
