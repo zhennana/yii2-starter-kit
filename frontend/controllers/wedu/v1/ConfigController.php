@@ -15,6 +15,7 @@ use frontend\models\edu\resources\UsersToUsers;
 use frontend\models\edu\resources\Courseware;
 use frontend\models\wedu\resources\Notice;
 use frontend\models\wedu\resources\CourseOrderItem;
+use frontend\models\wedu\resources\StudentRecord;
 
 class ConfigController extends \common\rest\Controller
 {
@@ -394,20 +395,32 @@ class ConfigController extends \common\rest\Controller
              'message'=>['label'=>'通知'],
              'teacher_said'=>['label'=>'老师说的话'],
              'course_item_order'=>['label'=>'课程相关'],
-             'above_course'     =>['label'=>'以上课程'],
+             'above_course'     =>['label'=>'已上课程'],
              'my_photos'        =>['label'=>'我的照片'],
              'about'            =>['label'=>'关于我们']
         ];
-        if(Yii::$app->user->identity->id){
+        if(isset(Yii::$app->user->identity->id)){
             $user_id = Yii::$app->user->identity->id;
         }else{
+            $this->serializer['errno'] = 300;
+            $this->serializer['message'] = '请你先登录';
             return [];
         }
-        $notice = new Notice;
-        $course_order = new CourseOrderItem;
-        $data['message'] = array_merge($data['message'],$notice->message(1));
-        $data['teacher_said'] = array_merge($data['message'],$notice->message(2));;
-        $data['course_item_order'] = array_merge($data['course_item_order'],$course_order->statistical());
+        $notice         = new Notice;
+        $course_order   = new CourseOrderItem;
+        $my_photos = new StudentRecord;
+        $student_record  =  StudentRecord::find()
+                            ->where(['user_id'=>$user_id])
+                            ->with('course')
+                            ->orderBy(['created_at'=>'SORT_SESC'])
+                            ->asArray()
+                            ->one();
+        
+        $data['message']                   = array_merge($data['message'],$notice->message(Notice::CATEGORY_ONE));
+        $data['teacher_said']              = array_merge($data['teacher_said'],$notice->message(Notice::CATEGORY_TWO));
+        $data['course_item_order']         = array_merge($data['course_item_order'],$course_order->statistical());
+        $data['above_course']['title']     = isset($student_record['course']['intro']) ? $student_record['course']['intro']: '';
+        $data['my_photos']                 = $my_photos->image_merge(3);
         return $data;
     }
 }

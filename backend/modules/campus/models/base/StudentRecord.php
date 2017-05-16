@@ -164,6 +164,10 @@ abstract class StudentRecord extends \yii\db\ActiveRecord
     public function getUser(){
         return $this->hasOne(\common\models\User::className(),['id'=>'user_id']);
     }
+
+    public function getStudentRecordValue(){
+        return $this->hasMany(\backend\modules\campus\models\StudentRecordValue::className(),['student_record_id'=>'student_record_id']);
+    }
     /**
      * @inheritdoc
      * @return \backend\modules\campus\models\query\StudentRecordQuery the active query used by this AR class.

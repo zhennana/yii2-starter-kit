@@ -151,23 +151,72 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getUserToGrade(){
         return $this->hasOne(UserToGrade::className(),['user_id'=>'id'])->orderBy(['created_at'=>'SORT_SESC']);
+    }  
+    /**
+     * 检测用户是否存在班级学校
+     * @param  boolean $type [description]
+     * @return boolean       [description]
+     */
+    public function is_userToGrade($type = false){
+        $query = $this->getUserToGrade();
+
+        if($type == 1){
+            $query->where(['NOT',['grade_user_type'=>UserToGrade::GRADE_USER_TYOE_TEACHER]]);
+        }
+
+        if($type == 2){
+            $query->where(['grade_user_type'=>UserToGrade::GRADE_USER_TYOE_TEACHER]);
+        }
+        if($query->count() == 0 ){
+            return false;
+        }else{
+            return true;
+        }
     }
     /**
      * 获取用户所在的学校
      * @return [type] [description]
      */
     public function getCharacterDetailes(){
+        $data = [];
+        if($this->is_userToGrade(1)){
+            $data['user_type']  = 1;
+            $model =  $this->getUserToGrade()
+                       ->where(['NOT',['grade_user_type'=>UserToGrade::GRADE_USER_TYOE_TEACHER]])
+                       ->one();
+        }
+        if($this->is_userToGrade(2)){
+            $data['user_type'] = 2;
+            $model = $this->getUserToGrade()
+                        ->where(['grade_user_type'=>UserToGrade::GRADE_USER_TYOE_TEACHER])
+                        ->one();
+
+        }
+
+        if(isset($model)){
+            return array_merge($model->toArray(['school_id','school_label','grade_id','grade_label']),$data);
+        }
        
-      $data = [];
-      if(!empty($this->userToGrade)){
-            return $this->userToGrade->toArray(['grade_id','grade_label','school_id','school_label']);
-       }elseif(!empty($this->userToSchool)){
-            return $this->userToSchool->toArray(['grade_id','grade_label','school_id','school_label']);
-      }
-       
-     return [];
+        return false;
     }
 
+
+    // /**
+    //  * 获取学校
+    //  * @return boolean [description]
+    //  */
+    // public function is_userToGrade(){
+
+    //     if($this->getUserToGrade()->where(['grade_user_type'=>UserToGrade::GRADE_USER_TYPE_STUDENT])->one()){
+    //         // 老师
+    //         $data = 2;
+    //     }else{
+    //         $data =
+    //     }
+    //     var_dump('mei');exit;
+    //     exit;
+    //     return false;
+    // }
     /**
      * 返回的字段初始化
      */

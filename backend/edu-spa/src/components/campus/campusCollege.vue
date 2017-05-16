@@ -57,13 +57,13 @@
         <el-button type="info" class="append el-icon-plus" v-on:click="dialogFormVisible = true" id="append">创建</el-button>
       </div>
       <el-table :data="campusResult" border style="width: 100%; text-align: center;">
-        <el-table-column fixed prop="id" label="学校ID" width="80"></el-table-column>
-        <el-table-column prop="school_title" label="名称" width="180"></el-table-column>
-        <el-table-column prop="province" label="省份" width="120"></el-table-column>
-        <el-table-column prop="city" label="市区" width="120"></el-table-column>
-        <el-table-column prop="region" label="县区" width="120"></el-table-column>
-        <el-table-column prop="address" label="地址" width="300"></el-table-column>
-        <el-table-column prop="status_label" label="学校是否开启" width="150"></el-table-column>
+        <el-table-column fixed prop="id" label="学校ID" width="120" sortable></el-table-column>
+        <el-table-column prop="school_title" label="名称" width="180" sortable></el-table-column>
+        <el-table-column prop="province" label="省份" width="120" sortable></el-table-column>
+        <el-table-column prop="city" label="市区" width="120" sortable></el-table-column>
+        <el-table-column prop="region" label="县区" width="120" sortable></el-table-column>
+        <el-table-column prop="address" label="地址" width="300" sortable></el-table-column>
+        <el-table-column prop="status_label" label="学校是否开启" width="150" sortable></el-table-column>
         <el-table-column fixed="right" label="操作" width="246">
           <template scope="scope">
             <el-button type="info" v-on:click="lookDetails(scope.row)">查看</el-button>

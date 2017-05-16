@@ -5,6 +5,7 @@ use yii\helpers\ArrayHelper;
 use backend\modules\campus\models\ShareStream as BaseShareStream;
 use frontend\models\wedu\resources\FileStorageItem;
 use frontend\models\wedu\resources\ShareToFile;
+use frontend\models\wedu\resources\ShareStreamToGrade;
 
 class ShareStream extends BaseShareStream
 {
@@ -34,23 +35,26 @@ class ShareStream extends BaseShareStream
         return ArrayHelper::merge(
                 parent::fields(),
                 [
-                    'imageUrl'=>function(){
-                        $date = [];
+                    'imageUrls'=>function(){
+                      $data = [];
                       foreach ($this->shareToFile as $key => $value) {
                             if(isset($value->fileStorageItem)){
-                                $data[] = $value->fileStorageItem->url.$value->fileStorageItem->file_name;
+                                $data[] = [
+                                        'image_original'=>$value->fileStorageItem->url.$value->fileStorageItem->file_name,
+                                         'image_shrinkage'=>$value->fileStorageItem->url.$value->fileStorageItem->file_name.'?imageView2/3/w/400/h/400',
+                                        ];
                             }
                       }
                       return $data;
                     },
-                    'user_label'=>function(){
-                        return $this->getUserName($this->user_id);
+                    'user_label'=>function($model){
+                        return $this->getUserName($this->author_id);
                     },
-                    'created_at'=>function(){
-                        return date('Y-m-d h:i:s',$this->created_at);
-                    },
+                    // 'created_at'=>function(){
+                    //     return date('Y-m-d h:i:s',$this->created_at);
+                    // }, 
                     'user_avatar'=>function(){
-                        return $this->getUserAvatar($this->user_id);
+                            return $this->getUserAvatar($this->author_id);
                     }
                 ]
             );
@@ -67,6 +71,13 @@ class ShareStream extends BaseShareStream
             if($this->save() == false){
                 $transaction->rollBack();
                 return $this;
+            }
+            
+            $data['ShareStream']['share_stream_id'] =  $this->share_stream_id;
+            $share_to_grade = $this->addShareStreamToGrade($data['ShareStream']);
+            if(isset($share_to_grade) && $share_to_grade->hasErrors()){
+                $transaction->rollBack();
+                return $share_to_grade;
             }
             $storage = $this->addFileStorageItem($data['FileStorageItem']);
             if(isset($storage) && $storage->hasErrors()){
@@ -87,6 +98,13 @@ class ShareStream extends BaseShareStream
             return $this;
         }
 
+    }
+
+    public function addShareStreamToGrade($data){
+           $model = new ShareStreamToGrade;
+           $model->load($data,'');
+           $model->save();
+           return $model;
     }
 
     public function addFileStorageItem($data){
