@@ -24,7 +24,7 @@ class CourseController extends \common\rest\Controller
 
     /**
      * @param  [action] yii\rest\IndexAction
-     * @return [type] 
+     * @return [type]
      */
     public function beforeAction($action)
     {
