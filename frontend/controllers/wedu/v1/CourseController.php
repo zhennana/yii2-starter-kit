@@ -90,7 +90,7 @@ class CourseController extends \common\rest\Controller
     		return [];
     	}
     	$signin = SignIn::find()->where(['student_id'=>Yii::$app->user->identity->id]);
-    	$pages = new Pagination(['totalCount' =>$signin->count(), 'pageSize' => '10']);
+    	$pages = new Pagination(['totalCount' =>$signin->count(), 'pageSize' => '12']);
     	$signin =  $signin->offset($pages->offset)->limit($pages->limit)->all();
     	if(!$signin){
     		$this->serializer['errno'] = 300;
