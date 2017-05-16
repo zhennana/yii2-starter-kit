@@ -83,7 +83,7 @@ class CourseController extends \common\rest\Controller
      * @return [type]       [description]
      */
     public function actionIndex()
-    {	
+    {
     	if(!isset(Yii::$app->user->identity->id)){
     		$this->serializer['errno'] 		= '300';
     		$this->serializer['message'] 	= '请先登录';
@@ -99,7 +99,7 @@ class CourseController extends \common\rest\Controller
     	}
     	foreach ($signin as $key => $value) {
     		if($value->course){
-    			$data[$key] = $value->course->toArray(['course_id','title','intro','courseware_id']);
+    			$data[$key] = $value->course->toArray(['course_id','title','created_at','courseware_id']);
     			$data[$key]['image_url'] = Yii::$app->params['user_avatar'];
     		}
     	}
@@ -139,10 +139,9 @@ class CourseController extends \common\rest\Controller
 	    	->where(['user_id'=>Yii::$app->user->identity->id,'course_id'=>$course_id])
 	    	->andWhere(['status'=>StudentRecord::STUDEN_RECORD_STATUS_VALID])
 	    	->with(['course','studentRecordValue'=>function($query){
-	    			
                     $query->select(['student_record_value_id','student_record_id','body']);
 	    			$query->with(['studentRecordValueToFile'=>function($query){
-	    					
+
                             $query->select(['student_record_value_id','file_storage_item_id']);
 	    					$query->with('fileStorageItem');
 	    			}]);
@@ -151,13 +150,13 @@ class CourseController extends \common\rest\Controller
 	    	->one();
 	    $data = [];
 	    $data['title'] = isset($studentRecord['course']['title']) ? $studentRecord['course']['title'] : '' ;
-	    $data['intro'] = isset($studentRecord['course']['intro']) ? $studentRecord['course']['title'] : '';
+	    $data['intro'] = isset($studentRecord['course']['intro']) ? $studentRecord['course']['intro'] : '';
 	    $data['expression'] = isset($studentRecord['studentRecordValue'][0]['body']) ? $studentRecord['studentRecordValue'][0]['body']:'';
 	    $data['image_url']  = [];
 	    if(isset($studentRecord['studentRecordValue'][0]['studentRecordValueToFile'])){
 	    	$file = $studentRecord['studentRecordValue'][0]['studentRecordValueToFile'];
 	    		foreach ($file as $key => $value) {
-	    			 $data['image_url'][] = $value['fileStorageItem']['url'].$value['fileStorageItem']['file_name']	;
+	    			 $data['image_url'][] = $value['fileStorageItem']['url'].$value['fileStorageItem']['file_name'];
 	    		}
 	    }
 	    return $data;
@@ -187,7 +186,7 @@ class CourseController extends \common\rest\Controller
         return new ArrayDataProvider([
                  'allModels'=>$studentRecord->image_merge(),
                  'pagination'=>[
-                    'pageSize'=> 3
+                    'pageSize'=> 12
                 ]]);
     	// $studentRecord = StudentRecord::find()
 	    // 	->where(['user_id'=>Yii::$app->user->identity->id])
