@@ -408,14 +408,13 @@ class ConfigController extends \common\rest\Controller
         }
         $notice         = new Notice;
         $course_order   = new CourseOrderItem;
-        $my_photos = new StudentRecord;
+        $my_photos      =    new StudentRecord;
         $student_record  =  StudentRecord::find()
                             ->where(['user_id'=>$user_id])
                             ->with('course')
                             ->orderBy(['created_at'=>'SORT_SESC'])
                             ->asArray()
                             ->one();
-        
         $data['message']                   = array_merge($data['message'],$notice->message(Notice::CATEGORY_ONE));
         $data['teacher_said']              = array_merge($data['teacher_said'],$notice->message(Notice::CATEGORY_TWO));
         $data['course_item_order']         = array_merge($data['course_item_order'],$course_order->statistical());
