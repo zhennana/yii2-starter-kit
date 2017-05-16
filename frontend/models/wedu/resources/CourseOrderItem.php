@@ -42,8 +42,8 @@ public function behaviors()
         $obove_course_count = $this->oboveCourse();
         $data = [];
         $data = [
-            'total_courses' => (int)$model['total_courses'],
-            'presented_course' => (int)$model['total_courses'] -$obove_course_count
+            'total_courses' => '总共'.(int)$model['total_courses'].'节课',
+            'presented_course' => '剩余'.(int)$model['total_courses'] -$obove_course_count.'节课',
         ];
         return $data; 
     }
