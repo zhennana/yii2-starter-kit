@@ -501,7 +501,6 @@ class SignInController extends \common\components\ControllerFrontendApi
         return ['avatar_url'=>$model->attributes['avatar_base_url'].'/'.$model->attributes['avatar_path']];
     }
 
-     
 
     /**
      * @SWG\Get(path="/sign-in/qiniu-token",
