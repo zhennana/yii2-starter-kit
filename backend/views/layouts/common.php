@@ -242,6 +242,8 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                 ], 
                                 ['label'=>Yii::t('backend', '联系我们'), 'url'=>['/campus/contact/index'], 'icon'=>'<i class=" fa  fa-file-text"></i>'
                                 ],
+                                ['label'=>Yii::t('backend', '通知消息管理'), 'url'=>['/campus/notice/index'], 'icon'=>'<i class=" fa  fa-file-text"></i>'
+                                ],
                             ]
                         ],
                         [
