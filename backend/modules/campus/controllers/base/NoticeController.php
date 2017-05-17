@@ -55,128 +55,145 @@ public $enableCsrfValidation = false;
     ];
     }
 
-/**
-* Lists all Notice models.
-* @return mixed
-*/
-public function actionIndex()
-{
-    $searchModel  = new NoticeSearch;
-    $dataProvider = $searchModel->search($_GET);
+    /**
+    * Lists all Notice models.
+    * @return mixed
+    */
+    public function actionIndex()
+    {
+        $searchModel  = new NoticeSearch;
+        $dataProvider = $searchModel->search($_GET);
+        $dataProvider->sort = [
+            'defaultOrder'=>[
+                'updated_at' => SORT_DESC
+            ]
+        ];
 
-Tabs::clearLocalStorage();
+        Tabs::clearLocalStorage();
 
-Url::remember();
-\Yii::$app->session['__crudReturnUrl'] = null;
+        Url::remember();
+        \Yii::$app->session['__crudReturnUrl'] = null;
 
-return $this->render('index', [
-'dataProvider' => $dataProvider,
-    'searchModel' => $searchModel,
-]);
-}
+        return $this->render('index', [
+            'dataProvider' => $dataProvider,
+            'searchModel'  => $searchModel,
+        ]);
+    }
 
-/**
-* Displays a single Notice model.
-* @param string $notice_id
-*
-* @return mixed
-*/
-public function actionView($notice_id)
-{
-\Yii::$app->session['__crudReturnUrl'] = Url::previous();
-Url::remember();
-Tabs::rememberActiveState();
+    /**
+    * Displays a single Notice model.
+    * @param string $notice_id
+    *
+    * @return mixed
+    */
+    public function actionView($notice_id)
+    {
+    \Yii::$app->session['__crudReturnUrl'] = Url::previous();
+    Url::remember();
+    Tabs::rememberActiveState();
 
-return $this->render('view', [
-'model' => $this->findModel($notice_id),
-]);
-}
+    return $this->render('view', [
+    'model' => $this->findModel($notice_id),
+    ]);
+    }
 
-/**
-* Creates a new Notice model.
-* If creation is successful, the browser will be redirected to the 'view' page.
-* @return mixed
-*/
-public function actionCreate()
-{
-$model = new Notice;
+    /**
+    * Creates a new Notice model.
+    * If creation is successful, the browser will be redirected to the 'view' page.
+    * @return mixed
+    */
+    public function actionCreate()
+    {
+        $model = new Notice;
 
-try {
-if ($model->load($_POST) && $model->save()) {
-return $this->redirect(['view', 'notice_id' => $model->notice_id]);
-} elseif (!\Yii::$app->request->isPost) {
-$model->load($_GET);
-}
-} catch (\Exception $e) {
-$msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
-$model->addError('_exception', $msg);
-}
-return $this->render('create', ['model' => $model]);
-}
+        if ($model->load($_POST)) {
+            $info = $model->dataSave($_POST['Notice']);
 
-/**
-* Updates an existing Notice model.
-* If update is successful, the browser will be redirected to the 'view' page.
-* @param string $notice_id
-* @return mixed
-*/
-public function actionUpdate($notice_id)
-{
-$model = $this->findModel($notice_id);
+            if(!empty($info['error'])){
+                return $this->render('create',['model'=>$model]);
+            }
 
-if ($model->load($_POST) && $model->save()) {
-return $this->redirect(Url::previous());
-} else {
-return $this->render('update', [
-'model' => $model,
-]);
-}
-}
+        return $this->redirect(['notice/index']);
+        }
 
-/**
-* Deletes an existing Notice model.
-* If deletion is successful, the browser will be redirected to the 'index' page.
-* @param string $notice_id
-* @return mixed
-*/
-public function actionDelete($notice_id)
-{
-try {
-$this->findModel($notice_id)->delete();
-} catch (\Exception $e) {
-$msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
-\Yii::$app->getSession()->addFlash('error', $msg);
-return $this->redirect(Url::previous());
-}
+        /*
+        try {
+            if ($model->load($_POST) && $model->save()) {
+                return $this->redirect(['view', 'notice_id' => $model->notice_id]);
+            } elseif (!\Yii::$app->request->isPost) {
+                $model->load($_GET);
+            }
+        } catch (\Exception $e) {
+            $msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
+            $model->addError('_exception', $msg);
+        }
+        */
+        return $this->render('create', ['model' => $model]);
+    }
 
-// TODO: improve detection
-$isPivot = strstr('$notice_id',',');
-if ($isPivot == true) {
-return $this->redirect(Url::previous());
-} elseif (isset(\Yii::$app->session['__crudReturnUrl']) && \Yii::$app->session['__crudReturnUrl'] != '/') {
-Url::remember(null);
-$url = \Yii::$app->session['__crudReturnUrl'];
-\Yii::$app->session['__crudReturnUrl'] = null;
+    /**
+    * Updates an existing Notice model.
+    * If update is successful, the browser will be redirected to the 'view' page.
+    * @param string $notice_id
+    * @return mixed
+    */
+    public function actionUpdate($notice_id)
+    {
+        $model = $this->findModel($notice_id);
 
-return $this->redirect($url);
-} else {
-return $this->redirect(['index']);
-}
-}
+        if ($model->load($_POST) && $model->save()) {
+            return $this->redirect(Url::previous());
+        } else {
+            return $this->render('update', [
+                'model' => $model,
+            ]);
+        }
+    }
 
-/**
-* Finds the Notice model based on its primary key value.
-* If the model is not found, a 404 HTTP exception will be thrown.
-* @param string $notice_id
-* @return Notice the loaded model
-* @throws HttpException if the model cannot be found
-*/
-protected function findModel($notice_id)
-{
-if (($model = Notice::findOne($notice_id)) !== null) {
-return $model;
-} else {
-throw new HttpException(404, 'The requested page does not exist.');
-}
-}
+    /**
+    * Deletes an existing Notice model.
+    * If deletion is successful, the browser will be redirected to the 'index' page.
+    * @param string $notice_id
+    * @return mixed
+    */
+    public function actionDelete($notice_id)
+    {
+    try {
+    $this->findModel($notice_id)->delete();
+    } catch (\Exception $e) {
+    $msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
+    \Yii::$app->getSession()->addFlash('error', $msg);
+    return $this->redirect(Url::previous());
+    }
+
+    // TODO: improve detection
+    $isPivot = strstr('$notice_id',',');
+    if ($isPivot == true) {
+    return $this->redirect(Url::previous());
+    } elseif (isset(\Yii::$app->session['__crudReturnUrl']) && \Yii::$app->session['__crudReturnUrl'] != '/') {
+    Url::remember(null);
+    $url = \Yii::$app->session['__crudReturnUrl'];
+    \Yii::$app->session['__crudReturnUrl'] = null;
+
+    return $this->redirect($url);
+    } else {
+    return $this->redirect(['index']);
+    }
+    }
+
+    /**
+    * Finds the Notice model based on its primary key value.
+    * If the model is not found, a 404 HTTP exception will be thrown.
+    * @param string $notice_id
+    * @return Notice the loaded model
+    * @throws HttpException if the model cannot be found
+    */
+    protected function findModel($notice_id)
+    {
+    if (($model = Notice::findOne($notice_id)) !== null) {
+    return $model;
+    } else {
+    throw new HttpException(404, 'The requested page does not exist.');
+    }
+    }
 }

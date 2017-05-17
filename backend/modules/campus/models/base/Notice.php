@@ -37,6 +37,9 @@ abstract class Notice extends \yii\db\ActiveRecord
     CONST CATEGORY_ONE     = 1; //消息通知；
     CONST CATEGORY_TWO     = 2; //老师对学生说的话；
 
+    CONST STATUS_SEND_SENT   = 10;    // 发送
+    CONST STATUS_SEND_UNSENT = 20;    // 未发送
+
     /**
      * @inheritdoc
      */
@@ -67,7 +70,7 @@ abstract class Notice extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['message', 'sender_id'], 'required'],
+            [['title','message', 'sender_id','receiver_id'], 'required'],
             [['message'], 'string'],
             [['sender_id', 'receiver_id', 'is_sms', 'is_wechat_message', 'times', 'status_send', 'status_check'], 'integer'],
             [['title'], 'string', 'max' => 128],
@@ -82,22 +85,22 @@ abstract class Notice extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'notice_id' => Yii::t('backend', '通知ID'),
-            'title' => Yii::t('backend', '消息标题'),
-            'message' => Yii::t('backend', '通知消息内容'),
-            'message_hash' => Yii::t('backend', 'Message Hash'),
-            'sender_id' => Yii::t('backend', '发送者ID'),
-            'receiver_id' => Yii::t('backend', '接收者ID'),
+            'notice_id'              => Yii::t('backend', '消息ID'),
+            'title'                  => Yii::t('backend', '消息标题'),
+            'message'                => Yii::t('backend', '消息内容'),
+            'message_hash'           => Yii::t('backend', 'Message Hash'),
+            'sender_id'              => Yii::t('backend', '发送者ID'),
+            'receiver_id'            => Yii::t('backend', '接收者ID'),
             'receiver_phone_numeber' => Yii::t('backend', '接收者手机号'),
-            'receiver_name' => Yii::t('backend', '接受者称谓'),
-            'is_sms' => Yii::t('backend', '10：发送短信，发送消息标题；11：发送短信，发送消息体'),
-            'is_wechat_message' => Yii::t('backend', '1：发送微信消息'),
-            'wechat_message_id' => Yii::t('backend', 'Wechat Message ID'),
-            'times' => Yii::t('backend', '发送次数'),
-            'status_send' => Yii::t('backend', '状态：10发送'),
-            'status_check' => Yii::t('backend', '状态：10查看'),
-            'created_at' => Yii::t('backend', 'Created At'),
-            'updated_at' => Yii::t('backend', 'Updated At'),
+            'receiver_name'          => Yii::t('backend', '接受者称谓'),
+            'is_sms'                 => Yii::t('backend', '短信息类型'),
+            'wechat_message_id'      => Yii::t('backend', 'Wechat Message ID'),
+            'is_wechat_message'      => Yii::t('backend', '微信消息类型'),
+            'times'                  => Yii::t('backend', '发送次数'),
+            'status_send'            => Yii::t('backend', '发送状态'),
+            'status_check'           => Yii::t('backend', '查看状态'),
+            'created_at'             => Yii::t('backend', '创建时间'),
+            'updated_at'             => Yii::t('backend', '更新时间'),
         ];
     }
 
@@ -107,22 +110,37 @@ abstract class Notice extends \yii\db\ActiveRecord
     public function attributeHints()
     {
         return array_merge(parent::attributeHints(), [
-            'notice_id' => Yii::t('backend', '通知ID'),
-            'title' => Yii::t('backend', '消息标题'),
-            'message' => Yii::t('backend', '通知消息内容'),
-            'sender_id' => Yii::t('backend', '发送者ID'),
-            'receiver_id' => Yii::t('backend', '接收者ID'),
+            'notice_id'              => Yii::t('backend', '消息ID'),
+            'title'                  => Yii::t('backend', '消息标题，不作为消息发送'),
+            'message'                => Yii::t('backend', '接收者可以看到的消息内容'),
+            'sender_id'              => Yii::t('backend', '发送者ID'),
+            'receiver_id'            => Yii::t('backend', '接收者，可多选'),
             'receiver_phone_numeber' => Yii::t('backend', '接收者手机号'),
-            'receiver_name' => Yii::t('backend', '接受者称谓'),
-            'is_sms' => Yii::t('backend', '10：发送短信，发送消息标题；11：发送短信，发送消息体'),
-            'is_wechat_message' => Yii::t('backend', '1：发送微信消息'),
-            'times' => Yii::t('backend', '发送次数'),
-            'status_send' => Yii::t('backend', '状态：10发送'),
-            'status_check' => Yii::t('backend', '状态：10查看'),
+            'receiver_name'          => Yii::t('backend', '接受者称谓'),
+            'is_sms'                 => Yii::t('backend', '10：发送短信，发送消息标题；11：发送短信，发送消息体'),
+            'is_wechat_message'      => Yii::t('backend', '1：发送微信消息'),
+            'times'                  => Yii::t('backend', '发送次数'),
+            'status_send'            => Yii::t('backend', '默认发送'),
+            'status_check'           => Yii::t('backend', '状态：10查看'),
         ]);
     }
 
+    public static function optsStatusSend()
+    {
+        return [
+            self::STATUS_SEND_SENT   => Yii::t('backend','发送'),
+            self::STATUS_SEND_UNSENT => Yii::t('backend','未发送')
+        ];
+    }
 
+    public static function getStatusSendLabel($value)
+    {
+        $labels = self::optsStatusSend();
+        if(isset($labels[$value])){
+            return $labels[$value];
+        }
+        return $value;
+    }
     
     /**
      * @inheritdoc
