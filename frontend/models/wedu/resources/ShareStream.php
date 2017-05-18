@@ -9,8 +9,8 @@ use frontend\models\wedu\resources\ShareStreamToGrade;
 
 class ShareStream extends BaseShareStream
 {
-    private  $_storage_ids = [];
-    private  $_error       = [];
+    //private  $_storage_ids = [];
+    //private  $_error       = [];
     public function behaviors()
     {
         return ArrayHelper::merge(
@@ -59,6 +59,7 @@ class ShareStream extends BaseShareStream
                 ]
             );
     }
+    /*
     public function batch_create($data){
         if(isset($data['FileStorageItem']) && count($data['FileStorageItem']) > 9 ){
             return $this->addErrors('_example','图片不能大于9张');
@@ -133,6 +134,8 @@ class ShareStream extends BaseShareStream
             }
         }
     }
+
+    */
 }
 
 ?>

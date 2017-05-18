@@ -173,9 +173,8 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                 ],
                                 ['label'=>Yii::t('backend', '附件管理'), 'url'=>['/campus/file-storage-item/index'], 'icon'=>'<i class=" fa  fa-file-text"></i>'
                                 ],
-                            ]   
+                            ]
                         ],
-                        
                         /*
                         [
                             'label'=>Yii::t('backend', '班级管理'),
@@ -184,12 +183,12 @@ $avatar .= '?imageView2/3/w/215/h/215';
                             'options'=>['class'=>'treeview'],
                             'items'=>[
                                 ['label'=>Yii::t('backend', '学生管理'), 'url'=>['/campus/apply-to-play/index'], 'icon'=>'<i class="fa  fa-file-text"></i>'
-                                ], 
+                                ],
                                 ['label'=>Yii::t('backend', '学员档案管理'), 'url'=>['/campus/contact/index'], 'icon'=>'<i class=" fa  fa-file-text"></i>'
                                 ],
 
-                            ]   
-                        ], 
+                            ]
+                        ],
                         */
                         [
                             'label'=>Yii::t('backend', '课程管理（学生）'),
@@ -244,7 +243,10 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                 ],
                                 ['label'=>Yii::t('backend', '通知消息管理'), 'url'=>['/campus/notice/index'], 'icon'=>'<i class=" fa  fa-file-text"></i>'
                                 ],
+                                ['label'=>Yii::t('backend', '发布消息'), 'url'=>['/campus/share-stream/index'], 'icon'=>'<i class=" fa  fa-file-text"></i>'
+                                ],
                             ]
+
                         ],
                         [
                             'label'=>Yii::t('backend', '学校管理'),

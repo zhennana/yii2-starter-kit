@@ -56,7 +56,7 @@ abstract class ShareStreamToGrade extends \yii\db\ActiveRecord
             [['share_stream_id'], 'required'],
             [['status', 'auditor_id'], 'integer'],
             ['status','default','value'=>10],
-            [['school_id', 'grade_id'], 'string', 'max' => 256]
+            [['school_id', 'grade_id'], 'safe']
         ];
     }
 
@@ -68,7 +68,7 @@ abstract class ShareStreamToGrade extends \yii\db\ActiveRecord
         return [
             'share_stream_id' => Yii::t('backend', 'Share Stream ID'),
             'school_id' => Yii::t('backend', 'School ID'),
-            'grade_id' => Yii::t('backend', '审核人'),
+            'grade_id' => Yii::t('backend', '学校id'),
             'status' => Yii::t('backend', '状态'),
             'updated_at' => Yii::t('backend', 'Updated At'),
             'created_at' => Yii::t('backend', 'Created At'),
