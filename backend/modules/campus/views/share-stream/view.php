@@ -1,0 +1,255 @@
+<?php
+
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\grid\GridView;
+use yii\widgets\DetailView;
+use yii\widgets\Pjax;
+use dmstr\bootstrap\Tabs;
+
+/**
+* @var yii\web\View $this
+* @var backend\modules\campus\models\ShareStream $model
+*/
+$copyParams = $model->attributes;
+
+$this->title = Yii::t('backend', 'Share Stream');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Share Streams'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => (string)$model->share_stream_id, 'url' => ['view', 'share_stream_id' => $model->share_stream_id]];
+$this->params['breadcrumbs'][] = Yii::t('backend', 'View');
+?>
+<div class="giiant-crud share-stream-view">
+
+    <!-- flash message -->
+    <?php if (\Yii::$app->session->getFlash('deleteError') !== null) : ?>
+        <span class="alert alert-info alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+            <?= \Yii::$app->session->getFlash('deleteError') ?>
+        </span>
+    <?php endif; ?>
+
+    <h1>
+        <?= Yii::t('backend', 'Share Stream') ?>
+        <small>
+            <?= $model->share_stream_id ?>
+        </small>
+    </h1>
+
+
+    <div class="clearfix crud-navigation">
+
+        <!-- menu buttons -->
+        <div class='pull-left'>
+            <?= Html::a(
+            '<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('backend', 'Edit'),
+            [ 'update', 'share_stream_id' => $model->share_stream_id],
+            ['class' => 'btn btn-info']) ?>
+
+            <?= Html::a(
+            '<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('backend', 'Copy'),
+            ['create', 'share_stream_id' => $model->share_stream_id, 'ShareStream'=>$copyParams],
+            ['class' => 'btn btn-success']) ?>
+
+            <?= Html::a(
+            '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'New'),
+            ['create'],
+            ['class' => 'btn btn-success']) ?>
+        </div>
+
+        <div class="pull-right">
+            <?= Html::a('<span class="glyphicon glyphicon-list"></span> '
+            . Yii::t('backend', 'Full list'), ['index'], ['class'=>'btn btn-default']) ?>
+        </div>
+
+    </div>
+
+    <hr />
+
+    <?php $this->beginBlock('backend\modules\campus\models\ShareStream'); ?>
+
+    
+    <?= DetailView::widget([
+    'model' => $model,
+    'attributes' => [
+            'body',
+        'status',
+        'author_id',
+    ],
+    ]); ?>
+
+    
+    <hr/>
+
+    <?= Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('backend', 'Delete'), ['delete', 'share_stream_id' => $model->share_stream_id],
+    [
+    'class' => 'btn btn-danger',
+    'data-confirm' => '' . Yii::t('backend', 'Are you sure to delete this item?') . '',
+    'data-method' => 'post',
+    ]); ?>
+    <?php $this->endBlock(); ?>
+
+
+    
+<?php $this->beginBlock('ShareToFiles'); ?>
+<div style='position: relative'>
+<div style='position:absolute; right: 0px; top: 0px;'>
+  <?= Html::a(
+            '<span class="glyphicon glyphicon-list"></span> ' . Yii::t('backend', 'List All') . ' Share To Files',
+            ['share-to-file/index'],
+            ['class'=>'btn text-muted btn-xs']
+        ) ?>
+  <?= Html::a(
+            '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'New') . ' Share To File',
+            ['share-to-file/create', 'ShareToFile' => ['share_stream_id' => $model->share_stream_id]],
+            ['class'=>'btn btn-success btn-xs']
+        ); ?>
+</div>
+</div>
+<?php Pjax::begin(['id'=>'pjax-ShareToFiles', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-ShareToFiles ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
+<?=
+ '<div class="table-responsive">'
+ . \yii\grid\GridView::widget([
+    'layout' => '{summary}{pager}<br/>{items}{pager}',
+    'dataProvider' => new \yii\data\ActiveDataProvider([
+        'query' => $model->getShareToFiles(),
+        'pagination' => [
+            'pageSize' => 20,
+            'pageParam'=>'page-sharetofiles',
+        ]
+    ]),
+    'pager'        => [
+        'class'          => yii\widgets\LinkPager::className(),
+        'firstPageLabel' => Yii::t('backend', 'First'),
+        'lastPageLabel'  => Yii::t('backend', 'Last')
+    ],
+    'columns' => [
+ [
+    'class'      => 'yii\grid\ActionColumn',
+    'template'   => '{view} {update}',
+    'contentOptions' => ['nowrap'=>'nowrap'],
+    'urlCreator' => function ($action, $model, $key, $index) {
+        // using the column name as key, not mapping to 'id' like the standard generator
+        $params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
+        $params[0] = 'share-to-file' . '/' . $action;
+        $params['ShareToFile'] = ['share_stream_id' => $model->primaryKey()[0]];
+        return $params;
+    },
+    'buttons'    => [
+        
+    ],
+    'controller' => 'share-to-file'
+],
+        'share_to_file_id',
+// generated by schmunk42\giiant\generators\crud\providers\core\RelationProvider::columnFormat
+[
+    'class' => yii\grid\DataColumn::className(),
+    'attribute' => 'file_storage_item_id',
+    'value' => function ($model) {
+        if ($rel = $model->getFileStorageItem()->one()) {
+            return Html::a($rel->file_storage_item_id, ['file-storage-item/view', 'file_storage_item_id' => $rel->file_storage_item_id,], ['data-pjax' => 0]);
+        } else {
+            return '';
+        }
+    },
+    'format' => 'raw',
+],
+        'status',
+        'updated_at',
+        'created_at',
+]
+])
+ . '</div>' 
+?>
+<?php Pjax::end() ?>
+<?php $this->endBlock() ?>
+
+
+<?php $this->beginBlock('ShareToGrades'); ?>
+<div style='position: relative'>
+<div style='position:absolute; right: 0px; top: 0px;'>
+  <?= Html::a(
+            '<span class="glyphicon glyphicon-list"></span> ' . Yii::t('backend', 'List All') . ' Share To Grades',
+            ['share-stream-to-grade/index'],
+            ['class'=>'btn text-muted btn-xs']
+        ) ?>
+  <?= Html::a(
+            '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'New') . ' Share To Grade',
+            ['share-stream-to-grade/create', 'ShareStreamToGrade' => ['share_stream_id' => $model->share_stream_id]],
+            ['class'=>'btn btn-success btn-xs']
+        ); ?>
+</div>
+</div>
+<?php Pjax::begin(['id'=>'pjax-ShareToGrades', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-ShareToGrades ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
+<?=
+ '<div class="table-responsive">'
+ . \yii\grid\GridView::widget([
+    'layout' => '{summary}{pager}<br/>{items}{pager}',
+    'dataProvider' => new \yii\data\ActiveDataProvider([
+        'query' => $model->getShareToGrades(),
+        'pagination' => [
+            'pageSize' => 20,
+            'pageParam'=>'page-sharetogrades',
+        ]
+    ]),
+    'pager'        => [
+        'class'          => yii\widgets\LinkPager::className(),
+        'firstPageLabel' => Yii::t('backend', 'First'),
+        'lastPageLabel'  => Yii::t('backend', 'Last')
+    ],
+    'columns' => [
+ [
+    'class'      => 'yii\grid\ActionColumn',
+    'template'   => '{view} {update}',
+    'contentOptions' => ['nowrap'=>'nowrap'],
+    'urlCreator' => function ($action, $model, $key, $index) {
+        // using the column name as key, not mapping to 'id' like the standard generator
+        $params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
+        $params[0] = 'share-stream-to-grade' . '/' . $action;
+        $params['ShareStreamToGrade'] = ['share_stream_id' => $model->primaryKey()[0]];
+        return $params;
+    },
+    'buttons'    => [
+        
+    ],
+    'controller' => 'share-stream-to-grade'
+],
+        'school_id',
+        'grade_id',
+        'status',
+        'updated_at',
+        'created_at',
+        'auditor_id',
+]
+])
+ . '</div>' 
+?>
+<?php Pjax::end() ?>
+<?php $this->endBlock() ?>
+
+
+    <?= Tabs::widget(
+                 [
+                     'id' => 'relation-tabs',
+                     'encodeLabels' => false,
+                     'items' => [
+ [
+    'label'   => '<b class=""># '.$model->share_stream_id.'</b>',
+    'content' => $this->blocks['backend\modules\campus\models\ShareStream'],
+    'active'  => true,
+],
+[
+    'content' => $this->blocks['ShareToFiles'],
+    'label'   => '<small>Share To Files <span class="badge badge-default">'.count($model->getShareToFiles()->asArray()->all()).'</span></small>',
+    'active'  => false,
+],
+[
+    'content' => $this->blocks['ShareToGrades'],
+    'label'   => '<small>Share To Grades <span class="badge badge-default">'.count($model->getShareToGrades()->asArray()->all()).'</span></small>',
+    'active'  => false,
+],
+ ]
+                 ]
+    );
+    ?>
+</div>

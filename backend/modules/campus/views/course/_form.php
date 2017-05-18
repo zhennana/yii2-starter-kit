@@ -60,7 +60,7 @@ $Courseware = ArrayHelper::map($Courseware,'courseware_id','title');
                     'pluginOptions' => [
                         'allowClear' => true,
                     ],
-                ]); ?>           
+                ]); ?>
 
 <!-- attribute intro -->
 			<?= $form->field($model, 'intro')->textInput(['maxlength' => true]) ?>
