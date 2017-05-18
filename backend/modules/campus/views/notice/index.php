@@ -4,6 +4,8 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\GridView;
 
+use backend\modules\campus\models\Notice;
+
 /**
 * @var yii\web\View $this
 * @var yii\data\ActiveDataProvider $dataProvider
@@ -49,45 +51,43 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
     <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
 
     <h1>
-        <?= Yii::t('backend', 'Notices') ?>
+        <?= Yii::t('backend', '消息管理') ?>
         <small>
             List
         </small>
     </h1>
     <div class="clearfix crud-navigation">
-<?php
-if(\Yii::$app->user->can('campus_notice_create', ['route' => true])){
-?>
         <div class="pull-left">
+            <?php if(\Yii::$app->user->can('campus_notice_create', ['route' => true])){ ?>
+
             <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'New'), ['create'], ['class' => 'btn btn-success']) ?>
+
+            <?php } ?>
+
+            <?php echo Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建消息通知'), ['create','category' => Notice::CATEGORY_ONE], ['class' => 'btn btn-success']) ?>
+
+            <?php echo Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建学生消息通知'), ['create','category' => Notice::CATEGORY_TWO], ['class' => 'btn btn-success']) ?>
+
+
         </div>
-<?php
-}
-?>
         <div class="pull-right">
 
                         
-            <?= 
-            \yii\bootstrap\ButtonDropdown::widget(
-            [
-            'id' => 'giiant-relations',
-            'encodeLabel' => false,
-            'label' => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('backend', 'Relations'),
-            'dropdown' => [
-            'options' => [
-            'class' => 'dropdown-menu-right'
-            ],
-            'encodeLabels' => false,
-            'items' => [
-
-]
-            ],
-            'options' => [
-            'class' => 'btn-default'
-            ]
-            ]
-            );
-            ?>
+            <?= \yii\bootstrap\ButtonDropdown::widget([
+                'id'          => 'giiant-relations',
+                'encodeLabel' => false,
+                'label'       => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('backend', 'Relations'),
+                'dropdown'    => [
+                    'options' => [
+                        'class' => 'dropdown-menu-right'
+                    ],
+                    'encodeLabels' => false,
+                    'items'        => []
+                ],
+                'options' => [
+                    'class' => 'btn-default'
+                ]
+            ]); ?>
         </div>
     </div>
 
@@ -131,7 +131,7 @@ if(\Yii::$app->user->can('campus_notice_create', ['route' => true])){
 			'receiver_id',
 			'is_sms',
 			'is_wechat_message',
-			'times:datetime',
+			'times',
 			'status_send',
 			/*'status_check',*/
 			/*'title',*/
