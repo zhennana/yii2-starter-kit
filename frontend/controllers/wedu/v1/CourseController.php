@@ -156,7 +156,10 @@ class CourseController extends \common\rest\Controller
 	    if(isset($studentRecord['studentRecordValue'][0]['studentRecordValueToFile'])){
 	    	$file = $studentRecord['studentRecordValue'][0]['studentRecordValueToFile'];
 	    		foreach ($file as $key => $value) {
-	    			 $data['image_url'][] = $value['fileStorageItem']['url'].$value['fileStorageItem']['file_name'];
+	    			 $data['image_url'][] = [
+                               'image_original' =>$value['fileStorageItem']['url'].$value['fileStorageItem']['file_name'],
+                                'image_shrinkage'=>$value['fileStorageItem']['url'].$value['fileStorageItem']['file_name'].'?imageView2/3/w/400/h/400',
+                     ];
 	    		}
 	    }
 	    return $data;
