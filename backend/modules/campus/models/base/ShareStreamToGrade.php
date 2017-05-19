@@ -6,6 +6,9 @@ namespace backend\modules\campus\models\base;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use backend\modules\campus\models\Grade;
+use backend\modules\campus\models\School;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the base-model class for table "share_stream_to_grade".
@@ -67,11 +70,11 @@ abstract class ShareStreamToGrade extends \yii\db\ActiveRecord
     {
         return [
             'share_stream_id' => Yii::t('backend', 'Share Stream ID'),
-            'school_id' => Yii::t('backend', 'School ID'),
-            'grade_id' => Yii::t('backend', '学校id'),
+            'school_id' => Yii::t('backend', '学校 ID'),
+            'grade_id' => Yii::t('backend', '班级id'),
             'status' => Yii::t('backend', '状态'),
-            'updated_at' => Yii::t('backend', 'Updated At'),
-            'created_at' => Yii::t('backend', 'Created At'),
+            'updated_at' => Yii::t('backend', '更新时间'),
+            'created_at' => Yii::t('backend', ' 创建时间'),
             'auditor_id' => Yii::t('backend', '审核者'),
         ];
     }
@@ -87,9 +90,53 @@ abstract class ShareStreamToGrade extends \yii\db\ActiveRecord
             'auditor_id' => Yii::t('backend', '审核者'),
         ]);
     }
+    /**
+     * 获取授权展示的学校班级
+     * @return [type] [description]
+     */
+    public function data_init($share_stream_id){
+        $model = self::find()
+        ->where(['share_stream_id'=>$share_stream_id])
+        ->with(['school','grade'])
+        ->groupBy(['grade_id'])
+        ->asArray()
+        ->all();
+        $data = [];
+        foreach ($model as $key => $value) {
+            $data['school'][$value['school_id']] = $value['school']['school_title'];
+            $data['grade'][$value['grade_id']]   = $value['grade']['grade_name'];
+        }
+        return $data;
+    }
 
+    public function getSchool(){
+        return $this->hasOne(School::className(),['school_id'=>'school_id']);
+    }
+    public function getGrade(){
+        return $this->hasOne(Grade::className(),['grade_id'=>'grade_id']);
+    }
+    /**
+     * 获取下拉框学校班级数据
+     * @return [type] [description]
+     */
+    public function getList($type = 0, $id = []){
+        if($type == 0){
+             $school = School::find()
+            ->asArray()
+            ->all();
+            return ArrayHelper::map($school,'school_id','school_title');
+        }
+        if($type == 1){
+            $data = [];
+            $grade = Grade::find()->where(['school_id'=>$id])->with('school')->asArray()->all();
+          foreach ($grade as $key => $value) {
+               $data[$value['school']['school_title']][$value['grade_id']] = $value['grade_name'];
 
-    
+          }
+         return $data;
+        }
+       
+    }
     /**
      * @inheritdoc
      * @return \backend\modules\campus\models\query\ShareStreamToGradeQuery the active query used by this AR class.

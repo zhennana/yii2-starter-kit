@@ -5,20 +5,19 @@ use yii\bootstrap\ActiveForm;
 use \dmstr\bootstrap\Tabs;
 use yii\helpers\StringHelper;
 use kartik\select2\Select2;
+use yii\helpers\Url;
 use backend\modules\campus\models\ShareStream;
 /**
 * @var yii\web\View $this
 * @var backend\modules\campus\models\ShareStream $model
 * @var yii\widgets\ActiveForm $form
 */
-
 ?>
-
 
 <div class="share-stream-form">
 
     <?php $form = ActiveForm::begin([
-        'id' => 'ShareStream',
+        'id' => 'share-stream-to-grade',
         'layout' => 'horizontal',
         'enableClientValidation' => true,
         'errorSummaryCssClass' => 'error-summary alert alert-error'
@@ -26,55 +25,51 @@ use backend\modules\campus\models\ShareStream;
     );
     ?>
 
+
     <div class="">
         <?php $this->beginBlock('main'); ?>
 
         <p>
-           <!--  <? /*$form->field($model1,'school_id[]')
+            <?= $form->field($model,'school_id')
                     ->widget(Select2::ClassName(),
                         [
-                            'data'=>$model->type($model1->school_id),
-                            'options'=>['placeholder'=>'请选择','multiple'=>true],
+                            //'id'=>'div_school_id',
+                            'data'=>$model->getList(),
+                            'maintainOrder'=>true,
+                            'options'=>[
+                            'value'=>isset($default_data['school']) ? array_keys($default_data['school']) : [],'placeholder'=>'请选择','multiple'=>true],
                             'pluginOptions'=>[
-                                'allowClear'=> true,
-                            ],
-                            'toggleAllSettings'=>[
-                                    'selectLabel' =>'<i class="glyphicon glyphicon-unchecked"></i> 全选',
-                                    'unselectLabel'=>'<i class="glyphicon glyphicon-check"></i>取消全选'
-                            ]
-                        ]);*/ ?> -->
-           <!--  <? /*$form->field($model1,'grade_id[]')->widget(Select2::className(),
-                        [
-                            'data'=>[3,2,3],
-                            'options'=>['placeholder'=>'请选择','multiple'=>true],
-                            'pluginOptions'=>[
-                                'allowClear'=> true,
+                                'allowClear'=> false,
                             ],
                             'toggleAllSettings'=>[
                                     'selectLabel' =>'<i class="glyphicon glyphicon-unchecked"></i> 全选',
                                     'unselectLabel'=>'<i class="glyphicon glyphicon-check"></i>取消全选'
                             ],
                             'pluginEvents'=>[
-                                "change" => "function() {
-                                handleChange(3,this.value,'#studentrecord-course_id');
-                         }",
-                    ]
-                        ])*/ ?> -->
-<!-- attribute body -->
-			<?= $form->field($model, 'body')->textInput(['maxlength' => true]) ?>
-<!-- attribute status -->
-			<?= $form->field($model, 'status')->widget(
-                            Select2::className(),
-                            [
-                                'data'=>ShareStream::optsStatus(),
-                              //  'options'=>['placeholder'=>'请选择'],
+                                "change" => "function(event) {
+                                    //console.log();
+                                    handleChange(1,$(this).val(),'#sharestreamtograde-grade_id',$('#sharestreamtograde-grade_id').val());
+                                }",
                             ]
-            ) ?>
-             <?php
-                echo common\widgets\Qiniu\UploadShareStream::widget([
-                        'uptoken_url' => yii\helpers\Url::to(['courseware-category/token-cloud']),
-                ]);
+                        ]);
             ?>
+            <?= $form->field($model,'grade_id')->widget(Select2::className(),
+                        [
+                            'data'=> $model->getList(1,isset($default_data['school']) ? array_keys($default_data['school']) :[]),
+                            'size' => Select2::SMALL,
+                            'options'=>[
+                            'value'=> isset($default_data['grade']) ? array_keys($default_data['grade']) : [],
+                            'placeholder'=>'请选择','multiple'=>true],
+                            'pluginOptions'=>[
+                                'allowClear'=> true,
+                            ],
+                            'toggleAllSettings'=>[
+                                    'selectLabel' =>'<i class="glyphicon glyphicon-unchecked"></i> 全选',
+                                    'unselectLabel'=>'<i class="glyphicon glyphicon-check"></i>取消全选'
+                            ],
+                        ]) ?>
+
+
         </p>
         <?php $this->endBlock(); ?>
         <?=
@@ -83,7 +78,7 @@ use backend\modules\campus\models\ShareStream;
                     'encodeLabels' => false,
                     'items' => [
                         [
-                            'label'   => Yii::t('backend', '分享消息'),
+                            'label'   => Yii::t('backend', '授权学校班级'),
                             'content' => $this->blocks['main'],
                             'active'  => true,
 ],
@@ -94,7 +89,7 @@ use backend\modules\campus\models\ShareStream;
         <hr/>
 
         <?php 
-        echo $form->errorSummary($model1); ?>
+        echo $form->errorSummary($model); ?>
 
         <?= Html::submitButton(
         '<span class="glyphicon glyphicon-check"></span> ' .
@@ -111,6 +106,18 @@ use backend\modules\campus\models\ShareStream;
     </div>
 
 </div>
-    <script>
-        
-    </script>
+
+<script>
+
+    function handleChange(type_id,id,form,grade_id){
+        $.ajax({
+            "url":"<?php echo Url::to('ajax-form') ?>",
+            "data":{type_id:type_id,id:id},
+            'type':"GET",
+            'success':function(data){
+                $(form).html(data);
+                $(form).val(grade_id);
+            }
+        })
+    }
+</script>
