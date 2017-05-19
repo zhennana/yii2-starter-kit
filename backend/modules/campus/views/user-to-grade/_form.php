@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\bootstrap\ActiveForm;
 use \dmstr\bootstrap\Tabs;
 use yii\helpers\StringHelper;
@@ -115,7 +116,12 @@ $data_user = ArrayHelper::map($user,'id','username');
                                     ])->asArray()->all(),'id','school_title'),
                     'options'=>['placeholder'=>'请选择'],
                     'pluginOptions' => [ 
-                            'allowClear' => true 
+                        'allowClear' => true
+                    ],
+                    'pluginEvents' => [
+                        "change"     => "function() {
+                            handleChange(1,this.value,'#usertograde-grade_id');
+                        }",
                     ]
             ]) ?>
 
@@ -191,4 +197,16 @@ $data_user = ArrayHelper::map($user,'id','username');
     </div>
 
 </div>
+<script>
+    function handleChange(type_id,id,form){
+        $.ajax({
+            "url":"<?php echo Url::to(['user-to-grade/ajax-form'])?>",
+            "data":{type_id:type_id,id:id},
+            'type':"GET",
+            'success':function(data){
+                 $(form).html(data);
+            }
+        }) 
+    }
+</script>
 
