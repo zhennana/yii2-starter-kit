@@ -64,9 +64,9 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
 
             <?php } ?>
 
-            <?php echo Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建消息通知'), ['create','category' => Notice::CATEGORY_ONE], ['class' => 'btn btn-success']) ?>
+            <?php echo Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '给所有人发送消息'), ['create','category' => Notice::CATEGORY_ONE], ['class' => 'btn btn-success']) ?>
 
-            <?php echo Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建学生消息通知'), ['create','category' => Notice::CATEGORY_TWO], ['class' => 'btn btn-success']) ?>
+            <?php echo Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '给学生发送消息'), ['create','category' => Notice::CATEGORY_TWO], ['class' => 'btn btn-success']) ?>
 
 
         </div>

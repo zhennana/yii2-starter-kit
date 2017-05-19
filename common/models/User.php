@@ -11,6 +11,7 @@ use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;
 use backend\modules\campus\models\UserToGrade;
 use backend\modules\campus\models\UserToSchool;
+use backend\modules\campus\models\Grade;
 
 /**
  * User model
@@ -198,6 +199,55 @@ class User extends ActiveRecord implements IdentityInterface
         }
        
         return false;
+    }
+
+    /**
+     * [getTeacherGrades 获取教师所属班级]
+     * @param  [type] $teacher_id [description]
+     * @return [type]             [description]
+     */
+    public function getTeacherGrades($teacher_id)
+    {
+        $grades = [];
+
+        $userToGrade = UserToGrade::find()->where([
+            'user_id'         => $teacher_id,
+            'status'          => UserToGrade::USER_GRADE_STATUS_NORMAL,
+            'grade_user_type' => UserToGrade::GRADE_USER_TYOE_TEACHER
+        ])->asArray()->all();
+
+        if (isset($userToGrade) && !empty($userToGrade)) {
+            foreach ($userToGrade as $key => $value) {
+                $grades[] = Grade::find()->where([
+                    'grade_id' => $value['grade_id'],
+                    'status'   => Grade::GRADE_STATUS_OPEN,
+                    'graduate' => Grade::GRADE_NOT_GRADUATE,
+                ])->one();
+            }
+        }
+        return $grades;
+    }
+
+    /**
+     * [getStudents 获取教师所辖全部班级学生]
+     * @param  [type] $teacher_id [description]
+     * @return [type]             [description]
+     */
+    public function getStudents($teacher_id, $isGroup = FALSE)
+    {
+        $students = [];
+        $grades   = $this->getTeacherGrades($teacher_id);
+
+        if (isset($grades) && !empty($grade)) {
+            foreach ($grades as $key => $value) {
+                $students[] = UserToGrade::find()->with('user')->where([
+                    'grade_id'        => $value->grade_id,
+                    'status'          => UserToGrade::USER_GRADE_STATUS_NORMAL,
+                    'grade_user_type' => UserToGrade::GRADE_USER_TYPE_STUDENT
+                ])->asArray()->all();
+            }
+        }
+        return $students;
     }
 
 

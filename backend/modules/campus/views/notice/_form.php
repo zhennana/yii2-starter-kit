@@ -28,6 +28,8 @@ if ($category == Notice::CATEGORY_ONE) {
         'status' => User::STATUS_ACTIVE
     ])->asArray()->all();
 }
+
+// dump(Yii::$app->user->identity->getStudents(Yii::$app->user->identity->id));exit;
 $receivers = ArrayHelper::map($receivers,'id','username');
 
 ?>
