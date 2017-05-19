@@ -52,7 +52,7 @@ class UserToGradeSearch extends UserToGrade
             'query' => $query,
             ]);
 
-            $this->load($params,'');
+            $this->load($params);
 
             if (!$this->validate()) {
                   // uncomment the following line if you do not want to any records when validation fails

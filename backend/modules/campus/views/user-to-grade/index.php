@@ -160,7 +160,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         return '未知';
                     }
                 ],
-    			'user_title_id_at_grade',
+                [
+                    'class'     => \common\grid\EnumColumn::className(),
+                    'attribute' => 'user_title_id_at_grade',
+                    'enum'      => UserToGrade::optsUserTitleType(),
+                ],
                 [
                     'class'=>\common\grid\EnumColumn::className(),
                     'attribute' =>'status',
