@@ -12,7 +12,7 @@ use backend\modules\campus\models\Notice;
     * @var backend\modules\campus\models\NoticeSearch $searchModel
 */
 
-$this->title = Yii::t('backend', 'Notices');
+$this->title = Yii::t('backend', '消息管理');
 $this->params['breadcrumbs'][] = $this->title;
 
 
@@ -53,7 +53,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
     <h1>
         <?= Yii::t('backend', '消息管理') ?>
         <small>
-            List
+            列表
         </small>
     </h1>
     <div class="clearfix crud-navigation">
@@ -95,51 +95,80 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
 
     <div class="table-responsive">
         <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'pager' => [
-        'class' => yii\widgets\LinkPager::className(),
-        'firstPageLabel' => Yii::t('backend', 'First'),
-        'lastPageLabel' => Yii::t('backend', 'Last'),
-        ],
-                    'filterModel' => $searchModel,
-                'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
-        'headerRowOptions' => ['class'=>'x'],
-        'columns' => [
-                [
-            'class' => 'yii\grid\ActionColumn',
-            'template' => $actionColumnTemplateString,
-            'buttons' => [
-                'view' => function ($url, $model, $key) {
-                    $options = [
-                        'title' => Yii::t('yii', 'View'),
-                        'aria-label' => Yii::t('yii', 'View'),
-                        'data-pjax' => '0',
-                    ];
-                    return Html::a('<span class="glyphicon glyphicon-file"></span>', $url, $options);
-                }
+            'dataProvider' => $dataProvider,
+            'pager'        => [
+                'class'          => yii\widgets\LinkPager::className(),
+                'firstPageLabel' => Yii::t('backend', '首页'),
+                'lastPageLabel'  => Yii::t('backend', '尾页'),
             ],
-            'urlCreator' => function($action, $model, $key, $index) {
-                // using the column name as key, not mapping to 'id' like the standard generator
-                $params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
-                $params[0] = \Yii::$app->controller->id ? \Yii::$app->controller->id . '/' . $action : $action;
-                return Url::toRoute($params);
-            },
-            'contentOptions' => ['nowrap'=>'nowrap']
-        ],
-			'message:ntext',
-			'sender_id',
-			'receiver_id',
-			'is_sms',
-			'is_wechat_message',
-			'times',
-			'status_send',
-			/*'status_check',*/
-			/*'title',*/
-			/*'message_hash',*/
-			/*'receiver_name',*/
-			/*'wechat_message_id',*/
-			/*'receiver_phone_numeber',*/
-        ],
+            'filterModel'      => $searchModel,
+            'tableOptions'     => ['class' => 'table table-striped table-bordered table-hover'],
+            'headerRowOptions' => ['class'=>'x'],
+            'columns'          => [
+                [
+                    'class'    => 'yii\grid\ActionColumn',
+                    'template' => $actionColumnTemplateString,
+                    'buttons'  => [
+                        'view' => function ($url, $model, $key) {
+                            $options = [
+                                'title'      => Yii::t('yii', 'View'),
+                                'aria-label' => Yii::t('yii', 'View'),
+                                'data-pjax'  => '0',
+                            ];
+                            return Html::a(
+                                '<span class="glyphicon glyphicon-file"></span>',$url, $options
+                            );
+                        }
+                    ],
+                'urlCreator' => function($action, $model, $key, $index) {
+                    // using the column name as key, not mapping to 'id' like the standard generator
+                    $params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
+                    $params[0] = \Yii::$app->controller->id ? \Yii::$app->controller->id . '/' . $action : $action;
+                    return Url::toRoute($params);
+                },
+                'contentOptions' => ['nowrap'=>'nowrap']
+                ],
+                [
+                    'attribute' => 'message',
+                    'options'   => ['width' => '50%'],
+                    'value'     => function($model){
+                        return strip_tags($model->message);
+                    }
+                ],
+                [
+                    'attribute' => 'sender_id',
+                    'options'   => ['width' => '10%'],
+                    'value'     => function($model){
+                        return $model->getUserName($model->sender_id);
+                    }
+                ],
+                [
+                    'attribute' => 'receiver_id',
+                    'options'   => ['width' => '10%'],
+                    'value'     => function($model){
+                        return $model->getUserName($model->receiver_id);
+                    }
+                ],
+                'times',
+                [
+                    'class'     =>\common\grid\EnumColumn::className(),
+                    'attribute' =>'status_send',
+                    'options'   => ['width' => '10%'],
+                    'format'    => 'raw',
+                    'enum'      => Notice::optsStatusSend(),
+                    'value'     => function($model){
+                        return $model->status_send;
+                    },
+                ],
+    			/*'is_sms',*/
+    			/*'is_wechat_message',*/
+                /*'status_check',*/
+    			/*'title',*/
+    			/*'message_hash',*/
+    			/*'receiver_name',*/
+    			/*'wechat_message_id',*/
+    			/*'receiver_phone_numeber',*/
+            ],
         ]); ?>
     </div>
 
