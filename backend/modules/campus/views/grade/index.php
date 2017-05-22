@@ -190,7 +190,7 @@ if(\Yii::$app->user->can('manager', ['route' => true])){
                 ],
                 [
                     'class'     =>\common\grid\EnumColumn::className(),
-                    'enum'      => Grade::optsGraduate()
+                    'enum'      => Grade::optsGraduate(),
                     'attribute' =>'graduate',
                     'format'    => 'raw',
                     'value'     => function($model){

@@ -113,7 +113,7 @@ $receivers = ArrayHelper::map($receivers,'id','username');
         <?= Tabs::widget([
             'encodeLabels' => false,
             'items'        => [[
-                'label'   => Yii::t('backend', 'Notice'),
+                'label'   => Yii::t('backend', '消息管理'),
                 'content' => $this->blocks['main'],
                 'active'  => true,
             ]]
