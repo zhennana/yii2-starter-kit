@@ -202,7 +202,7 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * [getTeacherGrades 获取教师所属班级]
+     * [getTeacherGrades 获取教师所辖班级]
      * @param  [type] $teacher_id [description]
      * @return [type]             [description]
      */
@@ -222,7 +222,7 @@ class User extends ActiveRecord implements IdentityInterface
                     'grade_id' => $value['grade_id'],
                     'status'   => Grade::GRADE_STATUS_OPEN,
                     'graduate' => Grade::GRADE_NOT_GRADUATE,
-                ])->one();
+                ])->asArray()->one();
             }
         }
         return $grades;
@@ -238,10 +238,10 @@ class User extends ActiveRecord implements IdentityInterface
         $students = [];
         $grades   = $this->getTeacherGrades($teacher_id);
 
-        if (isset($grades) && !empty($grade)) {
+        if ($grades) {
             foreach ($grades as $key => $value) {
                 $students[] = UserToGrade::find()->with('user')->where([
-                    'grade_id'        => $value->grade_id,
+                    'grade_id'        => $value['grade_id'],
                     'status'          => UserToGrade::USER_GRADE_STATUS_NORMAL,
                     'grade_user_type' => UserToGrade::GRADE_USER_TYPE_STUDENT
                 ])->asArray()->all();
