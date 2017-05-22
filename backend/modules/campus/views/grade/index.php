@@ -188,9 +188,17 @@ if(\Yii::$app->user->can('manager', ['route' => true])){
                     },
                     'enum'      => Grade::optsStatus()
                 ],
+                [
+                    'class'     =>\common\grid\EnumColumn::className(),
+                    'enum'      => Grade::optsGraduate()
+                    'attribute' =>'graduate',
+                    'format'    => 'raw',
+                    'value'     => function($model){
+                        return $model->graduate;
+                    },
+                ],
                 'updated_at:datetime',
-                'created_at:datetime'
-        			/*'graduate',*/
+                'created_at:datetime',
         			/*'time_of_graduation:datetime',*/
         			/*'time_of_enrollment:datetime',*/
         			/*'grade_name',*/

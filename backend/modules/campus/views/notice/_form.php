@@ -19,17 +19,24 @@ use common\models\User;
 
 $category = isset($_GET['category']) ? $_GET['category'] : $model->category;
 
+$students = Yii::$app->user->identity->getStudents(Yii::$app->user->identity->id);
+foreach ($students as $student) {
+    foreach ($student as $user) {
+        $ids[] = $user['user']['id'];
+    }
+}
+
 if ($category == Notice::CATEGORY_ONE) {
     $receivers = User::find()->where([
         'status' => User::STATUS_ACTIVE
     ])->asArray()->all();
 }elseif ($category == Notice::CATEGORY_TWO) {
     $receivers = User::find()->where([
+        'id' => $ids,
         'status' => User::STATUS_ACTIVE
     ])->asArray()->all();
 }
 
-// dump(Yii::$app->user->identity->getStudents(Yii::$app->user->identity->id));exit;
 $receivers = ArrayHelper::map($receivers,'id','username');
 
 ?>
