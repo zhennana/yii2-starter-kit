@@ -9,7 +9,7 @@ use yii\helpers\Html;
 */
 class ShareStreamController extends \backend\modules\campus\controllers\base\ShareStreamController
 {
-
+   
     public function actionCreate(){
         $model = new ShareStream;
         $data = [];
@@ -26,11 +26,15 @@ class ShareStreamController extends \backend\modules\campus\controllers\base\Sha
      * @return [type] [description]
      */
     public function actionAuthorization($share_stream_id){
-         $model = new ShareStreamToGrade;
-         $default_data = $model->data_init($share_stream_id);
-         //var_dump($_GET);exit;
+        $model = new ShareStreamToGrade;
+         //获取默认授权班级数据
+        $default_data = $model->data_init($share_stream_id);
        if($_POST){
-            var_dump('<pre>',$_POST);exit();
+            ShareStreamToGrade::deleteAll(
+                ['share_stream_id'=>$share_stream_id]
+            );
+            $model = $model->bath_create($_POST['ShareStreamToGrade']);
+            return true;
         }
         return $this->renderAjax('authorization',[
                     'model'=>$model,
@@ -43,8 +47,9 @@ class ShareStreamController extends \backend\modules\campus\controllers\base\Sha
         if($_GET['id']){
             $model = $model->getList($_GET['type_id'],$_GET['id']);
             foreach ($model as  $k=>$v) {
-                 echo '<optgroup label='.$k .'>';
+                 echo '<optgroup label = '.$k .'>';
                 foreach ($v as $key => $value) {
+                    //var_dump($value);exit;
                     echo Html::tag('option',Html::encode($value),array('value'=>$key));
                 }
             }

@@ -26,7 +26,7 @@ abstract class ShareStreamToGrade extends \yii\db\ActiveRecord
 {
 
 
-
+    public $school_ids = [];
     /**
      * @inheritdoc
      */
@@ -102,11 +102,54 @@ abstract class ShareStreamToGrade extends \yii\db\ActiveRecord
         ->asArray()
         ->all();
         $data = [];
+        //.','.$value['school_id']
         foreach ($model as $key => $value) {
             $data['school'][$value['school_id']] = $value['school']['school_title'];
             $data['grade'][$value['grade_id']]   = $value['grade']['grade_name'];
         }
         return $data;
+    }
+
+    public function bath_create($data){
+        //var_dump($data);exit;
+        if(empty($data['school_id']) && !isset($data['school_id'])){
+            return false;
+        }
+        $datas = [];
+        $school = $this->getGrades($data['school_id']);
+       //获取班级
+        foreach ($school as $key => $value) {
+           if(isset($data['grade_id']) && !empty($data['grade_id'])){
+                if(in_array($value['grade_id'],$data['grade_id'])){
+                        $datas[]  = $value;
+                        $this->school_ids[] = $value['school_id'];
+                        continue;
+                }
+            }
+            //var_dump($this->school_ids);exit;
+            if(empty($this->school_ids) || !in_array($value['school_id'] ,$this->school_ids)){
+                $datas[]  = $value;
+            }else{
+                continue;
+            }
+
+        }
+         foreach ($datas as  $v) {
+            $model = new $this;
+            $v['share_stream_id'] = $data['share_stream_id'];
+            $model->load($v,'');
+            $model->save();
+         }
+         return true;
+     }
+
+    /**
+     * 获取某个学校下边的全部班级
+     * @param  [type] $school_id [description]
+     * @return [type]            [description]
+     */
+    public function getGrades($school_id){
+        return Grade::find()->select(['school_id','grade_id'])->where(['school_id'=>$school_id])->asArray()->all();
     }
 
     public function getSchool(){
@@ -130,12 +173,13 @@ abstract class ShareStreamToGrade extends \yii\db\ActiveRecord
             $data = [];
             $grade = Grade::find()->where(['school_id'=>$id])->with('school')->asArray()->all();
           foreach ($grade as $key => $value) {
+              // $keys = $value['grade_id'].','.$value['school']['school_id'];
                $data[$value['school']['school_title']][$value['grade_id']] = $value['grade_name'];
 
           }
+          //var_dump($data);exit;
          return $data;
         }
-       
     }
     /**
      * @inheritdoc

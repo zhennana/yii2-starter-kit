@@ -30,6 +30,7 @@ use backend\modules\campus\models\ShareStream;
         <?php $this->beginBlock('main'); ?>
 
         <p>
+            <?= $form->field($model,'share_stream_id')->textInput()->hiddenInput(['value'=>$_GET['share_stream_id']])->label(false)?>
             <?= $form->field($model,'school_id')
                     ->widget(Select2::ClassName(),
                         [
@@ -46,8 +47,8 @@ use backend\modules\campus\models\ShareStream;
                                     'unselectLabel'=>'<i class="glyphicon glyphicon-check"></i>取消全选'
                             ],
                             'pluginEvents'=>[
-                                "change" => "function(event) {
-                                    //console.log();
+                                "change" => "function() {
+                                    console.log($('#sharestreamtograde-grade_id').val());
                                     handleChange(1,$(this).val(),'#sharestreamtograde-grade_id',$('#sharestreamtograde-grade_id').val());
                                 }",
                             ]
