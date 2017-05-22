@@ -142,6 +142,22 @@ abstract class Notice extends \yii\db\ActiveRecord
         return $value;
     }
     
+    public static function getUserName($id)
+    {
+        $user = \common\models\User::findOne($id);
+        $name = '';
+        if(isset($user->realname) && !empty($user->realname)){
+            return $user->realname;
+        }
+        if(isset($user->username) && !empty($user->username)){
+           return $user->username;
+        }
+        // if(isset($user->phone_number) && !empty($user->phone_number)){
+        //     return $user->phone_number;
+        // }
+        return $name;
+    }
+    
     /**
      * @inheritdoc
      * @return \backend\modules\campus\models\query\NoticeQuery the active query used by this AR class.
