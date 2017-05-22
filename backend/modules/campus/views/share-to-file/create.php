@@ -4,26 +4,26 @@ use yii\helpers\Html;
 
 /**
 * @var yii\web\View $this
-* @var backend\modules\campus\models\ShareStream $model
+* @var backend\modules\campus\models\ShareToFile $model
 */
 
-$this->title = Yii::t('backend', '创建分享消息流');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '创建分享消息流'), 'url' => ['index']];
+$this->title = Yii::t('backend', 'Create');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('models', 'Share To Files'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="giiant-crud share-stream-create">
+<div class="giiant-crud share-to-file-create">
 
     <h1>
-        <?= Yii::t('backend', '创建分享消息流') ?>
+        <?= Yii::t('models', 'Share To File') ?>
         <small>
-            <?= $model->share_stream_id ?>
+                        <?= $model->share_to_file_id ?>
         </small>
     </h1>
 
     <div class="clearfix crud-navigation">
         <div class="pull-left">
             <?=             Html::a(
-            Yii::t('backend', '返回'),
+            Yii::t('backend', 'Cancel'),
             \yii\helpers\Url::previous(),
             ['class' => 'btn btn-default']) ?>
         </div>
@@ -33,7 +33,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
     'model' => $model,
-    'model1'=>$model1
     ]); ?>
 
 </div>

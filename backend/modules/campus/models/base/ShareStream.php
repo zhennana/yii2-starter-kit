@@ -27,6 +27,13 @@ abstract class ShareStream extends \yii\db\ActiveRecord
     CONST SHARESTREAM_STATUS_OPEN = 10; //正常;
     CONST SHARESTREAM_STATUS_CLOSE = 20 ; //关闭;
 
+    public static function optsStatus(){
+        return [
+            self::SHARESTREAM_STATUS_OPEN=>'正常',
+            self::SHARESTREAM_STATUS_CLOSE=>'关闭',
+        ];
+    }
+
     /**
      * @inheritdoc
      */
@@ -70,7 +77,7 @@ abstract class ShareStream extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'share_stream_id' => Yii::t('backend', 'Share Stream ID'),
+            'share_stream_id' => Yii::t('backend', 'id'),
             'author_id' => Yii::t('backend', 'User ID'),
             //'auditor_id' => Yii::t('backend', 'Auditor ID'),
            // 'school_id' => Yii::t('backend', 'School ID'),
