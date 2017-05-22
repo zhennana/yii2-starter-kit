@@ -17,8 +17,10 @@ use backend\modules\campus\models\ShareStream;
 <div class="share-stream-form">
 
     <?php $form = ActiveForm::begin([
-        'id' => 'share-stream-to-grade',
+        // 'id' => 'share-stream-to-grade',
         'layout' => 'horizontal',
+        'action' => Url::toRoute(['authorization']),
+        // 'enableAjaxValidation' => true,
         'enableClientValidation' => true,
         'errorSummaryCssClass' => 'error-summary alert alert-error'
         ]
@@ -48,7 +50,6 @@ use backend\modules\campus\models\ShareStream;
                             ],
                             'pluginEvents'=>[
                                 "change" => "function() {
-                                    console.log($('#sharestreamtograde-grade_id').val());
                                     handleChange(1,$(this).val(),'#sharestreamtograde-grade_id',$('#sharestreamtograde-grade_id').val());
                                 }",
                             ]
@@ -96,8 +97,8 @@ use backend\modules\campus\models\ShareStream;
         '<span class="glyphicon glyphicon-check"></span> ' .
         ($model->isNewRecord ? Yii::t('backend', 'Create') : Yii::t('backend', 'Save')),
         [
-        'id' => 'save-' . $model->formName(),
-        'class' => 'btn btn-success'
+        // 'id' => 'save-' . $model->formName(),
+        'class' => 'create_auth btn btn-success'
         ]
         );
         ?>
@@ -113,12 +114,37 @@ use backend\modules\campus\models\ShareStream;
     function handleChange(type_id,id,form,grade_id){
         $.ajax({
             "url":"<?php echo Url::to('ajax-form') ?>",
-            "data":{type_id:type_id,id:id},
             'type':"GET",
+            "data":{type_id:type_id,id:id},
             'success':function(data){
                 $(form).html(data);
                 $(form).val(grade_id);
             }
         })
     }
+
+    function refresh(){
+        parent.location.reload();
+    }
+
+    $('.create_auth').on('click',function () {
+        $.ajax({
+            url: "<?php echo Url::toRoute('authorization') ?>",
+            type: "POST",
+            dataType: "json",
+            data: $('form').serialize(),
+            success: function(Data) {
+                if(Data = 200){
+                    alert('保存成功');
+                    refresh();
+                }else{
+                    alert('保存失败');
+                }
+            },
+            error: function() {
+                alert('网络错误!');
+            }
+        });
+        return false;
+    });
 </script>
