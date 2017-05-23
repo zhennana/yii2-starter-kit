@@ -1,9 +1,12 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\StringHelper;
 use yii\bootstrap\ActiveForm;
 use \dmstr\bootstrap\Tabs;
-use yii\helpers\StringHelper;
+use kartik\select2\Select2;
+use \backend\modules\campus\models\Courseware;
+use \backend\modules\campus\models\CoursewareCategory;
 
 /**
 * @var yii\web\View $this
@@ -11,16 +14,16 @@ use yii\helpers\StringHelper;
 * @var yii\widgets\ActiveForm $form
 */
 
-$categories= \backend\modules\campus\models\CoursewareCategory::find()->where(['parent_id'=>0])->all();
+$categories= CoursewareCategory::find()->where(['parent_id'=>0])->all();
     $categories = \yii\helpers\ArrayHelper::map(
         $categories, 'category_id', 'name'
     );
 if ($model->isNewRecord) {
-    $parent = \backend\modules\campus\models\Courseware::find()
+    $parent = Courseware::find()
         ->where(['parent_id' => 0])
         ->all();
 }else{
-    $parent = \backend\modules\campus\models\Courseware::find()
+    $parent = Courseware::find()
         ->where(['parent_id' => 0])
         ->andWhere(['<>','courseware_id',$model->courseware_id])
         ->all();
@@ -44,9 +47,13 @@ $parent = \yii\helpers\ArrayHelper::map($parent, 'courseware_id', 'title');
 
         <p>
 <!-- attribute parent_id -->
-			<?php echo $form->field($model, 'parent_id')->dropDownList($parent,[
-           // 'options'=>[$categories=>['disabled'=>'0']],
-            'prompt'=>'请选择']) ?>
+			<?= $form->field($model, 'parent_id')->widget(Select2::className(),[
+                'data'    => $parent,
+                'options' => ['placeholder' => '请选择'],
+                'pluginOptions' => [ 
+                    'allowClear' => true
+                ],
+            ]); ?>
 
 <!-- attribute title -->
             <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
@@ -55,9 +62,13 @@ $parent = \yii\helpers\ArrayHelper::map($parent, 'courseware_id', 'title');
             <?= $form->field($model, 'body')->textarea(['rows' => 6]) ?>
 
 <!-- attribute category_id -->
-            <?= $form->field($model, 'category_id')->dropDownList($categories,[
-           // 'options'=>[$categories=>['disabled'=>'0']],
-            'prompt'=>'请选择']) ?>
+            <?= $form->field($model, 'category_id')->widget(Select2::className(),[
+                'data'    => $categories,
+                'options' => ['placeholder' => '请选择'],
+                'pluginOptions' => [ 
+                    'allowClear' => true
+                ],
+            ]); ?>
 
 <!-- attribute level -->
             <?php // echo $form->field($model, 'level')->textInput(); ?>
@@ -76,7 +87,14 @@ $parent = \yii\helpers\ArrayHelper::map($parent, 'courseware_id', 'title');
 			<?php //$form->field($model, 'access_other')->textInput(); ?>
 
 <!-- attribute status -->
-<?= $form->field($model, 'status')->dropDownList(\backend\modules\campus\models\Courseware::optsStatus(),['prompt'=>'请选择']); ?>
+            <?= $form->field($model, 'status')->widget(Select2::className(),[
+                'data'          => Courseware::optsStatus(),
+                'hideSearch'    => true,
+                'options'       => ['placeholder' => '请选择'],
+                'pluginOptions' => [
+                    'allowClear' => true
+                ],
+            ]); ?>
 <!-- attribute items -->
 			<?php //echo $form->field($model, 'items')->textInput(); ?>
 
