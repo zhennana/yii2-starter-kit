@@ -39,6 +39,9 @@ public function behaviors()
         }
         foreach ($params['SignIn'] as $key => $value) {
             $model = new $this;
+            $value['school_id'] = $params['school_id'];
+            $value['course_id'] = $params['course_id'];
+            $value['grade_id'] = $params['grade_id'];
             $model->load($value,'');
             $model->save();
             if($model->getErrors()){
