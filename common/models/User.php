@@ -197,7 +197,6 @@ class User extends ActiveRecord implements IdentityInterface
         if(isset($model)){
             return array_merge($model->toArray(['school_id','school_label','grade_id','grade_label']),$data);
         }
-
         return false;
     }
     /**
