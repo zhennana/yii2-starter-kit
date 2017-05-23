@@ -24,9 +24,9 @@ $CoursewareToCoursewareDataProvider->query->orderby(['sort'=>SORT_DESC]);
 $copyParams = $model->attributes;
 
 $this->title = Yii::t('backend', '课件详情');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Coursewares'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '课件管理'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => (string)$model->title, 'url' => ['view', 'courseware_id' => $model->courseware_id]];
-$this->params['breadcrumbs'][] = Yii::t('backend', 'View');
+$this->params['breadcrumbs'][] = Yii::t('backend', '课件详情');
 ?>
 <div class="giiant-crud courseware-view">
 
@@ -69,7 +69,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
 
         <div class="pull-right">
             <?= Html::a('<span class="glyphicon glyphicon-list"></span> '
-            . Yii::t('backend', 'Full list'), ['index'], ['class'=>'btn btn-default']) ?>
+            . Yii::t('backend', '返回列表'), ['index'], ['class'=>'btn btn-default']) ?>
         </div>
 
     </div>
