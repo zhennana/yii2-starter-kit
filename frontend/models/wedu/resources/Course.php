@@ -46,7 +46,7 @@ public function behaviors()
                         $model->andwhere(['status'=>1,'grade_user_type'=>10]);
                   }])
                   ->where(['school_id'=>$school_id,'grade_id'=>$grade_id])
-                  //->andWhere(['between','start_time',$start_time,$end_time])
+                  ->andWhere(['between','start_time',$start_time,$end_time])
                   ->asArray()
                  ->all();
       //$commandQuery = clone $model; echo $commandQuery->createCommand()->getRawSql();exit();
