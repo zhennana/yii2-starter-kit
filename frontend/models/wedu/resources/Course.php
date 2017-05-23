@@ -31,4 +31,25 @@ public function behaviors()
              ]
         );
     }
+    /**
+     * 需要签到的学生列表
+     * @param  [type] $school_id [description]
+     * @param  [type] $grade_id  [description]
+     * @return [type]            [description]
+     */
+   public function userCourseSingInData($school_id,$grade_id){
+          $start_time = time()+60*15;
+          $end_time   = time()+60*30;
+          $model = self::find()
+                  ->select(['course_id','grade_id'])
+                  ->with(['usersToGrades'=>function($model){
+                        $model->andwhere(['status'=>1,'grade_user_type'=>10]);
+                  }])
+                  ->where(['school_id'=>$school_id,'grade_id'=>$grade_id])
+                  //->andWhere(['between','start_time',$start_time,$end_time])
+                  ->asArray()
+                 ->all();
+      //$commandQuery = clone $model; echo $commandQuery->createCommand()->getRawSql();exit();
+          var_dump('<pre>',$model);exit;
+   }
 }
