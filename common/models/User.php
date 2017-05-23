@@ -162,7 +162,7 @@ class User extends ActiveRecord implements IdentityInterface
         $query = $this->getUserToGrade();
 
         if($type == 1){
-            $query->where(['NOT',['grade_user_type'=>UserToGrade::GRADE_USER_TYOE_TEACHER]]);
+            $query->where(['NOT',['grade_user_type'=>UserToGrade::GRADE_USER_TYPE_TEACHER]]);
         }
 
         if($type == 2){
@@ -207,7 +207,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function getSchoolToGrade($type = 2){
            // 老师
             if($type == 1){
-                $model = $this->getUserToGrade()->where(['grade_user_type'=>UserToGrade::GRADE_USER_TYOE_TEACHER]);
+                $model = $this->getUserToGrade()->where(['grade_user_type'=>UserToGrade::GRADE_USER_TYPE_TEACHER]);
             }
             //家长
             if($type == 2){
