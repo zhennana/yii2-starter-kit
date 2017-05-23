@@ -192,33 +192,6 @@ class CourseController extends \common\rest\Controller
                  'pagination'=>[
                     'pageSize'=> 12
                 ]]);
-    	// $studentRecord = StudentRecord::find()
-	    // 	->where(['user_id'=>Yii::$app->user->identity->id])
-	    // 	->with(['studentRecordValue'=>function($query){
-	    // 		$query->with(['studentRecordValueToFile'=>function($query){
-        //             //$query->limit(1);
-	    // 			$query->with('fileStorageItem');
-	    // 		}]);
-	    // 	}])
-	    // 	->asArray()
-	    // 	->all();
-	    // //$pages = new Pagination(['totalCount' =>$studentRecord->count(), 'pageSize' => '1']);
-    	// //$studentRecord =  $studentRecord->offset($pages->offset)->limit($pages->limit)->asArray()->all();
-	    // $data = [];
-	    // foreach ($studentRecord as $key => $value) {
-	    // 	foreach ($value['studentRecordValue'] as  $studentRecordValue) {
-	    // 		foreach ($studentRecordValue['studentRecordValueToFile'] as  $studentRecordValueToFile) {
-	    // 			 if($studentRecordValueToFile['fileStorageItem']){
-	    // 			 	   $file = $studentRecordValueToFile['fileStorageItem'];
-	    // 			 		$data[] = [
-	    // 			 			'image_original'=>$file['url'].$file['file_name'],
-	    // 			 			'image_shrinkage'=>$file['url'].$file['file_name'],
-	    // 			 		];
-	    // 			 }
-	    // 		}
-	    // 	}
-	    // }
-	   //return $data;
     }
 
     /**
@@ -326,16 +299,33 @@ class CourseController extends \common\rest\Controller
     }
 
     /**
-     * @SWG\Get(path="/course/sing-in-details",
+     * @SWG\Get(path="/course/user-details",
      *     tags={"700-Course-课程课表"},
      *     summary="(老师)学生详情",
      *     description="详情",
      *     produces={"application/json"},
      *  @SWG\Parameter(
      *        in = "query",
-     *        name = "singin_id",
+     *        name = "school_id",
      *        description = "学校id",
+     *         default  = 3,
      *        required = true,
+     *        type = "integer"
+     *     ),
+     *   @SWG\Parameter(
+     *        in = "query",
+     *        name = "grade_id",
+     *        description = "班级id",
+     *        default  = 2,
+     *        required = true,
+     *        type = "integer"
+     *     ),
+     *   @SWG\Parameter(
+     *        in = "query",
+     *        name = "user_id",
+     *        description = "用户id",
+     *        required = true,
+     *        default  = 1,
      *        type = "integer"
      *     ),
      *  @SWG\Response(
@@ -345,9 +335,49 @@ class CourseController extends \common\rest\Controller
      * )
      *
     **/
-    public function actionSingInDetails($singin_id){
-            $model = new SignIn;
-            return $model->details($singin_id);
+    public function actionUserDetails($school_id,$grade_id,$user_id){
+            $model = UserToGrade::find()
+                    ->with([
+                        'school',
+                        'grade',
+                        'courseOrder'=>function($model){
+                            $model->select(['updated_at','sum(presented_course + total_course ) as total_course']);
+                        },
+                        'user'=>function($model){
+                            $model->select(['id','username','phone_number']);
+                            $model->with(['userProfile']);
+                        },
+                        'signIn'=>function($model){
+                            $model->select(['count(signin_id) as obove_count']);
+                            $model->andWhere(['type_status'=>SignIn::TYPE_STATUS_MORMAL]);
+                        }
+                        ])
+                    ->where([
+                        'user_id'   =>(int)$user_id,
+                        'school_id' =>(int)$school_id,
+                        'grade_id'  =>(int)$grade_id
+                    ])
+                    ->asArray()
+                    ->one();
+        //return $model;
+            $data = [];
+            if($model){
+                $data = [
+                    'user_id'       =>(int)$model['user_id'],
+                    'gender'        =>isset($model['user']['userProfile']['gender']) ? $model['user']['userProfile']['gender'] : '',
+                    'birth'         =>isset($model['user']['userProfile']['birth']) ? $model['user']['userProfile']['birth'] : 0,
+                    'phone_number'  =>$model['user']['phone_number'],
+                    'schoo_id'      =>(int)$model['school_id'],
+                    'school_title'  => $model['school']['school_title'],
+                    'grade_id'      =>(int)$model['grade_id'],
+                    'grade_name'    =>$model['grade']['grade_name'],
+                    'total_course'  => isset($model['courseOrder']['total_course']) ? (int)$model['courseOrder']['total_course'] : 0,
+                    'created_at'    =>isset($model['courseOrder']['updated_at']) ? $model['courseOrder']['updated_at'] : 0,
+                    'obove_count'   =>isset($model['signIn']['obove_count']) ? (int)$model['signIn']['obove_count'] : 0,
+                ];
+                $data['surplus_course'] = $data['total_course'] - $data['obove_count'];
+            }
+            return $data;
     }
 
     /**
@@ -376,7 +406,7 @@ class CourseController extends \common\rest\Controller
             $data[$value->school_id]['school_id'] =  $value->school_id;
             $data[$value->school_id]['school_label'] = $value->toArray(['school_label'])['school_label'];
             $data[$value->school_id]['grade'][]   =[
-                    'school_id'=>$value->school_id,
+                    'grade_id'=>$value->school_id,
                     'grade_label'=>$value->toArray(['grade_label'])['grade_label'],
             ];
         }

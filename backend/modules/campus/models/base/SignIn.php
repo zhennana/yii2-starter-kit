@@ -27,7 +27,8 @@ abstract class SignIn extends \yii\db\ActiveRecord
 
     const STATUS_UNREAD = 0;    // 未查看
     const STATUS_READ   = 10;   // 已查看
-
+    const TYPE_STATUS_MORMAL = 10; //正常
+    const TYPE_STATUS_ABSENTEEISM = 20; //缺勤
     /**
      * @inheritdoc
      */

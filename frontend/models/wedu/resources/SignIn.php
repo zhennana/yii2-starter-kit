@@ -52,7 +52,12 @@ public function behaviors()
         }
         return $data;
     }
-
+/**
+ * 签到表详情详情
+ * @param  [type] $id [description]
+ * @return [type]     [description]
+ */
+/*
     public function details($id){
       $model = self::find()
         ->where(['signin_id'=>$id])
@@ -63,6 +68,7 @@ public function behaviors()
           },
           'signIns'=>function($model){
               $model->select(["count(signin_id) as above_course"]);
+              $model->where(['type_status'=>SignIn::TYPE_STATUS_MORMAL]);
           },
           'grade'=>function($model){
             $model->select(['grade_name']);
@@ -97,5 +103,5 @@ public function behaviors()
         }
         return $data;
     }
-
+*/
 }

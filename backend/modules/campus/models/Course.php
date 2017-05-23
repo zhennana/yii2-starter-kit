@@ -44,5 +44,4 @@ public function behaviors()
         $school = School::find()->where(['status'=>School::SCHOOL_STATUS_OPEN])->asArray()->all();
         return ArrayHelper::map($school,'school_id','school_title');
       }
-
 }
