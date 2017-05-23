@@ -224,7 +224,7 @@ class CourseController extends \common\rest\Controller
     /**
      * @SWG\Get(path="/course/course-sing-in-list",
      *     tags={"700-Course-课程课表"},
-     *     summary="(老师)课程签到",
+     *     summary="(老师)课程签到需要的学生列表",
      *     description="课程签到的所有学生列表",
      *     produces={"application/json"},
      *  @SWG\Parameter(
@@ -260,14 +260,21 @@ class CourseController extends \common\rest\Controller
      *     produces={"application/json"},
      *  @SWG\Parameter(
      *        in = "formData",
-     *        name = "SignIn[0][school_id]",
+     *        name = "school_id",
      *        description = "学校id",
      *        required = true,
      *        type = "integer"
      *     ),
      *  @SWG\Parameter(
      *        in = "formData",
-     *        name = "SignIn[0][grade_id]",
+     *        name = "course_id",
+     *        description = "课程ID",
+     *        required = true,
+     *        type = "integer"
+     *     ),
+     *  @SWG\Parameter(
+     *        in = "formData",
+     *        name = "grade_id",
      *        description = "班级id",
      *        required = true,
      *        type = "integer"
@@ -279,12 +286,22 @@ class CourseController extends \common\rest\Controller
      *        required = true,
      *        type = "integer"
      *     ),
+     * @SWG\Parameter(
+     *        in = "formData",
+     *        name = "SignIn[0][describe]",
+     *        description = "缺勤原因 字符32",
+     *        required = false,
+     *        type = "string"
+     *     ),
      *  @SWG\Parameter(
      *        in = "formData",
-     *        name = "SignIn[0][course_id]",
-     *        description = "课程ID",
+     *        name = "SignIn[0][type_status]",
+     *        description = "10:正常；20 ：缺勤",
      *        required = true,
-     *        type = "integer"
+     *        type = "string",
+     *        default = "10",
+     *        type = "integer",
+     *        enum = {10,20}
      *     ),
      *     @SWG\Response(
      *         response = 200,
@@ -311,7 +328,7 @@ class CourseController extends \common\rest\Controller
     /**
      * @SWG\Get(path="/course/sing-in-details",
      *     tags={"700-Course-课程课表"},
-     *     summary="(老师)花名册",
+     *     summary="(老师)学生详情",
      *     description="详情",
      *     produces={"application/json"},
      *  @SWG\Parameter(
@@ -370,7 +387,7 @@ class CourseController extends \common\rest\Controller
     /**
      * @SWG\Get(path="/course/users-to-grades",
      *     tags={"700-Course-课程课表"},
-     *     summary="(老师)老师下边的所有学生",
+     *     summary="(老师)老师下边的所有学生{花名册}",
      *     description="老师下边的所有班级",
      *     produces={"application/json"},
      *  @SWG\Parameter(
