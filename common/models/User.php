@@ -197,7 +197,7 @@ class User extends ActiveRecord implements IdentityInterface
         if(isset($model)){
             return array_merge($model->toArray(['school_id','school_label','grade_id','grade_label']),$data);
         }
-       
+
         return false;
     }
     /**
@@ -217,7 +217,11 @@ class User extends ActiveRecord implements IdentityInterface
             $model = $model->andWhere(['status'=>UserToGrade::USER_GRADE_STATUS_NORMAL])->all();
             return $model;
     }
-    
+    // public function getSchoolToGradeUser($school_id,$grade_id){
+    //         $grade_ids = ArrayHelper::map($this->getSchoolToGrade(),'grade_id','grade_id');
+    //         //var_dump($grade_ids);exit;
+    //         return UserToGrade::find()->where(['grade_id'=>$grade_ids])->all();
+    // }
     /**
      * [getTeacherGrades 获取教师所辖班级]
      * @param  [type] $teacher_id [description]
