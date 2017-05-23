@@ -9,6 +9,7 @@ use \dmstr\bootstrap\Tabs;
 use kartik\select2\Select2;
 
 use backend\modules\campus\models\Notice;
+use backend\modules\campus\models\UserToGrade;
 use common\models\User;
 
 /**
@@ -19,25 +20,22 @@ use common\models\User;
 
 $category = isset($_GET['category']) ? $_GET['category'] : $model->category;
 
-$students = Yii::$app->user->identity->getStudents(Yii::$app->user->identity->id);
-foreach ($students as $student) {
-    foreach ($student as $user) {
-        $ids[] = $user['user']['id'];
+if ($category == Notice::CATEGORY_TWO) {
+    $data = [];
+    $receivers = UserToGrade::getStudents()->getModels();
+    foreach ($receivers as $key => $value) {
+        if($value->user){
+            $data[$value->user->id] = $value->user->username;
+        }
     }
-}
-
-if ($category == Notice::CATEGORY_ONE) {
+    $receivers = $data;
+}else{
     $receivers = User::find()->where([
         'status' => User::STATUS_ACTIVE
     ])->asArray()->all();
-}elseif ($category == Notice::CATEGORY_TWO) {
-    $receivers = User::find()->where([
-        'id' => $ids,
-        'status' => User::STATUS_ACTIVE
-    ])->asArray()->all();
+    $receivers = ArrayHelper::map($receivers,'id','username');
 }
 
-$receivers = ArrayHelper::map($receivers,'id','username');
 
 ?>
 
