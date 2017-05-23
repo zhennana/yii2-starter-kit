@@ -196,7 +196,7 @@ class CourseController extends \common\rest\Controller
 	    // 	->where(['user_id'=>Yii::$app->user->identity->id])
 	    // 	->with(['studentRecordValue'=>function($query){
 	    // 		$query->with(['studentRecordValueToFile'=>function($query){
-     //                //$query->limit(1);
+        //             //$query->limit(1);
 	    // 			$query->with('fileStorageItem');
 	    // 		}]);
 	    // 	}])
@@ -400,13 +400,7 @@ class CourseController extends \common\rest\Controller
             $this->serializer['message']    = '请先登录';
             return [];
         }
-        $grade_ids = Yii::$app->user->identity->getSchoolToGrade();
-        $grade_ids = ArrayHelper::map($grade_ids,'grade_id','grade_id');
-        $model =  UserToGrade::find()
-        ->select(['user_to_grade_id','school_id','grade_id','user_id'])
-        ->where(['grade_id'=>$grade_ids,'status'=>UserToGrade::USER_GRADE_STATUS_NORMAL]);
-        return  new ActiveDataProvider([
-                'query'=>$model
-            ]);
+        //$model =  new UserToGrade;
+        return UserToGrade::getStudents();
     }
 }

@@ -6,6 +6,9 @@ namespace backend\modules\campus\models\base;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\helpers\ArrayHelper;
+use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
 
 /**
  * This is the base-model class for table "users_to_grade".
@@ -171,6 +174,24 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
     }
     public function getSchool(){
         return $this->hasOne(\backend\modules\campus\models\School::className(),['school_id'=>'school_id']);
+    }
+    /**
+     * 获取班级下边的所有学生
+     * @param  [type] $grade_ids [description]
+     * @return [type]            [description]
+     */
+    public static function getStudents($grade_ids = NULL){
+        if($grade_ids == NULL){
+            $grade_ids = Yii::$app->user->identity->getSchoolToGrade();
+            $grade_ids = ArrayHelper::map($grade_ids,'grade_id','grade_id');
+        }
+        //var_dump($grade_ids);exit;
+        $model = self::find()
+            ->select(['user_to_grade_id','school_id','grade_id','user_id'])
+            ->where(['grade_id'=>$grade_ids,'status'=>UserToGrade::USER_GRADE_STATUS_NORMAL]);
+            return  new ActiveDataProvider([
+                'query'=>$model
+            ]);
     }
     /**
      * @inheritdoc
