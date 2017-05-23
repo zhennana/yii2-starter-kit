@@ -141,15 +141,29 @@ abstract class Course extends \yii\db\ActiveRecord
     public function getSchool(){
         return $this->hasOne(\backend\modules\campus\models\School::className(),['school_id'=>'school_id']);
     }
+
     public function getGrade(){
         return $this->hasOne(\backend\modules\campus\models\Grade::className(),['grade_id'=>'grade_id']);
     }
+
     public function getCourseware(){
          return $this->hasOne(\backend\modules\campus\models\Courseware::className(),['courseware_id'=>'courseware_id']);
     }
     public function getUser(){
         return $this->hasOne(\common\models\User::className(),['id'=>'creater_id']);
     }
+
+    /**
+     * 获取全部班级
+     * @return [type] [description]
+     */
+    public function getUsersToGrades(){
+        return $this->hasMany(\backend\modules\campus\models\UserToGrade::className(),['grade_id'=>'grade_id']);
+    }
+    // /*****/
+    // public function getUsersToGrades(){
+    //     return $this->hasMany(\backend\modules\campus\models\UserToGrade::className(),['grade_id'=>'grade_id']);
+    // }
     /**
      * @inheritdoc
      * @return \backend\modules\campus\models\query\courseQuery the active query used by this AR class.

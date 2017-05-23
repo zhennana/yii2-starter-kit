@@ -59,8 +59,27 @@ abstract class SignIn extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['school_id', 'grade_id', 'course_id', 'student_id', 'teacher_id'], 'required'],
-            [['school_id', 'grade_id', 'course_id', 'student_id', 'teacher_id', 'auditor_id', 'status'], 'integer']
+            [['school_id', 'grade_id', 'course_id', 'student_id'], 'required'],
+            ['teacher_id','default','value'=>isset(Yii::$app->user->identity->id) ? Yii::$app->user->identity->id : 0],
+            [['school_id', 'grade_id', 'course_id', 'student_id', 'teacher_id', 'auditor_id', 'status'], 'integer'],
+            ['school_id','filter','filter'=>function(){
+                return (int)$this->school_id;
+            }],
+             ['school_id','filter','filter'=>function(){
+                return (int)$this->school_id;
+            }],
+            ['school_id','filter','filter'=>function(){
+                return (int)$this->school_id;
+            }],
+            ['grade_id','filter','filter'=>function(){
+                return (int)$this->grade_id;
+            }],
+            ['student_id','filter','filter'=>function(){
+                return (int)$this->student_id;
+            }],
+            ['course_id','filter','filter'=>function(){
+                return (int)$this->course_id;
+            }],
         ];
     }
 
@@ -134,6 +153,18 @@ abstract class SignIn extends \yii\db\ActiveRecord
         return $this->hasOne(\backend\modules\campus\models\Course::className(),['course_id' => 'course_id']);
     }
 
+    public function getCourseOrder()
+    {
+        return $this->hasOne(\backend\modules\campus\models\CourseOrderItem::className(),['user_id' => 'student_id']);
+    }
+    public function getUser()
+    {
+        return $this->hasOne(\common\models\User::className(),['id' => 'student_id']);
+    }
+
+    public function getSignIns(){
+        return $this->hasOne(\backend\modules\campus\models\SignIn::className(),['student_id' => 'student_id']);
+    }
     public static function getUserName($id)
     {
         $user = \common\models\User::findOne($id);

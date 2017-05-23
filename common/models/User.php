@@ -166,7 +166,7 @@ class User extends ActiveRecord implements IdentityInterface
         }
 
         if($type == 2){
-            $query->where(['grade_user_type'=>UserToGrade::GRADE_USER_TYOE_TEACHER]);
+            $query->where(['grade_user_type'=>UserToGrade::GRADE_USER_TYPE_STUDENT]);
         }
         if($query->count() == 0 ){
             return false;
@@ -189,7 +189,7 @@ class User extends ActiveRecord implements IdentityInterface
         if($this->is_userToGrade(2)){
             $data['user_type'] = 2;
             $model = $this->getUserToGrade()
-                        ->where(['grade_user_type'=>UserToGrade::GRADE_USER_TYOE_TEACHER])
+                        ->where(['grade_user_type'=>UserToGrade::GRADE_USER_TYPE_STUDENT])
                         ->one();
 
         }
@@ -200,12 +200,30 @@ class User extends ActiveRecord implements IdentityInterface
        
         return false;
     }
-
+    /**
+     * 获取所有用户班级信息
+     * @param  integer $type [description]
+     * @return [type]        [description]
+     */
+    public function getSchoolToGrade($type = 2){
+           // 老师
+            if($type == 1){
+                $model = $this->getUserToGrade()->where(['grade_user_type'=>UserToGrade::GRADE_USER_TYOE_TEACHER]);
+            }
+            //家长
+            if($type == 2){
+                $model = $this->getUserToGrade()->where(['grade_user_type'=>UserToGrade::GRADE_USER_TYPE_STUDENT]);
+            }
+            $model = $model->andWhere(['status'=>UserToGrade::USER_GRADE_STATUS_NORMAL])->all();
+            return $model;
+    }
+    
     /**
      * [getTeacherGrades 获取教师所辖班级]
      * @param  [type] $teacher_id [description]
      * @return [type]             [description]
      */
+    /*
     public function getTeacherGrades($teacher_id)
     {
         $grades = [];
@@ -227,12 +245,13 @@ class User extends ActiveRecord implements IdentityInterface
         }
         return $grades;
     }
-
+    */
     /**
      * [getStudents 获取教师所辖全部班级学生]
      * @param  [type] $teacher_id [description]
      * @return [type]             [description]
      */
+    /*
     public function getStudents($teacher_id, $isGroup = FALSE)
     {
         $students = [];
@@ -248,61 +267,6 @@ class User extends ActiveRecord implements IdentityInterface
             }
         }
         return $students;
-    }
-
-
-    // /**
-    //  * 获取学校
-    //  * @return boolean [description]
-    //  */
-    // public function is_userToGrade(){
-
-    //     if($this->getUserToGrade()->where(['grade_user_type'=>UserToGrade::GRADE_USER_TYPE_STUDENT])->one()){
-    //         // 老师
-    //         $data = 2;
-    //     }else{
-    //         $data =
-    //     }
-    //     var_dump('mei');exit;
-    //     exit;
-    //     return false;
-    // }
-    /**
-     * 返回的字段初始化
-     */
-    /*
-    public function  DataInit($params = false ){
-        //var_dump($params);exit();
-        $data = [];
-        if($params){
-            foreach ($params as $key => $value) {
-                var_dump($value);exit;
-            }
-        }
-        // if($params){
-        //     foreach ($params as $key => $value) {
-        //         $data[$value->school_id]['school_id'] 
-        //             = $value->school_id;
-                
-        //         $data[$value->school_id]['type'] 
-        //             = isset($value->grade_user_type) ? UserToGrade::UserToTypelable($value->grade_user_type) : '';
-                
-        //         $data[$value->school_id]['school_title'] 
-        //             = isset($value->school->school_title)? $value->school->school_title :'';
-                
-        //         $data[$value->school_id]['grade'][$key]['grade_id'] 
-        //             = isset($value['grade_id']) ? $value['grade_id'] : '';
-                
-        //         $data[$value->school_id]['grade'][$key]['grade_name'] 
-        //             = isset($value->grade->grade_title) ? $value['grade_id'] : '';
-        //         rsort($data[$value->school_id]['grade']);
-
-        //     }
-
-        // }
-        rsort($data);
-        //svar_dump($data);exit;
-        return $data;
     }
     */
 
