@@ -34,8 +34,8 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
     CONST USER_GRADE_STATUS_AUDIT   = 2 ; //审核；
 
     CONST GRADE_USER_TYPE_STUDENT   = 10 ; //学生
-    CONST GRADE_USER_TYOE_TEACHER   = 20 ; //老师
-    CONST GRADE_USER_TYOE_PARENTS   = 30 ; //家长
+    CONST GRADE_USER_TYPE_TEACHER   = 20 ; //老师
+    CONST GRADE_USER_TYPE_PARENTS   = 30 ; //家长
 
     public static function optsStatus(){
         return [
@@ -57,15 +57,15 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
     public static function optsUserType(){
         return [
             self::GRADE_USER_TYPE_STUDENT=>'学生',//,
-            self::GRADE_USER_TYOE_TEACHER=>'老师',//,
+            self::GRADE_USER_TYPE_TEACHER=>'老师',//,
         ];
     }
     //用户在班级的描述性展示Title，没有逻辑
     public static function optsUserTitleType(){
         return [
             self::GRADE_USER_TYPE_STUDENT=>'学生',//,
-            self::GRADE_USER_TYOE_TEACHER=>'老师',//,
-            self::GRADE_USER_TYOE_PARENTS=> '家长'
+            self::GRADE_USER_TYPE_TEACHER=>'老师',//,
+            self::GRADE_USER_TYPE_PARENTS=> '家长'
         ];
     }
 
@@ -182,13 +182,18 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
      */
     public static function getStudents($grade_ids = NULL){
         if($grade_ids == NULL){
-            $grade_ids = Yii::$app->user->identity->getSchoolToGrade();
+            $grade_ids = Yii::$app->user->identity->getSchoolToGrade(1);
+            // dump($grade_ids);exit;
             $grade_ids = ArrayHelper::map($grade_ids,'grade_id','grade_id');
         }
         //var_dump($grade_ids);exit;
         $model = self::find()
             ->select(['user_to_grade_id','school_id','grade_id','user_id'])
-            ->where(['grade_id'=>$grade_ids,'status'=>UserToGrade::USER_GRADE_STATUS_NORMAL]);
+            ->where([
+                'grade_id'=>$grade_ids,
+                'status'=>UserToGrade::USER_GRADE_STATUS_NORMAL,
+                'grade_user_type' => UserToGrade::GRADE_USER_TYPE_STUDENT,
+            ]);
             return  new ActiveDataProvider([
                 'query'=>$model
             ]);
