@@ -219,4 +219,152 @@ class CourseController extends \common\rest\Controller
 	    // }
 	   //return $data;
     }
+
+    /**
+     * @SWG\Get(path="/course/course-sing-in-list",
+     *     tags={"700-Course-课程课表"},
+     *     summary="(老师)课程签到",
+     *     description="课程签到的所有学生列表",
+     *     produces={"application/json"},
+     *  @SWG\Parameter(
+     *        in = "query",
+     *        name = "school_id",
+     *        description = "学校id",
+     *        required = true,
+     *        type = "integer"
+     *     ),
+     *  @SWG\Parameter(
+     *        in = "query",
+     *        name = "grade_id",
+     *        description = "班级id",
+     *        required = true,
+     *        type = "integer"
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "所需要签到的学生"
+     *     ),
+     * )
+     *
+    **/
+    public function actionCourseSingInList($school_id,$grade_id){
+        $model = new $this->modelClass;
+        return $model->userCourseSingInData($school_id,$grade_id);
+    }
+    /**
+     * @SWG\Post(path="/course/create-sing-in",
+     *     tags={"700-Course-课程课表"},
+     *     summary="(老师)创建签到",
+     *     description="创建签到",
+     *     produces={"application/json"},
+     *  @SWG\Parameter(
+     *        in = "formData",
+     *        name = "SignIn[0][school_id]",
+     *        description = "学校id",
+     *        required = true,
+     *        type = "integer"
+     *     ),
+     *  @SWG\Parameter(
+     *        in = "formData",
+     *        name = "SignIn[0][grade_id]",
+     *        description = "班级id",
+     *        required = true,
+     *        type = "integer"
+     *     ),
+     *  @SWG\Parameter(
+     *        in = "formData",
+     *        name = "SignIn[0][student_id]",
+     *        description = "学生id",
+     *        required = true,
+     *        type = "integer"
+     *     ),
+     *  @SWG\Parameter(
+     *        in = "formData",
+     *        name = "SignIn[0][course_id]",
+     *        description = "课程ID",
+     *        required = true,
+     *        type = "integer"
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "创建签到学生"
+     *     ),
+     * )
+     *
+    **/
+    public function actionCreateSingIn(){
+
+        $model = new SignIn;
+        if($_POST){
+            $info =  $model->batch_add($_POST);
+            if(empty($info['error']) && isset($info['error'])){
+                $this->serializer['errno']      = '300';
+                $this->serializer['message']    = $info['error'];
+                return [];
+            }else{
+                return $info['message'];
+            }
+        }
+    }
+
+    /**
+     * @SWG\Get(path="/course/sing-in-details",
+     *     tags={"700-Course-课程课表"},
+     *     summary="(老师)创建签到",
+     *     description="创建签到",
+     *     produces={"application/json"},
+     *  @SWG\Parameter(
+     *        in = "query",
+     *        name = "singin_id",
+     *        description = "学校id",
+     *        required = true,
+     *        type = "integer"
+     *     ),
+     *  @SWG\Response(
+     *         response = 200,
+     *         description = "签到详情"
+     *     ),
+     * )
+     *
+    **/
+    public function actionSingInDetails($singin_id){
+            $model = new SignIn;
+            return $model->details($singin_id);
+    }
+
+    /**
+     * @SWG\Get(path="/course/users-to-grades",
+     *     tags={"700-Course-课程课表"},
+     *     summary="(老师)创建签到",
+     *     description="创建签到",
+     *     produces={"application/json"},
+     *  @SWG\Response(
+     *         response = 200,
+     *         description = "签到详情"
+     *     ),
+     * )
+     *
+    **/
+
+    public function actionUsersToGrades(){
+        if(!isset(Yii::$app->user->identity->id)){
+            $this->serializer['errno']      = '300';
+            $this->serializer['message']    = '请先登录';
+            return [];
+        }
+
+        $models = Yii::$app->user->identity->getSchoolToGrade();
+        $data = [];
+        foreach ($models as $key => $value) {
+            $data[$value->school_id]['school_id'] =  $value->school_id;
+            $data[$value->school_id]['school_label'] = $value->toArray(['school_label'])['school_label'];
+            $data[$value->school_id]['grade'][]   =[
+                    'school_id'=>$value->school_id,
+                    'grade_label'=>$value->toArray(['grade_label'])['grade_label'],
+            ];
+        }
+          sort($data);
+          return $data;
+
+    }
 }
