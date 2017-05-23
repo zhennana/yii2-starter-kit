@@ -5,10 +5,11 @@ use Yii;
 use yii\web\Response;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
+use yii\helpers\ArrayHelper;
 use frontend\models\wedu\resources\SignIn;
 use frontend\models\wedu\resources\StudentRecord;
+use backend\modules\campus\models\UserToGrade;
 use yii\data\Pagination;
-
 class CourseController extends \common\rest\Controller
 {
      public $modelClass = 'frontend\models\wedu\resources\Course'; 
@@ -310,8 +311,8 @@ class CourseController extends \common\rest\Controller
     /**
      * @SWG\Get(path="/course/sing-in-details",
      *     tags={"700-Course-课程课表"},
-     *     summary="(老师)创建签到",
-     *     description="创建签到",
+     *     summary="(老师)花名册",
+     *     description="详情",
      *     produces={"application/json"},
      *  @SWG\Parameter(
      *        in = "query",
@@ -333,10 +334,10 @@ class CourseController extends \common\rest\Controller
     }
 
     /**
-     * @SWG\Get(path="/course/users-to-grades",
+     * @SWG\Get(path="/course/school-to-grades",
      *     tags={"700-Course-课程课表"},
-     *     summary="(老师)创建签到",
-     *     description="创建签到",
+     *     summary="(老师)老师下边的所有班级",
+     *     description="老师下边的所有班级",
      *     produces={"application/json"},
      *  @SWG\Response(
      *         response = 200,
@@ -346,13 +347,12 @@ class CourseController extends \common\rest\Controller
      *
     **/
 
-    public function actionUsersToGrades(){
+    public function actionSchoolToGrades(){
         if(!isset(Yii::$app->user->identity->id)){
             $this->serializer['errno']      = '300';
             $this->serializer['message']    = '请先登录';
             return [];
         }
-
         $models = Yii::$app->user->identity->getSchoolToGrade();
         $data = [];
         foreach ($models as $key => $value) {
@@ -365,6 +365,48 @@ class CourseController extends \common\rest\Controller
         }
           sort($data);
           return $data;
+    }
 
+    /**
+     * @SWG\Get(path="/course/users-to-grades",
+     *     tags={"700-Course-课程课表"},
+     *     summary="(老师)老师下边的所有学生",
+     *     description="老师下边的所有班级",
+     *     produces={"application/json"},
+     *  @SWG\Parameter(
+     *        in = "query",
+     *        name = "singin_id",
+     *        description = "学校id",
+     *        required = false,
+     *        type = "integer"
+     *     ),
+     *  @SWG\Parameter(
+     *        in = "query",
+     *        name = "singin_id",
+     *        description = "学校id",
+     *        required = false,
+     *        type = "integer"
+     *     ),
+     *  @SWG\Response(
+     *         response = 200,
+     *         description = "老师班级下边的所有学生"
+     *     ),
+     * )
+     *
+    **/
+    public function actionUsersToGrades(){
+        if(!isset(Yii::$app->user->identity->id)){
+            $this->serializer['errno']      = '300';
+            $this->serializer['message']    = '请先登录';
+            return [];
+        }
+        $grade_ids = Yii::$app->user->identity->getSchoolToGrade();
+        $grade_ids = ArrayHelper::map($grade_ids,'grade_id','grade_id');
+        $model =  UserToGrade::find()
+        ->select(['user_to_grade_id','school_id','grade_id','user_id'])
+        ->where(['grade_id'=>$grade_ids,'status'=>UserToGrade::USER_GRADE_STATUS_NORMAL]);
+        return  new ActiveDataProvider([
+                'query'=>$model
+            ]);
     }
 }
