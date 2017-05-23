@@ -110,8 +110,8 @@ abstract class ShareStreamToGrade extends \yii\db\ActiveRecord
         return $data;
     }
 
-    public function bath_create($data){
-        //var_dump($data);exit;
+    public function batch_create($data){
+
         if(empty($data['school_id']) && !isset($data['school_id'])){
             return false;
         }

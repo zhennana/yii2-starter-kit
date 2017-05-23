@@ -165,10 +165,10 @@ if(\Yii::$app->user->can('user', ['route' => true])){
                 'label'=>'授权',
                 'format'    => 'raw',
                 'value'=>function($modle){
-                   return Html::a('授权','#',[
-                              'data-toggle' => 'modal',
-                              'data-target' => '#update-modal',
-                              'class'       =>'data-update',
+                    return Html::a('授权','#',[
+                        'data-toggle' => 'modal',
+                        'data-target' => '#update-modal',
+                        'class'       => 'data-update',
                     ]);
                 }
             ]
