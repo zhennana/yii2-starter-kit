@@ -47,8 +47,8 @@ public function behaviors()
         $user_ids = ArrayHelper::map($user_ids,'student_id','student_id');
         $model = UserToGrade::find()->select([])
         ->with([
-          'grade',
-          'school',
+          //'grade',
+          //'school',
           'courseOrder',
           'signIn'=>function($model){
               $model->select(['count(signin_id) as above_course','student_id']);
@@ -73,22 +73,24 @@ public function behaviors()
     */
    public function serializations($model,$course_id){
         $data = [];
+        $data['course_id'] = $course_id;
        foreach ($model as $key => $value) {
-          $data[$key] = [
-                'course_id'     =>    (int)$course_id,
+          $data['user_list'][$key] = [
                 'user_id'       =>    (int)$value['user_id'],
                 'username'      =>    $value['user']['username'],
-                'school_id'     =>    (int)$value['school_id'],
-                'school_title'  =>    $value['school']['school_title'],
-                'grade_id'      =>    (int)$value['grade']['grade_id'],
-                'grade_name'    =>    $value['grade']['grade_name'],
+                //'school_id'     =>    (int)$value['school_id'],
+                //'school_title'  =>    $value['school']['school_title'],
+                //'grade_id'      =>    (int)$value['grade']['grade_id'],
+                //'grade_name'    =>    $value['grade']['grade_name'],
                 'presented_course' => isset($value['courseOrder']['presented_course']) ? (int)$value['courseOrder']['presented_course'] : 0,
                 'above_course'    => isset($value['signIn']['above_course']) ? (int)$value['signIn']['above_course'] : 0,
                 'created_at'       => isset($value['courseOrder']['created_at']) ? $value['courseOrder']['created_at'] : 0,
            ];
-          $data[$key]['total_course'] = isset($value['courseOrder']['total_course']) ? (int)$value['courseOrder']['total_course'] + (int)$data[$key]['presented_course']  : 0;
-          $data[$key]['surplus_course'] = (int)$data[$key]['total_course'] - (int)$data[$key]['above_course'];
+          $data['user_list'][$key]['total_course'] = isset($value['courseOrder']['total_course']) ? (int)$value['courseOrder']['total_course'] + (int)$data['user_list'][$key]['presented_course']  : 0;
+          $data['user_list'][$key]['surplus_course'] = (int)$data['user_list'][$key]['total_course'] - (int)$data['user_list'][$key]['above_course'];
+
        }
+        
        return $data;
    }
 
