@@ -98,15 +98,15 @@ public function behaviors()
     * @return [type] [description]
     */
    public function course_id($school_id,$grade_id){
-      $start_time = time()-60*15;
-      $end_time   = time()+60*15;
+      //$start_time = time()-60*15;
+      //$end_time   = time()+60*15;
       //var_dump(date('Y m d h i s',$start_time));exit();
       return self::find()->select('course_id')
       ->andwhere([
           'school_id'=>$school_id,'grade_id'=>$grade_id,
           'status'   => self::COURSE_STATUS_OPEN
         ])
-      ->andwhere(['between','start_time',$start_time,$end_time])
+      //->andwhere(['between','start_time',$start_time,$end_time])
       ->one();
    }
    /**
