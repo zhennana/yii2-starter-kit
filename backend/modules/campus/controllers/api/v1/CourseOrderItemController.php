@@ -1,17 +1,17 @@
 <?php
 
-namespace backend\modules\campus\controllers\api;
+namespace backend\modules\campus\controllers\api\v1;
 
 /**
-* This is the class for REST controller "ShareStreamToGradeController".
+* This is the class for REST controller "CourseOrderItemController".
 */
 
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 
-class ShareStreamToGradeController extends \yii\rest\ActiveController
+class CourseOrderItemController extends \yii\rest\ActiveController
 {
-public $modelClass = 'backend\modules\campus\models\ShareStreamToGrade';
+public $modelClass = 'backend\modules\campus\models\CourseOrderItem';
     /**
     * @inheritdoc
     */
