@@ -4,26 +4,26 @@ use yii\helpers\Html;
 
 /**
 * @var yii\web\View $this
-* @var backend\modules\campus\models\GradeCategroy $model
+* @var backend\modules\campus\models\CourseOrderItem $model
 */
 
-$this->title = Yii::t('backend', '创建');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '班级分类管理'), 'url' => ['index']];
+$this->title = Yii::t('cruds', 'Create');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('models', 'Course Order Items'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="giiant-crud grade-categroy-create">
+<div class="giiant-crud course-order-item-create">
 
     <h1>
-        <?= Yii::t('models', '班级分类管理') ?>
+        <?= Yii::t('models', 'Course Order Item') ?>
         <small>
-            <?= $model->name ?>
+                        <?= $model->course_order_item_id ?>
         </small>
     </h1>
 
     <div class="clearfix crud-navigation">
         <div class="pull-left">
             <?=             Html::a(
-            Yii::t('backend', '取消'),
+            Yii::t('cruds', 'Cancel'),
             \yii\helpers\Url::previous(),
             ['class' => 'btn btn-default']) ?>
         </div>
@@ -33,7 +33,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
     'model' => $model,
-    'parent_category' => $parent_category,
     ]); ?>
 
 </div>
