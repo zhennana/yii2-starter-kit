@@ -422,15 +422,15 @@ class CourseController extends \common\rest\Controller
      *     produces={"application/json"},
      *  @SWG\Parameter(
      *        in = "query",
-     *        name = "singin_id",
+     *        name = "school_id",
      *        description = "学校id",
      *        required = false,
      *        type = "integer"
      *     ),
      *  @SWG\Parameter(
      *        in = "query",
-     *        name = "singin_id",
-     *        description = "学校id",
+     *        name = "grade_id",
+     *        description = "班级id",
      *        required = false,
      *        type = "integer"
      *     ),
