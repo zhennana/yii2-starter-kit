@@ -131,7 +131,7 @@ abstract class CourseOrderItem extends \yii\db\ActiveRecord
     {
         return [
             [['parent_id', 'school_id', 'grade_id', 'user_id', 'introducer_id', 'payment', 'presented_course', 'status', 'payment_status', 'total_course'], 'integer'],
-            [['school_id','grade_id','user_id', 'payment', 'payment_status', 'total_price', 'real_price', 'total_course'], 'required'],
+            [['user_id', 'payment', 'payment_status', 'total_price', 'real_price', 'total_course'], 'required'],
             [['total_price', 'real_price', 'coupon_price'], 'number']
         ];
     }
@@ -145,7 +145,7 @@ abstract class CourseOrderItem extends \yii\db\ActiveRecord
             'course_order_item_id' => Yii::t('backend', '课程订单ID'),
             'parent_id'            => Yii::t('backend', '父订单ID'),
             'school_id'            => Yii::t('backend', '学校'),
-            'grade_id'             => Yii::t('backend', '课程'),
+            'grade_id'             => Yii::t('backend', '班级'),
             'user_id'              => Yii::t('backend', '用户'),
             'introducer_id'        => Yii::t('backend', '介绍人'),
             'payment'              => Yii::t('backend', '支付方式'),
