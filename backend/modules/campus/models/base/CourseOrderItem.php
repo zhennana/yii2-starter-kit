@@ -42,7 +42,7 @@ abstract class CourseOrderItem extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'couese_order_item';
+        return 'course_order_item';
     }
 
 

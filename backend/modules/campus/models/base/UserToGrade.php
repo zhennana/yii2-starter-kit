@@ -176,6 +176,21 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
         return $this->hasOne(\backend\modules\campus\models\School::className(),['school_id'=>'school_id']);
     }
     /**
+     * 获取用户全部总课程
+     * @return [type] [description]
+     */
+    public function getCourseOrder(){
+        return $this->hasOne(\backend\modules\campus\models\CourseOrderItem::className(),['user_id'=>'user_id']
+            );
+    }
+    /**
+     * 获取用户上的所有课程
+     * @return [type] [description]
+     */
+    public function getSignIn(){
+        return $this->hasOne(\backend\modules\campus\models\SignIn::className(),['student_id'=>'user_id']);
+    }
+    /**
      * 获取班级下边的所有学生
      * @param  [type] $grade_ids [description]
      * @return [type]            [description]
