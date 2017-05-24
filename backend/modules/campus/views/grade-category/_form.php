@@ -1,9 +1,10 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\StringHelper;
 use yii\bootstrap\ActiveForm;
 use \dmstr\bootstrap\Tabs;
-use yii\helpers\StringHelper;
+use kartik\select2\Select2;
 use backend\modules\campus\models\GradeCategory;
 
 /**
@@ -31,13 +32,27 @@ use backend\modules\campus\models\GradeCategory;
             
 
 <!-- attribute parent_id -->
-			<?= $form->field($model, 'parent_id')->DropdownList(['prompt'=>'请选择']) ?>
+			<?= $form->field($model, 'parent_id')->widget(Select2::className(),
+                [
+                    'data'          => $parent_category,
+                    'options'       => ['placeholder' => '请选择'],
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                    ],
+                ]); ?>
             <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 <!-- attribute creater_id -->
 			<!-- <? //= $form->field($model, 'creater_id')->textInput() ?> -->
 
 <!-- attribute status -->
-			<?= $form->field($model, 'status')->DropdownList(GradeCategory::optsStatus()) ?>
+			<?= $form->field($model, 'status')->widget(Select2::className(),[
+                    'data'          => GradeCategory::optsStatus(),
+                    'options'       => ['placeholder' => '请选择'],
+                    'hideSearch'    => true,
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                    ],
+                ]); ?>
 
 <!-- attribute name -->
 			

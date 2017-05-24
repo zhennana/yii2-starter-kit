@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\campus\controllers\api;
+namespace backend\modules\campus\controllers\api\v1;
 
 /**
 * This is the class for REST controller "NoticeController".

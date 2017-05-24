@@ -1,17 +1,17 @@
 <?php
 
-namespace backend\modules\campus\controllers\api;
+namespace backend\modules\campus\controllers\api\v1;
 
 /**
-* This is the class for REST controller "ShareStreamController".
+* This is the class for REST controller "ShareStreamToGradeController".
 */
 
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 
-class ShareStreamController extends \yii\rest\ActiveController
+class ShareStreamToGradeController extends \yii\rest\ActiveController
 {
-public $modelClass = 'backend\modules\campus\models\ShareStream';
+public $modelClass = 'backend\modules\campus\models\ShareStreamToGrade';
     /**
     * @inheritdoc
     */
