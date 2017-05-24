@@ -183,7 +183,7 @@ class User extends ActiveRecord implements IdentityInterface
         if($this->is_userToGrade(1)){
             $data['user_type']  = 1;
             $model =  $this->getUserToGrade()
-                       ->where(['NOT',['grade_user_type'=>UserToGrade::GRADE_USER_TYOE_TEACHER]])
+                       ->where(['NOT',['grade_user_type'=>UserToGrade::GRADE_USER_TYPE_TEACHER]])
                        ->one();
         }
         if($this->is_userToGrade(2)){
