@@ -142,7 +142,18 @@ abstract class SignIn extends \yii\db\ActiveRecord
         }
         return $value;
     }
-
+    /**
+     * 一共签到多少人，
+     * @param  [type] $course_id [description]
+     * @return [type]            [description]
+     */
+    public static function singInCount($course_id,$params = NULL){
+        $modelQuery =  self::find()->where(['course_id'=>$course_id]);
+        if($params != NULL){
+            $modelQuery = $modelQuery->andWhere(['type_status'=>self::TYPE_STATUS_MORMAL]);
+        }
+        return $modelQuery->count();
+    }
     public function getSchool()
     {
         return $this->hasOne(\backend\modules\campus\models\School::className(),['id' => 'school_id']);
@@ -158,6 +169,7 @@ abstract class SignIn extends \yii\db\ActiveRecord
         return $this->hasOne(\backend\modules\campus\models\Course::className(),['course_id' => 'course_id']);
     }
 
+    
     public function getCourseOrder()
     {
         return $this->hasOne(\backend\modules\campus\models\CourseOrderItem::className(),['user_id' => 'student_id']);

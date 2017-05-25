@@ -52,6 +52,25 @@ public function behaviors()
         }
         return $data;
     }
+
+    public function formatData($params){
+        if(empty($params)){
+            return [];
+        }
+        $data = [];
+        foreach ($params as $key => $value) {
+            if(!isset($data[$value->course_id][$key]['title'])){
+                $data[$value->course_id]['course_title']           = $value->course->title;
+                $data[$value->course_id]['created_at']          = $value->course->start_time;
+                $data[$value->course_id]['sign_in_count']       = (int)self::singInCount($value->course_id);
+                $data[$value->course_id]['already_signed_count']       = (int)self::singInCount($value->course_id,true);
+                $data[$value->course_id]['absenteeism_count']   = count($params);
+            }
+            $data[$value->course_id]['absence_user'][$key]['username'] = self::getUserName($value->student_id);
+        }
+        sort($data);
+        return $data;
+    }
 /**
  * 签到表详情详情
  * @param  [type] $id [description]
