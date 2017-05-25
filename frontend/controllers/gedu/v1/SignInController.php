@@ -166,7 +166,7 @@ class SignInController extends \common\components\ControllerFrontendApi
             }
             return $attrUser;
         }else{
-            Yii::$app->response->statusCode = 422;
+            Yii::$app->response->statusCode = 200;
             $this->serializer['errno']      = 1;
             $this->serializer['message']    = $model->getErrors();
             return $this->serializer['message'];
@@ -199,7 +199,7 @@ class SignInController extends \common\components\ControllerFrontendApi
     {
         \Yii::$app->language = 'zh-CN';
         if(\Yii::$app->user->isGuest){
-            Yii::$app->response->statusCode = 422;
+            Yii::$app->response->statusCode = 200;
             $this->serializer['errno']      = 1;
             $this->serializer['message']    = '登陆验证失败，请登录';
             return $this->serializer['message'];
@@ -388,7 +388,7 @@ class SignInController extends \common\components\ControllerFrontendApi
             }
         }
 
-        Yii::$app->response->statusCode = 422;
+        Yii::$app->response->statusCode = 200;
         $this->serializer['errno']      = 1;
         $this->serializer['message']    = $model->getErrors();
         return $this->serializer['message'];

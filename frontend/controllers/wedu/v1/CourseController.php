@@ -450,4 +450,90 @@ class CourseController extends \common\rest\Controller
         //$model =  new UserToGrade;
         return UserToGrade::getStudents();
     }
+
+    /**
+     * @SWG\Get(path="/course/sing-in-record",
+     *     tags={"700-Course-课程课表"},
+     *     summary="(老师)缺勤记录",
+     *     description="缺勤记录表",
+     *     produces={"application/json"},
+     *  @SWG\Parameter(
+     *        in = "query",
+     *        name = "school_id",
+     *        description = "学校id",
+     *        required = false,
+     *        type = "integer"
+     *     ),
+     *  @SWG\Parameter(
+     *        in = "query",
+     *        name = "grade_id",
+     *        description = "班级id",
+     *        required = false,
+     * 
+     *        type = "integer"
+     *     ),
+     *  @SWG\Response(
+     *         response = 200,
+     *         description = "老师班级下边的所有学生"
+     *     ),
+     * )
+     *
+    **/
+
+    /**
+     * 签到记录
+     * @return [type] [description]
+     */
+    public function actionSingInRecord($school_id, $grade_id){
+        if(!isset(Yii::$app->user->identity->id)){
+            $this->serializer['errno']      = '300';
+            $this->serializer['message']    = '请先登录';
+            return [];
+        }
+        $model = new SignIn;
+        $mdoelQuery = $model::find()
+                ->where(['school_id'=>$school_id,'grade_id'=>$grade_id])
+                ->andWhere(['type_status'=>SignIn::TYPE_STATUS_ABSENTEEISM])
+                //->asArray()
+                ->all();
+      //  return $model;
+        return $model->formatData($mdoelQuery);
+    }
+
+       /**
+     * @SWG\Get(path="/course/working-state",
+     *     tags={"700-Course-课程课表"},
+     *     summary="message",
+     *     description="老师的工作内容",
+     *     produces={"application/json"},
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "返回用户缴费列表"
+     *     ),
+     * )
+     *
+    **/
+    /**
+     * 老师工作
+    */
+    public function actionWorkingState(){
+        return [
+            [
+                'title'  =>'上传学生档案',
+                'status' =>10,
+            ],
+            [
+                'title'  => '备课',
+                'status' => 10,
+            ],
+            [
+                'title'  => '签到记录',
+                'status' => 20,
+            ],
+            [
+                'title'  => '家长访问',
+                'status' => 10,
+            ],
+        ];
+    }
 }
