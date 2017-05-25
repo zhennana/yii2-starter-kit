@@ -116,5 +116,4 @@ class CourseOrderItemController extends \common\rest\Controller
         $data['statistical'] = $model->statistical();
         return $data;
     }
-
 }

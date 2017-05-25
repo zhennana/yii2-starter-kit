@@ -39,19 +39,29 @@ public function behaviors()
         }
         foreach ($params['SignIn'] as $key => $value) {
             $model = new $this;
-            $value['school_id'] = $params['school_id'];
-            $value['course_id'] = $params['course_id'];
-            $value['grade_id'] = $params['grade_id'];
-            $model->load($value,'');
-            $model->save();
-            if($model->getErrors()){
-              $data['error'][$key] = $model->getErrors();
-            }else{
-              $data['message'][$key] = $model;
-            }
+            $is_check = self::find()
+                  ->where([
+                    'school_id'=>$params['school_id'],
+                    'grade_id'=>$params['grade_id'],
+                    'course_id'=>$params['course_id'],
+                    'student_id'=> $value['student_id'],
+                    ]);
+            if($is_check->count() == 0){
+                $value['school_id'] = $params['school_id'];
+                $value['course_id'] = $params['course_id'];
+                $value['grade_id'] = $params['grade_id'];
+                $model->load($value,'');
+                if(!$model->save()){
+                  $data['error'][$key] = $model->getErrors();
+                }else{
+                  $data['message'][$key] = $model;
+                }
+        }else{
+          $data['message'][$key]  = $is_check->one();
         }
         return $data;
     }
+  }
 
     public function formatData($params){
         if(empty($params)){
