@@ -201,17 +201,21 @@ class User extends ActiveRecord implements IdentityInterface
     }
     /**
      * 获取所有用户班级信息
+     * 默认获取老师下边的所有班级
      * @param  integer $type [description]
      * @return [type]        [description]
      */
-    public function getSchoolToGrade($type = 2){
+    public function getSchoolToGrade($user_id = NULL,$type = 1){
            // 老师
             if($type == 1){
                 $model = $this->getUserToGrade()->where(['grade_user_type'=>UserToGrade::GRADE_USER_TYPE_TEACHER]);
             }
-            //家长
+            //学生
             if($type == 2){
                 $model = $this->getUserToGrade()->where(['grade_user_type'=>UserToGrade::GRADE_USER_TYPE_STUDENT]);
+            }
+            if($user_id !== NULL){
+                $model = $model->andWhere(['user_id'=>$user_id]);
             }
             $model = $model->andWhere(['status'=>UserToGrade::USER_GRADE_STATUS_NORMAL])->all();
             return $model;

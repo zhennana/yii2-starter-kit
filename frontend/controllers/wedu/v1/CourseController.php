@@ -400,13 +400,15 @@ class CourseController extends \common\rest\Controller
             $this->serializer['message']    = '请先登录';
             return [];
         }
-        $models = Yii::$app->user->identity->getSchoolToGrade();
+        $user_id = Yii::$app->user->identity->id;
+        $models = Yii::$app->user->identity->getSchoolToGrade($user_id);
+       // var_dump($models);exit;
         $data = [];
         foreach ($models as $key => $value) {
             $data[$value->school_id]['school_id'] =  $value->school_id;
             $data[$value->school_id]['school_label'] = $value->toArray(['school_label'])['school_label'];
             $data[$value->school_id]['grade'][]   =[
-                    'grade_id'=>$value->school_id,
+                    'grade_id'=>$value->grade_id,
                     'grade_label'=>$value->toArray(['grade_label'])['grade_label'],
             ];
         }
@@ -447,8 +449,8 @@ class CourseController extends \common\rest\Controller
             $this->serializer['message']    = '请先登录';
             return [];
         }
-        //$model =  new UserToGrade;
-        return UserToGrade::getStudents();
+        $user_id = Yii::$app->user->identity->id;
+        return UserToGrade::getStudents($user_id);
     }
 
     /**

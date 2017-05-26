@@ -29,7 +29,7 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
 {
     CONST USER_GRADE_STATUS_NORMAL  = 1 ; //正常；
     CONST USER_GRADE_STATUS_RETIRED = 4 ; //退休；
-    CONST USER_GRADE_STATUS_CHANGE  = 3 ; //转班；
+    CONST USER_GRADE_STATUS_CHANGE  = 3 ; //转班；  
     CONST USER_GRADE_STATUS_DELETE  = 0 ; // 删除；
     CONST USER_GRADE_STATUS_AUDIT   = 2 ; //审核；
 
@@ -195,9 +195,9 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
      * @param  [type] $grade_ids [description]
      * @return [type]            [description]
      */
-    public static function getStudents($grade_ids = NULL){
+    public static function getStudents($user_id,$grade_ids = NULL){
         if($grade_ids == NULL){
-            $grade_ids = Yii::$app->user->identity->getSchoolToGrade(1);
+            $grade_ids = Yii::$app->user->identity->getSchoolToGrade($user_id);
             // dump($grade_ids);exit;
             $grade_ids = ArrayHelper::map($grade_ids,'grade_id','grade_id');
         }
