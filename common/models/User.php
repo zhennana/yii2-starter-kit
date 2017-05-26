@@ -161,12 +161,13 @@ class User extends ActiveRecord implements IdentityInterface
     public function is_userToGrade($type = false){
         $query = $this->getUserToGrade();
 
-        if($type == 1){
-            $query->where(['NOT',['grade_user_type'=>UserToGrade::GRADE_USER_TYPE_TEACHER]]);
+        if($type == UserToGrade::GRADE_USER_TYPE_STUDENT){
+            $query->where(['grade_user_type'=>UserToGrade::GRADE_USER_TYPE_STUDENT]);
         }
 
-        if($type == 2){
-            $query->where(['grade_user_type'=>UserToGrade::GRADE_USER_TYPE_STUDENT]);
+        if($type == UserToGrade::GRADE_USER_TYPE_TEACHER){
+
+            $query->where(['grade_user_type'=>UserToGrade::GRADE_USER_TYPE_TEACHER]);
         }
         if($query->count() == 0 ){
             return false;
@@ -180,24 +181,24 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getCharacterDetailes(){
         $data = [];
-        if($this->is_userToGrade(1)){
+     //   var_dump($this->id);exit;
+        if($this->is_userToGrade(UserToGrade::GRADE_USER_TYPE_STUDENT)){
             $data['user_type']  = 1;
             $model =  $this->getUserToGrade()
-                       ->where(['NOT',['grade_user_type'=>UserToGrade::GRADE_USER_TYPE_TEACHER]])
+                       ->where(['grade_user_type'=>UserToGrade::GRADE_USER_TYPE_STUDENT])
                        ->one();
         }
-        if($this->is_userToGrade(2)){
+        if($this->is_userToGrade(UserToGrade::GRADE_USER_TYPE_TEACHER)){
             $data['user_type'] = 2;
             $model = $this->getUserToGrade()
-                        ->where(['grade_user_type'=>UserToGrade::GRADE_USER_TYPE_STUDENT])
+                        ->where(['grade_user_type'=>UserToGrade::GRADE_USER_TYPE_TEACHER])
                         ->one();
-
         }
-
+       // var_dump($model);exit;
         if(isset($model)){
             return array_merge($model->toArray(['school_id','school_label','grade_id','grade_label']),$data);
         }
-        return false;
+        return [];
     }
     /**
      * 获取所有用户班级信息
@@ -218,6 +219,7 @@ class User extends ActiveRecord implements IdentityInterface
                 $model = $model->andWhere(['user_id'=>$user_id]);
             }
             $model = $model->andWhere(['status'=>UserToGrade::USER_GRADE_STATUS_NORMAL])->all();
+           // var_dump($model);exit;
             return $model;
     }
     // public function getSchoolToGradeUser($school_id,$grade_id){
