@@ -139,8 +139,8 @@ abstract class StudentRecord extends \yii\db\ActiveRecord
             return ArrayHelper::map($course,'course_id','title');
         }
         if($type_id == 4){
-            $user = SignIn::find()->where(['course_id' => $id])->asArray()->all();
-            //var_dump($user);exit;   
+            $user = SignIn::find()->where(['course_id' => $id,'status'=> SignIn::TYPE_STATUS_MORMAL ])->asArray()->all();
+            //var_dump($user);exit;
             $users = [];
             foreach ($user as $key => $value) {
                 $users[$key]['user_id'] = $value['student_id'];

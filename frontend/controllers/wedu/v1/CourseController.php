@@ -402,7 +402,6 @@ class CourseController extends \common\rest\Controller
         }
         $user_id = Yii::$app->user->identity->id;
         $models = Yii::$app->user->identity->getSchoolToGrade($user_id);
-       // var_dump($models);exit;
         $data = [];
         foreach ($models as $key => $value) {
             $data[$value->school_id]['school_id'] =  $value->school_id;
@@ -463,14 +462,14 @@ class CourseController extends \common\rest\Controller
      *        in = "query",
      *        name = "school_id",
      *        description = "学校id",
-     *        required = false,
+     *        required = true,
      *        type = "integer"
      *     ),
      *  @SWG\Parameter(
      *        in = "query",
      *        name = "grade_id",
      *        description = "班级id",
-     *        required = false,
+     *        required = true,
      * 
      *        type = "integer"
      *     ),

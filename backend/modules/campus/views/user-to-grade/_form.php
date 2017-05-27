@@ -36,7 +36,7 @@ $data_user = ArrayHelper::map($user,'id','username');
     //               if(is_string($v)){
     //                 echo "<li style='padding:0 3px'>".$v."</li>";
     //               }
-    //                dump($v);exit;
+    //               // dump($v);exit;
     //               if(is_array($v)){
     //                 foreach ($v as  $v1) {
 
@@ -47,7 +47,6 @@ $data_user = ArrayHelper::map($user,'id','username');
     //                 }
     //               }
     //             }
-                 
     //        }
     //     }
     //      echo "</ul>";
