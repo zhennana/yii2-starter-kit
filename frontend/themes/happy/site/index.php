@@ -1,4 +1,7 @@
 <?php
+
+use yii\helpers\Html;
+
 /* @var $this yii\web\View */
 $this->title = Yii::$app->name;
 ?>
@@ -13,59 +16,48 @@ $this->title = Yii::$app->name;
 
     <div class="jumbotron">
         <div class="row">
-            <div class="col-md-3 course_box">
+            <?php foreach ($model['zuopin'] as $key => $value) { 
+                $images = [];
+                $images = getImgs($value['body']);
+                if(!empty($images)){
+                    $image = $images[0].'?imageView2/3/w/140/h/140';
+                }
+            ?>
+
+            <div class="col-md-3 col-sm-4 course_box">
                 <div class="box box-success box-solid">
+
                     <div class="box-header with-border">
-                        <h4 class="box-title">Starter 1 Course</h4>
+                        <h4 class="box-title"><?= $value['title'] ?></h4>
                     </div>
+
                     <div class="box-body">
-                    <p>
-                        <a href="#">
-                            <img class="hmieff" src="https://S5KE86-a.akamaihd.net/thumbs/levelimg/Starter1.png" alt="English Starter 1">
-                        </a>
-                    This is the absolute beginner basic English course for ESL kids.
-                    </p>
-                    <a class="btn btn-default" href="https://www.fredisalearns.com/starter-1-english/">Browse Lessons</a>
+                        <?= Html::a(
+                            '<img class="img-responsive center-block" src='.$image.'/><h4>'.'</h4>',
+                            ['article/view','id'=>$value['id']]
+                        ); ?>
+
+                        <div>
+                            <p>
+                                <?= Html::a(
+                                    substr_auto(strip_tags($value['body']),70),[
+                                        'article/view',
+                                        'id' => $value['id']
+                                    ],
+                                    ['class' =>'intr']
+                                );?>
+                            </p>
+                            <a class="btn btn-sm btn-success" href="#">Begin Learning</a>
+                        </div>
+
                     </div>
+                    
                 </div>
             </div>
+
+            <?php } ?>
+
         </div>
     </div>
 
-    <div class="body-content">
-
-        <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
-            </div>
-        </div>
-
-    </div>
 </div>
