@@ -6,6 +6,7 @@ use yii\grid\GridView;
 use yii\widgets\DetailView;
 use yii\widgets\Pjax;
 use dmstr\bootstrap\Tabs;
+use backend\modules\campus\models\StudentRecordValue;
 
 /**
 * @var yii\web\View $this
@@ -120,19 +121,48 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
     <?php $this->endBlock(); ?>
 
 
-    
-    <?= Tabs::widget(
-                 [
-                     'id' => 'relation-tabs',
-                     'encodeLabels' => false,
-                     'items' => [
- [
-    'label'   => '<b class=""># '.$model->student_record_id.'</b>',
-    'content' => $this->blocks['backend\modules\campus\models\StudentRecord'],
-    'active'  => true,
-],
- ]
-                 ]
+    <?php  $html = '';  $this->beginBlock('backend\modules\campus\models\StudentRecordValue'); ?>
+            <?=  '<div  class="table-responsive">'.$html.\yii\grid\GridView::widget([
+                'layout'=>'{summary}{pager}<br/>{items}{pager}',
+                'dataProvider'=>  new \yii\data\ActiveDataProvider([
+                        'query' => $model->getStudentRecordValue(),
+                        'pagination' => [
+                            'pageSize' => 20,
+                            'pageParam'=>'page-studentrecordvaluetofiles',
+                        ]
+                    ]),
+                //'filterModel'=> $CoursewareToCoursewareSearch,
+                'columns'=>[
+                    //'courseware_master_id',
+                    'student_record_id',
+                    'student_record_key_id',
+                    'body',
+                    'status',
+                    'updated_at:datetime',
+                    'created_at:datetime'
+                ]
+            ]).'</div>'
+        ?>
+    <?php $this->endBlock(); ?>
+
+<?= Tabs::widget(
+        [
+                 'id' => 'relation-tabs',
+                 'encodeLabels' => false,
+                 'items' => [
+                [
+                        'label'   => '<b class=""># '.$model->student_record_id.'</b>',
+                        'content' => $this->blocks['backend\modules\campus\models\StudentRecord'],
+                        'active'  => false,
+                ],
+                [
+                        'label'   => '<b class="">学生档案详情 '.$model->getStudentRecordValue()->count().'</b>',
+                        'content' => $this->blocks['backend\modules\campus\models\StudentRecordValue'],
+                        'active'  => true,
+                ],
+
+            ]
+        ]
     );
     ?>
 </div>

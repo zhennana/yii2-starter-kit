@@ -107,11 +107,10 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '课件详情');
         ],
         'access_domain',
         'access_other',
-        
+
     ],
     ]); ?>
 
-    
     <hr/>
 
     <?= Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('backend', 'Delete'), ['delete', 'courseware_id' => $model->courseware_id],
