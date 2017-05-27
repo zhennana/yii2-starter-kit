@@ -51,7 +51,7 @@ public function behaviors()
     /**
      * 统计上了多少节课
      */
-    public function oboveCourse(){
+    public function oboveCourse($user_id = NULL){
       return SignIn::find()->where(['student_id'=>Yii::$app->user->identity->id])->count();
     }
 }

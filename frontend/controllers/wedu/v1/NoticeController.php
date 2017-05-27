@@ -90,8 +90,9 @@ class NoticeController extends \common\rest\Controller
     {
         $model = new  $this->modelClass;
         $model = $model::find()->select(['message','created_at'])->where(['category'=>$type,'receiver_id'=>Yii::$app->user->identity->id]);
-        return new ActiveDataProvider([
-                    'query'=>$model]);
-        return $model;
-    }  
+        return new ActiveDataProvider(
+                    [
+                    'query'=>$model
+                    ]);
+    }
 }

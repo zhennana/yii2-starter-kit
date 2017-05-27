@@ -6,6 +6,9 @@ namespace backend\modules\campus\models\base;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\helpers\ArrayHelper;
+use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
 
 /**
  * This is the base-model class for table "users_to_grade".
@@ -26,13 +29,13 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
 {
     CONST USER_GRADE_STATUS_NORMAL  = 1 ; //正常；
     CONST USER_GRADE_STATUS_RETIRED = 4 ; //退休；
-    CONST USER_GRADE_STATUS_CHANGE  = 3 ; //转班；
+    CONST USER_GRADE_STATUS_CHANGE  = 3 ; //转班；  
     CONST USER_GRADE_STATUS_DELETE  = 0 ; // 删除；
     CONST USER_GRADE_STATUS_AUDIT   = 2 ; //审核；
 
     CONST GRADE_USER_TYPE_STUDENT   = 10 ; //学生
-    CONST GRADE_USER_TYOE_TEACHER   = 20 ; //老师
-    CONST GRADE_USER_TYOE_PARENTS   = 30 ; //家长
+    CONST GRADE_USER_TYPE_TEACHER   = 20 ; //老师
+    CONST GRADE_USER_TYPE_PARENTS   = 30 ; //家长
 
     public static function optsStatus(){
         return [
@@ -54,15 +57,15 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
     public static function optsUserType(){
         return [
             self::GRADE_USER_TYPE_STUDENT=>'学生',//,
-            self::GRADE_USER_TYOE_TEACHER=>'老师',//,
+            self::GRADE_USER_TYPE_TEACHER=>'老师',//,
         ];
     }
     //用户在班级的描述性展示Title，没有逻辑
     public static function optsUserTitleType(){
         return [
             self::GRADE_USER_TYPE_STUDENT=>'学生',//,
-            self::GRADE_USER_TYOE_TEACHER=>'老师',//,
-            self::GRADE_USER_TYOE_PARENTS=> '家长'
+            self::GRADE_USER_TYPE_TEACHER=>'老师',//,
+            self::GRADE_USER_TYPE_PARENTS=> '家长'
         ];
     }
 
@@ -171,6 +174,44 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
     }
     public function getSchool(){
         return $this->hasOne(\backend\modules\campus\models\School::className(),['school_id'=>'school_id']);
+    }
+    /**
+     * 获取用户全部总课程
+     * @return [type] [description]
+     */
+    public function getCourseOrder(){
+        return $this->hasOne(\backend\modules\campus\models\CourseOrderItem::className(),['user_id'=>'user_id']
+            );
+    }
+    /**
+     * 获取用户上的所有课程
+     * @return [type] [description]
+     */
+    public function getSignIn(){
+        return $this->hasOne(\backend\modules\campus\models\SignIn::className(),['student_id'=>'user_id']);
+    }
+    /**
+     * 获取班级下边的所有学生
+     * @param  [type] $grade_ids [description]
+     * @return [type]            [description]
+     */
+    public static function getStudents($user_id,$grade_ids = NULL){
+        if($grade_ids == NULL){
+            $grade_ids = Yii::$app->user->identity->getSchoolToGrade($user_id);
+            // dump($grade_ids);exit;
+            $grade_ids = ArrayHelper::map($grade_ids,'grade_id','grade_id');
+        }
+        //var_dump($grade_ids);exit;
+        $model = self::find()
+            ->select(['user_to_grade_id','school_id','grade_id','user_id'])
+            ->where([
+                'grade_id'=>$grade_ids,
+                'status'=>UserToGrade::USER_GRADE_STATUS_NORMAL,
+                'grade_user_type' => UserToGrade::GRADE_USER_TYPE_STUDENT,
+            ]);
+            return  new ActiveDataProvider([
+                'query'=>$model
+            ]);
     }
     /**
      * @inheritdoc

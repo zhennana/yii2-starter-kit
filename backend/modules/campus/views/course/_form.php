@@ -60,7 +60,7 @@ $Courseware = ArrayHelper::map($Courseware,'courseware_id','title');
                     'pluginOptions' => [
                         'allowClear' => true,
                     ],
-                ]); ?>           
+                ]); ?>
 
 <!-- attribute intro -->
 			<?= $form->field($model, 'intro')->textInput(['maxlength' => true]) ?>
@@ -108,6 +108,7 @@ $Courseware = ArrayHelper::map($Courseware,'courseware_id','title');
                 ->widget(Select2::className(),
                 [
                     'data'          => Course::optsStatus(),
+                    'hideSearch'    => true,
                     // 'options'       => ['placeholder'=>'请选择课件'],
                     'pluginOptions' => [
                         'allowClear' => true,

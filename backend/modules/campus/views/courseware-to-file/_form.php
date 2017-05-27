@@ -5,18 +5,27 @@
  * @package default
  */
 
-
 use yii\helpers\Html;
+use yii\helpers\StringHelper;
+use \yii\helpers\ArrayHelper;
 use yii\bootstrap\ActiveForm;
 use \dmstr\bootstrap\Tabs;
-use yii\helpers\StringHelper;
+use kartik\select2\Select2;
+use backend\modules\campus\models\Courseware;
 use backend\modules\campus\models\CoursewareToFile;
+use backend\modules\campus\models\FileStorageItem;
 /**
  *
  * @var yii\web\View $this
  * @var backend\modules\campus\models\CoursewareToFile $model
  * @var yii\widgets\ActiveForm $form
  */
+$files = FileStorageItem::find()->where(['status' => FileStorageItem::STORAGE_STATUS_OPEN])->all();
+$files = ArrayHelper::map($files, 'file_storage_item_id', 'original');
+
+$coursewares = Courseware::find()->where(['status' => Courseware::COURSEWARE_STATUS_VALID])->all();
+$coursewares = ArrayHelper::map($coursewares, 'courseware_id', 'title');
+
 ?>
 
 <div class="courseware-to-file-form">
@@ -37,13 +46,32 @@ use backend\modules\campus\models\CoursewareToFile;
 
 
 <!-- attribute file_storage_item_id -->
-			<?php echo $form->field($model, 'file_storage_item_id')->textInput() ?>
+			<?php echo $form->field($model, 'file_storage_item_id')->widget(Select2::className(),[
+                'data' => $files,
+                'options' => ['placeholder' => '请选择'],
+                'pluginOptions' => [ 
+                    'allowClear' => true
+                ],
+            ]) ?>
 
 <!-- attribute courseware_id -->
-			<?php echo $form->field($model, 'courseware_id')->textInput() ?>
+			<?php echo $form->field($model, 'courseware_id')->widget(Select2::className(),[
+                'data' => $coursewares,
+                'options' => ['placeholder' => '请选择'],
+                'pluginOptions' => [ 
+                    'allowClear' => true
+                ],
+            ]) ?>
 
 <!-- attribute status -->
-			<?php echo $form->field($model, 'status')->dropDownList(backend\modules\campus\models\CoursewareToFile::optsStatus()) ?>
+			<?php echo $form->field($model, 'status')->widget(Select2::className(),[
+                'data'          => backend\modules\campus\models\CoursewareToFile::optsStatus(),
+                'hideSearch'    => true,
+                'options'       => ['placeholder' => '请选择'],
+                'pluginOptions' => [
+                    'allowClear' => true
+                ],
+            ]); ?>
 
 <!-- attribute sort -->
 			<?php echo $form->field($model, 'sort')->textInput() ?>

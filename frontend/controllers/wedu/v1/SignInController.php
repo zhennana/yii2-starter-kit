@@ -501,7 +501,6 @@ class SignInController extends \common\components\ControllerFrontendApi
         return ['avatar_url'=>$model->attributes['avatar_base_url'].'/'.$model->attributes['avatar_path']];
     }
 
-     
 
     /**
      * @SWG\Get(path="/sign-in/qiniu-token",
@@ -529,12 +528,28 @@ class SignInController extends \common\components\ControllerFrontendApi
     }
 
     /**
+     * @SWG\Get(path="/sign-in/logout",
+     *     tags={"100-SignIn-用户接口"},
+     *     summary="]",
+     *     description="退出接口",
+     *     produces={"application/json"},
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "返回1"
+     *     )
+     * )
+     *
+     */
+    /**
      * @return Response
      */
     public function actionLogout()
     {
-        Yii::$app->user->logout();
-        return $this->goHome();
+        if(Yii::$app->user->logout()){
+            return 1;
+        }else{
+            return 0;
+        };
     }
 
     public function actiolAuthKey()
