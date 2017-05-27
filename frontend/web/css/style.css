@@ -204,7 +204,7 @@ a.desc:after {
   padding-bottom: 3%;
 }
 .nav > li a{
-  padding: 15px 30px;
+  padding: 15px 15px;
 }
 .home_continer .col-xs-6,.col-xs-3{
   padding: 0 10px;

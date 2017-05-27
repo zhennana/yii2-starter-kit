@@ -118,6 +118,7 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+    
         $model = ArticleCategory::find()
             ->select(['id','parent_id'])
             ->where([
