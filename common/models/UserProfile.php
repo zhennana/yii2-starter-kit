@@ -24,8 +24,23 @@ use yii\db\ActiveRecord;
  */
 class UserProfile extends ActiveRecord
 {
-    const GENDER_MALE = 1;
-    const GENDER_FEMALE = 2;
+    const GENDER_MALE = 1; //男
+    const GENDER_FEMALE = 2;// 女
+
+    public static  function optsGender(){
+        return [
+            self::GENDER_MALE    =>'男',
+            self::GENDER_FEMALE  =>'女',
+        ];
+    }
+
+    public static  function gradeLabel($value){
+        $label = self::optsGender();
+        if(isset($label[$value])){
+            return $label[$value];
+        }
+        return $value;
+    }
 
     /**
      * @var
