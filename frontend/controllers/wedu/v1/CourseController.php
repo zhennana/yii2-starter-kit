@@ -10,6 +10,7 @@ use frontend\models\wedu\resources\SignIn;
 use frontend\models\wedu\resources\StudentRecord;
 use backend\modules\campus\models\UserToGrade;
 use yii\data\Pagination;
+use common\models\UserProfile;
 class CourseController extends \common\rest\Controller
 {
      public $modelClass = 'frontend\models\wedu\resources\Course'; 
@@ -361,10 +362,12 @@ class CourseController extends \common\rest\Controller
                     ->one();
         //return $model;
             $data = [];
+            $gender = isset($model['user']['userProfile']['gender']) ? UserProfile::gradeLabel($model['user']['userProfile']['gender']) : '';
             if($model){
                 $data = [
                     'user_id'       =>(int)$model['user_id'],
-                    'gender'        =>isset($model['user']['userProfile']['gender']) ? $model['user']['userProfile']['gender'] : '',
+                    'username'      => (int)isset($model['user']['username']) ? $model['user']['username'] : '',
+                    'gender'        => $gender,
                     'birth'         =>isset($model['user']['userProfile']['birth']) ? $model['user']['userProfile']['birth'] : 0,
                     'phone_number'  =>$model['user']['phone_number'],
                     'schoo_id'      =>(int)$model['school_id'],
