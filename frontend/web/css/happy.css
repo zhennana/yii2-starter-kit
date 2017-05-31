@@ -272,4 +272,16 @@ a.desc:after {
 }
 /*ffa56e*/
 
+/* 二级页面 */
+.title_box{
+  color: white;
+  padding: 5px 0 80px;
+}
+.title_box .title{
+  font-size: 50px;
+  font-weight: bold;
+}
+.title_box .title{
+  
+}
 

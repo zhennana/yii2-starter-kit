@@ -58,7 +58,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                 'items'=>[
                     [
                         'label' => Yii::t('frontend', 'Starter 1 English'),
-                        'url' => ['/page/view', 'slug'=>'guan-yu-wa-ku']
+                        'url' => ['/page/view']
                     ],
                     [
                         'label' => Yii::t('frontend', 'Level 1 English'),
@@ -166,7 +166,6 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
     var boxwidth = $(window).width();
     if(boxwidth < 768){
         $('.top_logo').remove();
-        $('.top_box').show();
         var img = '<img class="img-responsive center-block" src="<?php echo Yii::getAlias('@frontendUrl') ?>/img/fredisalearns_index_03.png" >';
         $('.top_box').append(img);
         $('.top_box').css("padding-top","20px");
