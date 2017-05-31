@@ -63,10 +63,16 @@ public function behaviors()
      return $data;
   }
 
+    /**
+     * 缺勤记录格式化
+     * @param  [type] $params [description]
+     * @return [type]         [description]
+     */
     public function formatData($params){
         if(empty($params)){
             return [];
         }
+       // var_dump($params);exit;
         $data = [];
         foreach ($params as $key => $value) {
             if(!isset($data[$value->course_id][$key]['title'])){
@@ -74,9 +80,10 @@ public function behaviors()
                 $data[$value->course_id]['created_at']          = $value->course->start_time;
                 $data[$value->course_id]['sign_in_count']       = (int)self::singInCount($value->course_id);
                 $data[$value->course_id]['already_signed_count']       = (int)self::singInCount($value->course_id,true);
-                $data[$value->course_id]['absenteeism_count']   = count($params);
+                //$data[$value->course_id]['absenteeism_count']   = count($params);
             }
-            $data[$value->course_id]['absence_user'][$key]['username'] = self::getUserName($value->student_id);
+            $data[$value->course_id]['absence_user'][]['username'] = self::getUserName($value->student_id);
+            $data[$value->course_id]['absenteeism_count']   =  count($data[$value->course_id]['absence_user']);
         }
         sort($data);
         return $data;
