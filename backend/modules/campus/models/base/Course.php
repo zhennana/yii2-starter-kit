@@ -91,14 +91,38 @@ abstract class Course extends \yii\db\ActiveRecord
             [
                 'end_time','required',  'when' => function($model,$attribute){
                     if($model->start_time > $model->end_time){
-                        $model->addError($attribute,'不能小于开始时间');
+                        $model->addError($attribute,'课程开始时间不能大于开始时间');
                     }
                 }
 
             ],
+            [
+                'start_time','required',  'when' => function($model,$attribute){
+                    $time = time();
+                    if($model->start_time <  $time ){
+                        $model->addError($attribute,'课程开始时间不能小于当前时间');
+                    }
+                    $models = self::find()
+                    ->where([
+                        'school_id'=>$model->school_id,
+                        'grade_id'=> $model->grade_id,
+                        ])
+                    ->orderBy(['end_time'=>'SORT_DESC'])
+                    ->asArray()->one();
+                    if($models){
+                        if($models['end_time']+15*60 > $model->start_time){
+                             $model->addError($attribute,'本次排课与上一次排课之间的时间必须大于15分钟');
+                        }
+                    }
+                }
+            ],
+            // [
+            //     'start_time','int','isaa'=>function($model,$attribute){
+            //        var_dump($model);exit;
+            //     }
+            // ]
         ];
     }
-
     /**
      * @inheritdoc
      */

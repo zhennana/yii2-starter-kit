@@ -4,8 +4,8 @@
 
 namespace backend\modules\campus\controllers\base;
 
-use backend\modules\campus\models\StudentRecordItem;
-    use backend\modules\campus\models\search\StudentRecordItemSearch;
+use backend\modules\campus\models\StudentRecordKey;
+    use backend\modules\campus\models\search\StudentRecordKeySearch;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\helpers\Url;
@@ -13,9 +13,9 @@ use yii\filters\AccessControl;
 use dmstr\bootstrap\Tabs;
 
 /**
-* StudentRecordItemController implements the CRUD actions for StudentRecordItem model.
+* StudentRecordKeyController implements the CRUD actions for StudentRecordKey model.
 */
-class StudentRecordItemController extends Controller
+class StudentRecordKeyController extends Controller
 {
 
 
@@ -37,17 +37,17 @@ public $enableCsrfValidation = false;
     [
     'allow' => true,
                         'actions' => ['index', 'view', 'create', 'update', 'delete'],
-                        'roles' => ['CampusStudentRecordItemFull'],
+                        'roles' => ['CampusStudentRecordKeyFull'],
                     ],
     [
     'allow' => true,
                         'actions' => ['index', 'view'],
-                        'roles' => ['CampusStudentRecordItemView'],
+                        'roles' => ['CampusStudentRecordKeyView'],
                     ],
     [
     'allow' => true,
                         'actions' => ['update', 'create', 'delete'],
-                        'roles' => ['CampusStudentRecordItemEdit'],
+                        'roles' => ['CampusStudentRecordKeyEdit'],
                     ],
     
                 ],
@@ -56,12 +56,12 @@ public $enableCsrfValidation = false;
     }
 
 /**
-* Lists all StudentRecordItem models.
+* Lists all StudentRecordKey models.
 * @return mixed
 */
 public function actionIndex()
 {
-    $searchModel  = new StudentRecordItemSearch;
+    $searchModel  = new StudentRecordKeySearch;
     $dataProvider = $searchModel->search($_GET);
 
 Tabs::clearLocalStorage();
@@ -76,34 +76,34 @@ return $this->render('index', [
 }
 
 /**
-* Displays a single StudentRecordItem model.
-* @param integer $student_record_item_id
+* Displays a single StudentRecordKey model.
+* @param integer $student_record_key_id
 *
 * @return mixed
 */
-public function actionView($student_record_item_id)
+public function actionView($student_record_key_id)
 {
 \Yii::$app->session['__crudReturnUrl'] = Url::previous();
 Url::remember();
 Tabs::rememberActiveState();
 
 return $this->render('view', [
-'model' => $this->findModel($student_record_item_id),
+'model' => $this->findModel($student_record_key_id),
 ]);
 }
 
 /**
-* Creates a new StudentRecordItem model.
+* Creates a new StudentRecordKey model.
 * If creation is successful, the browser will be redirected to the 'view' page.
 * @return mixed
 */
 public function actionCreate()
 {
-$model = new StudentRecordItem;
+$model = new StudentRecordKey;
 
 try {
 if ($model->load($_POST) && $model->save()) {
-return $this->redirect(['view', 'student_record_item_id' => $model->student_record_item_id]);
+return $this->redirect(['view', 'student_record_key_id' => $model->student_record_key_id]);
 } elseif (!\Yii::$app->request->isPost) {
 $model->load($_GET);
 }
@@ -115,14 +115,14 @@ return $this->render('create', ['model' => $model]);
 }
 
 /**
-* Updates an existing StudentRecordItem model.
+* Updates an existing StudentRecordKey model.
 * If update is successful, the browser will be redirected to the 'view' page.
-* @param integer $student_record_item_id
+* @param integer $student_record_key_id
 * @return mixed
 */
-public function actionUpdate($student_record_item_id)
+public function actionUpdate($student_record_key_id)
 {
-$model = $this->findModel($student_record_item_id);
+$model = $this->findModel($student_record_key_id);
 
 if ($model->load($_POST) && $model->save()) {
 return $this->redirect(Url::previous());
@@ -134,15 +134,15 @@ return $this->render('update', [
 }
 
 /**
-* Deletes an existing StudentRecordItem model.
+* Deletes an existing StudentRecordKey model.
 * If deletion is successful, the browser will be redirected to the 'index' page.
-* @param integer $student_record_item_id
+* @param integer $student_record_key_id
 * @return mixed
 */
-public function actionDelete($student_record_item_id)
+public function actionDelete($student_record_key_id)
 {
 try {
-$this->findModel($student_record_item_id)->delete();
+$this->findModel($student_record_key_id)->delete();
 } catch (\Exception $e) {
 $msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
 \Yii::$app->getSession()->addFlash('error', $msg);
@@ -150,7 +150,7 @@ return $this->redirect(Url::previous());
 }
 
 // TODO: improve detection
-$isPivot = strstr('$student_record_item_id',',');
+$isPivot = strstr('$student_record_key_id',',');
 if ($isPivot == true) {
 return $this->redirect(Url::previous());
 } elseif (isset(\Yii::$app->session['__crudReturnUrl']) && \Yii::$app->session['__crudReturnUrl'] != '/') {
@@ -165,15 +165,15 @@ return $this->redirect(['index']);
 }
 
 /**
-* Finds the StudentRecordItem model based on its primary key value.
+* Finds the StudentRecordKey model based on its primary key value.
 * If the model is not found, a 404 HTTP exception will be thrown.
-* @param integer $student_record_item_id
-* @return StudentRecordItem the loaded model
+* @param integer $student_record_key_id
+* @return StudentRecordKey the loaded model
 * @throws HttpException if the model cannot be found
 */
-protected function findModel($student_record_item_id)
+protected function findModel($student_record_key_id)
 {
-if (($model = StudentRecordItem::findOne($student_record_item_id)) !== null) {
+if (($model = StudentRecordKey::findOne($student_record_key_id)) !== null) {
 return $model;
 } else {
 throw new HttpException(404, 'The requested page does not exist.');
