@@ -51,7 +51,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                             
                         ]
                     ],
-                    ['label' => Yii::t('frontend', '教育教学'), 'url' => ['/page/view', 'slug'=>'sai-shi-you-xue']],
+                    ['label' => Yii::t('frontend', '教育教学'), 'url' => ['/page/view', 'slug'=>'guan-yu-guang-da']],
                     ['label' => Yii::t('frontend', '合作交流'), 'url' => ['/page/view', 'slug'=>'zhao-shang-jia-meng']],
                     ['label' => Yii::t('frontend', '招生专栏'),
                         'items'=>[
@@ -191,7 +191,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                 <div class="row">
                     <div class="col-md-12 col-md-12 col-sm-12 col-xs-12">
                         <p>版权所有：光大学校&nbsp;&nbsp;&nbsp;2016 @ All Rights Reserved 冀ICP备16001426号-1</p>
-                        <p>技术支持：燕郊在线</p>     
+                        <p>技术支持：<a target="blank" href="http://www.yajol.com/">燕郊在线</a></p>     
                     </div>
                 </div>
             </div>
@@ -250,7 +250,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
         if(boxwidth < 768){
             $('.top_logo').hide();
             $('.navbar-brand').show();
-            var img = '<img class="img-responsive" src="http://static.v1.wakooedu.com/top_logo.png?imageView2/3/w/120/h/100" alt="瓦酷机器人">'
+            var img = '<img class="img-responsive" src="" alt="光大学校">'
             $('.navbar-brand').text('');
             $('.navbar-brand').append(img);
             $('.navbar-brand img').css('height','100%');
