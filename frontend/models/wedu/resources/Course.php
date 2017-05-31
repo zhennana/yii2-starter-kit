@@ -110,6 +110,7 @@ public function behaviors()
           'school_id'=>$school_id,'grade_id'=>$grade_id,
           'status'   => self::COURSE_STATUS_OPEN
         ])
+      ->orderBy(['start_time'=>'SORT_SESC'])
       //->andwhere(['between','start_time',$start_time,$end_time])
       ->one();
    }
