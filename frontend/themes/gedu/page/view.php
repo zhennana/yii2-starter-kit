@@ -1,26 +1,25 @@
 <?php
-/**
- * @var $this \yii\web\View
- * @var $model \common\models\Page
- */
-
-$this->title = $model->title;
-
-//$this->title = Yii::t('frontend', 'Signup');
-$this->params['breadcrumbs'][] = $this->title;
+//var_dump($model->title);exit;
 ?>
-<div class="content">
-    <!-- <div class="c0l-sm-12">
-        <button class="btn btn-warning">按钮</button>
-       </div> -->
-    <div class="col-sm-8">
-        <h1 class="sub-title"><?php echo $model->title ?></h1>
-        <div class="left-side-self">
-            <?php echo $model->body ?>
-        </div>
+
+<div class="gdu-content">
+  <div class="row">
+    <!-- 左边侧边栏 -->
+    <?php
+      echo $this->render('@frontend/themes/gedu/page/common/sidebarnew');
+    ?>
+    <!-- 文章内容部分 -->
+    <div class="col-md-8 ">
+    <div class="box box-widget geu-content">
+            <div class="box-header with-border ">
+              <div class="">
+                <span class=""><i class="fa fa-map-marker margin-r-5 text-purple"></i><a href="#">当前位置:首页><?php echo $model->title;?></a></span>
+              </div>
+            </div>
+            <div class="box-body">
+              <?php echo $model->body;?>
+            </div>
+      </div>
     </div>
-    <?php echo $this->render('@frontend/themes/edu/page/right-side'); ?>
+  </div>
 </div>
-
-
-

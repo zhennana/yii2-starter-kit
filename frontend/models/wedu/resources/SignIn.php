@@ -59,8 +59,8 @@ public function behaviors()
         }else{
           $data['message'][$key]  = $is_check->one();
         }
-        return $data;
     }
+     return $data;
   }
 
     public function formatData($params){

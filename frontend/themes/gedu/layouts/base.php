@@ -9,71 +9,99 @@ use yii\bootstrap\NavBar;
 $this->beginContent('@frontend/views/layouts/_clear.php')
 ?>
 <div class="wrap">
-    <div class="top_logo row">
-        <a href="<?php echo Yii::getAlias('@frontendUrl') ?>"><img class="img-responsive pull-left" src="<?php echo Yii::getAlias('@frontendUrl') ?>/img/top_logo.png"></a>
-        <h3 class="pull-right">咨询热线：400-608-0515</h3>
-    </div>
-    <?php
-    NavBar::begin([
-        'brandLabel' => Yii::$app->name.' - edu',
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse',
-        ],
-    ]); ?>
-    <?php echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-            ['label' => Yii::t('frontend', 'Home'), 'url' => ['/site/index']],
-            //['label' => Yii::t('frontend', 'About'), 'url' => ['/page/view', 'slug'=>'about']],
-            //['label' => Yii::t('frontend', 'Articles'), 'url' => ['/article/index']],
-            //['label' => Yii::t('frontend', 'Contact'), 'url' => ['/site/contact']],
-            // ['label' => Yii::t('frontend', 'Signup'), 'url' => ['/user/sign-in/signup'], 'visible'=>Yii::$app->user->isGuest],
-            ['label' => Yii::t('frontend', '关于瓦酷'), 'url' => ['/page/view', 'slug'=>'guan-yu-wa-ku']],
-            ['label' => Yii::t('frontend', '课程体系'), 'url' => ['/article/course']],
-            ['label' => Yii::t('frontend', '瓦酷动态'), 'url' => ['/article/news']],
-            //['label' => Yii::t('frontend', '赛事游学'), 'url' => ['/page/view', 'slug'=>'sai-shi-you-xue']],
-            //['label' => Yii::t('frontend', '亲子课堂'), 'url' => ['/page/view', 'slug'=>'qin-zi-ke-tang']],
-            ['label' => Yii::t('frontend', '招商加盟'), 'url' => ['/page/view', 'slug'=>'zhao-shang-jia-meng']],
-            ['label' => Yii::t('frontend', '联系我们'), 'url' => ['/site/ajax-contact']],
-            ['label' => Yii::t('frontend', 'FAQ'), 'url' => ['/page/view', 'slug'=>'faq']],
-            // ['label' => Yii::t('frontend', 'Articles'), 'url' => ['/article/index']],
-            // ['label' => Yii::t('frontend', 'Contact'), 'url' => ['/site/contact']],
-            // ['label' => Yii::t('frontend', 'Signup'), 'url' => ['/user/sign-in/signup'], 'visible'=>Yii::$app->user->isGuest],
-            ['label' => Yii::t('frontend', 'Login'), 'url' => ['/user/sign-in/login'], 'visible'=>Yii::$app->user->isGuest],
-            [
-                'label' => Yii::$app->user->isGuest ? '' : Yii::$app->user->identity->getPublicIdentity(),
-                'visible'=>!Yii::$app->user->isGuest,
-                'items'=>[
-                    [
-                        'label' => Yii::t('frontend', 'Settings'),
-                        'url' => ['/user/default/index']
+     <div class="top">
+        <div class="top-logo"><img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/top-logo.png"></div>
+        <div class="top-tel">
+            <div class="top-tel-logo"><img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/top-tel-logo.png"></div>
+            <div class="top-tel-text">全国免费服务热线</div>
+            <div class="top-tel-tel">400-820-<span>8888</span></div>
+        </div>
+        <div class="clear"></div>
+        <div class="top-nov">
+           <?php
+            NavBar::begin([
+                'brandLabel' => Yii::$app->name.' - edu',
+                'brandUrl' => Yii::$app->homeUrl,
+                'options' => [
+                    'class' => '',
+                ],
+            ]); ?>
+            <?php echo Nav::widget([
+                'options' => ['class' => 'navbar-nav '],
+                'items' => [
+                    ['label' => Yii::t('frontend', '首页'), 'url' => ['/site/index']], 
+                    ['label' => Yii::t('frontend', '走进光大'),
+                        'items'=>[
+                            [
+                                'label' => Yii::t('frontend', '学校概况'),
+                                'url' => ['/page/view', 'slug'=>'guan-yu-guang-da']
+                            ],
+                            [
+                                'label' => Yii::t('frontend', '办学理念'),
+                                'url' => ['/page/view', 'slug'=>'jiao-yu-li-nian'],
+                            ],
+                            [
+                                'label' => Yii::t('frontend', '校园风光'),
+                                'url' => ['/page/view', 'slug'=>'jiao-yu-li-nian'],
+                            ],
+                            [
+                                'label' => Yii::t('frontend', '教师风采'),
+                                'url' => ['/site/teacher'],
+                            ]
+                            
+                        ]
                     ],
-                    [
-                        'label' => Yii::t('frontend', 'Backend'),
-                        'url' => Yii::getAlias('@backendUrl'),
-                        'visible'=>Yii::$app->user->can('manager')
+                    ['label' => Yii::t('frontend', '教育教学'), 'url' => ['/page/view', 'slug'=>'sai-shi-you-xue']],
+                    ['label' => Yii::t('frontend', '合作交流'), 'url' => ['/page/view', 'slug'=>'zhao-shang-jia-meng']],
+                    ['label' => Yii::t('frontend', '招生专栏'),
+                        'items'=>[
+                            [
+                                'label' => Yii::t('frontend', '入学手册'),
+                                'url' => ['/site/cooperation']
+                            ],
+                            [
+                                'label' => Yii::t('frontend', '幼小衔接班招生'),
+                                'url' => Yii::getAlias('@backendUrl'),
+                                'visible'=>Yii::$app->user->can('manager')
+                            ],
+                            [
+                                'label' => Yii::t('frontend', '小学部招生'),
+                                'url' => ['/site/cooperationt'],
+                                'linkOptions' => ['data-method' => 'post']
+                            ],
+                            [
+                                'label' => Yii::t('frontend', '初中部招生'),
+                                'url' => ['/site/cooperation'],
+                                'linkOptions' => ['data-method' => 'post']
+                            ],
+                            [
+                                'label' => Yii::t('frontend', '高中部招生'),
+                                'url' => ['/site/cooperation'],
+                                'linkOptions' => ['data-method' => 'post']
+                            ],
+                            [
+                                'label' => Yii::t('frontend', '国际部招生'),
+                                'url' => ['/site/cooperation'],
+                                'linkOptions' => ['data-method' => 'post']
+                            ],
+                            [
+                                'label' => Yii::t('frontend', '特长部招生'),
+                                'url' => ['/site/cooperation'],
+                                'linkOptions' => ['data-method' => 'post']
+                            ],
+                            
+                        ]
                     ],
-                    [
-                        'label' => Yii::t('frontend', 'Logout'),
-                        'url' => ['/user/sign-in/logout'],
-                        'linkOptions' => ['data-method' => 'post']
-                    ]
+                    ['label' => Yii::t('frontend', '产品展示'), 'url' => ['/page/view', 'slug'=>'ke-cheng-ti-xi']],
+                    ['label' => Yii::t('frontend', '招贤纳士'), 'url' => ['/page/view', 'slug'=>'zhao-pin']],
+                    ['label' => Yii::t('frontend', '在线报名'), 'url' => ['/page/view', 'slug'=>'faq']],
+                    ['label' => Yii::t('frontend', '联系我们'), 'url' => ['/page/view', 'slug'=>'lian-xi-wo-men']],
                 ]
-            ],
-            [
-                'label'=>Yii::t('frontend', 'Language'),
-                'items'=>array_map(function ($code) {
-                    return [
-                        'label' => Yii::$app->params['availableLocales'][$code],
-                        'url' => ['/site/set-locale', 'locale'=>$code],
-                        'active' => Yii::$app->language === $code
-                    ];
-                }, array_keys(Yii::$app->params['availableLocales']))
-            ]
-        ]
-    ]); ?>
-    <?php NavBar::end(); ?>
+            ]); ?>
+            <?php NavBar::end(); ?>
+        </div>
+    </div>
+    
     <?php echo \common\widgets\DbCarousel::widget([
         'key'=>'index',
         'options' => [
@@ -86,70 +114,87 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
 </div>
 
 <footer class="footer">
-    <div class="container">
-        <div class="col-xs-12 top">
-            <div class="web_map">
-                <ul class="no-margin no-padding col-xs-8">
-                    <li class="col-xs-2">
-                        <h4>关于瓦酷</h4>
-                        <p>瓦酷介绍</p>
-                        <p>品牌故事</p>
-                        <p>专家团队</p>
-                        <p>教育理念</p>
-                        <p>运营管理</p>
-                        <p>加盟校区</p>
-                        <p>校区展示</p>
-                    </li>
-                    <li class="col-xs-2">
-                        <h4>招商加盟</h4>
-                        <p>瓦酷加盟体系</p>
-                        <p>加盟流程</p>
-                        <p>加盟条件</p>
-                        <p>服务支持</p>
-                        <p>项目优势</p>
-                        <p>投资收益分析</p>
-                        <p>授权证书</p>
-                        <p>行业趋势</p>
-                    </li>
-                    <li class="col-xs-2">
-                        <h4>课程体系</h4>
-                        <p>学前课程</p>
-                        <p>学龄课程</p>
-                        <p>精品课程</p>
-                    </li>
-                    <li class="col-xs-2">
-                        <h4>瓦酷动态</h4>
-                        <p>瓦酷动态</p>
-                        <p>瓦酷视频</p>
-                    </li>
-                    <li class="col-xs-4">
-                        <h4>联系我们</h4>
-                        <p class="no-margin">全国咨询热线</p>
-                        <h3 class="no-margin">400-608-0515</h3>
-                        <h5>地址：河北省廊坊市三河市燕郊开发区</h5>
-                        <p>邮编：065201</p>
-                    </li>
-                </ul>
-            </div>
-            <div class="bottom_logo">
-                <img class="img-responsive col-xs-4" src="<?php echo Yii::getAlias('@frontendUrl') ?>/img/bottom_logo.png">
+     <div class="footer">
+        <div class="footer-1">
+            <div class="footer-1-inner">
+                <img class="footer-1-inner-img" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/footer-1-links.png">
+                <span><a href="#">凤凰视频</a></span>
+                <span><a href="#">光大学校</a></span>
             </div>
         </div>
-        <div class="col-xs-12 bottom">
-            <p class="pull-left">
-                <?php
-                    $html = '';
-                    $html .= '&copy; 版权所有(2016-';
-                    $html .= date('Y',time());
-                    $html .= ')：北京魔趣教育科技有限公司 ';
-                    // $html .= 'copyright 2016-';
-                    // $html .= date('Y',time());
-                    // $html .= ' wakooedu.com All rights reserved.';
-                    $html .= ' <a href="http://www.miitbeian.gov.cn" target="_blank">京ICP备17007940号</a>';
-                    echo $html;
-                ?>
-            </p>
-            <p class="pull-right">技术支持：三河市物联网络技术有限公司</p>
+        <div class="footer-2">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 col-md-4 col-sm-4 col-xs-4 row-box1">
+                        <div class="footer-2-box1">
+                            <div class="footer-2-icon">
+                                <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/footer-2-add.png">
+                            </div>                        
+                            <div class="footer-2-text">
+                                <h3 >Address</h3>
+                                <p>河北省三河市燕郊开发区燕灵路236号</p>
+                                <p id="footer-2-box1-p">（三河二中西门路北）</p>
+                            </div> 
+                            <div class="footer-2-text-small">
+                                <h3 >Address</h3>
+                                <p>河北省三河市燕郊开发</p>
+                                <p id="footer-2-box1-p">区燕灵路236号</p>
+                                <p id="footer-2-box1-p">（三河二中西门路北）</p>
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-md-4 col-sm-4 col-xs-4">
+                        <div class="footer-2-box2">
+                            <div class="footer-2-icon">
+                                <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/footer-2-fax.png">
+                            </div>                        
+                            <div class="footer-2-text">
+                                <h3>Fax</h3>
+                                <p>0316-8888888</p>
+                            </div>
+                        </div> 
+                    </div>
+                    <div class="col-md-4 col-md-4 col-sm-4 col-xs-4">
+                        <div class="footer-2-box3">
+                            <div class="footer-2-icon">
+                                <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/footer-2-tel.png">
+                            </div>                        
+                            <div class="footer-2-text">
+                                <h3>400-820-8888</h3>
+                                <p>全国免费服务热线</p>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-3">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <div class="footer-3-box1">
+                            <img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/footer-ma.png">
+                            <p>订阅号</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <div class="footer-3-box2">
+                            <img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/footer-ma.png">
+                            <p>服务号</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-4">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-md-12 col-sm-12 col-xs-12">
+                        <p>版权所有：光大学校&nbsp;&nbsp;&nbsp;2016 @ All Rights Reserved 冀ICP备16001426号-1</p>
+                        <p>技术支持：燕郊在线</p>     
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </footer>

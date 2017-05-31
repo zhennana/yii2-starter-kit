@@ -40,10 +40,13 @@ public function behaviors()
      */
    public function userCourseSingInData($school_id,$grade_id){
         $course_id = $this->course_id($school_id,$grade_id);
+        //var_dump($course_id);exit;
         if(empty($course_id->course_id)){
             return [];
         }
-        $user_ids = $this->SignInToUser($course_id);
+
+        $user_ids = $this->SignInToUser($course_id->course_id);
+        //var_dump($user_ids);exit;
         $user_ids = ArrayHelper::map($user_ids,'student_id','student_id');
         $model = UserToGrade::find()->select([])
         ->with([
@@ -52,6 +55,8 @@ public function behaviors()
           'courseOrder',
           'signIn'=>function($model){
               $model->select(['count(signin_id) as above_course','student_id']);
+              $model->where(['type_status'=>SignIn::TYPE_STATUS_MORMAL]);
+              $model->groupby(['student_id']);
           },
           'user'=>function($model){
               $model->select(['id','username']);
@@ -64,7 +69,7 @@ public function behaviors()
        // ->andWhere(['not',['user_id'=>$user_ids]])
         ->asArray()
         ->all();
-       //var_dump($model);exit;
+ //var_dump($model);exit;
        return $this->serializations($model, $course_id->course_id);
    }
    /**
@@ -102,12 +107,13 @@ public function behaviors()
    public function course_id($school_id,$grade_id){
       //$start_time = time()-60*15;
       //$end_time   = time()+60*15;
-      //var_dump(date('Y m d h i s',$start_time));exit();
       return self::find()->select('course_id')
       ->andwhere([
           'school_id'=>$school_id,'grade_id'=>$grade_id,
           'status'   => self::COURSE_STATUS_OPEN
         ])
+      ->orderBy(['start_time'=> SORT_DESC])
+      //->asArray()
       //->andwhere(['between','start_time',$start_time,$end_time])
       ->one();
    }

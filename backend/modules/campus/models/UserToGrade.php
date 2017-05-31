@@ -75,7 +75,7 @@ public function behaviors()
       $info = ['error' => []];
       if(!isset($data) && empty($data) && !is_array($data['user_id']))
       {
-            return false;
+            return [];
       }
 
       foreach ($data['user_id'] as $key => $value) {

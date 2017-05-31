@@ -77,7 +77,7 @@ $Courseware = ArrayHelper::map($Courseware,'courseware_id','title');
                 ]);
             ?>
             <?php if($model->isNewRecord){
-                    $model->start_time = time();
+                    $model->start_time = time()+20;
                     $model->end_time   = time()+40*60;
             } ?> 
 <!-- attribute start_time -->
