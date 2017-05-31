@@ -52,6 +52,8 @@ public function behaviors()
           'courseOrder',
           'signIn'=>function($model){
               $model->select(['count(signin_id) as above_course','student_id']);
+              $model->where(['type_status'=>SignIn::TYPE_STATUS_MORMAL]);
+              $model->groupby(['student_id']);
           },
           'user'=>function($model){
               $model->select(['id','username']);
@@ -64,7 +66,7 @@ public function behaviors()
        // ->andWhere(['not',['user_id'=>$user_ids]])
         ->asArray()
         ->all();
-       //var_dump($model);exit;
+ //var_dump($model);exit;
        return $this->serializations($model, $course_id->course_id);
    }
    /**
