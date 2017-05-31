@@ -66,7 +66,7 @@ public function behaviors()
           'status'   => UserToGrade::USER_GRADE_STATUS_NORMAL,
           'grade_user_type'=>UserToGrade::GRADE_USER_TYPE_STUDENT,
           ])
-       // ->andWhere(['not',['user_id'=>$user_ids]])
+        ->andWhere(['not',['user_id'=>$user_ids]])
         ->asArray()
         ->all();
  //var_dump($model);exit;
@@ -105,8 +105,8 @@ public function behaviors()
     * @return [type] [description]
     */
    public function course_id($school_id,$grade_id){
-      //$start_time = time()-60*15;
-      //$end_time   = time()+60*15;
+      $start_time = time()-60*15;
+      $end_time   = time()+60*15;
       return self::find()->select('course_id')
       ->andwhere([
           'school_id'=>$school_id,'grade_id'=>$grade_id,
@@ -114,7 +114,7 @@ public function behaviors()
         ])
       ->orderBy(['start_time'=> SORT_DESC])
       //->asArray()
-      //->andwhere(['between','start_time',$start_time,$end_time])
+      ->andwhere(['between','start_time',$start_time,$end_time])
       ->one();
    }
    /**
