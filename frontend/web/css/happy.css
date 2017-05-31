@@ -187,7 +187,7 @@ a.desc:after {
 }
 .navbar-header{
   background-color: #35b9d0;
-  padding-left: 15px;
+  padding:0 15px;
 }
 .container .navbar-collapse{
   padding: 0px;

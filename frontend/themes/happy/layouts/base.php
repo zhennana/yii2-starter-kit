@@ -17,8 +17,8 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                 <img class=" pull-left" src="<?php echo Yii::getAlias('@frontendUrl') ?>/img/fredisalearns_index_03.png">
             </a>
         </div>
-        
-        <form class="form-horizontal col-lg-4 col-md-6 col-xs-6 sign_in hidden-xs no-padding" action="<?php echo Yii::getAlias('@frontendUrl') ?>/user/sign-in/login" method="post" >
+
+        <form class="form-horizontal col-lg-4 col-md-6 col-xs-6 sign_in hidden-xs no-padding">
                 <div class="input-group margin">
                     <div class="input-group-addon">
                         <i class="fa fa-user"></i>
@@ -58,7 +58,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                 'items'=>[
                     [
                         'label' => Yii::t('frontend', 'Starter 1 English'),
-                        'url' => ['#']
+                        'url' => ['/page/view', 'slug'=>'guan-yu-wa-ku']
                     ],
                     [
                         'label' => Yii::t('frontend', 'Level 1 English'),
@@ -153,9 +153,9 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                     $html .= ' All Rights Reserved ';
                     echo $html;
                 ?>
-                <a href="https://www.fredisalearns.com/copyright/">Terms of Use</a>
+                <a href="#">Terms of Use</a>
                 |
-                <a href="https://www.fredisalearns.com/about/">About Us</a>
+                <a href="#">About Us</a>
             </div>
         </div>
     </div>
@@ -163,11 +163,20 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
 <?php $this->endContent() ?>
 
 <script type="text/javascript">
-    $(document).off('click.bs.dropdown.data-api');
-        $('.nav .dropdown').mouseenter(function(){
-            $(this).addClass('open');
-        });
-        $('.nav .dropdown').mouseleave(function(){
-            $(this).removeClass('open');
-        });
+    var boxwidth = $(window).width();
+    if(boxwidth < 768){
+        $('.top_logo').remove();
+        $('.top_box').show();
+        var img = '<img class="img-responsive center-block" src="<?php echo Yii::getAlias('@frontendUrl') ?>/img/fredisalearns_index_03.png" >';
+        $('.top_box').append(img);
+        $('.top_box').css("padding-top","20px");
+    }else{
+        $(document).off('click.bs.dropdown.data-api');
+            $('.nav .dropdown').mouseenter(function(){
+                $(this).addClass('open');
+            });
+            $('.nav .dropdown').mouseleave(function(){
+                $(this).removeClass('open');
+            });
+    }
 </script>
