@@ -58,7 +58,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                 'items'=>[
                     [
                         'label' => Yii::t('frontend', 'Starter 1 English'),
-                        'url' => ['/page/view']
+                        'url' => ['/page/view', 'slug'=>'guan-yu-wa-ku']
                     ],
                     [
                         'label' => Yii::t('frontend', 'Level 1 English'),
