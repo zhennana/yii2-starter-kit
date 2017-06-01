@@ -265,6 +265,13 @@ class SignInController extends \common\components\ControllerFrontendApi
     public function actionSendSms($phone_number, $type='signup')
     {
         \Yii::$app->language = 'zh-CN';
+
+        if (!$phone_number) {
+            $this->serializer['errno']   = 1;
+            $this->serializer['message'] = '手机号不能为空';
+            return $this->serializer['message'];
+        }
+
         $user = User::find()->where(['phone_number'=>$phone_number])->one();
         $type = ($type == 'signup') ? UserToken::TYPE_PHONE_SIGNUP : UserToken::TYPE_PHONE_REPASSWD;
 
@@ -282,9 +289,9 @@ class SignInController extends \common\components\ControllerFrontendApi
         }
 
         $token = UserToken::find()->where([
-            'user_id'=>$user->id
+            'user_id' => $user->id
         ])->andWhere([
-            'type'=>$type
+            'type' => $type
         ])->one();
 
         if ($token) {
