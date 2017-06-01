@@ -14,7 +14,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
     <div class="top_box row">
         <div class="col-lg-4 col-md-6 col-xs-6 top_logo">
             <a href="<?php echo Yii::getAlias('@frontendUrl') ?>">
-                <img class=" pull-left" src="<?php echo Yii::getAlias('@frontendUrl') ?>/img/fredisalearns_index_03.png">
+                <img class="pull-left" src="<?php echo Yii::getAlias('@frontendUrl') ?>/img/fredisalearns_index_03.png">
             </a>
         </div>
 
@@ -103,7 +103,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
     <?php 
         /* 导航搜索 */
         $search = '';
-        $search .= Html::beginForm(['#'], 'get', ['class' => 'nav_search pull-right input-group']);
+        $search .= Html::beginForm(['#'], 'get', ['class' => 'nav_search pull-right input-group col-xs-2']);
         $search .= '<div class="input-group">';
         $search .= Html::textInput('search', '',['placeholder' => 'Search course']);
         $search .= '<span class="input-group-btn">';

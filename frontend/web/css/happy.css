@@ -53,7 +53,7 @@ li{
   margin-bottom: 0;
 }
 .jumbotron .btn {
-  font-size: 21px;
+  font-size: 2rem;
 }
 .jumbotron .intr{
   color: black;
@@ -185,19 +185,19 @@ a.desc:after {
 .navbar-inverse .navbar-nav > .open > a:focus{
   background-color: #f89406;
 }
+.navbar-inverse .navbar-nav .open .dropdown-menu > li > a{
+  color: white;
+}
 .navbar-header{
   background-color: #35b9d0;
   padding:0 15px;
-}
-.container .navbar-collapse{
-  padding: 0px;
 }
 .navbar-collapse .navbar-nav > li{
   padding: 0 15px;
   border-right: 1px solid #c67604;
 }
 .nav_search input{
-  padding: 15px 200px 15px 15px;
+  padding: 15px 160px 15px 15px;
   background-color: #35b9d0;
   border: none;
 }
@@ -206,11 +206,13 @@ a.desc:after {
   border: none;
   background-color: #35b9d0;
 }
-.dropdown-menu > .active > a,
-.dropdown-menu > .active > a:hover,
-.dropdown-menu > .active > a:focus{
+.dropdown-menu > li:hover{
+  background-color: black !important;
+}
+.navbar-inverse .navbar-nav .open .dropdown-menu > .active > a{
   background-color: #35a0d0;
 }
+
 .dropdown-menu li > a{
   color: white;
 }
@@ -230,7 +232,7 @@ a.desc:after {
   background-color: #f89406;
   border: none;
   height: 50px;
-  width: 80px;
+  padding: 0 20px;
 }
 .btn_search .fa-search{
   color: white;
@@ -239,7 +241,7 @@ a.desc:after {
   color: #fff !important;
 }
 .course_box h4{
-  font: 800 25px/65px sans-serif !important;
+  font: 800 2rem/3rem sans-serif !important;
 }
 .web_map{
   padding: 0 2%;
@@ -247,15 +249,15 @@ a.desc:after {
 .web_map h4{
   color: #35b9d0;
   font-weight:bold;
-  font-size: 20px; 
-  line-height: 28px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid #35b9d0;
+  font-size: 2rem; 
+  line-height: 1em;
+  padding-bottom: 5%;
+  border-bottom: 1px solid #35b9d0;
 }
 .web_map p{
-  padding: 0 5px;
+  padding: 0 1%;
   color: #bdb3b9;
-  font-size: 17px;
+  font-size: 1.8rem;
 }
 .web_map li{
   padding: 0 45px;
@@ -275,10 +277,10 @@ a.desc:after {
 /* 二级页面 */
 .title_box{
   color: white;
-  padding: 5px 0 80px;
+  padding: 1% 0 6%;
 }
 .title_box .title{
-  font-size: 50px;
+  font-size: 5rem;
   font-weight: bold;
 }
 .title_box .title{
