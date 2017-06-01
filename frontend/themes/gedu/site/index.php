@@ -1,6 +1,5 @@
 <?php
 use yii\helpers\Html; 
-
 ?>
     <div class="main">
         <div class="main-1">
@@ -11,15 +10,16 @@ use yii\helpers\Html;
                             <!-- <div class="main-1-icon-1"><a href="#"><div class="aaa"></div></a></div> -->
                             <a href="#"><div class="main-1-icon-1"></div></a>
                             <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-1-line.png">
-                            <h4>小学部</h4>
-                            <h6>Primary School Department</h6>
+                            <h4><?php echo Html::a('小学部',['page/view','slug'=>'xiao-xue-bu-zhao-sheng-jian-zhang'],['class'=>'headcolor','data-method'=>'open',]);?>
+                            <h6>Primary School Department</h6></h4>
                         </div>
                     </div>
                     <div class="col-md-3 col-md-3 col-sm-6 col-xs-6">
                         <div class="row-box">
                             <a href="#"><div class="main-1-icon-2"></div></a>
                             <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-1-line.png">
-                            <h4>中学部</h4>
+                        
+                            <h4><?php echo Html::a('中学部',['page/view','slug'=>'gao-zhong-bu-zhao-sheng-jian-zhang'],['class'=>'headcolor','data-method'=>'open',]);?>
                             <h6>Daltonian</h6>
                         </div>
                     </div>
@@ -27,7 +27,8 @@ use yii\helpers\Html;
                         <div class="row-box">
                             <a href="#"><div class="main-1-icon-3"></div></a>
                             <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-1-line.png">
-                            <h4>国际部</h4>
+                            
+                            <h4><?php echo Html::a('国际部',['page/view','slug'=>'guo-ji-zhong-xue-bu-zhao-sheng-jian-zhang'],['class'=>'headcolor','data-method'=>'open',]);?>
                             <h6>Oversea sales</h6>
                         </div>
                     </div>
@@ -35,7 +36,8 @@ use yii\helpers\Html;
                         <div class="row-box">
                             <a href="#"><div class="main-1-icon-4"></div></a>
                             <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-1-line.png">
-                            <h4>特长部</h4>
+                            
+                            <h4><?php echo Html::a('特长部',['page/view','slug'=>'te-zhang-bu-zhao-sheng-jian-zhang'],['class'=>'headcolor','data-method'=>'open',]);?>
                             <h6>Specialty department</h6>
                         </div>
                     </div>
@@ -274,12 +276,6 @@ use yii\helpers\Html;
         <div class="main-4">
             <div class="container">
                 <div class="row">
-
-                    <?php
-                        if (Yii::$app->session->hasFlash('info')) {
-                                    echo Yii::$app->session->getFlash('info');
-                        }else{
-                    ?>
                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 main-4-newsBox">
                         <div class="newsBox">
 
@@ -319,39 +315,46 @@ use yii\helpers\Html;
                                 <div id="myCarousel3" class="carousel slide">
                                     <!-- 轮播（Carousel）项目 -->
                                     <div class="carousel-inner">
-                                        
-                                        <?php foreach($dataProvider->getModels() as $key=>$value){
-                                        ?>
+                                    <?php if(isset($data['one'])&&!empty($data['one'])){?>
                                         <div class="item active">
                                             <div class="newsBox-news">
-                                                <p class="newsBox-news-p1"><?php echo date('Y-m-d',$value->created_at);?></p>
-                                                <h3 class="newsBox-news-h3"><?php echo $value->title;?></h3>
+                                                <p class="newsBox-news-p1"><?php echo date('Y-m-d',$data['one']['created_at']);?></p>
+                                                <h3 class="newsBox-news-h3"><?php echo $data['one']['title']?></h3>
                                                 <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-4-line.png">
                                                 <p class="newsBox-news-p2"><?php echo Html::a(
-                                                    substr_auto(strip_tags($value->body),200),
-                                                    ['article/view','id'=>$value->id],
+                                                    substr_auto(strip_tags($data['one']['body']),200),
+                                                    ['article/view','id'=>$data['one']['id']],
                                                     ['class'=>'','data-method'=>'open',]);
                                                 ?></p>
                                                 
                                             </div>
                                         </div>
-                                        <?php break;}?>
+                                        <?php }?>
 
-                                         <?php foreach($dataProvider->getModels() as $key=>$value){
-                                            ?>
-                                            <div class="item">
+                                        <?php if(isset($data['other'])&&!empty($data['other']))
+                                                {
+                                                    foreach ($data['other'] as $key => $value) {
+                                                        
+                                                 
+                                        ?>
+                                        <div class="item">
                                             <div class="newsBox-news">
-                                                <p class="newsBox-news-p1"><?php echo date('Y-m-d',$value->created_at);?></p>
-                                                <h3 class="newsBox-news-h3"><?php echo $value->title;?></h3>
+                                                <p class="newsBox-news-p1"><?php echo date('Y-m-d',$value['created_at']);?></p>
+                                                <h3 class="newsBox-news-h3"><?php echo $value['title'];?></h3>
                                                 <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-4-line.png">
                                                 <p class="newsBox-news-p2"><?php echo Html::a(
-                                                    substr_auto(strip_tags($value->body),200),
-                                                    ['article/view','id'=>$value->id],
+                                                    substr_auto(strip_tags($value['body']),200),
+                                                    ['article/view','id'=>$value['id']],
                                                     ['class'=>'','data-method'=>'open',]);
                                                 ?></p>
                                             </div>
                                         </div>
-                                        <?php }?>
+                                        <?php
+                                           }}
+                                        ?>
+                                         
+                                        
+                                       
                                         
                                         
                                     </div>
@@ -363,7 +366,6 @@ use yii\helpers\Html;
 
                         </div>
                     </div>
-            <?php }?>
 
                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="videoBox">
