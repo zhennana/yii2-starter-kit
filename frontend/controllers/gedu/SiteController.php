@@ -29,19 +29,19 @@ class SiteController extends Controller
     }
     
     public function actionIndex()
-    {
-        //$this->layout = false;
-        $article=Article::find()->where(['status'=>Article::STATUS_PUBLISHED])->asArray()->all();
-       
+    { 
         $searchModel= new ArticleSearch;
         $dataProvider=$searchModel->search(Yii::$app->request->queryParams);
         $dataProvider->sort=[
             'defaultOrder'=>['created_at'=>SORT_DESC]
         ];
+        if(empty($dataProvider->getModels())){
+            Yii::$app->session->setFlash('info', '暂时没有新闻内容发布');
+        }
         // var_dump($dataProvider->getModels());exit;
         return $this->render('index',[
             'dataProvider'=>$dataProvider,
-            'modelArticle'=>$article
+            
             ]);
     }
     /**
