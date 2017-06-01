@@ -286,6 +286,10 @@ class SignInController extends \common\components\ControllerFrontendApi
                 return $this->serializer['message'];
             }
             $user->afterSignup();
+        }else{
+            $this->serializer['errno']   = 1;
+            $this->serializer['message'] = '用户已存在';
+            return $this->serializer['message'];
         }
 
         $token = UserToken::find()->where([
