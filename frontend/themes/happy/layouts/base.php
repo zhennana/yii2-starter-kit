@@ -12,13 +12,13 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
 <div class="wrap">
 
     <div class="top_box row">
-        <div class="col-md-4 col-xs-2 top_logo">
+        <div class="col-lg-4 col-md-6 col-xs-6 top_logo">
             <a href="<?php echo Yii::getAlias('@frontendUrl') ?>">
-                <img class=" pull-left" src="<?php echo Yii::getAlias('@frontendUrl') ?>/img/fredisalearns_index_03.png">
+                <img class="pull-left" src="<?php echo Yii::getAlias('@frontendUrl') ?>/img/fredisalearns_index_03.png">
             </a>
         </div>
 
-        <div class="col-md-4 col-xs-2 sign_in hidden-xs no-padding">
+        <form class="form-horizontal col-lg-4 col-md-6 col-xs-6 sign_in hidden-xs no-padding">
                 <div class="input-group margin">
                     <div class="input-group-addon">
                         <i class="fa fa-user"></i>
@@ -29,21 +29,21 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                     <div class="input-group-addon">
                         <i class="fa fa-key"></i>
                     </div>
-                    <input type="text" class="form-control" placeholder="Password">
+                    <input type="password" class="form-control" placeholder="Password">
                     <span class="input-group-btn">
-                        <button type="button" class="btn btn-warning btn-flat">
+                        <button type="submit" class="btn btn-warning btn-flat">
                             <i class="fa fa-chevron-right"></i>
                         </button>
                     </span>
                 </div>
 
-        </div>
+        </form>
 
     </div>
 
     <?php NavBar::begin([
         'brandLabel' => 'FredisaLearns™',
-        'brandUrl' => '#',
+        'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse',
         ],
@@ -58,7 +58,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                 'items'=>[
                     [
                         'label' => Yii::t('frontend', 'Starter 1 English'),
-                        'url' => ['#']
+                        'url' => ['/page/view', 'slug'=>'guan-yu-wa-ku']
                     ],
                     [
                         'label' => Yii::t('frontend', 'Level 1 English'),
@@ -87,31 +87,6 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                     ],
                 ]
             ],
-            /*
-            ['label' => Yii::t('frontend', 'Contact'), 'url' => ['/site/contact']],
-            ['label' => Yii::t('frontend', 'Signup'), 'url' => ['/user/sign-in/signup'], 'visible'=>Yii::$app->user->isGuest],
-            ['label' => Yii::t('frontend', 'Login'), 'url' => ['/user/sign-in/login'], 'visible'=>Yii::$app->user->isGuest],
-            [
-                'label' => Yii::$app->user->isGuest ? '' : Yii::$app->user->identity->getPublicIdentity(),
-                'visible'=>!Yii::$app->user->isGuest,
-                'items'=>[
-                    [
-                        'label' => Yii::t('frontend', 'Settings'),
-                        'url' => ['/user/default/index']
-                    ],
-                    [
-                        'label' => Yii::t('frontend', 'Backend'),
-                        'url' => Yii::getAlias('@backendUrl'),
-                        'visible'=>Yii::$app->user->can('manager')
-                    ],
-                    [
-                        'label' => Yii::t('frontend', 'Logout'),
-                        'url' => ['/user/sign-in/logout'],
-                        'linkOptions' => ['data-method' => 'post']
-                    ]
-                ]
-            ],
-            */
             [
                 'label'=>Yii::t('frontend', 'Language'),
                 'items'=>array_map(function ($code) {
@@ -126,10 +101,17 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
     ]); ?>
 
     <?php 
-    /* 导航搜索 */
-    echo Html::beginForm(['site/search'], 'get', ['class' => 'navbar-form navbar-right']);
-    echo Html::textInput('q');
-    echo Html::endForm();
+        /* 导航搜索 */
+        $search = '';
+        $search .= Html::beginForm(['#'], 'get', ['class' => 'nav_search pull-right input-group col-xs-2']);
+        $search .= '<div class="input-group">';
+        $search .= Html::textInput('search', '',['placeholder' => 'Search course']);
+        $search .= '<span class="input-group-btn">';
+        $search .= Html::submitButton('<i class="fa fa-search"></i>',['class'=>'btn btn_search']);
+        $search .= '</span>';
+        $search .= '</div>';
+        $search .= Html::endForm();
+        echo $search;
     ?>
 
     <?php NavBar::end(); ?>
@@ -139,7 +121,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
 </div>
 
 <footer class="footer">
-    <div class="container">
+    <div class="container no-padding">
         <div class="web_map">
             <ul class="no-margin no-padding">
                 <li class="col-xs-4">
@@ -152,17 +134,18 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                 </li>
                 <li class="col-xs-4">
                     <h4>Our Location</h4>
-                    <p>Eduterials Limited</p>
-                    <p>Rm 22B, 22/F, Kiu Yin Commercial Bldg</p>
-                    <p>361-363 Lockhart Rd</p>
-                    <p>Wanchai, Hong Kong</p>
-                    <p>+8528127 7575</p>
+                    <p>
+                        Eduterials Limited</br>
+                        Rm 22B, 22/F, Kiu Yin Commercial Bldg</br>
+                        361-363 Lockhart Rd</br>
+                        Wanchai, Hong Kong
+                    </p>
                 </li>
             </ul>
         </div>
         
         <div class="col-xs-12 bottom">
-            <p class="pull-left">
+            <div class="pull-left">
                 <?php
                     $html = '';
                     $html .= 'FredisaLearns &copy; ';
@@ -170,18 +153,29 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                     $html .= ' All Rights Reserved ';
                     echo $html;
                 ?>
-            </p>
+                <a href="#">Terms of Use</a>
+                |
+                <a href="#">About Us</a>
+            </div>
         </div>
     </div>
 </footer>
 <?php $this->endContent() ?>
 
 <script type="text/javascript">
-    $(document).off('click.bs.dropdown.data-api');
-        $('.nav .dropdown').mouseenter(function(){
-            $(this).addClass('open');
-        });
-        $('.nav .dropdown').mouseleave(function(){
-            $(this).removeClass('open');
-        });
+    var boxwidth = $(window).width();
+    if(boxwidth < 768){
+        $('.top_logo').remove();
+        var img = '<img class="img-responsive center-block" src="<?php echo Yii::getAlias('@frontendUrl') ?>/img/fredisalearns_index_03.png" >';
+        $('.top_box').append(img);
+        $('.top_box').css("padding-top","20px");
+    }else{
+        $(document).off('click.bs.dropdown.data-api');
+            $('.nav .dropdown').mouseenter(function(){
+                $(this).addClass('open');
+            });
+            $('.nav .dropdown').mouseleave(function(){
+                $(this).removeClass('open');
+            });
+    }
 </script>
