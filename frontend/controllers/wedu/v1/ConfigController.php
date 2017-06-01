@@ -422,4 +422,44 @@ class ConfigController extends \common\rest\Controller
         $data['my_photos']                 = $my_photos->image_merge(3);
         return $data;
     }
+
+    /**
+     * @SWG\Get(path="/config/working-state",
+     *     tags={"800-Config-配置信息接口"},
+     *     summary="老师的工作内容",
+     *     description="老师的工作内容",
+     *     produces={"application/json"},
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "老师的工作内容"
+     *     ),
+     * )
+     *
+    **/
+    /**
+     * 老师工作
+    */
+    public function actionWorkingState(){
+        $notice          = new Notice;
+        $data['message'] = $notice->message(Notice::CATEGORY_ONE);
+        $data['working_state'] = [
+                [
+                    'title'  =>'上传学生档案',
+                    'status' =>10,
+                ],
+                [
+                    'title'  => '备课',
+                    'status' => 10,
+                ],
+                [
+                    'title'  => '签到记录',
+                    'status' => 20,
+                ],
+                [
+                    'title'  => '家长访问',
+                    'status' => 10,
+                ],
+            ];
+        return $data;
+    }
 }
