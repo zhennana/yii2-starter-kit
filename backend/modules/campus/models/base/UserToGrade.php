@@ -125,8 +125,31 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
         return [
             [['user_id', 'school_id', 'grade_id'], 'required'],
             [['user_id', 'school_id', 'grade_id', 'user_title_id_at_grade', 'status', 'sort', 'grade_user_type'], 'integer'],
-            [['user_id'],'unique', 'targetAttribute' => ['user_id','school_id', 'grade_id', 'grade_user_type'], 'message' => '用户已经存在本班级']
+            // [['user_id'],'unique', 'targetAttribute' => ['user_id','school_id', 'grade_id', 'grade_user_type'], 'message' => '用户已经存在本班级'],
+            ['user_id','is_checkouts'],
         ];
+    }
+    /**
+     * 检测用户在一个班真能拥有一种状态.
+     * @param  [type]  $attributes [description]
+     * @return boolean             [description]
+     */
+    public function is_checkouts($attributes){
+        $model = self::find()->where([
+            'user_id'           => $this->user_id,
+            'school_id'         => $this->school_id,
+            'grade_id'          => $this->grade_id,
+            'grade_user_type'   => $this->grade_user_type,
+            //'status'            => $this->status
+            ]);
+        if (!$this->isNewRecord) {
+            $model->andWhere(['not', ['user_to_grade_id'=>$this->user_to_grade_id]]);
+        }
+        $model = $model->one();
+        if($model){
+            $message = $model->user->username.'已存在'.$model->school->school_title.$model->grade->grade_name.'请去修改/或者忽略';
+            return $this->addError($attributes,$message);
+        }
     }
 
     /**

@@ -25,33 +25,32 @@ $data_user = ArrayHelper::map($user,'id','username');
 
 ?>
 <?php
-    // if(isset($info['error']) && !empty($info['error']) ){
-    //     //dump($info);
-    //      echo "<div class='error-summary alert alert-error'>";
-    //      echo "<p>错误警告：</p>";
-    //      echo "<ul>";
-    //     foreach ($info as $key => $value) {
-    //        if(isset($value) && is_array($value)){
-    //             foreach ($value as $k => $v) {
-    //               if(is_string($v)){
-    //                 echo "<li style='padding:0 3px'>".$v."</li>";
-    //               }
-    //               // dump($v);exit;
-    //               if(is_array($v)){
-    //                 foreach ($v as  $v1) {
+    if(isset($info['error']) && !empty($info['error']) ){
+        //dump($info);
+         echo "<div class='error-summary alert alert-error'>";
+         echo "<p>错误警告：</p>";
+         echo "<ul>";
+        foreach ($info['error'] as $key => $value) {
+           if(isset($value) && is_array($value)){
+                foreach ($value as $k => $v) {
+                  if(is_string($v)){
+                    echo "<li style='padding:0 3px'>".$v."</li>";
+                  }
+                  if(is_array($v)){
+                    foreach ($v as  $v1) {
 
-    //                     if(is_string($v1)){
-    //                         var_dump($v1);
-    //                         echo "<li style='padding:0 3px'>".$v1."</li>";
-    //                     }
-    //                 }
-    //               }
-    //             }
-    //        }
-    //     }
-    //      echo "</ul>";
-    //      echo "</div>";
-    // }
+                        if(is_string($v1)){
+                            //var_dump($v1);
+                            echo "<li style='padding:0 3px'>".$v1."</li>";
+                        }
+                    }
+                  }
+                }
+           }
+        }
+         echo "</ul>";
+         echo "</div>";
+    }
 ?>
 <div class="user-to-grade-form">
 
