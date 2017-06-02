@@ -56,7 +56,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
     </h1>
     <div class="clearfix crud-navigation">
 <?php
-if(\Yii::$app->user->can('campus_student-record-key_create', ['route' => true])){
+if(\Yii::$app->user->can('user', ['route' => true])){
 ?>
         <div class="pull-left">
             <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'New'), ['create'], ['class' => 'btn btn-success']) ?>
