@@ -57,37 +57,34 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                         'items'=>[
                             [
                                 'label' => Yii::t('frontend', '入学手册'),
-                                'url' => ['/site/cooperation']
+                                'url' => ['/page/view', 'slug'=>'ru-xue-shou-ce']
                             ],
                             [
                                 'label' => Yii::t('frontend', '幼小衔接班招生'),
-                                'url' => Yii::getAlias('@backendUrl'),
-                                'visible'=>Yii::$app->user->can('manager')
+                                'url' => ['/page/view', 'slug'=>'you-xiao-xian-jie-ban-zhao-sheng-jian-zhang']
+                                
                             ],
                             [
                                 'label' => Yii::t('frontend', '小学部招生'),
-                                'url' => ['/site/cooperationt'],
-                                'linkOptions' => ['data-method' => 'post']
+                                'url' => ['/page/view', 'slug'=>'xiao-xue-bu-zhao-sheng-jian-zhang']
+                            
                             ],
                             [
                                 'label' => Yii::t('frontend', '初中部招生'),
-                                'url' => ['/site/cooperation'],
-                                'linkOptions' => ['data-method' => 'post']
+                                'url' => ['/page/view', 'slug'=>'chu-zhong-bu-zhao-sheng-jian-zhang']
+                              
                             ],
                             [
                                 'label' => Yii::t('frontend', '高中部招生'),
-                                'url' => ['/site/cooperation'],
-                                'linkOptions' => ['data-method' => 'post']
+                                'url' => ['/page/view', 'slug'=>'gao-zhong-bu-zhao-sheng-jian-zhang']
                             ],
                             [
                                 'label' => Yii::t('frontend', '国际部招生'),
-                                'url' => ['/site/cooperation'],
-                                'linkOptions' => ['data-method' => 'post']
+                                'url' => ['/page/view', 'slug'=>'guo-ji-zhong-xue-bu-zhao-sheng-jian-zhang']
                             ],
                             [
                                 'label' => Yii::t('frontend', '特长部招生'),
-                                'url' => ['/site/cooperation'],
-                                'linkOptions' => ['data-method' => 'post']
+                                'url' => ['/page/view', 'slug'=>'te-zhang-bu-zhao-sheng-jian-zhang']
                             ],
                             
                         ]
@@ -95,7 +92,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                     ['label' => Yii::t('frontend', '产品展示'), 'url' => ['/page/view', 'slug'=>'ke-cheng-ti-xi']],
                     ['label' => Yii::t('frontend', '招贤纳士'), 'url' => ['/page/view', 'slug'=>'zhao-pin']],
                     ['label' => Yii::t('frontend', '在线报名'), 'url' => ['/page/view', 'slug'=>'faq']],
-                    ['label' => Yii::t('frontend', '联系我们'), 'url' => ['/page/view', 'slug'=>'lian-xi-wo-men']],
+                    ['label' => Yii::t('frontend', '联系我们'), 'url' => ['/site/contact']],
                 ]
             ]); ?>
             <?php NavBar::end(); ?>
@@ -191,7 +188,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                 <div class="row">
                     <div class="col-md-12 col-md-12 col-sm-12 col-xs-12">
                         <p>版权所有：光大学校&nbsp;&nbsp;&nbsp;2016 @ All Rights Reserved 冀ICP备16001426号-1</p>
-                        <p>技术支持：燕郊在线</p>     
+                        <p>技术支持：<a target="blank" href="http://www.yajol.com/">燕郊在线</a></p>     
                     </div>
                 </div>
             </div>
@@ -250,7 +247,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
         if(boxwidth < 768){
             $('.top_logo').hide();
             $('.navbar-brand').show();
-            var img = '<img class="img-responsive" src="http://static.v1.wakooedu.com/top_logo.png?imageView2/3/w/120/h/100" alt="瓦酷机器人">'
+            var img = '<img class="img-responsive" src="" alt="光大学校">'
             $('.navbar-brand').text('');
             $('.navbar-brand').append(img);
             $('.navbar-brand img').css('height','100%');

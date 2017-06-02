@@ -7,6 +7,8 @@ use yii\web\Controller;
 use common\models\Article;
 use common\models\ArticleAttachment;
 use frontend\models\search\ArticleSearch;
+use frontend\models\Contact;
+use frontend\models\ContactForm;
 /*
 use Superman2014\Aliyun\Sms\Sms\Request\V20160927 as Sms;
 use Superman2014\Aliyun\Core\Profile\DefaultProfile;
@@ -27,19 +29,24 @@ class SiteController extends Controller
     }
     
     public function actionIndex()
-    {
-        //$this->layout = false;
-        $article=Article::find()->where(['status'=>Article::STATUS_PUBLISHED])->asArray()->all();
-       
+    {         
+        $data['all']=Article::find()->where(['status'=>Article::STATUS_PUBLISHED])->orderby('created_at desc')->asArray()->all();
+       // echo'<pre>';var_dump($data['all']);exit;
+        //取数组的第一个值
+        $data['one']=current($data['all']);
+        //从第二个元素开始
+        $data['other']=array_slice($data['all'], 1);
+        
+        /*
         $searchModel= new ArticleSearch;
         $dataProvider=$searchModel->search(Yii::$app->request->queryParams);
         $dataProvider->sort=[
             'defaultOrder'=>['created_at'=>SORT_DESC]
         ];
-        // var_dump($dataProvider->getModels());exit;
+        */
         return $this->render('index',[
-            'dataProvider'=>$dataProvider,
-            'modelArticle'=>$article
+            //'dataProvider'=>$dataProvider,
+            'data'=>$data,
             ]);
     }
     /**
@@ -68,6 +75,33 @@ class SiteController extends Controller
     */
     public function actionSights(){
         return $this->render("sights");
+    }
+    public function actionContact()
+    {
+        $model = new ContactForm();
+        //var_dump(Yii::$app->params['adminEmail']);exit;
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->contact(Yii::$app->params['adminEmail'])) {
+                Yii::$app->getSession()->setFlash('alert', [
+                    'body'=>Yii::t('frontend', 'Thank you for contacting us. We will respond to you as soon as possible.'),
+                    'options'=>['class'=>'alert-success']
+                ]);
+                return $this->refresh();
+            } else {
+                Yii::$app->getSession()->setFlash('alert', [
+                    'body'=>\Yii::t('frontend', 'There was an error sending email.'),
+                    //'options'=>['class'=>'alert-danger']
+                ]);
+            }
+        }
+
+        return $this->render('contact', [
+            'model' => $model
+        ]);
+    }
+    //报名表
+    public function actionApplyToPlay(){
+        return $this->render("apply-to-play");
     }
 
 

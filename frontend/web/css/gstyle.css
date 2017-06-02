@@ -14,6 +14,7 @@
 .top-nov .dropdown-menu>li>a:hover{background-color: #0a0a0a;}
 .top-nov .navbar-default .navbar-nav>.open>a{background-color: #723c8e; color: #333;}
 .top-nov .navbar-default .navbar-nav>li>a{color: #333;}
+
 /*banner*/
 .ban-but-L{margin-left: 100%; padding-top: 80%;}
 .ban-but-R{margin-left: -100%; padding-top: 80%;}
@@ -168,6 +169,30 @@
 	border-bottom-width: 3px;
 	border-bottom-color:#723c8e;
 }
+.geu-content .with-bordersm{
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-bottom-color:#723c8e;
+	margin-top: 4px;
+	margin-bottom: 10px;
+
+}
+.geu-content .with-borderleft{
+	border-left-style: solid;
+	border-left-width: 3px;
+	border-left-color:#723c8e;
+	
+}
+.geu-content .with-borderleft a{
+	margin-left: 10px;
+	
+}
+.geu-content .contacborder{
+	width: 90%;
+	padding-top: 20px;
+	margin: 0 auto;
+}
+
 .geu-content a{
 	color: #4f4f4f;
 }
@@ -395,6 +420,11 @@
   @media only screen and (max-width:990px){
     .box{ margin-bottom: 30px; }
   }
+ .my-map { margin: 0px auto; width: 950px; height: 600px; }
+ .my-map .icon { background: url(http://lbs.amap.com/console/public/show/marker.png) no-repeat; }
+ .my-map .icon-cir { height: 31px; width: 28px; }
+ .my-map .icon-cir-red { background-position: -11px -5px; }
+ .amap-container{height: 100%;}
 
 @media (max-width: 596px){
 .footer-1-inner-img{width: 20%;}
