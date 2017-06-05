@@ -29,19 +29,24 @@ class SiteController extends Controller
     }
     
     public function actionIndex()
-    { 
+    {         
+        $data['all']=Article::find()->where(['status'=>Article::STATUS_PUBLISHED])->orderby('created_at desc')->asArray()->all();
+       // echo'<pre>';var_dump($data['all']);exit;
+        //取数组的第一个值
+        $data['one']=current($data['all']);
+        //从第二个元素开始
+        $data['other']=array_slice($data['all'], 1);
+        
+        /*
         $searchModel= new ArticleSearch;
         $dataProvider=$searchModel->search(Yii::$app->request->queryParams);
         $dataProvider->sort=[
             'defaultOrder'=>['created_at'=>SORT_DESC]
         ];
-        if(empty($dataProvider->getModels())){
-            Yii::$app->session->setFlash('info', '暂时没有新闻内容发布');
-        }
-        // var_dump($dataProvider->getModels());exit;
+        */
         return $this->render('index',[
-            'dataProvider'=>$dataProvider,
-            
+            //'dataProvider'=>$dataProvider,
+            'data'=>$data,
             ]);
     }
     /**
