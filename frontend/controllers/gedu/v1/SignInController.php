@@ -264,6 +264,7 @@ class SignInController extends \common\components\ControllerFrontendApi
      */
     public function actionSendSms($phone_number, $type='signup')
     {
+        // var_dump($type);exit;
         \Yii::$app->language = 'zh-CN';
 
         if (!$phone_number) {
@@ -272,24 +273,46 @@ class SignInController extends \common\components\ControllerFrontendApi
             return $this->serializer['message'];
         }
 
-        $user = User::find()->where(['phone_number'=>$phone_number])->one();
+        $user = User::find()->where([
+            'phone_number' => $phone_number,
+        ])->one();
         $type = ($type == 'signup') ? UserToken::TYPE_PHONE_SIGNUP : UserToken::TYPE_PHONE_REPASSWD;
-
+        
         if (!$user) {
-            $user = new User;
-            $user->phone_number = $phone_number;
-            $user->status       = User::STATUS_NOT_ACTIVE;
-            $user->setPassword(UserToken::randomCode(6));
-            if(!$user->save()) {
+            if ($type == UserToken::TYPE_PHONE_SIGNUP) {
+                // 创建未激活用户
+                $user = new User;
+                $user->phone_number = $phone_number;
+                $user->status       = User::STATUS_NOT_ACTIVE;
+                $user->setPassword(UserToken::randomCode(6));
+                if(!$user->save()) {
+                    $this->serializer['errno']   = 1;
+                    $this->serializer['message'] = $user->getErrors();
+                    return $this->serializer['message'];
+                }
+                $user->afterSignup();
+            }else{
+                // 用户不存在
                 $this->serializer['errno']   = 1;
-                $this->serializer['message'] = $user->getErrors();
+                $this->serializer['message'] = '该手机号码还未注册';
                 return $this->serializer['message'];
             }
-            $user->afterSignup();
-        }else{
-            $this->serializer['errno']   = 1;
-            $this->serializer['message'] = '用户已存在';
-            return $this->serializer['message'];
+        }
+
+        if ($user && $user->status == User::STATUS_NOT_ACTIVE) {
+            if ($type == UserToken::TYPE_PHONE_REPASSWD) {
+                // 提示用户账户未激活
+                $this->serializer['errno']   = 1;
+                $this->serializer['message'] = '该手机号码还未注册';
+                return $this->serializer['message'];
+            }
+        }elseif($user && $user->status == User::STATUS_ACTIVE){
+            if ($type == UserToken::TYPE_PHONE_SIGNUP) {
+                // 提示用户已存在
+                $this->serializer['errno']   = 1;
+                $this->serializer['message'] = '该手机号码已经注册过了';
+                return $this->serializer['message'];
+            }
         }
 
         $token = UserToken::find()->where([
