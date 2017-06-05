@@ -1,10 +1,5 @@
 <?php
-use yii\helpers\Html;
-if(isset($modelArticle[0])){
-    $articleFirst = $modelArticle[0];
-    unset($modelArticle[0]);
-
-}
+use yii\helpers\Html; 
 
 ?>
     <div class="main">
@@ -276,10 +271,15 @@ if(isset($modelArticle[0])){
 
             </div> 
         </div>
-        
         <div class="main-4">
             <div class="container">
                 <div class="row">
+
+                    <?php
+                        if (Yii::$app->session->hasFlash('info')) {
+                                    echo Yii::$app->session->getFlash('info');
+                        }else{
+                    ?>
                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 main-4-newsBox">
                         <div class="newsBox">
 
@@ -314,36 +314,41 @@ if(isset($modelArticle[0])){
                                 </div>
                                
                               </div>
+
                             <div class="newsBox-into">
                                 <div id="myCarousel3" class="carousel slide">
                                     <!-- 轮播（Carousel）项目 -->
                                     <div class="carousel-inner">
+                                        
+                                        <?php foreach($dataProvider->getModels() as $key=>$value){
+                                        ?>
                                         <div class="item active">
                                             <div class="newsBox-news">
-                                                <p class="newsBox-news-p1"><?php echo date('Y-m-d',$articleFirst['created_at']);?></p>
-                                                <h3 class="newsBox-news-h3"><?php echo $articleFirst['title'];?></h3>
+                                                <p class="newsBox-news-p1"><?php echo date('Y-m-d',$value->created_at);?></p>
+                                                <h3 class="newsBox-news-h3"><?php echo $value->title;?></h3>
                                                 <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-4-line.png">
                                                 <p class="newsBox-news-p2"><?php echo Html::a(
-                                                    substr_auto(strip_tags($articleFirst['body']),200),
-                                                    ['article/view','id'=>$articleFirst['id']],
+                                                    substr_auto(strip_tags($value->body),200),
+                                                    ['article/view','id'=>$value->id],
                                                     ['class'=>'','data-method'=>'open',]);
                                                 ?></p>
                                                 
                                             </div>
                                         </div>
-                                     
-                                        
-                                         <?php foreach($modelArticle as $key=>$value){?>
+                                        <?php break;}?>
+
+                                         <?php foreach($dataProvider->getModels() as $key=>$value){
+                                            ?>
                                             <div class="item">
                                             <div class="newsBox-news">
-                                                <p class="newsBox-news-p1"><?php echo date('Y-m-d',$value['created_at']);?></p>
-                                                <h3 class="newsBox-news-h3"><?php echo $value['title'];?></h3>
+                                                <p class="newsBox-news-p1"><?php echo date('Y-m-d',$value->created_at);?></p>
+                                                <h3 class="newsBox-news-h3"><?php echo $value->title;?></h3>
                                                 <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-4-line.png">
-                                                <?php echo Html::a(
-                                                    substr_auto(strip_tags($value['body']),200),
-                                                    ['article/view','id'=>$value['id']],
+                                                <p class="newsBox-news-p2"><?php echo Html::a(
+                                                    substr_auto(strip_tags($value->body),200),
+                                                    ['article/view','id'=>$value->id],
                                                     ['class'=>'','data-method'=>'open',]);
-                                                ?>
+                                                ?></p>
                                             </div>
                                         </div>
                                         <?php }?>
@@ -355,8 +360,11 @@ if(isset($modelArticle[0])){
                                        data-slide="next"><img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-4-circle.png"></a>
                                 </div> 
                             </div>
+
                         </div>
                     </div>
+            <?php }?>
+
                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="videoBox">
                             <video width="100%" height="100%" id="yjzxVideo" controls >
@@ -372,6 +380,7 @@ if(isset($modelArticle[0])){
                 </div>
             </div>
         </div>
+
     </div>
    
 
