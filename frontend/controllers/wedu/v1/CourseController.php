@@ -196,7 +196,7 @@ class CourseController extends \common\rest\Controller
     }
 
     /**
-     * @SWG\Get(path="/course/course-sing-in-list",
+     * @SWG\Get(path="/course/course-sign-in-list",
      *     tags={"700-Course-课程课表"},
      *     summary="(老师)课程签到需要的学生列表",
      *     description="课程签到的所有学生列表",
@@ -222,12 +222,12 @@ class CourseController extends \common\rest\Controller
      * )
      *
     **/
-    public function actionCourseSingInList($school_id,$grade_id){
+    public function actionCourseSignInList($school_id,$grade_id){
         $model = new $this->modelClass;
-        return $model->userCourseSingInData($school_id,$grade_id);
+        return $model->userCourseSignInData($school_id,$grade_id);
     }
     /**
-     * @SWG\Post(path="/course/create-sing-in",
+     * @SWG\Post(path="/course/create-sign-in",
      *     tags={"700-Course-课程课表"},
      *     summary="(老师)创建签到",
      *     description="创建签到",
@@ -284,7 +284,7 @@ class CourseController extends \common\rest\Controller
      * )
      *
     **/
-    public function actionCreateSingIn(){
+    public function actionCreateSignIn(){
 
         $model = new SignIn;
         if($_POST){
@@ -456,7 +456,7 @@ class CourseController extends \common\rest\Controller
     }
 
     /**
-     * @SWG\Get(path="/course/sing-in-record",
+     * @SWG\Get(path="/course/sign-in-record",
      *     tags={"700-Course-课程课表"},
      *     summary="(老师)缺勤记录",
      *     description="缺勤记录表",
@@ -488,7 +488,7 @@ class CourseController extends \common\rest\Controller
      * 签到记录
      * @return [type] [description]
      */
-    public function actionSingInRecord($school_id, $grade_id){
+    public function actionSignInRecord($school_id, $grade_id){
         if(!isset(Yii::$app->user->identity->id)){
             $this->serializer['errno']      = '300';
             $this->serializer['message']    = '请先登录';
