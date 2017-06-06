@@ -244,14 +244,14 @@ class SignInController extends \common\components\ControllerFrontendApi
      *     @SWG\Parameter(
      *        in = "query",
      *        name = "type",
-     *        description = "发送验证码类型：signup注册；repasswd重置密码。默认signup",
+     *        description = "验证码类型：signup注册；repasswd重置密码。默认signup",
      *        required = true,
      *        type = "string",
      *        enum = {"signup", "repasswd"}
      *     ),
      *     @SWG\Response(
      *         response = 200,
-     *         description = "验证码发送成功"
+     *         description = "发送成功，返回验证码和手机号",
      *     )
      * )
      *
@@ -297,18 +297,14 @@ class SignInController extends \common\components\ControllerFrontendApi
                 $this->serializer['message'] = '该手机号码还未注册';
                 return $this->serializer['message'];
             }
-        }
-
-        if ($user && $user->status == User::STATUS_NOT_ACTIVE) {
-            if ($type == UserToken::TYPE_PHONE_REPASSWD) {
-                // 提示用户账户未激活
+        }else{
+            if ($user->status == User::STATUS_NOT_ACTIVE && $type == UserToken::TYPE_PHONE_REPASSWD) {
+                // 用户账户未激活
                 $this->serializer['errno']   = 1;
                 $this->serializer['message'] = '该手机号码还未注册';
                 return $this->serializer['message'];
-            }
-        }elseif($user && $user->status == User::STATUS_ACTIVE){
-            if ($type == UserToken::TYPE_PHONE_SIGNUP) {
-                // 提示用户已存在
+            }elseif($user->status == User::STATUS_ACTIVE && $type == UserToken::TYPE_PHONE_SIGNUP){
+                // 用户已存在
                 $this->serializer['errno']   = 1;
                 $this->serializer['message'] = '该手机号码已经注册过了';
                 return $this->serializer['message'];

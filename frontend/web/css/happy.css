@@ -1,3 +1,6 @@
+#article-index{
+  padding: 2% 8%;
+}
 .article-item {
   margin-bottom: 15px;
 }
@@ -34,16 +37,12 @@ li{
   margin: 0 auto -60px;
   padding: 0 0 60px;
 }
-.wrap > .container {
-  padding: 70px 0px 20px;
-  margin-left: 0;
-  margin-right: 0;
+.container {
+  padding: 0;
+  width: auto;
 }
 .footer {
   background-color: #0070a8;
-  height: auto;
-  margin: 0;
-  padding: 0;
   border-top: 4px solid #35b9d0;
 }
 .jumbotron {
@@ -123,8 +122,7 @@ a.desc:after {
   margin:0;
   width: 100%;
 }
-.container{
-  padding-top: 0 !important;
+nav .container{
   width: 100%;
 }
 .content{
@@ -243,9 +241,6 @@ a.desc:after {
 .course_box h4{
   font: 800 2rem/3rem sans-serif !important;
 }
-.web_map{
-  padding: 0 2%;
-}
 .web_map h4{
   color: #35b9d0;
   font-weight:bold;
@@ -272,18 +267,26 @@ a.desc:after {
 .bottom a{
   color: #f89406;
 }
-/*ffa56e*/
 
 /* 二级页面 */
-.title_box{
-  color: white;
-  padding: 1% 0 6%;
+.course_info p{
+  font-size: 2rem;
 }
-.title_box .title{
-  font-size: 5rem;
-  font-weight: bold;
+.course_list{
+  border-top: 3px solid #35b9d0;
 }
-.title_box .title{
-  
+.course_list > ul > li{
+  padding: 1% 0;
 }
-
+.course_list > ul > li img{
+  width: 10rem;
+  height: 10rem;
+  border-radius: 50%;
+  border: 7px solid #E0E0E0;
+}
+.course_title h1{
+  font-family: 'Fredoka One', cursive;
+  font-weight: bolder;
+  font-size: 3rem;
+  color: #1bb4b9;
+}
