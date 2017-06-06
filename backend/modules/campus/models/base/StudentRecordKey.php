@@ -6,6 +6,10 @@ namespace backend\modules\campus\models\base;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\helpers\ArrayHelper;
+//use backend\modules\campus\models\School;
+//use backend\modules\campus\models\Grade;
+
 
 /**
  * This is the base-model class for table "student_record_key".
@@ -23,8 +27,16 @@ use yii\behaviors\TimestampBehavior;
 abstract class StudentRecordKey extends \yii\db\ActiveRecord
 {
 
+    const STUDENT_KEY_STATUS_OPEN = 1;
+    const STUDENT_KEY_STATUS_DELECT = 0;
 
+    public static function optsStatus(){
+        return [
+            self::STUDENT_KEY_STATUS_OPEN =>'正常',
+            self::STUDENT_KEY_STATUS_DELECT =>'关闭',
+        ];
 
+    }
     /**
      * @inheritdoc
      */
@@ -32,6 +44,8 @@ abstract class StudentRecordKey extends \yii\db\ActiveRecord
     {
         return 'student_record_key';
     }
+
+
 
     public static function getDb(){
         return Yii::$app->get('campus');
@@ -92,7 +106,15 @@ abstract class StudentRecordKey extends \yii\db\ActiveRecord
     }
 
 
-    
+     public function getlist($type_id = false,$id =false){
+        if($type_id == 1){
+            $grade = \backend\modules\campus\models\Grade::find()->where(['status'=>Grade::GRADE_STATUS_OPEN, 'school_id'=>$id])->asArray()->all();
+            //var_dump($grade);exit;
+            return ArrayHelper::map($grade,'grade_id','grade_name');
+        }
+        $school = \backend\modules\campus\models\School::find()->where(['status'=>School::SCHOOL_STATUS_OPEN])->asArray()->all();
+        return ArrayHelper::map($school,'school_id','school_title');
+      }
     /**
      * @inheritdoc
      * @return \backend\modules\campus\models\query\StudentRecordKeyQuery the active query used by this AR class.
