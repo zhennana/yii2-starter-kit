@@ -65,8 +65,8 @@ class StudentRecord extends BaseStudentRecord
 				break;
 			}
 			$image_url[] = [
-	    			 'image_original'=>$value['url'].$value['file_name'].'?imageView2/3/w/400/h/400',
-	    			 'image_shrinkage'=>$value['url'].$value['file_name'],
+	    			 'image_original'=>$value['url'].$value['file_name'].'?imageView2/1/w/400/h/400',
+	    			 'image_shrinkage'=>$value['url'].$value['file_name'].'?imageView2/3/w/600/h/600',
 	    		];
 		}
 		return $image_url;
