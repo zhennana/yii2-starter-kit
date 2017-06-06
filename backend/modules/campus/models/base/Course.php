@@ -106,10 +106,13 @@ abstract class Course extends \yii\db\ActiveRecord
                     ->where([
                         'school_id'=>$model->school_id,
                         'grade_id'=> $model->grade_id,
-                        ])
-                    ->orderBy(['end_time'=>SORT_DESC])
-                    ->asArray()->one();
-                    //var_dump($model);exit;
+                        ]);
+                    if(!$model->isNewRecord){
+                        //var_dump($model->course_id);exit;
+                        $models->andWhere(['not','course_id'=>$model->course_id]);
+                    }
+                    $models = $models->orderBy(['end_time'=>SORT_DESC])->asArray()->one();
+                    //var_dump($models);exit;
                     if($models){
                         if(($models['end_time']+15*60) > $model->start_time){
                              $model->addError($attribute,'本次排课与上一次排课之间的时间必须大于15分钟');

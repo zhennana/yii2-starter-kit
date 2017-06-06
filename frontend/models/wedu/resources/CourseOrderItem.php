@@ -43,7 +43,7 @@ public function behaviors()
         $data = [];
         $data = [
             'total_courses' => '总共'.(int)$model['total_courses'].'节课',
-            'presented_course' => '剩余'.((int)$model['total_courses'] -$obove_course_count).'节课',
+            'surplus_course' => '剩余'.((int)$model['total_courses'] -$obove_course_count).'节课',
         ];
         return $data; 
     }

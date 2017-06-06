@@ -218,7 +218,8 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
      * @param  [type] $grade_ids [description]
      * @return [type]            [description]
      */
-    public static function getStudents($user_id,$grade_ids = NULL){
+    public static function getStudents($user_id = NULL,$grade_ids = NULL){
+        //var_dump();exit;
         if($grade_ids == NULL){
             $grade_ids = Yii::$app->user->identity->getSchoolToGrade($user_id);
             // dump($grade_ids);exit;

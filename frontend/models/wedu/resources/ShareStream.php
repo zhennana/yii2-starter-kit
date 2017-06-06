@@ -40,8 +40,8 @@ class ShareStream extends BaseShareStream
                       foreach ($this->shareToFile as $key => $value) {
                             if(isset($value->fileStorageItem)){
                                 $data[] = [
-                                        'image_original'=>$value->fileStorageItem->url.$value->fileStorageItem->file_name,
-                                         'image_shrinkage'=>$value->fileStorageItem->url.$value->fileStorageItem->file_name.'?imageView2/3/w/400/h/400',
+                                        'image_original'=>$value->fileStorageItem->url.$value->fileStorageItem->file_name.Yii::$app->params['image']['image_original_size'],
+                                         'image_shrinkage'=>$value->fileStorageItem->url.$value->fileStorageItem->file_name.Yii::$app->params['image']['image_shrinkage_size'],
                                         ];
                             }
                       }

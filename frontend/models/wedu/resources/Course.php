@@ -38,14 +38,14 @@ public function behaviors()
      * @param  [type] $grade_id  [description]
      * @return [type]            [description]
      */
-   public function userCourseSingInData($school_id,$grade_id){
-        $course_id = $this->course_id($school_id,$grade_id);
+   public function userCourseSignInData($school_id,$grade_id){
+        $course = $this->course($school_id,$grade_id);
         //var_dump($course_id);exit;
-        if(empty($course_id->course_id)){
+        if(!isset($course->course_id)  && empty($course->course_id)  ){
             return [];
         }
 
-        $user_ids = $this->SignInToUser($course_id->course_id);
+        $user_ids = $this->SignInToUser($course->course_id);
         //var_dump($user_ids);exit;
         $user_ids = ArrayHelper::map($user_ids,'student_id','student_id');
         $model = UserToGrade::find()->select([])
@@ -70,15 +70,17 @@ public function behaviors()
         ->asArray()
         ->all();
  //var_dump($model);exit;
-       return $this->serializations($model, $course_id->course_id);
+       return $this->serializations($model, $course);
    }
    /**
     * 格式化数据
     * @return [type] [description]
     */
-   public function serializations($model,$course_id){
+   public function serializations($model,$course){
         $data = [];
-        $data['course_id'] = $course_id;
+        $data['course_id'] = $course->course_id;
+        $data['title']     = $course->title;
+        //$data['title']     
        foreach ($model as $key => $value) {
           $data['user_list'][$key] = [
                 'user_id'       =>    (int)$value['user_id'],
@@ -104,10 +106,10 @@ public function behaviors()
     * 获取当前教师所要上的课程
     * @return [type] [description]
     */
-   public function course_id($school_id,$grade_id){
+   public function course($school_id,$grade_id){
       $start_time = time()-60*15;
       $end_time   = time()+60*15;
-      return self::find()->select('course_id')
+      return self::find()->select(['course_id','title'])
       ->andwhere([
           'school_id'=>$school_id,'grade_id'=>$grade_id,
           'status'   => self::COURSE_STATUS_OPEN
