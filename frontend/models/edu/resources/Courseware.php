@@ -71,6 +71,7 @@ class Courseware extends BaseCourseware
     public  function streamData(){
         $params = [];
         foreach ($this->category() as $key => $value) {
+            // var_dump($value->counts);exit;
             if(in_array($value->counts,[3,4])){
                $model = self::find()
                 ->select(['courseware_id','title'])

@@ -14,7 +14,7 @@ use \backend\modules\campus\models\CoursewareCategory;
 * @var yii\widgets\ActiveForm $form
 */
 
-$categories= CoursewareCategory::find()->where(['parent_id'=>0])->all();
+$categories= CoursewareCategory::find()->all();
     $categories = \yii\helpers\ArrayHelper::map(
         $categories, 'category_id', 'name'
     );
