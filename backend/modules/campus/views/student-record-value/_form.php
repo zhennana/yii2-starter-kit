@@ -30,20 +30,21 @@ use yii\helpers\StringHelper;
         <p>
             
 
+
 <!-- attribute student_record_key_id -->
-			<?= $form->field($model, 'student_record_key_id')->textInput() ?>
+              <?= $form->field($model, 'student_record_key_id')->textInput() ?>
 
 <!-- attribute student_record_id -->
-			<?= $form->field($model, 'student_record_id')->textInput() ?>
+            <?= $form->field($model, 'student_record_id')->textInput() ?>
 
 <!-- attribute body -->
-			<?= $form->field($model, 'body')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'body')->textInput(['maxlength' => true]) ?>
 
 <!-- attribute status -->
-			<?= $form->field($model, 'status')->textInput() ?>
+            <?= $form->field($model, 'status')->textInput() ?>
 
 <!-- attribute sort -->
-			<?= $form->field($model, 'sort')->textInput() ?>
+            <?= $form->field($model, 'sort')->textInput() ?>
         </p>
         <?php $this->endBlock(); ?>
         
@@ -80,4 +81,3 @@ use yii\helpers\StringHelper;
     </div>
 
 </div>
-
