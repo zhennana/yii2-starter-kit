@@ -90,7 +90,7 @@ $config = [
                         $logged_ip = !Yii::$app->getRequest()->getUserIP() ? '' : Yii::$app->getRequest()->getUserIP();
                         $user_id = isset(Yii::$app->user->identity->id) ? Yii::$app->user->identity->id : 0;
                         $url = !Yii::$app->request->isConsoleRequest ? Yii::$app->request->getUrl() : null;
-                        
+
                         return sprintf(
                             '[%s] [IP: %s] [user_id: %s] [%s]', 
                             Yii::$app->id, $logged_ip, $user_id, $url
@@ -227,6 +227,8 @@ $config = [
             require(Yii::getAlias('@storage/config/_urlManager.php'))
         )
     ],
+    //Yii::$app->params['image']['image_original_size'];
+    //Yii::$app->params['image']['image_shrinkage_size'];
     'params' => [
         'user_avatar'=>'http://static.v1.wakooedu.com/o_1bf6nmv571qb6rva18c1c4r1kjq9.png',
         'qiniu'=>[
@@ -236,6 +238,11 @@ $config = [
                 'domain' => env('QINIU_DOMAIN'),
                 'bucket' => env('QINIU_BUCKET')
             ]
+        ],
+        //裁剪图片大小参数
+        'image'=>[
+            'image_original_size'=>"?imageView2/3/w/600/h/600",
+            'image_shrinkage_size'=>"?imageView2/1/w/400/h/400",
         ],
         'adminEmail' => env('ADMIN_EMAIL'),
         'robotEmail' => env('ROBOT_EMAIL'),

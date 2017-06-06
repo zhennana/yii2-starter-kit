@@ -64,9 +64,10 @@ class StudentRecord extends BaseStudentRecord
 			if(isset($limit) && $key > $limit){
 				break;
 			}
+
 			$image_url[] = [
-	    			 'image_original'=>$value['url'].$value['file_name'].'?imageView2/1/w/400/h/400',
-	    			 'image_shrinkage'=>$value['url'].$value['file_name'].'?imageView2/3/w/600/h/600',
+	    			 'image_original'=>$value['url'].$value['file_name'].Yii::$app->params['image']['image_original_size'],
+	    			 'image_shrinkage'=>$value['url'].$value['file_name'].Yii::$app->params['image']['image_shrinkage_size'],
 	    		];
 		}
 		return $image_url;
