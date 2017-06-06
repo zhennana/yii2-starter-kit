@@ -112,6 +112,32 @@ class Courseware extends BaseCourseware
         $model = Courseware::find()->select(['category_id',"count(*) as counts"])->where(['courseware_id'=>$this->prentCourseware()])->groupBY('category_id')->all();
         return $model;
     }
+
+    /**
+     * [searchCourseware 搜索课件接口，返回主课件]
+     * @return [type] [description]
+     */
+    public function searchCourseware($keyword = '')
+    {
+        $data = [];
+        
+        $model = Courseware::find()->where([
+            'status'        => Courseware::COURSEWARE_STATUS_VALID,
+            'courseware_id' => $this->prentCourseware()
+        ])->andWhere([
+            'or',
+            ['like','title',$keyword],
+            ['like','title',$keyword],
+        ])->all();
+
+        if ($model) {
+            foreach ($model as $key => $value) {
+                $data[] = $value->toArray();
+            }
+        }
+
+        return $data;
+    }
 }
 
 ?>
