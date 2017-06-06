@@ -72,7 +72,7 @@ class Courseware extends BaseCourseware
         $params = [];
         foreach ($this->category() as $key => $value) {
             // var_dump($value->counts);exit;
-            if(in_array($value->counts,[3,4])){
+            if(in_array($value->counts,[2,3,4])){
                $model = self::find()
                 ->select(['courseware_id','title'])
                 ->where(['courseware_id'=>$this->prentCourseware(),'category_id'=>$value['category_id']])
