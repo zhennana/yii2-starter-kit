@@ -58,7 +58,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                 'items'=>[
                     [
                         'label' => Yii::t('frontend', 'Starter 1 English'),
-                        'url' => ['/page/view', 'slug'=>'guan-yu-wa-ku']
+                        'url' => ['/article/index']
                     ],
                     [
                         'label' => Yii::t('frontend', 'Level 1 English'),
@@ -121,7 +121,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
 </div>
 
 <footer class="footer">
-    <div class="container no-padding">
+    <div class="container">
         <div class="web_map">
             <ul class="no-margin no-padding">
                 <li class="col-xs-4">
