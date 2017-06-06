@@ -128,8 +128,8 @@ $data_user = ArrayHelper::map($user,'id','username');
                     'grade_name'
                 ),
                 'options'       => ['placeholder' => '请选择'],
-                'pluginOptions' => [ 
-                    'allowClear' => true 
+                'pluginOptions' => [
+                    'allowClear' => true
                 ]
             ]) ?>
 
@@ -157,13 +157,14 @@ $data_user = ArrayHelper::map($user,'id','username');
             <?= $form->field($model, 'sort')->textInput() ?>
 
             <?php
-                $grade_user_type =[];
+                $grade_user_type = 10;
                 if(isset($_GET['grade_user_type'])){
-                    $grade_user_type = '[value=>'.(int)$_GET['grade_user_type'].']';
+                    $grade_user_type = (int)$_GET['grade_user_type'];
+                    //$grade_user_type['user_title_id_at_grade'] = $_GET['grade_user_type'];
                 }
             ?>
-            <?= $form->field($model,'grade_user_type')->hiddenInput([$grade_user_type])->label(false)->hint(false)?>
-            <?= $form->field($model,'user_title_id_at_grade')->hiddenInput([$grade_user_type])->label(false)->hint(false)?>
+            <?= $form->field($model,'grade_user_type')->hiddenInput(['value'=>$grade_user_type])->label(false)->hint(false)?>
+            <?= $form->field($model,'user_title_id_at_grade')->hiddenInput(['value'=>$grade_user_type])->label(false)->hint(false)?>
         <!-- attribute grade_user_type -->
           <!--   <? /* $form->field($model,'grade_user_type')->widget(Select2::className(),[
                 'data'          => UserToGrade::optsUserType(),
