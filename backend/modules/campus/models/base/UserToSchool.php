@@ -99,9 +99,6 @@ abstract class UserToSchool extends \yii\db\ActiveRecord
             'school_user_type' => Yii::t('common', '用户关系类型：用户类型：教师；学生；家长；'),
         ]);
     }
-
-
-    
     /**
      * @inheritdoc
      * @return \backend\modules\campus\models\query\UesrToSchool the active query used by this AR class.

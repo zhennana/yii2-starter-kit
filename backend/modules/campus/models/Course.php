@@ -35,7 +35,6 @@ public function behaviors()
     }
 
   public function getlist($type_id = false,$id =false){
-
         if($type_id == 1){
             $grade = Grade::find()->where(['status'=>Grade::GRADE_STATUS_OPEN, 'school_id'=>$id])->asArray()->all();
             //var_dump($grade);exit;

@@ -64,7 +64,7 @@ if(\Yii::$app->user->can('manager')){
 <?php
 }
 ?>
-        <div class="pull-right">              
+        <div class="pull-right">
             <?= \yii\bootstrap\ButtonDropdown::widget(
                 [
                     'id' => 'giiant-relations',
