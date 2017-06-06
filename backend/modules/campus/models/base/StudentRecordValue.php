@@ -55,7 +55,7 @@ abstract class StudentRecordValue extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['student_record_key_id', 'student_record_id', 'body'], 'required'],
+            [['student_record_key_id', 'student_record_id'], 'required'],
             [['student_record_key_id', 'student_record_id', 'status', 'sort'], 'integer'],
             [['body'], 'string', 'max' => 1024]
         ];
@@ -73,8 +73,8 @@ abstract class StudentRecordValue extends \yii\db\ActiveRecord
             'body' => Yii::t('backend', '学员档案条目描述'),
             'status' => Yii::t('backend', '1：正常；0标记删除；2待审核；'),
             'sort' => Yii::t('backend', '默认与排序'),
-            'updated_at' => Yii::t('backend', 'Updated At'),
-            'created_at' => Yii::t('backend', 'Created At'),
+            'updated_at' => Yii::t('backend', '更新时间'),
+            'created_at' => Yii::t('backend', '创建时间'),
         ];
     }
 
@@ -96,7 +96,9 @@ abstract class StudentRecordValue extends \yii\db\ActiveRecord
     public function getStudentRecordValueToFile(){
         return $this->hasMany(\backend\modules\campus\models\StudentRecordValueToFile::className(),['student_record_value_id'=>'student_record_value_id']);
     }
-    
+    public function getStudentRecordKey(){
+        return $this->hasOne(\backend\modules\campus\models\StudentRecordKey::className(),['student_record_key_id'=>'student_record_key_id']);
+    }
     /**
      * @inheritdoc
      * @return \backend\modules\campus\models\query\StudentRecordValueQuery the active query used by this AR class.

@@ -16,7 +16,7 @@ use yii\helpers\ArrayHelper;
     * @var backend\modules\campus\models\search\UserToGradeSearch $searchModel
 */
 
-$this->title = Yii::t('backend', '学员管理');
+$this->title = Yii::t('backend', '班级人员管理管理');
 $this->params['breadcrumbs'][] = $this->title;
 
 
@@ -55,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
 
     <h1>
-        <?= Yii::t('backend', '学员管理') ?>
+        <?= Yii::t('backend', '班级人员管理') ?>
         <small>
             列表
         </small>
@@ -65,13 +65,14 @@ $this->params['breadcrumbs'][] = $this->title;
         if(\Yii::$app->user->can('manager', ['route' => true])){
     ?>
         <div class="pull-left">
-            <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'), ['create'], ['class' => 'btn btn-success']) ?>
+            <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '班级分配老师'), ['create','grade_user_type'=>UserToGrade::GRADE_USER_TYPE_TEACHER], ['class' => 'btn btn-success']) ?>
+            <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', ' 班级分配学员'), ['create','grade_user_type'=>UserToGrade::GRADE_USER_TYPE_STUDENT], 
+                ['class' => 'btn btn-success']) ?>
         </div>
     <?php } ?>
         <div class="pull-right">
 
-                        
-            <?= 
+            <?=
             \yii\bootstrap\ButtonDropdown::widget(
             [
                 'id' => 'giiant-relations',

@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="giiant-crud student-record-key-create">
 
     <h1>
-        <?= Yii::t('backend', 'Student Record Key') ?>
+        <?= Yii::t('backend', '创建档案标题') ?>
         <small>
                         <?= $model->title ?>
         </small>

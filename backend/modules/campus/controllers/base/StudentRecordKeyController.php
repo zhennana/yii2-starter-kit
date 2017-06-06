@@ -5,12 +5,13 @@
 namespace backend\modules\campus\controllers\base;
 
 use backend\modules\campus\models\StudentRecordKey;
-    use backend\modules\campus\models\search\StudentRecordKeySearch;
+use backend\modules\campus\models\search\StudentRecordKeySearch;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\helpers\Url;
 use yii\filters\AccessControl;
 use dmstr\bootstrap\Tabs;
+use Yii;
 
 /**
 * StudentRecordKeyController implements the CRUD actions for StudentRecordKey model.
@@ -103,7 +104,8 @@ $model = new StudentRecordKey;
 
 try {
 if ($model->load($_POST) && $model->save()) {
-return $this->redirect(['view', 'student_record_key_id' => $model->student_record_key_id]);
+
+return $this->redirect(Url::previous());
 } elseif (!\Yii::$app->request->isPost) {
 $model->load($_GET);
 }

@@ -8,15 +8,15 @@ use yii\helpers\Html;
 */
 
 $this->title = Yii::t('backend', 'Create');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Student Record Values'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '创建学生档案'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="giiant-crud student-record-value-create">
 
     <h1>
-        <?= Yii::t('backend', 'Student Record Value') ?>
+        <?= Yii::t('backend', '创建学生档案') ?>
         <small>
-                        <?= $model->student_record_value_id ?>
+                      <!--   <? //= $model->student_record_value_id ?> -->
         </small>
     </h1>
 
@@ -33,6 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
     'model' => $model,
+    'info'  => isset($info) ? $info : NULL
     ]); ?>
 
 </div>
