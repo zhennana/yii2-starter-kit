@@ -201,7 +201,7 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                 ['label'=>Yii::t('backend', '签到管理'), 'url'=>['/campus/sign-in/index'], 'icon'=>'<i class=" fa  fa-file-text"></i>'
                                 ],
 
-                            ]   
+                            ]
                         ],
                        /*
                         [
@@ -260,7 +260,7 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                 ],
                                 ['label'=>Yii::t('backend', '班级管理'), 'url'=>['/campus/grade/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'
                                 ],
-                                ['label'=>Yii::t('backend', '学员管理'), 'url'=>['/campus/user-to-grade/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'
+                                ['label'=>Yii::t('backend', '班级人员管理'), 'url'=>['/campus/user-to-grade/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'
                                 ],
                                 ['label'=>Yii::t('backend', '学员档案管理'), 'url'=>['/campus/student-record/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'
                                 ],

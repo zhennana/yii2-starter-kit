@@ -23,7 +23,23 @@ use yii\behaviors\TimestampBehavior;
 abstract class StudentRecordValue extends \yii\db\ActiveRecord
 {
 
+    const STUDENT_VALUE_STATUS_OPEN  = 1;//正常
+    const STUDENT_VALUE_STATUS_CLOSE = 0;//关闭
 
+    public static function optsStatus(){
+        return [
+            self::STUDENT_VALUE_STATUS_OPEN  => '正常',
+            self::STUDENT_VALUE_STATUS_CLOSE => '关闭',
+        ];
+    }
+
+    public static function  getStatusValueLabel($value){
+        $label = self::optsStatus();
+        if(isset($label[$value])){
+            return $label[$value];
+        }
+        return $value;
+    }
 
     /**
      * @inheritdoc

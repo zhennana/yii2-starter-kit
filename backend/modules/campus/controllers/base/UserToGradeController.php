@@ -62,6 +62,7 @@ public $enableCsrfValidation = false;
 public function actionIndex()
 {
     $searchModel  = new UserToGradeSearch;
+    //var_dump($_GET);exit;
     $dataProvider = $searchModel->search($_GET);
 
     Tabs::clearLocalStorage();
