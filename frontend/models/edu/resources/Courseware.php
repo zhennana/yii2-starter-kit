@@ -68,24 +68,31 @@ class Courseware extends BaseCourseware
      * 首页流数据
      * @return [type] [description]
      */
-    public  function streamData(){
+    public function streamData()
+    {
         $params = [];
+        $data   = [];
+
         foreach ($this->category() as $key => $value) {
-            // var_dump($value->counts);exit;
             if(in_array($value->counts,[2,3,4])){
-               $model = self::find()
-                ->select(['courseware_id','title'])
-                ->where(['courseware_id'=>$this->prentCourseware(),'category_id'=>$value['category_id']])
-                ->limit($value->counts)->all();
-                $params[$key]['type'] = $value->counts;
-                $params[$key]['name'] = $value->coursewareCategory->name;
-                $params[$key]['target_url'] = '跳转' ;
-                $params[$key]['items']       = $model;
+                $model = self::find()->select([
+                    'courseware_id','title'
+                ])->where([
+                    'courseware_id' => $this->prentCourseware(),
+                    'category_id'   => $value['category_id']
+                ])->limit($value->counts)->all();
+
+                $params['type']       = $value->counts;
+                $params['name']       = $value->coursewareCategory->name;
+                $params['target_url'] = '跳转';
+                $params['items']      = $model;
+
+                $data[] = $params;
                 unset($model);
         }
         continue;
     }
-      return  $params ;
+      return $data;
     }
 
     /**
