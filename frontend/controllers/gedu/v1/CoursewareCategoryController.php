@@ -87,13 +87,8 @@ class CoursewareCategoryController extends \common\rest\Controller
     public function actionIndex()
     {
         $modelClass =  new $this->modelClass;
-        // $category = $modelClass::find()
-        //     ->andWhere(['status' => $modelClass::CATEGORY_STATUS_OPEN])
-        //    // ->asArray()
-        //     ->all();
-    return  $modelClass->categoryList();
+        return  $modelClass->categoryList();
 
-    exit;
     }
 
 
