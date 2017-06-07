@@ -295,13 +295,19 @@ class MyController extends \common\rest\Controller
             2 => '三河市物联网络技术研发有限公司',
             3 => '中国书法爱好者协会',
         ];
+        $img = [
+            1 => 'http://static.v1.wakooedu.com/o_1bhtk7tba15j71ls81jo9kl85gb9.png',
+            2 => 'http://static.v1.wakooedu.com/o_1bhtknjdehqdu42b831f9l164i9.png',
+            3 => 'http://static.v1.wakooedu.com/o_1bhtk6b0s1k1qu861u2g1knf1hv9.png',
+        ];
 
         for ($i=1; $i < 4; $i++) { 
-            $temp['honor_id']      = $i; 
+            $temp['honor_id']      = $i;
             $temp['owner_id']      = Yii::$app->user->identity->id;
             $temp['owner']         = Yii::$app->user->identity->username;
             $temp['honor_name']    = $title[$i];
             $temp['honor_detial']  = $detail[$i];
+            $temp['imgUrl']        = $img[$i];
             $temp['rewardsbureau'] = $rewardsbureau[$i];
             $temp['issue_date']    = time();
 
