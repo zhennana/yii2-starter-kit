@@ -38,7 +38,7 @@ class Courseware extends BaseCourseware
             parent::fields(),
             [
                 'target_url'=>function($model){
-                    return  \Yii::$app->request->hostInfo.Url::to(['edu/courseware/view','courseware_id'=>$model->courseware_id]);
+                    return  \Yii::$app->request->hostInfo.Url::to(['gedu/v1/courseware/view','courseware_id'=>$model->courseware_id]);
                 },
                 'imgUrl' => function($model){
                     if(isset($model->toFile[0]->fileStorageItem->url)&& isset($model->toFile[0]->fileStorageItem->file_name)){
@@ -79,13 +79,14 @@ class Courseware extends BaseCourseware
                     'courseware_id','title'
                 ])->where([
                     'courseware_id' => $this->prentCourseware(),
-                    'category_id'   => $value['category_id']
+                    'category_id'   => $value->category_id
                 ])->limit($value->counts)->all();
 
-                $params['type']       = $value->counts;
-                $params['name']       = $value->coursewareCategory->name;
-                $params['target_url'] = '跳转';
-                $params['items']      = $model;
+                $params['type']        = $value->counts;
+                $params['name']        = $value->coursewareCategory->name;
+                $params['category_id'] = $value->category_id;
+                $params['target_url']  = \Yii::$app->request->hostInfo.Url::to(['gedu/v1/courseware/list','category_id'=>$value->category_id]);
+                $params['items']       = $model;
 
                 $data[] = $params;
                 unset($model);
@@ -101,7 +102,7 @@ class Courseware extends BaseCourseware
     public function prentCourseware(){
         $model = CoursewareToCourseware::find()->select(['courseware_master_id'])->groupBY('courseware_master_id')->asArray()->all();
         $model = array_column($model, 'courseware_master_id');
-        //var_dump($model);exit;
+
         return $model;
     }
 
