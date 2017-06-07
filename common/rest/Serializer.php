@@ -136,6 +136,7 @@ class Serializer extends BaseSerializer
             $this->request = Yii::$app->getRequest();
         }
         if ($this->response === null) {
+            Yii::$app->response->headers->add('Access-Control-Allow-Origin', '*');
             $this->response = Yii::$app->getResponse();
         }
     }
