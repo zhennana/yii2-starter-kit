@@ -136,10 +136,6 @@ class Serializer extends BaseSerializer
             $this->request = Yii::$app->getRequest();
         }
         if ($this->response === null) {
-            Yii::$app->response->headers->add('Access-Control-Allow-Origin', 'http://localhost:8088');
-            Yii::$app->response->headers->add('Access-Control-Allow-Credentials', "true");
-                    header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept"); 
-            Yii::$app->response->headers->add('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
             $this->response = Yii::$app->getResponse();
         }
     }
