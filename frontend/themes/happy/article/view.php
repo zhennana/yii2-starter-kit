@@ -1,7 +1,7 @@
 <?php
 /* @var $this yii\web\View */
 /* @var $model common\models\Article */
-$this->title = ;
+$this->title = 'Unit 1 - Classroom Commands';
 ?>
 <div class="content">
     <article class="article-item">

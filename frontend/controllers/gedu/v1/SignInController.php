@@ -15,6 +15,7 @@ use yii\rest\OptionsAction;
 use frontend\models\edu\resources\LoginForm;
 use frontend\models\edu\resources\UserForm;
 use frontend\models\edu\resources\User;
+use frontend\models\edu\resources\UsersToUsers;
 
 use common\models\UserProfile;
 use common\models\UserToken;
@@ -164,6 +165,30 @@ class SignInController extends \common\components\ControllerFrontendApi
                     $attrUser['avatar'] = $fansMpUser->avatar;
                 }
             }
+
+            // 学校班级
+            // var_dump($model->user->userToGrade->school);exit;
+            if ($model->user->userToGrade) {
+                $attrUser['grade_name'] = $model->user->userToGrade->grade->grade_name;
+                $attrUser['school_title'] = $model->user->userToGrade->school->school_title;
+            }
+
+            // 家长关系
+            $parents = UsersToUsers::find()->where([
+                'user_right_id' => $model->user->id,
+                'status'        => UsersToUsers::UTOU_STATUS_OPEN,
+            ])->one();
+
+            if ($parents) {
+                $attrUser['type']    = UsersToUsers::UTOU_TYPE_PARENT;
+                $attrUser['level']   = '荣耀王者'.'的家长';
+                $attrUser['parents'] = UsersToUsers::getUserName($parents->user_left_id).'的家长';
+            }else{
+                $attrUser['type']    = UsersToUsers::UTOU_TYPE_STUDENT;
+                $attrUser['level']   = '荣耀王者';
+                $attrUser['parents'] = '';
+            }
+            
             return $attrUser;
         }else{
             Yii::$app->response->statusCode = 200;
