@@ -40,15 +40,24 @@ class Courseware extends BaseCourseware
                 'target_url'=>function($model){
                     return  \Yii::$app->request->hostInfo.Url::to(['gedu/v1/courseware/view','courseware_id'=>$model->courseware_id]);
                 },
-                'imgUrl' => function($model){
+                'fileUrl' => function($model){
                     if(isset($model->toFile[0]->fileStorageItem->url)&& isset($model->toFile[0]->fileStorageItem->file_name)){
                         return $model->toFile[0]->fileStorageItem->url.$model->toFile[0]->fileStorageItem->file_name;
                     }else{
                         return 'http://7xsm8j.com2.z0.glb.qiniucdn.com/yajolyajol_activity_banner_01.png?imageView2/1/w/200/h/100';
                     }
                 },
-                'type'   => function($model){
+                'filetype'   => function($model){
                     return isset($model->toFile[0]->fileStorageItem->type) ? $model->toFile[0]->fileStorageItem->type : 'image/jpeg';
+                },
+                'price' => function($model){
+                    return sprintf("%.2f",rand(0,100));
+                },
+                'original_price' => function($model){
+                    return sprintf("%.2f",rand(0,100)+10);
+                },
+                'price_mark' => function($model){
+                    return 'free/off/vip/none';
                 },
             ]
         );
