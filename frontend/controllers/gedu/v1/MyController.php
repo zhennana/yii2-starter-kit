@@ -72,7 +72,7 @@ class MyController extends \common\rest\Controller
     }
 
     /**
-     * @SWG\Get(path="/my/my-course",
+     * @SWG\Get(path="/my/course",
      *     tags={"700-My-我的页面接口"},
      *     summary="我的课程",
      *     description="返回我的课程列表",
@@ -85,19 +85,20 @@ class MyController extends \common\rest\Controller
      *
     **/
 
-    public function actionMyCourse()
+    public function actionCourse()
     {
         if(Yii::$app->user->isGuest){
             $this->serializer['errno']   = 422;
             $this->serializer['message'] = '请您先登录';
             return [];
         }
+        $data = [];
 
         return [];
     }
 
     /**
-     * @SWG\Get(path="/my/my-notice",
+     * @SWG\Get(path="/my/notice",
      *     tags={"700-My-我的页面接口"},
      *     summary="我的消息",
      *     description="返回我的消息列表",
@@ -110,7 +111,7 @@ class MyController extends \common\rest\Controller
      *
     **/
 
-    public function actionMyNotice()
+    public function actionNotice()
     {
         if(Yii::$app->user->isGuest){
             $this->serializer['errno']   = 422;
@@ -136,10 +137,10 @@ class MyController extends \common\rest\Controller
     }
 
     /**
-     * @SWG\Get(path="/my/my-score",
+     * @SWG\Get(path="/my/grade",
      *     tags={"700-My-我的页面接口"},
-     *     summary="我的成绩",
-     *     description="返回我的成绩列表",
+     *     summary="我的成绩-返回年级列表",
+     *     description="返回我的年级列表",
      *     produces={"application/json"},
      *     @SWG\Response(
      *         response = 200,
@@ -149,7 +150,7 @@ class MyController extends \common\rest\Controller
      *
     **/
 
-    public function actionMyScore()
+    public function actionGrade()
     {
         if(Yii::$app->user->isGuest){
             $this->serializer['errno']   = 422;
@@ -158,96 +159,32 @@ class MyController extends \common\rest\Controller
         }
 
         $data   = [];
-        $course = [];
         $temp   = [];
 
-        $course = [
-            [
-                'course_name' => '语文',
-                'midterm' => [
-                    'score' => 98,
-                    'files' => [
-                        [
-                            'file_id'  => 1,
-                            'file_url' => 'http://static.v1.wakooedu.com/o_1bd35c9jt1h3qcpr1via1lf62qve.png'
-                        ],
-                        [
-                            'file_id'  => 2,
-                            'file_url' => 'http://static.v1.wakooedu.com/o_1bd35cueh14i216941t4m2gr1e439.jpg'
-                        ],
-                        [
-                            'file_id'  => 3,
-                            'file_url' => 'http://static.v1.wakooedu.com/o_1bdaq9i2n1pqr1a3k9uu1vd3cric.jpg'
-                        ],
-                    ],
-                ],
-                'final_term' => [
-                    'score' => 95,
-                    'files' => [
-                        [
-                            'file_id'  => 1,
-                            'file_url' => 'http://static.v1.wakooedu.com/o_1bd35c9jt1h3qcpr1via1lf62qve.png'
-                        ],
-                        [
-                            'file_id'  => 2,
-                            'file_url' => 'http://static.v1.wakooedu.com/o_1bd35cueh14i216941t4m2gr1e439.jpg'
-                        ],
-                        [
-                            'file_id'  => 3,
-                            'file_url' => 'http://static.v1.wakooedu.com/o_1bdaq9i2n1pqr1a3k9uu1vd3cric.jpg'
-                        ],
-                    ],
-                ],
-            ],
-            [
-                'course_name' => '数学',
-                'midterm' => [
-                    'score' => 91,
-                    'files' => [
-                        [
-                            'file_id'  => 1,
-                            'file_url' => 'http://static.v1.wakooedu.com/o_1bd35c9jt1h3qcpr1via1lf62qve.png'
-                        ],
-                        [
-                            'file_id'  => 2,
-                            'file_url' => 'http://static.v1.wakooedu.com/o_1bd35cueh14i216941t4m2gr1e439.jpg'
-                        ],
-                        [
-                            'file_id'  => 3,
-                            'file_url' => 'http://static.v1.wakooedu.com/o_1bdaq9i2n1pqr1a3k9uu1vd3cric.jpg'
-                        ],
-                    ],
-                ],
-                'final_term' => [
-                    'score' => 96,
-                    'files' => [
-                        [
-                            'file_id'  => 1,
-                            'file_url' => 'http://static.v1.wakooedu.com/o_1bd35c9jt1h3qcpr1via1lf62qve.png'
-                        ],
-                        [
-                            'file_id'  => 2,
-                            'file_url' => 'http://static.v1.wakooedu.com/o_1bd35cueh14i216941t4m2gr1e439.jpg'
-                        ],
-                        [
-                            'file_id'  => 3,
-                            'file_url' => 'http://static.v1.wakooedu.com/o_1bdaq9i2n1pqr1a3k9uu1vd3cric.jpg'
-                        ],
-                    ],
-                ],
-            ],
+        $grade_name = [
+            1 => '燕郊在线商学院一年级',
+            2 => '飞翔的小鸟',
+            3 => '周思思老师班',
         ];
 
-        $temp = [
-            'grade_name'         => '燕郊在线商学院',
-            'owner_id'           => '马云 班主任',
-            'graduate'           => '0未毕业；1毕业',
-            'time_of_graduation' => '2000 毕业时间：xxxx年表示第几届',
-            'time_of_enrollment' => '1999 入学时间: xxxx年',
-            'courses'            => $course,
+        $owner_id = [
+            1 => '马云',
+            2 => '马化腾',
+            3 => '马卡洛夫',
         ];
 
-        for ($i=1; $i < 3; $i++) { 
+
+        for ($i=1; $i < 4; $i++) { 
+            $time = rand(1999,2018);
+            $temp = [
+                'grade_id'           => $i,
+                'grade_name'         => $grade_name[$i],
+                'owner_id'           => $owner_id[$i],
+                'graduate'           => rand(0,1),
+                'time_of_graduation' => $time,
+                'time_of_enrollment' => $time-3,
+                'target_url'         => Yii::$app->request->hostInfo.Url::to(['gedu/v1/my/score','grade_id' => $i]),
+            ];
             $data[] = $temp;
         }
 
@@ -255,7 +192,83 @@ class MyController extends \common\rest\Controller
     }
 
     /**
-     * @SWG\Get(path="/my/my-honor",
+     * @SWG\Get(path="/my/score",
+     *     tags={"700-My-我的页面接口"},
+     *     summary="我的成绩-返回成绩",
+     *     description="返回我的课程对应成绩",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "grade_id",
+     *        description = "年级/班级ID",
+     *        required = true,
+     *        type = "string",
+     *        default = "1",
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "无需填写，直接返回数据"
+     *     ),
+     * )
+     *
+    **/
+    public function actionScore($grade_id)
+    {
+        if(Yii::$app->user->isGuest){
+            $this->serializer['errno']   = 422;
+            $this->serializer['message'] = '请您先登录';
+            return [];
+        }
+
+        if (!$grade_id) {
+            $this->serializer['errno']   = 422;
+            $this->serializer['message'] = '缺少参数grade_id';
+            return [];
+        }
+
+        $data  = $temp   = [];
+        $files = $params = [];
+
+        $file_url = [
+            1 => 'http://static.v1.wakooedu.com/o_1bd35cueh14i216941t4m2gr1e439.jpg',
+            2 => 'http://static.v1.wakooedu.com/o_1bdaq9i2n1vdmu5g1ods1lrq15i6d.jpg',
+            3 => 'http://static.v1.wakooedu.com/o_1bdaq9i2n1pqr1a3k9uu1vd3cric.jpg',
+            4 => 'http://static.v1.wakooedu.com/o_1bdaq9i2n1g6lsd9oefp2mlceb.jpg',
+        ];
+
+        for ($i=1; $i < 5; $i++) { 
+            $params = [
+                'file_id'  => $i,
+                'file_url' => $file_url[$i]
+            ];
+            $files[] = $params;
+        }
+
+        $course_title = [
+            1 => '英语十六级',
+            2 => '语文小测验',
+            3 => '数学期末考试',
+            4 => '课堂平时成绩',
+            5 => '毕业考综合项目',
+        ];
+
+        for ($i=1; $i < 6; $i++) {
+            $temp = [
+                'course_id'    => $i,
+                'course_title' => $course_title[$i],
+                'full_mark'    => 100,
+                'score'        => rand(50,100),
+                'files'        => $files,
+            ];
+            $data[] = $temp;
+        }
+
+        return $data;
+    }
+
+
+    /**
+     * @SWG\Get(path="/my/honor",
      *     tags={"700-My-我的页面接口"},
      *     summary="我的荣誉",
      *     description="返回我的荣誉列表",
@@ -268,7 +281,7 @@ class MyController extends \common\rest\Controller
      *
     **/
 
-    public function actionMyHonor()
+    public function actionHonor()
     {
         if(Yii::$app->user->isGuest){
             $this->serializer['errno']   = 422;
