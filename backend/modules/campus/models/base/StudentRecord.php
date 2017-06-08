@@ -154,14 +154,14 @@ abstract class StudentRecord extends \yii\db\ActiveRecord
              * 获取签到后的学生
              *
              */
-            $user = SignIn::find()->where(['course_id' => $id,'status'=> SignIn::TYPE_STATUS_MORMAL ])->asArray()->all();
-            //var_dump($user);exit;
+          
+            $user = SignIn::find()->where(['course_id' => $id,'type_status'=> SignIn::TYPE_STATUS_MORMAL ])->asArray()->all();
+
             $users = [];
             foreach ($user as $key => $value) {
                 $users[$key]['user_id'] = $value['student_id'];
                 $users[$key]['username'] = SignIn::getUserName($value['student_id']);
             }
-            //var_dump($users);exit;
             return ArrayHelper::map($users,'user_id','username');
         }
         return false;

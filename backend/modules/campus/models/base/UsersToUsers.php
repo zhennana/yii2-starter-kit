@@ -3,7 +3,6 @@
 // You should not change it manually as it will be overwritten on next build
 
 namespace backend\modules\campus\models\base;
-use backend\modules\campus\models\UserToGrade;
 use backend\modules\campus\models\UserToSchool;
 use Yii;
 
@@ -19,7 +18,13 @@ use Yii;
  */
 abstract class UsersToUsers extends \yii\db\ActiveRecord
 {
+    CONST UTOU_STATUS_DELETE = 10;  // 标记关闭
+    CONST UTOU_STATUS_OPEN   = 20;  // 有效
 
+    CONST UTOU_TYPE_STUDENT   = 100;    // 学生
+    CONST UTOU_TYPE_PARENT  = 200;    // 家长
+    CONST UTOU_TYPE_TEACHER   = 500;    // 教师
+    CONST UTOU_TYPE_LOGISTICS = 600;    // 后勤
 
 
     /**
@@ -83,11 +88,13 @@ abstract class UsersToUsers extends \yii\db\ActiveRecord
      * @return [type] [description]
      */
     public function getUserToGrade(){
-        return $this->hasOne(UserToGrade::className(),['user_id'=>'user_left_id']);
+        return $this->hasOne(backend\modules\campus\models\UserToGrade::className(),['user_id'=>'user_left_id']);
     }
+
     /**
      * 获取所在的班级
      */
+    /*
     public function getGrade(){
         if($this->userToGrade){
             return $this->userToGrade->grade->grade_name . $this->userToGrade->school->school_title;
@@ -95,6 +102,7 @@ abstract class UsersToUsers extends \yii\db\ActiveRecord
             return $this->userToGrade->school->school_title;
         }
     }
+    */
 
     public static function getUserName($id)
     {

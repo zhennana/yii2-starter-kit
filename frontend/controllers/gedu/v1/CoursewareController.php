@@ -90,13 +90,14 @@ class CoursewareController extends \common\rest\Controller
     **/
     public function actionList($category_id)
     {
-        $data = [];
-        $modelClass = new  $this->modelClass;
+        $modelClass = new $this->modelClass;
+
         $model = $modelClass::find()
             ->where(['status' => $modelClass::COURSEWARE_STATUS_VALID])
             ->andWhere(['category_id' => $category_id])
             ->andWhere(['courseware_id' => $modelClass->prentCourseware()])
             ->all();
+
         return $model;
     }
 
@@ -123,23 +124,24 @@ class CoursewareController extends \common\rest\Controller
     public function actionView($courseware_id)
     {
         $data = [];
-        $modelClass =   new $this->modelClass;
+        $modelClass = new $this->modelClass;
 
-        $modelClass = $modelClass::find()
+        $model = $modelClass::find()
             ->where(['courseware_id'=>$courseware_id])
             ->andWhere(['status'=>$modelClass::COURSEWARE_STATUS_VALID])
             ->one();
-        if($modelClass){
-            $data = $modelClass->toArray();
-            foreach ($modelClass->coursewareToCourseware as $key => $value) {
-                        if(isset($value->courseware)){
-                          
-                            //var_dump( $value->courseware->fields());exit;
-                            $data['items'][$key] = $value->courseware;
-                        }
+                    // var_dump($model);exit;
+        if($model){
+            $data = $model->toArray();
+            foreach ($model->coursewareToCourseware as $key => $value) {
+                if(isset($value->courseware)){
+                  
+                    $data['items'][$key] = $value->courseware;
+                }
             }
-    }
-       return  $data;
+        }
+
+        return  $data;
       //return $data;
        // ->with(['coursewareToCourseware'=>function($model){
        //     return $model->with(['courseware']);
@@ -170,6 +172,123 @@ class CoursewareController extends \common\rest\Controller
 */
        return $model;
 
+    }
+
+
+    /**
+     * @SWG\Get(path="/courseware/hot-words",
+     *     tags={"300-Courseware-课件接口"},
+     *     summary="热词",
+     *     description="返回课件搜索词",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "limit",
+     *        description = "个数",
+     *        required = false,
+     *        default = 20,
+     *        type = "string"
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "success"
+     *     ),
+     * )
+     *
+     */
+    public function actionHotWords($limit = 20)
+    {
+        $temp = [];
+        $data = [];
+
+        $keywords = [
+            'PHP','Android','牛津','英语','小学','计算机','IT','牛津英语','框架','后台开发','移动端','IOS','安卓','手机','工程师','出国','留学','哈佛','英语四级','php',
+        ];
+
+        if ($limit < 1) {
+            $limit = 1;
+        }
+        if ($limit > 20) {
+            $limit = 20;
+        }
+
+        for ($i=0; $i < $limit; $i++) {
+            $temp['keywords']     = $keywords[$i];
+            $temp['trend_counts'] = rand(1000,5000);                         // 搜索次数
+            $temp['updated_at']   = time()-rand(100000,500000);              // 更新时间
+            $data[] = $temp;
+        }
+
+        /*
+        return SearchHotKeyword::find()->select([
+            'keywords',
+            'trend_counts',
+            'sku_count',
+        ])
+        ->orderBy('trend_counts DESC,sku_count DESC,updated_at DESC')
+        ->limit($limit)
+        ->all();
+        */
+       return $data;
+    }
+
+    /**
+     * @SWG\Get(path="/courseware/search",
+     *     tags={"300-Courseware-课件接口"},
+     *     summary="搜索主课件",
+     *     description="返回主课件列表",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "keyword",
+     *        description = "关键词",
+     *        required = true,
+     *        default = "1",
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "limit",
+     *        description = "个数",
+     *        required = false,
+     *        type = "string",
+     *        default = "20",
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "schema",
+     *        description = "模式",
+     *        required = false,
+     *        type = "string",
+     *        default = "mixture",
+     *        enum = {"left", "mixture"}
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "成功，返回主课件列表"
+     *     ),
+     * )
+     *
+     */
+    public function actionSearch($keyword = '', $schema = 'left', $limit = 20)
+    {
+        $model = new $this->modelClass;
+        return $model->searchCourseware($keyword);
+
+        /*
+        $modelClass = $this->modelClass;
+        $model = new $modelClass;
+        $model = $modelClass::find()->where([
+            'status'        => $modelClass::COURSEWARE_STATUS_VALID,
+            'courseware_id' => $model->prentCourseware()
+        ])->andWhere([
+            'or',
+            ['like','title',$keyword],
+            ['like','title',$body],
+        ])->asArray()->all();
+
+        return $model;
+        */
     }
 
 

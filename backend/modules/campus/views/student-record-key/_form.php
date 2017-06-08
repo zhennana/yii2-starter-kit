@@ -4,7 +4,11 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use \dmstr\bootstrap\Tabs;
 use yii\helpers\StringHelper;
+use kartik\select2\Select2;
+use yii\helpers\Url;
+use backend\modules\campus\models\StudentRecordKey;
 
+$requestUpdateUrl = Url::to(['student-record-key/ajax-student-key']);
 /**
 * @var yii\web\View $this
 * @var backend\modules\campus\models\StudentRecordKey $model
@@ -18,6 +22,7 @@ use yii\helpers\StringHelper;
     <?php $form = ActiveForm::begin([
     'id' => 'StudentRecordKey',
     'layout' => 'horizontal',
+    'action' => [$requestUpdateUrl],
     'enableClientValidation' => true,
     'errorSummaryCssClass' => 'error-summary alert alert-error'
     ]
@@ -28,35 +33,57 @@ use yii\helpers\StringHelper;
         <?php $this->beginBlock('main'); ?>
 
         <p>
-            
+<!-- attribute title -->
+            <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
-<!-- attribute school_id -->
-			<?= $form->field($model, 'school_id')->textInput() ?>
+            <!-- attribute school_id -->
+            <?= $form->field($model, 'school_id')->widget(Select2::className(),
+                [
+                    'data'=>$model->getlist(),
+                    'options'=>['placeholder'=>'请选择'],
+                    'pluginOptions'=>[
+                        'allowClear'=> true,
+                    ],
+                    'pluginEvents'=>[
+                        "change" => "function() { 
+                             handleChange(1,this.value,'#studentrecordkey-grade_id');
+                        }",
+                    ]
+                ])->label('学校'); ?>
 
-<!-- attribute grade_id -->
-			<?= $form->field($model, 'grade_id')->textInput() ?>
-
+            <?= $form->field($model, 'grade_id')->widget(Select2::className(),
+                [
+                    'data'=>$model->getlist(1,$model->school_id),
+                    'options'=>['placeholder'=>'请选择'],
+                    'pluginOptions'=>[
+                        'allowClear'=> true,
+                    ],
+                    'pluginEvents'=>[
+                    ]
+                ])->label('班级'); ?> 
 <!-- attribute status -->
-			<?= $form->field($model, 'status')->textInput() ?>
+			<?= $form->field($model, 'status')->widget(
+                Select2::className(),
+                [
+                'data'=>StudentRecordKey::optsStatus(),
+                ])->label('状态'); ?>
 
 <!-- attribute sort -->
-			<?= $form->field($model, 'sort')->textInput() ?>
+			<?= $form->field($model, 'sort')->textInput()->label('排序') ?>
 
-<!-- attribute title -->
-			<?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
         </p>
         <?php $this->endBlock(); ?>
-        
+
         <?=
     Tabs::widget(
                  [
                     'encodeLabels' => false,
                     'items' => [ 
                         [
-    'label'   => Yii::t('backend', 'StudentRecordKey'),
-    'content' => $this->blocks['main'],
-    'active'  => true,
-],
+                        'label'   => Yii::t('backend', '创建档案标题'),
+                        'content' => $this->blocks['main'],
+                        'active'  => true,
+                        ],
                     ]
                  ]
     );
@@ -81,3 +108,49 @@ use yii\helpers\StringHelper;
 
 </div>
 
+<script>
+    function handleChange(type_id,id,form){
+           //console.log('type_id:'+type_id);
+            //console.log('id:'+id);
+        $.ajax({
+            //index.php?r=campus/student-record/ajax-form&type_id="+type_id+"&id="+id
+            "url":"<?php echo Url::to(['student-record-key/ajax-form']) ?>",
+            "data":{type_id:type_id,id:id},
+            'type':"GET",
+            'success':function(data){
+                 $(form).html(data);
+               //console.log(data);
+            }
+        })
+    }
+
+    function refresh(){
+        parent.location.reload();
+    }
+$('form#StudentRecordKey').on('beforeSubmit', function(e) {
+   var form = $(this);
+   //console.log(form);
+        $.ajax({
+            url    : '<?php echo  $requestUpdateUrl ?>',
+            type   : 'POST',
+            data   : form.serialize(),
+            success: function (Data)
+            {
+                 if(Data == 200){
+                     //console.log(form);
+                    alert('保存成功');
+                    refresh();
+                }else{
+                    //console.log(123);
+                    alert('保存失败');
+                }
+            },
+            error  : function ()
+            {
+               alert('网络错误');
+            }
+            });
+}).on('submit', function(e){
+    e.preventDefault();
+});
+</script>

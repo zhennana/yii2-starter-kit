@@ -15,6 +15,7 @@ use yii\rest\OptionsAction;
 use frontend\models\edu\resources\LoginForm;
 use frontend\models\edu\resources\UserForm;
 use frontend\models\edu\resources\User;
+use frontend\models\edu\resources\UsersToUsers;
 
 use common\models\UserProfile;
 use common\models\UserToken;
@@ -164,6 +165,30 @@ class SignInController extends \common\components\ControllerFrontendApi
                     $attrUser['avatar'] = $fansMpUser->avatar;
                 }
             }
+
+            // 学校班级
+            // var_dump($model->user->userToGrade->school);exit;
+            if ($model->user->userToGrade) {
+                $attrUser['grade_name'] = $model->user->userToGrade->grade->grade_name;
+                $attrUser['school_title'] = $model->user->userToGrade->school->school_title;
+            }
+
+            // 家长关系
+            $parents = UsersToUsers::find()->where([
+                'user_right_id' => $model->user->id,
+                'status'        => UsersToUsers::UTOU_STATUS_OPEN,
+            ])->one();
+
+            if ($parents) {
+                $attrUser['type']    = UsersToUsers::UTOU_TYPE_PARENT;
+                $attrUser['level']   = '荣耀王者'.'的家长';
+                $attrUser['parents'] = UsersToUsers::getUserName($parents->user_left_id).'的家长';
+            }else{
+                $attrUser['type']    = UsersToUsers::UTOU_TYPE_STUDENT;
+                $attrUser['level']   = '荣耀王者';
+                $attrUser['parents'] = '';
+            }
+            
             return $attrUser;
         }else{
             Yii::$app->response->statusCode = 200;
@@ -244,14 +269,14 @@ class SignInController extends \common\components\ControllerFrontendApi
      *     @SWG\Parameter(
      *        in = "query",
      *        name = "type",
-     *        description = "发送验证码类型：signup注册；repasswd重置密码。默认signup",
+     *        description = "验证码类型：signup注册；repasswd重置密码。默认signup",
      *        required = true,
      *        type = "string",
      *        enum = {"signup", "repasswd"}
      *     ),
      *     @SWG\Response(
      *         response = 200,
-     *         description = "验证码发送成功"
+     *         description = "发送成功，返回验证码和手机号",
      *     )
      * )
      *
@@ -264,6 +289,7 @@ class SignInController extends \common\components\ControllerFrontendApi
      */
     public function actionSendSms($phone_number, $type='signup')
     {
+        // var_dump($type);exit;
         \Yii::$app->language = 'zh-CN';
 
         if (!$phone_number) {
@@ -272,24 +298,42 @@ class SignInController extends \common\components\ControllerFrontendApi
             return $this->serializer['message'];
         }
 
-        $user = User::find()->where(['phone_number'=>$phone_number])->one();
+        $user = User::find()->where([
+            'phone_number' => $phone_number,
+        ])->one();
         $type = ($type == 'signup') ? UserToken::TYPE_PHONE_SIGNUP : UserToken::TYPE_PHONE_REPASSWD;
-
+        
         if (!$user) {
-            $user = new User;
-            $user->phone_number = $phone_number;
-            $user->status       = User::STATUS_NOT_ACTIVE;
-            $user->setPassword(UserToken::randomCode(6));
-            if(!$user->save()) {
+            if ($type == UserToken::TYPE_PHONE_SIGNUP) {
+                // 创建未激活用户
+                $user = new User;
+                $user->phone_number = $phone_number;
+                $user->status       = User::STATUS_NOT_ACTIVE;
+                $user->setPassword(UserToken::randomCode(6));
+                if(!$user->save()) {
+                    $this->serializer['errno']   = 1;
+                    $this->serializer['message'] = $user->getErrors();
+                    return $this->serializer['message'];
+                }
+                $user->afterSignup();
+            }else{
+                // 用户不存在
                 $this->serializer['errno']   = 1;
-                $this->serializer['message'] = $user->getErrors();
+                $this->serializer['message'] = '该手机号码还未注册';
                 return $this->serializer['message'];
             }
-            $user->afterSignup();
         }else{
-            $this->serializer['errno']   = 1;
-            $this->serializer['message'] = '用户已存在';
-            return $this->serializer['message'];
+            if ($user->status == User::STATUS_NOT_ACTIVE && $type == UserToken::TYPE_PHONE_REPASSWD) {
+                // 用户账户未激活
+                $this->serializer['errno']   = 1;
+                $this->serializer['message'] = '该手机号码还未注册';
+                return $this->serializer['message'];
+            }elseif($user->status == User::STATUS_ACTIVE && $type == UserToken::TYPE_PHONE_SIGNUP){
+                // 用户已存在
+                $this->serializer['errno']   = 1;
+                $this->serializer['message'] = '该手机号码已经注册过了';
+                return $this->serializer['message'];
+            }
         }
 
         $token = UserToken::find()->where([
