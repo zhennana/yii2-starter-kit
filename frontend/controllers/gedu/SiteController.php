@@ -31,6 +31,7 @@ class SiteController extends Controller
     
     public function actionIndex()
     {         
+        $data = [];
         $data['all']=Article::find()->where(['status'=>Article::STATUS_PUBLISHED])->orderby(['published_at'=>SORT_DESC])->asArray()->all();
        // echo'<pre>';var_dump($data['all']);exit;
         //取数组的第一个值
@@ -70,7 +71,17 @@ class SiteController extends Controller
     *教师风采
     */
     public function actionTeacher(){
-        return $this->render("teacher");
+        $data['teacher']['all']=Page::find()->where(['slug'=>'jiao-shi-jian-jie'])->asArray()->one();
+        //小学老师
+        $data['teacher']['primary']=Page::find()->where(['slug'=>'xiao-xue-lao-shi'])->asArray()->one();
+        //中学老师
+        $data['teacher']['middle']=Page::find()->where(['slug'=>'zhong-xue-lao-shi'])->asArray()->one();
+        //国际部老师
+        $data['teacher']['internation']=Page::find()->where(['slug'=>'guo-ji-lao-shi'])->asArray()->one();
+        //特长部老师
+        $data['teacher']['speciality']=Page::find()->where(['slug'=>'te-zhang-lao-shi'])->asArray()->one();
+
+        return $this->render("teacher",['data'=>$data]);
     }
      /**
     *校园风光
