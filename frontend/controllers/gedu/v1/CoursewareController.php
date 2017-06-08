@@ -275,8 +275,9 @@ class CoursewareController extends \common\rest\Controller
         if (!$keyword) {
             return [];
         }
+        
         $model = new $this->modelClass;
-        return $model->searchCourseware($keyword);
+        return $model->searchCourseware(trim($keyword));
 
         /*
         $modelClass = $this->modelClass;
