@@ -107,12 +107,19 @@ public function behaviors()
     * @return [type] [description]
     */
    public function course($school_id,$grade_id){
-      $start_time = time()-60*15;
-      $end_time   = time()+60*15;
+      if(isset(Yii::$app->user->identity->id)){
+          $user_id = Yii::$app->user->identity->id;
+      }else{
+          return [];
+      }
+      $time = time();
+      $start_time = $time-60*60;
+      $end_time   = $time+60*60*2;
       return self::find()->select(['course_id','title'])
       ->andwhere([
-          'school_id'=>$school_id,'grade_id'=>$grade_id,
-          'status'   => self::COURSE_STATUS_OPEN
+          'school_id'   => $school_id,'grade_id'=>$grade_id,
+          'teacher_id'  => $user_id,
+          'status'      => self::COURSE_STATUS_OPEN
         ])
       ->orderBy(['start_time'=> SORT_DESC])
       //->asArray()

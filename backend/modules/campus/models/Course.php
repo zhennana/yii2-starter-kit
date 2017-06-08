@@ -7,6 +7,7 @@ use \backend\modules\campus\models\base\Course as BaseCourse;
 use yii\helpers\ArrayHelper;
 use backend\modules\campus\models\School;
 use backend\modules\campus\models\Grade;
+use backend\modules\campus\models\UserToGrade;
 
 /**
  * This is the model class for table "course".
@@ -39,6 +40,20 @@ public function behaviors()
             $grade = Grade::find()->where(['status'=>Grade::GRADE_STATUS_OPEN, 'school_id'=>$id])->asArray()->all();
             //var_dump($grade);exit;
             return ArrayHelper::map($grade,'grade_id','grade_name');
+        }
+        if($type_id == 2){
+            $UserToGrade = UserToGrade::find()
+                      ->where([
+                        'grade_id'=>$id,
+                        'grade_user_type'=>20
+                        ])
+                      ->with('user')
+                      ->all();
+          $data = [];
+          foreach ($UserToGrade as $key => $value) {
+                $data[$value['user_id']] = $value['user']['username'];
+          }
+          return $data;
         }
         $school = School::find()->where(['status'=>School::SCHOOL_STATUS_OPEN])->asArray()->all();
         return ArrayHelper::map($school,'school_id','school_title');
