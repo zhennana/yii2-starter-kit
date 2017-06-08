@@ -242,7 +242,7 @@
 	position:relative;
 }
 .txt {
-	  padding:6em 1.4em;
+	  padding:6.1em 1.4em;
 	  text-align: center;
 	}
 .txt a{
@@ -417,6 +417,20 @@
   .box1:hover .icon li:last-child a{
     transition-delay: 0.8s;
   }
+  .geu-content .btn-line{
+  	margin-top: 10px;
+  }
+  .geu-content .apply{
+  	height: 20px;
+  	background: #723c8e;
+  }
+  .geu-content .apply a{
+  	color: white;
+  	margin-left: 5px;
+  }
+
+
+ .row-box .headcolor{color: black;}
   @media only screen and (max-width:990px){
     .box{ margin-bottom: 30px; }
   }
@@ -437,7 +451,7 @@
 @media (max-width: 768px){
 .top-logo,.top-tel{display: none;}
 .ban-but-L,.ban-but-R{height: 56%; width: 29%;}
-.top-nov .navbar-default .navbar-nav>li>a{margin-left: -20%;}
+
 .top-nov .dropdown-menu>li>a{margin-left: -15%;}
 }
 @media (min-width: 768px){
