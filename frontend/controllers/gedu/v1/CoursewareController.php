@@ -90,13 +90,14 @@ class CoursewareController extends \common\rest\Controller
     **/
     public function actionList($category_id)
     {
-        $data = [];
-        $modelClass = new  $this->modelClass;
+        $modelClass = new $this->modelClass;
+
         $model = $modelClass::find()
             ->where(['status' => $modelClass::COURSEWARE_STATUS_VALID])
             ->andWhere(['category_id' => $category_id])
             ->andWhere(['courseware_id' => $modelClass->prentCourseware()])
             ->all();
+
         return $model;
     }
 
@@ -123,23 +124,24 @@ class CoursewareController extends \common\rest\Controller
     public function actionView($courseware_id)
     {
         $data = [];
-        $modelClass =   new $this->modelClass;
+        $modelClass = new $this->modelClass;
 
-        $modelClass = $modelClass::find()
+        $model = $modelClass::find()
             ->where(['courseware_id'=>$courseware_id])
             ->andWhere(['status'=>$modelClass::COURSEWARE_STATUS_VALID])
             ->one();
-        if($modelClass){
-            $data = $modelClass->toArray();
-            foreach ($modelClass->coursewareToCourseware as $key => $value) {
-                        if(isset($value->courseware)){
-                          
-                            //var_dump( $value->courseware->fields());exit;
-                            $data['items'][$key] = $value->courseware;
-                        }
+                    // var_dump($model);exit;
+        if($model){
+            $data = $model->toArray();
+            foreach ($model->coursewareToCourseware as $key => $value) {
+                if(isset($value->courseware)){
+                  
+                    $data['items'][$key] = $value->courseware;
+                }
             }
-    }
-       return  $data;
+        }
+
+        return  $data;
       //return $data;
        // ->with(['coursewareToCourseware'=>function($model){
        //     return $model->with(['courseware']);
