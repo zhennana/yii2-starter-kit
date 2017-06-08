@@ -291,6 +291,70 @@ class CoursewareController extends \common\rest\Controller
         */
     }
 
+    /**
+     * @SWG\Get(path="/courseware/video-record",
+     *     tags={"300-Courseware-课件接口"},
+     *     summary="视频播放记录[待开发]",
+     *     description="记录播放时间、获取播放时间",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "courseware_id",
+     *        description = "课件ID",
+     *        required = false,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "file_hash",
+     *        description = "视频hash值",
+     *        required = false,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "schema",
+     *        description = "模式,10设置、20获取",
+     *        required = true,
+     *        type = "string",
+     *        default = "10",
+     *        enum = {"10", "20"}
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "record",
+     *        description = "时间记录，设置模式必填",
+     *        required = false,
+     *        type = "string",
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "成功返回相关信息"
+     *     ),
+     * )
+     *
+     */
+    public function actionVideoRecord($courseware_id = '', $file_hash = '', $schema = 10)
+    {
+        if(Yii::$app->user->isGuest){
+            $this->serializer['errno']   = 422;
+            $this->serializer['message'] = '请您先登录';
+            return [];
+        }
+
+        $data = [];
+
+        // 占位，待开发
+        $data = [
+            'courseware_id' => $courseware_id,
+            'user_id'       => Yii::$app->user->identity->id,
+            'file_hash'     => $file_hash,
+            'schema'        => $schema,
+        ];
+
+        return $data;
+    }
+
 
 
 }

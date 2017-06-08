@@ -50,6 +50,9 @@ class Courseware extends BaseCourseware
                 'filetype'   => function($model){
                     return isset($model->toFile[0]->fileStorageItem->type) ? $model->toFile[0]->fileStorageItem->type : 'image/jpeg';
                 },
+                'video_record' => function($model){
+                    return rand(0,60).':'.rand(0,60);
+                },
                 'price' => function($model){
                     return sprintf("%.2f",rand(0,100));
                 },
@@ -58,6 +61,12 @@ class Courseware extends BaseCourseware
                 },
                 'price_mark' => function($model){
                     return 'free/off/vip/none';
+                },
+                'favorite' => function($model){
+                    return rand(0,1);
+                },
+                'purchased' => function($model){
+                    return rand(0,1);
                 },
             ]
         );
