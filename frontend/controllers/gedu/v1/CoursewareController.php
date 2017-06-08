@@ -242,7 +242,7 @@ class CoursewareController extends \common\rest\Controller
      *        in = "query",
      *        name = "keyword",
      *        description = "关键词",
-     *        required = true,
+     *        required = false,
      *        default = "1",
      *        type = "string"
      *     ),
@@ -272,8 +272,12 @@ class CoursewareController extends \common\rest\Controller
      */
     public function actionSearch($keyword = '', $schema = 'left', $limit = 20)
     {
+        if (!$keyword) {
+            return [];
+        }
+        
         $model = new $this->modelClass;
-        return $model->searchCourseware($keyword);
+        return $model->searchCourseware(trim($keyword));
 
         /*
         $modelClass = $this->modelClass;
