@@ -217,7 +217,7 @@ class ShareStreamController extends \common\rest\Controller
      *        description = "图片key",
      *        required = true,
      *        default = "",
-     *        type = "integer",
+     *        type = "string",
      *     ),
      *  @SWG\Response(
      *         response = 200,
@@ -230,7 +230,6 @@ class ShareStreamController extends \common\rest\Controller
         \Yii::$app->params['qiniu']['wakooedu']['access_key'], 
         \Yii::$app->params['qiniu']['wakooedu']['secret_key']
       );
-      $_POST['key'] = 2;
       $bucketMgr = new BucketManager($auth);
       $bucket    = \Yii::$app->params['qiniu']['wakooedu']['bucket'];
       $err       = $bucketMgr->delete($bucket, $_POST['key']);
