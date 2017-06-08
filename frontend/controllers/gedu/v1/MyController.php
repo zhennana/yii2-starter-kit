@@ -74,7 +74,7 @@ class MyController extends \common\rest\Controller
     /**
      * @SWG\Get(path="/my/course",
      *     tags={"700-My-我的页面接口"},
-     *     summary="我的课程",
+     *     summary="我的课程[静态数据]",
      *     description="返回我的课程列表",
      *     produces={"application/json"},
      *     @SWG\Response(
@@ -92,9 +92,20 @@ class MyController extends \common\rest\Controller
             $this->serializer['message'] = '请您先登录';
             return [];
         }
-        $data = [];
 
-        return [];
+        $model = [];
+        $modelClass = new Courseware;
+
+        // 需要用user_id查询已购买/已收藏/已上完的课程
+        $model = $modelClass::find()
+            // 状态失效(下架)的课程仅展示
+            // ->where(['status' => $modelClass::COURSEWARE_STATUS_VALID])
+            ->andWhere(['category_id' => 14])
+            ->andWhere(['courseware_id' => $modelClass->prentCourseware()])
+            ->all();
+
+        return $model;
+
     }
 
     /**
