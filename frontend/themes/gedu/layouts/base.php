@@ -91,7 +91,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                     ],
                     ['label' => Yii::t('frontend', '产品展示'), 'url' => ['/page/view', 'slug'=>'ke-cheng-ti-xi']],
                     ['label' => Yii::t('frontend', '招贤纳士'), 'url' => ['/page/view', 'slug'=>'zhao-pin']],
-                    ['label' => Yii::t('frontend', '在线报名'), 'url' => ['/page/view', 'slug'=>'faq']],
+                    ['label' => Yii::t('frontend', '在线报名'), 'url' => ['/site/apply-to-play']],
                     ['label' => Yii::t('frontend', '联系我们'), 'url' => ['/site/contact']],
                 ]
             ]); ?>
@@ -203,7 +203,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
     if(boxwidth < 768){
         $('.top_logo').remove();
         $('.navbar-brand').show();
-        var img = '<img class="img-responsive" src="http://static.v1.wakooedu.com/top_logo.png?imageView2/3/w/120/h/100" alt="瓦酷机器人">'
+        var img = '<img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/top-logo.png" alt="光大学校">'
         $('.navbar-brand').text('');
         $('.navbar-brand').append(img);
         $('.navbar-brand').addClass('col-xs-4');
@@ -211,7 +211,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
     if(navigator.userAgent.match(/mobile/i)) {
         $('.top_logo').remove();
         $('.navbar-brand').show();
-        var img = '<img class="img-responsive" src="http://static.v1.wakooedu.com/top_logo.png?imageView2/3/w/120/h/100" alt="瓦酷机器人">'
+        var img = '<img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/top-logo.png" alt="光大学校">'
         $('.navbar-brand').text('');
         $('.navbar-brand').append(img);
         $('.navbar-brand').addClass('col-xs-4');
