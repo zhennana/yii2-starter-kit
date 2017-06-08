@@ -304,17 +304,17 @@ class ConfigController extends \common\rest\Controller
         //var_dump($data);exit();
         for ($i=1; $i < 3 ; $i++) {
             if($i%2==0){
-                $data[$i]['courseware_id']      = ''.$i;
-                $data[$i]['type']    = 'image';
-                $data[$i]['title'] = $title[$i];
-                $data[$i]['imgUrl']  = $img[$i];
-                $data[$i]['target_url']  = Yii::$app->request->hostInfo.Url::to(['api/courseware/view','id'=>1]);
+                $data[$i]['banner_id']  = ''.$i;
+                $data[$i]['title']      = $title[$i];
+                $data[$i]['imgUrl']     = $img[$i];
+                $data[$i]['type']       = 'URL';
+                $data[$i]['target_url'] = 'http://www.yajol.com/';
         }else{
-                $data[$i]['courseware_id']      = ''.$i;
-                $data[$i]['type']    = 'APP';
-                $data[$i]['title'] = $title[$i];
-                $data[$i]['imgUrl']  = $img[$i];
-                $data[$i]['target_url']  = Yii::$app->request->hostInfo.Url::to(['api/courseware/view','id'=>1]);
+                $data[$i]['banner_id']  = ''.$i;
+                $data[$i]['title']      = $title[$i];
+                $data[$i]['imgUrl']     = $img[$i];
+                $data[$i]['type']       = 'APP';
+                $data[$i]['target_url'] = Yii::$app->request->hostInfo.Url::to(['gedu/v1/courseware/view','id'=>1]);
         }
     }
         sort($data);
