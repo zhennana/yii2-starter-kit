@@ -5,6 +5,7 @@ use Yii;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use common\models\Article;
+use common\models\Page;
 use common\models\ArticleAttachment;
 use frontend\models\search\ArticleSearch;
 use frontend\models\Contact;
@@ -30,22 +31,23 @@ class SiteController extends Controller
     
     public function actionIndex()
     {         
-        $data['all']=Article::find()->where(['status'=>Article::STATUS_PUBLISHED])->orderby('created_at desc')->asArray()->all();
+        $data['all']=Article::find()->where(['status'=>Article::STATUS_PUBLISHED])->orderby(['published_at'=>SORT_DESC])->asArray()->all();
        // echo'<pre>';var_dump($data['all']);exit;
         //取数组的第一个值
         $data['one']=current($data['all']);
         //从第二个元素开始
         $data['other']=array_slice($data['all'], 1);
-        
-        /*
-        $searchModel= new ArticleSearch;
-        $dataProvider=$searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider->sort=[
-            'defaultOrder'=>['created_at'=>SORT_DESC]
-        ];
-        */
+        unset($data['all']);
+        $data['teacher']['all']=Page::find()->where(['slug'=>'jiao-shi-jian-jie'])->asArray()->one();
+        //小学老师
+        $data['teacher']['primary']=Page::find()->where(['slug'=>'xiao-xue-lao-shi'])->asArray()->one();
+        //中学老师
+        $data['teacher']['middle']=Page::find()->where(['slug'=>'zhong-xue-lao-shi'])->asArray()->one();
+        //国际部老师
+        $data['teacher']['internation']=Page::find()->where(['slug'=>'guo-ji-lao-shi'])->asArray()->one();
+        //特长部老师
+        $data['teacher']['speciality']=Page::find()->where(['slug'=>'te-zhang-lao-shi'])->asArray()->one();
         return $this->render('index',[
-            //'dataProvider'=>$dataProvider,
             'data'=>$data,
             ]);
     }
