@@ -38,7 +38,7 @@ class SiteController extends Controller
         $data['one']=current($data['all']);
         //从第二个元素开始
         $data['other']=array_slice($data['all'], 1);
-        unset($data['all']);
+        
         $data['teacher']['all']=Page::find()->where(['slug'=>'jiao-shi-jian-jie'])->asArray()->one();
         //小学老师
         $data['teacher']['primary']=Page::find()->where(['slug'=>'xiao-xue-lao-shi'])->asArray()->one();

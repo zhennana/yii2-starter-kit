@@ -26,13 +26,13 @@
             <section class="sidebar">
               <ul class="sidebar-menu tree" data-widget="tree">
                 <li class="treeview">
-                  <a href="#">
+                  
                     <i class="fa fa-pie-chart"></i>
-                    <span>关于我们</span>
+                    <span><?php echo Html::a('关于我们',['page/view','slug'=>'guan-yu-guang-da'])?></span>
                     <span class="pull-right-container">
                       <i class="fa fa-angle-left pull-right"></i>
                     </span>
-                  </a>
+                 
                 </li>
                 <li class="treeview">
                   <a href="#">
@@ -42,7 +42,7 @@
                     </span>
                   </a>
                   <ul class="treeview-menu" style="display: none;">
-                    <li><a href=""><i class="fa fa-circle-o"></i> 周一</a></li>
+                    <li><a href=""><i class="fa fa-circle-o"></i> <?php echo Html::a('周一',['page/view','slug'=>'guan-yu-guang-da'])?></a></li>
                     <li><a href=""><i class="fa fa-circle-o"></i> 周二</a></li>
                     <li><a href=""><i class="fa fa-circle-o"></i> 周三</a></li>
                     <li><a href=""><i class="fa fa-circle-o"></i> 周四</a></li>
@@ -66,7 +66,7 @@
                 </li>
                 <li class="treeview">
                   <a href="#">
-                    <i class="fa fa-share"></i> <span>学生活动</span>
+                    <i class="fa fa-share"></i> <span><?php echo Html::a('学生活动',['page/view','slug'=>'guan-yu-guang-da'])?></span>
                     <span class="pull-right-container">
                       <i class="fa fa-angle-left pull-right"></i>
                     </span>
@@ -74,7 +74,7 @@
                 </li>
                 <li class="treeview">
                   <a href="#">
-                    <i class="fa fa-share"></i> <span>兴趣课堂</span>
+                    <i class="fa fa-share"></i> <span><?php echo Html::a('兴趣课堂',['page/view','slug'=>'guan-yu-guang-da'])?></span>
                     <span class="pull-right-container">
                       <i class="fa fa-angle-left pull-right"></i>
                     </span>

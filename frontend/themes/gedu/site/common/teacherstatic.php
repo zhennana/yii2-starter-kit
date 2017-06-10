@@ -1,58 +1,4 @@
-<?php
-$imgsize="?imageView2/1/w/250/h/300";
-
- $teachers=[
-    '1'=>[
-      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/liangfengrui1.jpg',
-      'name'=>'梁丰瑞',
-      ],
-    '2'=>[
-      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/qijing1.JPG',
-      'name'=>'齐婧',
-      ],
-    '3'=>[
-      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/liuyanan1.jpg',
-      'name'=>'刘亚南',
-      ],
-    '4'=>[
-      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/tianyadong1.jpg',
-      'name'=>'田亚东',
-      ],
-    '5'=>[
-      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/tianyuan1.jpg',
-      'name'=>'田媛',
-      ],
-    '6'=>[
-      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/yangmeijuan1.jpg',
-      'name'=>'杨美娟',
-      ],
-    '7'=>[
-      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/zhangyibo1.jpg',
-      'name'=>'张毅博',
-      ],
-    '8'=>[
-      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/gaojiannan1.jpg',
-      'name'=>'高建楠',
-      ],
-    '9'=>[
-      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/guoxiaorong1.jpg',
-      'name'=>'郭小溶',
-      ],
-    '10'=>[
-      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/jinrong1.jpg',
-      'name'=>'靳荣',
-      ],
-    '11'=>[
-      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/libaocai1.jpg',
-      'name'=>'李宝才',
-    ],
-    '12'=>[
-      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/dongyanchun1.jpg',
-      'name'=>'董燕春',
-      ],
- ];
-?>
-
+<div class="main-2">
     <div class="main-2-head">
         <div class="container">
             <div class="row">
@@ -84,47 +30,51 @@ $imgsize="?imageView2/1/w/250/h/300";
                             <li data-target="#myCarousel2" data-slide-to="0" class="active"></li>
                             <li data-target="#myCarousel2" data-slide-to="1"></li>
                             <li data-target="#myCarousel2" data-slide-to="2"></li>
+                            <li data-target="#myCarousel2" data-slide-to="3"></li>
                         </ol>   
                         <!-- 轮播（Carousel）项目 -->
                         <div class="carousel-inner">
                             <div class="item active">
-                                <?php
-                                    foreach ($teachers as $key => $value) {
-                                        
-                                        if($key<5){          
-                                ?>
-                                <div class="col-md-3 col-sm-6">
-                                    <div class="box1">
-                                      <img class="img-responsive" src="<?php echo $value['img'];?>" alt="Photo">
-                                      <div class="box-content">
-                                        <ul class="icon">
-                                          <?php 
-                                            $href= yii\helpers\Url::to(['site/teacher']);
-                                            $html='';
-                                            $html.='<li><a href="'.$href.'">';
-                                            $html.='<img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/teachsearch.png">';
-                                            $html.='</a></li>';
-                                            echo $html;
-                                        ?> 
-                                        </ul>
-                                      </div>
-                                    </div>
-                                    <div class="main-2-teacher-inner-p"><p><?php echo $value['name'];?></p></div>
-                                  </div> 
-                                  <?php }}
-                                ?>
-                            </div>                                   
+                            <?php
+                                $images=getImgs($data['teacher']['all']['body']);
+                                //echo'<pre>';var_dump($images) ;exit;
+                                foreach ($images as $key => $value) {
+                                    $img[$key]=$value.'?imageView2/1/w/250/h/300';
+                                    if($key<4){          
+                            ?>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="box1">
+                                  <img class="img-responsive" src="<?php echo $img[$key];?>" alt="Photo">
+                                  <div class="box-content">
+                                    <ul class="icon">
+                                      <?php 
+                                        $href= yii\helpers\Url::to(['site/teacher']);
+                                        $html='';
+                                        $html.='<li><a href="'.$href.'">';
+                                        $html.='<img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/teachsearch.png">';
+                                        $html.='</a></li>';
+                                        echo $html;
+                                    ?> 
+                                    </ul>
+                                  </div>
+                                </div>
+                                <div class="main-2-teacher-inner-p"><p>全部</p></div>
+                              </div> 
+                              <?php }}
+                            ?>
+                            
+                              </div>                                   
                             
                             <div class="item">
                             <?php
-                                
-                                foreach ($teachers as $key => $value) {
-                                    
-                                    if(4<$key&&$key<9){          
+                                $images=getImgs($data['teacher']['all']['body']);
+                                foreach ($images as $key => $value) {
+                                    $img[$key]=$value.'?imageView2/1/w/250/h/300';
+                                    if($key>3&&$key<8){                 
                             ?>
                             <div class="col-md-3 col-sm-6">
                                 <div class="box1">
-                                  <img class="img-responsive" src="<?php echo $value['img'];?>" alt="Photo">
+                                  <img class="img-responsive" src="<?php echo $img[$key];?>" alt="Photo">
                                   <div class="box-content">
                                     <ul class="icon">
                                       <?php 
@@ -138,39 +88,10 @@ $imgsize="?imageView2/1/w/250/h/300";
                                     </ul>
                                   </div>
                                 </div>
-                                <div class="main-2-teacher-inner-p"><p><?php echo $value['name'];?></p></div>
-                              </div> 
-                              <?php }}
-                            ?>
-                            </div>
-                            <div class="item">
-                            <?php
-                                
-                                foreach ($teachers as $key => $value) {
-                                    
-                                    if(8<$key&&$key<13){          
-                            ?>
-                            <div class="col-md-3 col-sm-6">
-                                <div class="box1">
-                                  <img class="img-responsive" src="<?php echo $value['img'];?>" alt="Photo">
-                                  <div class="box-content">
-                                    <ul class="icon">
-                                      <?php 
-                                        $href= yii\helpers\Url::to(['site/teacher']);
-                                        $html='';
-                                        $html.='<li><a href="'.$href.'">';
-                                        $html.='<img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/teachsearch.png">';
-                                        $html.='</a></li>';
-                                        echo $html;
-                                    ?> 
-                                    </ul>
-                                  </div>
-                                </div>
-                                <div class="main-2-teacher-inner-p"><p><?php echo $value['name'];?></p></div>
-                              </div> 
-                              <?php }}
-                            ?>
-                            </div>
+                                <div class="main-2-teacher-inner-p"><p>全部</p></div>
+                              </div>
+                               <?php }} ?>
+                            </div> 
                         </div>
                         <!-- 轮播（Carousel）导航 -->
                         <a class="carousel-control left main-2-teacher-left" href="#myCarousel2" 
@@ -193,50 +114,50 @@ $imgsize="?imageView2/1/w/250/h/300";
                         <ol class="carousel-indicators main-2-teacher-ol">
                             <li data-target="#myCarousel3" data-slide-to="0" class="active"></li>
                             <li data-target="#myCarousel3" data-slide-to="1"></li>
-                            <li data-target="#myCarousel6" data-slide-to="2"></li>
-
                         </ol>   
                         <!-- 轮播（Carousel）项目 -->
                         <div class="carousel-inner">
                             <div class="item active">
-                                <?php
-                                    
-                                    foreach ($teachers as $key => $value) {
-                                        
-                                        if($key<5){          
-                                ?>
-                                <div class="col-md-3 col-sm-6">
-                                    <div class="box1">
-                                      <img class="img-responsive" src="<?php echo $value['img'];?>" alt="Photo">
-                                      <div class="box-content">
-                                        <ul class="icon">
-                                          <?php 
-                                            $href= yii\helpers\Url::to(['site/teacher']);
-                                            $html='';
-                                            $html.='<li><a href="'.$href.'">';
-                                            $html.='<img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/teachsearch.png">';
-                                            $html.='</a></li>';
-                                            echo $html;
-                                        ?> 
-                                        </ul>
-                                      </div>
-                                    </div>
-                                    <div class="main-2-teacher-inner-p"><p><?php echo $value['name'];?></p></div>
-                                  </div> 
-                                  <?php }}
-                                ?>
-                            </div>                                   
+                            <?php
+                                $images=getImgs($data['teacher']['primary']['body']);
+                                //echo'<pre>';var_dump($images) ;exit;
+                                foreach ($images as $key => $value) {
+                                    $img[$key]=$value.'?imageView2/1/w/250/h/300';
+                                    if($key<4){          
+                            ?>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="box1">
+                                  <img class="img-responsive" src="<?php echo $img[$key];?>" alt="Photo">
+                                  <div class="box-content">
+                                    <ul class="icon">
+                                      <?php 
+                                        $href= yii\helpers\Url::to(['site/teacher']);
+                                        $html='';
+                                        $html.='<li><a href="'.$href.'">';
+                                        $html.='<img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/teachsearch.png">';
+                                        $html.='</a></li>';
+                                        echo $html;
+                                    ?> 
+                                    </ul>
+                                  </div>
+                                </div>
+                                <div class="main-2-teacher-inner-p"><p>小学部</p></div>
+                              </div> 
+                              <?php }}
+                            ?>
+                            
+                              </div>                                   
                             
                             <div class="item">
                             <?php
-                                
-                                foreach ($teachers as $key => $value) {
-                                    
-                                    if(4<$key&&$key<9){          
+                                $images=getImgs($data['teacher']['primary']['body']);
+                                foreach ($images as $key => $value) {
+                                    $img[$key]=$value.'?imageView2/1/w/250/h/300';
+                                    if($key>3&&$key<8){ 
                             ?>
                             <div class="col-md-3 col-sm-6">
                                 <div class="box1">
-                                  <img class="img-responsive" src="<?php echo $value['img'];?>" alt="Photo">
+                                  <img class="img-responsive" src="<?php echo $img[$key];?>" alt="Photo">
                                   <div class="box-content">
                                     <ul class="icon">
                                       <?php 
@@ -250,39 +171,11 @@ $imgsize="?imageView2/1/w/250/h/300";
                                     </ul>
                                   </div>
                                 </div>
-                                <div class="main-2-teacher-inner-p"><p><?php echo $value['name'];?></p></div>
-                              </div> 
-                              <?php }}
-                            ?>
-                            </div>
-                            <div class="item">
-                            <?php
-                                
-                                foreach ($teachers as $key => $value) {
-                                    
-                                    if(8<$key&&$key<13){          
-                            ?>
-                            <div class="col-md-3 col-sm-6">
-                                <div class="box1">
-                                  <img class="img-responsive" src="<?php echo $value['img'];?>" alt="Photo">
-                                  <div class="box-content">
-                                    <ul class="icon">
-                                      <?php 
-                                        $href= yii\helpers\Url::to(['site/teacher']);
-                                        $html='';
-                                        $html.='<li><a href="'.$href.'">';
-                                        $html.='<img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/teachsearch.png">';
-                                        $html.='</a></li>';
-                                        echo $html;
-                                    ?> 
-                                    </ul>
-                                  </div>
-                                </div>
-                                <div class="main-2-teacher-inner-p"><p><?php echo $value['name'];?></p></div>
-                              </div> 
-                              <?php }}
-                            ?>
-                            </div>
+                                <div class="main-2-teacher-inner-p"><p>小学部</p></div>
+                              </div>
+                               <?php }} ?>
+
+                            </div> 
                         </div>
                         <!-- 轮播（Carousel）导航 -->
                         <a class="carousel-control left main-2-teacher-left" href="#myCarousel2" 
@@ -305,50 +198,51 @@ $imgsize="?imageView2/1/w/250/h/300";
                         <ol class="carousel-indicators main-2-teacher-ol">
                             <li data-target="#myCarousel4" data-slide-to="0" class="active"></li>
                             <li data-target="#myCarousel4" data-slide-to="1"></li>
-                            <li data-target="#myCarousel6" data-slide-to="2"></li>
                             
                         </ol>   
                         <!-- 轮播（Carousel）项目 -->
                         <div class="carousel-inner">
                             <div class="item active">
-                                <?php
-                                    
-                                    foreach ($teachers as $key => $value) {
-                                        
-                                        if($key<5){          
-                                ?>
-                                <div class="col-md-3 col-sm-6">
-                                    <div class="box1">
-                                      <img class="img-responsive" src="<?php echo $value['img'];?>" alt="Photo">
-                                      <div class="box-content">
-                                        <ul class="icon">
-                                          <?php 
-                                            $href= yii\helpers\Url::to(['site/teacher']);
-                                            $html='';
-                                            $html.='<li><a href="'.$href.'">';
-                                            $html.='<img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/teachsearch.png">';
-                                            $html.='</a></li>';
-                                            echo $html;
-                                        ?> 
-                                        </ul>
-                                      </div>
-                                    </div>
-                                    <div class="main-2-teacher-inner-p"><p><?php echo $value['name'];?></p></div>
-                                  </div> 
-                                  <?php }}
-                                ?>
-                            </div>                                   
+                            <?php
+                                $images=getImgs($data['teacher']['middle']['body']);
+                                //echo'<pre>';var_dump($images) ;exit;
+                                foreach ($images as $key => $value) {
+                                    $img[$key]=$value.'?imageView2/1/w/250/h/300';
+                                    if($key<4){          
+                            ?>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="box1">
+                                  <img class="img-responsive" src="<?php echo $img[$key];?>" alt="Photo">
+                                  <div class="box-content">
+                                    <ul class="icon">
+                                      <?php 
+                                        $href= yii\helpers\Url::to(['site/teacher']);
+                                        $html='';
+                                        $html.='<li><a href="'.$href.'">';
+                                        $html.='<img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/teachsearch.png">';
+                                        $html.='</a></li>';
+                                        echo $html;
+                                    ?> 
+                                    </ul>
+                                  </div>
+                                </div>
+                                <div class="main-2-teacher-inner-p"><p>中学</p></div>
+                              </div> 
+                              <?php }}
+                            ?>
+                            
+                              </div>                                   
                             
                             <div class="item">
                             <?php
-                                
-                                foreach ($teachers as $key => $value) {
-                                    
-                                    if(4<$key&&$key<9){          
+                                $images=getImgs($data['teacher']['middle']['body']);
+                                foreach ($images as $key => $value) {
+                                    $img[$key]=$value.'?imageView2/1/w/250/h/300';
+                                    if($key>3&&$key<8){                 
                             ?>
                             <div class="col-md-3 col-sm-6">
                                 <div class="box1">
-                                  <img class="img-responsive" src="<?php echo $value['img'];?>" alt="Photo">
+                                  <img class="img-responsive" src="<?php echo $img[$key];?>" alt="Photo">
                                   <div class="box-content">
                                     <ul class="icon">
                                       <?php 
@@ -362,39 +256,10 @@ $imgsize="?imageView2/1/w/250/h/300";
                                     </ul>
                                   </div>
                                 </div>
-                                <div class="main-2-teacher-inner-p"><p><?php echo $value['name'];?></p></div>
-                              </div> 
-                              <?php }}
-                            ?>
-                            </div>
-                            <div class="item">
-                            <?php
-                                
-                                foreach ($teachers as $key => $value) {
-                                    
-                                    if(8<$key&&$key<13){          
-                            ?>
-                            <div class="col-md-3 col-sm-6">
-                                <div class="box1">
-                                  <img class="img-responsive" src="<?php echo $value['img'];?>" alt="Photo">
-                                  <div class="box-content">
-                                    <ul class="icon">
-                                      <?php 
-                                        $href= yii\helpers\Url::to(['site/teacher']);
-                                        $html='';
-                                        $html.='<li><a href="'.$href.'">';
-                                        $html.='<img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/teachsearch.png">';
-                                        $html.='</a></li>';
-                                        echo $html;
-                                    ?> 
-                                    </ul>
-                                  </div>
-                                </div>
-                                <div class="main-2-teacher-inner-p"><p><?php echo $value['name'];?></p></div>
-                              </div> 
-                              <?php }}
-                            ?>
-                            </div>
+                                <div class="main-2-teacher-inner-p"><p>中学</p></div>
+                              </div>
+                               <?php }} ?>
+                            </div> 
                         </div>
                         <!-- 轮播（Carousel）导航 -->
                         <a class="carousel-control left main-2-teacher-left" href="#myCarousel2" 
@@ -417,50 +282,50 @@ $imgsize="?imageView2/1/w/250/h/300";
                         <ol class="carousel-indicators main-2-teacher-ol">
                             <li data-target="#myCarousel5" data-slide-to="0" class="active"></li>
                             <li data-target="#myCarousel5" data-slide-to="1"></li>
-                            <li data-target="#myCarousel6" data-slide-to="2"></li>
-
                         </ol>   
                         <!-- 轮播（Carousel）项目 -->
                         <div class="carousel-inner">
                             <div class="item active">
-                                <?php
-                                    
-                                    foreach ($teachers as $key => $value) {
-                                        
-                                        if($key<5){          
-                                ?>
-                                <div class="col-md-3 col-sm-6">
-                                    <div class="box1">
-                                      <img class="img-responsive" src="<?php echo $value['img'];?>" alt="Photo">
-                                      <div class="box-content">
-                                        <ul class="icon">
-                                          <?php 
-                                            $href= yii\helpers\Url::to(['site/teacher']);
-                                            $html='';
-                                            $html.='<li><a href="'.$href.'">';
-                                            $html.='<img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/teachsearch.png">';
-                                            $html.='</a></li>';
-                                            echo $html;
-                                        ?> 
-                                        </ul>
-                                      </div>
-                                    </div>
-                                    <div class="main-2-teacher-inner-p"><p><?php echo $value['name'];?></p></div>
-                                  </div> 
-                                  <?php }}
-                                ?>
-                            </div>                                   
+                            <?php
+                                $images=getImgs($data['teacher']['internation']['body']);
+                                //echo'<pre>';var_dump($images) ;exit;
+                                foreach ($images as $key => $value) {
+                                    $img[$key]=$value.'?imageView2/1/w/250/h/300';
+                                    if($key<4){          
+                            ?>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="box1">
+                                  <img class="img-responsive" src="<?php echo $img[$key];?>" alt="Photo">
+                                  <div class="box-content">
+                                    <ul class="icon">
+                                      <?php 
+                                        $href= yii\helpers\Url::to(['site/teacher']);
+                                        $html='';
+                                        $html.='<li><a href="'.$href.'">';
+                                        $html.='<img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/teachsearch.png">';
+                                        $html.='</a></li>';
+                                        echo $html;
+                                    ?> 
+                                    </ul>
+                                  </div>
+                                </div>
+                                <div class="main-2-teacher-inner-p"><p>国际部</p></div>
+                              </div> 
+                              <?php }}
+                            ?>
+                            
+                              </div>                                   
                             
                             <div class="item">
                             <?php
-                                
-                                foreach ($teachers as $key => $value) {
-                                    
-                                    if(4<$key&&$key<9){          
+                                $images=getImgs($data['teacher']['middle']['body']);
+                                foreach ($images as $key => $value) {
+                                    $img[$key]=$value.'?imageView2/1/w/250/h/300';
+                                    if($key>3&&$key<8){                 
                             ?>
                             <div class="col-md-3 col-sm-6">
                                 <div class="box1">
-                                  <img class="img-responsive" src="<?php echo $value['img'];?>" alt="Photo">
+                                  <img class="img-responsive" src="<?php echo $img[$key];?>" alt="Photo">
                                   <div class="box-content">
                                     <ul class="icon">
                                       <?php 
@@ -474,39 +339,10 @@ $imgsize="?imageView2/1/w/250/h/300";
                                     </ul>
                                   </div>
                                 </div>
-                                <div class="main-2-teacher-inner-p"><p><?php echo $value['name'];?></p></div>
-                              </div> 
-                              <?php }}
-                            ?>
-                            </div>
-                            <div class="item">
-                            <?php
-                                
-                                foreach ($teachers as $key => $value) {
-                                    
-                                    if(8<$key&&$key<13){          
-                            ?>
-                            <div class="col-md-3 col-sm-6">
-                                <div class="box1">
-                                  <img class="img-responsive" src="<?php echo $value['img'];?>" alt="Photo">
-                                  <div class="box-content">
-                                    <ul class="icon">
-                                      <?php 
-                                        $href= yii\helpers\Url::to(['site/teacher']);
-                                        $html='';
-                                        $html.='<li><a href="'.$href.'">';
-                                        $html.='<img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/teachsearch.png">';
-                                        $html.='</a></li>';
-                                        echo $html;
-                                    ?> 
-                                    </ul>
-                                  </div>
-                                </div>
-                                <div class="main-2-teacher-inner-p"><p><?php echo $value['name'];?></p></div>
-                              </div> 
-                              <?php }}
-                            ?>
-                            </div>
+                                <div class="main-2-teacher-inner-p"><p>齐靖</p></div>
+                              </div>
+                               <?php }} ?>
+                            </div> 
                         </div>
                         <!-- 轮播（Carousel）导航 -->
                         <a class="carousel-control left main-2-teacher-left" href="#myCarousel2" 
@@ -529,49 +365,50 @@ $imgsize="?imageView2/1/w/250/h/300";
                         <ol class="carousel-indicators main-2-teacher-ol">
                             <li data-target="#myCarousel6" data-slide-to="0" class="active"></li>
                             <li data-target="#myCarousel6" data-slide-to="1"></li>
-                            <li data-target="#myCarousel6" data-slide-to="2"></li>
                         </ol>   
                         <!-- 轮播（Carousel）项目 -->
                         <div class="carousel-inner">
                             <div class="item active">
-                                <?php
-                                    
-                                    foreach ($teachers as $key => $value) {
-                                        
-                                        if($key<5){          
-                                ?>
-                                <div class="col-md-3 col-sm-6">
-                                    <div class="box1">
-                                      <img class="img-responsive" src="<?php echo $value['img'];?>" alt="Photo">
-                                      <div class="box-content">
-                                        <ul class="icon">
-                                          <?php 
-                                            $href= yii\helpers\Url::to(['site/teacher']);
-                                            $html='';
-                                            $html.='<li><a href="'.$href.'">';
-                                            $html.='<img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/teachsearch.png">';
-                                            $html.='</a></li>';
-                                            echo $html;
-                                        ?> 
-                                        </ul>
-                                      </div>
-                                    </div>
-                                    <div class="main-2-teacher-inner-p"><p><?php echo $value['name'];?></p></div>
-                                  </div> 
-                                  <?php }}
-                                ?>
-                            </div>                                   
+                            <?php
+                                $images=getImgs($data['teacher']['speciality']['body']);
+                                //echo'<pre>';var_dump($images) ;exit;
+                                foreach ($images as $key => $value) {
+                                    $img[$key]=$value.'?imageView2/1/w/250/h/300';
+                                    if($key<4){          
+                            ?>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="box1">
+                                  <img class="img-responsive" src="<?php echo $img[$key];?>" alt="Photo">
+                                  <div class="box-content">
+                                    <ul class="icon">
+                                      <?php 
+                                        $href= yii\helpers\Url::to(['site/teacher']);
+                                        $html='';
+                                        $html.='<li><a href="'.$href.'">';
+                                        $html.='<img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/teachsearch.png">';
+                                        $html.='</a></li>';
+                                        echo $html;
+                                    ?> 
+                                    </ul>
+                                  </div>
+                                </div>
+                                <div class="main-2-teacher-inner-p"><p>特长部</p></div>
+                              </div> 
+                              <?php }}
+                            ?>
+                            
+                              </div>                                   
                             
                             <div class="item">
                             <?php
-                                
-                                foreach ($teachers as $key => $value) {
-                                    
-                                    if(4<$key&&$key<9){          
+                                $images=getImgs($data['teacher']['speciality']['body']);
+                                foreach ($images as $key => $value) {
+                                    $img[$key]=$value.'?imageView2/1/w/250/h/300';
+                                    if($key>3&&$key<8){                 
                             ?>
                             <div class="col-md-3 col-sm-6">
                                 <div class="box1">
-                                  <img class="img-responsive" src="<?php echo $value['img'];?>" alt="Photo">
+                                  <img class="img-responsive" src="<?php echo $img[$key];?>" alt="Photo">
                                   <div class="box-content">
                                     <ul class="icon">
                                       <?php 
@@ -585,39 +422,10 @@ $imgsize="?imageView2/1/w/250/h/300";
                                     </ul>
                                   </div>
                                 </div>
-                                <div class="main-2-teacher-inner-p"><p><?php echo $value['name'];?></p></div>
-                              </div> 
-                              <?php }}
-                            ?>
-                            </div>
-                            <div class="item">
-                            <?php
-                                
-                                foreach ($teachers as $key => $value) {
-                                    
-                                    if(8<$key&&$key<13){          
-                            ?>
-                            <div class="col-md-3 col-sm-6">
-                                <div class="box1">
-                                  <img class="img-responsive" src="<?php echo $value['img'];?>" alt="Photo">
-                                  <div class="box-content">
-                                    <ul class="icon">
-                                      <?php 
-                                        $href= yii\helpers\Url::to(['site/teacher']);
-                                        $html='';
-                                        $html.='<li><a href="'.$href.'">';
-                                        $html.='<img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/teachsearch.png">';
-                                        $html.='</a></li>';
-                                        echo $html;
-                                    ?> 
-                                    </ul>
-                                  </div>
-                                </div>
-                                <div class="main-2-teacher-inner-p"><p><?php echo $value['name'];?></p></div>
-                              </div> 
-                              <?php }}
-                            ?>
-                            </div>
+                                <div class="main-2-teacher-inner-p"><p>特长部</p></div>
+                              </div>
+                               <?php }} ?>
+                            </div> 
                         </div>
                         <!-- 轮播（Carousel）导航 -->
                         <a class="carousel-control left main-2-teacher-left" href="#myCarousel2" 
@@ -631,3 +439,4 @@ $imgsize="?imageView2/1/w/250/h/300";
     </div> 
     </div>
   </div>
+</div>

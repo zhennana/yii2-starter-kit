@@ -168,17 +168,19 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
         <div class="footer-3">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                         <div class="footer-3-box1">
-                            <img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/footer-ma.png">
+                            <img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/WechatIMG1.jpeg">
                             <p>订阅号</p>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                        <div class="footer-3-box2">
+                    
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                       <!--  <div class="footer-3-box2">
                             <img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/footer-ma.png">
                             <p>服务号</p>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
