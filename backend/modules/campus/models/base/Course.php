@@ -82,23 +82,67 @@ abstract class Course extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['school_id', 'grade_id', 'title', 'intro', 'courseware_id', 'start_time', 'end_time', 'status'], 'required'],
+            [['school_id', 'grade_id', 'title', 'intro', 'courseware_id', 'start_time', 'end_time', 'teacher_id','status'], 'required'],
             ['creater_id','default','value'=>Yii::$app->user->identity->id],
             [['school_id', 'grade_id', 'courseware_id', 'creater_id','status'], 'integer'],
             [['start_time','end_time'], 'filter', 'filter' => 'strtotime', 'skipOnEmpty' => true],
             [['title'], 'string', 'max' => 11],
             [['intro'], 'string', 'max' => 128],
+            ['teacher_id','required','when'=>function($model,$attribute){
+                    $models = self::find()->where([
+                            'teacher_id'=> $model->teacher_id,
+                        ]);
+                    if(!$model->isNewRecord){
+                        $models->andWhere(['not','course_id'=>$model->course_id]);
+                    }
+                    $models = $models->orderBy(['end_time'=>SORT_DESC])->one();
+                    //var_dump();exit;
+                    if($models){
+                        if($models->end_time+15*60 > $model->start_time){
+                            $message = '所选时间段本老师有未上完的课程，课程名是'.$models->title.'请检查';
+                            $model->addError($attribute,$message);
+                        }
+                    }
+            }],
             [
                 'end_time','required',  'when' => function($model,$attribute){
                     if($model->start_time > $model->end_time){
-                        $model->addError($attribute,'不能小于开始时间');
+                        $model->addError($attribute,'课程开始时间不能大于开始时间');
                     }
                 }
 
             ],
+            [
+                'start_time','required',  'when' => function($model,$attribute){
+                    $time = time();
+                    if($model->start_time <  $time ){
+                        $model->addError($attribute,'课程开始时间不能小于当前时间');
+                    }
+                    $models = self::find()
+                    ->where([
+                        'school_id'=>$model->school_id,
+                        'grade_id'=> $model->grade_id,
+                        ]);
+                    if(!$model->isNewRecord){
+                        //var_dump($model->course_id);exit;
+                        $models->andWhere(['not','course_id'=>$model->course_id]);
+                    }
+                    $models = $models->orderBy(['end_time'=>SORT_DESC])->asArray()->one();
+                    //var_dump($models);exit;
+                    if($models){
+                        if(($models['end_time']+15*60) > $model->start_time){
+                             $model->addError($attribute,'本次排课与上一次排课之间的时间必须大于15分钟');
+                        }
+                    }
+                }
+            ],
+            // [
+            //     'start_time','int','isaa'=>function($model,$attribute){
+            //        var_dump($model);exit;
+            //     }
+            // ]
         ];
     }
-
     /**
      * @inheritdoc
      */
@@ -108,6 +152,7 @@ abstract class Course extends \yii\db\ActiveRecord
             'course_id'     => Yii::t('common', '课程ID'),
             'school_id'     => Yii::t('common', '学校'),
             'grade_id'      => Yii::t('common', '班级'),
+            'teacher_id'    => Yii::t('common', '老师'),
             'title'         => Yii::t('common', '课程名称'),
             'intro'         => Yii::t('common', '课程介绍'),
             'courseware_id' => Yii::t('common', '课件'),
@@ -141,15 +186,29 @@ abstract class Course extends \yii\db\ActiveRecord
     public function getSchool(){
         return $this->hasOne(\backend\modules\campus\models\School::className(),['school_id'=>'school_id']);
     }
+
     public function getGrade(){
         return $this->hasOne(\backend\modules\campus\models\Grade::className(),['grade_id'=>'grade_id']);
     }
+
     public function getCourseware(){
          return $this->hasOne(\backend\modules\campus\models\Courseware::className(),['courseware_id'=>'courseware_id']);
     }
     public function getUser(){
         return $this->hasOne(\common\models\User::className(),['id'=>'creater_id']);
     }
+
+    /**
+     * 获取全部班级
+     * @return [type] [description]
+     */
+    public function getUsersToGrades(){
+        return $this->hasMany(\backend\modules\campus\models\UserToGrade::className(),['grade_id'=>'grade_id']);
+    }
+    // /*****/
+    // public function getUsersToGrades(){
+    //     return $this->hasMany(\backend\modules\campus\models\UserToGrade::className(),['grade_id'=>'grade_id']);
+    // }
     /**
      * @inheritdoc
      * @return \backend\modules\campus\models\query\courseQuery the active query used by this AR class.

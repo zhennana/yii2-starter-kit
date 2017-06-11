@@ -100,15 +100,16 @@ return $this->render('view', [
 public function actionCreate()
 {
     $model = new Course;
-
+//var_dump('<pre>',$_POST);exit;
     try {
         if ($model->load($_POST) && $model->save()) {
+
             return $this->redirect(['view', 'course_id' => $model->course_id]);
-        
+
         } elseif (!\Yii::$app->request->isPost) {
             $model->load($_GET);
         }
-        
+
     } catch (\Exception $e) {
         $msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
         $model->addError('_exception', $msg);

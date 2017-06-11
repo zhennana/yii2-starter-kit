@@ -1,0 +1,292 @@
+#article-index{
+  padding: 2% 8%;
+}
+.article-item {
+  margin-bottom: 15px;
+}
+.article-item .article-title,
+.article-item .article-title a {
+  color: inherit;
+  margin: 0;
+}
+.article-item .article-meta,
+.article-item .article-meta a {
+  color: #999;
+  font-size: .85em;
+}
+.article-item .article-meta a {
+  text-decoration: underline;
+}
+.article-item .article-thumb {
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.article-item .article-text {
+  margin-top: 7px;
+}
+html,
+body {
+  height: 100%;
+}
+li{
+  list-style: none;
+}
+.wrap {
+  min-height: 100%;
+  height: auto;
+  margin: 0 auto -60px;
+  padding: 0 0 60px;
+}
+.container {
+  padding: 0;
+  width: auto;
+}
+.footer {
+  background-color: #0070a8;
+  border-top: 4px solid #35b9d0;
+}
+.jumbotron {
+  text-align: center;
+  background-color: transparent;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+.jumbotron .btn {
+  font-size: 2rem;
+}
+.jumbotron .intr{
+  color: black;
+}
+.not-set {
+  color: #c55;
+  font-style: italic;
+}
+/* add sorting icons to gridview sort links */
+a.asc:after,
+a.desc:after {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: 'Glyphicons Halflings';
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  padding-left: 5px;
+}
+a.asc:after {
+  content: "\e151";
+}
+a.desc:after {
+  content: "\e152";
+}
+.sort-numerical a.asc:after {
+  content: "\e153";
+}
+.sort-numerical a.desc:after {
+  content: "\e154";
+}
+.sort-ordinal a.asc:after {
+  content: "\e155";
+}
+.sort-ordinal a.desc:after {
+  content: "\e156";
+}
+.grid-view th {
+  white-space: nowrap;
+}
+.hint-block {
+  display: block;
+  margin-top: 5px;
+  color: #999;
+}
+.error-summary {
+  color: #a94442;
+  background: #fdf7f7;
+  border-left: 3px solid #eed3d7;
+  padding: 10px 20px;
+  margin: 0 0 15px 0;
+}
+
+.no-padding{
+  padding:0 !important;
+}
+.no-margin{
+  margin:0 !important;
+}
+.navbar{
+  border-radius:0;
+  margin: 0;
+}
+.navbar{
+  padding:0 !important;
+  margin:0;
+  width: 100%;
+}
+nav .container{
+  width: 100%;
+}
+.content{
+  margin-top: 50px;
+}
+.breadcrumb{
+  position: absolute;
+  left: 0;
+  border-radius: 0;
+  padding:0 15%;
+}
+.breadcrumb a{
+  line-height: 50px;
+  color: #777;
+}
+.breadcrumb > .active{
+  color: #e61d4d;
+}
+.breadcrumb > li + li:before{
+  content: '>';
+}
+.site-index{
+  position: relative;
+}
+
+/* 首页 */
+.top_box{
+  height: 160px;
+}
+.top_logo{
+  padding-top: 30px;
+  padding-left: 100px;
+}
+.sign_in{
+  background-color: #F0F0F0;
+  width: 260px;
+  margin-top: 40px;
+}
+.sign_in .fa-user{
+  width: 14px;
+}
+.sign_in .input-group-addon{
+  background-color: #E0E0E0;
+}
+
+.navbar-inverse{
+  background-color: #f89406;
+  border: none;
+}
+.navbar-inverse .container{
+  padding: 0;
+}
+.navbar-inverse .navbar-nav > .active > a,
+.navbar-inverse .navbar-nav > .active > a:hover,
+.navbar-inverse .navbar-nav > .active > a:focus,
+.navbar-inverse .navbar-nav > .open > a,
+.navbar-inverse .navbar-nav > .open > a:hover,
+.navbar-inverse .navbar-nav > .open > a:focus{
+  background-color: #f89406;
+}
+.navbar-inverse .navbar-nav .open .dropdown-menu > li > a{
+  color: white;
+}
+.navbar-header{
+  background-color: #35b9d0;
+  padding:0 15px;
+}
+.navbar-collapse .navbar-nav > li{
+  padding: 0 15px;
+  border-right: 1px solid #c67604;
+}
+.nav_search input{
+  padding: 15px 160px 15px 15px;
+  background-color: #35b9d0;
+  border: none;
+}
+.dropdown-menu{
+  border-radius: 0;
+  border: none;
+  background-color: #35b9d0;
+}
+.dropdown-menu > li:hover{
+  background-color: black !important;
+}
+.navbar-inverse .navbar-nav .open .dropdown-menu > .active > a{
+  background-color: #35a0d0;
+}
+
+.dropdown-menu li > a{
+  color: white;
+}
+::-webkit-input-placeholder { /* WebKit browsers */
+    color: #fff;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #fff;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #fff;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color: #fff;
+}
+.btn_search{
+  background-color: #f89406;
+  border: none;
+  height: 50px;
+  padding: 0 20px;
+}
+.btn_search .fa-search{
+  color: white;
+}
+.dropdown-toggle, .navbar-brand{
+  color: #fff !important;
+}
+.course_box h4{
+  font: 800 2rem/3rem sans-serif !important;
+}
+.web_map h4{
+  color: #35b9d0;
+  font-weight:bold;
+  font-size: 2rem; 
+  line-height: 1em;
+  padding-bottom: 5%;
+  border-bottom: 1px solid #35b9d0;
+}
+.web_map p{
+  padding: 0 1%;
+  color: #bdb3b9;
+  font-size: 1.8rem;
+}
+.web_map li{
+  padding: 0 45px;
+}
+.bottom{
+  border-top: 1px solid #444444;
+  background-color: #35b9d0;
+  color: #bdc3c7;
+  line-height: 40px;
+  padding: 0 2%;
+}
+.bottom a{
+  color: #f89406;
+}
+
+/* 二级页面 */
+.course_info p{
+  font-size: 2rem;
+}
+.course_list{
+  border-top: 3px solid #35b9d0;
+}
+.course_list > ul > li{
+  padding: 1% 0;
+}
+.course_list > ul > li img{
+  width: 10rem;
+  height: 10rem;
+  border-radius: 50%;
+  border: 7px solid #E0E0E0;
+}
+.course_title h1{
+  font-family: 'Fredoka One', cursive;
+  font-weight: bolder;
+  font-size: 3rem;
+  color: #1bb4b9;
+}

@@ -34,7 +34,7 @@ $Courseware = ArrayHelper::map($Courseware,'courseware_id','title');
         <?php $this->beginBlock('main'); ?>
 
         <p>
-            
+
 <!-- attribute title -->
             <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
@@ -47,7 +47,7 @@ $Courseware = ArrayHelper::map($Courseware,'courseware_id','title');
                     ],
                     'pluginEvents' => [
                         "change" => "function() {
-                             handleChange(1,this.value,'#course-grade_id');
+                            handleChange(1,this.value,'#course-grade_id');
                         }",
                     ]
             ]) ?>
@@ -60,8 +60,22 @@ $Courseware = ArrayHelper::map($Courseware,'courseware_id','title');
                     'pluginOptions' => [
                         'allowClear' => true,
                     ],
-                ]); ?>           
+                    'pluginEvents' => [
+                        "change" => "function() {
+                            handleChange(2,this.value,'#course-teacher_id');
 
+                        }",
+                    ]
+                ]); ?>
+            <!-- attribute grade_id -->
+            <?= $form->field($model, 'teacher_id')->widget(Select2::className(),
+                [
+                    'data'          => $model->getlist(2,$model->grade_id),
+                    'options'       => ['placeholder' => '请选择'],
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                    ],
+                ]); ?>
 <!-- attribute intro -->
 			<?= $form->field($model, 'intro')->textInput(['maxlength' => true]) ?>
 
@@ -77,7 +91,7 @@ $Courseware = ArrayHelper::map($Courseware,'courseware_id','title');
                 ]);
             ?>
             <?php if($model->isNewRecord){
-                    $model->start_time = time();
+                    $model->start_time = time()+20;
                     $model->end_time   = time()+40*60;
             } ?> 
 <!-- attribute start_time -->
@@ -85,22 +99,20 @@ $Courseware = ArrayHelper::map($Courseware,'courseware_id','title');
                 ->widget(
                     DateTimeWidget::className(),
                     [
-                        //'clientOptions' => ,
                         'locale'            => Yii::$app->language,
-                        'phpDatetimeFormat' => 'yyyy-MM-dd\'T\'HH:mm:ssZZZZZ',
-                        //'phpDatetimeFormat' => 'yyyy-MM-dd',
-                    ]) 
+                        'phpDatetimeFormat' => 'yyyy-MM-dd HH:mm',
+                        'momentDatetimeFormat' => 'YYYY-MM-DD HH:mm',
+                    ])
             ?>
 <!-- attribute end_time -->
             <?php echo $form->field($model, 'end_time')
                 ->widget(
                     DateTimeWidget::className(),
                     [
-                        //'clientOptions' => ,
                         'locale'            => Yii::$app->language,
-                        'phpDatetimeFormat' => 'yyyy-MM-dd\'T\'HH:mm:ssZZZZZ',
-                        //'phpDatetimeFormat' => 'yyyy-MM-dd',
-                    ]) 
+                        'phpDatetimeFormat' => 'yyyy-MM-dd HH:mm',
+                        'momentDatetimeFormat' => 'YYYY-MM-DD HH:mm',
+                    ])
             ?>
 <!-- attribute status -->
 			<!-- attribute courseware_id -->
@@ -108,6 +120,7 @@ $Courseware = ArrayHelper::map($Courseware,'courseware_id','title');
                 ->widget(Select2::className(),
                 [
                     'data'          => Course::optsStatus(),
+                    'hideSearch'    => true,
                     // 'options'       => ['placeholder'=>'请选择课件'],
                     'pluginOptions' => [
                         'allowClear' => true,
@@ -154,8 +167,9 @@ $Courseware = ArrayHelper::map($Courseware,'courseware_id','title');
             "data":{type_id:type_id,id:id},
             'type':"GET",
             'success':function(data){
-                 $(form).html(data);
+                $('#course-teacher_id option').remove();
+                $(form).html(data);
             }
-        }) 
+        })
     }
 </script>

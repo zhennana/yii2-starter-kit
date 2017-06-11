@@ -11,6 +11,7 @@ use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;
 use backend\modules\campus\models\UserToGrade;
 use backend\modules\campus\models\UserToSchool;
+use backend\modules\campus\models\Grade;
 
 /**
  * User model
@@ -160,12 +161,13 @@ class User extends ActiveRecord implements IdentityInterface
     public function is_userToGrade($type = false){
         $query = $this->getUserToGrade();
 
-        if($type == 1){
-            $query->where(['NOT',['grade_user_type'=>UserToGrade::GRADE_USER_TYOE_TEACHER]]);
+        if($type == UserToGrade::GRADE_USER_TYPE_STUDENT){
+            $query->where(['grade_user_type'=>UserToGrade::GRADE_USER_TYPE_STUDENT]);
         }
 
-        if($type == 2){
-            $query->where(['grade_user_type'=>UserToGrade::GRADE_USER_TYOE_TEACHER]);
+        if($type == UserToGrade::GRADE_USER_TYPE_TEACHER){
+
+            $query->where(['grade_user_type'=>UserToGrade::GRADE_USER_TYPE_TEACHER]);
         }
         if($query->count() == 0 ){
             return false;
@@ -179,80 +181,101 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getCharacterDetailes(){
         $data = [];
-        if($this->is_userToGrade(1)){
+     //   var_dump($this->id);exit;
+        if($this->is_userToGrade(UserToGrade::GRADE_USER_TYPE_STUDENT)){
             $data['user_type']  = 1;
             $model =  $this->getUserToGrade()
-                       ->where(['NOT',['grade_user_type'=>UserToGrade::GRADE_USER_TYOE_TEACHER]])
+                       ->where(['grade_user_type'=>UserToGrade::GRADE_USER_TYPE_STUDENT])
                        ->one();
         }
-        if($this->is_userToGrade(2)){
+        if($this->is_userToGrade(UserToGrade::GRADE_USER_TYPE_TEACHER)){
             $data['user_type'] = 2;
             $model = $this->getUserToGrade()
-                        ->where(['grade_user_type'=>UserToGrade::GRADE_USER_TYOE_TEACHER])
+                        ->where(['grade_user_type'=>UserToGrade::GRADE_USER_TYPE_TEACHER])
                         ->one();
-
         }
-
+       // var_dump($model);exit;
         if(isset($model)){
             return array_merge($model->toArray(['school_id','school_label','grade_id','grade_label']),$data);
         }
-       
-        return false;
+        return [];
     }
-
-
-    // /**
-    //  * 获取学校
-    //  * @return boolean [description]
-    //  */
-    // public function is_userToGrade(){
-
-    //     if($this->getUserToGrade()->where(['grade_user_type'=>UserToGrade::GRADE_USER_TYPE_STUDENT])->one()){
-    //         // 老师
-    //         $data = 2;
-    //     }else{
-    //         $data =
-    //     }
-    //     var_dump('mei');exit;
-    //     exit;
-    //     return false;
+    /**
+     * 获取所有用户班级信息
+     * 默认获取老师下边的所有班级
+     * @param  integer $type [description]
+     * @return [type]        [description]
+     */
+    public function getSchoolToGrade($user_id = NULL,$type = 1){
+           // 老师
+            if($type == 1){
+                $model = $this->getUserToGrade()->where(['grade_user_type'=>UserToGrade::GRADE_USER_TYPE_TEACHER]);
+            }
+            //学生
+            if($type == 2){
+                $model = $this->getUserToGrade()->where(['grade_user_type'=>UserToGrade::GRADE_USER_TYPE_STUDENT]);
+            }
+            if($user_id !== NULL){
+                $model = $model->andWhere(['user_id'=>$user_id]);
+            }
+            $model = $model->andWhere(['status'=>UserToGrade::USER_GRADE_STATUS_NORMAL])->all();
+           // var_dump($model);exit;
+            return $model;
+    }
+    // public function getSchoolToGradeUser($school_id,$grade_id){
+    //         $grade_ids = ArrayHelper::map($this->getSchoolToGrade(),'grade_id','grade_id');
+    //         //var_dump($grade_ids);exit;
+    //         return UserToGrade::find()->where(['grade_id'=>$grade_ids])->all();
     // }
     /**
-     * 返回的字段初始化
+     * [getTeacherGrades 获取教师所辖班级]
+     * @param  [type] $teacher_id [description]
+     * @return [type]             [description]
      */
     /*
-    public function  DataInit($params = false ){
-        //var_dump($params);exit();
-        $data = [];
-        if($params){
-            foreach ($params as $key => $value) {
-                var_dump($value);exit;
+    public function getTeacherGrades($teacher_id)
+    {
+        $grades = [];
+
+        $userToGrade = UserToGrade::find()->where([
+            'user_id'         => $teacher_id,
+            'status'          => UserToGrade::USER_GRADE_STATUS_NORMAL,
+            'grade_user_type' => UserToGrade::GRADE_USER_TYOE_TEACHER
+        ])->asArray()->all();
+
+        if (isset($userToGrade) && !empty($userToGrade)) {
+            foreach ($userToGrade as $key => $value) {
+                $grades[] = Grade::find()->where([
+                    'grade_id' => $value['grade_id'],
+                    'status'   => Grade::GRADE_STATUS_OPEN,
+                    'graduate' => Grade::GRADE_NOT_GRADUATE,
+                ])->asArray()->one();
             }
         }
-        // if($params){
-        //     foreach ($params as $key => $value) {
-        //         $data[$value->school_id]['school_id'] 
-        //             = $value->school_id;
-                
-        //         $data[$value->school_id]['type'] 
-        //             = isset($value->grade_user_type) ? UserToGrade::UserToTypelable($value->grade_user_type) : '';
-                
-        //         $data[$value->school_id]['school_title'] 
-        //             = isset($value->school->school_title)? $value->school->school_title :'';
-                
-        //         $data[$value->school_id]['grade'][$key]['grade_id'] 
-        //             = isset($value['grade_id']) ? $value['grade_id'] : '';
-                
-        //         $data[$value->school_id]['grade'][$key]['grade_name'] 
-        //             = isset($value->grade->grade_title) ? $value['grade_id'] : '';
-        //         rsort($data[$value->school_id]['grade']);
+        return $grades;
+    }
+    */
+    /**
+     * [getStudents 获取教师所辖全部班级学生]
+     * @param  [type] $teacher_id [description]
+     * @return [type]             [description]
+     */
+    /*
+    public function getStudents($teacher_id, $isGroup = FALSE)
+    {
+        $students = [];
+        $grades   = $this->getTeacherGrades($teacher_id);
 
-        //     }
-
-        // }
-        rsort($data);
-        //svar_dump($data);exit;
-        return $data;
+        if ($grades) {
+            foreach ($grades as $key => $value) {
+                $students[] = UserToGrade::find()->with('user')->where([
+                    'grade_id'        => $value['grade_id'],
+                    'status'          => UserToGrade::USER_GRADE_STATUS_NORMAL,
+                    'grade_user_type' => UserToGrade::GRADE_USER_TYPE_STUDENT
+                ])->asArray()->all();
+            }
+        }
+        return $students;
     }
     */
 
@@ -301,7 +324,8 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return static::find()
             ->active()
-            ->andWhere(['or', ['username' => $login], ['email' => $login]])
+            ->andWhere(['or', ['username' => $login], ['email' => $login],['phone_number'=>$login
+                ]])
             ->one();
     }
 

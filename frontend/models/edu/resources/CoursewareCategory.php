@@ -29,14 +29,15 @@ class CoursewareCategory extends BaseCoursewareCategory
         );
     }
 
-    public function fields(){
-            $fields =  ArrayHelper::merge(
-                    parent::fields(),
-                    [
-                        'descriptions'=>'description'
-                    ]);
-             unset($fields['description']);
-            return $fields;
+    public function fields()
+    {
+        $fields =  ArrayHelper::merge(
+            parent::fields(),
+            [
+                'descriptions'=>'description'
+            ]);
+        unset($fields['description']);
+        return $fields;
     }
 
     /**
@@ -71,11 +72,11 @@ class CoursewareCategory extends BaseCoursewareCategory
                 }else{
                     if($level == 3){
                         //continue;
-                        $value['url']   = \Yii::$app->request->hostInfo.Url::to(['edu/courseware/list','category_id'=>$value['category_id']]);
+                        $value['target_url'] = \Yii::$app->request->hostInfo.Url::to(['edu/courseware/list','category_id'=>$value['category_id']]);
                     }
                 }
 
-                $data[]    = $value;
+                $data[] = $value;
             }
 
         }

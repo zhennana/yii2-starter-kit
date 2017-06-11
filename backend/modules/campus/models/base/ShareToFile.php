@@ -65,10 +65,10 @@ abstract class ShareToFile extends \yii\db\ActiveRecord
         return [
             'share_to_file_id' => Yii::t('backend', 'Share To File ID'),
             'share_stream_id' => Yii::t('backend', 'Share Stream ID'),
-            'file_storage_item_id' => Yii::t('backend', 'File Storage Item ID'),
-            'status' => Yii::t('backend', 'Status'),
-            'updated_at' => Yii::t('backend', 'Updated At'),
-            'created_at' => Yii::t('backend', 'Created At'),
+            'file_storage_item_id' => Yii::t('backend', '文件id'),
+            'status' => Yii::t('backend', '状态'),
+            'updated_at' => Yii::t('backend', '更新时间'),
+            'created_at' => Yii::t('backend', '创建时间'),
         ];
     }
     public function getFileStorageItem(){

@@ -83,9 +83,10 @@ $config = [
                 'controllers'=>['user'],
                 'allow' => false,
             ],
+
             [
                 'allow' => true,
-                'roles' => ['manager'],
+                'roles' => ['manager','techers'],
             ]
         ]
     ]

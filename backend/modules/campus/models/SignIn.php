@@ -51,7 +51,7 @@ public function behaviors()
         }
         if($type_id == 4){
             $user = SignIn::find()->where(['course_id' => $id])->asArray()->all();
-            //var_dump($user);exit;   
+            //var_dump($user);exit;
             $users = [];
             foreach ($user as $key => $value) {
                 $users[$key]['user_id'] = $value['student_id'];

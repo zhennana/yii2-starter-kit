@@ -8,6 +8,8 @@ use yii\data\ActiveDataProvider;
 use frontend\models\wedu\resources\ShareStream;
 use backend\modules\campus\models\UserToGrade;
 use yii\data\Pagination;
+use common\components\Qiniu\Auth;
+use common\components\Qiniu\Storage\BucketManager;
 
 class ShareStreamController extends \common\rest\Controller
 {
@@ -200,6 +202,44 @@ class ShareStreamController extends \common\rest\Controller
                         'pageSize'=>4
                     ]
             ]);
-     
-    }   
+    }
+
+    /**
+     * @SWG\Post(path="/share-stream/qiniu-delete",
+     *     tags={"400-Share-Stream-分享"},
+     *     summary="删除图片",
+     *     description="删除图片",
+     *     produces={"application/json"},
+     *
+     * @SWG\Parameter(
+     *        in = "formData",
+     *        name = "key",
+     *        description = "图片key",
+     *        required = true,
+     *        default = "",
+     *        type = "string",
+     *     ),
+     *  @SWG\Response(
+     *         response = 200,
+     *         description = "成功返回 1,不成功返回错误信息"
+     *     ),
+     * )
+    **/
+    public function  actionQiniuDelete(){
+      $auth = new Auth(
+        \Yii::$app->params['qiniu']['wakooedu']['access_key'], 
+        \Yii::$app->params['qiniu']['wakooedu']['secret_key']
+      );
+      $bucketMgr = new BucketManager($auth);
+      $bucket    = \Yii::$app->params['qiniu']['wakooedu']['bucket'];
+      $err       = $bucketMgr->delete($bucket, $_POST['key']);
+      if($err !== null){
+        //var_dump($err);exit;
+            $this->serializer['errno'] = '400';
+            $this->serializer['message'] = $err->message();
+            return [];
+      }else{
+            return 1;
+      }
+    }
 }

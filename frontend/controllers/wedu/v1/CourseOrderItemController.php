@@ -78,7 +78,6 @@ class CourseOrderItemController extends \common\rest\Controller
      *     summary="message",
      *     description="返回用户缴费情况",
      *     produces={"application/json"},
-   
      *     @SWG\Response(
      *         response = 200,
      *         description = "返回用户缴费列表"
@@ -100,20 +99,21 @@ class CourseOrderItemController extends \common\rest\Controller
             ->select(['total_course','presented_course','real_price','created_at'])
             ->where(
                 [
-                'user_id'=>Yii::$app->user->identity->id,'payment_status'=>CourseOrderItem::PAYMENT_STATUS_PAID
+                'user_id'=>Yii::$app->user->identity->id,
+                'payment_status'=>CourseOrderItem::PAYMENT_STATUS_PAID
                 ])
             ->orderBy(['created_at'=>'SORT_DESC'])
             ->asArray()
-            ->all(); 
+            ->all();
+           // var_dump($data);exit;
         foreach ($data['detalis'] as $key => $value) {
-            $data['detalis'][$key]['total_course'] = (int)$value['total_course'];
-            $data['detalis'][$key]['presented_course'] = (int)$value['presented_course'];
+            $data['detalis'][$key]['total_course'] ='总共'.(int)$value['total_course'].'节课';
+            $data['detalis'][$key]['presented_course'] = '赠送'.(int)$value['presented_course'].'节课';
             $data['detalis'][$key]['real_price'] = (int)$value['real_price'];
-            $data['detalis'][$key]['created_at'] = date('Y-m-d',$value['created_at']);
+            $data['detalis'][$key]['created_at'] =$value['created_at'];
 
         }
         $data['statistical'] = $model->statistical();
         return $data;
     }
-
 }

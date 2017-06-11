@@ -408,19 +408,58 @@ class ConfigController extends \common\rest\Controller
         }
         $notice         = new Notice;
         $course_order   = new CourseOrderItem;
-        $my_photos = new StudentRecord;
+        $my_photos      =    new StudentRecord;
         $student_record  =  StudentRecord::find()
                             ->where(['user_id'=>$user_id])
                             ->with('course')
                             ->orderBy(['created_at'=>'SORT_SESC'])
                             ->asArray()
                             ->one();
-        
         $data['message']                   = array_merge($data['message'],$notice->message(Notice::CATEGORY_ONE));
         $data['teacher_said']              = array_merge($data['teacher_said'],$notice->message(Notice::CATEGORY_TWO));
         $data['course_item_order']         = array_merge($data['course_item_order'],$course_order->statistical());
         $data['above_course']['title']     = isset($student_record['course']['intro']) ? $student_record['course']['intro']: '';
         $data['my_photos']                 = $my_photos->image_merge(3);
+        return $data;
+    }
+
+    /**
+     * @SWG\Get(path="/config/working-state",
+     *     tags={"800-Config-配置信息接口"},
+     *     summary="老师的工作内容",
+     *     description="老师的工作内容",
+     *     produces={"application/json"},
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "老师的工作内容"
+     *     ),
+     * )
+     *
+    **/
+    /**
+     * 老师工作
+    */
+    public function actionWorkingState(){
+        $notice          = new Notice;
+        $data['message'] = $notice->message(Notice::CATEGORY_ONE);
+        $data['working_state'] = [
+                [
+                    'title'  =>'上传学生档案',
+                    'status' =>10,
+                ],
+                [
+                    'title'  => '备课',
+                    'status' => 10,
+                ],
+                [
+                    'title'  => '签到记录',
+                    'status' => 20,
+                ],
+                [
+                    'title'  => '家长访问',
+                    'status' => 10,
+                ],
+            ];
         return $data;
     }
 }

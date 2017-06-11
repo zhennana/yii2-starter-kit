@@ -1,11 +1,14 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\grid\GridView;
 use yii\widgets\DetailView;
 use yii\widgets\Pjax;
 use dmstr\bootstrap\Tabs;
+use backend\modules\campus\models\StudentRecordValue;
+use backend\modules\campus\models\StudentRecordValueToFile;
 
 /**
 * @var yii\web\View $this
@@ -120,19 +123,108 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
     <?php $this->endBlock(); ?>
 
 
-    
-    <?= Tabs::widget(
-                 [
-                     'id' => 'relation-tabs',
-                     'encodeLabels' => false,
-                     'items' => [
- [
-    'label'   => '<b class=""># '.$model->student_record_id.'</b>',
-    'content' => $this->blocks['backend\modules\campus\models\StudentRecord'],
-    'active'  => true,
-],
- ]
-                 ]
+    <?php  $html = '';  $this->beginBlock('backend\modules\campus\models\StudentRecordValue'); ?>
+            <?=  '<div  class="table-responsive">'.$html.\yii\grid\GridView::widget([
+                'layout'=>'{summary}{pager}<br/>{items}{pager}',
+                'dataProvider'=>  new \yii\data\ActiveDataProvider([
+                        'query' => $model->getStudentRecordValue(),
+                        'pagination' => [
+                            'pageSize' => 20,
+                            'pageParam'=>'page-studentrecordvaluetofiles',
+                        ]
+                    ]),
+                //'filterModel'=> $CoursewareToCoursewareSearch,
+                'columns'=>[
+                    //'courseware_master_id',
+                    //'student_record_key_id',
+                    [
+                        'attribute'=>'标题',
+                        'value'    =>function($model){
+                            return $model->studentRecordKey->title;
+                        }
+                    ],
+                    'body',
+                    [
+                        'attribute'=>'status',
+                        'label'    =>'状态',
+                        'value'    =>function($model){
+                            return StudentRecordValue::getStatusValueLabel($model->status);
+                        }
+                    ],
+                    'updated_at:datetime',
+                    'created_at:datetime'
+                ]
+            ]).'</div>'
+        ?>
+    <?php $this->endBlock(); ?>
+<?php $this->beginBlock('backend\modules\campus\models\StudentRecordValueToFile'); 
+        $student_record_value_ids  = $model->getStudentRecordValue()->asArray()->all();
+        //dump($student_record_value_ids);exit;
+        if($student_record_value_ids){
+            $student_record_value_ids = ArrayHelper::map($student_record_value_ids,'student_record_value_id','student_record_value_id');
+        }
+?>
+            <?=  '<div  class="table-responsive">'.$html.\yii\grid\GridView::widget([
+                'layout'=>'{summary}{pager}<br/>{items}{pager}',
+                'dataProvider'=>  new \yii\data\ActiveDataProvider([
+                        'query' => StudentRecordValueToFile::find()->where(['student_record_value_id'=>$student_record_value_ids]),
+                        'pagination' => [
+                            'pageSize' => 20,
+                            'pageParam'=>'page-studentrecordvaluetofiles',
+                        ]
+                    ]),
+                //'filterModel'=> $CoursewareToCoursewareSearch,
+                'columns'=>[
+                    [
+                    'attribute'=>'student_record_value_to_file_id',
+                    'label'    => 'id',
+                    ],
+                    [
+                    //'attribute' => '2',
+                    'label'     => '内容',
+                    'value'     =>function($model){
+                        return $model->studentRecordValue->body;
+                        }
+                    ],
+                    [
+                        'label' => '文件',
+                        'format' => 'raw',
+                        'value' => function($model, $key, $index, $grid){
+                            $url = $model->fileStorageItem->url.$model->fileStorageItem->file_name;
+                            if(strstr($model->fileStorageItem->type,'image')){
+                                return Html::a('<img width="50px" height="50px" class="img-thumbnail" src="'.$url.'?imageView2/1/w/50/h/50" />', $url.'?imageView2/1/w/500/h/500', ['title' => '访问','target' => '_blank']);
+                            }else{
+                                return Html::a($model->fileStorageItem->type, $url, ['title' => '访问','target' => '_blank']);
+                            }
+                        }
+                    ],
+                ]
+            ]).'</div>'
+        ?>
+<?php $this->endBlock(); ?>
+<?= Tabs::widget(
+        [
+                 'id' => 'relation-tabs',
+                 'encodeLabels' => false,
+                 'items' => [
+                [
+                        'label'   => '<b class=""># '.$model->student_record_id.'</b>',
+                        'content' => $this->blocks['backend\modules\campus\models\StudentRecord'],
+                        'active'  => false,
+                ],
+                [
+                        'label'   => '<b class="">学生档案详情 '.$model->getStudentRecordValue()->count().'</b>',
+                        'content' => $this->blocks['backend\modules\campus\models\StudentRecordValue'],
+                        'active'  => true,
+                ],
+                [
+                        'label'   =>  '<b class="">我的图片'.$model->getStudentRecordValue()->count().'</b>',
+                        'content' => $this->blocks['backend\modules\campus\models\StudentRecordValueToFile'],
+                        'active'  =>false,
+                ]
+
+            ]
+        ]
     );
     ?>
 </div>

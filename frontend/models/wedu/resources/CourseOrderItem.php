@@ -42,8 +42,8 @@ public function behaviors()
         $obove_course_count = $this->oboveCourse();
         $data = [];
         $data = [
-            'total_courses' => (int)$model['total_courses'],
-            'presented_course' => (int)$model['total_courses'] -$obove_course_count
+            'total_courses' => '总共'.(int)$model['total_courses'].'节课',
+            'surplus_course' => '剩余'.((int)$model['total_courses'] -$obove_course_count).'节课',
         ];
         return $data; 
     }
@@ -51,7 +51,7 @@ public function behaviors()
     /**
      * 统计上了多少节课
      */
-    public function oboveCourse(){
+    public function oboveCourse($user_id = NULL){
       return SignIn::find()->where(['student_id'=>Yii::$app->user->identity->id])->count();
     }
 }

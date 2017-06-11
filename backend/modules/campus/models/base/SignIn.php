@@ -27,7 +27,8 @@ abstract class SignIn extends \yii\db\ActiveRecord
 
     const STATUS_UNREAD = 0;    // 未查看
     const STATUS_READ   = 10;   // 已查看
-
+    const TYPE_STATUS_MORMAL = 10; //正常
+    const TYPE_STATUS_ABSENTEEISM = 20; //缺勤
     /**
      * @inheritdoc
      */
@@ -59,8 +60,31 @@ abstract class SignIn extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['school_id', 'grade_id', 'course_id', 'student_id', 'teacher_id'], 'required'],
-            [['school_id', 'grade_id', 'course_id', 'student_id', 'teacher_id', 'auditor_id', 'status'], 'integer']
+            [['school_id', 'grade_id', 'course_id','type_status', 'student_id'], 'required'],
+            ['teacher_id','default','value'=>isset(Yii::$app->user->identity->id) ? Yii::$app->user->identity->id : 0],
+            [['school_id', 'grade_id', 'type_status','course_id', 'student_id', 'teacher_id', 'auditor_id', 'status'], 'integer'],
+            ['describe','string','max' => '32'],
+            ['school_id','filter','filter'=>function(){
+                return (int)$this->school_id;
+            }],
+             ['school_id','filter','filter'=>function(){
+                return (int)$this->school_id;
+            }],
+            ['school_id','filter','filter'=>function(){
+                return (int)$this->school_id;
+            }],
+            ['grade_id','filter','filter'=>function(){
+                return (int)$this->grade_id;
+            }],
+            ['student_id','filter','filter'=>function(){
+                return (int)$this->student_id;
+            }],
+            ['course_id','filter','filter'=>function(){
+                return (int)$this->course_id;
+            }],
+            ['type_status','filter','filter'=>function(){
+                return (int)$this->type_status;
+            }],
         ];
     }
 
@@ -118,7 +142,18 @@ abstract class SignIn extends \yii\db\ActiveRecord
         }
         return $value;
     }
-
+    /**
+     * 一共签到多少人，
+     * @param  [type] $course_id [description]
+     * @return [type]            [description]
+     */
+    public static function singInCount($course_id,$params = NULL){
+        $modelQuery =  self::find()->where(['course_id'=>$course_id]);
+        if($params != NULL){
+            $modelQuery = $modelQuery->andWhere(['type_status'=>self::TYPE_STATUS_MORMAL]);
+        }
+        return $modelQuery->count();
+    }
     public function getSchool()
     {
         return $this->hasOne(\backend\modules\campus\models\School::className(),['id' => 'school_id']);
@@ -134,6 +169,19 @@ abstract class SignIn extends \yii\db\ActiveRecord
         return $this->hasOne(\backend\modules\campus\models\Course::className(),['course_id' => 'course_id']);
     }
 
+    
+    public function getCourseOrder()
+    {
+        return $this->hasOne(\backend\modules\campus\models\CourseOrderItem::className(),['user_id' => 'student_id']);
+    }
+    public function getUser()
+    {
+        return $this->hasOne(\common\models\User::className(),['id' => 'student_id']);
+    }
+
+    public function getSignIns(){
+        return $this->hasOne(\backend\modules\campus\models\SignIn::className(),['student_id' => 'student_id']);
+    }
     public static function getUserName($id)
     {
         $user = \common\models\User::findOne($id);

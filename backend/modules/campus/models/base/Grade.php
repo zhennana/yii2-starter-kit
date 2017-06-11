@@ -33,8 +33,8 @@ abstract class Grade extends \yii\db\ActiveRecord
     CONST GRADE_STATUS_OPEN = 10;//正常。
     CONST GRANE_STATUS_DELECT = 0;//标记性删除。
 
-    CONST GRANE_GRADUATE = 0;//毕业
-    CONST GRADE_NOT_GRADUATE = 1;//未毕业
+    CONST GRANE_GRADUATE = 1;//毕业
+    CONST GRADE_NOT_GRADUATE = 0;//未毕业
 
     public static function optsGraduate(){
         return [

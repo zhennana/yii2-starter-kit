@@ -72,13 +72,14 @@ class LoginForm extends Model
         }
         $duration = $this->rememberMe ? Time::SECONDS_IN_A_MONTH : 0;
         if (Yii::$app->user->login($this->getUser(), $duration)) {
+
             if (!Yii::$app->user->can('loginToBackend')) {
+
                 Yii::$app->user->logout();
                 throw new ForbiddenHttpException;
             }
             return true;
         }
-
         return false;
     }
 
@@ -89,12 +90,12 @@ class LoginForm extends Model
      */
     public function getUser()
     {
+        //var_dump('<pre>',Yii::$app->getAuthManager()->getPermissionsByUser(6));exit;
         if ($this->user === false) {
             $this->user = User::find()
-                ->andWhere(['or', ['username'=>$this->username], ['email'=>$this->username]])
+                ->andWhere(['or', ['username'=>$this->username], ['email'=>$this->username] ,['phone_number'=>$this->username]])
                 ->one();
         }
-
         return $this->user;
     }
 }

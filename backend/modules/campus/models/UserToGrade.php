@@ -36,6 +36,7 @@ public function behaviors()
       return array_merge(
           parent::fields(),
           [
+
             'school_label'=>function(){
                 return isset($this->school->school_title)? $this->school->school_title : '';
             },
@@ -74,7 +75,7 @@ public function behaviors()
       $info = ['error' => []];
       if(!isset($data) && empty($data) && !is_array($data['user_id']))
       {
-            return false;
+            return [];
       }
 
       foreach ($data['user_id'] as $key => $value) {
@@ -182,7 +183,7 @@ public function behaviors()
   }
   /**
    * 返回所有下拉框集合
-   */  
+   */
   public function DropDownGather(){
     $data = [];
     $data['status']           = $this->DropDownLabel(self::optsStatus());

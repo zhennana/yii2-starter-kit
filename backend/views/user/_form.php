@@ -3,6 +3,9 @@
 use common\models\User;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use common\models\UserProfile;
+use trntv\yii\datetime\DateTimeWidget;
+
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\UserForm */
@@ -18,6 +21,28 @@ use yii\bootstrap\ActiveForm;
         <?php echo $form->field($model, 'email') ?>
         <?php echo $form->field($model, 'phone_number') ?>
         <?php echo $form->field($model, 'password')->passwordInput() ?>
+
+        <?php
+            if(!$model->getModel()->isNewRecord){
+
+                $model->birth  =  $model->getModel()->userProfile->birth;
+                $model->gender =  $model->getModel()->userProfile->gender;
+            }else{
+                $model->birth = time();
+            }
+        ?>
+        <?php echo $form->field($model, 'gender')->dropDownlist([
+            UserProfile::GENDER_FEMALE => Yii::t('backend', 'Female'),
+            UserProfile::GENDER_MALE => Yii::t('backend', 'Male')
+        ]) ?>
+        <?php
+        echo $form->field($model, 'birth')->widget(
+                DateTimeWidget::className(),
+                [
+                    'locale'            => Yii::$app->language,
+                    'phpDatetimeFormat' => 'yyyy-MM-dd',
+                ]);
+        ?>
         <?php echo $form->field($model, 'status')->dropDownList(User::statuses()) ?>
         <?php echo $form->field($model, 'roles')->checkboxList($roles) ?>
         <div class="form-group">

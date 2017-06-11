@@ -64,7 +64,7 @@ if(\Yii::$app->user->can('manager')){
 <?php
 }
 ?>
-        <div class="pull-right">              
+        <div class="pull-right">
             <?= \yii\bootstrap\ButtonDropdown::widget(
                 [
                     'id' => 'giiant-relations',
@@ -140,7 +140,19 @@ if(\Yii::$app->user->can('manager')){
             'status',
             'sort',
             'updated_at:datetime',
-            'created_at:datetime'
+            'created_at:datetime',
+            [
+                'label'=>'',
+                'format'    => 'raw',
+                'value'=>function($model){
+                    return Html::a('编写学员档案',['student-record-value/create-value',
+                        'user_id'     => $model->user_id,
+                        'school_id'   => $model->school_id,
+                        'grade_id'    => $model->grade_id,
+                        'student_record_id'=> $model->student_record_id,
+                    ]);
+                }
+            ]
 
         ],
         ]); ?>
