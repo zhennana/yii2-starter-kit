@@ -41,7 +41,11 @@ $box_color = [
                 <div class="box <?php echo $box_color[rand(1,4)] ?> box-solid">
 
                     <div class="box-header with-border">
-                        <h4 class="box-title"><?= substr_auto(strip_tags($value['title']),25) ?></h4>
+                        <h4 class="box-title">
+                        <?php if (isset($value['title']) && !empty($value['title'])) {
+                            echo substr_auto(strip_tags($value['title']),25);
+                        } ?>
+                        </h4>
                     </div>
 
                     <div class="box-body">
