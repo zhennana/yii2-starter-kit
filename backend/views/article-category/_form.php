@@ -19,6 +19,21 @@ use yii\bootstrap\ActiveForm;
         ->hint(Yii::t('backend', 'If you\'ll leave this field empty, slug will be generated automatically'))
         ->textInput(['maxlength' => 1024]) ?>
 
+    <?php echo $form->field($model, 'body')->widget(
+        \yii\imperavi\Widget::className(),
+        [
+            'plugins' => ['fullscreen', 'fontcolor', 'video'],
+            'options' => [
+                'minHeight' => 400,
+                'maxHeight' => 400,
+                'buttonSource' => true,
+                'convertDivs' => false,
+                'removeEmptyTags' => false,
+                'imageUpload' => Yii::$app->urlManager->createUrl(['/file-storage/upload-imperavi'])
+            ]
+        ]
+    ) ?>
+
     <?php echo $form->field($model, 'parent_id')->dropDownList($categories, ['prompt'=>'']) ?>
 
     <?php echo $form->field($model, 'status')->checkbox() ?>

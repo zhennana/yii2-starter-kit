@@ -28,7 +28,7 @@ $box_color = [
                 }
                 $images = [];
                 $images[0] = 'http://orfaphl6n.bkt.clouddn.com/Starter1.png';
-                if ($value['body']) {
+                if (isset($value['body']) && !empty($value['body'])) {
                     $images = getImgs($value['body']);
                 }
 
