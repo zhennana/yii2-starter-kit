@@ -45,7 +45,6 @@ class Notice extends BaseNotice
             if($value){
                 $model              = new Notice;
                 $model->receiver_id = $value;
-
                 $model->category     = $data['category'];
                 $model->title        = $data['title'];
                 $model->message      = $data['message'];
@@ -55,7 +54,6 @@ class Notice extends BaseNotice
                 $model->times        = 1;
                 $model->created_at   = time();
                 $model->updated_at   = time();
-                
                 if(!$model->save()){
                     $info['error'][$key] = $model->getErrors();
                     continue;

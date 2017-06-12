@@ -22,11 +22,14 @@ class FrontendAsset extends AssetBundle
         'css/style.css',
         'css/course.css',
         'css/gstyle.css',
-        //'css/cstyle.css',
+        'css/gresstyle.css',
+        
     ];
 
     public $js = [
         'js/app.js',
+  
+
     ];
 
     public $depends = [

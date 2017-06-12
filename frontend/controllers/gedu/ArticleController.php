@@ -17,12 +17,14 @@ class ArticleController extends Controller{
         return $this->render('index', ['dataProvider'=>$dataProvider]);
 	}
 
-	public function actionView($id=1){
+	public function actionView($id=''){
+		// var_dump($id);exit;
 		$article=Article::find()->where(['id'=>$id])->one();
+
 		if(!$article){
 			throw new NotFoundHttpException(Yii::t('frontend','页面未找到'));
 		}
-		$viewFile=$article->view? :"view";
+		 $viewFile="view";
 		return $this->render($viewFile,['model'=>$article]);
 	}
 }

@@ -20,7 +20,8 @@ class UserForm extends Model
     public $password;
     public $status;
     public $roles;
-
+    public $birth;
+    public $gender;
     private $model;
 
     /**
@@ -30,8 +31,13 @@ class UserForm extends Model
     {
         return [
             ['username', 'filter', 'filter' => 'trim'],
-            ['username', 'required'],
+            [['username','phone_number','gender','birth'], 'required'],
             ['username', 'unique', 'targetClass' => User::className(), 'filter' => function ($query) {
+                if (!$this->getModel()->isNewRecord) {
+                    $query->andWhere(['not', ['id'=>$this->getModel()->id]]);
+                }
+            }],
+            ['phone_number', 'unique', 'targetClass' => User::className(), 'filter' => function ($query) {
                 if (!$this->getModel()->isNewRecord) {
                     $query->andWhere(['not', ['id'=>$this->getModel()->id]]);
                 }
@@ -67,14 +73,16 @@ class UserForm extends Model
     public function attributeLabels()
     {
         return [
-            'username' => Yii::t('common', 'Username'),
-            'phone_number' => Yii::t('common', 'Phone Number'),
+            'username' => Yii::t('common', '用户名'),
+            'phone_number' => Yii::t('common', '手机号'),
+            'birth'        => Yii::t('common', '出生年月'),
+            'gender'       => Yii::t('common', '性别'),
             //'realname' => Yii::t('common', 'Realname'),
             //'nickname' => Yii::t('common', 'Nickname'),
-            'email' => Yii::t('common', 'Email'),
+            'email' => Yii::t('common', '邮箱'),
             'status' => Yii::t('common', 'Status'),
-            'password' => Yii::t('common', 'Password'),
-            'roles' => Yii::t('common', 'Roles')
+            'password' => Yii::t('common', '密码'),
+            'roles' => Yii::t('common', '权限')
         ];
     }
 
@@ -117,6 +125,7 @@ class UserForm extends Model
     public function save()
     {
         if ($this->validate()) {
+
             $model = $this->getModel();
             $isNewRecord = $model->getIsNewRecord();
             $model->username = $this->username;
@@ -131,9 +140,19 @@ class UserForm extends Model
             if (!$model->save()) {
                 throw new Exception('Model not saved');
             }
+            $profile = [
+                    'birth'=>$this->birth,
+                    'gender'=>$this->gender,
+                ];
             if ($isNewRecord) {
-                $model->afterSignup();
+                $model->afterSignup($profile);
+            }else{
+                if($model->userProfile){
+                    $model->userProfile->load($profile,'');
+                    $model->userProfile->save();
+                }
             }
+         
             $auth = Yii::$app->authManager;
             $auth->revokeAll($model->getId());
 
@@ -145,6 +164,7 @@ class UserForm extends Model
 
             return !$model->hasErrors();
         }
+
         return null;
     }
 }

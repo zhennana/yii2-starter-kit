@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html; 
+//var_dump($data['other']);exit;
 ?>
     <div class="main">
         <div class="main-1">
@@ -77,12 +78,10 @@ use yii\helpers\Html;
             </div>
         </div>
 
-
+        <!--教师风采页面-->
+        <div class="main-2">
        <?php echo $this->render('@frontend/themes/gedu/site/common/teacher.php',['data'=>$data]);?>
-
-
-
-        
+        </div>
         <div class="main-3">
             <div class="main-3-head">
                 <div class="container">
@@ -95,6 +94,7 @@ use yii\helpers\Html;
                     </div>
                 </div>
             </div>
+            <!--校园风采模块 -->
             <?php 
                 if(!is_mobile()){
                     echo $this->render('@frontend/themes/gedu/site/common/elegant.php');
@@ -102,86 +102,13 @@ use yii\helpers\Html;
                     echo $this->render('@frontend/themes/gedu/site/common/mobile_elegant');
                 } 
             ?>
-        <div class="main-4">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 main-4-newsBox">
-                        <div class="newsBox">  
-                          <h2 class="page-header">
-                           <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-4-news.png">
-                           <?php echo Html::a(
-                                    "新闻资讯",
-                                    ['article/index'],
-                                    ['class'=>'','data-method'=>'open',]);
-                            ?>
-                          </h2>
-                        <div class="newsBox-into">
-                            <div id="myCarousel3" class="carousel slide">
-                                <!-- 轮播（Carousel）项目 -->
-                                <div class="carousel-inner">
-                                <?php if(isset($data['one'])&&!empty($data['one'])){?>
-                                    <div class="item active">
-                                        <div class="newsBox-news">
-                                            <p class="newsBox-news-p1"><?php echo date('Y-m-d',$data['one']['created_at']);?></p>
-                                            <h3 class="newsBox-news-h3" style="border-bottom-style:solid;border-bottom-color: #723c8e;border-bottom-width: 2px; "><?php echo $data['one']['title']?></h3>
-                                           
-                                            <p class="newsBox-news-p2"><?php echo Html::a(
-                                                substr_auto(strip_tags($data['one']['body']),200),
-                                                ['article/view','id'=>$data['one']['id']],
-                                                ['class'=>'','data-method'=>'open',]);
-                                            ?></p>
-                                            
-                                        </div>
-                                    </div>
-                                    <?php }?>
-
-                                    <?php if(isset($data['other'])&&!empty($data['other']))
-                                            {
-                                                foreach ($data['other'] as $key => $value) {  
-                                    ?>
-                                    <div class="item">
-                                        <div class="newsBox-news">
-                                            <p class="newsBox-news-p1"><?php echo date('Y-m-d',$value['created_at']);?></p>
-                                            <h3 class="newsBox-news-h3"><?php echo $value['title'];?></h3>
-                                            <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-4-line.png">
-                                            <p class="newsBox-news-p2"><?php echo Html::a(
-                                                substr_auto(strip_tags($value['body']),200),
-                                                ['article/view','id'=>$value['id']],
-                                                ['class'=>'','data-method'=>'open',]);
-                                            ?></p>
-                                        </div>
-                                    </div>
-                                    <?php
-                                       }}
-                                    ?>     
-                                </div>
-                                <!-- 轮播（Carousel）导航 -->
-                                <a class="carousel-control right" href="#myCarousel3" 
-                                   data-slide="next"><img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-4-circle.png"></a>
-                            </div> 
-                        </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <div class="videoBox">
-                            <video width="100%" height="100%" id="yjzxVideo" controls >
-                                <source src="http://7xsm8j.com2.z0.glb.qiniucdn.com/yanjiaozaixian-about-hd.mp4">
-                                您的浏览器不支持该视频播放
-                            </video>
-                            <div class="videoBg">
-                                <div class="videoBtn"></div>
-                                <p id="videoBtn-p">视频展播</p>
-                            </div>
-                        </div>                              
-                    </div>
-                </div>
-            </div>
+            
         </div>
 
-    </div>
-   
-
+        <!--新闻模块，视频播放模块 -->
+        <div class="main-4">
+            <?php echo $this->render('@frontend/themes/gedu/site/common/article.php',['data'=>$data]);?>
+        </div>
 
     <script type="text/javascript">
       $(function(){
