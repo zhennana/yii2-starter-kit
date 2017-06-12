@@ -26,15 +26,8 @@ $box_color = [
                 if ($key > 8) {
                     break;
                 }
-                $images = [];
-                $images[0] = 'http://orfaphl6n.bkt.clouddn.com/Starter1.png';
-                if (isset($value['body']) && !empty($value['body'])) {
-                    $images = getImgs($value['body']);
-                }
+                $image = 'http://orfaphl6n.bkt.clouddn.com/Starter1.png?imageView2/3/w/140/h/140';
 
-                if(!empty($images)){
-                    $image = $images[0].'?imageView2/3/w/140/h/140';
-                }
             ?>
 
             <div class="col-md-3 col-sm-4 course_box">
@@ -49,34 +42,46 @@ $box_color = [
                     </div>
 
                     <div class="box-body">
-                        <?= Html::a(
-                            '<img class="img-responsive center-block" src='.$image.'/><h4>'.'</h4>',
-                            ['article/course','category_id'=>$value['id']]
-                        ); ?>
+                        <?php 
+                        if (isset($value['id']) && !empty($value['id'])) {
+                            echo Html::a(
+                                '<img class="img-responsive center-block" src='.$image.'/><h4>'.'</h4>',
+                                ['article/course','category_id'=>$value['id']]
+                            );
+                        }
+                        ?>
 
                         <div>
                             <p>
                                 <?php 
-                                    if ($value['body']) {
+                                    if (isset($value['body']) && !empty($value['body'])) {
                                         $course_category = substr_auto(strip_tags($value['body']),70);
                                     }else{
                                         $course_category = 'This is the absoulut beginner Engilsh course for young learners.';
                                     }
-                                    echo Html::a($course_category
-                                        ,[
-                                            'article/course',
-                                            'category_id' => $value['id']
-                                        ],
-                                        ['class' =>'intr']
-                                    );
+
+                                    if (isset($value['id']) && !empty($value['id'])) {
+                                        echo Html::a($course_category,
+                                            [
+                                                'article/course',
+                                                'category_id' => $value['id']
+                                            ],
+                                            ['class' =>'intr']
+                                        );
+                                    }
                                 ?>
                             </p>
-                            <?= Html::a('Begin Learning', [
-                                'article/course',
-                                'category_id'=>$value['id']
-                            ],
-                            ['class' =>'btn btn-sm btn_begin']
-                            ); ?>
+
+                            <?php
+                            if (isset($value['id']) && !empty($value['id'])) {
+                                echo Html::a('Begin Learning', [
+                                    'article/course',
+                                    'category_id'=>$value['id']
+                                ],
+                                ['class' =>'btn btn-sm btn_begin']
+                                );
+                            }
+                            ?>
                         </div>
 
                     </div>
