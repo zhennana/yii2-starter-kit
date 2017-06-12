@@ -22,11 +22,12 @@ $box_color = [
 
     <div class="jumbotron">
         <div class="row">
-            <?php foreach ($model as $key => $value) {
+            <?php
+                $image = 'http://orfaphl6n.bkt.clouddn.com/Starter1.png?imageView2/3/w/140/h/140';
+                foreach ($model as $key => $value) {
                 if ($key > 8) {
                     break;
                 }
-                $image = 'http://orfaphl6n.bkt.clouddn.com/Starter1.png?imageView2/3/w/140/h/140';
 
             ?>
 
