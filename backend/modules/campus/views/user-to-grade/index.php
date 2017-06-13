@@ -6,8 +6,6 @@ use yii\grid\GridView;
 use backend\modules\campus\models\School;
 use backend\modules\campus\models\Grade;
 use backend\modules\campus\models\UserToGrade;
-
-
 use yii\helpers\ArrayHelper;
 
 /**
@@ -16,24 +14,34 @@ use yii\helpers\ArrayHelper;
     * @var backend\modules\campus\models\search\UserToGradeSearch $searchModel
 */
 
-$this->title = Yii::t('backend', '班级人员管理管理');
+$this->title = Yii::t('backend', '班级人员管理');
 $this->params['breadcrumbs'][] = $this->title;
-
+ $school = [];
+ $grade  = [];
+ $schoolOrGrade = Yii::$app->user->identity->schoolOrGrade;
+if(is_string($schoolOrGrade) && $schoolOrGrade == 'all'){
+    $school =   ArrayHelper::map(School::find()->asArray()->all(),'school_id','school_title');
+    //var_dump(UserToGrade::find()->asArray()->all());exit;
+    $grade  =  ArrayHelper::map(Grade::find()->asArray()->all(),'grade_id','grade_name');
+}elseif(is_array($schoolOrGrade)){
+    $school =   ArrayHelper::map(School::find()->where(['school_id'=>$schoolOrGrade])->AsArray()->all(),'school_id','school_title');
+    $grade  =  ArrayHelper::map(Grade::find()->where(['grade_id'=>$schoolOrGrade])->AsArray()->all(),'grade_id','grade_name');
+}
 
 /**
 * create action column template depending acces rights
 */
     $actionColumnTemplates = [];
 
-    if (\Yii::$app->user->can('manager', ['route' => true])) {
+    if (\Yii::$app->user->can('teacher', ['route' => true])) {
         $actionColumnTemplates[] = '{view}';
     }
 
-    if (\Yii::$app->user->can('manager', ['route' => true])) {
+    if (\Yii::$app->user->can('director', ['route' => true])) {
         $actionColumnTemplates[] = '{update}';
     }
 
-    if (\Yii::$app->user->can('manager', ['route' => true])) {
+    if (\Yii::$app->user->can('director', ['route' => true])) {
         $actionColumnTemplates[] = '{delete}';
     }
     if (isset($actionColumnTemplates)) {
@@ -62,7 +70,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </h1>
     <div class="clearfix crud-navigation">
     <?php
-        if(\Yii::$app->user->can('manager', ['route' => true])){
+        if(\Yii::$app->user->can('director', ['route' => true])){
     ?>
         <div class="pull-left">
             <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建班级老师'), ['create','grade_user_type'=>UserToGrade::GRADE_USER_TYPE_TEACHER], ['class' => 'btn btn-success']) ?>
@@ -145,7 +153,7 @@ $this->params['breadcrumbs'][] = $this->title;
     			[
                     'class'=>\common\grid\EnumColumn::className(),
                     'attribute' =>'school_id',
-                    'enum'      => ArrayHelper::map(School::find()->AsArray()->all(),'school_id','school_title'),
+                    'enum'      => $school,
                     'value'     => function($model){
                         if(isset($model->school->school_title)){
                             return $model->school->school_title;
@@ -157,7 +165,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                     'class'=>\common\grid\EnumColumn::className(),
                     'attribute' =>'grade_id',
-                    'enum'      => ArrayHelper::map(Grade::find()->AsArray()->all(),'grade_id','grade_name'),
+                    'enum'      => $grade,
                     'value'     => function($model){
                         if(isset($model->grade->grade_name)){
                             return $model->grade->grade_name;

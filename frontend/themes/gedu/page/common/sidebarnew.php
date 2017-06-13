@@ -1,4 +1,7 @@
- <!-- 左边侧边栏 -->
+ 
+<?php
+use yii\helpers\Html;
+?><!-- 左边侧边栏 -->
     <div class="col-md-4">
       <!-- <div class="">
         <div class="gbox">
@@ -19,7 +22,7 @@
       </div> -->
       <div class="">
         <div class="gbox">
-          <h4 class="">合作交流</h4>
+          <h4 class="">光大学校</h4>
         </div>
         <div class="box-body geu-sidebar" >
            <aside class="">
@@ -42,28 +45,36 @@
                     </span>
                   </a>
                   <ul class="treeview-menu" style="display: none;">
-                    <li><a href=""><i class="fa fa-circle-o"></i> 周一</a></li>
-                    <li><a href=""><i class="fa fa-circle-o"></i> 周二</a></li>
-                    <li><a href=""><i class="fa fa-circle-o"></i> 周三</a></li>
-                    <li><a href=""><i class="fa fa-circle-o"></i> 周四</a></li>
+                    
+                    <li><a href=""><?php echo Html::a('小学部',['page/view','slug'=>'xiaoxuezuoxi'])?></a></li>
+                    <li><a href=""><?php echo Html::a('中学部',['page/view','slug'=>'zhongxuezuoxi'])?></a></li>
                   </ul>
                 </li>
                 <li class="treeview">
                   <a href="#">
-                    <i class="fa fa-share"></i> <span>每周食谱</span>
+                    <i class="fa fa-folder"></i> <span>每周食谱</span>
                     <span class="pull-right-container">
                       <i class="fa fa-angle-left pull-right"></i>
                     </span>
                   </a>
+                  <ul class="treeview-menu" style="display: none;">
+                    
+                    <li><a href=""><?php echo Html::a('小学部',['page/view','slug'=>'shi-pu'])?></a></li>
+                    <li><a href=""><?php echo Html::a('中学部',['page/view','slug'=>'shi-pu'])?></a></li>
+                  </ul>
                 </li>
                 <li class="treeview">
                   <a href="#">
-                    <i class="fa fa-share"></i> <span>班车路线</span>
+                    <i class="fa fa-folder"></i> <span>班车路线</span>
                     <span class="pull-right-container">
                       <i class="fa fa-angle-left pull-right"></i>
                     </span>
                   </a>
+                  <ul class="treeview-menu" style="display: none;">
+                    <li><a href=""><?php echo Html::a('班车路线',['page/view','slug'=>'ban-che-lu-xian'])?></a></li>
+                  </ul>
                 </li>
+
                 <li class="treeview">
                   <a href="#">
                     <i class="fa fa-share"></i> <span>学生活动</span>

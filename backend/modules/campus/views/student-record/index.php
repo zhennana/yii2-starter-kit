@@ -12,7 +12,6 @@ use yii\grid\GridView;
 
 $this->title = Yii::t('models', '学员档案管理');
 $this->params['breadcrumbs'][] = $this->title;
-
 /**
 * create action column template depending acces rights
 */
@@ -29,14 +28,14 @@ $this->params['breadcrumbs'][] = $this->title;
     if (\Yii::$app->user->can('manager')) {
         $actionColumnTemplates[] = '{delete}';
     }
-    
+
     if (isset($actionColumnTemplates)) {
-        
+
         $actionColumnTemplate = implode(' ', $actionColumnTemplates);
         $actionColumnTemplateString = $actionColumnTemplate;
-    
+
     } else {
-    
+
         Yii::$app->view->params['pageButtons'] = Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'), ['create'], ['class' => 'btn btn-success']);
         $actionColumnTemplateString = "{view} {update} {delete}";
     }

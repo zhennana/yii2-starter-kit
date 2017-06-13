@@ -42,6 +42,9 @@ class User extends ActiveRecord implements IdentityInterface
     const ROLE_USER = 'user';
     const ROLE_MANAGER = 'manager';
     const ROLE_ADMINISTRATOR = 'administrator';
+    const ROLE_DIRECTOR      = 'director';
+    const ROLE_TEACHER       = 'teacher';
+    const ROLE_LEADER        = 'leader';
 
     const EVENT_AFTER_SIGNUP = 'afterSignup';
     const EVENT_AFTER_LOGIN = 'afterLogin';
@@ -141,9 +144,12 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->hasOne(UserProfile::className(), ['user_id' => 'id']);
     }
-
+    /**
+     * 获取学校
+     * @return [type] [description]
+     */
     public function getUserToSchool(){
-        return $this->hasOne(UserToSchool::className(),['user_id'=>'id'])->orderBy(['created_at'=> 'SORT_SESC']);
+        return $this->hasMany(UserToSchool::className(),['user_id'=>'id'])->orderBy(['created_at'=> 'SORT_SESC']);
     }
     
     /**
@@ -151,8 +157,29 @@ class User extends ActiveRecord implements IdentityInterface
      * @return [type] [description]
      */
     public function getUserToGrade(){
-        return $this->hasOne(UserToGrade::className(),['user_id'=>'id'])->orderBy(['created_at'=>'SORT_SESC']);
-    }  
+        return $this->hasMany(UserToGrade::className(),['user_id'=>'id'])->orderBy(['created_at'=>'SORT_SESC']);
+    }
+    /**
+     * 根据权限获取班级id或者学校id
+     */
+    public function getSchoolOrGrade(){
+        if(Yii::$app->user->can('manager')){
+            return 'all';
+        }elseif(Yii::$app->user->can('director') || Yii::$app->user->can('leader') ){
+            return ArrayHelper::map($this->userToSchool, 'school_id','school_id');
+        }elseif(Yii::$app->user->can('teacher')){
+            return ArrayHelper::map($this->userToGrade, 'grade_id','grade_id');
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * 根据权限获取班级用户
+     */
+    public function getStuOrTeaByUser(){
+
+    }
     /**
      * 检测用户是否存在班级学校
      * @param  boolean $type [description]

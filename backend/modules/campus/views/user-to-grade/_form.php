@@ -13,16 +13,40 @@ use common\models\User;
 use backend\modules\campus\models\School;
 use backend\modules\campus\models\Grade;
 use backend\modules\campus\models\UserToGrade;
+use backend\modules\campus\models\UserToSchool;
 
 /**
 * @var yii\web\View $this
 * @var backend\modules\campus\models\UserToGrade $model
 * @var yii\widgets\ActiveForm $form
 */
+    $grade_user_type = 10;
+    if(isset($_GET['grade_user_type'])){
+        $grade_user_type = (int)$_GET['grade_user_type'];
+    }
+    $schoolOrGrade = Yii::$app->user->identity->schoolOrGrade;
+    $user = UserToSchool::find();
+    if($grade_user_type == 10){
+        $user->andWhere(['school_user_type'=>UserToSchool::SCHOOL_USER_TYPE_STUDENTS]);
+    }
 
-$user      = User::find()->where(['status'=>2])->asArray()->all();
-$data_user = ArrayHelper::map($user,'id','username');
-
+    if($grade_user_type == 20){
+        $user->andWhere(['school_user_type'=>UserToSchool::SCHOOL_USER_TYPE_TEACHER]);
+    }
+    if(is_array($schoolOrGrade)){
+       $user->andWhere(['school_id'=>$schoolOrGrade]);
+       $user =  $user->all();
+    }elseif(is_string($schoolOrGrade) && $schoolOrGrade ='all'){
+      $user = $user->all();
+    }else{
+        $user = [];
+    }
+    // var_dump($user);exit;
+    $data = [];
+    foreach ($user as $key => $value) {
+        $data[$key] = $value->user_id;
+        $data[$key] = $value->user->username;
+    }
 ?>
 <?php
     if(isset($info['error']) && !empty($info['error']) ){
@@ -74,7 +98,7 @@ $data_user = ArrayHelper::map($user,'id','username');
                     echo $form->field($model, 'user_id')->widget(Select2::className(),[
                         // 'language'          => 'en',
                         // "showToggleAll"     => true,
-                        'data'              => $data_user,
+                        'data'              => $data,
                         'theme'             => Select2::THEME_BOOTSTRAP,
                         "maintainOrder"     => true,
                         'toggleAllSettings' => [
@@ -85,7 +109,7 @@ $data_user = ArrayHelper::map($user,'id','username');
                             'placeholder' => '请选择',
                             'multiple'    => true,
                         ],
-                        'pluginOptions' => [ 
+                        'pluginOptions' => [
                             'allowClear' => true
                         ]
                     ]);
@@ -156,13 +180,6 @@ $data_user = ArrayHelper::map($user,'id','username');
         <!-- attribute sort -->
             <?= $form->field($model, 'sort')->textInput() ?>
 
-            <?php
-                $grade_user_type = 10;
-                if(isset($_GET['grade_user_type'])){
-                    $grade_user_type = (int)$_GET['grade_user_type'];
-                    //$grade_user_type['user_title_id_at_grade'] = $_GET['grade_user_type'];
-                }
-            ?>
             <?= $form->field($model,'grade_user_type')->hiddenInput(['value'=>$grade_user_type])->label(false)->hint(false)?>
             <?= $form->field($model,'user_title_id_at_grade')->hiddenInput(['value'=>$grade_user_type])->label(false)->hint(false)?>
         <!-- attribute grade_user_type -->

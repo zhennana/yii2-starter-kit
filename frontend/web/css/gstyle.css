@@ -131,7 +131,10 @@
 }
 .geu-sidebar{
 	background: #f1f1f1;
-	height: 450px;	
+	height: 450px;
+	display: inline-block; 
+	width: 100%;
+	height: 100%;
 }
 .geu-sidebar2{
 	background: #f1f1f1;
@@ -430,6 +433,9 @@
   }
 .demo .teabor .teacherdetail{
 	margin-top: 20px;
+}
+.geu-content .btncolor{
+	background: #f1f1f1;
 }
 
  .row-box .headcolor{color: black;}

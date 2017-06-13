@@ -38,7 +38,9 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
 
 
     <div class="clearfix crud-navigation">
-
+    <?php
+        if(Yii::$app->user->can('director')){
+    ?>
         <!-- menu buttons -->
         <div class='pull-left'>
             <?= Html::a(
@@ -55,8 +57,15 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
             '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'),
             ['create'],
             ['class' => 'btn btn-success']) ?>
-        </div>
 
+            <?= Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('backend', '删除'), ['delete', 'user_to_grade_id' => $model->user_to_grade_id],
+                [
+                'class' => 'btn btn-danger',
+                'data-confirm' => '' . Yii::t('backend', '确定要删除该项目吗？') . '',
+                'data-method' => 'post',
+                ]); ?>
+        </div>
+    <?php } ?>
         <div class="pull-right">
             <?= Html::a('<span class="glyphicon glyphicon-list"></span> '
             . Yii::t('backend', '返回列表'), ['index'], ['class'=>'btn btn-default']) ?>
@@ -97,12 +106,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
     
     <hr/>
 
-    <?= Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('backend', '删除'), ['delete', 'user_to_grade_id' => $model->user_to_grade_id],
-    [
-    'class' => 'btn btn-danger',
-    'data-confirm' => '' . Yii::t('backend', '确定要删除该项目吗？') . '',
-    'data-method' => 'post',
-    ]); ?>
+
     <?php $this->endBlock(); ?>
 
 
