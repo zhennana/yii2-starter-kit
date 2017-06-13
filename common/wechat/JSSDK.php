@@ -2,6 +2,7 @@
 namespace common\wechat;
 
 use Yii;
+use common\models\KeyStorageItem;
 
 /**
  * 获取微信使用权限签名
@@ -15,8 +16,8 @@ class JSSDK {
     public function __construct($appId, $appSecret) {
         $this->appId        = $appId;
         $this->appSecret    = $appSecret;
-        $this->jsapi_ticket = Yii::getAlias('@runtime').DIRECTORY_SEPARATOR.'jsapi_ticket.php';
-        $this->access_token = Yii::getAlias('@runtime').DIRECTORY_SEPARATOR.'access_token.php';
+        $this->jsapi_ticket = 'gedu.jsapi_ticket.php';
+        $this->access_token = 'gedu.access_token.php';
     }
 
     public function getSignPackage($url) {
@@ -24,7 +25,7 @@ class JSSDK {
         if (isset($jsapiTicket->errcode) && isset($jsapiTicket->errmsg)) {
             return $jsapiTicket;
         }
-        
+
         // 注意 URL 一定要动态获取，不能 hardcode.
         // $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
         // $url = "$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
@@ -131,12 +132,13 @@ class JSSDK {
     }
 
     private function get_php_file($filename) {
-        return trim(substr(file_get_contents($filename), 15));
+        return trim(KeyStorageItem::findOne($filename)->value);
     }
     private function set_php_file($filename, $content) {
-        $fp = fopen($filename, "w");
-        fwrite($fp, "<?php exit();?>" . $content);
-        fclose($fp);
+        $model       = new KeyStorageItem;
+        $mode->key   = $filename;
+        $mode->value = $content;
+        $model->save();
     }
 }
 
