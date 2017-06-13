@@ -33,7 +33,6 @@ abstract class UserToSchool extends \yii\db\ActiveRecord
     */
     public static function getDb()
     {
-        //return \Yii::$app->modules['campus']->get('campus');
         return Yii::$app->get('campus');
     }
 
@@ -44,7 +43,8 @@ abstract class UserToSchool extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'users_to_school';
+       preg_match("/dbname=([^;]+)/i", self::getDb()->dsn, $matches);
+       return  $matches[1].'.users_to_school';
     }
 
 
