@@ -153,7 +153,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                         </div>
                     </div>
                     <div class="col-md-4 col-md-4 col-sm-4 col-xs-4">
-                        <div class="footer-2-box2">
+                       <!--  <div class="footer-2-box2">
                             <div class="footer-2-icon">
                                 <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/footer-2-fax.png">
                             </div>                        
@@ -161,7 +161,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                                 <h3>Fax</h3>
                                 <p>0316-8888888</p>
                             </div>
-                        </div> 
+                        </div>  -->
                     </div>
                     <div class="col-md-4 col-md-4 col-sm-4 col-xs-4">
                         <div class="footer-2-box3">

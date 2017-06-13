@@ -67,13 +67,13 @@ use yii\helpers\Html;
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="videoBox">
                     <video width="100%" height="100%" id="yjzxVideo" controls >
-                        <source src="http://7xsm8j.com2.z0.glb.qiniucdn.com/yanjiaozaixian-about-hd.mp4">
+                        <source src="http://orh16je38.bkt.clouddn.com/guangda86m.mov">
                         您的浏览器不支持该视频播放
                     </video>
-                    <div class="videoBg">
+                    <!-- <div class="videoBg">
                         <div class="videoBtn"></div>
                         <p id="videoBtn-p">视频展播</p>
-                    </div>
+                    </div> -->
                 </div>                              
             </div>
         </div>

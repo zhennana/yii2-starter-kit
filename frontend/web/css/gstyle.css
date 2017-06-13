@@ -437,14 +437,26 @@
 .geu-content .btncolor{
 	background: #f1f1f1;
 }
-
+.score .btncolor{
+	background: #f1f1f1;
+	color: black;
+}
+.score .scobtn{
+	margin-top: 15px;
+}
+.demo .scholbor{
+	margin-top: 15px;
+}
+.geu-sidebar .sidebar-menu li{
+	margin:20px;
+}
 /* effect-6 css */
 
 .full-length li{float: left; margin:; list-style: none;}
 
 .full-length h3{font-size: 20px; margin: 5px 0 10px;}
 .full-length p{font-weight: 300; line-height: 20px; font-size: 14px; margin-bottom: 15px;}
-.btn{display: inline-block; padding: 5px 10px; font-size: 14px; color: #fff; border: 2px solid #4d92d9; background-color: #4d92d9; text-decoration: none; transition: 0.4s;}
+.full-length .btn{display: inline-block; padding: 5px 10px; font-size: 14px; color: #fff; border: 2px solid #4d92d9; background-color: #4d92d9; text-decoration: none; transition: 0.4s;}
 .btn:hover{background-color: transparent; color: #4d92d9; transition: 0.4s;}
 .text-desc{position: absolute; left: 0; top: 0; background-color: #fff; height: 100%; opacity: 0; width: 100%; padding: 20px;}
 .port-4{float: left; width: 100%; position: relative; overflow: hidden; text-align: center;  z-index: 10;}

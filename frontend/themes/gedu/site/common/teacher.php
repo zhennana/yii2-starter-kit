@@ -91,7 +91,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                 <?php
                                     foreach ($teachers as $key => $value) {
                                         
-                                        if($key<5){          
+                                        if($key>1&&$key<6){          
                                 ?>
                                 <div class="col-md-3 col-sm-6">
                                     <div class="box1">
@@ -120,7 +120,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                 
                                 foreach ($teachers as $key => $value) {
                                     
-                                    if(4<$key&&$key<9){          
+                                    if(5<$key&&$key<10){          
                             ?>
                             <div class="col-md-3 col-sm-6">
                                 <div class="box1">
@@ -148,7 +148,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                 
                                 foreach ($teachers as $key => $value) {
                                     
-                                    if(8<$key&&$key<13){          
+                                    if(9<$key&&$key<14){          
                             ?>
                             <div class="col-md-3 col-sm-6">
                                 <div class="box1">
@@ -203,7 +203,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                     
                                     foreach ($teachers as $key => $value) {
                                         
-                                        if($key<5){          
+                                        if($key>2&&$key<7){          
                                 ?>
                                 <div class="col-md-3 col-sm-6">
                                     <div class="box1">
@@ -232,7 +232,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                 
                                 foreach ($teachers as $key => $value) {
                                     
-                                    if(4<$key&&$key<9){          
+                                    if(6<$key&&$key<11){          
                             ?>
                             <div class="col-md-3 col-sm-6">
                                 <div class="box1">
@@ -260,7 +260,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                 
                                 foreach ($teachers as $key => $value) {
                                     
-                                    if(8<$key&&$key<13){          
+                                    if(10<$key&&$key<14){          
                             ?>
                             <div class="col-md-3 col-sm-6">
                                 <div class="box1">
@@ -427,7 +427,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                     
                                     foreach ($teachers as $key => $value) {
                                         
-                                        if($key<5){          
+                                        if($key>3&&$key<8){          
                                 ?>
                                 <div class="col-md-3 col-sm-6">
                                     <div class="box1">
