@@ -32,9 +32,7 @@ $articlban=!empty($category['self']['title'])?$category['self']['title']:'光大
               <ul class="sidebar-menu tree" data-widget="tree">
                 <?php foreach($category['child'] as $key =>$value){?>
                 <li class="treeview">
-                  <a href="javascript:">
                      <span><?php echo Html::a($value['title'],['article/index','category_id'=>$value['id']]) ?></span>
-                  </a>
                 </li>
             <?php }?>
               </ul>
