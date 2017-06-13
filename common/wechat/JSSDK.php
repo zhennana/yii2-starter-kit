@@ -136,8 +136,8 @@ class JSSDK {
     }
     private function set_php_file($filename, $content) {
         $model       = new KeyStorageItem;
-        $mode->key   = $filename;
-        $mode->value = $content;
+        $model->key   = $filename;
+        $model->value = $content;
         $model->save();
     }
 }
