@@ -21,7 +21,9 @@ class JSSDK {
 
   public function getSignPackage($url) {
     $jsapiTicket = $this->getJsApiTicket();
-
+    if (isset($jsapiTicket->errcode) && isset($jsapiTicket->errmsg)) {
+          return $jsapiTicket;
+      }
     // 注意 URL 一定要动态获取，不能 hardcode.
     // $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
     // $url = "$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
@@ -60,6 +62,9 @@ class JSSDK {
 
     if ($data->expire_time < time()) {
       $accessToken = $this->getAccessToken();
+      if (isset($accessToken->errcode) && isset($accessToken->errmsg)) {
+          return $accessToken;
+      }
       // 如果是企业号用以下 URL 获取 ticket
       // $url = "https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket?access_token=$accessToken";
       $url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token=$accessToken";
@@ -85,7 +90,9 @@ class JSSDK {
       // $url = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=$this->appId&corpsecret=$this->appSecret";
       $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$this->appId&secret=$this->appSecret";
       $res = json_decode($this->httpGet($url));
-    var_dump($this->httpGet($url));exit;
+      if (isset($res->errcode) && isset($res->errmsg)) {
+          return $res;
+      }
 
       $access_token = $res->access_token;
       if ($access_token) {
@@ -110,7 +117,7 @@ class JSSDK {
     curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
     curl_setopt($curl, CURLOPT_URL, $url);
 */
-    
+
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($curl, CURLOPT_TIMEOUT, 500);
     curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); 
