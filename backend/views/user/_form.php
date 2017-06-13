@@ -34,7 +34,7 @@ if(Yii::$app->user->can('administrator')){
         <?php echo $form->field($model, 'password')->passwordInput() ?>
 
         <?php
-            if(!$model->getModel()->isNewRecord){
+            if($model->getModel()->isNewRecord){
 
                 $model->birth  =  isset($model->getModel()->userProfile->birth) ? $model->getModel()->userProfile->birth : '';
                 $model->gender =  isset($model->getModel()->userProfile->gender) ? $model->getModel()->userProfile->birth : time();
