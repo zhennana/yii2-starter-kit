@@ -31,4 +31,19 @@ public function behaviors()
              ]
         );
     }
+
+    public function changeCheckStatus($model)
+    {
+        if ($model->status_check == self::STATUS_CHECK_LOOK) {
+            $model->status_check = self::STATUS_CHECK_NOT_LOOK;
+        }else{
+            $model->status_check = self::STATUS_CHECK_LOOK;
+        }
+
+        if (!$model->save()) {
+            return $model->getErrors();
+        }
+        return $model;
+        // var_dump($model);exit;
+    }
 }

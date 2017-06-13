@@ -65,7 +65,7 @@ $actionColumnTemplates = [];
     </h1>
     <div class="clearfix crud-navigation">
 <?php
-if(\Yii::$app->user->can('manager', ['route' => true])){
+if(\Yii::$app->user->can('director', ['route' => true])){
 ?>
         <div class="pull-left">
             <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'),
@@ -77,7 +77,7 @@ if(\Yii::$app->user->can('manager', ['route' => true])){
 ?>
         <div class="pull-right">
 
-                                                    
+
             <?= \yii\bootstrap\ButtonDropdown::widget([
                 'id'          => 'giiant-relations',
                 'encodeLabel' => false,
