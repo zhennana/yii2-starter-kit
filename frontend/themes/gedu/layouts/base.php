@@ -127,7 +127,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
         <div class="footer-1">
             <div class="footer-1-inner">
                 <img class="footer-1-inner-img" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/footer-1-links.png">
-                <span><a href="#">凤凰视频</a></span>
+                <span><a href="#"></a></span>
                 <span><a href="#">光大学校</a></span>
             </div>
         </div>
