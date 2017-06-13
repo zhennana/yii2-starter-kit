@@ -8,7 +8,7 @@ use yii\rest\ActiveController;
 use yii\web\ForbiddenHttpException;
 use yii\web\HttpException;
 use yii\helpers\Url;
-
+use common\wechat\JSSDK;
 use frontend\modules\api\v1\resources\Article;
 use frontend\models\edu\resources\Course;
 use frontend\models\edu\resources\UsersToUsers;
@@ -372,6 +372,70 @@ class ConfigController extends \common\rest\Controller
         }
         sort($data);
         return $data;
+    }
+
+    /**
+     * @SWG\Get(path="/config/share",
+     *     tags={"800-Config-配置信息接口"},
+     *     summary="微信内嵌网页分享",
+     *     description="返回首页按钮",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "AppID",
+     *        description = "AppID",
+     *        required = false,
+     *        default = 0,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "AppSecret",
+     *        description = "AppSecret",
+     *        required = false,
+     *        default = 0,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "url",
+     *        description = "要分享网页的url",
+     *        required = false,
+     *        default = 0,
+     *        type = "string"
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "返回签名"
+     *     ),
+     * )
+     *
+    **/
+    public function actionShare($AppID = '', $AppSecret = '', $url = '')
+    {
+        
+        if ($url == '') {
+            $this->serializer['errno']   = 422;
+            $this->serializer['message'] = 'URL不能为空';
+            return [];
+        }
+
+        if ((isset($AppID) && !empty($AppID)) || isset($AppSecret) && !empty($AppSecret)) {
+            $sdk          = new JSSDK($AppID, $AppSecret);
+            $sign_package = $sdk->getSignPackage($url);
+
+            if (isset($sign_package->errcode)) {
+                $this->serializer['errno']   = $sign_package->errcode;
+                $this->serializer['message'] = $sign_package->errmsg;
+                return [];
+            }
+
+            return $sign_package;
+        }else{
+            $this->serializer['errno']   = 422;
+            $this->serializer['message'] = '非法的参数：AppID或AppSecret';
+            return [];
+        }
     }
 
 }
