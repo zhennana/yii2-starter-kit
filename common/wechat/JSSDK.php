@@ -9,18 +9,22 @@ use Yii;
 class JSSDK {
   private $appId;
   private $appSecret;
+  private $jsapi_ticket;
+  private $access_token;
 
   public function __construct($appId, $appSecret) {
     $this->appId = $appId;
     $this->appSecret = $appSecret;
+    $this->jsapi_ticket = Yii::getAlias('@common').DIRECTORY_SEPARATOR.'wechat'.DIRECTORY_SEPARATOR.'gedu'.DIRECTORY_SEPARATOR.'jsapi_ticket.php';
+    $this->access_token = Yii::getAlias('@common').DIRECTORY_SEPARATOR.'wechat'.DIRECTORY_SEPARATOR.'gedu'.DIRECTORY_SEPARATOR.'access_token.php';
   }
 
-  public function getSignPackage() {
+  public function getSignPackage($url) {
     $jsapiTicket = $this->getJsApiTicket();
 
     // 注意 URL 一定要动态获取，不能 hardcode.
-    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
-    $url = "$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    // $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+    // $url = "$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
     $timestamp = time();
     $nonceStr = $this->createNonceStr();
@@ -52,7 +56,7 @@ class JSSDK {
 
   private function getJsApiTicket() {
     // jsapi_ticket 应该全局存储与更新，以下代码以写入到文件中做示例
-    $data = json_decode($this->get_php_file(Yii::getAlias('@common').'\wechat\gedu\jsapi_ticket.php'));
+    $data = json_decode($this->get_php_file($this->jsapi_ticket));
 
     if ($data->expire_time < time()) {
       $accessToken = $this->getAccessToken();
@@ -64,7 +68,7 @@ class JSSDK {
       if ($ticket) {
         $data->expire_time = time() + 7000;
         $data->jsapi_ticket = $ticket;
-        $this->set_php_file(Yii::getAlias('@common').'\wechat\gedu\jsapi_ticket.php', json_encode($data));
+        $this->set_php_file($this->jsapi_ticket, json_encode($data));
       }
     } else {
       $ticket = $data->jsapi_ticket;
@@ -75,18 +79,19 @@ class JSSDK {
 
   private function getAccessToken() {
     // access_token 应该全局存储与更新，以下代码以写入到文件中做示例
-    $data = json_decode($this->get_php_file(Yii::getAlias('@common').'\wechat\gedu\access_token.php'));
+    $data = json_decode($this->get_php_file($this->access_token));
     if ($data->expire_time < time()) {
       // 如果是企业号用以下URL获取access_token
       // $url = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=$this->appId&corpsecret=$this->appSecret";
-      $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$this->appId."&secret=".$this->appSecret;
+      $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$this->appId&secret=$this->appSecret";
       $res = json_decode($this->httpGet($url));
+    var_dump($this->httpGet($url));exit;
 
       $access_token = $res->access_token;
       if ($access_token) {
         $data->expire_time = time() + 7000;
         $data->access_token = $access_token;
-        $this->set_php_file(Yii::getAlias('@common').'\wechat\gedu\access_token.php', json_encode($data));
+        $this->set_php_file($this->access_token, json_encode($data));
       }
     } else {
       $access_token = $data->access_token;
@@ -105,9 +110,10 @@ class JSSDK {
     curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
     curl_setopt($curl, CURLOPT_URL, $url);
 */
+    
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); //
     curl_setopt($curl, CURLOPT_TIMEOUT, 500);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); 
     curl_setopt($curl, CURLOPT_URL, $url);
 
     $res = curl_exec($curl);
