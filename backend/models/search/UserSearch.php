@@ -40,13 +40,12 @@ class UserSearch extends User
     {
         $query = User::find();
           $query->select(['u.*'])->from('user as u');
-        if(!Yii::$app->user->can('administrator')){
-            $query->leftJoin('edu_campus.users_to_school as s',' s.user_id = u.id');
+        if(!Yii::$app->user->can('manager')){
+            $query->Joinwith('userToSchool as s');
             $query->Andwhere(['not',['s.user_id'=>NULL]]);
             $query->groupBy(['s.user_id']);
             if(Yii::$app->user->can('leader')){
                 $ids = Yii::$app->authManager->getUserIdsByRole(['administrator']);
-               
             }elseif(Yii::$app->user->can('director')){
                 $ids = Yii::$app->authManager->getUserIdsByRole(['administrator','leader']);
             }
