@@ -47,7 +47,6 @@ namespace backend\modules\campus\controllers\base;
                                 'actions' => ['update', 'create', 'delete'],
                                 'roles' => ['CampusSchoolEdit'],
                             ],
-                            
                         ],
                     ],
                 ];

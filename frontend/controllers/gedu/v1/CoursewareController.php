@@ -272,12 +272,14 @@ class CoursewareController extends \common\rest\Controller
      */
     public function actionSearch($keyword = '', $schema = 'left', $limit = 20)
     {
+        $keyword = trim($keyword);
+
         if (!$keyword) {
             return [];
         }
-        
+
         $model = new $this->modelClass;
-        return $model->searchCourseware(trim($keyword));
+        return $model->searchCourseware($keyword);
 
         /*
         $modelClass = $this->modelClass;
