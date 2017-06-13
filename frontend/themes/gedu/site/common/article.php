@@ -10,7 +10,7 @@ use yii\helpers\Html;
                    <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-4-news.png">
                    <?php echo Html::a(
                             "新闻资讯",
-                            ['article/index'],
+                            ['article/index','category_id'=>22],
                             ['class'=>'','data-method'=>'open',]);
                     ?>
                   </h2>

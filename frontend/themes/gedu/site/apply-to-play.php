@@ -29,10 +29,10 @@ use yii\captcha\Captcha;
         </div> -->
 
         <div class="row btn-line">
-          <div class="col-xs-3">
+          <div class="col-xs-4">
            <div class="input-group">
             <div class="input-group-btn">
-              <button type="button" class="btn"><i class="fa fa-fw fa-star text-red"></i>学生姓名</button>
+              <button type="button" class="btn btncolor"><i class="fa fa-fw fa-star text-red"></i>学生姓名</button>
             </div>
             <!-- /btn-group -->
             <input class="form-control" type="text">
@@ -41,16 +41,16 @@ use yii\captcha\Captcha;
           <div class="col-xs-4">
             <div class="input-group">
               <div class="input-group-btn">
-                <button type="button" class="btn"><i class="fa fa-fw fa-star text-red"></i>性别</button>
+                <button type="button" class="btn btncolor"><i class="fa fa-fw fa-star text-red"></i>性&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp别</button>
               </div>
               <!-- /btn-group -->
               <input class="form-control" type="text">
             </div>
           </div>
-          <div class="col-xs-5">
+          <div class="col-xs-4">
             <div class="input-group">
               <div class="input-group-btn">
-                <button type="button" class="btn"><i class="fa fa-fw fa-star text-red"></i>出生日期</button>
+                <button type="button" class="btn btncolor"><i class="fa fa-fw fa-star text-red"></i>出生日期</button>
               </div>
               <!-- /btn-group -->
               <input class="form-control" type="text">
@@ -59,10 +59,10 @@ use yii\captcha\Captcha;
         </div>
 
         <div class="row btn-line">
-          <div class="col-xs-3">
+          <div class="col-xs-4">
            <div class="input-group">
             <div class="input-group-btn">
-              <button type="button" class="btn"><i class="fa fa-fw fa-star text-red"></i>民族</button>
+              <button type="button" class="btn btncolor"><i class="fa fa-fw fa-star text-red"></i>民&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp族</button>
             </div>
             <!-- /btn-group -->
             <input class="form-control" type="text">
@@ -71,16 +71,16 @@ use yii\captcha\Captcha;
           <div class="col-xs-4">
             <div class="input-group">
               <div class="input-group-btn">
-                <button type="button" class="btn"><i class="fa fa-fw fa-star text-red"></i>监护人姓名</button>
+                <button type="button" class="btn btncolor"><i class="fa fa-fw fa-star text-red"></i>监护人姓名</button>
               </div>
               <!-- /btn-group -->
               <input class="form-control" type="text">
             </div>
           </div>
-          <div class="col-xs-5">
+          <div class="col-xs-4">
             <div class="input-group">
               <div class="input-group-btn">
-                <button type="button" class="btn"><i class="fa fa-fw fa-star text-red"></i>手机号码</button>
+                <button type="button" class="btn btncolor"><i class="fa fa-fw fa-star text-red"></i>手机号码</button>
               </div>
               <!-- /btn-group -->
               <input class="form-control" type="text">
@@ -88,19 +88,19 @@ use yii\captcha\Captcha;
           </div>
         </div>
         <div class="row btn-line" >
-          <div class="col-xs-3">
+          <div class="col-xs-4">
            <div class="input-group">
             <div class="input-group-btn">
-              <button type="button" class="btn"><i class="fa fa-fw fa-star text-red"></i>邮箱</button>
+              <button type="button" class="btn btncolor"><i class="fa fa-fw fa-star text-red"></i>邮&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp箱</button>
             </div>
             <!-- /btn-group -->
             <input class="form-control" type="text">
           </div>
           </div>
-          <div class="col-xs-9">
+          <div class="col-xs-8">
             <div class="input-group">
               <div class="input-group-btn">
-                <button type="button" class="btn"><i class="fa fa-fw fa-star text-red"></i>籍贯</button>
+                <button type="button" class="btn btncolor"><i class="fa fa-fw fa-star text-red"></i>籍贯</button>
               </div>
               <!-- /btn-group -->
               <input class="form-control" type="text">
@@ -111,7 +111,7 @@ use yii\captcha\Captcha;
           <div class="col-xs-12">
            <div class="input-group">
             <div class="input-group-btn">
-              <button type="button" class="btn">个人简介</button>
+              <button type="button" class="btn btncolor">个人简介</button>
             </div>
             <!-- /btn-group -->
             <textarea class="form-control" rows="3" placeholder="Enter ..."></textarea>

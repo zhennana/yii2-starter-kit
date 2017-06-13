@@ -34,15 +34,15 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                         'items'=>[
                             [
                                 'label' => Yii::t('frontend', '学校概况'),
-                                'url' => ['/page/view', 'slug'=>'guan-yu-guang-da']
+                                'url' => ['/article/index', 'category_id'=>'9']
                             ],
                             [
                                 'label' => Yii::t('frontend', '办学理念'),
-                                'url' => ['/page/view', 'slug'=>'jiao-yu-li-nian'],
+                                'url' => ['/article/index', 'category_id'=>'10'],
                             ],
                             [
                                 'label' => Yii::t('frontend', '校园风光'),
-                                'url' => ['/page/view', 'slug'=>'jiao-yu-li-nian'],
+                                'url' => ['/article/index', 'category_id'=>'11'],
                             ],
                             [
                                 'label' => Yii::t('frontend', '教师风采'),
@@ -51,41 +51,53 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                             
                         ]
                     ],
-                    ['label' => Yii::t('frontend', '教育教学'), 'url' => ['/page/view', 'slug'=>'sai-shi-you-xue']],
+                    ['label' => Yii::t('frontend', '教育教学'),
+                        'items'=>[
+                            [
+                                'label' => Yii::t('frontend', '家校沟通'),
+                                'url' => ['/page/view', 'slug'=>'guan-yu-guang-da']
+                            ],
+                            [
+                                'label' => Yii::t('frontend', '国旗下讲话'),
+                                'url' => ['/page/view', 'slug'=>'guoqi'],
+                            ],
+                            
+                        ]
+                    ],
                     ['label' => Yii::t('frontend', '合作交流'), 'url' => ['/page/view', 'slug'=>'zhao-shang-jia-meng']],
                     ['label' => Yii::t('frontend', '招生专栏'),
                         'items'=>[
                             [
                                 'label' => Yii::t('frontend', '入学手册'),
-                                'url' => ['/page/view', 'slug'=>'ru-xue-shou-ce']
+                                'url' => ['/article/index', 'category_id'=>'25']
                             ],
-                            [
-                                'label' => Yii::t('frontend', '幼小衔接班招生'),
-                                'url' => ['/page/view', 'slug'=>'you-xiao-xian-jie-ban-zhao-sheng-jian-zhang']
+                            // [
+                            //     'label' => Yii::t('frontend', '幼小衔接班招生'),
+                            //     'url' => ['/page/view', 'slug'=>'you-xiao-xian-jie-ban-zhao-sheng-jian-zhang']
                                 
-                            ],
+                            // ],
                             [
                                 'label' => Yii::t('frontend', '小学部招生'),
-                                'url' => ['/page/view', 'slug'=>'xiao-xue-bu-zhao-sheng-jian-zhang']
+                                'url' => ['/article/index', 'category_id'=>'26']
                             
                             ],
-                            [
-                                'label' => Yii::t('frontend', '初中部招生'),
-                                'url' => ['/page/view', 'slug'=>'chu-zhong-bu-zhao-sheng-jian-zhang']
+                            // [
+                            //     'label' => Yii::t('frontend', '初中部招生'),
+                            //     'url' => ['/page/view', 'slug'=>'chu-zhong-bu-zhao-sheng-jian-zhang']
                               
-                            ],
+                            // ],
                             [
-                                'label' => Yii::t('frontend', '高中部招生'),
-                                'url' => ['/page/view', 'slug'=>'gao-zhong-bu-zhao-sheng-jian-zhang']
+                                'label' => Yii::t('frontend', '中学部招生'),
+                                'url' => ['/article/index', 'category_id'=>'27']
                             ],
                             [
                                 'label' => Yii::t('frontend', '国际部招生'),
-                                'url' => ['/page/view', 'slug'=>'guo-ji-zhong-xue-bu-zhao-sheng-jian-zhang']
+                                'url' => ['/article/index', 'category_id'=>'28']
                             ],
-                            [
-                                'label' => Yii::t('frontend', '特长部招生'),
-                                'url' => ['/page/view', 'slug'=>'te-zhang-bu-zhao-sheng-jian-zhang']
-                            ],
+                            // [
+                            //     'label' => Yii::t('frontend', '特长部招生'),
+                            //     'url' => ['/page/view', 'slug'=>'te-zhang-bu-zhao-sheng-jian-zhang']
+                            // ],
                             
                         ]
                     ],
