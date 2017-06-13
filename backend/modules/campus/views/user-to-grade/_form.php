@@ -124,13 +124,7 @@ use backend\modules\campus\models\UserToSchool;
 
         <!--  attribute school_id  -->
             <?= $form->field($model, 'school_id')->widget(Select2::className(),[
-                'data' => ArrayHelper::map(
-                    School::find()->where([
-                        'status' => School::SCHOOL_STATUS_OPEN
-                    ])->asArray()->all(),
-                    'id',
-                    'school_title'
-                ),
+                'data' =>$model->getlist(),
                 'options'       => ['placeholder' => '请选择'],
                 'pluginOptions' => [ 
                     'allowClear' => true
@@ -144,13 +138,7 @@ use backend\modules\campus\models\UserToSchool;
 
         <!-- attribute grade_id -->
             <?= $form->field($model, 'grade_id')->widget(Select2::className(),[
-                'data' => ArrayHelper::map(
-                    Grade::find()->where([
-                        'status' => Grade::GRADE_STATUS_OPEN
-                    ])->asArray()->all(),
-                    'grade_id',
-                    'grade_name'
-                ),
+                'data' =>  $model->getlist(1,$model->school_id),
                 'options'       => ['placeholder' => '请选择'],
                 'pluginOptions' => [
                     'allowClear' => true
