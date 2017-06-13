@@ -153,10 +153,18 @@ class User extends ActiveRecord implements IdentityInterface
     }
     
     /**
-     * 用户所在的班级
+     * 用户默认所在的班级
      * @return [type] [description]
      */
     public function getUserToGrade(){
+        return $this->hasOne(UserToGrade::className(),['user_id'=>'id'])->orderBy(['created_at'=>'SORT_SESC']);
+    }
+
+    /**
+     * 用户所在的班级全部
+     * @return [type] [description]
+     */
+    public function getUsersToGrades(){
         return $this->hasMany(UserToGrade::className(),['user_id'=>'id'])->orderBy(['created_at'=>'SORT_SESC']);
     }
     /**
@@ -168,7 +176,7 @@ class User extends ActiveRecord implements IdentityInterface
         }elseif(Yii::$app->user->can('director') || Yii::$app->user->can('leader') ){
             return ArrayHelper::map($this->userToSchool, 'school_id','school_id');
         }elseif(Yii::$app->user->can('teacher')){
-            return ArrayHelper::map($this->userToGrade, 'grade_id','grade_id');
+            return ArrayHelper::map($this->usersToGrades, 'grade_id','grade_id');
         }else{
             return false;
         }
@@ -249,62 +257,6 @@ class User extends ActiveRecord implements IdentityInterface
            // var_dump($model);exit;
             return $model;
     }
-    // public function getSchoolToGradeUser($school_id,$grade_id){
-    //         $grade_ids = ArrayHelper::map($this->getSchoolToGrade(),'grade_id','grade_id');
-    //         //var_dump($grade_ids);exit;
-    //         return UserToGrade::find()->where(['grade_id'=>$grade_ids])->all();
-    // }
-    /**
-     * [getTeacherGrades 获取教师所辖班级]
-     * @param  [type] $teacher_id [description]
-     * @return [type]             [description]
-     */
-    /*
-    public function getTeacherGrades($teacher_id)
-    {
-        $grades = [];
-
-        $userToGrade = UserToGrade::find()->where([
-            'user_id'         => $teacher_id,
-            'status'          => UserToGrade::USER_GRADE_STATUS_NORMAL,
-            'grade_user_type' => UserToGrade::GRADE_USER_TYOE_TEACHER
-        ])->asArray()->all();
-
-        if (isset($userToGrade) && !empty($userToGrade)) {
-            foreach ($userToGrade as $key => $value) {
-                $grades[] = Grade::find()->where([
-                    'grade_id' => $value['grade_id'],
-                    'status'   => Grade::GRADE_STATUS_OPEN,
-                    'graduate' => Grade::GRADE_NOT_GRADUATE,
-                ])->asArray()->one();
-            }
-        }
-        return $grades;
-    }
-    */
-    /**
-     * [getStudents 获取教师所辖全部班级学生]
-     * @param  [type] $teacher_id [description]
-     * @return [type]             [description]
-     */
-    /*
-    public function getStudents($teacher_id, $isGroup = FALSE)
-    {
-        $students = [];
-        $grades   = $this->getTeacherGrades($teacher_id);
-
-        if ($grades) {
-            foreach ($grades as $key => $value) {
-                $students[] = UserToGrade::find()->with('user')->where([
-                    'grade_id'        => $value['grade_id'],
-                    'status'          => UserToGrade::USER_GRADE_STATUS_NORMAL,
-                    'grade_user_type' => UserToGrade::GRADE_USER_TYPE_STUDENT
-                ])->asArray()->all();
-            }
-        }
-        return $students;
-    }
-    */
 
     /**
      * @inheritdoc
