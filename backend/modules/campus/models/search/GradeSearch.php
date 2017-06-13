@@ -52,10 +52,10 @@ public function search($params)
 
     }elseif(Yii::$app->user->can('leader') || Yii::$app->user->can('director') ) {
             $school_id = ArrayHelper::map(Yii::$app->user->identity->userToSchool,'school_id','school_id');
-            $query->andFilterWhere(['school_id'=>$school_id]);
+            $query->andWhere(['school_id'=>$school_id]);
     }elseif(Yii::$app->user->can('teacher')){
              $grade_id = ArrayHelper::map(Yii::$app->user->identity->userToGrade,'grade_id','grade_id');
-            $query->andFilterWhere(['grade_id'=>$grade_id]);
+            $query->andWhere(['grade_id'=>$grade_id]);
     }
     $dataProvider = new ActiveDataProvider([
         'query' => $query,
