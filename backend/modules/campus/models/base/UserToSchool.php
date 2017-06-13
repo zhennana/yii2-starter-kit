@@ -23,9 +23,14 @@ use yii\behaviors\TimestampBehavior;
  */
 abstract class UserToSchool extends \yii\db\ActiveRecord
 {
-     /**
+
+    const SCHOOL_USER_TYPE_TEACHER  = 20; //老师
+    const SCHOOL_USER_TYPE_STUDENTS = 10; // 学生
+    const SCHOOL_USER_TYPE_DIRECTOR = 30; //主任
+    const SchOOL_USER_TYPE_LEADER   = 40; //校长
+    /**
      * @return \yii\db\Connection the database connection used by this AR class.
-     */
+    */
     public static function getDb()
     {
         //return \Yii::$app->modules['campus']->get('campus');
@@ -63,8 +68,8 @@ abstract class UserToSchool extends \yii\db\ActiveRecord
         return [
             [['user_id', 'school_id'], 'required'],
             [['user_id', 'school_id', 'user_title_id_at_school', 'status', 'sort', 'school_user_type'], 'integer'],
-            [['user_id', 'school_id'], 'unique', 'targetAttribute' => ['user_id', 'school_id'], 'message' => 'The combination of 用户ID and 学校ID has already been taken.']
-        ];
+        //     [['user_id', 'school_id'], 'unique', 'targetAttribute' => ['user_id', 'school_id'], 'message' => 'The combination of 用户ID and 学校ID has already been taken.']
+         ];
     }
 
     /**
@@ -98,6 +103,10 @@ abstract class UserToSchool extends \yii\db\ActiveRecord
             'sort' => Yii::t('common', '显示排序'),
             'school_user_type' => Yii::t('common', '用户关系类型：用户类型：教师；学生；家长；'),
         ]);
+    }
+
+    public function getUser(){
+        return  $this->hasOne(\common\models\User::className(),['id'=>'user_id']);
     }
     /**
      * @inheritdoc

@@ -89,7 +89,9 @@ class NoticeController extends \common\rest\Controller
     public function actionIndex($type = 1)
     {
         $model = new  $this->modelClass;
-        $model = $model::find()->select(['message','created_at'])->where(['category'=>$type,'receiver_id'=>Yii::$app->user->identity->id]);
+        $model = $model::find()->select(['message','created_at'])
+        ->where(['category'=>$type,'receiver_id'=>Yii::$app->user->identity->id])
+        ->orderBy(['created_at'=> SORT_DESC]);
         return new ActiveDataProvider(
                     [
                     'query'=>$model
