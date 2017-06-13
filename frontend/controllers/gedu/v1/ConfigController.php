@@ -411,7 +411,7 @@ class ConfigController extends \common\rest\Controller
      * )
      *
     **/
-    public function actionShare($AppID = '', $AppSecret = '', $url = '')
+    public function actionShare($AppID = 'wx1b4d4c528735833c', $AppSecret = '8d6b54b92ede962c2b0a5d0c4b6679a7', $url = '')
     {
         
         if ($url == '') {
@@ -420,7 +420,7 @@ class ConfigController extends \common\rest\Controller
             return [];
         }
 
-        if ((isset($AppID) && !empty($AppID)) || isset($AppSecret) && !empty($AppSecret)) {
+        if ($AppID == 'wx1b4d4c528735833c' && $AppSecret == '8d6b54b92ede962c2b0a5d0c4b6679a7') {
             $sdk          = new JSSDK($AppID, $AppSecret);
             $sign_package = $sdk->getSignPackage($url);
 
@@ -433,7 +433,7 @@ class ConfigController extends \common\rest\Controller
             return $sign_package;
         }else{
             $this->serializer['errno']   = 422;
-            $this->serializer['message'] = '非法的参数：AppID或AppSecret';
+            $this->serializer['message'] = '参数错误：AppID或AppSecret';
             return [];
         }
     }
