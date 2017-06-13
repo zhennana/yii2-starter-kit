@@ -147,6 +147,68 @@ class MyController extends \common\rest\Controller
         return $data;
     }
 
+     /**
+     * @SWG\Get(path="/my/notice-check",
+     *     tags={"700-My-我的页面接口"},
+     *     summary="改变消息查看状态",
+     *     description="返回我的消息",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "notice_id",
+     *        description = "消息ID",
+     *        required = false,
+     *        default = 0,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "status_check",
+     *        description = "查看状态，10已查看，20未查看",
+     *        required = false,
+     *        default = 10,
+     *        type = "integer",
+     *        enum = {10,20}
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "返回我的消息"
+     *     ),
+     * )
+     *
+    **/
+     public function actionNoticeCheck($notice_id, $status_check = 10)
+     {
+        if(Yii::$app->user->isGuest){
+            $this->serializer['errno']   = 422;
+            $this->serializer['message'] = '请您先登录';
+            return [];
+        }
+        if ($status_check != Notice::STATUS_CHECK_LOOK && $status_check != Notice::STATUS_CHECK_NOT_LOOK) {
+            $this->serializer['errno']   = 422;
+            $this->serializer['message'] = '状态参数错误';
+            return [];
+        }
+
+        $model = Notice::find()->where([
+            'notice_id'    => $notice_id,
+            'receiver_id'  => Yii::$app->user->identity->id,
+        ])->one();
+
+        if ($model) {
+            if ($model->status_check == $status_check) {
+                return $model;
+            }
+            $info = $model->changeCheckStatus($model);
+            return $info;
+        }
+
+        $this->serializer['errno']   = 404;
+        $this->serializer['message'] = '消息不存在';
+        return [];
+     }
+
+
     /**
      * @SWG\Get(path="/my/grade",
      *     tags={"700-My-我的页面接口"},
