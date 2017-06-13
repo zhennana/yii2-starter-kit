@@ -58,34 +58,13 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                 'items'=>[
                     [
                         'label' => Yii::t('frontend', 'Starter 1 English'),
-                        'url' => ['/article/index']
-                    ],
-                    [
-                        'label' => Yii::t('frontend', 'Level 1 English'),
-                        'url' => ['#']
-                    ],
-                    [
-                        'label' => Yii::t('frontend', 'Level 2 English'),
-                        'url' => ['#']
+                        'url' => ['/article/course','category_id' => 1]
                     ],
                 ]
             ],
             [
                 'label' => Yii::t('frontend', 'Extra'),
-                'items' => [
-                    [
-                        'label' => Yii::t('frontend', 'Starter 1 English'),
-                        'url' => ['#']
-                    ],
-                    [
-                        'label' => Yii::t('frontend', 'Level 1 English'),
-                        'url' => ['#']
-                    ],
-                    [
-                        'label' => Yii::t('frontend', 'Level 2 English'),
-                        'url' => ['#']
-                    ],
-                ]
+                'items' => [  ]
             ],
             [
                 'label'=>Yii::t('frontend', 'Language'),
