@@ -16,7 +16,7 @@ use dmstr\bootstrap\Tabs;
 /**
 * GradeCategroyController implements the CRUD actions for GradeCategroy model.
 */
-class GradeCategoryController extends Controller
+class GradeCategoryController extends \common\components\Controller
 {
 
 

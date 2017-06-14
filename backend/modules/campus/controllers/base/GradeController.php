@@ -15,10 +15,9 @@ use dmstr\bootstrap\Tabs;
 /**
 * GradeController implements the CRUD actions for Grade model.
 */
-class GradeController extends Controller
+class GradeController extends \common\components\Controller
+
 {
-
-
 /**
 * @var boolean whether to enable CSRF validation for the actions in this controller.
 * CSRF validation is enabled only when both this property and [[Request::enableCsrfValidation]] are true.
@@ -61,9 +60,20 @@ public $enableCsrfValidation = false;
 */
 public function actionIndex()
 {
+
     $searchModel  = new GradeSearch;
     $dataProvider = $searchModel->search($_GET);
-
+    $dataProvider->query->andwhere([
+        'school_id'=>$this->schoolIdCurrent
+    ]);
+    // $dataProvider->query->andwhere([
+    //     'grade_id'=>$this->schoolIdCurrent
+    // ]);
+    $dataProvider->sort = [
+       'defaultOrder'=>[
+            'updated_at'=>SORT_DESC,
+       ]
+    ];;
 Tabs::clearLocalStorage();
 
 Url::remember();

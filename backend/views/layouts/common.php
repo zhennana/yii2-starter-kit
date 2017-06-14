@@ -9,6 +9,7 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
+use yii\bootstrap\ActiveForm;
 $bundle = BackendAsset::register($this);
 
 $avatar = '';
@@ -37,8 +38,55 @@ $avatar .= '?imageView2/3/w/215/h/215';
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </a>
+
+                <div id="schools_select" class="col-xs-5 col-md-5" style="height: 50px; float:left;">
+                                    <?php
+                                        $form = ActiveForm::begin([
+                                            'id'=>'schools_form'
+                                        ]);
+                                    ?>
+                                    <?php
+                                        echo Html::HiddenInput(
+                                            'select_school_grade',
+                                            1,
+                                            ['id'=>'select_school_grade']
+                                            );
+                                        //this.from.submit()
+                                        echo Html::dropDownList(
+                                            'school_id',
+                                            Yii::$app->user->identity->getCurrentSchoolId(),
+                                            ArrayHelper::map(
+                                                Yii::$app->user->identity->getSchoolsInfo(), //items
+                                                'school_id', // select key
+                                                'school_title'   // select value
+                                            ),
+                                            [
+                                            'id'=>'school_id',
+                                            'class'=>'col-xs-5 col-md-5',
+                                            'onchange'=> 'this.form.submit()'
+                                            ]);
+                                    ?>
+                                    <?php
+                                        echo Html::dropDownList(
+                                            'grade_id',
+                                            Yii::$app->user->identity->getCurrentGradeId(),
+                                            ArrayHelper::map(
+                                                Yii::$app->user->identity->getGradesInfo(), //items
+                                                'grade_id', 
+                                                'grade_name'
+                                            ),
+                                            [
+                                            'id'=>'grade_id',
+                                            'class'=>'col-xs-5 col-md-5',
+                                            'onchange'=>'this.form.submit()'
+                                            ]);
+                                    ?>
+                                    <?php  ActiveForm::end();?>
+                            </div> 
+             
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
+                    
                     	<li id="timeline-notifications" class="notifications-menu">
                             <a href="<?php echo Yii::getAlias('@frontendUrl') ?>">
                                 前台
@@ -259,7 +307,7 @@ $avatar .= '?imageView2/3/w/215/h/215';
                             'items'=>[
                                 [
                                     'label'   =>Yii::t('backend', '学校管理'), 
-                                    'url'     =>['/campus/school/index'], 
+                                    'url'     =>['/campus/school/index'],
                                     'icon'    =>'<i class="fa fa-angle-double-right"></i>',
                                     'visible' =>  Yii::$app->user->can('director')
                                 ],
@@ -456,3 +504,21 @@ $avatar .= '?imageView2/3/w/215/h/215';
     </div><!-- ./wrapper -->
 
 <?php $this->endContent(); ?>
+<style type="text/css">
+
+    /*#school-box {
+        width: colx
+    }*/
+
+    #school_id ,#grade_id{
+        margin: 10px 10px;
+        height: 30px;
+    }
+</style>
+<script type="text/javascript">
+
+   function getClientInfo(event){
+        console.log(event);
+    }
+
+</script>

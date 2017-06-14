@@ -135,6 +135,7 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
      * @return boolean             [description]
      */
     public function is_checkouts($attributes){
+        //var_dump($this->user_id,$this->school_id,$this->grade_id);exit;
         $model = self::find()->where([
             'user_id'           => $this->user_id,
             'school_id'         => $this->school_id,

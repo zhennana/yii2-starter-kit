@@ -110,6 +110,7 @@ if(is_string($schoolOrGrade) && $schoolOrGrade == 'all'){
 
     <div class="table-responsive">
         <?= GridView::widget([
+            'layout' => '{summary}{pager}{items}{pager}',
             'dataProvider' => $dataProvider,
             'pager' => [
                 'class' => yii\widgets\LinkPager::className(),
@@ -141,6 +142,7 @@ if(is_string($schoolOrGrade) && $schoolOrGrade == 'all'){
                 },
                 'contentOptions' => ['nowrap'=>'nowrap']
             ],
+                'user_to_grade_id',
     			[
                     'attribute' =>'user_id',
                     'value'     => function($model){

@@ -14,8 +14,15 @@ use backend\modules\campus\models\StudentRecord;
 * @var backend\modules\campus\models\StudentRecord $model
 * @var yii\widgets\ActiveForm $form
 */
+$schools = [Yii::$app->user->identity->currentSchool];
+$schools = ArrayHelper::map($schools,'school_id','school_title');
+
+$grades  = [Yii::$app->user->identity->currentGrade];
+$grades = ArrayHelper::map($grades,'grade_id','grade_name');
 
 ?>
+
+
 
 <div class="student-record-form">
 
@@ -34,21 +41,21 @@ use backend\modules\campus\models\StudentRecord;
 <!-- attribute school_id -->
             <?= $form->field($model, 'school_id')->widget(Select2::className(),
                 [
-                    'data'=>$model->getlist(1),
-                    'options'=>['placeholder'=>'请选择'],
+                    'data'=>$schools,
+                   // 'options'=>['placeholder'=>'请选择'],
                     'pluginOptions'=>[
                         'allowClear'=> true,
                     ],
                     'pluginEvents'=>[
-                        "change" => "function() { 
-                             handleChange(2,this.value,'#studentrecord-grade_id');
-                        }",
+                       // "change" => "function() { 
+                       //      handleChange(2,this.value,'#studentrecord-grade_id');
+                      //  }",
                     ]
                 ]); ?>
 
             <?= $form->field($model, 'grade_id')->widget(Select2::className(),
                 [
-                    'data'=>$model->getlist(2,$model->school_id),
+                    'data'=>$grades,
                     'options'=>['placeholder'=>'请选择'],
                     'pluginOptions'=>[
                         'allowClear'=> true,

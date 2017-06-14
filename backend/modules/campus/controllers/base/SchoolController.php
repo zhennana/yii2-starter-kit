@@ -15,7 +15,7 @@ namespace backend\modules\campus\controllers\base;
     /**
     * SchoolController implements the CRUD actions for School model.
     */
-    class SchoolController extends Controller
+    class SchoolController extends \common\components\Controller
     {
         /**
         * @var boolean whether to enable CSRF validation for the actions in this controller.
