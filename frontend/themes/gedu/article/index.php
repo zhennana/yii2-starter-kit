@@ -12,7 +12,7 @@ use yii\helpers\Html;
     <div class="box box-widget geu-contentnew">
             <div class="box-header with-border ">
               <div class="">
-                <span class=""><i class="fa fa-map-marker margin-r-5 text-purple"></i><a href="#">当前位置:首页>新闻资讯</a></span>
+                <span class=""><i class="fa fa-map-marker margin-r-5 text-purple"></i><span>当前位置:<?php echo Html::a('首页',['site/index'])?>&nbsp>&nbsp<?php echo $category['self']['title']?></span></span>
               </div>
             </div>
             <div class="box-body">

@@ -133,7 +133,8 @@ class CoursewareController extends \common\rest\Controller
                     // var_dump($model);exit;
         if($model){
             $data = $model->toArray();
-            foreach ($model->coursewareToCourseware as $key => $value) {
+            $toCourseware = $model->getCoursewareToCourseware()->orderBy(['sort' => SORT_ASC])->all();
+            foreach ($toCourseware as $key => $value) {
                 if(isset($value->courseware)){
                     $data['items'][$key]         = $value->courseware->toArray();
                     $data['items'][$key]['sort'] = $value->sort;

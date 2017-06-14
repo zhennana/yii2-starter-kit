@@ -47,7 +47,7 @@ $imgsize="?imageView2/1/w/250/h/300";
       'name'=>'李宝才',
     ],
     '12'=>[
-      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/dongyanchun1.jpg',
+      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/dongyanchun2.jpg',
       'name'=>'董燕春',
       ],
  ];
@@ -86,7 +86,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                             <li data-target="#myCarousel2" data-slide-to="2"></li>
                         </ol>   
                         <!-- 轮播（Carousel）项目 -->
-                        <div class="carousel-inner">
+                        <div class="carousel-inner" id="teacher">
                             <div class="item active">
                                 <?php
                                     foreach ($teachers as $key => $value) {
@@ -197,7 +197,7 @@ $imgsize="?imageView2/1/w/250/h/300";
 
                         </ol>   
                         <!-- 轮播（Carousel）项目 -->
-                        <div class="carousel-inner">
+                        <div class="carousel-inner" id="teacher">
                             <div class="item active">
                                 <?php
                                     
@@ -309,7 +309,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                             
                         </ol>   
                         <!-- 轮播（Carousel）项目 -->
-                        <div class="carousel-inner">
+                        <div class="carousel-inner" id="teacher">
                             <div class="item active">
                                 <?php
                                     
@@ -421,7 +421,7 @@ $imgsize="?imageView2/1/w/250/h/300";
 
                         </ol>   
                         <!-- 轮播（Carousel）项目 -->
-                        <div class="carousel-inner">
+                        <div class="carousel-inner" id="teacher">
                             <div class="item active">
                                 <?php
                                     
@@ -532,7 +532,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                             <li data-target="#myCarousel6" data-slide-to="2"></li>
                         </ol>   
                         <!-- 轮播（Carousel）项目 -->
-                        <div class="carousel-inner">
+                        <div class="carousel-inner" id="teacher">
                             <div class="item active">
                                 <?php
                                     

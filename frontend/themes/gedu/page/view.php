@@ -1,5 +1,6 @@
 <?php
-//var_dump($model->title);exit;
+use yii\helpers\Html;
+
 ?>
 
 <div class="gdu-content">
@@ -13,7 +14,10 @@
     <div class="box box-widget geu-content">
             <div class="box-header with-border ">
               <div class="">
-                <span class=""><i class="fa fa-map-marker margin-r-5 text-purple"></i><a href="#">当前位置:首页><?php echo $model->title;?></a></span>
+                <ol class="breadcrumb">
+                  <li><?php echo Html::a('首页',['site/index'])?></li>
+                  <li class="activeli" style="color:#723c8e "><?php echo $model->title;?></li>
+                </ol>
               </div>
             </div>
             <div class="box-body">
