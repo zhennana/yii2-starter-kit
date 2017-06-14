@@ -14,7 +14,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
         <div class="top-tel">
             <div class="top-tel-logo"><img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/top-tel-logo.png"></div>
             <div class="top-tel-text">全国免费服务热线</div>
-            <div class="top-tel-tel">400-820-<span>8888</span></div>
+            <div class="top-tel-tel"> 0316-<span>5899988</span></div>
         </div>
         <div class="clear"></div>
         <div class="top-nov">
@@ -169,7 +169,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                                 <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/footer-2-tel.png">
                             </div>                        
                             <div class="footer-2-text">
-                                <h3>400-820-8888</h3>
+                                <h3>0316-5899988</h3>
                                 <p>全国免费服务热线</p>
                             </div>
                         </div> 
