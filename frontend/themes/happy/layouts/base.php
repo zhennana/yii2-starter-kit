@@ -17,7 +17,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                 <img class="pull-left" src="<?php echo Yii::getAlias('@frontendUrl') ?>/img/fredisalearns_index_03.png">
             </a>
         </div>
-
+<!--
         <form class="form-horizontal col-lg-4 col-md-6 col-xs-6 sign_in hidden-xs no-padding">
                 <div class="input-group margin">
                     <div class="input-group-addon">
@@ -38,12 +38,12 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                 </div>
 
         </form>
-
+-->
     </div>
 
     <?php NavBar::begin([
         'brandLabel' => 'FredisaLearns™',
-        'brandUrl' => Yii::$app->homeUrl,
+        'brandUrl' => '#',
         'options' => [
             'class' => 'navbar-inverse',
         ],
@@ -60,11 +60,60 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                         'label' => Yii::t('frontend', 'Starter 1 English'),
                         'url' => ['/article/course','category_id' => 1]
                     ],
+                    [
+                        'label' => Yii::t('frontend', 'Starter 2 English'),
+                        'url' => ['/article/course','category_id' => 2]
+                    ],
+                    [
+                        'label' => Yii::t('frontend', 'Level 1 English'),
+                        'url' => ['/article/course','category_id' => 3]
+                    ],
+                    [
+                        'label' => Yii::t('frontend', 'Level 2 English'),
+                        'url' => ['/article/course','category_id' => 4]
+                    ],
+                    [
+                        'label' => Yii::t('frontend', 'Level 3 English'),
+                        'url' => ['/article/course','category_id' => 5]
+                    ],
+                    [
+                        'label' => Yii::t('frontend', 'Level 4 English'),
+                        'url' => ['/article/course','category_id' => 6]
+                    ],
+                    [
+                        'label' => Yii::t('frontend', 'Level 5 English'),
+                        'url' => ['/article/course','category_id' => 7]
+                    ],
+                    [
+                        'label' => Yii::t('frontend', 'Level 6 English'),
+                        'url' => ['/article/course','category_id' => 8]
+                    ],
+                    [
+                        'label' => Yii::t('frontend', 'Level 7 English'),
+                        'url' => ['/article/course','category_id' => 9]
+                    ],
                 ]
             ],
+            ['label' => Yii::t('frontend', 'Extra'),'url' => ['site/index']],
             [
-                'label' => Yii::t('frontend', 'Extra'),
-                'items' => [  ]
+                'label' => Yii::$app->user->isGuest ? '' : Yii::$app->user->identity->getPublicIdentity(),
+                'visible'=>!Yii::$app->user->isGuest,
+                'items'=>[
+                    [
+                        'label' => Yii::t('frontend', 'Settings'),
+                        'url' => ['/user/default/index']
+                    ],
+                    [
+                        'label' => Yii::t('frontend', 'Backend'),
+                        'url' => Yii::getAlias('@backendUrl'),
+                        'visible'=>Yii::$app->user->can('manager')
+                    ],
+                    [
+                        'label' => Yii::t('frontend', 'Logout'),
+                        'url' => ['/user/sign-in/logout'],
+                        'linkOptions' => ['data-method' => 'post']
+                    ]
+                ]
             ],
             [
                 'label'=>Yii::t('frontend', 'Language'),
@@ -79,8 +128,9 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
         ]
     ]); ?>
 
-    <?php 
+    <?php
         /* 导航搜索 */
+        /*
         $search = '';
         $search .= Html::beginForm(['#'], 'get', ['class' => 'nav_search pull-right input-group col-xs-2']);
         $search .= '<div class="input-group">';
@@ -91,6 +141,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
         $search .= '</div>';
         $search .= Html::endForm();
         echo $search;
+        */
     ?>
 
     <?php NavBar::end(); ?>

@@ -51,6 +51,7 @@ class ArticleController extends Controller
      */
     public function actionCourse($category_id)
     {
+        $category = ArticleCategory::findOne($category_id);
         $query = Article::find()->where(['category_id' => $category_id]);
         $pages = new Pagination([
             'totalCount' => $query->count(),
@@ -62,8 +63,9 @@ class ArticleController extends Controller
             ->all();
 
         return $this->render('course',[
-            'model' => $model,
-            'pages' => $pages
+            'model'    => $model,
+            'pages'    => $pages,
+            'category' => $category
         ]);
     }
 

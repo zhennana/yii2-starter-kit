@@ -135,8 +135,8 @@ class CoursewareController extends \common\rest\Controller
             $data = $model->toArray();
             foreach ($model->coursewareToCourseware as $key => $value) {
                 if(isset($value->courseware)){
-                  
-                    $data['items'][$key] = $value->courseware;
+                    $data['items'][$key]         = $value->courseware->toArray();
+                    $data['items'][$key]['sort'] = $value->sort;
                 }
             }
         }

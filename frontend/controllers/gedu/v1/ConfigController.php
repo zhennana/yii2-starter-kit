@@ -424,7 +424,7 @@ class ConfigController extends \common\rest\Controller
             $sdk          = new JSSDK($AppID, $AppSecret);
             $sign_package = $sdk->getSignPackage($url);
 
-            if (isset($sign_package->errcode)) {
+            if (isset($sign_package->errcode) && isset($sign_package->errmsg)) {
                 $this->serializer['errno']   = $sign_package->errcode;
                 $this->serializer['message'] = $sign_package->errmsg;
                 return [];
