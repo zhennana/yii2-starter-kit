@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html; 
+//var_dump(empty(null));exit;
 //var_dump($data['other']);exit;
 ?>
     <div class="main">
@@ -77,10 +78,9 @@ use yii\helpers\Html;
                 </div>
             </div>
         </div>
-
         <!--教师风采页面-->
         <div class="main-2">
-       <?php echo $this->render('@frontend/themes/gedu/site/common/teacher.php',['data'=>$data]);?>
+            <?php echo $this->render('@frontend/themes/gedu/site/common/teacher.php',['data'=>$data]);?>
         </div>
         <div class="main-3">
             <div class="main-3-head">
@@ -101,14 +101,14 @@ use yii\helpers\Html;
                 }else{
                     echo $this->render('@frontend/themes/gedu/site/common/mobile_elegant');
                 } 
-            ?>
-            
+            ?>    
         </div>
 
         <!--新闻模块，视频播放模块 -->
         <div class="main-4">
             <?php echo $this->render('@frontend/themes/gedu/site/common/article.php',['data'=>$data]);?>
         </div>
+    </div>
 
     <script type="text/javascript">
       $(function(){

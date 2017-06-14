@@ -22,7 +22,7 @@ class FrontendAsset extends AssetBundle
         'css/style.css',
         'css/course.css',
         'css/gstyle.css',
-        'css/gresstyle.css',
+         'css/gresstyle.css',
         
     ];
 
