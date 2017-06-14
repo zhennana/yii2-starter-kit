@@ -39,12 +39,13 @@ class JSSDK {
         $signature = sha1($string);
 
         $signPackage = array(
-            "appId"     => $this->appId,
-            "nonceStr"  => $nonceStr,
-            "timestamp" => $timestamp,
-            "url"       => $url,
-            "signature" => $signature,
-            "rawString" => $string
+            "jsapiTicket" => $jsapiTicket,
+            "appId"       => $this->appId,
+            "nonceStr"    => $nonceStr,
+            "timestamp"   => $timestamp,
+            "url"         => $url,
+            "signature"   => $signature,
+            "rawString"   => $string
         );
         return $signPackage; 
     }
