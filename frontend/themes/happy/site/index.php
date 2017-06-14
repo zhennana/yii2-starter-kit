@@ -58,7 +58,7 @@ $box_color = [
                                     if (isset($value['body']) && !empty($value['body'])) {
                                         $course_category = substr_auto(strip_tags($value['body']),70);
                                     }else{
-                                        $course_category = 'This is the absoulut beginner Engilsh course for young learners.';
+                                        $course_category = 'This is the absolute beginner Engilsh course for young learners.';
                                     }
 
                                     if (isset($value['id']) && !empty($value['id'])) {

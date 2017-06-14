@@ -2,7 +2,9 @@
 use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\Article */
-$this->title = 'Unit 1 - Classroom Commands';
+$this->title = $model->title.' - '.$model->slug ;
+$this->params['breadcrumbs'][] = ['label' => $model->category->title, 'url' => ['course','category_id' => $model->category_id]];
+$this->params['breadcrumbs'][] = $this->title;
 $img = Yii::getAlias('@frontendUrl').'/img/fredisalearns_index_03.png';
 ?>
 <div id="article-index">
