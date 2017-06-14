@@ -3,8 +3,8 @@ use yii\helpers\Html;
 use yii\widgets\LinkPager;
 
 /* @var $this yii\web\View */
-$this->title = Yii::t('frontend', 'Course');
-
+$this->title = $category->title;
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div id="article-index">
     <div class="course_info">
