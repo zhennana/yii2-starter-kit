@@ -1,5 +1,6 @@
 <?php
-//var_dump(1111);exit;
+use yii\helpers\Html;
+$category=$model->category->title;
 ?>
 
 <div class="gdu-content">
@@ -10,11 +11,14 @@
     ?>
     <!-- 文章内容部分 -->
     <div class="col-md-8 ">
+
     <div class="box box-widget geu-content">
-            <div class="box-header with-border ">
-              <div class="">
-                <span class=""><i class="fa fa-map-marker margin-r-5 text-purple"></i><a href="#">当前位置:首页><?php echo $model->title;?></a></span>
-              </div>
+            <div class="box-header with-border box-header with-border ">
+                <ol class="breadcrumb" style="margin-bottom: -10px">
+                  <li><?php echo Html::a('首页',['site/index'])?></li>
+                  <li><a href="#"><?php echo Html::a($category,['article/index','category_id'=>$model->category_id])?></a></li>
+                  <li class="activeli"><?php echo $model->title;?></li>
+                </ol>
             </div>
             <div class="box-body">
               <?php echo $model->body;?>

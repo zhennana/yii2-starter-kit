@@ -14,9 +14,10 @@ use yii\captcha\Captcha;
     <div class="col-md-12 ">
       <div class="box box-widget geu-content">
             <div class="box-header with-border" >
-              <div class="">
-                <span class=""><i class="fa fa-map-marker margin-r-5 text-purple"></i><a href="#">当前位置:首页>在线报名</a></span>
-              </div>
+              <ol class="breadcrumb">
+                  <li><?php echo Html::a('首页',['site/index'])?></li>
+                  <li>在线报名</li>
+              </ol>
             </div>
       </div>
       <div class="box-body geu-content">
