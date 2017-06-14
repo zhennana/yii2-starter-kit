@@ -4,20 +4,33 @@
         <div class="gbox">
           <h4 class="">成绩查询</h4>
         </div>
-        <div class="box-body geu-grup" >
-            <div class="" style="margin: 15px 20px;"> 
-                  <div class="btn "><span class="fa fa-star-o"></span>考试性质
-                  </div>
-                <input class="" type="text">
+        <div class="box-body geu-sidebar score" >
+            <div class="col-xs-12">
+             <div class="input-group scobtn">
+              <div class="input-group-btn">
+                <button type="button" class="btn btncolor"><i class="fa fa-fw fa-star text-red"></i>考&nbsp试&nbsp性&nbsp质&nbsp&nbsp</button>
+              </div>
+              <!-- /btn-group -->
+              <input class="form-control" type="text">
             </div>
-             <div class="" style="margin: 15px 21px 15px 8px;"> 
-                  <div class="btn "><span class="fa fa-star-o"></span>姓名／考号
-                  </div>
-                <input class="" type="text">
             </div>
+            <br>
+            <div class="col-xs-12" >
+             <div class="input-group scobtn">
+              <div class="input-group-btn">
+                <button type="button" class="btn btncolor"><i class="fa fa-fw fa-star text-red"></i>姓名／学号</button>
+              </div>
+              <!-- /btn-group -->
+              <input class="form-control" type="text">
+            </div>
+            </div>
+                <div class="box-footer geu-content">
+                  <button type="submit" class="btn bg-purple margin pull-right">搜索</button>
+                  <button type="submit" class="btn bg-purple margin pull-right">重置</button>
+                </div>
         </div>
       </div>
-      <div class="">
+      <!-- <div class="">
         <div class="gbox">
           <h4 class="">小学部</h4>
         </div>
@@ -84,7 +97,7 @@
             </section>
           </aside>
         </div>
-      </div>
+      </div> -->
       <div class="">
         <div class="gbox">
           <h4 class="">联系我们</h4>

@@ -4,7 +4,7 @@
   <div class="row">
     <!-- 左边侧边栏 -->
     <?php
-      echo $this->render('@frontend/themes/gedu/article/common/sidebarnew');
+      echo $this->render('@frontend/themes/gedu/page/common/sidebarteacher');
     ?>
     <!-- 文章内容部分 -->
     <div class="col-md-8 ">
@@ -17,9 +17,9 @@
             <div class="box-body">
                 <div class="demo">
                   <div class="">
-                    <div class="row teabor">
+                    <div class="row">
                       <div class="col-md-4 col-sm-6">
-                        <div class="box1">
+                        <div class="box1 scholbor">
                           <img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-3-2.png" alt="Photo">
                           <div class="box-content">
                             <ul class="icon">
@@ -30,7 +30,7 @@
                       </div>
 
                       <div class="col-md-4 col-sm-6">
-                        <div class="box1">
+                        <div class="box1 scholbor">
                           <img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-3-1.png" alt="Photo">
                           <div class="box-content">
                             <ul class="icon">
@@ -40,8 +40,58 @@
                         </div>
                       </div>
                       <div class="col-md-4 col-sm-6">
-                        <div class="box1">
+                        <div class="box1scholbor">
                           <img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-3-3.png" alt="Photo">
+                          <div class="box-content">
+                            <ul class="icon">
+                              <li><a href="#"> <img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/teachsearch.png" alt="Photo"></a></li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-4 col-sm-6">
+                        <div class="box1 scholbor">
+                          <img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/jiaoxuelou.jpg" alt="Photo">
+                          <div class="box-content">
+                            <ul class="icon">
+                              <li><a href="#"> <img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/teachsearch.png" alt="Photo"></a></li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-4 col-sm-6">
+                        <div class="box1 scholbor">
+                          <img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/guangdapeitao.jpg" alt="Photo">
+                          <div class="box-content">
+                            <ul class="icon">
+                              <li><a href="#"> <img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/teachsearch.png" alt="Photo"></a></li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-4 col-sm-6">
+                        <div class="box1 scholbor">
+                          <img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/guangdapei.jpg" alt="Photo">
+                          <div class="box-content">
+                            <ul class="icon">
+                              <li><a href="#"> <img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/teachsearch.png" alt="Photo"></a></li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-4 col-sm-6">
+                        <div class="box1 scholbor">
+                          <img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/guangda-1.jpg" alt="Photo">
+                          <div class="box-content">
+                            <ul class="icon">
+                              <li><a href="#"> <img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/teachsearch.png" alt="Photo"></a></li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-4 col-sm-6">
+                        <div class="box1 scholbor">
+                          <img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/guagndasmal.jpg" alt="Photo">
                           <div class="box-content">
                             <ul class="icon">
                               <li><a href="#"> <img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/teachsearch.png" alt="Photo"></a></li>

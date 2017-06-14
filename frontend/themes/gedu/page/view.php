@@ -6,7 +6,7 @@
   <div class="row">
     <!-- 左边侧边栏 -->
     <?php
-      echo $this->render('@frontend/themes/gedu/page/common/sidebarnew');
+      echo $this->render('@frontend/themes/gedu/page/common/sidebar');
     ?>
     <!-- 文章内容部分 -->
     <div class="col-md-8 ">
