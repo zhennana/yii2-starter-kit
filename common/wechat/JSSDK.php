@@ -16,8 +16,8 @@ class JSSDK {
     public function __construct($appId, $appSecret) {
         $this->appId        = $appId;
         $this->appSecret    = $appSecret;
-        $this->jsapi_ticket = 'gedu.jsapi_ticket.php';
-        $this->access_token = 'gedu.access_token.php';
+        $this->jsapi_ticket = 'gedu.jsapi_ticket';
+        $this->access_token = 'gedu.access_token';
     }
 
     public function getSignPackage($url) {
@@ -72,6 +72,7 @@ class JSSDK {
             $url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token=$accessToken";
             $res    = json_decode($this->httpGet($url));
             $ticket = $res->ticket;
+
             if ($ticket) {
                 $data->expire_time  = time() + 7000;
                 $data->jsapi_ticket = $ticket;
@@ -87,15 +88,17 @@ class JSSDK {
     private function getAccessToken() {
         // access_token 应该全局存储与更新，以下代码以写入到文件中做示例
         $data = json_decode($this->get_php_file($this->access_token));
+
         if ($data->expire_time < time()) {
             // 如果是企业号用以下URL获取access_token
             // $url = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=$this->appId&corpsecret=$this->appSecret";
             $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$this->appId&secret=$this->appSecret";
             $res = json_decode($this->httpGet($url));
-            if (isset($res->errcode) && isset($res->errmsg)) {
+// var_dump($res);exit;
+// var_dump($this->httpGet($url));exit;
+            if ($res != NULL && isset($res->errcode) && isset($res->errmsg)) {
                 return $res;
             }
-
             $access_token = $res->access_token;
             if ($access_token) {
                 $data->expire_time  = time() + 7000;
@@ -135,10 +138,20 @@ class JSSDK {
         return trim(KeyStorageItem::findOne($filename)->value);
     }
     private function set_php_file($filename, $content) {
-        $model       = new KeyStorageItem;
-        $model->key   = $filename;
-        $model->value = $content;
-        $model->save();
+        $model = KeyStorageItem::findOne($filename);
+        if ($model) {
+            $model->value   = $content;
+            $model->comment = '获取微信使用权限签名，有效时间7200s';
+        }else{
+            $model          = new KeyStorageItem;
+            $model->key     = $filename;
+            $model->value   = $content;
+            $model->comment = '获取微信使用权限签名，有效时间7200s';
+        }
+        if (!$model->save()) {
+            return $model->getErrors();
+        }
+        return true;
     }
 }
 
