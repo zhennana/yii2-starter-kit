@@ -123,7 +123,7 @@ nav .container{
   margin-top: 50px;
 }
 .breadcrumb{
-  position: absolute;
+  /*position: absolute;*/
   left: 0;
   border-radius: 0;
   padding:0 15%;
@@ -177,7 +177,7 @@ nav .container{
 .navbar-inverse .navbar-nav > .open > a:focus{
   background-color: #f89406;
 }
-.navbar-inverse .navbar-nav .open .dropdown-menu > li > a{
+.navbar-inverse .navbar-nav  > li > a{
   color: white;
 }
 .navbar-header{
@@ -288,9 +288,8 @@ nav .container{
 }
 .course_title h1{
   padding-top: 1.5%;
-  font-family: 'Fredoka One', cursive;
   font-weight: bolder;
-  font-size: 3rem;
+  font-size: 2.6rem;
   color: #1bb4b9;
 }
 .article-item > .course_title{
