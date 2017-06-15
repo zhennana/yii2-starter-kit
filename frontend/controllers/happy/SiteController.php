@@ -25,7 +25,11 @@ class SiteController extends Controller
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
-            ]
+            ],
+            'set-locale'=>[
+                'class'=>'common\actions\SetLocaleAction',
+                'locales'=>array_keys(Yii::$app->params['availableLocales'])
+            ],
         ];
     }
 

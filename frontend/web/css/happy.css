@@ -314,11 +314,28 @@ nav .container{
 .article-item > .course_title{
   margin: 2% 3%;
 }
-.videoBox{
-  padding:5% 15%;
+.videoBox {
+    position: relative;
+    overflow: hidden;
+    /*background-color: #CCCCCC;*/
+}
+.videoBox video {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit:fill;
 }
 .download{
     font-weight: bold;
     font-size: 20px;
     color: #000000;
 }
+
+.user-profile-form{
+  padding: 2% 10%;
+}
+
+
+
+
+

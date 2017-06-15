@@ -25,28 +25,42 @@ $img = Yii::getAlias('@frontendUrl').'/img/fredisalearns_index_03.png';
         </div>
     </div>
 
-        <?= $model->body ?>
+        <p>
+            <?= $model->body ?>
+        </p>
 
-    </article>
     <?php
         foreach ($files as $key => $value) {
+            // http://orkp7ug0b.bkt.clouddn.com/o_1bil3b195fl6do19rbrdi1ocfg.mp4
+            // http://orfaphl6n.bkt.clouddn.com/bofang_icon.png 播放
+            // dump($value);
             $html = '';
-            if ($value['type'] == 'application/x-shockwave-flash') {
-                $html .= '<embed class="pull-left" width="100%" height="600px" src="';
+
+            $str = strstr($value['original'], '.', TRUE);
+            if ($value['type'] == 'application/x-shockwave-flash' && !is_mobile()) {
+                $html .= '<div class="flash">';
+                $html .= '<h1>'.$str.'</h1><br/>';
+                $html .= '<embed width="100%" height="600px" src="';
                 $html .= $value['url'].$value['file_name'].'"/>';
+                $html .= '</div>';
             }elseif ($value['type'] == 'video/mp4') {
-                $html .= '<video width="100%" height="100%" id="video" controls >';
-                $html .= '<source src="'.$value['url'].$value['file_name'].'">';
-                $html .= '您的浏览器不支持该视频播放</video>';
+                $html .= '<hr/><br/>';
+                $html .= '<h1>'.$str.'</h1><br/>';
+                $html .= '<video id="yjzxVideo" controls >';
+                $html .= '<source src="'.$value['url'].$value['file_name'].'" type="'.$value['type'].'">';
+                $html .= '<p>您的浏览器不支持该视频播放</p></video>';
             }
     ?>
+        <div class="container videoBox file_<?= $key ?>">
+            <?= $html; ?>
+        </div>
+        <br/>
+    <?php } ?>
 
-    <div class="container videoBox file_<?= $key ?>">
-        <?= $html; ?>
-    </div>
-<?php } ?>
+    </article>
 
 </div>
+<script type="text/javascript"></script>
 
 
 

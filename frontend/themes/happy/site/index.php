@@ -26,6 +26,9 @@ $image = 'http://orfaphl6n.bkt.clouddn.com/Starter1.png?imageView2/3/w/140/h/140
         <div class="row">
             <?php
                 foreach ($model as $key => $value) {
+                    if ($key > 8) {
+                        break;
+                    }
                     if (isset($value->banner_src) && !empty($value->banner_src)) {
                         $image = $value->banner_src.'?imageView2/3/w/140/h/140';
                     }
