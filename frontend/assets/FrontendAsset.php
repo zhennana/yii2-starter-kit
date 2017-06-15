@@ -28,6 +28,7 @@ class FrontendAsset extends AssetBundle
 
     public $js = [
         'js/app.js',
+        'html5media.min.js',
   
 
     ];

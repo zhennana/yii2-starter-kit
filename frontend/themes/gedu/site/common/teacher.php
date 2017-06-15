@@ -54,20 +54,18 @@ $imgsize="?imageView2/1/w/250/h/300";
 ?>
 
     <div class="main-2-head">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 main-2-top">
-                    <h1>TEACHER STYLE</h1>
-                    <h4>教师风采</h4>
-                    <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-line.png" width="100%">
-                </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 main-2-nav">
-                    <span class="active"><a href="#revenue-chart" data-toggle="tab" aria-expanded="true">全部</a></span>
-                    <span class=""><a href="#primary-chart" data-toggle="tab" aria-expanded="false">小学部</a></span>
-                    <span class=""><a href="#middle-chart" data-toggle="tab" aria-expanded="false">中学部</a></span>
-                    <span class=""><a href="#internation-chart" data-toggle="tab" aria-expanded="false">国际部</a></span>
-                    <span class=""><a href="#speciality-chart" data-toggle="tab" aria-expanded="false">特长部</a></span> 
-                </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 main-2-top">
+                <h1>TEACHER STYLE</h1>
+                <h4>教师风采</h4>
+                <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-line.png" width="100%">
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 main-2-nav">
+                <span class="active"><a href="#revenue-chart" data-toggle="tab" aria-expanded="true">全部</a></span>
+                <span class=""><a href="#primary-chart" data-toggle="tab" aria-expanded="false">小学部</a></span>
+                <span class=""><a href="#middle-chart" data-toggle="tab" aria-expanded="false">中学部</a></span>
+                <span class=""><a href="#internation-chart" data-toggle="tab" aria-expanded="false">国际部</a></span>
+                <span class=""><a href="#speciality-chart" data-toggle="tab" aria-expanded="false">特长部</a></span> 
             </div>
         </div>
     </div>
