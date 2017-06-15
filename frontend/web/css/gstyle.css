@@ -92,7 +92,7 @@
 
 /*footer-1*/        
 .footer-1-inner{
-	width: 77%; 
+	width: 79%; 
 	border: 2px #333 solid; 
 	margin: 2% auto; 
 	background-color: #f1f1f1;
@@ -446,6 +446,9 @@
 	cursor:default; 
 	word-spacing:80px;
 	letter-spacing: 3.3px;
+}
+#btnspacetwo{
+	cursor:default; 
 }
 #applyspace{
 	cursor:default; 

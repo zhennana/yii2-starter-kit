@@ -40,12 +40,26 @@ class ArticleController extends Controller{
 	public function actionView($id=''){
 
 		$article=Article::find()->where(['id'=>$id])->one();
+		$categoryModel=$article->category;
+		$category['self']=$categoryModel->title;
+		//查找是否有父级分类,如果该类就是一级分类
+		$category['parent']=ArticleCategory::find()->where(['id'=>$categoryModel->parent_id])->asArray()->one();
+
+		//如果传入的是二级分类，查找与此处于同级分类下的子类
+		if(!empty($category['parent'])){
+			$category['child']=ArticleCategory::find()->where(['parent_id'=>$category['parent']['id']])->asArray()->all();
+		}else{
+			$category['child']=ArticleCategory::find()->where(['parent_id'=>null])->asArray()->all();
+		}
 
 		if(!$article){
 			throw new NotFoundHttpException(Yii::t('frontend','页面未找到'));
 		}
-		 $viewFile="view";
-		return $this->render($viewFile,['model'=>$article]);
+		$viewFile="view";
+		return $this->render($viewFile,[
+			'model'=>$article,
+			'category'=>$category
+			]);
 	}
 }
 

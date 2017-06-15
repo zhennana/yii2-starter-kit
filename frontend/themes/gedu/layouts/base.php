@@ -34,11 +34,11 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                         'items'=>[
                             [
                                 'label' => Yii::t('frontend', '学校概况'),
-                                'url' => ['/article/index', 'category_id'=>'9']
+                                'url' => ['/article/view', 'id'=>'55']
                             ],
                             [
                                 'label' => Yii::t('frontend', '办学理念'),
-                                'url' => ['/article/index', 'category_id'=>'10'],
+                                'url' => ['/article/view', 'id'=>'58'],
                             ],
                             [
                                 'label' => Yii::t('frontend', '校园风光'),
@@ -55,16 +55,12 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                         'items'=>[
                             [
                                 'label' => Yii::t('frontend', '家校沟通'),
-                                'url' => ['/page/view', 'slug'=>'guan-yu-guang-da']
-                            ],
-                            [
-                                'label' => Yii::t('frontend', '国旗下讲话'),
-                                'url' => ['/page/view', 'slug'=>'guoqi'],
+                                'url' => ['/article/view', 'id'=>'14']
                             ],
                             
                         ]
                     ],
-                    ['label' => Yii::t('frontend', '合作交流'), 'url' => ['/page/view', 'slug'=>'zhao-shang-jia-meng']],
+                    ['label' => Yii::t('frontend', '合作交流'), 'url' => ['/article/view', 'id'=>'12']],
                     ['label' => Yii::t('frontend', '招生专栏'),
                         'items'=>[
                             [
@@ -102,7 +98,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                         ]
                     ],
                     // ['label' => Yii::t('frontend', '产品展示'), 'url' => ['/page/view', 'slug'=>'ke-cheng-ti-xi']],
-                    ['label' => Yii::t('frontend', '招贤纳士'), 'url' => ['/page/view', 'slug'=>'zhao-pin']],
+                    ['label' => Yii::t('frontend', '招贤纳士'), 'url' => ['/article/view', 'id'=>'13']],
                     ['label' => Yii::t('frontend', '在线报名'), 'url' => ['/site/apply-to-play']],
                     ['label' => Yii::t('frontend', '联系我们'), 'url' => ['/site/contact']],
                 ]
