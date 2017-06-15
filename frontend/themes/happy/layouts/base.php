@@ -58,43 +58,43 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                 'items'=>[
                     [
                         'label' => Yii::t('frontend', 'Starter 1 English'),
-                        'url' => ['/article/course','category_id' => 1]
+                        'url' => ['/article/course','master_id' => 1]
                     ],
                     [
                         'label' => Yii::t('frontend', 'Starter 2 English'),
-                        'url' => ['/article/course','category_id' => 2]
+                        'url' => ['/article/course','master_id' => 2]
                     ],
                     [
                         'label' => Yii::t('frontend', 'Level 1 English'),
-                        'url' => ['/article/course','category_id' => 3]
+                        'url' => ['/article/course','master_id' => 3]
                     ],
                     [
                         'label' => Yii::t('frontend', 'Level 2 English'),
-                        'url' => ['/article/course','category_id' => 4]
+                        'url' => ['/article/course','master_id' => 4]
                     ],
                     [
                         'label' => Yii::t('frontend', 'Level 3 English'),
-                        'url' => ['/article/course','category_id' => 5]
+                        'url' => ['/article/course','master_id' => 5]
                     ],
                     [
                         'label' => Yii::t('frontend', 'Level 4 English'),
-                        'url' => ['/article/course','category_id' => 6]
+                        'url' => ['/article/course','master_id' => 6]
                     ],
                     [
                         'label' => Yii::t('frontend', 'Level 5 English'),
-                        'url' => ['/article/course','category_id' => 7]
+                        'url' => ['/article/course','master_id' => 7]
                     ],
                     [
                         'label' => Yii::t('frontend', 'Level 6 English'),
-                        'url' => ['/article/course','category_id' => 8]
+                        'url' => ['/article/course','master_id' => 8]
                     ],
                     [
                         'label' => Yii::t('frontend', 'Level 7 English'),
-                        'url' => ['/article/course','category_id' => 9]
+                        'url' => ['/article/course','master_id' => 9]
                     ],
                 ]
             ],
-            ['label' => Yii::t('frontend', 'Extra'),'url' => ['site/index']],
+            ['label' => Yii::t('frontend', 'Extra'),'url' => ['site/#']],
             [
                 'label' => Yii::$app->user->isGuest ? '' : Yii::$app->user->identity->getPublicIdentity(),
                 'visible'=>!Yii::$app->user->isGuest,

@@ -2,10 +2,12 @@
 use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\Article */
-$this->title = $model->title.' - '.$model->slug ;
-$this->params['breadcrumbs'][] = ['label' => $model->category->title, 'url' => ['course','category_id' => $model->category_id]];
+// dump($files);exit;
+$this->title = $model->title;
+$this->params['breadcrumbs'][] = ['label' => $to_courseware->coursewareMaster->title, 'url' => ['course','master_id' => $to_courseware->courseware_master_id]];
 $this->params['breadcrumbs'][] = $this->title;
 $img = Yii::getAlias('@frontendUrl').'/img/fredisalearns_index_03.png';
+
 ?>
 <div id="article-index">
     <div class="course_info">
@@ -19,60 +21,31 @@ $img = Yii::getAlias('@frontendUrl').'/img/fredisalearns_index_03.png';
             <img class="img-responsive" src="<?= $img ?>">
         </div>
         <div class="col-xs-9 col-sm-9 col-md-10">
-            <h1><?= $model->title.' - '.$model->slug ?></h1>
+            <h1><?= $model->title ?></h1>
         </div>
     </div>
 
-        <?php if ($model->thumbnail_path): ?>
-            <?php echo \yii\helpers\Html::img(
-                Yii::$app->glide->createSignedUrl([
-                    'glide/index',
-                    'path' => $model->thumbnail_path,
-                    'w' => 200
-                ], true),
-                ['class' => 'article-thumb img-rounded pull-left']
-            ) ?>
-        <?php endif; ?>
-
-        <?php echo $model->body ?>
-
-        <?php if (!empty($model->articleAttachments)): ?>
-            <h3><?php echo Yii::t('frontend', 'Attachments') ?></h3>
-            <ul id="article-attachments">
-                <?php foreach ($model->articleAttachments as $attachment): ?>
-                    <li>
-                        <?php echo \yii\helpers\Html::a(
-                            $attachment->name,
-                            ['attachment-download', 'id' => $attachment->id])
-                        ?>
-                        (<?php echo Yii::$app->formatter->asSize($attachment->size) ?>)
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        <?php endif; ?>
+        <?= $model->body ?>
 
     </article>
-<!--
-    <div class="course_title">
-        <div class="col-xs-3 col-sm-3 col-md-2">
-            <img class="img-responsive" src="<?php //echo Yii::getAlias('@frontendUrl') ?>/img/fredisalearns_index_03.png">
-        </div>
-        <div class="col-xs-9 col-sm-9 col-md-10">
-            <h1>Unit 1: Classroom Commands</h1>
-        </div>
-    </div>
+    <?php
+        foreach ($files as $key => $value) {
+            $html = '';
+            if ($value['type'] == 'application/x-shockwave-flash') {
+                $html .= '<embed class="pull-left" width="100%" height="600px" src="';
+                $html .= $value['url'].$value['file_name'].'"/>';
+            }elseif ($value['type'] == 'video/mp4') {
+                $html .= '<video width="100%" height="100%" id="video" controls >';
+                $html .= '<source src="'.$value['url'].$value['file_name'].'">';
+                $html .= '您的浏览器不支持该视频播放</video>';
+            }
+    ?>
 
-    <div class="container videoBox">
-        <video width="100%" height="100%" id="yjzxVideo" controls >
-            <source src="http://oqwgb2sml.bkt.clouddn.com/Level%201%20Watch%20the%20Dialogue%20Video%20-%20Birthday%20-%20How%20old.mp4?attname=&e=1497250285&token=N_Co-3Awz-PyQcmaFGVQgeVJwCDvVGnm_6f9nK4m:Rvgg_78KVwugIkGplkrr76wnBLA">
-            您的浏览器不支持该视频播放
-        </video>
-        <div class="videoBg">
-            <div class="videoBtn">
-            </div>
-        </div>
+    <div class="container videoBox file_<?= $key ?>">
+        <?= $html; ?>
     </div>
--->
+<?php } ?>
+
 </div>
 
 

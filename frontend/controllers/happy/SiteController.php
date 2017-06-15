@@ -3,12 +3,16 @@ namespace frontend\controllers\happy;
 
 use Yii;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
+use yii\web\HttpException;
+use yii\data\Pagination;
 
 use common\models\Article;
 use common\models\ArticleCategory;
 
 use frontend\models\ContactForm;
+
+use backend\modules\campus\models\CoursewareToCourseware;
+use backend\modules\campus\models\Courseware;
 
 
 /**
@@ -16,20 +20,41 @@ use frontend\models\ContactForm;
  */
 class SiteController extends Controller
 {
+    public function actions()
+    {
+        return [
+            'error' => [
+                'class' => 'yii\web\ErrorAction',
+            ]
+        ];
+    }
 
     public function actionIndex()
     {
-        $model = ArticleCategory::find()
-            ->where(['status' => ArticleCategory::STATUS_ACTIVE])
-            ->asArray()
+        $master_id = CoursewareToCourseware::find()->select(['courseware_master_id'])->groupBY('courseware_master_id')->asArray()->all();
+        $master_id = array_column($master_id, 'courseware_master_id');
+
+        $query = Courseware::find()->where([
+            'status'        => Courseware::COURSEWARE_STATUS_VALID,
+            'courseware_id' => $master_id
+        ]);
+
+        $pages = new Pagination([
+            'totalCount' => $query->count(),
+            'pageSize'   => '12',
+        ]);
+
+        $model = $query->offset($pages->offset)
+            ->limit($pages->limit)
             ->all();
 
         if (!$model) {
-            throw new NotFoundHttpException;
+            throw new HttpException(404, 'The requested page does not exist.');
         }
 
         return $this->render('index',[
-            'model' => $model
+            'model' => $model,
+            'pages' => $pages
         ]);
     }
    
