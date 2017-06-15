@@ -16,8 +16,8 @@ use yii\captcha\Captcha;
     <div class="box box-widget geu-content">
             <div class="box-header with-border" >
               <ol class="breadcrumb">
-                  <li><?php echo Html::a('首页',['site/index'])?></li>
-                  <li>在线报名</li>
+                  <li><span class=""><i class="fa fa-map-marker margin-r-5 text-purple"></i>当前位置: </span>&nbsp<?php echo Html::a('首页',['site/index'])?></li>
+                  <li class="activeli">在线报名</li>
               </ol>
             </div>
             <div class="box-body contacborder">

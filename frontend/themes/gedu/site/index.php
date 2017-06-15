@@ -84,13 +84,11 @@ use yii\helpers\Html;
         </div>
         <div class="main-3">
             <div class="main-3-head">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 main-2-top">
-                            <h1>CAMPUS FEATURES</h1>
-                            <h4>校园风采</h4>
-                            <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-line.png" width="100%">
-                        </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 main-2-top">
+                        <h1>CAMPUS FEATURES</h1>
+                        <h4>校园风采</h4>
+                        <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-line.png" width="100%">
                     </div>
                 </div>
             </div>
