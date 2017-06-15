@@ -58,43 +58,43 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                 'items'=>[
                     [
                         'label' => Yii::t('frontend', 'Starter 1 English'),
-                        'url' => ['/article/course','category_id' => 1]
+                        'url' => ['/article/course','master_id' => 1]
                     ],
                     [
                         'label' => Yii::t('frontend', 'Starter 2 English'),
-                        'url' => ['/article/course','category_id' => 2]
+                        'url' => ['/article/course','master_id' => 6]
                     ],
                     [
                         'label' => Yii::t('frontend', 'Level 1 English'),
-                        'url' => ['/article/course','category_id' => 3]
+                        'url' => ['/article/course','master_id' => 14]
                     ],
                     [
                         'label' => Yii::t('frontend', 'Level 2 English'),
-                        'url' => ['/article/course','category_id' => 4]
+                        'url' => ['/article/course','master_id' => 20]
                     ],
                     [
                         'label' => Yii::t('frontend', 'Level 3 English'),
-                        'url' => ['/article/course','category_id' => 5]
+                        'url' => ['/article/course','master_id' => 25]
                     ],
                     [
                         'label' => Yii::t('frontend', 'Level 4 English'),
-                        'url' => ['/article/course','category_id' => 6]
+                        'url' => ['/article/course','master_id' => 30]
                     ],
                     [
                         'label' => Yii::t('frontend', 'Level 5 English'),
-                        'url' => ['/article/course','category_id' => 7]
+                        'url' => ['/article/course','master_id' => 33]
                     ],
                     [
                         'label' => Yii::t('frontend', 'Level 6 English'),
-                        'url' => ['/article/course','category_id' => 8]
+                        'url' => ['/article/course','master_id' => 36]
                     ],
                     [
                         'label' => Yii::t('frontend', 'Level 7 English'),
-                        'url' => ['/article/course','category_id' => 9]
+                        'url' => ['/article/course','master_id' => 39]
                     ],
                 ]
             ],
-            ['label' => Yii::t('frontend', 'Extra'),'url' => ['site/index']],
+            ['label' => Yii::t('frontend', 'Extra'),'url' => ['site/#']],
             [
                 'label' => Yii::$app->user->isGuest ? '' : Yii::$app->user->identity->getPublicIdentity(),
                 'visible'=>!Yii::$app->user->isGuest,
@@ -118,6 +118,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
             [
                 'label'=>Yii::t('frontend', 'Language'),
                 'items'=>array_map(function ($code) {
+
                     return [
                         'label' => Yii::$app->params['availableLocales'][$code],
                         'url' => ['/site/set-locale', 'locale'=>$code],

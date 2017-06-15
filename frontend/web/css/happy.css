@@ -31,6 +31,9 @@ body {
 li{
   list-style: none;
 }
+h1,h2,h3,h4,h5{
+    color: #EE7600;
+}
 .wrap {
   min-height: 100%;
   height: auto;
@@ -55,7 +58,15 @@ li{
   font-size: 2rem;
 }
 .jumbotron .intr{
+  display: block;
   color: black;
+}
+.jumbotron img{
+  height: 120px;
+}
+.jumbotron p{
+  font-size: 1.3em;
+  height: 60px;
 }
 .not-set {
   color: #c55;
@@ -169,14 +180,17 @@ nav .container{
 .navbar-inverse .container{
   padding: 0;
 }
-.navbar-inverse .navbar-nav > .active > a,
-.navbar-inverse .navbar-nav > .active > a:hover,
-.navbar-inverse .navbar-nav > .active > a:focus,
+.navbar-inverse .navbar-nav .active > a,
+.navbar-inverse .navbar-nav .active > a:hover,
+.navbar-inverse .navbar-nav .active > a:focus,
 .navbar-inverse .navbar-nav > .open > a,
 .navbar-inverse .navbar-nav > .open > a:hover,
-.navbar-inverse .navbar-nav > .open > a:focus{
+.navbar-inverse .navbar-nav > .open > a:focus,
+.navbar-collapse .navbar-nav li:hover{
   background-color: #f89406;
 }
+
+
 .navbar-inverse .navbar-nav  > li > a{
   color: white;
 }
@@ -233,6 +247,7 @@ nav .container{
   color: #fff !important;
 }
 .course_box h4{
+  color: white;
   font: 800 2rem/3rem sans-serif !important;
 }
 .btn_begin{
@@ -270,8 +285,12 @@ nav .container{
 }
 
 /* 二级页面 */
+.course_info h1{
+  font-size: 2.5em;
+  font-family: 'Fredoka One';
+}
 .course_info p{
-  font-size: 2rem;
+  font-size: 1.2em;
 }
 .course_list{
   margin-top: 4%;
@@ -295,6 +314,28 @@ nav .container{
 .article-item > .course_title{
   margin: 2% 3%;
 }
-.videoBox{
-  padding:5% 15%;
+.videoBox {
+    position: relative;
+    overflow: hidden;
+    /*background-color: #CCCCCC;*/
 }
+.videoBox video {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit:fill;
+}
+.download{
+    font-weight: bold;
+    font-size: 20px;
+    color: #000000;
+}
+
+.user-profile-form{
+  padding: 2% 10%;
+}
+
+
+
+
+
