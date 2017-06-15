@@ -11,7 +11,7 @@ use yii\helpers\Html;
 <html lang="<?php echo Yii::$app->language ?>">
 <head>
     <meta charset="<?php echo Yii::$app->charset ?>"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
     <link rel="shortcut icon" href="#">
     <title>英语视频站 - <?php echo Html::encode($this->title) ?></title>
     <?php $this->head() ?>

@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\widgets\LinkPager;
 
 /* @var $this yii\web\View */
 $this->title = Yii::$app->name;
@@ -10,6 +11,7 @@ $box_color = [
     3 => 'box-info',
     4 => 'box-danger',
 ];
+$image = 'http://orfaphl6n.bkt.clouddn.com/Starter1.png?imageView2/3/w/140/h/140';
 ?>
 <div class="site-index">
 
@@ -23,12 +25,13 @@ $box_color = [
     <div class="jumbotron">
         <div class="row">
             <?php
-                $image = 'http://orfaphl6n.bkt.clouddn.com/Starter1.png?imageView2/3/w/140/h/140';
                 foreach ($model as $key => $value) {
-                if ($key > 8) {
-                    break;
-                }
-
+                    if ($key > 8) {
+                        break;
+                    }
+                    if (isset($value->banner_src) && !empty($value->banner_src)) {
+                        $image = $value->banner_src.'?imageView2/3/w/140/h/140';
+                    }
             ?>
 
             <div class="col-md-3 col-sm-4 course_box">
@@ -44,10 +47,10 @@ $box_color = [
 
                     <div class="box-body">
                         <?php 
-                        if (isset($value['id']) && !empty($value['id'])) {
+                        if (isset($value['courseware_id']) && !empty($value['courseware_id'])) {
                             echo Html::a(
                                 '<img class="img-responsive center-block" src='.$image.'/><h4>'.'</h4>',
-                                ['article/course','category_id'=>$value['id']]
+                                ['article/course','master_id'=>$value['courseware_id']]
                             );
                         }
                         ?>
@@ -56,16 +59,16 @@ $box_color = [
                             <p>
                                 <?php 
                                     if (isset($value['body']) && !empty($value['body'])) {
-                                        $course_category = substr_auto(strip_tags($value['body']),70);
+                                        $course_body = substr_auto(strip_tags($value['body']),70);
                                     }else{
-                                        $course_category = 'This is the absolute beginner Engilsh course for young learners.';
+                                        $course_body = 'This is the absolute beginner Engilsh course for young learners.';
                                     }
 
-                                    if (isset($value['id']) && !empty($value['id'])) {
-                                        echo Html::a($course_category,
+                                    if (isset($value['courseware_id']) && !empty($value['courseware_id'])) {
+                                        echo Html::a($course_body,
                                             [
                                                 'article/course',
-                                                'category_id' => $value['id']
+                                                'master_id' => $value['courseware_id']
                                             ],
                                             ['class' =>'intr']
                                         );
@@ -74,10 +77,10 @@ $box_color = [
                             </p>
 
                             <?php
-                            if (isset($value['id']) && !empty($value['id'])) {
+                            if (isset($value['courseware_id']) && !empty($value['courseware_id'])) {
                                 echo Html::a('Begin Learning', [
                                     'article/course',
-                                    'category_id'=>$value['id']
+                                    'master_id'=>$value['courseware_id']
                                 ],
                                 ['class' =>'btn btn-sm btn_begin']
                                 );
@@ -93,6 +96,10 @@ $box_color = [
             <?php } ?>
 
         </div>
+    </div>
+
+    <div class="text-center">
+        <?= LinkPager::widget(['pagination' => $pages]); ?>
     </div>
 
 </div>
