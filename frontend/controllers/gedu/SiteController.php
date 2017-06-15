@@ -32,7 +32,7 @@ class SiteController extends Controller
     public function actionIndex()
     {         
         $data = [];
-        $data['all']=Article::find()->where(['status'=>Article::STATUS_PUBLISHED])->orderby(['published_at'=>SORT_DESC])->asArray()->all();
+        $data['all']=Article::find()->where(['status'=>Article::STATUS_PUBLISHED])->andWhere(['category_id'=>22])->orderby(['published_at'=>SORT_DESC])->asArray()->all();
        // echo'<pre>';var_dump($data['all']);exit;
         //取数组的第一个值
         $data['one']=current($data['all']);

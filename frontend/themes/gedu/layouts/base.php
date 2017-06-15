@@ -13,7 +13,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
         <div class="top-logo"><img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/top-logo.png"></div>
         <div class="top-tel">
             <div class="top-tel-logo"><img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/top-tel-logo.png"></div>
-            <div class="top-tel-text">全国免费服务热线</div>
+            <div class="top-tel-text">服务热线</div>
             <div class="top-tel-tel"> 0316-<span>5899988</span></div>
         </div>
         <div class="clear"></div>
@@ -27,7 +27,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                 ],
             ]); ?>
             <?php echo Nav::widget([
-                'options' => ['class' => 'navbar-nav '],
+                'options' => ['class' => 'navbar-nav navbar-right'],
                 'items' => [
                     ['label' => Yii::t('frontend', '首页'), 'url' => ['/site/index']], 
                     ['label' => Yii::t('frontend', '走进光大'),
@@ -101,7 +101,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                             
                         ]
                     ],
-                    ['label' => Yii::t('frontend', '产品展示'), 'url' => ['/page/view', 'slug'=>'ke-cheng-ti-xi']],
+                    // ['label' => Yii::t('frontend', '产品展示'), 'url' => ['/page/view', 'slug'=>'ke-cheng-ti-xi']],
                     ['label' => Yii::t('frontend', '招贤纳士'), 'url' => ['/page/view', 'slug'=>'zhao-pin']],
                     ['label' => Yii::t('frontend', '在线报名'), 'url' => ['/site/apply-to-play']],
                     ['label' => Yii::t('frontend', '联系我们'), 'url' => ['/site/contact']],
@@ -170,7 +170,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                             </div>                        
                             <div class="footer-2-text">
                                 <h3>0316-5899988</h3>
-                                <p>全国免费服务热线</p>
+                                <p>服务热线</p>
                             </div>
                         </div> 
                     </div>
