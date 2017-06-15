@@ -91,7 +91,12 @@
 
 
 /*footer-1*/        
-.footer-1-inner{width: 64%; border: 2px #333 solid; margin: 2% 18%; background-color: #f1f1f1;}
+.footer-1-inner{
+	width: 77%; 
+	border: 2px #333 solid; 
+	margin: 2% auto; 
+	background-color: #f1f1f1;
+}
 .footer-1-inner span{padding-left: 3%;}
 .footer-1-inner a{font-size: 14px; color: #666;}
 /*footer-2*/
@@ -156,7 +161,10 @@
 .geu-sidebar2 a:hover {
 	color: #723c8e;
 }
-
+.txt {
+	  padding:6.1em 1.4em;
+	  text-align: center;
+	}
 .geu-content{
 	background: #f1f1f1;
 	width:100%; 
@@ -244,10 +252,7 @@
 .iusto{
 	position:relative;
 }
-.txt {
-	  padding:6.1em 1.4em;
-	  text-align: center;
-	}
+
 .txt a{
 	color: white;
 }
@@ -437,6 +442,26 @@
 .geu-content .btncolor{
 	background: #f1f1f1;
 }
+#btnspace{
+	cursor:default; 
+	word-spacing:80px;
+	letter-spacing: 3.3px;
+}
+#applyspace{
+	cursor:default; 
+	word-spacing:80px;
+	letter-spacing: 14px;
+}
+#applyspace2{
+	cursor:default; 
+	word-spacing:80px;
+	letter-spacing: 21px;
+}
+#applyspace3{
+	cursor:default; 
+	word-spacing:80px;
+	letter-spacing: 4px;
+}
 .score .btncolor{
 	background: #f1f1f1;
 	color: black;
@@ -458,6 +483,9 @@
 	padding:0px;
 	margin-bottom: -10px;
 	background: none;
+}
+.geu-content .breadcrumb li a:hover{
+	color: #723c8e;
 }
 
 /* effect-4 css */

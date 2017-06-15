@@ -15,8 +15,8 @@ $category=$model->category->title;
     <div class="box box-widget geu-content">
             <div class="box-header with-border box-header with-border ">
                 <ol class="breadcrumb" style="margin-bottom: -10px">
-                  <li><?php echo Html::a('首页',['site/index'])?></li>
-                  <li><a href="#"><?php echo Html::a($category,['article/index','category_id'=>$model->category_id])?></a></li>
+                  <li><span class=""><i class="fa fa-map-marker margin-r-5 text-purple"></i>当前位置: </span>&nbsp<?php echo Html::a('首页',['site/index'])?></li>
+                  <li><?php echo Html::a($category,['article/index','category_id'=>$model->category_id])?></li>
                   <li class="activeli"><?php echo $model->title;?></li>
                 </ol>
             </div>

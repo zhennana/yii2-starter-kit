@@ -16,6 +16,7 @@ use yii\helpers\Html;
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="http://7xsm8j.com2.z0.glb.qiniucdn.com/guangdaicon.ico">
     <script src="http://static.v1.wakooedu.com/jquery-latest.js"></script>
+    <script src="<?php echo Yii::getAlias('@frontendUrl') ?>/js/html5media.min.js"></script>
     <script src="<?php echo Yii::getAlias('@frontendUrl') ?>/js/jquery/pdata.js"></script>
     <title>光大学校 - <?php echo Html::encode($this->title) ?></title>
     <?php $this->head() ?>
