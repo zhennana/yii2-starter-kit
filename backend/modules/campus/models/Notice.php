@@ -32,34 +32,77 @@ class Notice extends BaseNotice
         );
     }
 
-    public function dataSave($data)
+    public function batch_save($data)
     {
-        $info = ['error' => []];
-
-        if(!isset($data) && empty($data) && !is_array($data['receiver_id']))
-        {
-            return false;
+        $info = [];
+        
+        if(isset($data['school_id']) && is_array($data['school_id'])){
+            $schoolIds  = $data['school_id']; unset($data['school_id']);
+            foreach ($schoolIds as $key => $value) {
+                $model = new Notice;
+                $data['school_id'] = $value;
+                $data['message_hash'] = md5($data['message']);
+                $data['sender_id'] = Yii::$app->user->identity->id;
+                $model->load($data,'');
+               // var_dump($model->save());exit;
+                if(!$model->save()){
+                    $info[$key] = $model;
+                }
+            }
         }
 
-        foreach ($data['receiver_id'] as $key => $value) {
-            if($value){
-                $model              = new Notice;
-                $model->receiver_id = $value;
-                $model->category     = $data['category'];
-                $model->title        = $data['title'];
-                $model->message      = $data['message'];
-                $model->sender_id    = $data['sender_id'];
-                $model->status_send  = $data['status_send'];
-                $model->message_hash = md5($data['message']);
-                $model->times        = 1;
-                $model->created_at   = time();
-                $model->updated_at   = time();
+        if(isset($data['grade_id']) && is_array($data['grade_id'])){
+            $gradeIds  = $data['grade_id']; unset($data['grade_id']);
+            foreach ($gradeIds as $key => $value) {
+                $model = new Notice;
+                $model->setScenario('grade');
+                $data['grade_id'] = $value;
+                $data['message_hash'] = md5($data['message']);
+                $data['sender_id'] = Yii::$app->user->identity->id;
+                $model->load($data,'');
+               // var_dump($model->save());exit;
                 if(!$model->save()){
-                    $info['error'][$key] = $model->getErrors();
-                    continue;
+                    $info[$key] = $model;
+                }
+            }
+        }
+
+        if(isset($data['receiver_id']) && is_array($data['receiver_id'])){
+            $receiversIds  = $data['receiver_id']; unset($data['receiver_id']);
+            foreach ($receiversIds as $key => $value) {
+                $model = new Notice;
+                 $model->setScenario('teacher');
+                $data['receiver_id'] = $value;
+                $data['message_hash'] = md5($data['message']);
+                $data['sender_id'] = Yii::$app->user->identity->id;
+                $model->load($data,'');
+               // var_dump($model->save());exit;
+                if(!$model->save()){
+                    $info[$key] = $model;
                 }
             }
         }
         return $info;
+    }
+    //下拉框数据
+    public function getList($type_id = false,$id = false, $category = false){
+        if($type_id == 1){
+            $gradeInfo = Yii::$app->user->identity->getGrades(
+                    Yii::$app->user->identity->id,
+                    $id
+                );
+            //var_dump();exit;
+            return ArrayHelper::map($gradeInfo,'grade_id','grade_name');
+        }
+        if($type_id == 2){
+            if($category = 2){
+                $user = Yii::$app->user->identity->getGradeToUser($id,10);
+
+            }else{
+                $user = Yii::$app->user->identity->getGradeToUser($id);
+            }
+           // var_dump(ArrayHelper::map($user,'id','username'));exit;
+            return ArrayHelper::map($user,'id','username');
+        }
     }
 }

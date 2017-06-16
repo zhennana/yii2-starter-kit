@@ -6,8 +6,8 @@ namespace backend\modules\campus\models\base;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
-use backend\modules\campus\models\Grade;
-use backend\modules\campus\models\School;
+//use backend\modules\campus\models\Grade;
+//use backend\modules\campus\models\School;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -56,10 +56,10 @@ abstract class ShareStreamToGrade extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['share_stream_id'], 'required'],
+            [['share_stream_id','school_id','grade_id'], 'required'],
             [['status', 'auditor_id'], 'integer'],
             ['status','default','value'=>10],
-            [['school_id', 'grade_id'], 'safe']
+            [['school_id', 'grade_id'], 'integer']
         ];
     }
 
@@ -111,7 +111,7 @@ abstract class ShareStreamToGrade extends \yii\db\ActiveRecord
     }
 
     public function batch_create($data){
-
+      //  var_dump($data);exit;
         if(empty($data['school_id']) && !isset($data['school_id'])){
             return false;
         }
@@ -153,10 +153,10 @@ abstract class ShareStreamToGrade extends \yii\db\ActiveRecord
     }
 
     public function getSchool(){
-        return $this->hasOne(School::className(),['school_id'=>'school_id']);
+        return $this->hasOne(\backend\modules\campus\models\School::className(),['school_id'=>'school_id']);
     }
     public function getGrade(){
-        return $this->hasOne(Grade::className(),['grade_id'=>'grade_id']);
+        return $this->hasOne(\backend\modules\campus\models\Grade::className(),['grade_id'=>'grade_id']);
     }
     /**
      * 获取下拉框学校班级数据
@@ -164,14 +164,14 @@ abstract class ShareStreamToGrade extends \yii\db\ActiveRecord
      */
     public function getList($type = 0, $id = []){
         if($type == 0){
-             $school = School::find()
+             $school = \backend\modules\campus\models\School::find()
             ->asArray()
             ->all();
             return ArrayHelper::map($school,'school_id','school_title');
         }
         if($type == 1){
             $data = [];
-            $grade = Grade::find()->where(['school_id'=>$id])->with('school')->asArray()->all();
+            $grade = \backend\modules\campus\models\Grade::find()->where(['school_id'=>$id])->with('school')->asArray()->all();
           foreach ($grade as $key => $value) {
               // $keys = $value['grade_id'].','.$value['school']['school_id'];
                $data[$value['school']['school_title']][$value['grade_id']] = $value['grade_name'];

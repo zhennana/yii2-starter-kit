@@ -5,8 +5,8 @@
 namespace backend\modules\campus\controllers\base;
 
 use backend\modules\campus\models\Notice;
-    use backend\modules\campus\models\NoticeSearch;
-use yii\web\Controller;
+use backend\modules\campus\models\NoticeSearch;
+use common\components\Controller;
 use yii\web\HttpException;
 use yii\helpers\Url;
 use yii\filters\AccessControl;
@@ -63,6 +63,8 @@ public $enableCsrfValidation = false;
     {
         $searchModel  = new NoticeSearch;
         $dataProvider = $searchModel->search($_GET);
+        //$schools = [Yii::$app->user->identity->currentSchool];
+       // $schools = ArrayHelper::map($schools,'id','school_title');
         $dataProvider->sort = [
             'defaultOrder'=>[
                 'updated_at' => SORT_DESC

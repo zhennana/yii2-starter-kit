@@ -29,6 +29,8 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'Edit');
 
     <?php echo $this->render('_form', [
     'model' => $model,
+    'shareToGrade'=>$shareToGrade,
+     'message'=>isset($message) ? $message : NULL,
     ]); ?>
 
 </div>

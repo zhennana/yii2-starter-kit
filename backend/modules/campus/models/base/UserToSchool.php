@@ -36,6 +36,14 @@ abstract class UserToSchool extends \yii\db\ActiveRecord
         return Yii::$app->get('campus');
     }
 
+    public static function optsUserType(){
+        return [
+            self::SchOOL_USER_TYPE_LEADER   => '校长',
+            self::SCHOOL_USER_TYPE_DIRECTOR => '主任',
+            self::SCHOOL_USER_TYPE_TEACHER  => '老师',
+            self::SCHOOL_USER_TYPE_STUDENTS => '学生'
+        ];
+    }
 
 
     /**

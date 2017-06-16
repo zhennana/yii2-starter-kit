@@ -17,7 +17,7 @@ use common\models\User;
     */
 
     $schools = [Yii::$app->user->identity->currentSchool];
-    $schools = ArrayHelper::map($schools,'id','school_title');
+    $schools = ArrayHelper::map($schools,'school_id','school_title');
 
     $category_ids = GradeCategory::find()->where(['status'=>GradeCategory::CATEGORY_OPEN])->asArray()->all();
     $category_ids = ArrayHelper::map($category_ids,'grade_category_id','name');

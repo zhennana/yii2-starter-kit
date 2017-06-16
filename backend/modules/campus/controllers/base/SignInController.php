@@ -5,8 +5,8 @@
 namespace backend\modules\campus\controllers\base;
 
 use backend\modules\campus\models\SignIn;
-    use backend\modules\campus\models\search\SignInSearch;
-use yii\web\Controller;
+use backend\modules\campus\models\search\SignInSearch;
+use common\components\Controller;
 use yii\web\HttpException;
 use yii\helpers\Url;
 use yii\filters\AccessControl;
@@ -35,15 +35,25 @@ public function actionIndex()
     $searchModel  = new SignInSearch;
     $dataProvider = $searchModel->search($_GET);
 
-Tabs::clearLocalStorage();
+    $dataProvider->query->andWhere([
+            'sign_in.school_id' => $this->schoolIdCurrent,
+            'sign_in.grade_id'  => $this->gradeIdCurrent
+        ]);
+    $dataProvider->sort = [
+        'defaultOrder'=>[
+            'updated_at' => SORT_DESC
+        ]
+    ];
 
-Url::remember();
-\Yii::$app->session['__crudReturnUrl'] = null;
+    Tabs::clearLocalStorage();
 
-return $this->render('index', [
-'dataProvider' => $dataProvider,
-    'searchModel' => $searchModel,
-]);
+    Url::remember();
+    \Yii::$app->session['__crudReturnUrl'] = null;
+
+    return $this->render('index', [
+    'dataProvider' => $dataProvider,
+        'searchModel' => $searchModel,
+    ]);
 }
 
 /**

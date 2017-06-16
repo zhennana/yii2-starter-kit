@@ -291,10 +291,6 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                 ],
                                 ['label'=>Yii::t('backend', '联系我们'), 'url'=>['/campus/contact/index'], 'icon'=>'<i class=" fa  fa-file-text"></i>'
                                 ],
-                                ['label'=>Yii::t('backend', '通知消息管理'), 'url'=>['/campus/notice/index'], 'icon'=>'<i class=" fa  fa-file-text"></i>'
-                                ],
-                                ['label'=>Yii::t('backend', '发布消息'), 'url'=>['/campus/share-stream/index'], 'icon'=>'<i class=" fa  fa-file-text"></i>'
-                                ],
                             ]
 
                         ],
@@ -343,6 +339,39 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                 ['label'=>Yii::t('backend', '课件管理'), 'url'=>['/campus/courseware/index'], 'icon'=>'<i class="fa  fa-file-text"></i>'
                                 ],
                                 */
+                            ]
+                        ],
+                        [
+                            'label'=>Yii::t('backend', '通知公告管理'),
+                            'url' => '#',
+                            'icon'=>'<i class="fa  fa-volume-up"></i>',
+                            'visible'=>Yii::$app->user->can('teacher'),
+                            'options'=>['class'=>'treeview'],
+                            'items'=>[
+                                [
+                                    'label'=>Yii::t('backend', '学校公告'),
+                                    'url'=>['/campus/notice/school-notice'],
+                                    'icon'=>'<i class=" fa  fa-volume-up"></i>'
+                                ],
+
+                                [
+                                    'label'=>Yii::t('backend', '教师公告'), 
+                                    'url'=>['/campus/notice/teacher-notice'], 
+                                    'icon'=>'<i class=" fa  fa-volume-up"></i>'
+                                ],
+
+                                [
+                                    'label'=>Yii::t('backend', '班级公告'),
+                                    'url'=>['/campus/notice/grade-notice'], 
+                                    'icon'=>'<i class=" fa  fa-volume-up"></i>'
+                                ],
+                                [
+                                    'label'=>Yii::t('backend', '家校沟通'),
+                                     'url'=>['/campus/notice/family-school-notice'], 
+                                     'icon'=>'<i class=" fa  fa-volume-up"></i>'
+                                ],
+                                ['label'=>Yii::t('backend', '发布分享消息'), 'url'=>['/campus/share-stream/index'], 'icon'=>'<i class=" fa  fa-volume-up"></i>'
+                                ],
                             ]
                         ],
                         [
@@ -466,7 +495,7 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                 */
                             ]
                         ],
-                        
+ 
                     ]
                 ]) ?>
             </section>

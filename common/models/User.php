@@ -233,7 +233,8 @@ class User extends ActiveRecord implements IdentityInterface
      * @return [type]                    [description]
      */
     public function getSchoolToUser($school_id = 0,$school_user_type = 10){
-         $user = UserToSchool::find()
+
+        $user = UserToSchool::find()
                 ->with(['user'=>function($query){
                     $query->where(['status' => self::STATUS_ACTIVE]);
                 }])
@@ -249,13 +250,36 @@ class User extends ActiveRecord implements IdentityInterface
         }
         return $data;
     }
+
+    /**
+     * *获取班级人员
+     */
+    public function getGradeToUser($grade_id = 0,$grade_user_type = 20){
+
+        $user = UserToGrade::find()
+                ->with(['user'=>function($query){
+                    $query->where(['status' => self::STATUS_ACTIVE]);
+                }])
+                ->andWhere(['grade_id'=> $grade_id])
+                ->andWhere(['grade_user_type' => $grade_user_type])
+                ->asArray()
+                ->all();
+        $data = [];
+        foreach ($user  as $key => $value) {
+            if(isset($value['user']) && !empty($value['user'])){
+                $data[$key] = $value['user'];
+            }
+        }
+        return $data;
+    }
     /**
      * 获取当前用户下所有班级
      * @return [type] [description]
      */
     public  function getGrades($user_id = 0, $schools_id = 0,  $limit = 100, $flush = false){
+
         $user_id    = empty($user_id) ? $this->id : $user_id ;
-        $schools_id = empty($user_id) ? $this->getCurrentSchoolId() : $schools_id ;
+        $schools_id = empty($schools_id) ? $this->getCurrentSchoolId() : $schools_id ;
         $query = new \yii\db\Query();
         $query->select('g.*')
             ->from('users_to_grade as t')
