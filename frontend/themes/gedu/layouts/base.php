@@ -98,7 +98,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                         ]
                     ],
                     // ['label' => Yii::t('frontend', '产品展示'), 'url' => ['/page/view', 'slug'=>'ke-cheng-ti-xi']],
-                    ['label' => Yii::t('frontend', '招贤纳士'), 'url' => ['/article/view', 'id'=>'13']],
+                    ['label' => Yii::t('frontend', '招贤纳士'), 'url' => ['/page/view', 'slug'=>'guang-da-xue-xiao-zhao-pin']],
                     ['label' => Yii::t('frontend', '在线报名'), 'url' => ['/site/apply-to-play']],
                     ['label' => Yii::t('frontend', '联系我们'), 'url' => ['/site/contact']],
                 ]
