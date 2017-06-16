@@ -21,18 +21,41 @@ class ArticleController extends Controller{
 		
 		$category=[];
 		if($category_id){
+			/*
+			查找是否已category_id为父类的所有二级分类
+		 	如果不为空，传入的category_id有许多二级分类。说明这个分类为一级分类。
+		 	如果为空，说明没有分类继承这个分类，则这个分类是二级分类；
+			**/
+			$category['childs']=ArticleCategory::find()->where(['parent_id'=>$category_id])->asArray()->all();
+
+
+
+			$category['cateIds']=ArrayHelper::getColumn($category['childs'],'id');
 			$category['self']=ArticleCategory::find()->where(['id'=>$category_id])->asArray()->one();
-			//如何传入的是二级分类，查找该类的一级分类，级这个分类下的所有分类；
+
+			//查找这个类的上一级分类，如果没有查不到上级分类。则一级分类名就是$category['self']的分类名；如果可以查到，一级分类名为$category['parent']的类名；
 			$category['parent']=ArticleCategory::find()->where(['id'=>$category['self']['parent_id']])->asArray()->one();
-			//如何传入的是一级分类，查找分类下的子分类
-			$category['child']=ArticleCategory::find()->where(['parent_id'=>$category['parent']['id']])->asArray()->all();
-		
-			$articleQuery->andWhere(['category_id'=>$category_id])->asArray()->all();
+			if(empty($category['parent'])){
+				$category['pare_name']=$category['self']['title'];
+				$category['pare_id']=$category['self']['id'];
+			}else{
+				$category['pare_name']=$category['parent']['title'];
+				$category['pare_id']=$category['parent']['id'];
+			}
+			//查找同级分类，如果传入的是一级分类，输出所有一级分类；如果是二级分类，查重处于同一级分类的所有分类
+			if(empty($category['self']['parent_id'])){
+				$category['child']=ArticleCategory::find()->where(['parent_id'=>$category['self']['parent_id']])->asArray()->all();
+			}else{
+				$category['child']=ArticleCategory::find()->where(['parent_id'=>$category['self']['parent_id']])->asArray()->all();
+			}
+			//echo'<pre>';var_dump($category);exit;
+			
+			$articleQuery->andWhere(['category_id'=>!empty($category['cateIds'])?$category['cateIds']:$category_id])->asArray()->all();
 			
 		}
 		
-
 		$modelArticle=$articleQuery->asArray()->all();
+		
 		
         return $this->render('index', ['category'=>$category,'modelArticle'=>$modelArticle]);
 	}
@@ -48,8 +71,13 @@ class ArticleController extends Controller{
 		//如果传入的是二级分类，查找与此处于同级分类下的子类
 		if(!empty($category['parent'])){
 			$category['child']=ArticleCategory::find()->where(['parent_id'=>$category['parent']['id']])->asArray()->all();
+			$category['pare_name']=$category['parent']['title'];
+			$category['pare_id']=$category['parent']['id'];
+
 		}else{
 			$category['child']=ArticleCategory::find()->where(['parent_id'=>null])->asArray()->all();
+			$category['pare_name']=$category['self'];
+			$category['pare_id']=$categoryModel->id;
 		}
 
 		if(!$article){

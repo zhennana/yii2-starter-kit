@@ -17,7 +17,7 @@ use yii\captcha\Captcha;
             <div class="box-header with-border" >
               <ol class="breadcrumb">
                   <li><span class=""><i class="fa fa-map-marker margin-r-5 text-purple"></i>当前位置: </span>&nbsp<?php echo Html::a('首页',['site/index'])?></li>
-                  <li class="activeli">在线报名</li>
+                  <li class="activeli">联系我们</li>
               </ol>
             </div>
             <div class="box-body contacborder">

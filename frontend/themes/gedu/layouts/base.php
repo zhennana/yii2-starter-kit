@@ -42,7 +42,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                             ],
                             [
                                 'label' => Yii::t('frontend', '校园风光'),
-                                'url' => ['/article/index', 'category_id'=>'11'],
+                                'url' => ['/site/sights'],
                             ],
                             [
                                 'label' => Yii::t('frontend', '教师风采'),
@@ -73,7 +73,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                                 
                             // ],
                             [
-                                'label' => Yii::t('frontend', '小学部招生'),
+                                'label' => Yii::t('frontend', '小学招生'),
                                 'url' => ['/article/index', 'category_id'=>'26']
                             
                             ],
@@ -83,11 +83,11 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                               
                             // ],
                             [
-                                'label' => Yii::t('frontend', '中学部招生'),
+                                'label' => Yii::t('frontend', '中学招生'),
                                 'url' => ['/article/index', 'category_id'=>'27']
                             ],
                             [
-                                'label' => Yii::t('frontend', '国际部招生'),
+                                'label' => Yii::t('frontend', '国际招生'),
                                 'url' => ['/article/index', 'category_id'=>'28']
                             ],
                             // [
@@ -180,7 +180,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                     <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                         <div class="footer-3-box1">
                             <img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/WechatIMG1.jpeg">
-                            <p>订阅号</p>
+                            <p>公众号</p>
                         </div>
                     </div>
                     

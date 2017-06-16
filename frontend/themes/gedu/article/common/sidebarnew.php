@@ -1,8 +1,8 @@
  
 <?php
 use yii\helpers\Html;
-// echo'<pre>';var_dump($category);exit;
-$cateParent=isset($category['parent']['title'])?$category['parent']['title']:'光大学校';
+ // echo'<pre>';var_dump($category);exit;
+$cateParent=!empty($category['pare_name'])?$category['pare_name']:'光大学校';
 ?><!-- 左边侧边栏 -->
     <div class="col-md-4">
       
@@ -18,7 +18,7 @@ $cateParent=isset($category['parent']['title'])?$category['parent']['title']:'�
                 <li class="treeview">
                      <span><?php echo Html::a($value['title'],['article/index','category_id'=>$value['id']]) ?></span>
                 </li>
-            <?php }?>
+                <?php }?>
               </ul>
             </section>
           </aside>

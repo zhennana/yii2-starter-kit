@@ -13,6 +13,7 @@
 .top-nov .dropdown-menu>li>a{padding: 3px 14px; color: #efefef;}
 .top-nov .dropdown-menu>li>a:hover{background-color: #0a0a0a;}
 .top-nov .navbar-default .navbar-nav>.open>a{background-color: #723c8e; color: #333;}
+.top-nov .dropdown-menu .active :hover{background-color: #337ab7;}
 .top-nov .navbar-default .navbar-nav>li>a{color: #333;}
 
 /*banner*/
@@ -449,6 +450,9 @@
 }
 #btnspacetwo{
 	cursor:default; 
+}
+#btnspace,#btnspacetwo,#applyspace2,#applyspace,#applyspace3:hover{
+	color:black; 
 }
 #applyspace{
 	cursor:default; 

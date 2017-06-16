@@ -79,7 +79,8 @@ $imgsize="?imageView2/1/w/250/h/300";
             <div class="box-header with-border ">
               <div class="">
                 <ol class="breadcrumb">
-                  <li><?php echo Html::a('首页',['site/index'])?></li>
+                  <li><span class=""><i class="fa fa-map-marker margin-r-5 text-purple"></i>当前位置: </span>&nbsp<?php echo Html::a('首页',['site/index'])?></li>
+                  <li><?php echo Html::a('走进光大',['article/index','category_id'=>1])?></li>
                   <li class="activeli">教师风采</li>
                 </ol>
               </div>
