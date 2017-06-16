@@ -67,7 +67,7 @@ class UserForm extends Model
                     'name'
                 )]
             ],
-            ['school_id', 'required'],
+            ['school_id', 'required', 'on'=>'create'],
             ['school_id','in', 'range' =>ArrayHelper::getColumn(
                         $this->getSchool(),
                         'school_id'
@@ -155,6 +155,7 @@ class UserForm extends Model
      */
     public function save()
     {
+
         if ($this->validate()) {
 
             $model = $this->getModel();
@@ -198,15 +199,14 @@ class UserForm extends Model
                     $auth->assign($auth->getRole($role), $model->getId());
                 }
             }
-
             return !$model->hasErrors();
         }
-
         return null;
     }
     /**
      * 添加更新学校
      */
+    
     public function AddUserToSchool($data){
         foreach ($data['roles'] as $key => $value) {
             $data['school_user_type'] = '';
@@ -235,7 +235,6 @@ class UserForm extends Model
            if(!$model){
                 $model = new UserToSchool;
            }
-           //var_dump($data);exit;
            $model->load($data,'');
            $model->save();
         }
