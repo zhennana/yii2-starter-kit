@@ -1,13 +1,18 @@
 <?php
 use yii\helpers\Html;
-
+// echo'<pre>';var_dump($model);exit;
 ?>
 
 <div class="gdu-content">
   <div class="row">
     <!-- 左边侧边栏 -->
     <?php
-      echo $this->render('@frontend/themes/gedu/page/common/sidebar');
+      if($model->id==31){
+        echo $this->render('@frontend/themes/gedu/page/common/sidebarteacher');
+      }else{
+        echo $this->render('@frontend/themes/gedu/page/common/sidebar');
+      }
+      
     ?>
     <!-- 文章内容部分 -->
     <div class="col-md-8 ">

@@ -33,7 +33,7 @@ use yii\captcha\Captcha;
           <div class="col-xs-4">
            <div class="input-group">
             <div class="input-group-btn">
-              <button type="button" class="btn btncolor"><i class="fa fa-fw fa-star text-red"></i>学生姓名</button>
+              <button id="btnspacetwo" type="button" class="btn btncolor"><i class="fa fa-fw fa-star text-red"></i>学生姓名</button>
             </div>
             <!-- /btn-group -->
             <input class="form-control" type="text">
@@ -51,7 +51,7 @@ use yii\captcha\Captcha;
           <div class="col-xs-4">
             <div class="input-group">
               <div class="input-group-btn">
-                <button type="button" class="btn btncolor"><i class="fa fa-fw fa-star text-red"></i>出生日期</button>
+                <button id="btnspacetwo" type="button" class="btn btncolor"><i class="fa fa-fw fa-star text-red"></i>出生日期</button>
               </div>
               <!-- /btn-group -->
               <input class="form-control" type="text">
@@ -72,7 +72,7 @@ use yii\captcha\Captcha;
           <div class="col-xs-4">
             <div class="input-group">
               <div class="input-group-btn">
-                <button type="button" class="btn btncolor"><i class="fa fa-fw fa-star text-red"></i>监护人姓名</button>
+                <button id="btnspacetwo" type="button" class="btn btncolor"><i class="fa fa-fw fa-star text-red"></i>监护人姓名</button>
               </div>
               <!-- /btn-group -->
               <input class="form-control" type="text">
@@ -81,7 +81,7 @@ use yii\captcha\Captcha;
           <div class="col-xs-4">
             <div class="input-group">
               <div class="input-group-btn">
-                <button type="button" class="btn btncolor"><i class="fa fa-fw fa-star text-red"></i>手机号码</button>
+                <button  id="btnspacetwo" type="button" class="btn btncolor"><i class="fa fa-fw fa-star text-red"></i>手机号码</button>
               </div>
               <!-- /btn-group -->
               <input class="form-control" type="text">

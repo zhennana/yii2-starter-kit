@@ -7,14 +7,15 @@ use yii\helpers\Html;
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-$this->beginContent('@frontend/views/layouts/_clear.php')
+$this->beginContent('@frontend/views/layouts/_clear.php');
+$logo = 'http://orfaphl6n.bkt.clouddn.com/logo.png?imageView2/3/w/257/h/115';
 ?>
 <div class="wrap">
 
     <div class="top_box row">
         <div class="col-lg-4 col-md-6 col-xs-6 top_logo">
             <a href="<?php echo Yii::getAlias('@frontendUrl') ?>">
-                <img class="pull-left" src="<?php echo Yii::getAlias('@frontendUrl') ?>/img/fredisalearns_index_03.png">
+                <img class="pull-left" src="<?= $logo ?>">
             </a>
         </div>
 <!--
@@ -155,15 +156,15 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
     <div class="container">
         <div class="web_map">
             <ul class="no-margin no-padding">
-                <li class="col-xs-4">
+                <li class="col-xs-12 col-sm-4">
                     <h4>About</h4>
                     <p>FredisaLearns™ is a product of Eduterials Limited, a Hong Kong based Education company. We are the same team that authored kizphonics.com, eslgamesplus.com, kizschool.com and much more, used by millions of people across the globe. If you have ever used any of these resources, you know our mission is first and foremost to provide the best educational content for our users. Our team of skilled educators come from the US, UK, South Africa, Hong Kong and other nationalities. This varied mix of educators help create materials that appeal to global audiences.</p>
                 </li>
-                <li class="col-xs-4">
+                <li class="col-xs-12 col-sm-4">
                     <h4>Privacy Policy</h4>
                     <p>We take our users' privacy very seriously! At fredisalearns.com, we do not pass onto third parties any identifiable information about our users.Your email address and personal information is NEVER shared with a third party.</p>
                 </li>
-                <li class="col-xs-4">
+                <li class="col-xs-12 col-sm-4">
                     <h4>Our Location</h4>
                     <p>
                         Eduterials Limited</br>
@@ -197,7 +198,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
     var boxwidth = $(window).width();
     if(boxwidth < 768){
         $('.top_logo').remove();
-        var img = '<img class="img-responsive center-block" src="<?php echo Yii::getAlias('@frontendUrl') ?>/img/fredisalearns_index_03.png" >';
+        var img = '<a href="<?= Yii::getAlias('@frontendUrl') ?>"><img class="img-responsive center-block" src="<?= $logo ?>" ></a>';
         $('.top_box').append(img);
         $('.top_box').css("padding-top","20px");
     }else{

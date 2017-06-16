@@ -34,15 +34,15 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                         'items'=>[
                             [
                                 'label' => Yii::t('frontend', '学校概况'),
-                                'url' => ['/article/index', 'category_id'=>'9']
+                                'url' => ['/article/view', 'id'=>'55']
                             ],
                             [
                                 'label' => Yii::t('frontend', '办学理念'),
-                                'url' => ['/article/index', 'category_id'=>'10'],
+                                'url' => ['/article/view', 'id'=>'58'],
                             ],
                             [
                                 'label' => Yii::t('frontend', '校园风光'),
-                                'url' => ['/article/index', 'category_id'=>'11'],
+                                'url' => ['/site/sights'],
                             ],
                             [
                                 'label' => Yii::t('frontend', '教师风采'),
@@ -55,16 +55,12 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                         'items'=>[
                             [
                                 'label' => Yii::t('frontend', '家校沟通'),
-                                'url' => ['/page/view', 'slug'=>'guan-yu-guang-da']
-                            ],
-                            [
-                                'label' => Yii::t('frontend', '国旗下讲话'),
-                                'url' => ['/page/view', 'slug'=>'guoqi'],
+                                'url' => ['/article/view', 'id'=>'14']
                             ],
                             
                         ]
                     ],
-                    ['label' => Yii::t('frontend', '合作交流'), 'url' => ['/page/view', 'slug'=>'zhao-shang-jia-meng']],
+                    ['label' => Yii::t('frontend', '合作交流'), 'url' => ['/article/view', 'id'=>'12']],
                     ['label' => Yii::t('frontend', '招生专栏'),
                         'items'=>[
                             [
@@ -77,7 +73,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                                 
                             // ],
                             [
-                                'label' => Yii::t('frontend', '小学部招生'),
+                                'label' => Yii::t('frontend', '小学招生'),
                                 'url' => ['/article/index', 'category_id'=>'26']
                             
                             ],
@@ -87,11 +83,11 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                               
                             // ],
                             [
-                                'label' => Yii::t('frontend', '中学部招生'),
+                                'label' => Yii::t('frontend', '中学招生'),
                                 'url' => ['/article/index', 'category_id'=>'27']
                             ],
                             [
-                                'label' => Yii::t('frontend', '国际部招生'),
+                                'label' => Yii::t('frontend', '国际招生'),
                                 'url' => ['/article/index', 'category_id'=>'28']
                             ],
                             // [
@@ -102,7 +98,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                         ]
                     ],
                     // ['label' => Yii::t('frontend', '产品展示'), 'url' => ['/page/view', 'slug'=>'ke-cheng-ti-xi']],
-                    ['label' => Yii::t('frontend', '招贤纳士'), 'url' => ['/page/view', 'slug'=>'zhao-pin']],
+                    ['label' => Yii::t('frontend', '招贤纳士'), 'url' => ['/page/view', 'slug'=>'guang-da-xue-xiao-zhao-pin']],
                     ['label' => Yii::t('frontend', '在线报名'), 'url' => ['/site/apply-to-play']],
                     ['label' => Yii::t('frontend', '联系我们'), 'url' => ['/site/contact']],
                 ]
@@ -184,7 +180,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                     <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                         <div class="footer-3-box1">
                             <img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/WechatIMG1.jpeg">
-                            <p>订阅号</p>
+                            <p>公众号</p>
                         </div>
                     </div>
                     
