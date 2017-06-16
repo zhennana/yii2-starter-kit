@@ -4,8 +4,9 @@
 
 namespace backend\modules\campus\controllers\base;
 
+use Yii;
 use backend\modules\campus\models\UserToGrade;
-    use backend\modules\campus\models\search\UserToGradeSearch;
+use backend\modules\campus\models\search\UserToGradeSearch;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\helpers\Url;
@@ -15,7 +16,7 @@ use dmstr\bootstrap\Tabs;
 /**
 * UserToGradeController implements the CRUD actions for UserToGrade model.
 */
-class UserToGradeController extends Controller
+class UserToGradeController extends \common\components\Controller
 {
 
 
@@ -64,7 +65,23 @@ public function actionIndex()
     $searchModel  = new UserToGradeSearch;
     //var_dump($_GET);exit;
     $dataProvider = $searchModel->search($_GET);
-
+    if(Yii::$app->user->can('director')){
+        $dataProvider->query->andWhere([
+            'school_id'=>$this->schoolIdCurrent,
+            'grade_id' =>$this->gradeIdCurrent
+        ]);
+    }elseif(Yii::$app->user->can('teacher')){
+        $dataProvider->query->andWhere([
+            'school_id'=>$this->schoolIdCurrent,
+           // 'grade_id' =>$this->gradeIdCurrent
+        ]);
+    }
+    
+     $dataProvider->sort = [
+       'defaultOrder'=>[
+            'updated_at'=>SORT_DESC,
+       ]
+    ];
     Tabs::clearLocalStorage();
 
     Url::remember();

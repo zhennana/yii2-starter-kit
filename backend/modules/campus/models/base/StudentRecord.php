@@ -6,8 +6,6 @@ namespace backend\modules\campus\models\base;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
-use backend\modules\campus\models\School;
-use backend\modules\campus\models\Grade;
 use backend\modules\campus\models\SignIn;
 use yii\helpers\ArrayHelper;
 
@@ -129,14 +127,14 @@ abstract class StudentRecord extends \yii\db\ActiveRecord
          * 
          */
         if($type_id == 1){
-            $school = School::find()->where(['status'=>School::SCHOOL_STATUS_OPEN])->asArray()->all();
+            $school = \backend\modules\campus\models\School::find()->where(['status'=>School::SCHOOL_STATUS_OPEN])->asArray()->all();
             return ArrayHelper::map($school,'school_id','school_title');
         }
         if($type_id == 2){
             /**
              * 获取班级
              */
-            $grade = Grade::find()->where(['status'=>Grade::GRADE_STATUS_OPEN, 'school_id'=>$id])->asArray()->all();
+            $grade = \backend\modules\campus\models\Grade::find()->where(['status'=>Grade::GRADE_STATUS_OPEN, 'school_id'=>$id])->asArray()->all();
             //var_dump($grade);exit;
             return ArrayHelper::map($grade,'grade_id','grade_name');
         }
@@ -146,7 +144,10 @@ abstract class StudentRecord extends \yii\db\ActiveRecord
              * [$course description]
              * 获取课程
              */
-            $course = Course::find()->where(['grade_id'=>$id,'status'=>Course::COURSE_STATUS_OPEN])->asArray()->all();
+            $course = Course::find()->where([
+                'grade_id'=>$id,
+                'teacher_id'=>Yii::$app->user->identity->id,
+                'status'=>Course::COURSE_STATUS_FINISH])->asArray()->all();
             return ArrayHelper::map($course,'course_id','title');
         }
         if($type_id == 4){
@@ -154,7 +155,7 @@ abstract class StudentRecord extends \yii\db\ActiveRecord
              * 获取签到后的学生
              *
              */
-          
+            //var_dump($id);exit;
             $user = SignIn::find()->where(['course_id' => $id,'type_status'=> SignIn::TYPE_STATUS_MORMAL ])->asArray()->all();
 
             $users = [];

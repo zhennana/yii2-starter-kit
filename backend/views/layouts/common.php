@@ -9,6 +9,7 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
+use yii\bootstrap\ActiveForm;
 $bundle = BackendAsset::register($this);
 
 $avatar = '';
@@ -37,8 +38,55 @@ $avatar .= '?imageView2/3/w/215/h/215';
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </a>
+
+                <div id="schools_select" class="col-xs-5 col-md-5" style="height: 50px; float:left;">
+                                    <?php
+                                        $form = ActiveForm::begin([
+                                            'id'=>'schools_form'
+                                        ]);
+                                    ?>
+                                    <?php
+                                        echo Html::HiddenInput(
+                                            'select_school_grade',
+                                            1,
+                                            ['id'=>'select_school_grade']
+                                            );
+                                        //this.from.submit()
+                                        echo Html::dropDownList(
+                                            'school_id',
+                                            Yii::$app->user->identity->getCurrentSchoolId(),
+                                            ArrayHelper::map(
+                                                Yii::$app->user->identity->getSchoolsInfo(), //items
+                                                'school_id', // select key
+                                                'school_title'   // select value
+                                            ),
+                                            [
+                                            'id'=>'school_id',
+                                            'class'=>'col-xs-5 col-md-5',
+                                            'onchange'=> 'this.form.submit()'
+                                            ]);
+                                    ?>
+                                    <?php
+                                        echo Html::dropDownList(
+                                            'grade_id',
+                                            Yii::$app->user->identity->getCurrentGradeId(),
+                                            ArrayHelper::map(
+                                                Yii::$app->user->identity->getGradesInfo(), //items
+                                                'grade_id', 
+                                                'grade_name'
+                                            ),
+                                            [
+                                            'id'=>'grade_id',
+                                            'class'=>'col-xs-5 col-md-5',
+                                            'onchange'=>'this.form.submit()'
+                                            ]);
+                                    ?>
+                                    <?php  ActiveForm::end();?>
+                            </div> 
+             
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
+                    
                     	<li id="timeline-notifications" class="notifications-menu">
                             <a href="<?php echo Yii::getAlias('@frontendUrl') ?>">
                                 前台
@@ -243,10 +291,6 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                 ],
                                 ['label'=>Yii::t('backend', '联系我们'), 'url'=>['/campus/contact/index'], 'icon'=>'<i class=" fa  fa-file-text"></i>'
                                 ],
-                                ['label'=>Yii::t('backend', '通知消息管理'), 'url'=>['/campus/notice/index'], 'icon'=>'<i class=" fa  fa-file-text"></i>'
-                                ],
-                                ['label'=>Yii::t('backend', '发布消息'), 'url'=>['/campus/share-stream/index'], 'icon'=>'<i class=" fa  fa-file-text"></i>'
-                                ],
                             ]
 
                         ],
@@ -259,7 +303,7 @@ $avatar .= '?imageView2/3/w/215/h/215';
                             'items'=>[
                                 [
                                     'label'   =>Yii::t('backend', '学校管理'), 
-                                    'url'     =>['/campus/school/index'], 
+                                    'url'     =>['/campus/school/index'],
                                     'icon'    =>'<i class="fa fa-angle-double-right"></i>',
                                     'visible' =>  Yii::$app->user->can('director')
                                 ],
@@ -295,6 +339,39 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                 ['label'=>Yii::t('backend', '课件管理'), 'url'=>['/campus/courseware/index'], 'icon'=>'<i class="fa  fa-file-text"></i>'
                                 ],
                                 */
+                            ]
+                        ],
+                        [
+                            'label'=>Yii::t('backend', '通知公告管理'),
+                            'url' => '#',
+                            'icon'=>'<i class="fa  fa-volume-up"></i>',
+                            'visible'=>Yii::$app->user->can('teacher'),
+                            'options'=>['class'=>'treeview'],
+                            'items'=>[
+                                [
+                                    'label'=>Yii::t('backend', '学校公告'),
+                                    'url'=>['/campus/notice/school-notice'],
+                                    'icon'=>'<i class=" fa  fa-volume-up"></i>'
+                                ],
+
+                                [
+                                    'label'=>Yii::t('backend', '教师公告'), 
+                                    'url'=>['/campus/notice/teacher-notice'], 
+                                    'icon'=>'<i class=" fa  fa-volume-up"></i>'
+                                ],
+
+                                [
+                                    'label'=>Yii::t('backend', '班级公告'),
+                                    'url'=>['/campus/notice/grade-notice'], 
+                                    'icon'=>'<i class=" fa  fa-volume-up"></i>'
+                                ],
+                                [
+                                    'label'=>Yii::t('backend', '家校沟通'),
+                                     'url'=>['/campus/notice/family-school-notice'], 
+                                     'icon'=>'<i class=" fa  fa-volume-up"></i>'
+                                ],
+                                ['label'=>Yii::t('backend', '发布分享消息'), 'url'=>['/campus/share-stream/index'], 'icon'=>'<i class=" fa  fa-volume-up"></i>'
+                                ],
                             ]
                         ],
                         [
@@ -418,7 +495,7 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                 */
                             ]
                         ],
-                        
+ 
                     ]
                 ]) ?>
             </section>
@@ -456,3 +533,21 @@ $avatar .= '?imageView2/3/w/215/h/215';
     </div><!-- ./wrapper -->
 
 <?php $this->endContent(); ?>
+<style type="text/css">
+
+    /*#school-box {
+        width: colx
+    }*/
+
+    #school_id ,#grade_id{
+        margin: 10px 10px;
+        height: 30px;
+    }
+</style>
+<script type="text/javascript">
+
+   function getClientInfo(event){
+        console.log(event);
+    }
+
+</script>

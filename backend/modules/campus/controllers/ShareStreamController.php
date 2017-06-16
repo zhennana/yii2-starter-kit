@@ -15,14 +15,44 @@ class ShareStreamController extends \backend\modules\campus\controllers\base\Sha
    
     public function actionCreate(){
         $model = new ShareStream;
+        $shareToGrade = new ShareStreamToGrade;
         $data = [];
-        if($_POST){
+
+        if($model->load($_POST)){
             $data = $model->batch_create($_POST);
+            //var_dump($data->getErrors());exit;
+           //var_dump($data->getErrors());exit;
             if(empty($data->getErrors())){
-                return $this->redirect(['index']);;
+                return $this->redirect(['index']);
+            }else{
+                //var_dump($data);exit;
+                return $this->render('create',
+                    [
+                    'model' => $model,
+                    'shareToGrade'=> $shareToGrade,
+                    'message'=>$data
+                    ]);
             }
         }
-        return $this->render('create',['model'=>$model,'model1'=>$data]);
+        return $this->render('create',['model'=>$model,'shareToGrade'=>$shareToGrade]);
+    }
+
+
+    public function actionUpdate($share_stream_id){
+        $model = ShareStream::findOne($share_stream_id);
+        $shareToGrade =  new ShareStreamToGrade;
+        $data = [];
+
+        if($model->load($_POST)){
+          $data = $model->batch_create($_POST);
+
+            if(empty($data->getErrors())){
+                return $this->redirect(['index']);
+            }else{
+                return $this->render('update',['model'=>$model,'shareToGrade'=>$shareToGrade,'message'=>$data]);
+            }
+        }
+        return $this->render('update',['model'=>$model,'shareToGrade'=>$shareToGrade]);
     }
     /**
      * 发布分享授权
@@ -45,7 +75,7 @@ class ShareStreamController extends \backend\modules\campus\controllers\base\Sha
             );
 
             $info = $model->batch_create($_POST['ShareStreamToGrade']);
-Yii::$app->response->format = Response::FORMAT_JSON;
+            Yii::$app->response->format = Response::FORMAT_JSON;
                 return 200;
 
         }

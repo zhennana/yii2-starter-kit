@@ -18,7 +18,7 @@ class NoticeSearch extends Notice
 public function rules()
 {
 return [
-[['notice_id', 'category', 'sender_id', 'receiver_id', 'is_sms', 'is_wechat_message', 'times', 'status_send', 'status_check', 'created_at', 'updated_at'], 'integer'],
+[['notice_id', 'category', 'sender_id', 'receiver_id', 'is_sms', 'is_wechat_message', 'times', 'status_send', 'school_id','grade_id','status_check', 'created_at', 'updated_at'], 'integer'],
             [['title', 'message', 'message_hash', 'receiver_phone_numeber', 'receiver_name', 'wechat_message_id'], 'safe'],
 ];
 }
@@ -58,6 +58,8 @@ return $dataProvider;
 $query->andFilterWhere([
             'notice_id' => $this->notice_id,
             'category' => $this->category,
+            'school_id' => $this->school_id,
+            'grade_id' => $this->grade_id,
             'sender_id' => $this->sender_id,
             'receiver_id' => $this->receiver_id,
             'is_sms' => $this->is_sms,

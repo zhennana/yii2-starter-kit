@@ -4,20 +4,22 @@
 
 namespace backend\modules\campus\controllers\base;
 
+use Yii;
 use backend\modules\campus\models\StudentRecord;
-    use backend\modules\campus\models\search\StudentRecordSearch;
+use backend\modules\campus\models\Course;
+use backend\modules\campus\models\search\StudentRecordSearch;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
 use yii\filters\AccessControl;
 use dmstr\bootstrap\Tabs;
 
 /**
 * StudentRecordController implements the CRUD actions for StudentRecord model.
 */
-class StudentRecordController extends Controller
+class StudentRecordController extends \common\components\Controller
 {
-
 
 /**
 * @var boolean whether to enable CSRF validation for the actions in this controller.
@@ -61,9 +63,24 @@ public $enableCsrfValidation = false;
 */
 public function actionIndex()
 {
+    $user_id = 0;
+    if(Yii::$app->user->identity->id){
+        $user_id = Yii::$app->user->identity->id;
+    }
     $searchModel  = new StudentRecordSearch;
     $dataProvider = $searchModel->search($_GET);
-
+    //var_dump($this->schoolIdCurrent,$this->gradeIdCurrent);exit;
+    //获取老师已上过的课程
+    $courseIds  = Course::getAboveCourse($user_id,$this->schoolIdCurrent,$this->gradeIdCurrent,Course::COURSE_STATUS_FINISH);
+    //var_dump($courseIds);exit;
+    $dataProvider->query->andWhere([
+            'course_id'=>ArrayHelper::map($courseIds,'course_id','course_id')
+        ]);
+    $dataProvider->sort =[
+            'defaultOrder'=>[
+                'updated_at'=>SORT_DESC
+            ]
+    ];
     Tabs::clearLocalStorage();
 
     Url::remember();

@@ -1,12 +1,15 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\grid\GridView;
 use yii\bootstrap\Modal;
 use kartik\select2\Select2;
-
 use backend\modules\campus\models\ShareStream;
+$schoolIds = \Yii::$app->user->identity->schoolsInfo;
+$schoolIds = ArrayHelper::map($schoolIds,'school_id','school_title');
+
 /**
 * @var yii\web\View $this
 * @var yii\data\ActiveDataProvider $dataProvider
@@ -36,11 +39,11 @@ if (\Yii::$app->user->can('user', ['route' => true])) {
     $actionColumnTemplates[] = '{view}';
 }
 
-/*
+
 if (\Yii::$app->user->can('user', ['route' => true])) {
     $actionColumnTemplates[] = '{update}';
 }
-
+/*
 if (\Yii::$app->user->can('user', ['route' => true])) {
     $actionColumnTemplates[] = '{delete}';
 }
@@ -146,6 +149,15 @@ if(\Yii::$app->user->can('user', ['route' => true])){
 			//'status',
             [
                 'class'     => \common\grid\EnumColumn::className(),
+                'attribute' => 'school_id',
+                'format'    => 'raw',
+                'enum'      => $schoolIds,
+                // 'value'     => function($model){
+                //     return $model->status;
+                //     },
+            ],
+            [
+                'class'     => \common\grid\EnumColumn::className(),
                 'attribute' => 'status',
                 'format'    => 'raw',
                 'enum'      => ShareStream::optsStatus(),
@@ -161,7 +173,8 @@ if(\Yii::$app->user->can('user', ['route' => true])){
                         return $model->getUserName($model->author_id);
                 }
             ],
-            [
+         /*
+           [
                 'label'=>'授权',
                 'format'    => 'raw',
                 'value'=>function($modle){
@@ -172,6 +185,7 @@ if(\Yii::$app->user->can('user', ['route' => true])){
                     ]);
                 }
             ]
+        */
         ],
         ]); ?>
     </div>
