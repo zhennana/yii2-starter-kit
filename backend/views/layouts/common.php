@@ -244,7 +244,7 @@ $avatar .= '?imageView2/3/w/215/h/215';
                             'url' => '#',
                             'icon'=>'<i class="fa fa-mortar-board"></i>',
                             'options'=>['class'=>'treeview'],
-                            'visible'=>Yii::$app->user->can('manager'),
+                            'visible'=>Yii::$app->user->can('director'),
                             'items'=>[
                                 ['label'=>Yii::t('backend', '课程设置'), 'url'=>['/campus/course/index'], 'icon'=>'<i class="fa  fa-file-text"></i>'
                                 ], 
