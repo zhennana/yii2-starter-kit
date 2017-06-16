@@ -30,6 +30,28 @@ class SiteController extends Controller
                 'class'=>'common\actions\SetLocaleAction',
                 'locales'=>array_keys(Yii::$app->params['availableLocales'])
             ],
+            'captcha' => [
+                'class'           => 'yii\captcha\CaptchaAction',
+                'height'          => 40,
+                'width'           => 100,
+                'minLength'       => 4,
+                'maxLength'       => 4,
+                'padding'         => 0,
+                'offset'          => 4,
+                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null
+
+            ],
+            'contact_captcha'=>[
+                'class' => 'yii\captcha\CaptchaAction',
+                  'height' => 40,
+                  'width' => 100,
+                  'minLength' => 4,
+                  'maxLength' => 4,
+                  'padding'=>0, 
+                  'offset'=>4, 
+                  // 'controller'=>'ajax-ontact',
+                  'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null
+            ],
         ];
     }
 
