@@ -1,6 +1,9 @@
 #article-index{
   padding: 2% 10%;
 }
+#article-index .box{
+  padding: 3%;
+}
 .article-item {
   margin-bottom: 15px;
 }
@@ -27,6 +30,9 @@
 html,
 body {
   height: 100%;
+}
+ul{
+  padding: 0;
 }
 li{
   list-style: none;
@@ -290,8 +296,9 @@ nav .container{
   font-family: 'Fredoka One';
 }
 .course_info p{
-  font-size: 1.2em;
+  font-size: 1.3em;
 }
+
 .course_list{
   margin-top: 4%;
   border-top: 3px solid #35b9d0;
@@ -299,16 +306,11 @@ nav .container{
 .course_list > ul > li{
   padding: 1% 0;
 }
-.course_list > ul > li img ,.course_title img{
-  width: 10rem;
-  height: 10rem;
-  border-radius: 50%;
-  border: 7px solid #E0E0E0;
-}
 .course_title h1{
+  line-height:90%;
   padding-top: 1.5%;
   font-weight: bolder;
-  font-size: 2.6rem;
+  font-size: 1.8em;
   color: #1bb4b9;
 }
 .article-item > .course_title{
@@ -334,8 +336,6 @@ nav .container{
 .user-profile-form{
   padding: 2% 10%;
 }
-
-
 
 
 

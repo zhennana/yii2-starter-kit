@@ -7,7 +7,7 @@ use yii\widgets\LinkPager;
 $this->title = $master['title'];
 $this->params['breadcrumbs'][] = $this->title;
 
-$img = Yii::getAlias('@frontendUrl').'/img/fredisalearns_index_03.png';
+$img = 'http://orfaphl6n.bkt.clouddn.com/Unit1-Classroom-commands.png';
 
 ?>
 <div id="article-index">
@@ -49,16 +49,16 @@ $img = Yii::getAlias('@frontendUrl').'/img/fredisalearns_index_03.png';
                     }
         ?>
                 <li class="row">
-                    <div class="col-xs-3 col-sm-3 col-md-2">
+                    <div class="col-xs-5 col-sm-3 col-md-2">
                         <?= Html::a(
-                            '<img class="img-responsive" src='.$img.'>',
+                            '<img class="img-circle img-responsive" src="'.$img.'?imageView2/3/w/110/h/110" >',
                             [
                                 'article/view',
                                 'courseware_id' => $value->courseware_id
                             ]
                         ); ?>
                     </div>
-                    <div class="course_title col-xs-9 col-sm-9 col-md-10">
+                    <div class="course_title col-xs-7 col-sm-9 col-md-10">
                         <?= Html::a(
                             '<h1>'.$value->title.'</h1>',
                             [

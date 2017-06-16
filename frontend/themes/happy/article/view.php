@@ -6,7 +6,7 @@ use yii\helpers\Html;
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => $to_courseware->coursewareMaster->title, 'url' => ['course','master_id' => $to_courseware->courseware_master_id]];
 $this->params['breadcrumbs'][] = $this->title;
-$img = Yii::getAlias('@frontendUrl').'/img/fredisalearns_index_03.png';
+$img = 'http://orfaphl6n.bkt.clouddn.com/Unit1-Classroom-commands.png';
 
 ?>
 <div id="article-index">
@@ -17,10 +17,10 @@ $img = Yii::getAlias('@frontendUrl').'/img/fredisalearns_index_03.png';
     <article class="article-item box course_list">
 
     <div class="row course_title">
-        <div class="col-xs-3 col-sm-3 col-md-2">
-            <img class="img-responsive" src="<?= $img ?>">
+        <div class="col-xs-6 col-sm-3 col-md-2">
+            <img class="img-circle img-responsive" src="<?= $img.'?imageView2/3/w/110/h/110' ?>">
         </div>
-        <div class="col-xs-9 col-sm-9 col-md-10">
+        <div class="col-xs-6 col-sm-9 col-md-10">
             <h1><?= $model->title ?></h1>
         </div>
     </div>
