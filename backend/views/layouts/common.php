@@ -209,7 +209,7 @@ $avatar .= '?imageView2/3/w/215/h/215';
                             'label'=>Yii::t('backend', '课件管理（授课）'),
                             'url' => '#',
                             'icon'=>'<i class="fa fa-edit"></i>',
-                            'visible'=>Yii::$app->user->can('manager'),
+                            'visible'=>Yii::$app->user->can('director'),
                             'options'=>['class'=>'treeview'],
                             'items'=>[
                                 ['label'=>Yii::t('backend', '课件列表'), 'url'=>['/campus/courseware/index'], 'icon'=>'<i class="fa  fa-file-text"></i>'
