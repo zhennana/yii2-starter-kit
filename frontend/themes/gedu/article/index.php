@@ -1,7 +1,7 @@
 <?php
 use yii\helpers\Html;
-// echo'<pre>';var_dump($category['parent']['title']);exit;
-$cateParent=isset($category['parent']['title'])?$category['parent']['title']:'光大学校';
+ // echo'<pre>';var_dump($category['parent']['title']);exit;
+$cateParent=!empty($category['pare_name'])?$category['pare_name']:'光大学校';
 ?>
 <div class="gdu-content">
   <div class="row">
@@ -15,7 +15,9 @@ $cateParent=isset($category['parent']['title'])?$category['parent']['title']:'�
             <div class="box-header with-border box-header with-border ">
                 <ol class="breadcrumb" style="margin-bottom: -10px">
                   <li><span class=""><i class="fa fa-map-marker margin-r-5 text-purple"></i>当前位置: </span>&nbsp<?php echo Html::a('首页',['site/index'])?></li>
-                  <li><?php echo Html::a($cateParent,['site/index'])?></li>
+                  <?php if(!empty($category['parent'])){?>
+                  <li><?php echo Html::a($cateParent,['article/index','category_id'=>$category['pare_id']])?></li>
+                  <?php }?>
                   <li class="activeli"><?php echo $category['self']['title']?></li>
                 </ol>
             </div>

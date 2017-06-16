@@ -1,30 +1,14 @@
  
 <?php
 use yii\helpers\Html;
-// echo'<pre>';var_dump($category);exit;
-$articlban=!empty($category['self']['title'])?$category['self']['title']:'光大新闻';
+ // echo'<pre>';var_dump($category);exit;
+$cateParent=!empty($category['pare_name'])?$category['pare_name']:'光大学校';
 ?><!-- 左边侧边栏 -->
     <div class="col-md-4">
-      <!-- <div class="">
-        <div class="gbox">
-          <h4 class="">成绩查询</h4>
-        </div>
-        <div class="box-body geu-grup" >
-            <div class="" style="margin: 15px 20px;"> 
-                  <div class="btn "><span class="fa fa-star-o"></span>考试性质
-                  </div>
-                <input class="" type="text">
-            </div>
-             <div class="" style="margin: 15px 21px 15px 8px;"> 
-                  <div class="btn "><span class="fa fa-star-o"></span>姓名／考号
-                  </div>
-                <input class="" type="text">
-            </div>
-        </div>
-      </div> -->
+      
       <div class="" >
         <div class="gbox">
-          <h4 class=""><?php echo $category['self']['title']?></h4>
+          <h4 class=""><?php echo $cateParent?></h4>
         </div>
         <div class="box-body geu-sidebar">
            <aside class="">
@@ -34,7 +18,7 @@ $articlban=!empty($category['self']['title'])?$category['self']['title']:'光大
                 <li class="treeview">
                      <span><?php echo Html::a($value['title'],['article/index','category_id'=>$value['id']]) ?></span>
                 </li>
-            <?php }?>
+                <?php }?>
               </ul>
             </section>
           </aside>
