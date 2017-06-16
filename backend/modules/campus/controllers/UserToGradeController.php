@@ -3,6 +3,7 @@
 namespace backend\modules\campus\controllers;
 use Yii;
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 use backend\modules\campus\models\Course;
 use backend\modules\campus\models\UserToGrade;
 use backend\modules\campus\models\UserToSchoolForm;
@@ -30,6 +31,10 @@ class UserToGradeController extends \backend\modules\campus\controllers\base\Use
         if($model->load($_POST)){
             $model = $model->batch_create($_POST);
         }
-        return $this->render('_user_to_school',['model'=>$model]);
+        return $this->render('_user_to_school',
+            [
+            'model'=>$model,
+            'rules'=>ArrayHelper::map(Yii::$app->authManager->getRolesByUser(Yii::$app->user->identity->id),'name','description')
+            ]);
     }
 }

@@ -230,7 +230,7 @@ class UserForm extends Model
                             'user_id'=>$data['user_id'] ,
                             'school_id'=>$data['school_id'],
                             'school_user_type'         => $data['school_user_type']
-                            ])
+                        ])
                         ->one();
            if(!$model){
                 $model = new UserToSchool;
