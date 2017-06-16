@@ -13,7 +13,7 @@ namespace backend\modules\campus\controllers\base;
 
 use backend\modules\campus\models\CoursewareToFile;
 use backend\modules\campus\models\search\CoursewareToFileSearch;
-use yii\web\Controller;
+use common\components\Controller;
 use yii\web\HttpException;
 use yii\helpers\Url;
 use yii\filters\AccessControl;

@@ -12,6 +12,7 @@ use yii\web\IdentityInterface;
 use backend\modules\campus\models\UserToGrade;
 use backend\modules\campus\models\UserToSchool;
 use backend\modules\campus\models\Grade;
+use backend\modules\campus\models\School;
 
 /**
  * User model
@@ -49,6 +50,14 @@ class User extends ActiveRecord implements IdentityInterface
     const EVENT_AFTER_SIGNUP = 'afterSignup';
     const EVENT_AFTER_LOGIN = 'afterLogin';
 
+    // 当前用户班级学校信息
+    public $schoolsInfo          = [];
+    public $gradesInfo           = [];
+
+    public $currentSchool = []; //当前学校
+    public $currentGrade  = []; //当前班级
+    public $currentSchoolId = 0; //当前学校班级id
+    public $currentGradeId  = 0; //当前班级id
     /**
      * @inheritdoc
      */
@@ -137,6 +146,7 @@ class User extends ActiveRecord implements IdentityInterface
         ];
     }
 
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -183,11 +193,153 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * 根据权限获取班级用户
+     * 获取全部用户信息
      */
-    public function getStuOrTeaByUser(){
+    public function getSchool($user_id = 0, $limit = 20, $flush = false){
+        if(!empty($this->schoolInfo) && $flush == false){
+            return $this->schoolInfo;
+        }
+        $user_id = empty($user_id) ? $this->id : $user_id ;
+        // $school = School::find()
+        //         ->select('s.*')
+        //         ->from('school as s')
+        //         ->leftJoin('users_to_school as t','t.school_id = s.school_id')
+        //         ->andWhere('t.user_id = :user_id',[':user_id'=>$user_id])
+        //         ->andwhere('s.status = :status',[':status'=>School::SCHOOL_STATUS_OPEN])
+        //         ->orderBy('t.sort ASC , t.updated_at DESC')
+        //         ->limit($limit)
+        //         ->asArray()
+        //         ->all();
+
+        $query = new \yii\db\Query();
+        $query->select('s.*')
+            ->from('school as s')
+            ->leftJoin('users_to_school as t','t.school_id = s.school_id')
+            ->andWhere('t.user_id = :user_id',[':user_id'=>$user_id])
+            ->andwhere('s.status = :status',[':status'=>School::SCHOOL_STATUS_OPEN])
+            ->orderBy('t.sort ASC , t.updated_at DESC')
+            ->limit($limit)
+            ->groupBy(['s.school_id']);
+        $command = $query->createCommand(Yii::$app->get('campus'));
+        $this->schoolsInfo = $command->queryAll();
+        // $this->schoolsInfo = $school;
+        return  $this->schoolsInfo;
 
     }
+    /**
+     * 当前用户所在班级全部人员
+     * @param  integer $school           [description]
+     * @param  integer $school_user_type [description]
+     * @return [type]                    [description]
+     */
+    public function getSchoolToUser($school_id = 0,$school_user_type = 10){
+
+        $user = UserToSchool::find()
+                ->with(['user'=>function($query){
+                    $query->where(['status' => self::STATUS_ACTIVE]);
+                }])
+                ->andWhere(['school_id'=> $school_id])
+                ->andWhere(['school_user_type' => $school_user_type])
+                ->asArray()
+                ->all();
+        $data = [];
+        foreach ($user  as $key => $value) {
+            if(isset($value['user']) && !empty($value['user'])){
+                $data[$key] = $value['user'];
+            }
+        }
+        return $data;
+    }
+
+    /**
+     * *获取班级人员
+     */
+    public function getGradeToUser($grade_id = 0,$grade_user_type = 20){
+
+        $user = UserToGrade::find()
+                ->with(['user'=>function($query){
+                    $query->where(['status' => self::STATUS_ACTIVE]);
+                }])
+                ->andWhere(['grade_id'=> $grade_id])
+                ->andWhere(['grade_user_type' => $grade_user_type])
+                ->asArray()
+                ->all();
+        $data = [];
+        foreach ($user  as $key => $value) {
+            if(isset($value['user']) && !empty($value['user'])){
+                $data[$key] = $value['user'];
+            }
+        }
+        return $data;
+    }
+    /**
+     * 获取当前用户下所有班级
+     * @return [type] [description]
+     */
+    public  function getGrades($user_id = 0, $schools_id = 0,  $limit = 100, $flush = false){
+
+        $user_id    = empty($user_id) ? $this->id : $user_id ;
+        $schools_id = empty($schools_id) ? $this->getCurrentSchoolId() : $schools_id ;
+        $query = new \yii\db\Query();
+        $query->select('g.*')
+            ->from('users_to_grade as t')
+            ->leftJoin('grade as g','t.grade_id = g.grade_id')
+            ->andWhere('t.user_id = :user_id',[':user_id'=>$user_id])
+            ->andwhere('g.status = :status',[':status'=>Grade::GRADE_STATUS_OPEN])
+            ->andwhere(['g.school_id'=>$schools_id])
+            ->orderBy('t.sort ASC , t.updated_at DESC')
+            ->limit($limit)
+            ->groupBy(['g.grade_id']);
+        $command = $query->createCommand(Yii::$app->get('campus'));
+        $this->gradesInfo = $command->queryAll();
+        return $this->gradesInfo;
+    }
+
+    // 当前学校班级ID
+    public function setCurrentSchoolId($schoolIdCurrent = NULL){
+        $this->currentSchoolId = $schoolIdCurrent;
+    }
+    public function getCurrentSchoolId(){
+        return $this->currentSchoolId;
+    }
+
+    public function setCurrentGradeId($gradeIdCurrent = NULL){
+        $this->currentGradeId = $gradeIdCurrent;
+    }
+    public function getCurrentGradeId(){
+        return $this->currentGradeId;
+    }
+
+      // 当前用户的全体学校班级信息
+    public function setSchoolsInfo($schoolsInfo){
+        $this->schoolsInfo = $schoolsInfo;
+    }
+    public function getSchoolsInfo(){
+        return $this->schoolsInfo;
+    }
+
+    public function setGradesInfo($gradesInfo){
+        $this->gradesInfo = $gradesInfo;
+    }
+    public function getGradesInfo(){
+        return $this->gradesInfo;
+    }
+
+    // 当前学校班级具体信息
+    public function setCurrentSchool($schoolCurrent){
+        $this->currentSchool = $schoolCurrent;
+    }
+    public function getCurrentSchool(){
+        return $this->currentSchool;
+    }
+
+    public function setCurrentGrade($gradeCurrent){
+        $this->currentGrade = $gradeCurrent;
+    }
+    public function getCurrentGrade(){
+        return $this->currentGrade;
+    }
+
     /**
      * 检测用户是否存在班级学校
      * @param  boolean $type [description]

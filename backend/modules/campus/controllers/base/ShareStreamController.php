@@ -5,12 +5,15 @@
 namespace backend\modules\campus\controllers\base;
 
 use backend\modules\campus\models\ShareStream;
-    use backend\modules\campus\models\ShareStreamSearch;
-use yii\web\Controller;
+use backend\modules\campus\models\ShareStreamToGrade;
+use backend\modules\campus\models\ShareStreamSearch;
+use common\components\Controller;
 use yii\web\HttpException;
 use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
 use yii\filters\AccessControl;
 use dmstr\bootstrap\Tabs;
+
 
 /**
 * ShareStreamController implements the CRUD actions for ShareStream model.
@@ -63,16 +66,27 @@ public function actionIndex()
 {
     $searchModel  = new ShareStreamSearch;
     $dataProvider = $searchModel->search($_GET);
+    $schoolIds = \Yii::$app->user->identity->schoolsInfo;
+    $schoolIds = ArrayHelper::map($schoolIds,'school_id','school_id');
+   // var_dump();exit;
+    $dataProvider->query->andWhere([
+      //  'school_id'=>$schoolIds,
+        //'t.grade_id' =>$this->gradeIdCurrent
+    ]);
+    $dataProvider->sort = [
+            'defaultOrder'=>[
+                'updated_at'=>SORT_DESC
+            ]
+    ];
+    Tabs::clearLocalStorage();
 
-Tabs::clearLocalStorage();
+    Url::remember();
+    \Yii::$app->session['__crudReturnUrl'] = null;
 
-Url::remember();
-\Yii::$app->session['__crudReturnUrl'] = null;
-
-return $this->render('index', [
-'dataProvider' => $dataProvider,
-    'searchModel' => $searchModel,
-]);
+    return $this->render('index', [
+    'dataProvider' => $dataProvider,
+        'searchModel' => $searchModel,
+    ]);
 }
 
 /**
@@ -100,18 +114,18 @@ return $this->render('view', [
 public function actionCreate()
 {
 $model = new ShareStream;
-
+$shareToGrade = new ShareStreamToGrade;
 try {
-if ($model->load($_POST) && $model->save()) {
-return $this->redirect(['view', 'share_stream_id' => $model->share_stream_id]);
-} elseif (!\Yii::$app->request->isPost) {
-$model->load($_GET);
-}
-} catch (\Exception $e) {
-$msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
-$model->addError('_exception', $msg);
-}
-return $this->render('create', ['model' => $model]);
+    if ($model->load($_POST) && $model->save()) {
+        return $this->redirect(['view', 'share_stream_id' => $model->share_stream_id]);
+    } elseif (!\Yii::$app->request->isPost) {
+        $model->load($_GET);
+    }
+    } catch (\Exception $e) {
+        $msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
+        $model->addError('_exception', $msg);
+    }
+return $this->render('create', ['model' => $model,'shareToGrade'=>$shareToGrade]);
 }
 
 /**

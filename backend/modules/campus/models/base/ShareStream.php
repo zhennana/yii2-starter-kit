@@ -63,7 +63,7 @@ abstract class ShareStream extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['body'], 'required'],
+            [['body','school_id'], 'required'],
             [['status','author_id'], 'integer'],
             ['author_id','default','value'=>isset(Yii::$app->user->identity->id) ? Yii::$app->user->identity->id  : '' ],
             ['status','default','value'=>self::SHARESTREAM_STATUS_OPEN],

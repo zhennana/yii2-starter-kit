@@ -28,7 +28,8 @@ abstract class Course extends \yii\db\ActiveRecord
 {
 
     CONST COURSE_STATUS_OPEN   = 10;//正常
-    CONST COURSE_STATUS_DELECT = 20;//关闭
+    CONST COURSE_STATUS_FINISH = 20; //结束
+    CONST COURSE_STATUS_DELECT = 30;//关闭
 
     /**
      * @inheritdoc
@@ -36,6 +37,7 @@ abstract class Course extends \yii\db\ActiveRecord
     public static function optsStatus(){
         return [
             self::COURSE_STATUS_OPEN   => '正常',
+            self::COURSE_STATUS_FINISH => '结束',
             self::COURSE_STATUS_DELECT => '无效'
         ];
     }
@@ -181,6 +183,21 @@ abstract class Course extends \yii\db\ActiveRecord
             'end_time'      => Yii::t('common', '课程结束时间'),
             // 'status'        => Yii::t('common', '状态'),
         ]);
+    }
+    /**
+     * 获取某老师所上过的课程
+     * @param  [type] $user_id   [description]
+     * @param  [type] $school_id [description]
+     * @param  [type] $drade_id  [description]
+     * @return [type]            [description]
+     */
+    public static function getAboveCourse($teacher_id = 0,$school_id = 0,$grade_id=0,$status = 20){
+            return self::find()->where([
+                    'teacher_id'=> $teacher_id,
+                    'school_id' => $school_id,
+                    'grade_id'  => $grade_id,
+                    'status'    => $status,
+                ])->all();
     }
 
     public function getSchool(){

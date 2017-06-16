@@ -13,11 +13,11 @@
               <input class="form-control" type="text">
             </div>
             </div>
-            <br>
+            
             <div class="col-xs-12" >
              <div class="input-group scobtn">
               <div class="input-group-btn">
-                <button type="button" class="btn btncolor"><i class="fa fa-fw fa-star text-red"></i>姓名／学号</button>
+                <button id="btnspacetwo" type="button" class="btn btncolor"><i class="fa fa-fw fa-star text-red"></i>姓名／学号</button>
               </div>
               <!-- /btn-group -->
               <input class="form-control" type="text">

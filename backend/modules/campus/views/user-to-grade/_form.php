@@ -20,33 +20,24 @@ use backend\modules\campus\models\UserToSchool;
 * @var backend\modules\campus\models\UserToGrade $model
 * @var yii\widgets\ActiveForm $form
 */
-    $grade_user_type = 10;
+
+    $grade_user_type =UserToGrade::GRADE_USER_TYPE_STUDENT;
     if(isset($_GET['grade_user_type'])){
         $grade_user_type = (int)$_GET['grade_user_type'];
     }
-    $schoolOrGrade = Yii::$app->user->identity->schoolOrGrade;
-    $user = UserToSchool::find();
-    if($grade_user_type == 10){
-        $user->andWhere(['school_user_type'=>UserToSchool::SCHOOL_USER_TYPE_STUDENTS]);
-    }
+    $school_id = Yii::$app->user->identity->currentSchoolId;
+    $currentSchool =  [Yii::$app->user->identity->currentSchool];
+    $currentSchool = ArrayHelper::map($currentSchool,'school_id','school_title');
 
-    if($grade_user_type == 20){
-        $user->andWhere(['school_user_type'=>UserToSchool::SCHOOL_USER_TYPE_TEACHER]);
+    if($grade_user_type == UserToGrade::GRADE_USER_TYPE_STUDENT){
+        $user = Yii::$app->user->identity->getSchoolToUser($school_id,UserToSchool::SCHOOL_USER_TYPE_STUDENTS);
     }
-    if(is_array($schoolOrGrade)){
-       $user->andWhere(['school_id'=>$schoolOrGrade]);
-       $user =  $user->all();
-    }elseif(is_string($schoolOrGrade) && $schoolOrGrade ='all'){
-      $user = $user->all();
-    }else{
-        $user = [];
+    if($grade_user_type == UserToGrade::GRADE_USER_TYPE_TEACHER){
+        $user = Yii::$app->user->identity->getSchoolToUser($school_id,UserToSchool::SCHOOL_USER_TYPE_TEACHER);
     }
-    // var_dump($user);exit;
-    $data = [];
-    foreach ($user as $key => $value) {
-        $data[$key] = $value->user_id;
-        $data[$key] = $value->user->username;
-    }
+   // var_dump($user);exit;
+     $currentUser = ArrayHelper::map($user,'id','username');
+
 ?>
 <?php
     if(isset($info['error']) && !empty($info['error']) ){
@@ -98,7 +89,7 @@ use backend\modules\campus\models\UserToSchool;
                     echo $form->field($model, 'user_id')->widget(Select2::className(),[
                         // 'language'          => 'en',
                         // "showToggleAll"     => true,
-                        'data'              => $data,
+                        'data'              => $currentUser,
                         'theme'             => Select2::THEME_BOOTSTRAP,
                         "maintainOrder"     => true,
                         'toggleAllSettings' => [
@@ -115,7 +106,7 @@ use backend\modules\campus\models\UserToSchool;
                     ]);
                 }else{
                     echo $form->field($model, 'user_id')->widget(Select2::className(),[
-                        'data'     => $data_user,
+                        'data'     => $currentUser,
                         'disabled' => true,
                     ]);
                 }
@@ -124,7 +115,7 @@ use backend\modules\campus\models\UserToSchool;
 
         <!--  attribute school_id  -->
             <?= $form->field($model, 'school_id')->widget(Select2::className(),[
-                'data' =>$model->getlist(),
+                'data' =>$currentSchool,
                 'options'       => ['placeholder' => '请选择'],
                 'pluginOptions' => [ 
                     'allowClear' => true

@@ -32,15 +32,30 @@ public function behaviors()
              ]
         );
     }
-      public function batch_create($data){
+    // //修改发布消息
+    // public function batchUpdate($data){
+    //     $transaction = $this->db->beginTransaction();
+    //     if(isset($data['ShareStreamToGrade']['school_id']) && !empty($data['ShareStreamToGrade']['school_id'])){
+    //         //var_dump(4153);exit;
+    //           $data['ShareStream']['school_id'] = $data['ShareStreamToGrade']['school_id'];
+    //           $data['ShareStream']['grade_id']  = $data['ShareStreamToGrade']['grade_id'];
+    //     }
+    //     $this->load($data['ShareStream'],'');
+    // }
+    public function batch_create($data){
       if(isset($data['FileStorageItem']) && count($data['FileStorageItem']) > 9 ){
            $this->addErrors(['图片不能大于9张']);
            return $this;
       }
 
-      if(isset($data['FileStorageItem'])){
+    
           $transaction = $this->db->beginTransaction();
-          //var_dump();exit;
+          if(isset($data['ShareStreamToGrade']['school_id']) && !empty($data['ShareStreamToGrade']['school_id'])){
+            //var_dump(4153);exit;
+              $data['ShareStream']['school_id'] = $data['ShareStreamToGrade']['school_id'];
+              $data['ShareStream']['grade_id']  = $data['ShareStreamToGrade']['grade_id'];
+          }
+
           $this->load($data['ShareStream'],'');
           if($this->save() == false){
               $transaction->rollBack();
@@ -55,10 +70,12 @@ public function behaviors()
                   return $share_to_grade;
               }
           }
-          $storage = $this->addFileStorageItem($data['FileStorageItem']);
-          if(isset($storage) && $storage->hasErrors()){
-              $transaction->rollBack();
-              return $storage;
+          if(isset($data['FileStorageItem'])){
+              $storage = $this->addFileStorageItem($data['FileStorageItem']);
+              if(isset($storage) && $storage->hasErrors()){
+                  $transaction->rollBack();
+                  return $storage;
+              }
           }
           $share_to_file = $this->addShareToFile($this->share_stream_id);
           if(isset($share_to_file) && $share_to_file->hasErrors()){
@@ -68,20 +85,36 @@ public function behaviors()
 
           $transaction->commit();
           return $this;
-      }else{
-          $this->load($data['ShareStream'],'');
-          $this->save();
-          return $this;
-      }
-
   }
 
   public function addShareStreamToGrade($data){
-         $model = new ShareStreamToGrade;
-         $model->load($data,'');
-         $model->save();
-         return $model;
-  }
+  
+        if(is_array($data['grade_id']) && !empty($data['grade_id'])){
+          // var_dump($data['school_id']);exit;
+            ShareStreamToGrade::deleteAll(
+                  ['share_stream_id'=>$data['share_stream_id']]
+            );
+
+              foreach ($data['grade_id'] as $key => $value) {
+                    $share_to_grade = [];
+                    $share_to_grade['grade_id'] = $value;
+                    $share_to_grade['school_id'] = $data['school_id'];
+                    $share_to_grade['status']    = $data['status'];
+                   //$share_stream['grade_id']  = $value;
+                    $share_to_grade['share_stream_id']   = $data['share_stream_id'];
+                    $model = new ShareStreamToGrade;
+                    $model->load($share_to_grade,'');
+                    if(!$model->save()){
+                      return $model;
+                    };
+              }
+            }else{
+              $model = new ShareStreamToGrade;
+              $model->load($data,'');
+              $model->save();
+              return $model;
+            }
+      }
 
   public function addFileStorageItem($data){
       foreach ($data as $key => $value) {
@@ -116,4 +149,6 @@ public function behaviors()
           }
       }
   }
+
+
 }

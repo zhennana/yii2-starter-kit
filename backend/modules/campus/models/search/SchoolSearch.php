@@ -44,10 +44,6 @@ class SchoolSearch extends School
       public function search($params)
       {
             $query = School::find();
-            if(!Yii::$app->user->can('administrator')){
-                  $school_id = ArrayHelper::map(Yii::$app->user->identity->userToSchool,'school_id','school_id');
-                  $query->andwhere(['school_id'=>$school_id]);
-            }
             $dataProvider = new ActiveDataProvider([
             'query' => $query,
             // 'pagination'=>[

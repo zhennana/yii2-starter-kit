@@ -8,7 +8,7 @@ use backend\modules\campus\models\School;
 use backend\modules\campus\models\Grade;
 use backend\modules\campus\models\GradeCategory;
 
-$school_ids = School::find()->where(['status'=>School::SCHOOL_STATUS_OPEN])->asArray()->all();
+$school_ids = [Yii::$app->user->identity->currentSchool];
 $school_ids = ArrayHelper::map($school_ids,'id','school_title');
 //var_dump($school_ids);exit;
 $group_category_ids = GradeCategory::find()->where(['status'=>GradeCategory::CATEGORY_OPEN])->asArray()->all();
@@ -164,6 +164,7 @@ if(\Yii::$app->user->can('director', ['route' => true])){
                 ],
                 //'group_category_id',
     			'grade_title',
+                'grade_name',
                 [
                     'attribute' => 'creater_id',
                     'value'     => function($model){

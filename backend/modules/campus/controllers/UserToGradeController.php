@@ -5,6 +5,7 @@ use Yii;
 use yii\helpers\Html;
 use backend\modules\campus\models\Course;
 use backend\modules\campus\models\UserToGrade;
+use backend\modules\campus\models\UserToSchoolForm;
 /**
 * This is the class for controller "UserToGradeController".
 */
@@ -22,5 +23,13 @@ class UserToGradeController extends \backend\modules\campus\controllers\base\Use
              echo Html::tag('option',Html::encode($value),array('value'=>$key));
         }
 
+    }
+
+    public function actionUserToSchoolForm(){
+        $model = new UserToSchoolForm;
+        if($model->load($_POST)){
+            $model = $model->batch_create($_POST);
+        }
+        return $this->render('_user_to_school',['model'=>$model]);
     }
 }

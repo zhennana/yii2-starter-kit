@@ -18,7 +18,7 @@ class ShareStreamSearch extends ShareStream
 public function rules()
 {
 return [
-[['share_stream_id', 'author_id', 'status', 'updated_at', 'created_at'], 'integer'],
+[['share_stream_id', 'school_id','author_id', 'status', 'updated_at', 'created_at'], 'integer'],
             [['body'], 'safe'],
 ];
 }
@@ -43,6 +43,10 @@ public function search($params)
 {
 $query = ShareStream::find();
 
+// $query->JoinWith('shareToGrade as  t');
+// $query->andWhere(['NOT',['t.share_stream_id'=> NULL]]);
+// $query->groupBy(['t.share_stream_id']);
+
 $dataProvider = new ActiveDataProvider([
 'query' => $query,
 ]);
@@ -58,7 +62,8 @@ return $dataProvider;
 $query->andFilterWhere([
             'share_stream_id' => $this->share_stream_id,
             'author_id' => $this->author_id,
-            'status' => $this->status,
+            'share_stream.school_id' => $this->school_id,
+            'share_stream.status' => $this->status,
             'updated_at' => $this->updated_at,
             'created_at' => $this->created_at,
         ]);

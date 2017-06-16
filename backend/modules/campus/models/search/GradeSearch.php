@@ -48,6 +48,7 @@ return Model::scenarios();
 public function search($params)
 {
     $query = Grade::find();
+    /*
     if(Yii::$app->user->can('manager')){
 
     }elseif(Yii::$app->user->can('leader') || Yii::$app->user->can('director') ) {
@@ -57,6 +58,7 @@ public function search($params)
              $grade_id = ArrayHelper::map(Yii::$app->user->identity->userToGrade,'grade_id','grade_id');
             $query->andWhere(['grade_id'=>$grade_id]);
     }
+    */
     $dataProvider = new ActiveDataProvider([
         'query' => $query,
     ]);

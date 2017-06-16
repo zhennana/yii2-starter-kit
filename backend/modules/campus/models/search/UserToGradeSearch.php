@@ -53,13 +53,13 @@ class UserToGradeSearch extends UserToGrade
             'query' => $query,
             ]);
 
-            if(Yii::$app->user->can('leader') || Yii::$app->user->can('director') ) {
-                  $school_id = ArrayHelper::map(Yii::$app->user->identity->userToSchool,'school_id','school_id');
-                  $query->andFilterWhere(['school_id'=>$school_id]);
-            }elseif(Yii::$app->user->can('teacher')){
-                   $grade_id = ArrayHelper::map(Yii::$app->user->identity->userToGrade,'grade_id','grade_id');
-            $query->andFilterWhere(['grade_id'=>$grade_id]);
-    }
+            // if(Yii::$app->user->can('leader') || Yii::$app->user->can('director') ) {
+            //       $school_id = ArrayHelper::map(Yii::$app->user->identity->userToSchool,'school_id','school_id');
+            //       $query->andFilterWhere(['school_id'=>$school_id]);
+            // }elseif(Yii::$app->user->can('teacher')){
+            //        $grade_id = ArrayHelper::map(Yii::$app->user->identity->userToGrade,'grade_id','grade_id');
+            // $query->andFilterWhere(['grade_id'=>$grade_id]);
+   // }
             $this->load($params);
 
             if (!$this->validate()) {

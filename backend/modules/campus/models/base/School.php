@@ -63,17 +63,13 @@ abstract class School extends \yii\db\ActiveRecord
     }
     public static function tableName()
     {
-        return 'school';
-    }
+       return 'school';
+   }
     /**
      * @return \yii\db\Connection the database connection used by this AR class.
      */
      public static function getDb()
      {
-        //dump(Yii::$app);
-        //dump();exit;
-       // dump(\Yii::$app->modules['campus']->get('campus'),Yii::$app->get('db'),Yii::$app->get('campus'));exit;
-        //return \Yii::$app->modules['campus']->get('campus');
         return Yii::$app->get('campus');
      }
 
