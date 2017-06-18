@@ -26,65 +26,18 @@ class UserToSchoolForm extends Model
   //public $email;
 
 
-/**
- * return [
- 
-            ['username', 'filter', 'filter' => 'trim'],
-            [['username','phone_number','gender','birth'], 'required'],
-            ['username', 'unique', 'targetClass' => User::className(), 'filter' => function ($query) {
-                if (!$this->getModel()->isNewRecord) {
-                    $query->andWhere(['not', ['id'=>$this->getModel()->id]]);
-                }
-            }],
-           ['phone_number', 'unique', 'targetClass' => User::className(), 'filter' => function ($query) {
-                if (!$this->getModel()->isNewRecord) {
-                    $query->andWhere(['not', ['id'=>$this->getModel()->id]]);
-                }
-            }],
-            ['username', 'string', 'min' => 2, 'max' => 32],
-            //['nickname', 'string', 'min' => 2, 'max' => 32],
-            //['realname', 'string', 'min' => 2, 'max' => 32],
-            ['email', 'filter', 'filter' => 'trim'],
-            ['email', 'required'],
-            ['email', 'email'],
-            ['email', 'unique', 'targetClass'=> User::className(), 'filter' => function ($query) {
-                if (!$this->getModel()->isNewRecord) {
-                    $query->andWhere(['not', ['id'=>$this->getModel()->id]]);
-                }
-            }],
-            [['phone_number'], PhoneValidator::className()],
-            ['password', 'required', 'on'=>'create'],
-            ['password', 'string', 'min' => 6],
-
-            [['status'], 'integer'],
-            [['roles'], 'each',
-                'rule' => ['in', 'range' => ArrayHelper::getColumn(
-                    Yii::$app->authManager->getRoles(),
-                    'name'
-                )]
-            ],
-            ['school_id', 'required'],
-            ['school_id','in', 'range' =>ArrayHelper::getColumn(
-                        $this->getSchool(),
-                        'school_id'
-                    )
-            ]
-        ];
- */
-
     public function rules()
     {
        return [
         [
           [
-          'school_id','grade_id','roles','school_user_type','grade_user_type'],'required'
+          'school_id','roles'],'required'
           ],
         [['body','roles'],'string'],
-
         [
           ['school_id','grade_id','school_user_type','grade_user_type'],
           'integer'
-          ]
+        ]
         ];
     }
 
@@ -99,9 +52,10 @@ class UserToSchoolForm extends Model
     }
 
     public function batch_create($data){
-     //var_dump($data['UserToSchoolForm']['body']);exit;
       if($data['UserToSchoolForm']['body'] && is_string($data['UserToSchoolForm']['body'])){
-          $this->dataInit($data['UserToSchoolForm']);
+          return $this->dataInit($data['UserToSchoolForm']);
+      }else{
+        return [];
       }
     }
 /**
@@ -110,6 +64,7 @@ class UserToSchoolForm extends Model
  * @return [type]       [description]
  */
     public function dataInit($data){
+
         $users = [];
         $info = [];
         $userString = trim($data['body']);
@@ -117,82 +72,109 @@ class UserToSchoolForm extends Model
         foreach ($userString as $key => $value) {
             $value = preg_replace("/\s+|\t+/",' ',$value);
             $temp = explode(" ",$value);
-          //  var_dump($temp);exit;
-            $users['realname'] = isset($temp[0]) && !empty($temp[0]) ?trim($temp[0]):NULL;
+          //var_dump($temp);exit;
+            $users['username'] = isset($temp[0]) && !empty($temp[0]) ?trim($temp[0]):NULL;
             $users['phone_number'] = isset($temp[1]) && !empty($temp[1]) ?trim($temp[1]):NULL;
             $users['email'] = isset($temp[2]) && !empty($temp[2]) ? trim($temp[2]):'';
             $users['password'] = substr($users['phone_number'], 5);
-
-            //添加用户
+            if(empty($users['username'])){
+                $info['error'][$key] = [['用户名不能为空']];
+                continue;
+            }
+            if(empty($users['phone_number'])){
+                $info['error'][$key] = [['手机号不能为空']];
+                continue;
+            }
+            if(empty($users['email'])){
+                $info['error'][$key] = [['邮箱不能为空']];
+                continue;
+            }
+            //添加用户/或者更新
             $user_model = $this->AddUser($users);
-
-            if(!empty($user_model->getErrors() && !isset($user_model->id))){
+            //!$model->hasErrors()
+         //   var_dump($user_model->getErrors());exit;
+            
+            if(!empty($user_model->getErrors())){
+              $info['error'][$key] = $user_model->getErrors();
               continue;
             }
-            //查询用户自身权限
-            $rules = Yii::$app->authManager->getRolesByUser(Yii::$app->user->identity->id);
-            $auth =  Yii::$app->authManager;
-            foreach ($rules as $rule) {
-                 $auth->revoke($rule,$user_model->id);
-            }
-            //删除添加用户的最高权限跟字权限
-            if ($this->roles && is_array($this->roles)) {
-                foreach ($this->roles as $role) {
-                     $auth->assign($auth->getRole($role),Yii::$app->user->identity->id);
-                }
-            }
-            /**
-             * 创建学校
+
+
+            /**  
+             * 添加关系或者跟新关系
              */
+           
             $user_to_school = $this->addUserToSchool(
                   [
                     'school_id'               => $this->school_id,
+                    'user_id'                 => $user_model->getModel()->id,
                     'user_title_id_at_school' => $this->school_user_type,
                     'status'                  => 1,
                     'school_user_type'        => $this->school_user_type,
                   ]
               );
-           if(!empty($user_to_school->getErrors() && !isset($user_to_school->school_id))){
-              continue;
-            }
-
-            $userToGrade = $this->addUserToGrade(
+            if($this->school_user_type != 10 ){
+                $user_to_school = $this->addUserToSchool(
                   [
                     'school_id'               => $this->school_id,
+                    'user_id'                 => $user_model->getModel()->id,
+                    'user_title_id_at_school' => 10,
+                    'status'                  => 1,
+                    'school_user_type'        => $this->school_user_type,
+                  ]
+              );
+            }
+         
+// var_dump( $user_to_school);exit;
+            if(!empty($user_to_school->getErrors())){
+               $info['error'][$key] = $user_to_school->getErrors();
+               continue;
+            }
+            //添加学校或者跟新学校
+            if($this->grade_id && !empty($this->grade_id) && $this->grade_id != '0'){
+              if($this->school_user_type ==  10 && $this->grade_user_type != 10){
+                $info['error'][$key] = [[$users['username'].'在学校职称是学生,班级职称就不能是老师']];
+                continue;
+            }
+              $userToGrade = $this->addUserToGrade(
+                  [
+                    'school_id'               => $this->school_id,
+                    'user_id'                 => $user_model->getModel()->id,
                     'grade_id'                => $this->grade_id,
                     'user_title_id_at_grade' => $this->grade_user_type,
                     'status'                  => 1,
                     'grade_user_type'        => $this->grade_user_type,
                   ]
               );
-            if(!empty($userToGrade->getErrors() && !isset($userToGrade->grade_id))){
-              continue;
+              if(!empty($userToGrade->getErrors())){
+                $info['error'][$key] = $userToGrade->getErrors();
+                continue; 
+              }
             }
+            
           }
-    return false;
+      return $info;
 
     }
 
     /**
-     * 添加用户
+     * 添加用户/或者更新
      * @param  [type] $user [description]
      * @return [type]       [description]
      */
-    public function AddUser($user){
-      $model = User::find()
-      ->where(['phone_number'=> $user['phone_number']])
+    public function AddUser($users){
+      //$users['email'] = 'web@126.com';
+      $user = User::find()
+      ->where(['phone_number'=> $users['phone_number']])
       ->one();
-
-      if($model){
-          return  $model;
-      }else{
-        $model = new  User;
-        $user['status'] = 2;
-        $model->load($user,'');
-        $model->save();
-        $model->afterSignup();
-        return $model;
+      $model = new UserForm; 
+      if($user){
+        $model->setModel($user);
       }
+      $users['status'] = 2;
+      $model->load($users,'');
+      $model->save();
+      return $model;
     }
     /**
      * 添加学校关系
@@ -203,30 +185,27 @@ class UserToSchoolForm extends Model
           return false;
       }
 
-        $model = UserToSchool::find()->where($data)->all();
-        if($model){
-          return $model;
-        }else{
+        $model = UserToSchool::find()->where($data)->one();
+         // var_dump($model);exit;
+        if(!$model){
           $model = new UserToSchool;
-          $model->load($data,'');
-          $model->save();
-          return $model;
-        }
+        } 
+        $model->load($data,'');
+        $model->save();
+        return $model;
     }
   /**
    * 添加班级管理
    * @param array $data [description]
    */
     public function addUserToGrade($data = []){
-      // var_dump($data);exit;
-        $model = UserToGrade::find()->where($data)->all();
-        if($model){
-          return $model;
-        }else{
-          $model = new UserToGrade;
+      //var_dump($data);exit;
+        $model = UserToGrade::find()->where($data)->one();
+        if(!$model){
+           $model = new UserToGrade;
+        }
           $model->load($data,'');
           $model->save();
           return $model;
-        }
     }
 }
