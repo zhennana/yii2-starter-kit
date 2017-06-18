@@ -32,9 +32,8 @@ $img = 'http://orfaphl6n.bkt.clouddn.com/Unit1-Classroom-commands.png';
         </div>
         <p>
             <br/>
-            Welcome to starter 1 online English Lessons for children - This is an absolute beginner course for ESL kids. It is a good place to start for kids who have little to zero English learning experience. It teaches basic English sentences, new words and grammar. The course is perfect for preschoolers and kindergartners. The following English lessons are covered:
-            <br/><br/>
             <?= $master['body']; ?>
+            <br/>
         </p>
     </div>
     
