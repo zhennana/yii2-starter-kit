@@ -10,9 +10,6 @@ $img = 'http://orfaphl6n.bkt.clouddn.com/Unit1-Classroom-commands.png';
 
 ?>
 <div id="article-index">
-    <div class="course_info">
-        <p>Welcome to starter 1 online English Lessons for children - This is an absolute beginner course for ESL kids. It is a good place to start for kids who have little to zero English learning experience. It teaches basic English sentences, new words and grammar. The course is perfect for preschoolers and kindergartners. The following English lessons are covered:</p>
-    </div>
 
     <article class="article-item box course_list">
 
@@ -30,12 +27,13 @@ $img = 'http://orfaphl6n.bkt.clouddn.com/Unit1-Classroom-commands.png';
 
                 <h1>Objectives:</h1>
                 <?php
-                    $body = json_decode($model->body);
-                    if (isset($body)) :
+                    $body = (json_decode($model->body) !== NULL) ? json_decode($model->body) : explode("\r\n",$model->body);
+
+                    if (isset($body) && !empty($body) && is_array($body)) :
                 ?>
                     <div class="note">
                         <ul>
-                            <?php foreach ($body->items as $key => $value) : ?>
+                            <?php foreach ($body as $key => $value) : ?>
                                 <li><?= $value ?></li>
                             <?php endforeach; ?>
                         </ul>
@@ -44,7 +42,7 @@ $img = 'http://orfaphl6n.bkt.clouddn.com/Unit1-Classroom-commands.png';
 
                         <div class="note_ribbon"></div>
                     </div>
-                <?php endif; ?>
+                <?php endif ; ?>
             </div>
             <div class="materials">
                 <h1>Main Lesson Materials:</h1>
