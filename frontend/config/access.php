@@ -29,18 +29,9 @@ return [
                 'roles' => ['?','@'],
             ],
             [
-                'controllers'=>['debug/default'],
+                'controllers'=>['page'],
                 'allow' => true,
-                'roles' => ['?'],
-            ],
-            [
-                'controllers'=>['user'],
-                'allow' => true,
-                'roles' => ['administrator','leader','director'],
-            ],
-            [
-                'controllers'=>['user'],
-                'allow' => false,
+                'roles' => ['?','@'],
             ],
         ]
     ];
