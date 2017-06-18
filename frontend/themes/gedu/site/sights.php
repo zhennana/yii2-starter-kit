@@ -39,7 +39,6 @@ $school=[
       ],
  ];
 ?>
-?>
 <div class="gdu-content">
   <div class="row">
     <!-- 左边侧边栏 -->
