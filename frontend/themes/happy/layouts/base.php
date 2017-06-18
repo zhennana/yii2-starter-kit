@@ -95,7 +95,7 @@ $logo = 'http://orfaphl6n.bkt.clouddn.com/logo.png?imageView2/3/w/257/h/115';
                     ],
                 ]
             ],
-            ['label' => Yii::t('frontend', 'Extra'),'url' => ['site/#']],
+            ['label' => Yii::t('frontend', 'Extra')],
             [
                 'label' => Yii::$app->user->isGuest ? '' : Yii::$app->user->identity->getPublicIdentity(),
                 'visible'=>!Yii::$app->user->isGuest,
