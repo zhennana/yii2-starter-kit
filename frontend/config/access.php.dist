@@ -26,21 +26,7 @@ return [
             [
                 'controllers'=>['site','article'],
                 'allow' => true,
-                'roles' => ['?','@'],
-            ],
-            [
-                'controllers'=>['debug/default'],
-                'allow' => true,
-                'roles' => ['?'],
-            ],
-            [
-                'controllers'=>['user'],
-                'allow' => true,
-                'roles' => ['administrator','leader','director'],
-            ],
-            [
-                'controllers'=>['user'],
-                'allow' => false,
+                'roles' => ['@'],
             ],
         ]
     ];
