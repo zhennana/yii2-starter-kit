@@ -34,7 +34,7 @@ class UserForm extends Model
     {
         return [
             ['username', 'filter', 'filter' => 'trim'],
-            [['username','phone_number','gender','birth'], 'required'],
+            [['username','phone_number'], 'required'],
             ['username', 'unique', 'targetClass' => User::className(), 'filter' => function ($query) {
                 if (!$this->getModel()->isNewRecord) {
                     $query->andWhere(['not', ['id'=>$this->getModel()->id]]);
@@ -67,6 +67,7 @@ class UserForm extends Model
                     'name'
                 )]
             ],
+            [['gender','birth'],'required'],
             ['school_id', 'required', 'on'=>'create'],
             ['school_id','in', 'range' =>ArrayHelper::getColumn(
                         $this->getSchool(),
@@ -155,11 +156,11 @@ class UserForm extends Model
      */
     public function save()
     {
-
         if ($this->validate()) {
 
             $model = $this->getModel();
             $isNewRecord = $model->getIsNewRecord();
+            //var_dump($isNewRecord);exit;
             $model->username = $this->username;
             //$model->nickname = $this->nickname;
             //$model->realname = $this->realname;
@@ -183,7 +184,9 @@ class UserForm extends Model
                 'sort'      => 1,
             ];
             if ($isNewRecord) {
-                $this->AddUserToSchool($user_to_school);
+                if(Yii::$app->controller->action->id == 'create'){
+                    $this->AddUserToSchool($user_to_school);
+                }
                 $model->afterSignup($profile);
             }else{
                 if($model->userProfile){
@@ -192,10 +195,19 @@ class UserForm extends Model
                 }
             }
             $auth = Yii::$app->authManager;
-            $auth->revokeAll($model->getId());
-
+            //$auth->revokeAll($model->getId());
+            //查询用户自身权限
+            $rules = $auth->getRolesByUser(Yii::$app->user->identity->id);
+            foreach ($rules as $rule) {
+                $auth->revoke($rule,$model->id);
+            }
+            $user = $auth->getRolesByUser(Yii::$app->user->identity->id); 
             if ($this->roles && is_array($this->roles)) {
                 foreach ($this->roles as $role) {
+                    $assignment = $auth->getAssignment($role,$model->getId());
+                    if($assignment != NULL){
+                        continue;
+                    }
                     $auth->assign($auth->getRole($role), $model->getId());
                 }
             }
@@ -206,7 +218,6 @@ class UserForm extends Model
     /**
      * 添加更新学校
      */
-    
     public function AddUserToSchool($data){
         foreach ($data['roles'] as $key => $value) {
             $data['school_user_type'] = '';
@@ -230,7 +241,7 @@ class UserForm extends Model
                             'user_id'=>$data['user_id'] ,
                             'school_id'=>$data['school_id'],
                             'school_user_type'         => $data['school_user_type']
-                            ])
+                        ])
                         ->one();
            if(!$model){
                 $model = new UserToSchool;

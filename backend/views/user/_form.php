@@ -9,20 +9,11 @@ use yii\helpers\ArrayHelper;
 
 use trntv\yii\datetime\DateTimeWidget;
 
-
 /* @var $this yii\web\View */
 /* @var $model backend\models\UserForm */
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $roles yii\rbac\Role[] */
 /* @var $permissions yii\rbac\Permission[] */
-
-if(Yii::$app->user->can('administrator')){
-
-}elseif(Yii::$app->user->can('leader')){
-    unset($roles['administrator']);
-}elseif(Yii::$app->user->can('director')){
-    unset($roles['administrator'],$roles['leader']);
-}
 ?>
 
 <div class="user-form">
@@ -35,9 +26,6 @@ if(Yii::$app->user->can('administrator')){
 
         <?php
             if($model->getModel()->isNewRecord){
-
-                $model->birth  =  isset($model->getModel()->userProfile->birth) ? $model->getModel()->userProfile->birth : '';
-                $model->gender =  isset($model->getModel()->userProfile->gender) ? $model->getModel()->userProfile->birth : time();
              //        <!-- attribute school_id -->
             echo  $form->field($model, 'school_id')->widget(Select2::ClassName(),[
                     'data'          => ArrayHelper::map($model->getSchool(),'school_id','school_title'),
@@ -46,11 +34,13 @@ if(Yii::$app->user->can('administrator')){
                         'allowClear'=> true,
                     ],
             ]);
-            }else{
-                $model->birth = time();
             }
         ?>
- 
+        <?php
+            $model->birth  =  isset($model->getModel()->userProfile->birth) ? $model->getModel()->userProfile->birth : '';
+            $model->gender =  isset($model->getModel()->userProfile->gender) ? $model->getModel()->userProfile->gender : time();
+        ?>
+         
         <?php echo $form->field($model, 'gender')->dropDownlist([
             UserProfile::GENDER_FEMALE => Yii::t('backend', 'Female'),
             UserProfile::GENDER_MALE => Yii::t('backend', 'Male')

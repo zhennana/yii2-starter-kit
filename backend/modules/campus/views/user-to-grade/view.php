@@ -49,7 +49,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
             ['class' => 'btn btn-info']) ?>
 
             <?= Html::a(
-            '<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('backend', '复制'),
+            '<span class="glyphicon glyphicon-copy"></span>' . Yii::t('backend', '复制'),
             ['create', 'user_to_grade_id' => $model->user_to_grade_id, 'UserToGrade'=>$copyParams],
             ['class' => 'btn btn-success']) ?>
 

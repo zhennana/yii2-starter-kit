@@ -9,6 +9,8 @@ use yii\behaviors\TimestampBehavior;
 use yii\helpers\ArrayHelper;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
+use backend\modules\campus\models\CourseOrderItem;
+use backend\modules\campus\models\SignIn;
 
 /**
  * This is the base-model class for table "users_to_grade".
@@ -127,7 +129,21 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
             [['user_id', 'school_id', 'grade_id', 'user_title_id_at_grade', 'status', 'sort', 'grade_user_type'], 'integer'],
             // [['user_id'],'unique', 'targetAttribute' => ['user_id','school_id', 'grade_id', 'grade_user_type'], 'message' => '用户已经存在本班级'],
             ['user_id','is_checkouts'],
+            ['user_id','is_course_count'],
         ];
+    }
+    //检测用户是否还有课程
+    public function is_course_count($attributes){
+        if($this->grade_user_type == self::GRADE_USER_TYPE_STUDENT){
+            $courseCount = CourseOrderItem::find()->select(['SUM(total_course + presented_course) as total_courses'])->where(['user_id'=>$this->user_id,'payment_status'=>CourseOrderItem::PAYMENT_STATUS_PAID])->asArray()->one();
+            $aboverCourse = SignIn::find()->where(['student_id'=>$this->user_id,'type_status'=>SignIn::TYPE_STATUS_MORMAL])->count('student_id');
+            if(($courseCount['total_courses'] < $aboverCourse) || ($courseCount['total_courses'] == $aboverCourse) ){
+                $message = $this->user->username.'已欠费'.'请先去缴费才能分班';
+                return $this->addError($attributes,$message);
+            }
+        }
+
+
     }
     /**
      * 检测用户在一个班真能拥有一种状态.
