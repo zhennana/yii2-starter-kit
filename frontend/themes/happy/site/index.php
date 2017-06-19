@@ -10,6 +10,9 @@ $box_color = [
     2 => 'box-warning',
     3 => 'box-info',
     4 => 'box-danger',
+    5 => 'box-primary',
+    6 => 'box-darkpink',
+    7 => 'box-cornsilk',
 ];
 $image = 'http://orfaphl6n.bkt.clouddn.com/Starter1.png?imageView2/3/w/140/h/140';
 ?>
@@ -35,7 +38,7 @@ $image = 'http://orfaphl6n.bkt.clouddn.com/Starter1.png?imageView2/3/w/140/h/140
             ?>
 
             <div class="col-md-3 col-sm-4 course_box">
-                <div class="box <?php echo $box_color[rand(1,4)] ?> box-solid">
+                <div class="box <?php echo $box_color[rand(1,7)] ?> box-solid">
 
                     <div class="box-header with-border">
                         <h4 class="box-title">
