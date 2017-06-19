@@ -11,10 +11,6 @@ use common\models\UserForm;
 $userToGrade = new UserToGrade;
 $school = Yii::$app->user->identity->schoolsInfo;
 $school = ArrayHelper::map($school,'school_id','school_title');
-// echo'<pre>';
-// var_dump(Yii::$app->authManager->getPermissionsByUser(6));
-// //var_dump(Yii::$app->authManager->getChildRoles('leader'));exit;
-//  var_dump('<pre>',$rules);exit;
 ?>
 
 <?php $form = ActiveForm::begin([
@@ -25,7 +21,7 @@ $school = ArrayHelper::map($school,'school_id','school_title');
 <div class="box box-primary box-solid">
     <div class="box-header with-border">
         <h3 class="box-title"><?php
-             echo Yii::t('frontend',"创建新学员") ;
+             echo Yii::t('frontend',"批量导入新学员") ;
         ?></h3>
         <div class="box-tools pull-right">
             <button data-widget="collapse" class="btn btn-box-tool" type="button"> <i class="fa fa-minus"></i>

@@ -9,6 +9,8 @@ use common\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\helpers\ArrayHelper;
 use yii\filters\VerbFilter;
+use backend\modules\campus\models\UserToSchoolForm;
+
 
 /**
  * UserToSchoolController implements the CRUD actions for UserToSchool model.
@@ -27,6 +29,30 @@ class UserToSchoolController extends Controller
         ];
     }
 
+    public function actionUserToSchoolForm(){
+        $model = new UserToSchoolForm;
+        $info = [];
+        if($model->load($_POST)){
+            $info = $model->batch_create($_POST);
+           // var_dump($info);exit;
+            if(isset($info['error']) && !empty($info['error'])){
+                 return $this->render('_user_to_school',
+                    [
+                    'model'=>$model,
+                    'rules'=>ArrayHelper::map(Yii::$app->authManager->getRolesByUser(Yii::$app->user->identity->id),'name','description'),
+                    'info'=>$info['error'],
+                    ]);
+            }else{
+                return $this->redirect(['index']);
+            }
+        }
+        return $this->render('_user_to_school',
+            [
+            'model'=>$model,
+            'rules'=>ArrayHelper::map(Yii::$app->authManager->getRolesByUser(Yii::$app->user->identity->id),'name','description')
+            ]);
+    }
+
     /**
      * Lists all UserToSchool models.
      * @return mixed
@@ -37,8 +63,6 @@ class UserToSchoolController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $schools = Yii::$app->user->identity->schoolsInfo;
         $schools = ArrayHelper::map($schools,'school_id','school_title');
-     
-
         $dataProvider->query->andWhere([
             'school_id'=> array_keys($schools),
             ]);

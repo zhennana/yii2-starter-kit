@@ -75,7 +75,9 @@ class UserToSchoolForm extends Model
           //var_dump($temp);exit;
             $users['username'] = isset($temp[0]) && !empty($temp[0]) ?trim($temp[0]):NULL;
             $users['phone_number'] = isset($temp[1]) && !empty($temp[1]) ?trim($temp[1]):NULL;
-            $users['email'] = isset($temp[2]) && !empty($temp[2]) ? trim($temp[2]):'';
+            $users['email'] = isset($temp[2]) && !empty($temp[2]) ? trim($temp[2]):NULL;
+            $users['gender'] = isset($temp[3]) && !empty($temp[3]) ? trim($temp[3]) : NULL;
+            $users['birth'] = isset($temp[4]) && !empty($temp[4]) ? trim($temp[4]) : NULL;
             $users['password'] = substr($users['phone_number'], 5);
             if(empty($users['username'])){
                 $info['error'][$key] = [['用户名不能为空']];
@@ -89,6 +91,33 @@ class UserToSchoolForm extends Model
                 $info['error'][$key] = [['邮箱不能为空']];
                 continue;
             }
+            if(empty($users['email'])){
+              $info['error'][$key] = [[ $users['username'] .'性别不能为空']];
+                continue;
+            }
+            //var_dump($users['gender']);exit;
+            if($users['gender'] == '男'){
+              $users['gender'] = 1;
+            }
+            if($users['gender'] == '女'){
+              $users['gender']  = 2;
+            }
+            if(!in_array($users['gender'],[1,2])){
+                $info['error'][$key] = [[$users['username'] .'性别格式不正确']];
+                continue;
+            }
+            if(empty($users['birth'])){
+                $info['error'][$key] = [[ $users['username'] .'出生年月不能为空']];
+                continue;
+            }
+            //匹配时间格式
+            $patten = "/^\d{4}[\-](0?[1-9]|1[012])[\-](0?[1-9]|[12][0-9]|3[01])(\s+(0?[0-9]|1[0-9]|2[0-3])\:(0?[0-9]|[1-5][0-9])\:(0?[0-9]|[1-5][0-9]))?$/";
+            // var_dump($users['birth'],preg_match($patten,$users['birth']));exit;
+            if(!preg_match($patten,$users['birth'])){
+              $info['error'][$key] = [[ $users['username'] .'出生年月格式不正确']];
+                continue;
+            }
+
             //添加用户/或者更新
             $user_model = $this->AddUser($users);
             //!$model->hasErrors()
@@ -169,7 +198,9 @@ class UserToSchoolForm extends Model
       ->one();
       $model = new UserForm; 
       if($user){
+        unset($users['password']);
         $model->setModel($user);
+
       }
       $users['status'] = 2;
       $model->load($users,'');

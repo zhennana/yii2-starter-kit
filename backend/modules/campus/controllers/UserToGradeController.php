@@ -26,27 +26,4 @@ class UserToGradeController extends \backend\modules\campus\controllers\base\Use
         }
 
     }
-
-    public function actionUserToSchoolForm(){
-        $model = new UserToSchoolForm;
-        $info = [];
-        if($model->load($_POST)){
-            $info = $model->batch_create($_POST);
-           // var_dump($info);exit;
-            if(isset($info['error']) && !empty($info['error'])){
-
-                 return $this->render('_user_to_school',
-                    [
-                    'model'=>$model,
-                    'rules'=>ArrayHelper::map(Yii::$app->authManager->getRolesByUser(Yii::$app->user->identity->id),'name','description'),
-                    'info'=>$info['error'],
-                    ]);
-            }
-        }
-        return $this->render('_user_to_school',
-            [
-            'model'=>$model,
-            'rules'=>ArrayHelper::map(Yii::$app->authManager->getRolesByUser(Yii::$app->user->identity->id),'name','description')
-            ]);
-    }
 }

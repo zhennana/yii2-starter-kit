@@ -73,8 +73,7 @@ if(is_string($schoolOrGrade) && $schoolOrGrade == 'all'){
         if(\Yii::$app->user->can('director', ['route' => true])){
     ?>
         <div class="pull-left">
-            <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '导入新人员'), ['user-to-school-form'], ['class' => 'btn btn-success']) 
-            ?>
+          
             <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建班级老师'), ['create','grade_user_type'=>UserToGrade::GRADE_USER_TYPE_TEACHER], ['class' => 'btn btn-success']) ?>
             <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建 班级学员'), ['create','grade_user_type'=>UserToGrade::GRADE_USER_TYPE_STUDENT], 
                 ['class' => 'btn btn-success']) ?>

@@ -67,7 +67,7 @@ class UserForm extends Model
                     'name'
                 )]
             ],
-            [['gender','birth'],'required', 'on'=>'create'],
+            [['gender','birth'],'required'],
             ['school_id', 'required', 'on'=>'create'],
             ['school_id','in', 'range' =>ArrayHelper::getColumn(
                         $this->getSchool(),
@@ -184,8 +184,9 @@ class UserForm extends Model
                 'sort'      => 1,
             ];
             if ($isNewRecord) {
-
-                //$this->AddUserToSchool($user_to_school);
+                if(Yii::$app->controller->action->id == 'create'){
+                    $this->AddUserToSchool($user_to_school);
+                }
                 $model->afterSignup($profile);
             }else{
                 if($model->userProfile){
@@ -200,13 +201,6 @@ class UserForm extends Model
             foreach ($rules as $rule) {
                 $auth->revoke($rule,$model->id);
             }
-
-            // //删除添加用户的最高权限跟字权限
-            // if ($this->roles && is_array($this->roles)) {
-            //     foreach ($this->roles as $role) {
-            //          $auth->assign($auth->getRole($role),Yii::$app->user->identity->id);
-            //     }
-            // }
             $user = $auth->getRolesByUser(Yii::$app->user->identity->id); 
             if ($this->roles && is_array($this->roles)) {
                 foreach ($this->roles as $role) {
