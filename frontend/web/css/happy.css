@@ -27,6 +27,37 @@
 .article-item .article-text {
   margin-top: 7px;
 }
+
+/**
+ * box color start
+ */
+.box.box-solid.box-darkpink{
+  border: 1px solid #e798ba;
+}
+.box.box-darkpink{
+  border-top-color: #e798ba;
+}
+.box.box-solid.box-darkpink>.box-header {
+  color: #fff;
+  background: #e798ba;
+  background-color: #e798ba;
+}
+
+.box.box-solid.box-cornsilk{
+  border: 1px solid #ADFF2F;
+}
+.box.box-cornsilk{
+  border-top-color: #ADFF2F;
+}
+.box.box-solid.box-cornsilk>.box-header {
+  color: #fff;
+  background: #ADFF2F;
+  background-color: #ADFF2F;
+}
+/**
+ * box color end
+ */
+
 html,
 body {
   height: 100%;
