@@ -33,5 +33,11 @@ return [
                 'allow' => true,
                 'roles' => ['?','@'],
             ],
+            [
+                'controllers'=>['user/default'],
+                'allow' => true,
+                'roles' => ['@'],
+                'actions'=>['index','avatar-upload']
+            ],
         ]
     ];
