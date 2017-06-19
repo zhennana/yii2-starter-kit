@@ -12,9 +12,8 @@ use backend\modules\campus\models\Notice;
     * @var backend\modules\campus\models\NoticeSearch $searchModel
 */
 
-$this->title = Yii::t('backend', '消息管理');
+$this->title = Yii::t('backend', '班级公告');
 $this->params['breadcrumbs'][] = $this->title;
-
 
 /**
 * create action column template depending acces rights
@@ -51,7 +50,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
     <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
 
     <h1>
-        <?= Yii::t('backend', '消息管理') ?>
+        <?= Yii::t('backend', '班级公告') ?>
         <small>
             列表
         </small>
@@ -64,16 +63,9 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
 
             <?php } ?>
 
-            <?php echo Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '给所有人发送消息'), ['create','category' => Notice::CATEGORY_ONE], ['class' => 'btn btn-success']) ?>
-
-            <?php echo Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '给学生发送消息'), ['create','category' => Notice::CATEGORY_TWO], ['class' => 'btn btn-success']) ?>
-
-            <?php echo Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '给学校发送'), ['create','category' => Notice::CATEGORY_TWO], ['class' => 'btn btn-success']) ?>
-            <?php echo Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '给学生班级发送'), ['create','category' => Notice::CATEGORY_TWO], ['class' => 'btn btn-success']) ?>
+            <?php echo Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建班级公告'), ['grade-notice-create'], ['class' => 'btn btn-success']) ?>
         </div>
         <div class="pull-right">
-
-                        
             <?= \yii\bootstrap\ButtonDropdown::widget([
                 'id'          => 'giiant-relations',
                 'encodeLabel' => false,
@@ -108,6 +100,22 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
             'columns'          => [
                 'notice_id',
                 [
+                    'class'     =>\common\grid\EnumColumn::className(),
+                    'attribute' =>'school_id',
+                    'options'   => ['width' => '10%'],
+                    'format'    => 'raw',
+                    'enum'      => $schools,
+                ],
+                [
+                    'class'     =>\common\grid\EnumColumn::className(),
+                    'attribute' =>'grade_id',
+                    'options'   => ['width' => '10%'],
+                    'format'    => 'raw',
+                    'enum'      => $grades,
+
+                ],
+                'title',
+                [
                     'class'    => 'yii\grid\ActionColumn',
                     'template' => $actionColumnTemplateString,
                     'buttons'  => [
@@ -121,7 +129,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                                 '<span class="glyphicon glyphicon-file"></span>',$url, $options
                             );
                         }
-                    ],
+                ],
                 'urlCreator' => function($action, $model, $key, $index) {
                     // using the column name as key, not mapping to 'id' like the standard generator
                     $params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
@@ -137,6 +145,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                         return strip_tags($model->message);
                     }
                 ],
+
                 [
                     'attribute' => 'sender_id',
                     'options'   => ['width' => '10%'],
@@ -144,14 +153,14 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                         return $model->getUserName($model->sender_id);
                     }
                 ],
-                [
-                    'attribute' => 'receiver_id',
-                    'options'   => ['width' => '10%'],
-                    'value'     => function($model){
-                        return $model->getUserName($model->receiver_id);
-                    }
-                ],
-                'times',
+                // [
+                //     'attribute' => 'receiver_id',
+                //     'options'   => ['width' => '10%'],
+                //     'value'     => function($model){
+                //         return $model->getUserName($model->receiver_id);
+                //     }
+                // ],
+                //'times',
                 [
                     'class'     =>\common\grid\EnumColumn::className(),
                     'attribute' =>'status_send',
@@ -164,14 +173,14 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                 ],
                 'updated_at:datetime',
                 'created_at:datetime',
-    			/*'is_sms',*/
-    			/*'is_wechat_message',*/
+                /*'is_sms',*/
+                /*'is_wechat_message',*/
                 /*'status_check',*/
-    			/*'title',*/
-    			/*'message_hash',*/
-    			/*'receiver_name',*/
-    			/*'wechat_message_id',*/
-    			/*'receiver_phone_numeber',*/
+                /*'title',*/
+                /*'message_hash',*/
+                /*'receiver_name',*/
+                /*'wechat_message_id',*/
+                /*'receiver_phone_numeber',*/
             ],
         ]); ?>
     </div>

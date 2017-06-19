@@ -14,7 +14,7 @@ namespace backend\modules\campus\controllers\base;
 use backend\modules\campus\models\CoursewareToCourseware;
 use backend\modules\campus\models\Courseware;
 use backend\modules\campus\models\search\CoursewareToCoursewareSearch;
-use yii\web\Controller;
+use common\components\Controller;
 use yii\web\HttpException;
 use yii\helpers\Url;
 use yii\filters\AccessControl;

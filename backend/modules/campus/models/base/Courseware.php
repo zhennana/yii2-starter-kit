@@ -148,7 +148,7 @@ abstract class Courseware extends \yii\db\ActiveRecord
 
     public function getCoursewareToCourseware(){
         return $this->hasMany(\backend\modules\campus\models\CoursewareToCourseware::className(),
-            ['courseware_master_id'=>'courseware_id'])->orderBy(['sort' => SORT_ASC]);
+            ['courseware_master_id'=>'courseware_id']);
     }
    
     /**

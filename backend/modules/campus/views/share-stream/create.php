@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-
+//var_dump($message);exit;
 /**
 * @var yii\web\View $this
 * @var backend\modules\campus\models\ShareStream $model
@@ -10,6 +10,7 @@ use yii\helpers\Html;
 $this->title = Yii::t('backend', '创建分享消息流');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '创建分享消息流'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+//var_dump($shareToGrade);exit;
 ?>
 <div class="giiant-crud share-stream-create">
 
@@ -33,7 +34,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
     'model' => $model,
-    'model1'=>$model1
-    ]); ?>
+    'shareToGrade'=>$shareToGrade,
+    'message'=>isset($message) ? $message : NULL,
+    ]); 
+    ?>
 
 </div>

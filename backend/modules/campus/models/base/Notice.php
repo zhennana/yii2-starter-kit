@@ -40,6 +40,8 @@ abstract class Notice extends \yii\db\ActiveRecord
     CONST STATUS_SEND_SENT   = 10;    // 发送
     CONST STATUS_SEND_UNSENT = 20;    // 未发送
 
+    // CONST STATUS_SENT  = 10; //正常
+    // CONST STATUS_CLOSE = 20; //关闭
     /**
      * @inheritdoc
      */
@@ -70,15 +72,26 @@ abstract class Notice extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title','message', 'sender_id','receiver_id'], 'required'],
+            [['title','message','school_id','category', 'sender_id'], 'required'],
             [['message'], 'string'],
             [['sender_id', 'receiver_id', 'is_sms', 'is_wechat_message', 'times', 'status_send', 'status_check'], 'integer'],
             [['title'], 'string', 'max' => 128],
             [['message_hash', 'receiver_name', 'wechat_message_id'], 'string', 'max' => 32],
-            [['receiver_phone_numeber'], 'string', 'max' => 11]
+            [['receiver_phone_numeber'], 'string', 'max' => 11],
+            ['grade_id','required','on'=>['grade','teacher']],
+            [['receiver_id'],'required','on'=>'teacher'],
         ];
     }
 
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+      
+     //    $scenarios['grade'] = [];
+     //    $scenarios['teacher'] = ['grade_id','sender_id','receiver_id'];
+     // var_dump('<pre>',$scenarios);exit;
+        return $scenarios;
+    }
     /**
      * @inheritdoc
      */
@@ -88,6 +101,9 @@ abstract class Notice extends \yii\db\ActiveRecord
             'notice_id'              => Yii::t('backend', '消息ID'),
             'title'                  => Yii::t('backend', '消息标题'),
             'message'                => Yii::t('backend', '消息内容'),
+            'school_id'                => Yii::t('backend', '学校'),
+            'grade_id'                => Yii::t('backend', '班级'),
+            //'message'                => Yii::t('backend', '消息内容'),
             'message_hash'           => Yii::t('backend', 'Message Hash'),
             'sender_id'              => Yii::t('backend', '发送者ID'),
             'receiver_id'            => Yii::t('backend', '接收者ID'),

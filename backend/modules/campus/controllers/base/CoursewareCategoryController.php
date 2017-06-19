@@ -13,7 +13,8 @@ namespace backend\modules\campus\controllers\base;
 
 use backend\modules\campus\models\CoursewareCategory;
 use backend\modules\campus\models\search\CoursewareCategorySearch;
-use yii\web\Controller;
+use common\components\Controller;
+
 use yii\web\HttpException;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;

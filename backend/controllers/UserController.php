@@ -7,7 +7,7 @@ use common\models\User;
 use backend\models\UserForm;
 use backend\models\search\UserSearch;
 use yii\helpers\ArrayHelper;
-use yii\web\Controller;
+use common\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
