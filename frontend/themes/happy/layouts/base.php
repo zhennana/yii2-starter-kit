@@ -59,39 +59,39 @@ $logo = 'http://orfaphl6n.bkt.clouddn.com/logo.png?imageView2/3/w/257/h/115';
                 'items'=>[
                     [
                         'label' => Yii::t('frontend', 'Starter 1 English'),
-                        'url' => ['/article/course','master_id' => 1]
+                        'url' => ['/article/course','master_id' => 17]
                     ],
                     [
                         'label' => Yii::t('frontend', 'Starter 2 English'),
-                        'url' => ['/article/course','master_id' => 6]
+                        'url' => ['/article/course','master_id' => 27]
                     ],
                     [
                         'label' => Yii::t('frontend', 'Level 1 English'),
-                        'url' => ['/article/course','master_id' => 14]
+                        'url' => ['/article/course','master_id' => 37]
                     ],
                     [
                         'label' => Yii::t('frontend', 'Level 2 English'),
-                        'url' => ['/article/course','master_id' => 20]
+                        'url' => ['/article/course','master_id' => 49]
                     ],
                     [
                         'label' => Yii::t('frontend', 'Level 3 English'),
-                        'url' => ['/article/course','master_id' => 25]
+                        'url' => ['/article/course','master_id' => 60]
                     ],
                     [
                         'label' => Yii::t('frontend', 'Level 4 English'),
-                        'url' => ['/article/course','master_id' => 30]
+                        'url' => ['/article/course','master_id' => 71]
                     ],
                     [
                         'label' => Yii::t('frontend', 'Level 5 English'),
-                        'url' => ['/article/course','master_id' => 33]
+                        'url' => ['/article/course','master_id' => 82]
                     ],
                     [
                         'label' => Yii::t('frontend', 'Level 6 English'),
-                        'url' => ['/article/course','master_id' => 36]
+                        'url' => ['/article/course','master_id' => 94]
                     ],
                     [
                         'label' => Yii::t('frontend', 'Level 7 English'),
-                        'url' => ['/article/course','master_id' => 39]
+                        'url' => ['/article/course','master_id' => 105]
                     ],
                 ]
             ],

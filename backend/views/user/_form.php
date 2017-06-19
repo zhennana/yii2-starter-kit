@@ -15,14 +15,6 @@ use trntv\yii\datetime\DateTimeWidget;
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $roles yii\rbac\Role[] */
 /* @var $permissions yii\rbac\Permission[] */
-
-if(Yii::$app->user->can('administrator')){
-
-}elseif(Yii::$app->user->can('leader')){
-    unset($roles['administrator']);
-}elseif(Yii::$app->user->can('director')){
-    unset($roles['administrator'],$roles['leader']);
-}
 ?>
 
 <div class="user-form">

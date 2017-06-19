@@ -390,7 +390,7 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                     'icon'=>'<i class="fa fa-database"></i>',
                                     'options'=>['class'=>'treeview'],
                                     'url'=>['/user/index'],
-                                    'visible'=> Yii::$app->user->can('director')
+                                    'visible'=> Yii::$app->user->can('administrator')
                                     //'badge'=> TimelineEvent::find()->today()->count(),
                                     //'badgeBgClass'=>'label-success',
                                 ],
@@ -399,7 +399,16 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                     'icon'=>'<i class="fa fa-hand-o-right"></i>',
                                     'options'=>['class'=>'treeview'],
                                     'url'=>['/user-token/index'],
-                                    'visible'=>Yii::$app->user->can('director')
+                                    'visible'=>Yii::$app->user->can('administrator')
+                                    //'badge'=> TimelineEvent::find()->today()->count(),
+                                    //'badgeBgClass'=>'label-success',
+                                ],
+                                [
+                                    'label'=>Yii::t('backend', '学校人员管理'),
+                                    'icon'=>'<i class="fa fa-database"></i>',
+                                    'options'=>['class'=>'treeview'],
+                                    'url'=>['/campus/user-to-school/index'],
+                                    'visible'=> Yii::$app->user->can('director')
                                     //'badge'=> TimelineEvent::find()->today()->count(),
                                     //'badgeBgClass'=>'label-success',
                                 ],

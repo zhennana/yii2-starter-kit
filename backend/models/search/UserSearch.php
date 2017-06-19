@@ -39,18 +39,18 @@ class UserSearch extends User
     public function search($params)
     {
         $query = User::find();
-          $query->select(['u.*'])->from('user as u');
-        if(!Yii::$app->user->can('manager')){
-            $query->Joinwith('userToSchool as s');
-            $query->Andwhere(['not',['s.user_id'=>NULL]]);
-            $query->groupBy(['s.user_id']);
-            if(Yii::$app->user->can('leader')){
-                $ids = Yii::$app->authManager->getUserIdsByRole(['administrator']);
-            }elseif(Yii::$app->user->can('director')){
-                $ids = Yii::$app->authManager->getUserIdsByRole(['administrator','leader']);
-            }
-            $query->andFilterWhere(['not',['id'   => $ids]]);
-        }
+        //   $query->select(['u.*'])->from('user as u');
+        // if(!Yii::$app->user->can('manager')){
+        //     $query->Joinwith('userToSchool as s');
+        //     $query->Andwhere(['not',['s.user_id'=>NULL]]);
+        //     $query->groupBy(['s.user_id']);
+        //     if(Yii::$app->user->can('leader')){
+        //         $ids = Yii::$app->authManager->getUserIdsByRole(['administrator']);
+        //     }elseif(Yii::$app->user->can('director')){
+        //         $ids = Yii::$app->authManager->getUserIdsByRole(['administrator','leader']);
+        //     }
+        //     $query->andFilterWhere(['not',['id'   => $ids]]);
+        // }
             $dataProvider = new ActiveDataProvider([
                 'query' => $query,
             ]);
