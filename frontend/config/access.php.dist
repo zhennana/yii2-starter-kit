@@ -8,6 +8,10 @@
  *
  * Yii::$app->authManager
  **/
+
+/**
+ * 登陆后才能访问
+ */
 return [
         'class'=>'\common\behaviors\GlobalAccessBehavior',
         'rules'=>[
@@ -24,14 +28,9 @@ return [
                 'actions'=>['logout']
             ],
             [
-                'controllers'=>['site','article'],
+                'controllers'=>['site','article','page'],
                 'allow' => true,
-                'roles' => ['?','@'],
-            ],
-            [
-                'controllers'=>['page'],
-                'allow' => true,
-                'roles' => ['?','@'],
+                'roles' => ['@'],
             ],
         ]
     ];
