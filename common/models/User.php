@@ -161,7 +161,6 @@ class User extends ActiveRecord implements IdentityInterface
     public function getUserToSchool(){
         return $this->hasMany(UserToSchool::className(),['user_id'=>'id'])->orderBy(['created_at'=> 'SORT_SESC']);
     }
-    
     /**
      * 用户默认所在的班级
      * @return [type] [description]
@@ -200,28 +199,24 @@ class User extends ActiveRecord implements IdentityInterface
             return $this->schoolInfo;
         }
         $user_id = empty($user_id) ? $this->id : $user_id ;
-        // $school = School::find()
-        //         ->select('s.*')
-        //         ->from('school as s')
-        //         ->leftJoin('users_to_school as t','t.school_id = s.school_id')
-        //         ->andWhere('t.user_id = :user_id',[':user_id'=>$user_id])
-        //         ->andwhere('s.status = :status',[':status'=>School::SCHOOL_STATUS_OPEN])
-        //         ->orderBy('t.sort ASC , t.updated_at DESC')
-        //         ->limit($limit)
-        //         ->asArray()
-        //         ->all();
-
-        $query = new \yii\db\Query();
-        $query->select('s.*')
-            ->from('school as s')
-            ->leftJoin('users_to_school as t','t.school_id = s.school_id')
-            ->andWhere('t.user_id = :user_id',[':user_id'=>$user_id])
-            ->andwhere('s.status = :status',[':status'=>School::SCHOOL_STATUS_OPEN])
-            ->orderBy('t.sort ASC , t.updated_at DESC')
-            ->limit($limit)
-            ->groupBy(['s.school_id']);
+        if(Yii::$app->user->can('manager')){
+            $this->schoolsInfo = School::find()
+            ->where(['status'=>School::SCHOOL_STATUS_OPEN])
+            ->orderBy(['sort'=>SORT_ASC])
+            ->all();
+        }else{
+            $query = new \yii\db\Query();
+            $query->select('s.*')
+                ->from('school as s')
+                ->leftJoin('users_to_school as t','t.school_id = s.school_id')
+                ->andWhere('t.user_id = :user_id',[':user_id'=>$user_id])
+                ->andwhere('s.status = :status',[':status'=>School::SCHOOL_STATUS_OPEN])
+                ->orderBy('t.sort ASC , t.updated_at DESC')
+                ->limit($limit)
+                ->groupBy(['s.school_id']);
         $command = $query->createCommand(Yii::$app->get('campus'));
         $this->schoolsInfo = $command->queryAll();
+        }
         // $this->schoolsInfo = $school;
         return  $this->schoolsInfo;
 
@@ -280,18 +275,22 @@ class User extends ActiveRecord implements IdentityInterface
 
         $user_id    = empty($user_id) ? $this->id : $user_id ;
         $schools_id = empty($schools_id) ? $this->getCurrentSchoolId() : $schools_id ;
-        $query = new \yii\db\Query();
-        $query->select('g.*')
-            ->from('users_to_grade as t')
-            ->leftJoin('grade as g','t.grade_id = g.grade_id')
-            ->andWhere('t.user_id = :user_id',[':user_id'=>$user_id])
-            ->andwhere('g.status = :status',[':status'=>Grade::GRADE_STATUS_OPEN])
-            ->andwhere(['g.school_id'=>$schools_id])
-            ->orderBy('t.sort ASC , t.updated_at DESC')
-            ->limit($limit)
-            ->groupBy(['g.grade_id']);
-        $command = $query->createCommand(Yii::$app->get('campus'));
-        $this->gradesInfo = $command->queryAll();
+            $query = new \yii\db\Query();
+            $query->select('g.*')
+                ->from('users_to_grade as t')
+                ->leftJoin('grade as g','t.grade_id = g.grade_id');
+            if(Yii::$app->user->can('manager') || Yii::$app->user->can('P_director') ){
+            }else{
+                $query->andWhere('t.user_id = :user_id',[':user_id'=>$user_id]);
+            }
+            $query->andwhere('g.status = :status',[':status'=>Grade::GRADE_STATUS_OPEN])
+                ->andwhere(['g.school_id'=>$schools_id])
+                ->orderBy('t.sort ASC , t.updated_at DESC')
+                ->limit($limit)
+                ->groupBy(['g.grade_id']);
+            $command = $query->createCommand(Yii::$app->get('campus'));
+            $this->gradesInfo = $command->queryAll();
+
         return $this->gradesInfo;
     }
 

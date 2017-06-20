@@ -25,16 +25,16 @@ $this->params['breadcrumbs'][] = $this->title;
  */
 $actionColumnTemplates = [];
 
-//if (\Yii::$app->user->can('campus_courseware-category_view', ['route' => true])) {
+if (\Yii::$app->user->can('leader', ['route' => true])) {
 	$actionColumnTemplates[] = '{view}';
-//}
+}
 
-//if (\Yii::$app->user->can('campus_courseware-category_update', ['route' => true])) {
+if (\Yii::$app->user->can('manager', ['route' => true])) {
 	$actionColumnTemplates[] = '{update}';
-//}
+}
 
 //if (\Yii::$app->user->can('campus_courseware-category_delete', ['route' => true])) {
-	$actionColumnTemplates[] = '{delete}';
+	//$actionColumnTemplates[] = '{delete}';
 //}
 if (isset($actionColumnTemplates)) {
 	$actionColumnTemplate = implode(' ', $actionColumnTemplates);
@@ -63,13 +63,13 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
     </h1>
     <div class="clearfix crud-navigation">
 <?php
-//if (\Yii::$app->user->can('campus_courseware-category_create', ['route' => true])) {
+if (\Yii::$app->user->can('manager', ['route' => true])) {
 ?>
         <div class="pull-left">
             <?php echo Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'New'), ['create'], ['class' => 'btn btn-success']) ?>
         </div>
 <?php
-//}
+}
 ?>
         <div class="pull-right">
 
