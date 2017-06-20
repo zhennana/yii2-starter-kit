@@ -33,12 +33,9 @@ class UserToSchoolController extends Controller
     public function actionUserToSchoolForm(){
         $model = new UserToSchoolForm;
         $info = [];
-        if(Yii::$app->user->can('manager')){
-             $schools = School::find()->where(['status'=>School::SCHOOL_STATUS_OPEN])->all();
-        }else{
-            $schools = Yii::$app->user->identity->schoolsInfo;
-        }
+        $schools =  Yii::$app->user->identity->schoolsInfo;
 
+        //$schools = ArrayHelper::map($schools,'school_id','school_title');
         $schools = ArrayHelper::map($schools,'school_id','school_title');
         if($model->load($_POST)){
             $info = $model->batch_create($_POST);
@@ -48,7 +45,7 @@ class UserToSchoolController extends Controller
                     [
                     'model'=>$model,
                     'schools'=>$schools,
-                    'rules'=>ArrayHelper::map(Yii::$app->authManager->getRolesByUser(Yii::$app->user->identity->id),'name','description'),
+                    'rules'=>ArrayHelper::map(Yii::$app->authManager->getChildRoles('P_administrator'),'name','description'),
                     'info'=>$info['error'],
                     ]);
             }else{
@@ -59,7 +56,8 @@ class UserToSchoolController extends Controller
             [
             'model'=>$model,
              'schools'=>$schools,
-            'rules'=>ArrayHelper::map(Yii::$app->authManager->getRolesByUser(Yii::$app->user->identity->id),'name','description')
+             //getRolesByUser
+            'rules'=>ArrayHelper::map(Yii::$app->authManager->getChildRoles('P_administrator'),'name','description')
             ]);
     }
 
@@ -71,11 +69,7 @@ class UserToSchoolController extends Controller
     {
         $searchModel = new UserToSchoolSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        if(Yii::$app->user->can('manager')){
-             $schools = School::find()->where(['status'=>School::SCHOOL_STATUS_OPEN])->all();
-        }else{
-            $schools = Yii::$app->user->identity->schoolsInfo;
-        }
+        $schools[] = $this->schoolCurrent; //Yii::$app->user->identity->schoolsInfo;
 
         $schools = ArrayHelper::map($schools,'school_id','school_title');
         $dataProvider->query->andWhere([
