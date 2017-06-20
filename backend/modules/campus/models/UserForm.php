@@ -1,5 +1,5 @@
 <?php
-namespace backend\models;
+namespace backend\modules\campus\models;
 
 use common\models\User;
 use yii\base\Exception;
@@ -22,10 +22,10 @@ class UserForm extends Model
     public  $password;
     public  $status;
     public  $roles;
-    //public  $birth;
-    //public  $gender;
+    public  $birth;
+    public  $gender;
     private $model;
-    //public  $school_id;
+    public  $school_id;
 
     /**
      * @inheritdoc
@@ -67,13 +67,8 @@ class UserForm extends Model
                     'name'
                 )]
             ],
-            //[['gender','birth'],'required'],
-            // ['school_id', 'required', 'on'=>'create'],
-            // ['school_id','in', 'range' =>ArrayHelper::getColumn(
-            //             $this->getSchool(),
-            //             'school_id'
-            //         )
-            // ]
+            [['gender','birth'],'required'],
+            ['school_id', 'required', 'on'=>'create'],
         ];
     }
 /**
@@ -105,9 +100,9 @@ class UserForm extends Model
         return [
             'username' => Yii::t('common', '用户名'),
             'phone_number' => Yii::t('common', '手机号'),
-            // 'birth'        => Yii::t('common', '出生年月'),
-            // 'gender'       => Yii::t('common', '性别'),
-            // 'school_id'       => Yii::t('common', '学校'),
+             'birth'        => Yii::t('common', '出生年月'),
+             'gender'       => Yii::t('common', '性别'),
+             'school_id'       => Yii::t('common', '学校'),
             //'realname' => Yii::t('common', 'Realname'),
             //'nickname' => Yii::t('common', 'Nickname'),
             'email' => Yii::t('common', '邮箱'),
@@ -174,14 +169,31 @@ class UserForm extends Model
             if (!$model->save()) {
                 throw new Exception('Model not saved');
             }
+            $profile = [
+                    'birth'=>$this->birth,
+                    'gender'=>$this->gender,
+            ];
             if ($isNewRecord) {
                 $model->afterSignup();
+            }else{
+                if($model->userProfile){
+                    $model->userProfile->load($profile,'');
+                    $model->userProfile->save();
+                }
             }
             $auth = Yii::$app->authManager;
-            $auth->revokeAll($model->getId());
-
+            //查询用户自身权限
+            $rules = $auth->getChildRoles('P_administrator');
+            foreach ($rules as $rule) {
+                $auth->revoke($rule,$model->id);
+            }
+            $user = $auth->getRolesByUser(Yii::$app->user->identity->id); 
             if ($this->roles && is_array($this->roles)) {
                 foreach ($this->roles as $role) {
+                    $assignment = $auth->getAssignment($role,$model->getId());
+                    if($assignment != NULL){
+                        continue;
+                    }
                     $auth->assign($auth->getRole($role), $model->getId());
                 }
             }
