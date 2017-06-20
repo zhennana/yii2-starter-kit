@@ -9,6 +9,7 @@ use backend\modules\campus\models\Grade;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
 use yii\filters\AccessControl;
 use dmstr\bootstrap\Tabs;
 
@@ -63,12 +64,10 @@ public function actionIndex()
 
     $searchModel  = new GradeSearch;
     $dataProvider = $searchModel->search($_GET);
+    $schools = ArrayHelper::map($this->schoolCurrent,'school_id','school_title');
     $dataProvider->query->andwhere([
         'school_id'=>$this->schoolIdCurrent
     ]);
-    // $dataProvider->query->andwhere([
-    //     'grade_id'=>$this->schoolIdCurrent
-    // ]);
     $dataProvider->sort = [
        'defaultOrder'=>[
             'updated_at'=>SORT_DESC,
@@ -80,8 +79,10 @@ Url::remember();
 \Yii::$app->session['__crudReturnUrl'] = null;
 
 return $this->render('index', [
-'dataProvider' => $dataProvider,
-    'searchModel' => $searchModel,
+    'dataProvider' => $dataProvider,
+    'searchModel'  => $searchModel,
+    'schools'      => $schools,
+   // 'grades'       => $grades,
 ]);
 }
 

@@ -23,40 +23,24 @@ use trntv\yii\datetime\DateTimeWidget;
         <?php echo $form->field($model, 'email') ?>
         <?php echo $form->field($model, 'phone_number') ?>
         <?php echo $form->field($model, 'password')->passwordInput() ?>
+         <?php
 
-      <!--   <?php
-            /*
-            if($model->getModel()->isNewRecord){
-             //        <!-- attribute school_id -->
-            echo  $form->field($model, 'school_id')->widget(Select2::ClassName(),[
-                    'data'          => ArrayHelper::map($model->getSchool(),'school_id','school_title'),
-                   // 'options'       => ['placeholder' => '请选择'],
-                    'pluginOptions' => [
-                        'allowClear'=> true,
-                    ],
-            ]);
-            }
-            */
-        ?> -->
-      <!--   <?php
-            /*
             $model->birth  =  isset($model->getModel()->userProfile->birth) ? $model->getModel()->userProfile->birth : '';
             $model->gender =  isset($model->getModel()->userProfile->gender) ? $model->getModel()->userProfile->gender : time();
-            */
-        ?> -->
-         
-        <!-- <?php /* $form->field($model, 'gender')->dropDownlist([
+        ?>
+         <?php 
+           echo $form->field($model, 'gender')->dropDownlist([
             UserProfile::GENDER_FEMALE => Yii::t('backend', 'Female'),
             UserProfile::GENDER_MALE => Yii::t('backend', 'Male')
-        ])*/ ?> -->
-       <!--  <?php
-        /* $form->field($model, 'birth')->widget(
+        ]) ?> 
+      <?php
+          echo $form->field($model, 'birth')->widget(
                 DateTimeWidget::className(),
                 [
                     'locale'            => Yii::$app->language,
                     'phpDatetimeFormat' => 'yyyy-MM-dd',
-                ]);*/
-        ?> -->
+                ]);
+        ?> 
         <?php echo $form->field($model, 'status')->dropDownList(User::statuses()) ?>
         <?php echo $form->field($model, 'roles')->checkboxList($roles) ?>
         <div class="form-group">

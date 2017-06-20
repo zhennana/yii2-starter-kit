@@ -2,6 +2,7 @@
 
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
+use yii\helpers\Url;
 $carousel_id = isset($carousel->id) ? $carousel->id : $model->carousel_id ;
 
 /* @var $this yii\web\View */
@@ -18,18 +19,17 @@ $carousel_id = isset($carousel->id) ? $carousel->id : $model->carousel_id ;
         if($model->isNewRecord){
              echo  \common\widgets\Qiniu\UploadCarousel::widget([
                 'uptoken_url' => yii\helpers\Url::to(['token-cloud']),
-                'upload_url'  => yii\helpers\Url::to(['upload-cloud']),
+                //'upload_url'  => yii\helpers\Url::to(['upload-cloud']),
             ]);
          }else{
             echo $model->path ? Html::img($model->getImageUrl(), ['style'=>'width: 100%']) : null;
          }
     ?>
-               
     <?php echo $form->field($model,'carousel_id')->hiddenInput(['value'=>$carousel_id])->label('') ?>
     
     <?php echo $form->field($model, 'order')->textInput() ?>
 
-    <?php echo $form->field($model, 'url')->textInput(['maxlength' => 1024])->label(false) ?>
+    <?php echo $form->field($model, 'url')->textInput(['maxlength' => 1024])->label() ?>
     <?php echo $form->field($model, 'base_url')->textInput() ?>
     <?php echo $form->field($model, 'path')->textInput() ?>
     <?php //echo $form->field($model,'base_url')->hiddenInput(['value'=>Yii::$app->params['qiniu']['wakooedu']['domain']])->label('') ?>
@@ -62,11 +62,16 @@ $carousel_id = isset($carousel->id) ? $carousel->id : $model->carousel_id ;
     send_data.path = path;
     if (type == 1)
     {
-        url = "index.php?r=campus/courseware-category/delete-cloud";
+        url = "<?php
+            echo Url::to(['campus/courseware-category/delete-cloud']);
+        ?>";
+        //url = "index.php?r=campus/courseware-category/delete-cloud";
     }
     else
     {
-        url = "index.php?r=campus/courseware-category/delete-cloud";
+        url =  "<?php
+            echo Url::to(['campus/courseware-category/delete-cloud']);
+        ?>";
     }    
     jQuery.ajax({
         type: "post",
@@ -76,13 +81,15 @@ $carousel_id = isset($carousel->id) ? $carousel->id : $model->carousel_id ;
         success: function(response){
             var pathid = path.slice(0,-4);
             if(response.status == 1){
-                $('#coursewarecategory-banner_src').val("");
-                $('#pickfiles').show();
-                $('.progressContainer').remove();
-                $('thead').hide();
-                $("#widgetcarouselitem-path").remove();
-                $("#"+pathid+" .linkWrapper").removeAttr('href');
-                $("#"+pathid+" .info").html("<span class='text-red'>已删除</span>");
+                 $('#widgetcarouselitem-base_url').val("");
+                 $('#widgetcarouselitem-url').val("/");
+                 $('#widgetcarouselitem-path').val("");
+                 $('#pickfiles').show();
+                 $('.progressContainer').remove();
+                 $('thead').hide();
+                //$("#widgetcarouselitem-path").remove();
+                 $("#"+pathid+" .linkWrapper").removeAttr('href');
+                 $("#"+pathid+" .info").html("<span class='text-red'>已删除</span>");
             }
 //          alert(pathid);
             

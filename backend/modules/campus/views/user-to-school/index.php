@@ -8,7 +8,7 @@ use backend\modules\campus\models\UserToSchool;
 /* @var $searchModel backend\modules\campus\models\search\UserToSchoolSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('backend', 'User To Schools');
+$this->title = Yii::t('backend', '学校人员管理');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-to-school-index">
@@ -18,7 +18,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
     <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '导入新人员'), ['user-to-school-form'], ['class' => 'btn btn-success']) 
     ?>
-  
     </p>
 
     <?php echo GridView::widget([
@@ -28,7 +27,19 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'user_to_school_id',
-            'user_id',
+            [
+                'attribute' =>'user_id',
+                'format'    => 'raw',
+                'value'     => function($model){
+                    if(isset($model->user->username)){
+                        return  Html::a($model->user->username,[
+                            'account',
+                            'user_id'=>$model->user_id
+                            ]);
+                    }
+                        return '未知';
+                    }
+            ],
             [
                 'class'     =>\common\grid\EnumColumn::className(),
                 'attribute' =>'school_id',

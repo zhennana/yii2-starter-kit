@@ -87,9 +87,14 @@ $(function() {
                var article_id = $('#article_id').val(); 
                var domain = up.getOption('domain');
                var form = $('form');//hidden
-                var string = $("<div class='form-group field-widgetcarouselitem-path'><input id='widgetcarouselitem-path' type ='hidden' name ='WidgetCarouselItem[path]' value = " + res.key
+               $('#widgetcarouselitem-path').val(res.key);
+               $('#widgetcarouselitem-base_url').val(domain);
+               $('#widgetcarouselitem-url').val('/');
+               //console.log(domain);
+
+                /*var string = $("<div class='form-group field-widgetcarouselitem-path'><input id='widgetcarouselitem-path' type ='type' name ='WidgetCarouselItem[path]' value = " + res.key
                      +"></input></div>");
-                 form.append(string);  
+                 form.append(string); */
                 $('#pickfiles').hide();
 
 //console.log(article_id);  

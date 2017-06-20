@@ -5,7 +5,7 @@ namespace backend\modules\campus\models;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\base\Model;
-use backend\models\UserForm;
+use backend\modules\campus\models\UserForm;
 use common\models\User;
 use backend\modules\campus\models\School;
 use backend\modules\campus\models\UserToSchool;
@@ -79,6 +79,7 @@ class UserToSchoolForm extends Model
             $users['gender'] = isset($temp[3]) && !empty($temp[3]) ? trim($temp[3]) : NULL;
             $users['birth'] = isset($temp[4]) && !empty($temp[4]) ? trim($temp[4]) : NULL;
             $users['password'] = substr($users['phone_number'], 5);
+            $users['roles'] = $this->roles;
             if(empty($users['username'])){
                 $info['error'][$key] = [['用户名不能为空']];
                 continue;
@@ -149,9 +150,10 @@ class UserToSchoolForm extends Model
                     'user_id'                 => $user_model->getModel()->id,
                     'user_title_id_at_school' => 10,
                     'status'                  => 1,
-                    'school_user_type'        => $this->school_user_type,
+                    'school_user_type'        => 10,
                   ]
               );
+                //var_dump('<pre>',$user_to_school);exit;
             }
          
 // var_dump( $user_to_school);exit;
@@ -192,6 +194,7 @@ class UserToSchoolForm extends Model
      * @return [type]       [description]
      */
     public function AddUser($users){
+      //var_dump($users);exit;
       //$users['email'] = 'web@126.com';
       $user = User::find()
       ->where(['phone_number'=> $users['phone_number']])

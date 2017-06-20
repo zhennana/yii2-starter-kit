@@ -70,7 +70,7 @@ class UploadCarousel extends Widget
         $script .= "var upload_url='".$this->upload_url."'";
 //var_dump('<pre>',$script);exit;
         $this->view->registerJs($script, View::POS_BEGIN);
-        AssetCourseware::register($this->view);
+        AssetCarousel::register($this->view);
 
     }
 }

@@ -3,12 +3,13 @@
 // You should not change it manually as it will be overwritten on next build
 
 namespace backend\modules\campus\controllers\base;
-
+use Yii;
 use backend\modules\campus\models\Course;
 use backend\modules\campus\models\search\CourseSearch;
 use common\components\Controller;
 use yii\web\HttpException;
 use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
 use yii\filters\AccessControl;
 use dmstr\bootstrap\Tabs;
 
@@ -49,7 +50,6 @@ public $enableCsrfValidation = false;
                         'actions' => ['update', 'create', 'delete'],
                         'roles' => ['CampusCourseEdit'],
                     ],
-    
                 ],
             ],
     ];
@@ -63,16 +63,24 @@ public function actionIndex()
 {
     $searchModel  = new CourseSearch;
     $dataProvider = $searchModel->search($_GET);
+        $schools = Yii::$app->user->identity->schoolsInfo;
+        $grades =  Yii::$app->user->identity->gradesInfo;
+        $schools = ArrayHelper::map($schools,'school_id','school_title');
+        $grades  = ArrayHelper::map($grades,'grade_id','grade_name');
+        $dataProvider->query->andWhere([
+                'grade_id'  => $this->gradeIdCurrent,
+            ]);
+    Tabs::clearLocalStorage();
 
-Tabs::clearLocalStorage();
+    Url::remember();
+    \Yii::$app->session['__crudReturnUrl'] = null;
 
-Url::remember();
-\Yii::$app->session['__crudReturnUrl'] = null;
-
-return $this->render('index', [
-'dataProvider' => $dataProvider,
-    'searchModel' => $searchModel,
-]);
+    return $this->render('index', [
+    'dataProvider' => $dataProvider,
+        'searchModel' => $searchModel,
+        'grades'       => $grades,
+        'schools'      => $schools,
+    ]);
 }
 
 /**
@@ -100,7 +108,8 @@ return $this->render('view', [
 public function actionCreate()
 {
     $model = new Course;
-//var_dump('<pre>',$_POST);exit;
+    $schools = Yii::$app->user->identity->schoolsInfo;
+    $schools = ArrayHelper::map($schools,'school_id','school_title');
     try {
         if ($model->load($_POST) && $model->save()) {
 
@@ -114,7 +123,10 @@ public function actionCreate()
         $msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
         $model->addError('_exception', $msg);
     }
-        return $this->render('create', ['model' => $model]);
+        return $this->render('create', [
+            'model' => $model,
+            'schools'=>$schools
+            ]);
     }
 
 /**
@@ -125,15 +137,17 @@ public function actionCreate()
 */
 public function actionUpdate($course_id)
 {
-$model = $this->findModel($course_id);
-
-if ($model->load($_POST) && $model->save()) {
-return $this->redirect(Url::previous());
-} else {
-return $this->render('update', [
-'model' => $model,
-]);
-}
+    $model = $this->findModel($course_id);
+    $schools = Yii::$app->user->identity->schoolsInfo;
+    $schools = ArrayHelper::map($schools,'school_id','school_title');
+    if ($model->load($_POST) && $model->save()) {
+        return $this->redirect(Url::previous());
+    } else {
+        return $this->render('update', [
+            'model' => $model,
+            'schools'=>$schools
+            ]);
+    }
 }
 
 /**

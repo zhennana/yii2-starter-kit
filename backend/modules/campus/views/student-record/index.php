@@ -17,15 +17,15 @@ $this->params['breadcrumbs'][] = $this->title;
 */
     $actionColumnTemplates = [];
 
-    if (\Yii::$app->user->can('teacher')) { 
+    if (\Yii::$app->user->can('P_teacher')) { 
         $actionColumnTemplates[] = '{view}';
     }
 
-    if (\Yii::$app->user->can('teacher')) {
+    if (\Yii::$app->user->can('P_teacher')) {
         $actionColumnTemplates[] = '{update}';
     }
 
-    if (\Yii::$app->user->can('teacher')) {
+    if (\Yii::$app->user->can('P_teacher')) {
         $actionColumnTemplates[] = '{delete}';
     }
 
@@ -55,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </h1>
     <div class="clearfix crud-navigation">
 <?php
-if(\Yii::$app->user->can('teacher')){
+if(\Yii::$app->user->can('P_teacher')){
 ?>
         <div class="pull-left">
             <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'), ['create'], ['class' => 'btn btn-success']) ?>
