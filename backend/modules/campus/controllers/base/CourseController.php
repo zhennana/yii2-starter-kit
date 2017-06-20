@@ -108,7 +108,8 @@ return $this->render('view', [
 public function actionCreate()
 {
     $model = new Course;
-//var_dump('<pre>',$_POST);exit;
+    $schools = Yii::$app->user->identity->schoolsInfo;
+    $schools = ArrayHelper::map($schools,'school_id','school_title');
     try {
         if ($model->load($_POST) && $model->save()) {
 
@@ -122,7 +123,10 @@ public function actionCreate()
         $msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
         $model->addError('_exception', $msg);
     }
-        return $this->render('create', ['model' => $model]);
+        return $this->render('create', [
+            'model' => $model,
+            'schools'=>$schools
+            ]);
     }
 
 /**
@@ -133,15 +137,17 @@ public function actionCreate()
 */
 public function actionUpdate($course_id)
 {
-$model = $this->findModel($course_id);
-
-if ($model->load($_POST) && $model->save()) {
-return $this->redirect(Url::previous());
-} else {
-return $this->render('update', [
-'model' => $model,
-]);
-}
+    $model = $this->findModel($course_id);
+    $schools = Yii::$app->user->identity->schoolsInfo;
+    $schools = ArrayHelper::map($schools,'school_id','school_title');
+    if ($model->load($_POST) && $model->save()) {
+        return $this->redirect(Url::previous());
+    } else {
+        return $this->render('update', [
+            'model' => $model,
+            'schools'=>$schools
+            ]);
+    }
 }
 
 /**
