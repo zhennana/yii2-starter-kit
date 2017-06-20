@@ -414,7 +414,7 @@ $avatar .= '?imageView2/3/w/215/h/215';
                             'label'=>Yii::t('backend', '用户管理'),
                             'url' => '#',
                             'icon'=>'<i class="fa fa-users"></i>',
-                            'visible'=> (Yii::$app->user->can('P_director') ||  Yii::$app->user->can('P_director')),
+                            'visible'=> (Yii::$app->user->can('P_director') ||  Yii::$app->user->can('administrator')),
                             'options'=>['class'=>'treeview'],
                             'items'=>[
                                 [
