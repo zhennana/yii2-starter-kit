@@ -17,8 +17,8 @@ use backend\modules\campus\models\CourseOrderItem;
 * @var yii\widgets\ActiveForm $form
 */
 
-$user      = User::find()->where(['status'=>2])->asArray()->all();
-$data_user = ArrayHelper::map($user,'id','username');
+ // $user      = User::find()->where(['status'=>2])->asArray()->all();
+ // $data_user = ArrayHelper::map($user,'id','username');
 
 ?>
 
@@ -35,41 +35,23 @@ $data_user = ArrayHelper::map($user,'id','username');
         <?php $this->beginBlock('main'); ?>
 
         <p>
-            
-
-<!-- attribute course_order_item_id -->
-            <?= $form->field($model, 'course_order_item_id')->textInput() ?>
-
-<!-- attribute parent_id -->
-			<?= $form->field($model, 'parent_id')->textInput() ?>
-
 <!-- attribute school_id -->
 			<?= $form->field($model, 'school_id')->widget(Select2::ClassName(),[
-                    'data'          => $model->getlist(),
+                    'data'          =>$schools ,
                     'options'       => ['placeholder' => '请选择'],
                     'pluginOptions' => [
                         'allowClear'=> true,
                     ],
                     'pluginEvents' => [
                         "change" => "function() {
-                             handleChange(1,this.value,'#courseorderitem-grade_id');
+                             handleChange(2,this.value,'#courseorderitem-user_id');
                         }",
                     ]
             ]) ?>
 
-<!-- attribute grade_id -->
-			<?= $form->field($model, 'grade_id')->widget(Select2::className(),
-                [
-                    'data'          => $model->getlist(1,$model->school_id),
-                    'options'       => ['placeholder' => '请选择'],
-                    'pluginOptions' => [
-                        'allowClear' => true,
-                    ],
-                ]); ?>
-
 <!-- attribute user_id -->
 			<?= $form->field($model, 'user_id')->widget(Select2::className(),[
-                'data'              => $data_user,
+                'data'              => $model->getList(2,$model->school_id),
                 "maintainOrder"     => true,
                 'options' => [
                     'placeholder' => '请选择'
@@ -79,8 +61,19 @@ $data_user = ArrayHelper::map($user,'id','username');
                 ]
             ]); ?>
 
+<!-- attribute total_course -->
+            <?= $form->field($model, 'total_course')->textInput() ?>
+
+<!-- attribute presented_course -->
+            <?= $form->field($model, 'presented_course')->textInput() ?>
+<!-- attribute coupon_price -->
+            <?= $form->field($model, 'coupon_price')->textInput(['maxlength' => true]) ?>
+<!-- attribute total_price -->
+            <?= $form->field($model, 'total_price')->textInput(['maxlength' => true]) ?>
+
+
 <!-- attribute introducer_id -->
-			<?= $form->field($model, 'introducer_id')->widget(Select2::className(),[
+		<!-- 	<? /* $form->field($model, 'introducer_id')->widget(Select2::className(),[
                 'data'              => $data_user,
                 'options' => [
                     'placeholder' => '请选择'
@@ -88,7 +81,7 @@ $data_user = ArrayHelper::map($user,'id','username');
                 'pluginOptions' => [
                     'allowClear' => true
                 ]
-            ]); ?>
+            ]);*/ ?> -->
 
 <!-- attribute payment -->
 			<?= $form->field($model, 'payment')->widget(Select2::className(),
@@ -112,20 +105,7 @@ $data_user = ArrayHelper::map($user,'id','username');
                     ],
                 ]); ?>
 
-<!-- attribute total_course -->
-			<?= $form->field($model, 'total_course')->textInput() ?>
 
-<!-- attribute presented_course -->
-            <?= $form->field($model, 'presented_course')->textInput() ?>
-
-<!-- attribute total_price -->
-            <?= $form->field($model, 'total_price')->textInput(['maxlength' => true]) ?>
-
-<!-- attribute coupon_price -->
-			<?= $form->field($model, 'coupon_price')->textInput(['maxlength' => true]) ?>
-
-<!-- attribute real_price -->
-            <?= $form->field($model, 'real_price')->textInput(['maxlength' => true]) ?>
 
 <!-- attribute status -->
             <?= $form->field($model, 'status')->widget(Select2::className(),

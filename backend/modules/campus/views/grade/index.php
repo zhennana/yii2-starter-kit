@@ -8,8 +8,9 @@ use backend\modules\campus\models\School;
 use backend\modules\campus\models\Grade;
 use backend\modules\campus\models\GradeCategory;
 
+/*
 $school_ids = [Yii::$app->user->identity->currentSchool];
-$school_ids = ArrayHelper::map($school_ids,'id','school_title');
+$school_ids = ArrayHelper::map($school_ids,'id','school_title');*/
 //var_dump($school_ids);exit;
 $group_category_ids = GradeCategory::find()->where(['status'=>GradeCategory::CATEGORY_OPEN])->asArray()->all();
 $group_category_ids = ArrayHelper::map($group_category_ids,'grade_category_id','name');
@@ -28,15 +29,15 @@ $this->params['breadcrumbs'][] = $this->title;
 */
 $actionColumnTemplates = [];
 
-    if (\Yii::$app->user->can('director', ['route' => true])) {
+    if (\Yii::$app->user->can('P_director', ['route' => true])) {
         $actionColumnTemplates[] = '{view}';
     }
 
-    if (\Yii::$app->user->can('director', ['route' => true])) {
+    if (\Yii::$app->user->can('P_director', ['route' => true])) {
         $actionColumnTemplates[] = '{update}';
     }
 
-    if (\Yii::$app->user->can('director', ['route' => true])) {
+    if (\Yii::$app->user->can('P_director', ['route' => true])) {
         $actionColumnTemplates[] = '{delete}';
     }
     if (isset($actionColumnTemplates)) {
@@ -65,7 +66,7 @@ $actionColumnTemplates = [];
     </h1>
     <div class="clearfix crud-navigation">
 <?php
-if(\Yii::$app->user->can('director', ['route' => true])){
+if(\Yii::$app->user->can('P_director', ['route' => true])){
 ?>
         <div class="pull-left">
             <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'),
@@ -140,7 +141,7 @@ if(\Yii::$app->user->can('director', ['route' => true])){
                     'class'     =>\common\grid\EnumColumn::className(),
                     'attribute' =>'school_id',
                     'format'    => 'raw',
-                    'enum'      => $school_ids,
+                    'enum'      => $schools,
                     'value'     => function($model){
                         return Html::a(
                             $model->school->school_title,

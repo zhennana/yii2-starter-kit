@@ -8,7 +8,7 @@ use backend\modules\campus\models\UserToSchool;
 /* @var $searchModel backend\modules\campus\models\search\UserToSchoolSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('backend', 'User To Schools');
+$this->title = Yii::t('backend', '学校人员管理');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-to-school-index">

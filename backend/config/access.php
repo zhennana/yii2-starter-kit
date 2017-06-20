@@ -37,7 +37,7 @@ return [
             [
                 'controllers'=>['user'],
                 'allow' => true,
-                'roles' => ['administrator','leader','director'],
+                'roles' => ['administrator'],
             ],
             [
                 'controllers'=>['user'],
@@ -46,7 +46,7 @@ return [
 
             [
                 'allow' => true,
-                'roles' => ['manager','leader','director'],
+                'roles' => ['manager','P_leader','P_director','P_teacher'],
             ],
         ]
     ];

@@ -9,8 +9,12 @@ use backend\modules\campus\models\UserToSchool;
 use common\models\UserForm;
 
 $userToGrade = new UserToGrade;
-$school = Yii::$app->user->identity->schoolsInfo;
-$school = ArrayHelper::map($school,'school_id','school_title');
+$this->title = Yii::t('backend', '学校人员管理');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '学校人员管理'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
+//var_dump($schools);exit;
+// $school = Yii::$app->user->identity->schoolsInfo;
+// $school = ArrayHelper::map($school,'school_id','school_title');
 ?>
 
 <?php $form = ActiveForm::begin([
@@ -72,7 +76,7 @@ $school = ArrayHelper::map($school,'school_id','school_title');
                 <?=
                     $form->field($model, 'school_id')->widget(Select2::className(),
                         [
-                            'data' =>$school,
+                            'data' =>$schools,
                             'pluginOptions'=>[
                                 'allowClear'=> true,
                             ],

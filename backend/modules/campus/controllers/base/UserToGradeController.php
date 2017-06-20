@@ -10,6 +10,7 @@ use backend\modules\campus\models\search\UserToGradeSearch;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
 use yii\filters\AccessControl;
 use dmstr\bootstrap\Tabs;
 
@@ -63,20 +64,15 @@ public $enableCsrfValidation = false;
 public function actionIndex()
 {
     $searchModel  = new UserToGradeSearch;
-    //var_dump($_GET);exit;
     $dataProvider = $searchModel->search($_GET);
-    if(Yii::$app->user->can('director')){
-        $dataProvider->query->andWhere([
-            'school_id'=>$this->schoolIdCurrent,
-            'grade_id' =>$this->gradeIdCurrent
-        ]);
-    }elseif(Yii::$app->user->can('teacher')){
-        $dataProvider->query->andWhere([
-            'school_id'=>$this->schoolIdCurrent,
-           // 'grade_id' =>$this->gradeIdCurrent
-        ]);
-    }
-    
+    $schools[] = $this->schoolCurrent; //Yii::$app->user->identity->schoolsInfo;
+    $grades[] =  $this->gradeCurrent;//Yii::$app->user->identity->gradesInfo;
+    $schools = ArrayHelper::map($schools,'school_id','school_title');
+    $grades  = ArrayHelper::map($grades,'grade_id','grade_name');
+    $dataProvider->query->andWhere([
+            'school_id'=>array_keys($schools),
+            'grade_id' =>array_keys($grades)
+    ]);
      $dataProvider->sort = [
        'defaultOrder'=>[
             'updated_at'=>SORT_DESC,
@@ -90,6 +86,8 @@ public function actionIndex()
     return $this->render('index', [
     'dataProvider' => $dataProvider,
         'searchModel' => $searchModel,
+        'grades'     =>  $grades,
+        'schools'    =>  $schools
     ]);
 }
 

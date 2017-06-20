@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\helpers\ArrayHelper;
 use yii\filters\VerbFilter;
 use backend\modules\campus\models\UserToSchoolForm;
+use backend\modules\campus\models\School;
 
 
 /**
@@ -32,6 +33,13 @@ class UserToSchoolController extends Controller
     public function actionUserToSchoolForm(){
         $model = new UserToSchoolForm;
         $info = [];
+        if(Yii::$app->user->can('manager')){
+             $schools = School::find()->where(['status'=>School::SCHOOL_STATUS_OPEN])->all();
+        }else{
+            $schools = Yii::$app->user->identity->schoolsInfo;
+        }
+
+        $schools = ArrayHelper::map($schools,'school_id','school_title');
         if($model->load($_POST)){
             $info = $model->batch_create($_POST);
            // var_dump($info);exit;
@@ -39,6 +47,7 @@ class UserToSchoolController extends Controller
                  return $this->render('_user_to_school',
                     [
                     'model'=>$model,
+                    'schools'=>$schools,
                     'rules'=>ArrayHelper::map(Yii::$app->authManager->getRolesByUser(Yii::$app->user->identity->id),'name','description'),
                     'info'=>$info['error'],
                     ]);
@@ -49,6 +58,7 @@ class UserToSchoolController extends Controller
         return $this->render('_user_to_school',
             [
             'model'=>$model,
+             'schools'=>$schools,
             'rules'=>ArrayHelper::map(Yii::$app->authManager->getRolesByUser(Yii::$app->user->identity->id),'name','description')
             ]);
     }
@@ -61,7 +71,12 @@ class UserToSchoolController extends Controller
     {
         $searchModel = new UserToSchoolSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $schools = Yii::$app->user->identity->schoolsInfo;
+        if(Yii::$app->user->can('manager')){
+             $schools = School::find()->where(['status'=>School::SCHOOL_STATUS_OPEN])->all();
+        }else{
+            $schools = Yii::$app->user->identity->schoolsInfo;
+        }
+
         $schools = ArrayHelper::map($schools,'school_id','school_title');
         $dataProvider->query->andWhere([
             'school_id'=> array_keys($schools),
