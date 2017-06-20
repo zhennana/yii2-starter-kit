@@ -10,6 +10,7 @@ use common\validators\PhoneValidator;
 use backend\modules\campus\models\School;
 use backend\modules\campus\models\UserToSchool;
 /**
+ * 批量导入跟校区修改用户用到了
  * Create user form
  */
 class UserForm extends Model
@@ -183,7 +184,10 @@ class UserForm extends Model
             }
             $auth = Yii::$app->authManager;
             //查询用户自身权限
-            $rules = $auth->getChildRoles('P_administrator');
+            $P_rules = $auth->getChildRoles('P_administrator');
+            $E_rules = $auth->getChildRoles('E_administrator');
+            $rules = ArrayHelper::merge($P_rules,$E_rules);
+           //var_dump($rules);exit;
             foreach ($rules as $rule) {
                 $auth->revoke($rule,$model->id);
             }
