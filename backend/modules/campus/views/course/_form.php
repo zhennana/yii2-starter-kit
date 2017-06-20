@@ -40,7 +40,7 @@ $Courseware = ArrayHelper::map($Courseware,'courseware_id','title');
 
 <!-- attribute school_id -->
 			<?= $form->field($model, 'school_id')->widget(Select2::ClassName(),[
-                    'data'          => $model->getlist(),
+                    'data'          => $schools,
                     'options'       => ['placeholder' => '请选择'],
                     'pluginOptions' => [
                         'allowClear'=> true,

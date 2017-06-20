@@ -179,6 +179,7 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * 根据权限获取班级id或者学校id
      */
+    /*
     public function getSchoolOrGrade(){
         if(Yii::$app->user->can('manager')){
             return 'all';
@@ -190,6 +191,7 @@ class User extends ActiveRecord implements IdentityInterface
             return false;
         }
     }
+    */
 
     /**
      * 获取全部用户信息
