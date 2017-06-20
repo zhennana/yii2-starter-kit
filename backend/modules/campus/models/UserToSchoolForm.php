@@ -5,7 +5,7 @@ namespace backend\modules\campus\models;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\base\Model;
-use backend\models\UserForm;
+use backend\modules\campus\models\UserForm;
 use common\models\User;
 use backend\modules\campus\models\School;
 use backend\modules\campus\models\UserToSchool;
