@@ -33,19 +33,24 @@ class Controller extends \yii\web\Controller
         );
         if(isset($post['school_id']) && !empty($post['school_id']) && !empty($select_school_grade))
         {
-            $school_id = 0;
+            //$school_id = 0;
             foreach ($schools as $key => $value) {
                 if($value['school_id'] == $post['school_id']){
                     $this->schoolCurrent = $schools[$key];
-                    $session->set('schools',$schools[$key]);
-                    $sort = (int)$value['sort'];
-                    $school_id = $value['school_id'];
+                    $session->set('schools',$value['school_id']);
                     $this->schoolIdCurrent = (int)ArrayHelper::getValue($this->schoolCurrent, 'school_id');
                     break;
                 }
             }
         }else{
-                $this->schoolCurrent = !empty($session->get('schools')) ? $session->get('schools') : current($schools) ;
+            $session_school_id = $session->get('schools');
+            if(!empty($session_school_id)){
+                $schools = ArrayHelper::index($schools,'school_id');
+                $this->schoolCurrent =isset($schools[$session_school_id]) ? $schools[$session_school_id] :  current($schools) ;
+            }else{
+                $this->schoolCurrent = current($schools) ;
+            }
+                  
                 $this->schoolIdCurrent = (int)ArrayHelper::getValue($this->schoolCurrent, 'school_id');
         }
 
