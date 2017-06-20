@@ -18,7 +18,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
     <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '导入新人员'), ['user-to-school-form'], ['class' => 'btn btn-success']) 
     ?>
-  
     </p>
 
     <?php echo GridView::widget([
@@ -28,7 +27,19 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'user_to_school_id',
-            'user_id',
+            [
+                'attribute' =>'user_id',
+                'format'    => 'raw',
+                'value'     => function($model){
+                    if(isset($model->user->username)){
+                        return  Html::a($model->user->username,[
+                            'account',
+                            'user_id'=>$model->user_id
+                            ]);
+                    }
+                        return '未知';
+                    }
+            ],
             [
                 'class'     =>\common\grid\EnumColumn::className(),
                 'attribute' =>'school_id',

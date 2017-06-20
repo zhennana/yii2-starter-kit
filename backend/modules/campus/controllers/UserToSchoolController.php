@@ -3,7 +3,8 @@
 namespace backend\modules\campus\controllers;
 
 use Yii;
-use backend\modules\campus\models\UserToSchool;
+use common\models\User;
+use backend\modules\campus\models\UserForm;
 use backend\modules\campus\models\search\UserToSchoolSearch;
 use common\components\Controller;
 use yii\web\NotFoundHttpException;
@@ -16,25 +17,25 @@ use backend\modules\campus\models\School;
 /**
  * UserToSchoolController implements the CRUD actions for UserToSchool model.
  */
-class UserToSchoolController extends Controller
+class UserToSchoolController extends \backend\modules\campus\controllers\base\UserToSchoolController
 {
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
 
+    /**
+     * 导入新学员
+     * @return [type] [description]
+     */
     public function actionUserToSchoolForm(){
         $model = new UserToSchoolForm;
         $info = [];
         $schools =  Yii::$app->user->identity->schoolsInfo;
-
+        /**
+         * 获取合并
+         * @var [type]
+         */
+        $p_roles = ArrayHelper::map(Yii::$app->authManager->getChildRoles('P_administrator'),'name','description');
+        //var_dump($p_roles);exit;
+        $e_roles =  ArrayHelper::map(Yii::$app->authManager->getChildRoles('E_administrator'),'name','description');
+        $roles = ArrayHelper::merge($p_roles,$e_roles);
         //$schools = ArrayHelper::map($schools,'school_id','school_title');
         $schools = ArrayHelper::map($schools,'school_id','school_title');
         if($model->load($_POST)){
@@ -45,124 +46,44 @@ class UserToSchoolController extends Controller
                     [
                     'model'=>$model,
                     'schools'=>$schools,
-                    'rules'=>ArrayHelper::map(Yii::$app->authManager->getChildRoles('P_administrator'),'name','description'),
+                    'rules'=>$roles,
                     'info'=>$info['error'],
                     ]);
             }else{
                 return $this->redirect(['index']);
             }
         }
+
         return $this->render('_user_to_school',
             [
             'model'=>$model,
              'schools'=>$schools,
              //getRolesByUser
-            'rules'=>ArrayHelper::map(Yii::$app->authManager->getChildRoles('P_administrator'),'name','description')
+            'rules'=>$roles
             ]);
     }
-
     /**
-     * Lists all UserToSchool models.
-     * @return mixed
+     * 代理商修改用户信息
+     * @return [type] [description]
      */
-    public function actionIndex()
-    {
-        $searchModel = new UserToSchoolSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $schools[] = $this->schoolCurrent; //Yii::$app->user->identity->schoolsInfo;
+    public function actionAccount($user_id){
+        $model = new UserForm();
+         $p_roles = ArrayHelper::map(Yii::$app->authManager->getChildRoles('P_administrator'),'name','description');
+        //var_dump($p_roles);exit;
+        $e_roles =  ArrayHelper::map(Yii::$app->authManager->getChildRoles('E_administrator'),'name','description');
+        $roles = ArrayHelper::merge($p_roles,$e_roles);
 
-        $schools = ArrayHelper::map($schools,'school_id','school_title');
-        $dataProvider->query->andWhere([
-            'school_id'=> array_keys($schools),
-            ]);
-
-        $dataProvider->sort = [
-            'defaultOrder'=>[
-                'updated_at' => SORT_DESC
-            ]
-        ];
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-            'schools'      => $schools,
-        ]);
-    }
-
-    /**
-     * Displays a single UserToSchool model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
-     * Creates a new UserToSchool model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new UserToSchool();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->user_to_school_id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    /**
-     * Updates an existing UserToSchool model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->user_to_school_id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    /**
-     * Deletes an existing UserToSchool model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
-    }
-
-    /**
-     * Finds the UserToSchool model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return UserToSchool the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = UserToSchool::findOne($id)) !== null) {
-            return $model;
-        } else {
+        $user = User::find()->where(['id' => $user_id])->one();
+        if($user == NULL){
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+        $model->setModel($user);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['index']);
+        }
+        return $this->render('_account', [
+            'model' => $model,
+            'roles' => $roles
+        ]);
     }
 }
