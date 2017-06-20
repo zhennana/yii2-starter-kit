@@ -27,7 +27,10 @@ abstract class UserToSchool extends \yii\db\ActiveRecord
     const SCHOOL_USER_TYPE_TEACHER  = 20; //老师
     const SCHOOL_USER_TYPE_STUDENTS = 10; // 学生
     const SCHOOL_USER_TYPE_DIRECTOR = 30; //主任
-    const SchOOL_USER_TYPE_LEADER   = 40; //校长
+    const SCHOOL_USER_TYPE_LEADER   = 40; //校长
+
+    const SCHOOL_STATUS_ACTIVE  = 1; //正常
+    const SCHOOL_STATUS_CLOSE   = 0; //关闭
     /**
      * @return \yii\db\Connection the database connection used by this AR class.
     */
@@ -38,13 +41,18 @@ abstract class UserToSchool extends \yii\db\ActiveRecord
 
     public static function optsUserType(){
         return [
-            self::SchOOL_USER_TYPE_LEADER   => '校长',
+            self::SCHOOL_USER_TYPE_LEADER   => '校长',
             self::SCHOOL_USER_TYPE_DIRECTOR => '主任',
             self::SCHOOL_USER_TYPE_TEACHER  => '老师',
             self::SCHOOL_USER_TYPE_STUDENTS => '学生'
         ];
     }
-
+    public static function optsUserStatus(){
+        return [
+            self::SCHOOL_STATUS_ACTIVE   => '正常',
+            self::SCHOOL_STATUS_CLOSE => '关闭',
+        ];
+    }
 
     /**
      * @inheritdoc
@@ -86,15 +94,15 @@ abstract class UserToSchool extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'user_to_school_id' => Yii::t('common', 'User To School ID'),
-            'user_id' => Yii::t('common', '用户ID'),
-            'school_id' => Yii::t('common', '学校ID'),
+            'user_to_school_id' => Yii::t('common', 'ID'),
+            'user_id' => Yii::t('common', '用户'),
+            'school_id' => Yii::t('common', '学校'),
             'user_title_id_at_school' => Yii::t('common', '用户在学校的描述性展示Title，没有逻辑'),
-            'status' => Yii::t('common', '1：正常；0标记删除；2待审核；3已经转班; '),
+            'status' => Yii::t('common', '状态'),
             'sort' => Yii::t('common', '显示排序'),
-            'school_user_type' => Yii::t('common', '用户关系类型：用户类型：教师；学生；家长；'),
-            'updated_at' => Yii::t('common', 'Updated At'),
-            'created_at' => Yii::t('common', 'Created At'),
+            'school_user_type' => Yii::t('common', '用户关系'),
+            'updated_at' => Yii::t('common', '更新时间'),
+            'created_at' => Yii::t('common', '创建时间'),
         ];
     }
 

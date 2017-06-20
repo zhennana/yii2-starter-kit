@@ -29,6 +29,7 @@ $this->params['breadcrumbs'][] = Yii::t('cruds', '更新');
 
     <?php echo $this->render('_form', [
         'model' => $model,
+        'schools'=>$schools
     ]); ?>
 
 </div>

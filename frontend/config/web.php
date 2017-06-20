@@ -81,7 +81,8 @@ $config = [
             'enableAutoLogin' => true,
             'as afterLogin' => 'common\behaviors\LoginTimestampBehavior'
         ]
-    ]
+    ],
+    'as globalAccess'=>require(__DIR__.'/access.php'),
 ];
 
 if (YII_ENV_DEV) {

@@ -452,7 +452,7 @@ class SignInController extends \common\components\ControllerFrontendApi
     /**
      * @SWG\POST(path="/sign-in/update-profile",
      *     tags={"100-SignIn-用户接口"},
-     *     summary="更新用户附属信息(头像等)[已经自测]",
+     *     summary="更新用户附属信息(头像等)",
      *     description="更新用户附属表信息 http://developer.qiniu.com/docs/v6/sdk/ios-sdk.html",
      *     produces={"application/json"},
      *     @SWG\Parameter(

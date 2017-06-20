@@ -71,11 +71,19 @@ public function actionIndex()
     $dataProvider = $searchModel->search($_GET);
     //var_dump($this->schoolIdCurrent,$this->gradeIdCurrent);exit;
     //获取老师已上过的课程
-    $courseIds  = Course::getAboveCourse($user_id,$this->schoolIdCurrent,$this->gradeIdCurrent,Course::COURSE_STATUS_FINISH);
-    //var_dump($courseIds);exit;
-    $dataProvider->query->andWhere([
-            'course_id'=>ArrayHelper::map($courseIds,'course_id','course_id')
+    if(Yii::$app->user->can('director')){
+        //var_dump($this->schoolIdCurrent);exit;
+        $dataProvider->query->andWhere([
+            'school_id'=>$this->schoolIdCurrent
         ]);
+    }else{
+        $courseIds  = Course::getAboveCourse($user_id,$this->schoolIdCurrent,$this->gradeIdCurrent,Course::COURSE_STATUS_FINISH);
+        //var_dump($courseIds);exit;
+        $dataProvider->query->andWhere([
+                'course_id'=>ArrayHelper::map($courseIds,'course_id','course_id')
+        ]);
+    }
+
     $dataProvider->sort =[
             'defaultOrder'=>[
                 'updated_at'=>SORT_DESC

@@ -64,8 +64,8 @@ class QiniuCarouselAction extends Action
         //     Yii::$app->session['qiniu'] = $qiniu;
         // }
         $file = new FileStorageItem();
-        $file->school_id        = '0',
-        $file->grade_id         = '0',
+        $file->school_id        = '0';
+        $file->grade_id         = '0';
         $file->file_category_id = 10;
         $file->user_id          = Yii::$app->user->id;
         $file->type             = Yii::$app->request->post('type');

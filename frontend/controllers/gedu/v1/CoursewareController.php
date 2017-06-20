@@ -341,7 +341,7 @@ class CoursewareController extends \common\rest\Controller
      * )
      *
      */
-    public function actionVideoRecord($courseware_id = '', $file_hash = '', $schema = 10)
+    public function actionVideoRecord($courseware_id = '', $file_hash = '', $schema = 10, $record)
     {
         if(Yii::$app->user->isGuest){
             $this->serializer['errno']   = 422;
@@ -351,13 +351,32 @@ class CoursewareController extends \common\rest\Controller
 
         $data = [];
 
-        // 占位，待开发
-        $data = [
-            'courseware_id' => $courseware_id,
-            'user_id'       => Yii::$app->user->identity->id,
-            'file_hash'     => $file_hash,
-            'schema'        => $schema,
-        ];
+        if ($schema == 10) {
+            // 插入播放记录
+            // 占位，待开发
+            $data = [
+                'courseware_id' => $courseware_id,
+                'user_id'       => Yii::$app->user->identity->id,
+                'file_hash'     => $file_hash,
+                'schema'        => $schema,
+                'record'        => $record,
+            ];
+        }elseif($schema == 20){
+            // 取出播放记录
+            $data = [
+                'courseware_id' => $courseware_id,
+                'user_id'       => Yii::$app->user->identity->id,
+                'file_hash'     => $file_hash,
+                'schema'        => $schema,
+                'record'        => $record,
+            ];
+        }else{
+            $this->serializer['errno']   = 1;
+            $this->serializer['message'] = '参数错误';
+            return [];
+        }
+
+
 
         return $data;
     }

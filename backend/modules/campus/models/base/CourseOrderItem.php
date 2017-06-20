@@ -131,8 +131,20 @@ abstract class CourseOrderItem extends \yii\db\ActiveRecord
     {
         return [
             [['parent_id', 'school_id', 'grade_id', 'user_id', 'introducer_id', 'payment', 'presented_course', 'status', 'payment_status', 'total_course'], 'integer'],
-            [['user_id', 'payment', 'payment_status', 'total_price', 'real_price', 'total_course'], 'required'],
-            [['total_price', 'real_price', 'coupon_price'], 'number']
+            [['user_id', 'payment', 'payment_status', 'total_price','total_course'], 'required'],
+            ['real_price','default','value'=>function(){
+                $this->real_price = ($this->total_price-$this->coupon_price);
+                return $this->real_price;
+            }],
+            [
+                'total_price','required','when'=>function($model,$attribute){
+                        if($model->total_price < $model->coupon_price){
+                            return $this->addError($attribute,'总金额不能小于优惠价格');
+                        }
+                }
+            ],
+            [['total_price',  'coupon_price'], 'number'],
+            ['real_price','safe']
         ];
     }
 
@@ -176,7 +188,7 @@ abstract class CourseOrderItem extends \yii\db\ActiveRecord
             'total_price'      => Yii::t('backend', '总价'),
             'real_price'       => Yii::t('backend', '实际付款'),
             'coupon_price'     => Yii::t('backend', '优惠金额'),
-            'total_course'     => Yii::t('backend', '课程总数，含赠送'),
+            'total_course'     => Yii::t('backend', '课程总数，不含赠送'),
         ]);
     }
 

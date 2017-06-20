@@ -202,25 +202,45 @@ $avatar .= '?imageView2/3/w/215/h/215';
                             'label'=>Yii::t('backend', 'Timeline'),
                             'icon'=>'<i class="fa fa-bar-chart-o"></i>',
                             'url'=>['/timeline-event/index'],
+                            'visible'=>Yii::$app->user->can('manager'),
                             'badge'=> TimelineEvent::find()->today()->count(),
                             'badgeBgClass'=>'label-success',
                         ],
                         [
-                            'label'=>Yii::t('backend', '课件管理（授课）'),
+                            'label'=>Yii::t('backend', '课程体系管理'),
                             'url' => '#',
                             'icon'=>'<i class="fa fa-edit"></i>',
-                            'visible'=>Yii::$app->user->can('director'),
+                            'visible'=>Yii::$app->user->can('P_teacher'),
                             'options'=>['class'=>'treeview'],
                             'items'=>[
-                                ['label'=>Yii::t('backend', '课件列表'), 'url'=>['/campus/courseware/index'], 'icon'=>'<i class="fa  fa-file-text"></i>'
-                                ], 
-                                ['label'=>Yii::t('backend', '课件附件'), 'url'=>['/campus/courseware-to-file/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'
+                                [
+                                'label'=>Yii::t('backend', '课件管理'), 
+                                'url'=>['/campus/courseware/index'],
+                                'visible'=>Yii::$app->user->can('P_teacher'),
+
+                                 'icon'=>'<i class="fa  fa-file-text"></i>'
                                 ],
-                                ['label'=>Yii::t('backend', '课件分类'), 'url'=>['/campus/courseware-category/index'], 'icon'=>'<i class=" fa  fa-file-text"></i>'
+                                ['label'=>Yii::t('backend', '课件附件'), 
+                                'url'=>['/campus/courseware-to-file/index'],
+                                 'visible'=>Yii::$app->user->can('P_director'),
+                                 'icon'=>'<i class="fa fa-angle-double-right"></i>'
                                 ],
-                                ['label'=>Yii::t('backend', '课件关系'), 'url'=>['/campus/courseware-to-courseware/index'], 'icon'=>'<i class=" fa  fa-file-text"></i>'
+                                ['label'=>Yii::t('backend', '课件分类'),
+                                 'url'=>['/campus/courseware-category/index'], 
+                                'visible'=>Yii::$app->user->can('P_director'),
+
+                                 'icon'=>'<i class=" fa  fa-file-text"></i>'
                                 ],
-                                ['label'=>Yii::t('backend', '附件管理'), 'url'=>['/campus/file-storage-item/index'], 'icon'=>'<i class=" fa  fa-file-text"></i>'
+                                ['label'=>Yii::t('backend', '课件关系'),
+                                 'url'=>['/campus/courseware-to-courseware/index'], 
+                                'visible'=>Yii::$app->user->can('P_director'),
+
+                                 'icon'=>'<i class=" fa  fa-file-text"></i>'
+                                ],
+                                ['label'=>Yii::t('backend', '附件管理'),
+                                'url'=>['/campus/file-storage-item/index'],
+                                'visible'=>Yii::$app->user->can('P_director'),
+                                 'icon'=>'<i class=" fa  fa-file-text"></i>'
                                 ],
                             ]
                         ],
@@ -240,17 +260,25 @@ $avatar .= '?imageView2/3/w/215/h/215';
                         ],
                         */
                         [
-                            'label'=>Yii::t('backend', '课程管理（学生）'),
+                            'label'=>Yii::t('backend', '课表管理'),
                             'url' => '#',
                             'icon'=>'<i class="fa fa-mortar-board"></i>',
                             'options'=>['class'=>'treeview'],
-                            'visible'=>Yii::$app->user->can('director'),
+                            'visible'=>Yii::$app->user->can('P_teacher'),
                             'items'=>[
-                                ['label'=>Yii::t('backend', '课程设置'), 'url'=>['/campus/course/index'], 'icon'=>'<i class="fa  fa-file-text"></i>'
+                                [
+                                'label'=>Yii::t('backend', '排课管理'), 
+                                'url'=>['/campus/course/index'], 
+                                'visible'=>Yii::$app->user->can('P_teacher'),
+                                'icon'=>'<i class="fa  fa-file-text"></i>'
                                 ], 
-                                ['label'=>Yii::t('backend', '签到管理'), 'url'=>['/campus/sign-in/index'], 'icon'=>'<i class=" fa  fa-file-text"></i>'
-                                ],
+                                [
+                                'label'=>Yii::t('backend', '签到管理'), 
+                                'url'=>['/campus/sign-in/index'],
+                                'visible'=>Yii::$app->user->can('P_director'),
 
+                                 'icon'=>'<i class=" fa  fa-file-text"></i>'
+                                ],
                             ]
                         ],
                        /*
@@ -272,46 +300,27 @@ $avatar .= '?imageView2/3/w/215/h/215';
                             'items'=>[
                                 ['label'=>Yii::t('backend', '粉丝列表'), 'url'=>['/campus/apply-to-play/index'], 'icon'=>'<i class="fa  fa-file-text"></i>'
                                 ],
-                            ]   
+                            ]
                         ],
                         */
                         [
-                            'label'=>Yii::t('backend', 'Content'),
-                            'url' => '#',
-                            'icon'=>'<i class="fa fa-edit"></i>',
-                            'options'=>['class'=>'treeview'],
-                            'items'=>[
-                                ['label'=>Yii::t('backend', '静态页面'), 'url'=>['/page/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
-                                ['label'=>Yii::t('backend', '文章'), 'url'=>['/article/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
-                                ['label'=>Yii::t('backend', '文章分类'), 'url'=>['/article-category/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
-                                ['label'=>Yii::t('backend', '文本组件'), 'url'=>['/widget-text/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
-                                ['label'=>Yii::t('backend', '菜单组件'), 'url'=>['/widget-menu/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
-                                ['label'=>Yii::t('backend', '轮播组件'), 'url'=>['/widget-carousel/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
-                                ['label'=>Yii::t('backend', '预约信息'), 'url'=>['/campus/apply-to-play/index'], 'icon'=>'<i class="fa  fa-file-text"></i>'
-                                ],
-                                ['label'=>Yii::t('backend', '联系我们'), 'url'=>['/campus/contact/index'], 'icon'=>'<i class=" fa  fa-file-text"></i>'
-                                ],
-                            ]
-
-                        ],
-                        [
-                            'label'=>Yii::t('backend', '学校管理'),
+                            'label'=>Yii::t('backend', '教务管理'),
                             'url' => '#',
                             'icon'=>'<i class="fa fa-university"></i>',
-                            'visible'=>Yii::$app->user->can('director'),
+                            'visible'=>Yii::$app->user->can('P_teacher'),
                             'options'=>['class'=>'treeview'],
                             'items'=>[
                                 [
                                     'label'   =>Yii::t('backend', '学校管理'), 
                                     'url'     =>['/campus/school/index'],
                                     'icon'    =>'<i class="fa fa-angle-double-right"></i>',
-                                    'visible' =>  Yii::$app->user->can('director')
+                                    'visible' =>  Yii::$app->user->can('P_director')
                                 ],
                                 [
                                     'label'=>Yii::t('backend', '班级分类管理'),
                                     'url'=>['/campus/grade-category/index'],
                                     'icon'=>'<i class="fa fa-angle-double-right"></i>',
-                                    'visible' =>Yii::$app->user->can('director')
+                                    'visible' =>Yii::$app->user->can('P_director')
                                 ],
                                 [
                                     'label'=>Yii::t('backend', '班级管理'),
@@ -322,18 +331,18 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                     'label'=>Yii::t('backend', '班级人员管理'),
                                     'url'=>['/campus/user-to-grade/index'],
                                     'icon'=>'<i class="fa fa-angle-double-right"></i>',
-                                    'visible' =>  Yii::$app->user->can('teacher')
+                                    'visible' =>  Yii::$app->user->can('P_teacher')
                                 ],
                                 [
                                     'label'=>Yii::t('backend', '学员档案管理'),
                                     'url'=>['/campus/student-record/index'],
                                     'icon'=>'<i class="fa fa-angle-double-right"></i>',
-                                    'visible' =>  Yii::$app->user->can('teacher')
+                                    'visible' =>  Yii::$app->user->can('P_teacher')
                                 ],
                                 [
                                     'label'=>Yii::t('backend', '课程订单管理'),
                                     'url'=>['/campus/course-order-item/index'], 'icon'=>'<i class=" fa  fa-file-text"></i>',
-                                    'visible' =>  Yii::$app->user->can('director')
+                                    'visible' =>  Yii::$app->user->can('P_director')
                                 ],
                                 /*
                                 ['label'=>Yii::t('backend', '课件管理'), 'url'=>['/campus/courseware/index'], 'icon'=>'<i class="fa  fa-file-text"></i>'
@@ -345,32 +354,55 @@ $avatar .= '?imageView2/3/w/215/h/215';
                             'label'=>Yii::t('backend', '通知公告管理'),
                             'url' => '#',
                             'icon'=>'<i class="fa  fa-volume-up"></i>',
-                            'visible'=>Yii::$app->user->can('teacher'),
+                            'visible'=>Yii::$app->user->can('P_teacher'),
                             'options'=>['class'=>'treeview'],
                             'items'=>[
                                 [
                                     'label'=>Yii::t('backend', '学校公告'),
                                     'url'=>['/campus/notice/school-notice'],
+                                    'visible'=>Yii::$app->user->can('P_director'),
+
                                     'icon'=>'<i class=" fa  fa-volume-up"></i>'
                                 ],
 
                                 [
                                     'label'=>Yii::t('backend', '教师公告'), 
-                                    'url'=>['/campus/notice/teacher-notice'], 
+                                    'url'=>['/campus/notice/teacher-notice'],
+                                    'visible'=>Yii::$app->user->can('P_director'),
                                     'icon'=>'<i class=" fa  fa-volume-up"></i>'
                                 ],
 
                                 [
                                     'label'=>Yii::t('backend', '班级公告'),
                                     'url'=>['/campus/notice/grade-notice'], 
+                                    'visible'=>Yii::$app->user->can('P_teacher'),
+
                                     'icon'=>'<i class=" fa  fa-volume-up"></i>'
                                 ],
                                 [
                                     'label'=>Yii::t('backend', '家校沟通'),
-                                     'url'=>['/campus/notice/family-school-notice'], 
+                                     'url'=>['/campus/notice/family-school-notice'],
+                                     'visible'=>Yii::$app->user->can('P_teacher'),
                                      'icon'=>'<i class=" fa  fa-volume-up"></i>'
                                 ],
-                                ['label'=>Yii::t('backend', '发布分享消息'), 'url'=>['/campus/share-stream/index'], 'icon'=>'<i class=" fa  fa-volume-up"></i>'
+                                [
+                                    'label'=>Yii::t('backend', '发布分享消息'), 
+                                    'url'=>['/campus/share-stream/index'], 
+                                    'visible'=>Yii::$app->user->can('P_director'),
+                                    'icon'=>'<i class=" fa  fa-volume-up"></i>'
+                                ],
+                                [
+                                    'label'=>Yii::t('backend', '预约信息'), 
+                                    'url'=>['/campus/apply-to-play/index'], 
+                                    'icon'=>'<i class="fa  fa-file-text"></i>',
+                                     'visible'=>Yii::$app->user->can('P_director'),
+                                ],
+                                [
+                                'label'=>Yii::t('backend', '联系我们'), 
+                                'url'=>['/campus/contact/index'], 
+                                'icon'=>'<i class=" fa  fa-file-text"></i>',
+                                'visible'=>Yii::$app->user->can('manager'),
+
                                 ],
                             ]
                         ],
@@ -382,7 +414,7 @@ $avatar .= '?imageView2/3/w/215/h/215';
                             'label'=>Yii::t('backend', '用户管理'),
                             'url' => '#',
                             'icon'=>'<i class="fa fa-users"></i>',
-                            'visible'=> Yii::$app->user->can('director'),
+                            'visible'=> (Yii::$app->user->can('P_director') ||  Yii::$app->user->can('administrator')),
                             'options'=>['class'=>'treeview'],
                             'items'=>[
                                 [
@@ -390,7 +422,7 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                     'icon'=>'<i class="fa fa-database"></i>',
                                     'options'=>['class'=>'treeview'],
                                     'url'=>['/user/index'],
-                                    'visible'=> Yii::$app->user->can('director')
+                                    'visible'=> Yii::$app->user->can('administrator')
                                     //'badge'=> TimelineEvent::find()->today()->count(),
                                     //'badgeBgClass'=>'label-success',
                                 ],
@@ -399,11 +431,36 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                     'icon'=>'<i class="fa fa-hand-o-right"></i>',
                                     'options'=>['class'=>'treeview'],
                                     'url'=>['/user-token/index'],
-                                    'visible'=>Yii::$app->user->can('director')
+                                    'visible'=>Yii::$app->user->can('administrator')
+                                    //'badge'=> TimelineEvent::find()->today()->count(),
+                                    //'badgeBgClass'=>'label-success',
+                                ],
+                                [
+                                    'label'=>Yii::t('backend', '学校人员管理'),
+                                    'icon'=>'<i class="fa fa-database"></i>',
+                                    'options'=>['class'=>'treeview'],
+                                    'url'=>['/campus/user-to-school/index'],
+                                    'visible'=> Yii::$app->user->can('P_director')
                                     //'badge'=> TimelineEvent::find()->today()->count(),
                                     //'badgeBgClass'=>'label-success',
                                 ],
                             ]
+                        ],
+                        [
+                            'label'=>Yii::t('backend', 'Content'),
+                            'url' => '#',
+                            'icon'=>'<i class="fa fa-edit"></i>',
+                            'visible'=>Yii::$app->user->can('administrator'),
+                            'options'=>['class'=>'treeview'],
+                            'items'=>[
+                                ['label'=>Yii::t('backend', '静态页面'), 'url'=>['/page/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
+                                ['label'=>Yii::t('backend', '文章'), 'url'=>['/article/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
+                                ['label'=>Yii::t('backend', '文章分类'), 'url'=>['/article-category/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
+                                ['label'=>Yii::t('backend', '文本组件'), 'url'=>['/widget-text/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
+                                ['label'=>Yii::t('backend', '菜单组件'), 'url'=>['/widget-menu/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
+                                ['label'=>Yii::t('backend', '轮播组件'), 'url'=>['/widget-carousel/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
+                            ]
+
                         ],
                         [
                             'label'=>Yii::t('backend', 'Other'),

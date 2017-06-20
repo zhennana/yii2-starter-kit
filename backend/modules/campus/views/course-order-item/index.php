@@ -20,17 +20,17 @@ $this->params['breadcrumbs'][] = $this->title;
 */
 $actionColumnTemplates = [];
 
-if (\Yii::$app->user->can('administrator', ['route' => true])) {
+if (\Yii::$app->user->can('P_director', ['route' => true])) {
     $actionColumnTemplates[] = '{view}';
 }
 
-if (\Yii::$app->user->can('administrator', ['route' => true])) {
+if (\Yii::$app->user->can('P_director', ['route' => true])) {
     $actionColumnTemplates[] = '{update}';
 }
 
-if (\Yii::$app->user->can('administrator', ['route' => true])) {
-    $actionColumnTemplates[] = '{delete}';
-}
+// if (\Yii::$app->user->can('P_director', ['route' => true])) {
+//     $actionColumnTemplates[] = '{delete}';
+// }
 if (isset($actionColumnTemplates)) {
 $actionColumnTemplate = implode(' ', $actionColumnTemplates);
     $actionColumnTemplateString = $actionColumnTemplate;
@@ -55,7 +55,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
 
     <div class="clearfix crud-navigation">
 
-        <?php if(\Yii::$app->user->can('administrator', ['route' => true])){ ?>
+        <?php if(\Yii::$app->user->can('P_director', ['route' => true])){ ?>
             <div class="pull-left">
                 <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('cruds', '创建'), ['create'], ['class' => 'btn btn-success']) ?>
             </div>
@@ -116,32 +116,41 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                     },
                     'contentOptions' => ['nowrap'=>'nowrap']
                 ],
-    			// 'parent_id',
+    			 'course_order_item_id',
                 [
+                    'class'     =>\common\grid\EnumColumn::className(),
+                    'enum'      => $schools,
                     'attribute' =>'school_id',
-                    'value'     => function($model){
-                        return isset($model->school->school_title) ? $model->school->school_title : '未知';
-                    }
+                    'format'    => 'raw',
+                    // 'value'     => function($model){
+                    //     return $model->payment;
+                   // },
                 ],
-                [
-                    'attribute' =>'grade_id',
-                    'value'     => function($model){
-                        return isset($model->grade->grade_name) ? $model->grade->grade_name : '未知';
-                    }
-                ],
+                // [
+                //     'attribute' =>'grade_id',
+                //     'value'     => function($model){
+                //         return isset($model->grade->grade_name) ? $model->grade->grade_name : '未知';
+                //     }
+                // ],
                 [
                     'attribute' =>'user_id',
                     'value'     => function($model){
                         return isset($model->user->username) ? $model->user->username : '未知';
                     }
                 ],
-                [
-                    'attribute' =>'introducer_id',
-                    'value'     => function($model){
-                        return isset($model->introducer->username) ? $model->introducer->username : '未知';
-                    }
-                ],
-                [
+                // [
+                //     'attribute' =>'introducer_id',
+                //     'value'     => function($model){
+                //         return isset($model->introducer->username) ? $model->introducer->username : '未知';
+                //     }
+                // ],
+               
+                'total_course',
+    			'presented_course',
+                'total_price',
+                'coupon_price',
+                'real_price',
+                 [
                     'class'     =>\common\grid\EnumColumn::className(),
                     'enum'      => CourseOrderItem::optPayment(),
                     'attribute' =>'payment',
@@ -159,11 +168,6 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                         return $model->payment_status;
                     },
                 ],
-                'total_course',
-    			'presented_course',
-                'total_price',
-                'coupon_price',
-                'real_price',
                 [
                     'class'     =>\common\grid\EnumColumn::className(),
                     'enum'      => CourseOrderItem::optStatus(),

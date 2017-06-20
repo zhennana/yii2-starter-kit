@@ -55,12 +55,13 @@ public function behaviors()
           }
           return $data;
         }
+        /*
         $school_id = Yii::$app->user->identity->getSchoolOrGrade();
         $school = School::find()->where(['status'=>School::SCHOOL_STATUS_OPEN]);
         if($school_id != 'all'){
             $school->andwhere(['school_id'=>$school_id]);
         }
         $school = $school->asArray()->all();
-        return ArrayHelper::map($school,'school_id','school_title');
+        return ArrayHelper::map($school,'school_id','school_title');*/
       }
 }

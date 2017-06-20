@@ -46,7 +46,7 @@ class CourseSearch extends Course
     public function search($params)
     {
         $query = Course::find();
-        $query->joinWith(['school','grade','courseware']);
+        //$query->joinWith(['school','grade','courseware']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
