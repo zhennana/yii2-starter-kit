@@ -8,6 +8,55 @@
  *
  * Yii::$app->authManager
  **/
+if (env('THEME') == 'happy') {
+    return [
+        'class'=>'\common\behaviors\GlobalAccessBehavior',
+        'rules'=>[
+           [
+                'controllers'=>['user/sign-in'],
+                'allow' => true,
+                'roles' => ['?'],
+                'actions'=>['login']
+            ],
+            [
+                'controllers'=>['user/sign-in'],
+                'allow' => true,
+                'roles' => ['@'],
+                'actions'=>['logout']
+            ],
+            [
+                'controllers'=>['site'],
+                'allow' => true,
+                'roles' => ['?','@'],
+                'actions'=>['set-locale']
+            ],
+            [
+                'controllers'=>['site'],
+                'allow' => true,
+                'roles' => ['@'],
+                'actions'=>['index','error']
+            ],
+            [
+                'controllers'=>['article'],
+                'allow' => true,
+                'roles' => ['@'],
+                'actions'=>['course','view']
+            ],
+            [
+                'controllers'=>['page'],
+                'allow' => true,
+                'roles' => ['@'],
+                'actions'=>['view']
+            ],
+            [
+                'controllers'=>['user/default'],
+                'allow' => true,
+                'roles' => ['@'],
+                'actions'=>['index','avatar-upload']
+            ],
+        ]
+    ];
+}
 return [
         'class'=>'\common\behaviors\GlobalAccessBehavior',
         'rules'=>[
