@@ -60,6 +60,7 @@ class CoursewareCategory extends BaseCoursewareCategory
         foreach ($parame as $key => $value) {
             if($value['parent_id'] == $pid){
                 $value['descriptions'] =  $value['description'];
+                $value['imgUrl'] =  'http://orh16je38.bkt.clouddn.com/study-picture.png?imageView2/1/w/509/h/209';
                 unset($parame[$key],$value['description']);
                 $clid = self::formatByApi($parame,$value['category_id'],$level+1);
                 
