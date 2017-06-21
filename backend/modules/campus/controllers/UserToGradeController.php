@@ -21,7 +21,7 @@ class UserToGradeController extends \backend\modules\campus\controllers\base\Use
         $model = new UserToGrade;
         $model = $model->getlist($_GET['type_id'],$_GET['id']);
          echo Html::tag('option','请选择班级',['value'=>'']);
-        foreach ($model as $key => $value) {
+        foreach ($model as $key => $value) {    
          echo Html::tag('option',Html::encode($value),array('value'=>$key));
         }
 

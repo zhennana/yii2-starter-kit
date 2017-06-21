@@ -93,6 +93,7 @@ abstract class Course extends \yii\db\ActiveRecord
             ['teacher_id','required','when'=>function($model,$attribute){
                     $models = self::find()->where([
                             'teacher_id'=> $model->teacher_id,
+                            'status'    => self::COURSE_STATUS_OPEN
                         ]);
                     if(!$model->isNewRecord){
                         $models->andWhere(['not','course_id'=>$model->course_id]);
@@ -100,7 +101,7 @@ abstract class Course extends \yii\db\ActiveRecord
                     $models = $models->orderBy(['end_time'=>SORT_DESC])->one();
                     //var_dump();exit;
                     if($models){
-                        if($models->end_time+15*60 > $model->start_time){
+                        if(($models->end_time + 15*60) > $model->start_time){
                             $message = '所选时间段本老师有未上完的课程，课程名是'.$models->title.'请检查';
                             $model->addError($attribute,$message);
                         }
@@ -124,6 +125,8 @@ abstract class Course extends \yii\db\ActiveRecord
                     ->where([
                         'school_id'=>$model->school_id,
                         'grade_id'=> $model->grade_id,
+                        'status'    => self::COURSE_STATUS_OPEN
+
                         ]);
                     if(!$model->isNewRecord){
                         //var_dump($model->course_id);exit;

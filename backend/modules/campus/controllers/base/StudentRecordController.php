@@ -125,7 +125,7 @@ return $this->render('view', [
 public function actionCreate()
 {
     $model = new StudentRecord;
-    if($_POST){
+    if($_POST && isset($_POST['StudentRecord'])){
         $info = $model->create($_POST['StudentRecord']);
         if($info['errorno'] == 0 ){
             return $this->redirect(['student-record/index']);
