@@ -45,7 +45,7 @@ return [
             ],
             [
                 'allow' => true,
-                'roles' => ['manager'],
+                'roles' => ['manager' ],
             ],
             [
                 'controllers'=>['timeline-event'],
@@ -70,13 +70,7 @@ return [
             [
                 'controllers'=>['campus/sign-in'],
                 'allow'=>true,
-                'actions'=>['create','update'],
-                'roles'=>['manager','P_director']
-            ],
-            [
-                'controllers'=>['campus/sign-in'],
-                'allow'=>true,
-                'actions'=>['index','view'],
+                'actions'=>['create','update','index','view','ajax-form'],
                 'roles'=>['manager','P_director']
             ],
             //课程体系管理
@@ -108,7 +102,7 @@ return [
             ],
             //创建修改学校
             [
-                'controllers'=>['campus/grade'],
+                'controllers'=>['campus/grade','campus/user-to-grade'],
                 'allow'=>true,
                 'actions'=>['create','update'],
                 'roles'=>['P_director']
@@ -143,9 +137,9 @@ return [
             ],
             //查看班级通知,家校沟通
             [
-                'controllers'=>['campus/notice'],
+                'controllers'=>['campus/notice','campus/student-record-value'],
                 'allow'=>true,
-                'actions'=>['grade-notice','ajax-form','family-school-notice'],
+                'actions'=>['grade-notice','ajax-form','family-school-notice','family-school-notice-create','create-value'],
                 'roles'=>['P_teacher']
             ],
             //查看预约信息
@@ -159,8 +153,15 @@ return [
             [
                 'controllers'=>['campus/user-to-school'],
                 'allow'=>true,
-                'actions'=>['index','user-to-school-form'],
+                //'actions'=>['index','user-to-school-form'],
                 'roles'=>['P_director']
+            ],
+            //上传图片
+            [
+                'controllers'=>['campus/courseware-category'],
+                'allow'=>true,
+                //'actions'=>['index','user-to-school-form'],
+                'roles'=>['P_teacher']
             ],
         ]
     ];

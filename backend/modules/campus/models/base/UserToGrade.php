@@ -10,7 +10,7 @@ use yii\helpers\ArrayHelper;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use backend\modules\campus\models\CourseOrderItem;
-use backend\modules\campus\models\SignIn;
+//use backend\modules\campus\models\SignIn;
 
 /**
  * This is the base-model class for table "users_to_grade".
@@ -136,7 +136,7 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
     public function is_course_count($attributes){
         if($this->grade_user_type == self::GRADE_USER_TYPE_STUDENT){
             $courseCount = CourseOrderItem::find()->select(['SUM(total_course + presented_course) as total_courses'])->where(['user_id'=>$this->user_id,'payment_status'=>CourseOrderItem::PAYMENT_STATUS_PAID])->asArray()->one();
-            $aboverCourse = SignIn::find()->where(['student_id'=>$this->user_id,'type_status'=>SignIn::TYPE_STATUS_MORMAL])->count('student_id');
+            $aboverCourse =\backend\modules\campus\models\SignIn::find()->where(['student_id'=>$this->user_id,'type_status'=>\backend\modules\campus\models\SignIn::TYPE_STATUS_MORMAL])->count('student_id');
             if(($courseCount['total_courses'] < $aboverCourse) || ($courseCount['total_courses'] == $aboverCourse) ){
                 $message = $this->user->username.'已欠费'.'请先去缴费才能分班';
                 return $this->addError($attributes,$message);

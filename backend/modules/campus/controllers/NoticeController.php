@@ -262,11 +262,11 @@ class NoticeController extends \backend\modules\campus\controllers\base\NoticeCo
     public function actionAjaxForm(){
         $category = NULL;
         if(isset($_GET['category'])){
-            $$category = $_GET['category'];
+            $category = $_GET['category'];
         }
         $model = new Notice;
         if($_GET['type_id'] == 1){
-            echo Html::tag('option',Html::encode('请选择'));
+            echo Html::tag('option',Html::encode('请选择'),['value'=>""]);
         }
         $model = $model->getlist($_GET['type_id'],$_GET['id'],$category);
         foreach ($model as $key => $value) {

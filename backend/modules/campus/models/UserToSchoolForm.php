@@ -31,7 +31,7 @@ class UserToSchoolForm extends Model
        return [
         [
           [
-          'school_id','roles'],'required'
+          'school_id','body','roles'],'required'
           ],
         [['body','roles'],'string'],
         [
@@ -80,12 +80,18 @@ class UserToSchoolForm extends Model
             $users['birth'] = isset($temp[4]) && !empty($temp[4]) ? trim($temp[4]) : NULL;
             $users['password'] = substr($users['phone_number'], 5);
             $users['roles'] = $this->roles;
+
             if(empty($users['username'])){
                 $info['error'][$key] = [['用户名不能为空']];
                 continue;
             }
+
             if(empty($users['phone_number'])){
                 $info['error'][$key] = [['手机号不能为空']];
+                continue;
+            }
+            if(!is_phone($users['phone_number'])){
+                $info['error'][$key] = [['手机号格式不正确']];
                 continue;
             }
             if(empty($users['email'])){

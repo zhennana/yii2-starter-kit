@@ -125,7 +125,13 @@ abstract class SignIn extends \yii\db\ActiveRecord
             'created_at' => Yii::t('common', '签到时间'),
         ]);
     }
-
+    public static function optsTypeStatus()
+    {
+        return [
+            self::TYPE_STATUS_MORMAL   => Yii::t('common', '正常'),
+            self::TYPE_STATUS_ABSENTEEISM => Yii::t('common', '缺勤'),
+        ];
+    }
     public static function optsSignInStatus()
     {
         return [

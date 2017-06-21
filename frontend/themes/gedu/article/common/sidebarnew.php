@@ -1,7 +1,7 @@
  
 <?php
 use yii\helpers\Html;
- // echo'<pre>';var_dump($category);exit;
+// echo'<pre>';var_dump($category);exit;
 $cateParent=!empty($category['pare_name'])?$category['pare_name']:'光大学校';
 ?><!-- 左边侧边栏 -->
     <div class="col-md-4">
@@ -14,9 +14,18 @@ $cateParent=!empty($category['pare_name'])?$category['pare_name']:'光大学校'
            <aside class="">
             <section class="sidebar">
               <ul class="sidebar-menu tree" data-widget="tree">
-                <?php foreach($category['child'] as $key =>$value){?>
+                <?php foreach($category['child'] as $key =>$value){
+                  ?>
                 <li class="treeview">
-                     <span><?php echo Html::a($value['title'],['article/index','category_id'=>$value['id']]) ?></span>
+                     <span><?php 
+                     if($value['id']==38){
+                      echo Html::a($value['title'],['site/teacher']);
+                     }else if($value['id']==37){
+                      echo Html::a($value['title'],['site/sights']);
+                     }else{
+                      echo Html::a($value['title'],['article/index','category_id'=>$value['id']]);
+                     } ?>
+                     </span>
                 </li>
                 <?php }?>
               </ul>
