@@ -451,6 +451,42 @@
 #btnspacetwo{
 	cursor:default; 
 }
+.one{
+	cursor:default; 
+	word-spacing:80px;
+	letter-spacing: 26.3px;
+	margin-right: 10px;
+}
+.two{
+	cursor:default; 
+	word-spacing:80px;
+	letter-spacing: 2.3px;
+	margin-right: 15px;
+}
+.three{
+	cursor:default; 
+	word-spacing:70px;
+	letter-spacing: 2.3px;
+	margin-right: 10px;
+}
+.applystar{
+	display: inline;
+	float: left; 
+	margin-right: 5px;
+	margin-top:3px
+}
+.span4{
+	width: 180px;
+}
+.span5{
+	width: 200px;
+}
+.span8{
+	width: 560px;
+}
+.span12{
+	width: 1050px;
+}
 #btnspace,#btnspacetwo,#applyspace2,#applyspace,#applyspace3:hover{
 	color:black; 
 }
@@ -633,6 +669,77 @@
 }
 /* effect-4 css end */
 
+.col-padding {
+  padding: 10px !important;
+}
+.animate-box {
+  opacity: 1;
+}
+.blog-entry {
+  width: 100%;
+  float: left;
+  background: #fff;
+
+}
+@media screen and (max-width: 768px) {
+  .blog-entry {
+    margin-bottom: 30px;
+  }
+}
+.blog-entry .blog-img {
+  width: 100%;
+  float: left;
+  /*margin-left: 20px;*/
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 25px;
+}
+.blog-entry .blog-img img {
+  position: relative;
+  max-width: 100%;
+  margin:0 auto;
+  -webkit-transform: scale(1.2);
+  -moz-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  -o-transform: scale(1.2);
+  transform: scale(1.2);
+  -webkit-transition: 0.9s;
+  -o-transition: 0.9s;
+  transition: 0.9s;
+}
+.blog-entry .desc {
+  padding: 25px;
+   margin:0 auto;
+}
+.blog-entry .desc h3 {
+  font-size: 15px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+  line-height: auto;
+}
+.blog-entry .desc h3 a {
+  color: #000;
+  text-decoration: none;
+}
+.blog-entry .desc span {
+  display: block;
+  margin-bottom: 20px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(0, 0, 0, 0.4) !important;
+}
+.blog-entry .desc span small i {
+  color: #e6e6e6;
+}
+.blog-entry .desc .lead {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #000;
+}
  .row-box .headcolor{color: black;}
   @media only screen and (max-width:990px){
     .box{ margin-bottom: 30px; }

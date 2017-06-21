@@ -2,7 +2,7 @@
 use yii\helpers\Html; 
 ?>
 <div class="row" >
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 main-4-newsBox">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 main-4-newsBox">
         <div class="newsBox">  
           <h2 class="page-header">
            <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-4-news.png">
@@ -66,7 +66,7 @@ use yii\helpers\Html;
         </div>
     </div>
 
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
         <div class="">
             <video src="http://orh16je38.bkt.clouddn.com/guangda86m.mov" width="100%" height="100%" id="yjzxVideo" controls autobuffer >
             </video>

@@ -19,18 +19,51 @@
 @media (max-width:1024px){
 	
 	.txt {
-	  padding:4.7em 1.4em;
+	  padding:3.1em 1.4em;
 	}
 	
 	
 }
 @media (max-width:768px){
-	.txt {
-	  padding:3.2em 1.4em;
-	}
-	.text {
-	  top:30%;
-	}
+.txt {
+  padding:3.1em 1.4em;
+}
+.text {
+  top:30%;
+}
+.cap4 span{
+position: absolute;
+top: 48%;
+left:-4.6%;
+width: 0;
+height: 0;
+border-top: 13px solid #723c8e;
+border-right: 13px solid transparent;
+border-left: 13px solid transparent;
+transform: rotate(270deg);
+}
+.cap5 span{
+	position: absolute;
+	top: 50%;
+	right:-5%;
+
+}
+.cap span{
+	position: absolute;
+	top: 48%;
+	left:-4.6%;
+
+}
+.cap1 span{
+	position: absolute;
+	top: 91%;
+	left: 39%;
+
+}
+.cap3 span{
+	right:-4.6%;
+
+}
 	
 }
 
