@@ -5,7 +5,8 @@
 namespace backend\modules\campus\controllers\base;
 
 use backend\modules\campus\models\Grade;
-    use backend\modules\campus\models\search\GradeSearch;
+use backend\modules\campus\models\search\GradeSearch;
+use backend\modules\campus\models\UserToGrade;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\helpers\Url;
@@ -113,16 +114,22 @@ public function actionCreate()
 $model = new Grade;
 
 try {
-if ($model->load($_POST) && $model->save()) {
-return $this->redirect(['view', 'grade_id' => $model->grade_id]);
-} elseif (!\Yii::$app->request->isPost) {
-$model->load($_GET);
-}
-} catch (\Exception $e) {
-$msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
-$model->addError('_exception', $msg);
-}
-return $this->render('create', ['model' => $model]);
+    if ($model->load($_POST) && $model->save()) {
+            $userToGrade = new UserToGrade;
+            $userToGrade->user_id = $model->owner_id;
+            $userToGrade->grade_id = $model->grade_id;
+            $userToGrade->school_id = $model->school_id;
+            $userToGrade->grade_user_type = UserToGrade::GRADE_USER_TYPE_TEACHER;
+            $userToGrade->save();
+        return $this->redirect(['view', 'grade_id' => $model->grade_id]);
+    } elseif (!\Yii::$app->request->isPost) {
+        $model->load($_GET);
+    }
+    } catch (\Exception $e) {
+        $msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
+        $model->addError('_exception', $msg);
+    }
+    return $this->render('create', ['model' => $model]);
 }
 
 /**
