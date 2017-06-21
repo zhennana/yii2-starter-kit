@@ -16,7 +16,15 @@ class StudentRecord extends BaseStudentRecord
 			'error'	  =>[]
 		];
 		foreach ($data['user_id'] as $key => $value) {
-			$model = new StudentRecord;
+			$model = StudentRecord::find()->where(
+				[
+				'school_id'	=>$data['school_id'],
+				'grade_id'	=> $data['grade_id'],
+				'user_id'	=> $value,
+				])->one();
+			if(!$model){
+				$model = new $model;
+			}
 			$model->user_id = $value;
 			$model->school_id = $data['school_id'];
 			$model->grade_id  = $data['grade_id'];
