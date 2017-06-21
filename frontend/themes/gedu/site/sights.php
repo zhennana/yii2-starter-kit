@@ -62,7 +62,7 @@ $school=[
                   <div class="">
                     <div class="row teabor">
                     <?php foreach($school as $key =>$value){?>
-                      <ul class="col-md-4 col-sm-6">
+                      <ul class="col-md-4  col-sm-4 col-xs-4">
                         <li>
                           <div class="port-7 effect-2">
                             <div class="image-box">

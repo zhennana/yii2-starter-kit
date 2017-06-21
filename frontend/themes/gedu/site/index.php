@@ -7,7 +7,7 @@ use yii\helpers\Html;
         <div class="main-1">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-3 col-md-3 col-sm-6 col-xs-6">
+                    <div class="col-md-3 col-md-3 col-sm-3 col-xs-3">
                         <div class="row-box">
                             <!-- <div class="main-1-icon-1"><a href="#"><div class="aaa"></div></a></div> -->
                             <!-- <a href="#"><div class="main-1-icon-1"></div></a> -->
@@ -24,7 +24,7 @@ use yii\helpers\Html;
                             <h6>Primary School Department</h6></h4>
                         </div>
                     </div>
-                    <div class="col-md-3 col-md-3 col-sm-6 col-xs-6">
+                    <div class="col-md-3 col-md-3 col-sm-3 col-xs-3">
                         <div class="row-box">
                             <!-- <a href="#"><div class="main-1-icon-2"></div></a> -->
                             <?php 
@@ -41,7 +41,7 @@ use yii\helpers\Html;
                             <h6>Daltonian</h6>
                         </div>
                     </div>
-                    <div class="col-md-3 col-md-3 col-sm-6 col-xs-6">
+                    <div class="col-md-3 col-md-3 col-sm-3 col-xs-3">
                         <div class="row-box">
                             <!-- <a href="#"><div class="main-1-icon-3"></div></a> -->
                             <?php 
@@ -58,7 +58,7 @@ use yii\helpers\Html;
                             <h6>Oversea sales</h6>
                         </div>
                     </div>
-                    <div class="col-md-3 col-md-3 col-sm-6 col-xs-6">
+                    <div class="col-md-3 col-md-3 col-sm-3 col-xs-3">
                         <div class="row-box">
                             <!-- <a href="#"><div class="main-1-icon-4"></div></a> -->
                             <?php 
