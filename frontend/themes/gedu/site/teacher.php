@@ -90,7 +90,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                   <div class="">
                     <div class="row teabor">
                     <?php foreach($teachers as $key =>$value){?>
-                      <ul class="col-md-4 col-sm-6">
+                      <ul class="col-md-4 col-sm-4 col-xs-4">
                         <li>
                           <div class="port-3 effect-3">
                             <div class="image-box">
