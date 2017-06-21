@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
  */
 $actionColumnTemplates = [];
 
-if (\Yii::$app->user->can('leader', ['route' => true])) {
+if (\Yii::$app->user->can('P_teacher', ['route' => true])) {
 	$actionColumnTemplates[] = '{view}';
 }
 

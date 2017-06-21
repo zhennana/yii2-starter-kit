@@ -7,6 +7,7 @@ use \backend\modules\campus\models\base\SignIn as BaseSignIn;
 use yii\helpers\ArrayHelper;
 use backend\modules\campus\models\School;
 use backend\modules\campus\models\Grade;
+//use backend\modules\campus\models\UserToGrade;
 
 /**
  * This is the model class for table "sign_in".
@@ -46,20 +47,26 @@ public function behaviors()
         }
 
         if($type_id == 3){
-            $course = Course::find()->where(['grade_id'=>$id,'status'=>Course::COURSE_STATUS_OPEN])->asArray()->all();
+            $course = Course::find()->where(['grade_id'=>$id,'status'=>Course::COURSE_STATUS_FINISH])->asArray()->all();
             return ArrayHelper::map($course,'course_id','title');
         }
-        if($type_id == 4){
-            $user = SignIn::find()->where(['course_id' => $id])->asArray()->all();
-            //var_dump($user);exit;
-            $users = [];
-            foreach ($user as $key => $value) {
-                $users[$key]['user_id'] = $value['student_id'];
-                $users[$key]['username'] = SignIn::getUserName($value['student_id']);
+        if(($type_id == 4) || ($type_id == 5)){
+            $gradeUser = UserToGrade::find()->where(['grade_id' => $id]);
+            if($type_id == 4){
+                $gradeUser->andWhere(['grade_user_type'=> UserToGrade::GRADE_USER_TYPE_STUDENT]);
+            }else{
+                $gradeUser->andWhere(['grade_user_type'=> UserToGrade::GRADE_USER_TYPE_TEACHER]);
             }
-            //var_dump($users);exit;
+
+            $gradeUser =  $gradeUser->asArray()->all();
+            $users = [];
+            foreach ($gradeUser as $key => $value) {
+                    $users[$key]['user_id'] = $value['user_id'];
+                    $users[$key]['username'] = SignIn::getUserName($value['user_id']);
+                }
             return ArrayHelper::map($users,'user_id','username');
         }
+
         return false;
     }
 }
