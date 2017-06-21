@@ -44,7 +44,7 @@ class Courseware extends BaseCourseware
                     if(isset($model->toFile[0]->fileStorageItem->url)&& isset($model->toFile[0]->fileStorageItem->file_name)){
                         return $model->toFile[0]->fileStorageItem->url.$model->toFile[0]->fileStorageItem->file_name;
                     }else{
-                        return 'http://7xsm8j.com2.z0.glb.qiniucdn.com/yajolyajol_activity_banner_01.png?imageView2/1/w/200/h/100';
+                        return 'http://orh16je38.bkt.clouddn.com/1024.png?imageView2/1/w/200/h/100';
                     }
                 },
                 'filetype'   => function($model){
@@ -92,6 +92,7 @@ class Courseware extends BaseCourseware
         $data   = [];
 
         foreach ($this->category() as $key => $value) {
+
             if(in_array($value->counts,[2,3,4])){
                 $model = self::find()->select([
                     'courseware_id','title'

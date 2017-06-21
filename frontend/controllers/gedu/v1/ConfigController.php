@@ -293,8 +293,8 @@ class ConfigController extends \common\rest\Controller
     public function actionBanner()
     {
         $img=[
-            1 => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/573ed468312f3.jpg?imageView2/1/w/640/h/282',
-            2 => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/bannerone.jpg?imageView2/1/w/640/h/282'
+            1 => 'http://orh16je38.bkt.clouddn.com/banner.png',
+            2 => 'http://orh16je38.bkt.clouddn.com/banner.png'
         ];
         $title=[
             1 => '直击精品课程',
