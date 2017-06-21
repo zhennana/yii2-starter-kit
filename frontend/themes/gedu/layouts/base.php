@@ -90,6 +90,10 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                                 'label' => Yii::t('frontend', '国际招生'),
                                 'url' => ['/article/index', 'category_id'=>'28']
                             ],
+                            [
+                                'label' => Yii::t('frontend', '韩语班招生'),
+                                'url' => ['/article/index', 'category_id'=>'39']
+                            ],
                             // [
                             //     'label' => Yii::t('frontend', '特长部招生'),
                             //     'url' => ['/page/view', 'slug'=>'te-zhang-bu-zhao-sheng-jian-zhang']
