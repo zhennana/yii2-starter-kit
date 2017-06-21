@@ -8,6 +8,17 @@ use yii\bootstrap\NavBar;
 
 $this->beginContent('@frontend/views/layouts/_clear.php')
 ?>
+ <?php 
+// 信息警告提示
+if(Yii::$app->session->hasFlash('alert')):?>
+    <?php echo \yii\bootstrap\Alert::widget([
+        'body'=>ArrayHelper::getValue(Yii::$app->session->getFlash('alert'), 'body'),
+        'options'=>ArrayHelper::getValue(Yii::$app->session->getFlash('alert'), 'options'),
+    ]);
+?>
+<?php endif; ?>
+
+<?php echo $this->render('@frontend/themes/gedu/layouts/common/_alert'); ?>
 <div class="wrap">
      <div class="top">
         <div class="top-logo"><img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/top-logo.png"></div>
@@ -142,12 +153,6 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                             <div class="footer-2-text">
                                 <h3 >Address</h3>
                                 <p>河北省三河市燕郊开发区燕灵路236号</p>
-                                <p id="footer-2-box1-p">（三河二中西门路北）</p>
-                            </div> 
-                            <div class="footer-2-text-small">
-                                <h3 >Address</h3>
-                                <p>河北省三河市燕郊开发</p>
-                                <p id="footer-2-box1-p">区燕灵路236号</p>
                                 <p id="footer-2-box1-p">（三河二中西门路北）</p>
                             </div> 
                         </div>
