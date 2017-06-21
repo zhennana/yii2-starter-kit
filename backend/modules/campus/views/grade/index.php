@@ -8,8 +8,9 @@ use backend\modules\campus\models\School;
 use backend\modules\campus\models\Grade;
 use backend\modules\campus\models\GradeCategory;
 
-$school_ids = School::find()->where(['status'=>School::SCHOOL_STATUS_OPEN])->asArray()->all();
-$school_ids = ArrayHelper::map($school_ids,'id','school_title');
+/*
+$school_ids = [Yii::$app->user->identity->currentSchool];
+$school_ids = ArrayHelper::map($school_ids,'id','school_title');*/
 //var_dump($school_ids);exit;
 $group_category_ids = GradeCategory::find()->where(['status'=>GradeCategory::CATEGORY_OPEN])->asArray()->all();
 $group_category_ids = ArrayHelper::map($group_category_ids,'grade_category_id','name');
@@ -19,7 +20,7 @@ $group_category_ids = ArrayHelper::map($group_category_ids,'grade_category_id','
     * @var backend\modules\campus\models\search\GradeSearch $searchModel
 */
 
-$this->title = Yii::t('backend', 'Grades');
+$this->title = Yii::t('backend', '班级管理');
 $this->params['breadcrumbs'][] = $this->title;
 
 
@@ -28,22 +29,22 @@ $this->params['breadcrumbs'][] = $this->title;
 */
 $actionColumnTemplates = [];
 
-    if (\Yii::$app->user->can('manager', ['route' => true])) {
+    if (\Yii::$app->user->can('P_director', ['route' => true])) {
         $actionColumnTemplates[] = '{view}';
     }
 
-    if (\Yii::$app->user->can('manager', ['route' => true])) {
+    if (\Yii::$app->user->can('P_director', ['route' => true])) {
         $actionColumnTemplates[] = '{update}';
     }
 
-    if (\Yii::$app->user->can('manager', ['route' => true])) {
+    if (\Yii::$app->user->can('P_director', ['route' => true])) {
         $actionColumnTemplates[] = '{delete}';
     }
     if (isset($actionColumnTemplates)) {
     $actionColumnTemplate = implode(' ', $actionColumnTemplates);
         $actionColumnTemplateString = $actionColumnTemplate;
     } else {
-    Yii::$app->view->params['pageButtons'] = Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'New'), ['create'], ['class' => 'btn btn-success']);
+    Yii::$app->view->params['pageButtons'] = Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'), ['create'], ['class' => 'btn btn-success']);
         $actionColumnTemplateString = "{view} {update} {delete}";
     }
     $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTemplateString.'</div>';
@@ -58,14 +59,14 @@ $actionColumnTemplates = [];
     <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
 
     <h1>
-        <?= Yii::t('backend', '班级') ?>
+        <?= Yii::t('backend', '班级管理') ?>
         <small>
             列表
         </small>
     </h1>
     <div class="clearfix crud-navigation">
 <?php
-if(\Yii::$app->user->can('manager', ['route' => true])){
+if(\Yii::$app->user->can('P_director', ['route' => true])){
 ?>
         <div class="pull-left">
             <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'),
@@ -77,31 +78,27 @@ if(\Yii::$app->user->can('manager', ['route' => true])){
 ?>
         <div class="pull-right">
 
-                                                    
-            <?= 
-            \yii\bootstrap\ButtonDropdown::widget(
-            [
-                'id' => 'giiant-relations',
+
+            <?= \yii\bootstrap\ButtonDropdown::widget([
+                'id'          => 'giiant-relations',
                 'encodeLabel' => false,
-                'label' => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('backend', '关系'),
-                'dropdown' => [
+                'label'       => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('backend', '相关管理'),
+                'dropdown'    => [
                     'options' => [
                         'class' => 'dropdown-menu-right'
                     ],
                     'encodeLabels' => false,
-                    'items' => [
+                    'items'        => [
                         [
-                            'url' => ['grade-profile/index'],
+                            'url'   => ['grade-profile/index'],
                             'label' => '<i class="glyphicon glyphicon-arrow-left">&nbsp;' . Yii::t('backend', 'Grade Profile') . '</i>',
                         ],
-                        
                     ]
                 ],
                 'options' => [
                     'class' => 'btn-default'
                 ]
-            ]);
-            ?>
+            ]); ?>
         </div>
     </div>
 
@@ -110,31 +107,31 @@ if(\Yii::$app->user->can('manager', ['route' => true])){
     <div class="table-responsive">
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
-            'pager' => [
-                'class' => yii\widgets\LinkPager::className(),
-                'firstPageLabel' => Yii::t('backend', 'First'),
-                'lastPageLabel' => Yii::t('backend', 'Last'),
+            'pager'        => [
+                'class'          => yii\widgets\LinkPager::className(),
+                'firstPageLabel' => Yii::t('backend', '首页'),
+                'lastPageLabel'  => Yii::t('backend', '尾页'),
             ],
-            'filterModel' => $searchModel,
-            'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
+            'filterModel'      => $searchModel,
+            'tableOptions'     => ['class' => 'table table-striped table-bordered table-hover'],
             'headerRowOptions' => ['class'=>'x'],
-            'columns' => [
-                    [
-                        'class' => 'yii\grid\ActionColumn',
-                        'template' => $actionColumnTemplateString,
-                        'buttons' => [
-                            'view' => function ($url, $model, $key) {
-                                $options = [
-                                    'title' => Yii::t('yii', 'View'),
-                                    'aria-label' => Yii::t('yii', 'View'),
-                                    'data-pjax' => '0',
-                                ];
-                                return Html::a('<span class="glyphicon glyphicon-file"></span>', $url, $options);
-                            }
-                        ],
-                        'urlCreator' => function($action, $model, $key, $index) {
+            'columns'          => [
+                [
+                    'class'    => 'yii\grid\ActionColumn',
+                    'template' => $actionColumnTemplateString,
+                    'buttons'  => [
+                        'view' => function ($url, $model, $key) {
+                            $options = [
+                                'title'      => Yii::t('backend', '查看'),
+                                'aria-label' => Yii::t('backend', '查看'),
+                                'data-pjax'  => '0',
+                            ];
+                            return Html::a('<span class="glyphicon glyphicon-file"></span>', $url, $options);
+                        }
+                    ],
+                    'urlCreator' => function($action, $model, $key, $index) {
                         // using the column name as key, not mapping to 'id' like the standard generator
-                        $params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
+                        $params    = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
                         $params[0] = \Yii::$app->controller->id ? \Yii::$app->controller->id . '/' . $action : $action;
                         return Url::toRoute($params);
                     },
@@ -143,8 +140,8 @@ if(\Yii::$app->user->can('manager', ['route' => true])){
                 [
                     'class'     =>\common\grid\EnumColumn::className(),
                     'attribute' =>'school_id',
-                    'format'      => 'raw',
-                    'enum'      => $school_ids,
+                    'format'    => 'raw',
+                    'enum'      => $schools,
                     'value'     => function($model){
                         return Html::a(
                             $model->school->school_title,
@@ -162,29 +159,48 @@ if(\Yii::$app->user->can('manager', ['route' => true])){
                     'value'     =>function($model){
                         return Html::a(
                             isset($model->gradeCategory->name) ? $model->gradeCategory->name: '',
-                            ['campus/grade-categroy','grade-categroy_id'=>$model->group_category_id]
+                            ['/campus/grade-categroy','grade-categroy_id'=>$model->group_category_id]
                             );
                     }
                 ],
-                   // 'group_category_id',
-        			'grade_title',
-        			'creater_id',
-        			//'classroom_group_levels',
-        			'owner_id',
-        			'sort',
-        			//'status',
+                //'group_category_id',
+    			'grade_title',
+                'grade_name',
+                [
+                    'attribute' => 'creater_id',
+                    'value'     => function($model){
+                        return $model->getUserName($model->creater_id);
+                    }
+                ],
+    			//'classroom_group_levels',
+                [
+                    'attribute' => 'owner_id',
+                    'value'     => function($model){
+                        return $model->getUserName($model->owner_id);
+                    }
+                ],
+    			'sort',
+    			//'status',
                 [
                     'class'     =>\common\grid\EnumColumn::className(),
                     'attribute' =>'status',
-                    'format'        => 'raw',
+                    'format'    => 'raw',
                     'value'     => function($model){
                         return $model->status;
                     },
                     'enum'      => Grade::optsStatus()
                 ],
+                [
+                    'class'     =>\common\grid\EnumColumn::className(),
+                    'enum'      => Grade::optsGraduate(),
+                    'attribute' =>'graduate',
+                    'format'    => 'raw',
+                    'value'     => function($model){
+                        return $model->graduate;
+                    },
+                ],
                 'updated_at:datetime',
-                'created_at:datetime'
-        			/*'graduate',*/
+                'created_at:datetime',
         			/*'time_of_graduation:datetime',*/
         			/*'time_of_enrollment:datetime',*/
         			/*'grade_name',*/

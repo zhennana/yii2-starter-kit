@@ -19,7 +19,7 @@ class UserSearch extends User
     {
         return [
             [['id', 'status', 'created_at', 'updated_at', 'logged_at'], 'integer'],
-            [['username', 'auth_key', 'password_hash', 'email'], 'safe'],
+            [['username', 'phone_number', 'auth_key', 'password_hash', 'email'], 'safe'],
         ];
     }
 
@@ -39,20 +39,31 @@ class UserSearch extends User
     public function search($params)
     {
         $query = User::find();
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
-
+        //   $query->select(['u.*'])->from('user as u');
+        // if(!Yii::$app->user->can('manager')){
+        //     $query->Joinwith('userToSchool as s');
+        //     $query->Andwhere(['not',['s.user_id'=>NULL]]);
+        //     $query->groupBy(['s.user_id']);
+        //     if(Yii::$app->user->can('leader')){
+        //         $ids = Yii::$app->authManager->getUserIdsByRole(['administrator']);
+        //     }elseif(Yii::$app->user->can('director')){
+        //         $ids = Yii::$app->authManager->getUserIdsByRole(['administrator','leader']);
+        //     }
+        //     $query->andFilterWhere(['not',['id'   => $ids]]);
+        // }
+            $dataProvider = new ActiveDataProvider([
+                'query' => $query,
+            ]);
+         //$commandQuery = clone $query; echo $commandQuery->createCommand()->getRawSql();exit();
+        //var_dump($dataProvider->getModels());exit;
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
-
         $query->andFilterWhere([
             'id' => $this->id,
-            'status' => $this->status,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'u.status' => $this->status,
+            'u.created_at' => $this->created_at,
+            'u.updated_at' => $this->updated_at,
             'logged_at' => $this->logged_at
         ]);
 
@@ -60,7 +71,6 @@ class UserSearch extends User
             ->andFilterWhere(['like', 'auth_key', $this->auth_key])
             ->andFilterWhere(['like', 'password_hash', $this->password_hash])
             ->andFilterWhere(['like', 'email', $this->email]);
-
         return $dataProvider;
     }
 }

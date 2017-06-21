@@ -9,6 +9,10 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;
+use backend\modules\campus\models\UserToGrade;
+use backend\modules\campus\models\UserToSchool;
+use backend\modules\campus\models\Grade;
+use backend\modules\campus\models\School;
 
 /**
  * User model
@@ -39,10 +43,21 @@ class User extends ActiveRecord implements IdentityInterface
     const ROLE_USER = 'user';
     const ROLE_MANAGER = 'manager';
     const ROLE_ADMINISTRATOR = 'administrator';
+    const ROLE_DIRECTOR      = 'director';
+    const ROLE_TEACHER       = 'teacher';
+    const ROLE_LEADER        = 'leader';
 
     const EVENT_AFTER_SIGNUP = 'afterSignup';
     const EVENT_AFTER_LOGIN = 'afterLogin';
 
+    // 当前用户班级学校信息
+    public $schoolsInfo          = [];
+    public $gradesInfo           = [];
+
+    public $currentSchool = []; //当前学校
+    public $currentGrade  = []; //当前班级
+    public $currentSchoolId = 0; //当前学校班级id
+    public $currentGradeId  = 0; //当前班级id
     /**
      * @inheritdoc
      */
@@ -122,6 +137,7 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             'username' => Yii::t('common', 'Username'),
             'email' => Yii::t('common', 'E-mail'),
+            'phone_number' => Yii::t('common', '手机号'),
             'status' => Yii::t('common', 'Status'),
             'access_token' => Yii::t('common', 'API access token'),
             'created_at' => Yii::t('common', 'Created at'),
@@ -130,12 +146,269 @@ class User extends ActiveRecord implements IdentityInterface
         ];
     }
 
+
     /**
      * @return \yii\db\ActiveQuery
      */
     public function getUserProfile()
     {
         return $this->hasOne(UserProfile::className(), ['user_id' => 'id']);
+    }
+    /**
+     * 获取学校
+     * @return [type] [description]
+     */
+    public function getUserToSchool(){
+        return $this->hasMany(UserToSchool::className(),['user_id'=>'id'])->orderBy(['created_at'=> 'SORT_SESC']);
+    }
+    /**
+     * 用户默认所在的班级
+     * @return [type] [description]
+     */
+    public function getUserToGrade(){
+        return $this->hasOne(UserToGrade::className(),['user_id'=>'id'])->orderBy(['created_at'=>'SORT_SESC']);
+    }
+
+    /**
+     * 用户所在的班级全部
+     * @return [type] [description]
+     */
+    public function getUsersToGrades(){
+        return $this->hasMany(UserToGrade::className(),['user_id'=>'id'])->orderBy(['created_at'=>'SORT_SESC']);
+    }
+    /**
+     * 根据权限获取班级id或者学校id
+     */
+    /*
+    public function getSchoolOrGrade(){
+        if(Yii::$app->user->can('manager')){
+            return 'all';
+        }elseif(Yii::$app->user->can('director') || Yii::$app->user->can('leader') ){
+            return ArrayHelper::map($this->userToSchool, 'school_id','school_id');
+        }elseif(Yii::$app->user->can('teacher')){
+            return ArrayHelper::map($this->usersToGrades, 'grade_id','grade_id');
+        }else{
+            return false;
+        }
+    }
+    */
+
+    /**
+     * 获取全部用户信息
+     */
+    public function getSchool($user_id = 0, $limit = 20, $flush = false){
+        if(!empty($this->schoolInfo) && $flush == false){
+            return $this->schoolInfo;
+        }
+        $user_id = empty($user_id) ? $this->id : $user_id ;
+        if(Yii::$app->user->can('manager')){
+            $this->schoolsInfo = School::find()
+            ->where(['status'=>School::SCHOOL_STATUS_OPEN])
+            ->orderBy(['sort'=>SORT_ASC])
+            ->all();
+        }else{
+            $query = new \yii\db\Query();
+            $query->select('s.*')
+                ->from('school as s')
+                ->leftJoin('users_to_school as t','t.school_id = s.school_id')
+                ->andWhere('t.user_id = :user_id',[':user_id'=>$user_id])
+                ->andwhere('s.status = :status',[':status'=>School::SCHOOL_STATUS_OPEN])
+                ->orderBy('t.sort ASC , t.updated_at DESC')
+                ->limit($limit)
+                ->groupBy(['s.school_id']);
+        $command = $query->createCommand(Yii::$app->get('campus'));
+        $this->schoolsInfo = $command->queryAll();
+        }
+        // $this->schoolsInfo = $school;
+        return  $this->schoolsInfo;
+
+    }
+    /**
+     * 当前用户所在班级全部人员
+     * @param  integer $school           [description]
+     * @param  integer $school_user_type [description]
+     * @return [type]                    [description]
+     */
+    public function getSchoolToUser($school_id = 0,$school_user_type = 10){
+
+        $user = UserToSchool::find()
+                ->with(['user'=>function($query){
+                    $query->where(['status' => self::STATUS_ACTIVE]);
+                }])
+                ->andWhere(['school_id'=> $school_id])
+                ->andWhere(['school_user_type' => $school_user_type])
+                ->asArray()
+                ->all();
+        $data = [];
+        foreach ($user  as $key => $value) {
+            if(isset($value['user']) && !empty($value['user'])){
+                $data[$key] = $value['user'];
+            }
+        }
+        return $data;
+    }
+
+    /**
+     * *获取班级人员
+     */
+    public function getGradeToUser($grade_id = 0,$grade_user_type = 20){
+
+        $user = UserToGrade::find()
+                ->with(['user'=>function($query){
+                    $query->where(['status' => self::STATUS_ACTIVE]);
+                }])
+                ->andWhere(['grade_id'=> $grade_id])
+                ->andWhere(['grade_user_type' => $grade_user_type])
+                ->asArray()
+                ->all();
+        $data = [];
+        foreach ($user  as $key => $value) {
+            if(isset($value['user']) && !empty($value['user'])){
+                $data[$key] = $value['user'];
+            }
+        }
+        return $data;
+    }
+    /**
+     * 获取当前用户下所有班级
+     * @return [type] [description]
+     */
+    public  function getGrades($user_id = 0, $schools_id = 0,  $limit = 100, $flush = false){
+
+        $user_id    = empty($user_id) ? $this->id : $user_id ;
+        $schools_id = empty($schools_id) ? $this->getCurrentSchoolId() : $schools_id ;
+            $query = new \yii\db\Query();
+            $query->select('g.*')
+                ->from('users_to_grade as t')
+                ->leftJoin('grade as g','t.grade_id = g.grade_id');
+            if(Yii::$app->user->can('manager') || Yii::$app->user->can('P_director') ){
+            }else{
+                $query->andWhere('t.user_id = :user_id',[':user_id'=>$user_id]);
+            }
+            $query->andwhere('g.status = :status',[':status'=>Grade::GRADE_STATUS_OPEN])
+                ->andwhere(['g.school_id'=>$schools_id])
+                ->orderBy('t.sort ASC , t.updated_at DESC')
+                ->limit($limit)
+                ->groupBy(['g.grade_id']);
+            $command = $query->createCommand(Yii::$app->get('campus'));
+            $this->gradesInfo = $command->queryAll();
+
+        return $this->gradesInfo;
+    }
+
+    // 当前学校班级ID
+    public function setCurrentSchoolId($schoolIdCurrent = NULL){
+        $this->currentSchoolId = $schoolIdCurrent;
+    }
+    public function getCurrentSchoolId(){
+        return $this->currentSchoolId;
+    }
+
+    public function setCurrentGradeId($gradeIdCurrent = NULL){
+        $this->currentGradeId = $gradeIdCurrent;
+    }
+    public function getCurrentGradeId(){
+        return $this->currentGradeId;
+    }
+
+      // 当前用户的全体学校班级信息
+    public function setSchoolsInfo($schoolsInfo){
+        $this->schoolsInfo = $schoolsInfo;
+    }
+    public function getSchoolsInfo(){
+        return $this->schoolsInfo;
+    }
+
+    public function setGradesInfo($gradesInfo){
+        $this->gradesInfo = $gradesInfo;
+    }
+    public function getGradesInfo(){
+        return $this->gradesInfo;
+    }
+
+    // 当前学校班级具体信息
+    public function setCurrentSchool($schoolCurrent){
+        $this->currentSchool = $schoolCurrent;
+    }
+    public function getCurrentSchool(){
+        return $this->currentSchool;
+    }
+
+    public function setCurrentGrade($gradeCurrent){
+        $this->currentGrade = $gradeCurrent;
+    }
+    public function getCurrentGrade(){
+        return $this->currentGrade;
+    }
+
+    /**
+     * 检测用户是否存在班级学校
+     * @param  boolean $type [description]
+     * @return boolean       [description]
+     */
+    public function is_userToGrade($type = false){
+        $query = $this->getUserToGrade();
+
+        if($type == UserToGrade::GRADE_USER_TYPE_STUDENT){
+            $query->where(['grade_user_type'=>UserToGrade::GRADE_USER_TYPE_STUDENT]);
+        }
+
+        if($type == UserToGrade::GRADE_USER_TYPE_TEACHER){
+
+            $query->where(['grade_user_type'=>UserToGrade::GRADE_USER_TYPE_TEACHER]);
+        }
+        if($query->count() == 0 ){
+            return false;
+        }else{
+            return true;
+        }
+    }
+    /**
+     * 获取用户所在的学校
+     * @return [type] [description]
+     */
+    public function getCharacterDetailes(){
+        $data = [];
+     //   var_dump($this->id);exit;
+        if($this->is_userToGrade(UserToGrade::GRADE_USER_TYPE_STUDENT)){
+            $data['user_type']  = 1;
+            $model =  $this->getUserToGrade()
+                       ->where(['grade_user_type'=>UserToGrade::GRADE_USER_TYPE_STUDENT])
+                       ->one();
+        }
+        if($this->is_userToGrade(UserToGrade::GRADE_USER_TYPE_TEACHER)){
+            $data['user_type'] = 2;
+            $model = $this->getUserToGrade()
+                        ->where(['grade_user_type'=>UserToGrade::GRADE_USER_TYPE_TEACHER])
+                        ->one();
+        }
+       // var_dump($model);exit;
+        if(isset($model)){
+            return array_merge($model->toArray(['school_id','school_label','grade_id','grade_label']),$data);
+        }
+        return [];
+    }
+    /**
+     * 获取所有用户班级信息
+     * 默认获取老师下边的所有班级
+     * @param  integer $type [description]
+     * @return [type]        [description]
+     */
+    public function getSchoolToGrade($user_id = NULL,$type = 1){
+           // 老师
+            if($type == 1){
+                $model = $this->getUserToGrade()->where(['grade_user_type'=>UserToGrade::GRADE_USER_TYPE_TEACHER]);
+            }
+            //学生
+            if($type == 2){
+                $model = $this->getUserToGrade()->where(['grade_user_type'=>UserToGrade::GRADE_USER_TYPE_STUDENT]);
+            }
+            if($user_id !== NULL){
+                $model = $model->andWhere(['user_id'=>$user_id]);
+            }
+            $model = $model->andWhere(['status'=>UserToGrade::USER_GRADE_STATUS_NORMAL])->all();
+           // var_dump($model);exit;
+            return $model;
     }
 
     /**
@@ -148,7 +421,6 @@ class User extends ActiveRecord implements IdentityInterface
             ->andWhere(['id' => $id])
             ->one();
     }
-
     /**
      * @inheritdoc
      */
@@ -156,7 +428,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return static::find()
             ->active()
-            ->andWhere(['access_token' => $token, 'status' => self::STATUS_ACTIVE])
+            ->andWhere(['access_token' => $token])
             ->one();
     }
 
@@ -170,7 +442,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return static::find()
             ->active()
-            ->andWhere(['username' => $username, 'status' => self::STATUS_ACTIVE])
+            ->andWhere(['username' => $username])
             ->one();
     }
 
@@ -184,7 +456,8 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return static::find()
             ->active()
-            ->andWhere(['or', ['username' => $login], ['email' => $login]])
+            ->andWhere(['or', ['username' => $login], ['email' => $login],['phone_number'=>$login
+                ]])
             ->one();
     }
 
@@ -244,6 +517,14 @@ class User extends ActiveRecord implements IdentityInterface
             self::STATUS_ACTIVE => Yii::t('common', 'Active'),
             self::STATUS_DELETED => Yii::t('common', 'Deleted')
         ];
+    }
+
+    public static function getStatusLabel($value){
+        $labels = self::statuses();
+        if(isset($labels[$value])){
+            return $labels[$value];
+        }
+        return $value;
     }
 
     /**

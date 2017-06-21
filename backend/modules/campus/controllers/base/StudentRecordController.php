@@ -4,20 +4,22 @@
 
 namespace backend\modules\campus\controllers\base;
 
+use Yii;
 use backend\modules\campus\models\StudentRecord;
-    use backend\modules\campus\models\search\StudentRecordSearch;
+use backend\modules\campus\models\Course;
+use backend\modules\campus\models\search\StudentRecordSearch;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
 use yii\filters\AccessControl;
 use dmstr\bootstrap\Tabs;
 
 /**
 * StudentRecordController implements the CRUD actions for StudentRecord model.
 */
-class StudentRecordController extends Controller
+class StudentRecordController extends \common\components\Controller
 {
-
 
 /**
 * @var boolean whether to enable CSRF validation for the actions in this controller.
@@ -61,18 +63,41 @@ public $enableCsrfValidation = false;
 */
 public function actionIndex()
 {
+    $user_id = 0;
+    if(Yii::$app->user->identity->id){
+        $user_id = Yii::$app->user->identity->id;
+    }
     $searchModel  = new StudentRecordSearch;
     $dataProvider = $searchModel->search($_GET);
+    //var_dump($this->schoolIdCurrent,$this->gradeIdCurrent);exit;
+    //获取老师已上过的课程
+    if(Yii::$app->user->can('director')){
+        //var_dump($this->schoolIdCurrent);exit;
+        $dataProvider->query->andWhere([
+            'school_id'=>$this->schoolIdCurrent
+        ]);
+    }else{
+        $courseIds  = Course::getAboveCourse($user_id,$this->schoolIdCurrent,$this->gradeIdCurrent,Course::COURSE_STATUS_FINISH);
+        //var_dump($courseIds);exit;
+        $dataProvider->query->andWhere([
+                'course_id'=>ArrayHelper::map($courseIds,'course_id','course_id')
+        ]);
+    }
 
-Tabs::clearLocalStorage();
+    $dataProvider->sort =[
+            'defaultOrder'=>[
+                'updated_at'=>SORT_DESC
+            ]
+    ];
+    Tabs::clearLocalStorage();
 
-Url::remember();
-\Yii::$app->session['__crudReturnUrl'] = null;
+    Url::remember();
+    \Yii::$app->session['__crudReturnUrl'] = null;
 
-return $this->render('index', [
-'dataProvider' => $dataProvider,
-    'searchModel' => $searchModel,
-]);
+    return $this->render('index', [
+    'dataProvider' => $dataProvider,
+        'searchModel' => $searchModel,
+    ]);
 }
 
 /**
@@ -99,18 +124,29 @@ return $this->render('view', [
 */
 public function actionCreate()
 {
-$model = new StudentRecord;
-
-try {
-if ($model->load($_POST) && $model->save()) {
-return $this->redirect(['view', 'student_record_id' => $model->student_record_id]);
-} elseif (!\Yii::$app->request->isPost) {
-$model->load($_GET);
-}
-} catch (\Exception $e) {
-$msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
-$model->addError('_exception', $msg);
-}
+    $model = new StudentRecord;
+    if($_POST){
+        $info = $model->create($_POST['StudentRecord']);
+        if($info['errorno'] == 0 ){
+            return $this->redirect(['student-record/index']);
+        }else{
+            //var_dumP($info);exit;
+            \Yii::$app->getSession()->setFlash('alert', [
+                    'body'=>"错误提示：".implode(',',$info['error']),
+                    //'options'=>['class'=>'alert-danger']
+                ]);
+        }
+    }
+// try {
+// if ($model->load($_POST) && $model->save()) {
+// return $this->redirect(['view', 'student_record_id' => $model->student_record_id]);
+// } elseif (!\Yii::$app->request->isPost) {
+// $model->load($_GET);
+// }
+// } catch (\Exception $e) {
+// $msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
+// $model->addError('_exception', $msg);
+// }
 return $this->render('create', ['model' => $model]);
 }
 

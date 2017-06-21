@@ -1,9 +1,17 @@
 <?php
 
-use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use \dmstr\bootstrap\Tabs;
+use kartik\select2\Select2;
+use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\helpers\StringHelper;
+use yii\helpers\ArrayHelper;
+use backend\modules\campus\models\School;
+use backend\modules\campus\models\Grade;
+use backend\modules\campus\models\Course;
+use backend\modules\campus\models\SignIn;
+use common\models\User;
 
 /**
 * @var yii\web\View $this
@@ -28,25 +36,104 @@ use yii\helpers\StringHelper;
         <p>
 
 <!-- attribute school_id -->
-			<?= $form->field($model, 'school_id')->textInput() ?>
+			<?= $form->field($model, 'school_id')->widget(Select2::className(),
+                [
+                    'data'=>$model->getlist(1),
+                    'options'=>['placeholder'=>'请选择'],
+                    'pluginOptions'=>[
+                        'allowClear'=> true,
+                    ],
+                    'pluginEvents'=>[
+                        "change" => "function() { 
+                             handleChange(2,this.value,'#signin-grade_id');
+                        }",
+                    ]
+                ]); ?>
 
-<!-- attribute grade_id -->
-			<?= $form->field($model, 'grade_id')->textInput() ?>
+            <?= $form->field($model, 'grade_id')->widget(Select2::className(),
+                [
+                    'data'=>$model->getlist(2,$model->school_id),
+                    'options'=>['placeholder'=>'请选择'],
+                    'pluginOptions'=>[
+                        'allowClear'=> true,
+                    ],
+                    'pluginEvents'=>[
+                        "change" => "function() { 
+                            handleChange(3,this.value,'#signin-course_id');
+                            handleChange(4,this.value,'#signin-student_id');
+                            handleChange(5,this.value,'#signin-teacher_id');
+                         }",
+                    ]
+                ]); ?>
 
 <!-- attribute course_id -->
-			<?= $form->field($model, 'course_id')->textInput() ?>
+			<?= $form->field($model, 'course_id')->widget(Select2::className(),
+                [
+                    'data'=>$model->getlist(3,$model->grade_id),
+                    'options'=>['placeholder'=>'请选择'],
+                    'pluginOptions'=>[
+                        'allowClear'=> true,
+                    ],
+                    'pluginEvents'=>[
+                        // "change" => "function() { 
+                        //      handleChange(4,this.value,'#signin-student_id');
+                        // }",
+                    ]
+                ]); ?>
 
 <!-- attribute student_id -->
-			<?= $form->field($model, 'student_id')->textInput() ?>
+			<?= $form->field($model, 'student_id')->widget(Select2::className(),[
+                'data' =>[],
+                'options'=>['placeholder'=>'请选择'],
+            ]) ?>
 
 <!-- attribute teacher_id -->
-			<?= $form->field($model, 'teacher_id')->textInput() ?>
+			<?= $form->field($model, 'teacher_id')->widget(Select2::className(),[
+                    'data' =>[],
+                    'options'=>['placeholder'=>'请选择'],]
+            ) ?>
 
 <!-- attribute auditor_id -->
-			<?= $form->field($model, 'auditor_id')->textInput() ?>
-
+			<?php
+                if ($model->isNewRecord) {
+                    // echo $form->field($model, 'auditor_id')->widget(Select2::className(),[
+                    //     'data' => ArrayHelper::map(User::find()
+                    //         ->where([
+                    //             'status' => User::STATUS_ACTIVE
+                    //         ])->asArray()->all(),
+                    //         'id',
+                    //         'username'
+                    //     ),
+                    //     'options'=>['placeholder'=>'请选择'],
+                    // ]);
+                }else{
+                    // echo $form->field($model, 'auditor_id')->widget(Select2::className(),[
+                    //     'data' => ArrayHelper::map(User::find()
+                    //         ->where([
+                    //             'status' => User::STATUS_ACTIVE
+                    //         ])->asArray()->all(),
+                    //         'id',
+                    //         'username'
+                    //     ),
+                    //     'options'=>['placeholder'=>'请选择'],
+                    //     'disabled' => true,
+                    // ]);
+                }
+            ?>
+            <!-- attribute status -->
+            <?php
+                echo $form->field($model, 'type_status')->widget(Select2::className(),[
+                        'data' => SignIn::optsTypeStatus(),
+                        'options'=>['placeholder'=>'请选择'],
+                ])->label('类型');
+            ?>
 <!-- attribute status -->
-			<?= $form->field($model, 'status')->textInput() ?>
+			<?php
+                echo $form->field($model, 'status')->widget(Select2::className(),[
+                        'data' => SignIn::optsSignInStatus(),
+                        'options'=>['placeholder'=>'请选择'],
+                ]);
+            ?>
 
         </p>
 
@@ -81,4 +168,16 @@ use yii\helpers\StringHelper;
     </div>
 
 </div>
-
+<script>
+    function handleChange(type_id,id,form){
+        $.ajax({
+            "url":"<?php echo Url::to(['ajax-form'])?>",
+            "data":{type_id:type_id,id:id},
+            'type':"GET",
+            'success':function(data){
+                console.log(data);
+                 $(form).html(data);
+            }
+        }) 
+    }
+</script>

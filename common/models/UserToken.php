@@ -27,6 +27,11 @@ class UserToken extends ActiveRecord
     const TYPE_ACTIVATION = 'activation';
     const TYPE_PASSWORD_RESET = 'password_reset';
 
+    // TODO
+    CONST TYPE_PHONE_SIGNUP = 'phone_signup';
+    CONST TYPE_PHONE_RESENT = 'phone_resent';
+    CONST TYPE_PHONE_REPASSWD = 'phone_repasswd';
+
     /**
      * @inheritdoc
      */
@@ -97,13 +102,13 @@ class UserToken extends ActiveRecord
      * @param int|null $duration
      * @return bool|UserToken
      */
-    public static function create($user_id, $type, $duration = null)
+    public static function create($user_id, $type, $duration = null, $token = null)
     {
         $model = new self;
         $model->setAttributes([
             'user_id' => $user_id,
             'type' => $type,
-            'token' => Yii::$app->security->generateRandomString(self::TOKEN_LENGTH),
+            'token' => $token ? $token : Yii::$app->security->generateRandomString(self::TOKEN_LENGTH),
             'expire_at' => $duration ? time() + $duration : null
         ]);
 
@@ -112,7 +117,29 @@ class UserToken extends ActiveRecord
         };
 
         return $model;
+    }
 
+    /**
+     * @param mixed $user_id
+     * @param string $type
+     * @param int|null $duration
+     * @return bool|UserToken
+     */
+    public static function createCode($user_id, $type, $duration = null, $token = null)
+    {
+        $model = new self;
+        $model->setAttributes([
+            'user_id' => $user_id,
+            'type' => $type,
+            'token' => $token ? $token : Yii::$app->security->generateRandomString(self::TOKEN_LENGTH),
+            'expire_at' => $duration ? time() + $duration : null
+        ]);
+
+        if (!$model->save()) {
+            throw new InvalidCallException;
+        };
+
+        return $model;
     }
 
     /**
@@ -123,6 +150,22 @@ class UserToken extends ActiveRecord
         $this->updateAttributes([
             'expire_at' => $duration ? time() + $duration : null
         ]);
+    }
+
+    /**
+     * 验证码随机
+     * @param  integer $length [description]
+     * @return [type]          [description]
+     */
+    public static function randomCode($length = 6)
+    {
+        $srcstr="123456789";
+        mt_srand();
+        $strs="";
+        for($i=0; $i<$length; $i++) {
+            $strs.=$srcstr[mt_rand(0,8)];
+        }
+        return ($strs);
     }
 
     /**

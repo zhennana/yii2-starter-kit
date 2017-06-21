@@ -2,7 +2,9 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
 use yii\grid\GridView;
+use backend\modules\campus\models\CnProvince;
 use backend\modules\campus\models\ApplyToPlay;
 
 /**
@@ -11,9 +13,12 @@ use backend\modules\campus\models\ApplyToPlay;
     * @var backend\modules\campus\models\search\ApplyToPlaySearch $searchModel
 */
 
-$this->title = Yii::t('common', 'Apply To Plays');
+$this->title = Yii::t('common', '预约信息');
 $this->params['breadcrumbs'][] = $this->title;
 
+
+$province_id = CnProvince::find()->asArray()->all();
+$province_id = ArrayHelper::map($province_id, 'province_id', 'province_name');
 
 /**
 * create action column template depending acces rights
@@ -50,9 +55,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
 
     <h1>
-        <?= Yii::t('common', '报名管理') ?>
+        <?= Yii::t('common', '预约信息') ?>
         <small>
-            List
+            列表
         </small>
     </h1>
     <div class="clearfix crud-navigation">
@@ -73,7 +78,7 @@ if(\Yii::$app->user->can('manager', ['route' => true])){
             [
                 'id' => 'giiant-relations',
                 'encodeLabel' => false,
-                'label' => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('common', 'Relations'),
+                'label' => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('common', '相关管理'),
                 'dropdown' => [
                     'options' => [
                     'class' => 'dropdown-menu-right'
@@ -99,8 +104,8 @@ if(\Yii::$app->user->can('manager', ['route' => true])){
             'dataProvider' => $dataProvider,
             'pager' => [
                 'class' => yii\widgets\LinkPager::className(),
-                'firstPageLabel' => Yii::t('common', 'First'),
-                'lastPageLabel' => Yii::t('common', 'Last'),
+                'firstPageLabel' => Yii::t('common', '首页'),
+                'lastPageLabel' => Yii::t('common', '尾页'),
             ],
             'filterModel' => $searchModel,
             'tableOptions' => [
@@ -129,12 +134,15 @@ if(\Yii::$app->user->can('manager', ['route' => true])){
                     },
                     'contentOptions' => ['nowrap'=>'nowrap']
             ],
-    			'username',
+                'username',
+    			'age',
     			'phone_number',
-    			'email:email',
-    			'province',
-                'city',
-    			'region',
+                [
+                    'class'     => \common\grid\EnumColumn::className(),
+                    'attribute' => 'province_id',
+                    'enum'      => $province_id,
+                    'format'    => 'raw',
+                ],
                 //'auditor_id',
     			//'status',
                 [
@@ -146,14 +154,14 @@ if(\Yii::$app->user->can('manager', ['route' => true])){
                 'created_at:datetime',
                 'updated_at:datetime',
                 [
-                    'class'=>'yii\grid\ActionColumn',
-                    'header'=>'操作审核',
-                    'template'=>'{button}',
-                    'buttons'=>[
-                        'button'=>function($url,$model,$key){
+                    'class'    =>'yii\grid\ActionColumn',
+                    'header'   =>'操作审核',
+                    'template' =>'{button}',
+                    'buttons'  =>[
+                        'button' => function($url,$model,$key){
                             if($model->status == ApplyToPlay::APPLY_TO_PLAY_STATUS_AUDIT ){
                                 return Html::button('审核',[
-                                    'class'=>'but but-danger audit',
+                                    'class'=>'btn btn-danger audit',
                                     'title'=>'报名审核',
                                     'id'   => $model->apply_to_play_id
                                     ]);
@@ -171,7 +179,6 @@ if(\Yii::$app->user->can('manager', ['route' => true])){
 
 </div>
 
-
 <?php \yii\widgets\Pjax::end() ?>
 
 <script>
@@ -179,7 +186,7 @@ if(\Yii::$app->user->can('manager', ['route' => true])){
         apply_to_play_id = $(this).attr("id");
         var data = {"apply_to_play_id":apply_to_play_id};
         $.ajax({
-            url:"index.php?r=campus/apply-to-play/update-audit",
+            url:"<?php echo Url::to(['apply-to-play/update-audit']) ?>",
             type : "POST",
             data :data,
             success:function(result){

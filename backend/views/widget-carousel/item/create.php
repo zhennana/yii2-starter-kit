@@ -4,17 +4,18 @@
  * @var $carousel common\models\WidgetCarousel
  */
 
-$this->title = Yii::t('backend', 'Create {modelClass}', [
+$this->title = Yii::t('backend', '创建', [
     'modelClass' => 'Widget Carousel Item',
 ]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Widget Carousel Items'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '轮播组件项目'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $carousel->key, 'url' => ['update', 'id' => $carousel->id]];
-$this->params['breadcrumbs'][] = Yii::t('backend', 'Create');
+$this->params['breadcrumbs'][] = Yii::t('backend', '创建');
 ?>
 <div class="widget-carousel-item-create">
 
     <?php echo $this->render('_form', [
-        'model' => $model
+        'model' => $model,
+        'carousel'=>$carousel
     ]) ?>
 
 </div>

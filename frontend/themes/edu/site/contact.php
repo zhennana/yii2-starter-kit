@@ -10,11 +10,10 @@ use yii\captcha\Captcha;
 $this->title = '联系我们';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-contact content">
-    <h1><?php echo Html::encode($this->title) ?></h1>
-
-    <div class="row">
-        <div class="col-lg-5">
+<div class="content">
+    <article class="article-item">
+        <div class="col-sm-8">
+            <h1><?php echo Html::encode($this->title) ?></h1>
             <?php $form = ActiveForm::begin(['id' => 'contact-form']); ?>
                 <?php echo $form->field($model, 'username') ?>.
                 <?php echo $form->field($model,'phone_number') ?>
@@ -31,6 +30,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
             <?php ActiveForm::end(); ?>
         </div>
-    </div>
-
+        <?php echo $this->render('@frontend/themes/edu/page/right-side'); ?>
+    </article>
 </div>

@@ -232,47 +232,35 @@ function isCreditNo($vStr)
  * @return [type]      [description]
  */
 function getImgs($str) {
-    $reg = '/((http|https):\/\/)+(\w+\.)+(\w+)[\w\/\.\-]*(JPG|jpg|gif|png)/';
+    $reg = '/((http|https)(.*?)(JPG|jpg|gif|png))/';
     $matches = $data = array();
     preg_match_all($reg, $str, $matches);
+    //var_dump(1323);exit;
     foreach ($matches[0] as $value) {
         $data[] = $value;
     }
     return $data;
 }
-
-
 /**
- * 亿美软通
- * 账号：wulianweb 密码：WL-web 
- * 平台网址：http://qiyechaxun.emay.cn:8000
- * 6SDK-EMY-6688-JCUML
- * 首页：http://www.emay.cn/  亿美软通
- *  亿美发送短信规则
- *   1 短信格式必须是【签名】+内容,签名在前。
- *   2 【签名】必须是3到8个字，不能为空。
- *   3 十分钟每个号码只能发送3次。
- *   4 每个手机号每天最多发送20条短信。
- *   5 短信字数最多500字，数字、字符都算一个字
- *   注：在测试发送短信时可将测试号码发给亿美服务人员解除第3条和第4条的限制
- * @return [type] [description]
+ * 字符串截取
+ * @param  [type]  $string [description]
+ * @param  integer $length [description]
+ * @param  string  $sign   [description]
+ * @param  string  $char   [description]
+ * @return [type]          [description]
  */
+function substr_auto($string, $length=200, $sign = ' ...', $char='UTF-8'){
+    if(empty($string)){ return;}
+    return mb_strimwidth($string, 0,$length, $sign, $char);
+    
+    if(mb_strlen($string) > $length){
+        return mb_substr($string, 0, $length, $char).$sign;
+    }else{
+        return $string;
+    }
+}
+
 function ymSms($data)
 {
-    //Init curl
-    $curl = new \linslin\yii2\curl\Curl();
-
-    //get http://example.com/
-    // $response = $curl->get('http://www.163.com/');
-
-    $host = 'http://sdk4rptws.eucp.b2m.cn:8080/sdkproxy/sendsms.action?';
-    $preSign = '【燕郊在线】 ';
-    $params['cdkey'] = '6SDK-EMY-6688-JCUML';
-    $params['password'] = '128921';
-    $params['message'] = $preSign.$data['message'];
-    $params['phone'] = $data['phone'];
-
-    $url = $host.http_build_query($params);
-    // echo $url;
-    return $curl->get($url);
+    return false;
 }

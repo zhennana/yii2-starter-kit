@@ -39,58 +39,22 @@ $config = [
             'class' => 'backend\modules\i18n\Module',
             'defaultRoute'=>'i18n-message/index'
         ],
-    'campus' => [
-
+        'campus' => [
             'class' => 'backend\modules\campus\Module',
             'defaultRoute'=>'default/index'
         ],
-    ],
-    'as globalAccess'=>[
-        'class'=>'\common\behaviors\GlobalAccessBehavior',
-        'rules'=>[
-            [
-                'controllers'=>['sign-in'],
-                'allow' => true,
-                'roles' => ['?'],
-                'actions'=>['login']
-            ],
-            [
-                'controllers'=>['sign-in'],
-                'allow' => true,
-                'roles' => ['@'],
-                'actions'=>['logout']
-            ],
-            [
-                'controllers'=>['site'],
-                'allow' => true,
-                'roles' => ['?', '@'],
-                'actions'=>['error']
-            ],
-            [
-                'controllers'=>['debug/default'],
-                'allow' => true,
-                'roles' => ['?'],
-            ],
-            [
-                'controllers'=>['user'],
-                'allow' => true,
-                'roles' => ['administrator'],
-            ],
-            [
-                'controllers'=>['user'],
-                'allow' => false,
-            ],
-            [
-                'allow' => true,
-                'roles' => ['manager'],
-            ]
+        'users'=>[
+            'class'=>'backend\modules\users\Module',
+            'defaultRoute'=>'default/index'
         ]
-    ]
+    ],
+    'as globalAccess'=>require(__DIR__.'/access.php'),
 ];
 
 if (YII_ENV_DEV) {
     $config['modules']['gii'] = [
         'class'=>'yii\gii\Module',
+        'allowedIPs' => ['127.0.0.1', '::1'],
         'generators' => [
             'crud' => [
                 'class'=>'yii\gii\generators\crud\Generator',

@@ -1,26 +1,37 @@
 <?php
 /* @var $this yii\web\View */
 $this->title = Yii::$app->name;
-use backend\modules\campus\models\ApplyToPlay;
-use backend\modules\campus\models\Contact;
+use frontend\models\ApplyToPlay;
+use frontend\models\Contact;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\captcha\Captcha;
 
-$model = new ApplyToPlay;
-$model->setScenario('AjaxApply');
+//$model = new ApplyToPlay;
+//$model->setScenario('AjaxApply');
 //var_dump($model->getScenario());exit;
 $contact = new Contact;
 $contact->setScenario('AjaxContact');
+$image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.jpg'.'?imageView2/3/w/400/h/400';
 ?>
 <div class="site-index">
+    <div class="home_block bg_red col-xs-12 hidden-xs hidden-sm">
+            <div class="block_logo col-xs-7">
+                <img class="pull-left" src="<?php echo Yii::getAlias('@frontendUrl') ?>/img/wakoo_radius.png">
+                <p class="text-center pull-left no-margin">瓦酷，让孩子更具生存力！</p>
+            </div>
+            <div class="block_hotline text-center col-xs-5">
+                <p class="text-center no-margin">咨询热线：400-608-0515</p>
+            </div>
+    </div>
     <div class="home_continer bg_gray col-xs-12">
         <div class="body-content home_title">
+            <img src="<?php echo Yii::getAlias('@frontendUrl') ?>/img/wakoo_logo.png">
             <h3 class="text-center no-padding no-margin">关于瓦酷</h3>
         </div>
-        <div class="col-xs-12 margin_bottom no-padding">
-            <div class="col-md-6">
+        <div class="col-xs-12  col-md-12 margin_bottom no-padding">
+            <div class="col-md-12 about_wakoo">
                 <p>    瓦酷机器人是由北京魔趣教育科技有限公司研发的高端教育品牌。
                 是致力于3-13岁青少年的科技教育，让孩子们在“玩中学”，动手拼插 共享创新实践过程,
                 体会抽象的理论知识应用在真实的生活中。从而实现拓展思维和提升生存能力。
@@ -35,129 +46,84 @@ $contact->setScenario('AjaxContact');
                  瓦酷机器人将“快乐教学，创意教学”融入企业文化中。
                  是全国机器人教育中发展最快，教育理念最优的教育基地。</p>
             </div>
-            <div class="col-md-6">
+            <!--<div class="col-md-6">
                 <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/bell1.png">
-            </div>
+            </div>-->
         </div>
         <div class="col-xs-12 no-padding">
            <div class="col-xs-3">
-                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/chuangzao.png">
+                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/chuangzao.png?imageView2/3/w/400/h/300">
             </div>
             <div class="col-xs-3">
-                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/find.png">
+                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/find.png?imageView2/3/w/400/h/300">
             </div>
             <div class="col-xs-3">
-                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/goutong.png">
+                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/goutong.png?imageView2/3/w/400/h/300">
             </div>
             <div class="col-xs-3">
-                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/jiejue.png">
+                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/jiejue.png?imageView2/3/w/400/h/300">
             </div>
         </div>
 
         <div class="col-xs-12 knowmore">
-            <button class="btn btn-defult more">了解详情</button>
+            <?php 
+                echo Html::a('了解详情',
+                    ['/page/view', 'slug' => 'guan-yu-wa-ku'],
+                    ['class' => 'btn btn-defult btn-lg more']
+                )
+            ?>
         </div>
     </div>
-    <div class="home_continer col-xs-12">
+    <div class="home_continer col-xs-12 col-md-12">
         <div class="body-content home_title">
+            <img src="<?php echo Yii::getAlias('@frontendUrl') ?>/img/wakoo_logo.png">
             <h3 class="text-center no-padding no-margin">瓦酷动态</h3>
         </div>
-        <div class="col-md-6 margin_bottom">
-            <div class="col-xs-12 margin_bottom home_news">
-                <div class="time col-xs-2 no-padding">
-                    <h1>18</h1>
-                    <p>2017/2</p>
-                </div>
-                <div class="col-xs-9 news no-padding">
-                    <h4>2016年全国机器人等级考试圆满落幕...</h4>
-                    <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
-                </div>
-            </div>
-            <div class="col-xs-12 margin_bottom home_news">
-                <div class="time col-xs-2 no-padding">
-                    <h1>18</h1>
-                    <p>2017/2</p>
-                </div>
-                <div class="col-xs-9 news no-padding">
-                    <h4>2016年全国机器人等级考试圆满落幕...</h4>
-                    <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
-                </div>
-            </div>
-            <div class="col-xs-12 margin_bottom home_news">
-                <div class="time col-xs-2 no-padding">
-                    <h1>18</h1>
-                    <p>2017/2</p>
-                </div>
-                <div class="col-xs-9 news no-padding">
-                    <h4>2016年全国机器人等级考试圆满落幕...</h4>
-                    <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
-                </div>
-            </div>
-            <div class="col-xs-12 margin_bottom home_news">
-                <div class="time col-xs-2 no-padding">
-                    <h1>18</h1>
-                    <p>2017/2</p>
-                </div>
-                <div class="col-xs-9 news no-padding">
-                    <h4>2016年全国机器人等级考试圆满落幕...</h4>
-                    <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 margin_bottom">
-            <div class="col-xs-12 margin_bottom home_news">
-                <div class="time col-xs-2 no-padding">
-                    <h1>18</h1>
-                    <p>2017/2</p>
-                </div>
-                <div class="col-xs-9 news no-padding">
-                    <h4>2016年全国机器人等级考试圆满落幕...</h4>
-                    <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
-                </div>
-            </div>
-            <div class="col-xs-12 margin_bottom home_news">
-                <div class="time col-xs-2 no-padding">
-                    <h1>18</h1>
-                    <p>2017/2</p>
-                </div>
-                <div class="col-xs-9 news no-padding">
-                    <h4>2016年全国机器人等级考试圆满落幕...</h4>
-                    <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
-                </div>
-            </div>
-            <div class="col-xs-12 margin_bottom home_news">
-                <div class="time col-xs-2 no-padding">
-                    <h1>18</h1>
-                    <p>2017/2</p>
-                </div>
-                <div class="col-xs-9 news no-padding">
-                    <h4>2016年全国机器人等级考试圆满落幕...</h4>
-                    <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
-                </div>
-            </div>
-            <div class="col-xs-12 margin_bottom home_news">
-                <div class="time col-xs-2 no-padding">
-                    <h1>18</h1>
-                    <p>2017/2</p>
-                </div>
-                <div class="col-xs-9 news no-padding">
-                    <h4>2016年全国机器人等级考试圆满落幕...</h4>
-                    <p>12月17日上午9点，2016年第四季度“全国青少年机器人技术等级考试”准时开考...</p>
-                </div>
-            </div>
-        </div>
+        <div class="col-md-12 col-md-12 margin_bottom">
+            <?php 
+                foreach($model['dongtai'] as $key => $value ){
+                    //var_dump(Yii::getAlias('@frontendUrl'));exit;
+            ?>
+                <a  class="col-xs-6  margin_bottom home_news news_caonima" href="<?php echo Url::to(['article/view','id'=>$value['id']]) ?>">
+                    <div class="time col-xs-2 no-padding">
+                        <h1><?php echo date('d',$value['updated_at']);?></h1>
+                        <p><?php echo date('Y/m',$value['updated_at']);?></p>
+                    </div>
+                    <!-- <?php
+                          //  echo Html::a('<h1>'.date('d',$article['created_at']).'</h1><p>'.date('Y/m',$article['created_at']).'</p>',['article/view','id'=>'1']);
+                        ?> -->
+                    <div class="col-xs-9 news no-padding">
+                        <h4>  
+                                <?php  echo substr_auto(strip_tags($value['title']),35);?>
+                             <!--  //  var_dump(($value['body'])); -->        
+                        </h4>
+                        <p><?php  
+                                $replace =["\r\n", "\r","\n"];
+                                $value['body']  = str_replace($replace," ",strip_tags($value['body'])); 
+                                echo substr_auto($value['body'],100);
 
+                        ?> </p>
+                    </div>
+                </a>
+            <?php } ?>
+        </div>
         <div class="col-xs-12 knowmore">
-            <button class="btn btn-defult more">更多内容</button>
+            <?php 
+                echo Html::a('更多内容',
+                    ['/page/view', 'slug' => 'wa-ku-dong-tai'],
+                    ['class' => 'btn btn-defult btn-lg more']
+                )
+            ?>
         </div>
     </div>
-    <div class="home_continer bg_gray col-xs-12">
+    <div class="home_continer course_sys bg_gray col-xs-12">
         <div class="body-content home_title">
+            <img src="<?php echo Yii::getAlias('@frontendUrl') ?>/img/wakoo_logo.png">
             <h3 class="text-center no-padding no-margin">课程体系</h3>
         </div>
         <div class="col-xs-12 text-center course">
             <div class="col-xs-6 text-right no-padding">
-                <h4 id="find1" class="text-center yellow_bg pull-right">学前课程（3～6周岁）</h4>
+                <h4 id="find1" class="text-center yellow    pull-right">学前课程（3～6周岁）</h4>
             </div>
             <div class="col-xs-6 text-left no-padding">
                 <h4 id="find2" class="text-center">学龄课程（7～13周岁）</h4>
@@ -167,43 +133,82 @@ $contact->setScenario('AjaxContact');
             <div id="carousel-example-generic1" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                     <div class="item active">
-                        <ul class="run_left no-padding pull-left">
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/11.png">
-                                <h4>神奇物理</h4>
+                        <ul class="run_left no-padding pull-left col-xs-12">
+                        <?php foreach($model['course_left'] as $key=>$value){
+                                if($key > 2){
+                                    break;
+                                }
+                                $images = [];
+                                $images = getImgs($value['body']);
+                                 if(!empty($images)){
+                                    $image = $images[0].'?imageView2/3/w/300/h/300';
+                                 }
+                                ?>
+                            <li class="col-xs-4 col-lg-4 no-padding">
+                                <div class="img_info">
+                                    <?php
+                                        echo Html::a(
+                                            '<img class="img-responsive" src='.$image.'/><h4>'. $value['title'] .'</h4>',
+                                            [
+                                                'article/view','id'=>$value['id']
+                                            ]);
+                                    ?>
+                                </div>
+                                <div class="course_info">
+                                    <p>
+                                        <?php 
+                                            echo Html::a(
+                                                    substr_auto(strip_tags($value['body']),50),
+                                                    [ 'article/view','id'=>$value['id']]); 
+                                        ?>
+                                       
+                                   </p>
+                                </div>
                             </li>
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/22.png">
-                                <h4>神奇物理</h4>
-                            </li>
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/33.png">
-                                <h4>神奇物理</h4>
-                            </li>
+                        <?php }?>
                         </ul>
                     </div>
                     <div class="item ">
-                        <ul class="run_left no-padding pull-left">
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/44.png">
-                                <h4>神奇物理</h4>
+                        <ul class="run_left no-padding pull-left col-xs-12">
+                          <?php foreach($model['course_left'] as $key=>$value){
+                                if($key>2 && $key < 6){
+                                $images = [];
+                                $images = getImgs($value['body']);
+                                if(!empty($images)){
+                                    $image = $images[0].'?imageView2/3/w/300/h/300';
+                                }
+                            ?>
+                            <li class="col-xs-4 col-lg-4 no-padding">
+                                <div class="img_info">
+                                    <?php
+                                        echo Html::a(
+                                            '<img class="img-responsive" src='.$image.'/><h4>'. $value['title'] .'</h4>',
+                                            [
+                                                'article/view','id'=>$value['id']
+                                            ]);
+                                    ?>
+                                </div>
+                                <div class="course_info">
+                               <p>
+                                    <?php 
+                                        echo Html::a(
+                                                substr_auto(strip_tags($value['body']),50),
+                                                [ 'article/view','id'=>$value['id']]); 
+                                    ?>
+                                       
+                                </p>
+                                </div>
                             </li>
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/55.png">
-                                <h4>神奇物理</h4>
-                            </li>
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/4.png">
-                                <h4>神奇物理</h4>
-                            </li>
+                            
+                        <?php }} ?>
                         </ul>
                     </div>
                 </div>
                 <a class="left carousel-control" href="#carousel-example-generic1" data-slide="prev">
-                    <img class="run_L" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b8bird5i3cvlph19991rh7pd99.png">
+                    <img class="run_L" src="http://static.v1.wakooedu.com/run_L_01.png">
                 </a>
                 <a class="right carousel-control" href="#carousel-example-generic1" data-slide="next">
-                    <img class="run_R" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b8birilvlcn12bg19usc8r1m3pe.png">
+                    <img class="run_R" src="http://static.v1.wakooedu.com/run_R_01.png">
                 </a>
             </div>
         </div>
@@ -211,167 +216,204 @@ $contact->setScenario('AjaxContact');
             <div id="carousel-example-generic2" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                     <div class="item active">
-                        <ul class="run_right no-padding pull-left">
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/b.png">
-                                <h4>神奇物理</h4>
+                        <ul class="run_right no-padding pull-left col-xs-12">
+                            <?php foreach($model['course_right'] as $key=>$value){
+                                if($key > 2){break;}
+                                $images = [];
+                                $images = getImgs($value['body']);
+                                if(!empty($images)){
+                                    $image = $images[0].'?imageView2/3/w/300/h/300';
+                                }
+                        
+                            ?>
+                            <li class="col-xs-4 col-lg-4 no-padding">
+                                <div class="img_info">
+                                    <?php
+                                        echo Html::a(
+                                            '<img class="img-responsive" src='.$image.'/><h4>'. $value['title'] .'</h4>',
+                                            [
+                                                'article/view','id'=>$value['id']
+                                            ]);
+                                    ?>
+                                </div>
+                                <div class="course_info">
+                                    <p>
+                                    <?php 
+                                        echo Html::a(
+                                                substr_auto(strip_tags($value['body']),50),
+                                                [ 'article/view','id'=>$value['id']]); 
+                                    ?>
+                                       
+                                   </p>
+                                </div>
                             </li>
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/c.png">
-                                <h4>神奇物理</h4>
-                            </li>
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/d.png">
-                                <h4>神奇物理</h4>
-                            </li>
+                           <?php }?>
+                         
                         </ul>
                     </div>
                     <div class="item ">
-                        <ul class="run_right no-padding pull-left">
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/e.png">
-                                <h4>神奇物理</h4>
+                        <ul class="run_right no-padding pull-left col-xs-12">
+                            <?php foreach($model['course_right'] as $key=>$value){
+                                if($key>2 && $key < 6){
+                                $images = [];
+                                $images = getImgs($value['body']);
+                                 if(!empty($images)){
+                                    $image = $images[0].'?imageView2/3/w/300/h/300';
+                                 }
+                            ?>
+                            <li class="col-xs-4 col-lg-4 no-padding">
+                                <div class="img_info">
+                                <?php
+                                    echo Html::a(
+                                        '<img class="img-responsive" src='.$image.'/><h4>'. $value['title'] .'</h4>',
+                                        [
+                                            'article/view','id'=>$value['id']
+                                        ]
+                                    );
+                                ?>
+                                </div>
+                                <div class="course_info">
+                                   <p>
+                                   <?php 
+                                        echo Html::a(
+                                            substr_auto(strip_tags($value['body']),50),
+                                            [ 'article/view','id'=>$value['id']]); 
+                                   ?>
+                                       
+                                   </p>
+                                </div>
                             </li>
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/f.png">
-                                <h4>神奇物理</h4>
-                            </li>
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/g.png">
-                                <h4>神奇物理</h4>
-                            </li>
+                            
+                        <?php }} ?>
                         </ul>
                     </div>
                 </div>
                 <a class="left carousel-control" href="#carousel-example-generic2" data-slide="prev">
-                    <img class="run_L" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b8bird5i3cvlph19991rh7pd99.png">
+                    <img class="run_L" src="http://static.v1.wakooedu.com/run_L_01.png">
                 </a>
                 <a class="right carousel-control" href="#carousel-example-generic2" data-slide="next">
-                    <img class="run_R" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b8birilvlcn12bg19usc8r1m3pe.png">
+                    <img class="run_R" src="http://static.v1.wakooedu.com/run_R_01.png">
                 </a>
             </div>
         </div>
     </div>
-    <div class="home_continer col-xs-12">
+    <div class="home_continer show_work col-xs-12">
         <div class="body-content home_title">
+            <img src="<?php echo Yii::getAlias('@frontendUrl') ?>/img/wakoo_logo.png">
             <h3 class="text-center no-padding no-margin">作品展示</h3>
         </div>
         <div class="box-body col-xs-12">
             <div id="carousel-example-generic3" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner down_run">
                     <div class="item active">
-                        <ul class="no-padding pull-left">
+                        <ul class="no-padding pull-left col-xs-12">
+                            <?php
+                                foreach ($model['zuopin'] as $key => $value) {
+                                    if ($key > 2) {
+                                        break;
+                                    }
+                                    $images = [];
+                                    $images = getImgs($value['body']);
+                                    if(!empty($images)){
+                                        $image = $images[0].'?imageView2/3/w/300/h/300';
+                                    }
+                            ?>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_1.png">
-                                <h4>神奇物理</h4>
+                                <img class="img-responsive " src="<?php echo $image; ?>">
+                                <h4><?php echo $value['title']; ?></h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
-                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
-                                        适合所有有梦想创业者的教育项目。
+                                        <?php echo substr_auto(strip_tags($value['body']),120); ?>
                                     </p>
+                                    <?php
+                                        echo Html::a('了解详情',
+                                            [ 
+                                                'article/view',
+                                                'id' => $value['id']
+                                            ],
+                                            ['class' => 'btn btn-defult']
+                                        ); 
+                                    ?>
                                 </div>
                             </li>
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_10.png">
-                                <h4>神奇物理</h4>
-                                <div class="col-xs-12 no-padding">
-                                    <p>
-                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
-                                        适合所有有梦想创业者的教育项目。
-                                    </p>
-                                </div>
-                            </li>
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_12.png">
-                                <h4>神奇物理</h4>
-                                <div class="col-xs-12 no-padding">
-                                    <p>
-                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
-                                        适合所有有梦想创业者的教育项目。
-                                    </p>
-                                </div>
-                            </li>
+                        <?php } ?>
                         </ul>
                     </div>
                     <div class="item ">
-                        <ul class="no-padding pull-left">
+                        <ul class="no-padding pull-left col-xs-12">
+                            <?php
+                                foreach ($model['zuopin'] as $key => $value) { 
+                                    if ($key > 2 && $key < 6) {
+                                        $images = [];
+                                        $images = getImgs($value['body']);
+                                        if(!empty($images)){
+                                            $image = $images[0].'?imageView2/3/w/300/h/300';
+                                        }
+                            ?>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_13.png">
-                                <h4>神奇物理</h4>
+                                <img class="img-responsive " src="<?php echo $image; ?>">
+                                <h4><?php echo $value['title']; ?></h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
-                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
-                                        适合所有有梦想创业者的教育项目。
+                                        <?php echo substr_auto(strip_tags($value['body']),120); ?>
                                     </p>
+                                    <?php
+                                        echo Html::a('了解详情',
+                                            [ 
+                                                'article/view',
+                                                'id' => $value['id']
+                                            ],
+                                            ['class' => 'btn btn-defult']
+                                        ); 
+                                    ?>
                                 </div>
                             </li>
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_14.png">
-                                <h4>神奇物理</h4>
-                                <div class="col-xs-12 no-padding">
-                                    <p>
-                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
-                                        适合所有有梦想创业者的教育项目。
-                                    </p>
-                                </div>
-                            </li>
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_16.png">
-                                <h4>神奇物理</h4>
-                                <div class="col-xs-12 no-padding">
-                                    <p>
-                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
-                                        适合所有有梦想创业者的教育项目。
-                                    </p>
-                                </div>
-                            </li>
+                            <?php }} ?>
                         </ul>
                     </div>
                     <div class="item ">
-                        <ul class="no-padding pull-left">
+                        <ul class="no-padding pull-left col-xs-12">
+                            <?php
+                                foreach ($model['zuopin'] as $key => $value) { 
+                                    if ($key > 6 && $key < 10) {
+                                        $images = [];
+                                        $images = getImgs($value['body']);
+                                        if(!empty($images)){
+                                            $image = $images[0].'?imageView2/3/w/300/h/300';
+                                        }
+                            ?>
                             <li class="col-xs-4 no-padding">
-                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_17.png">
-                                <h4>神奇物理</h4>
+                                <img class="img-responsive " src="<?php echo $image; ?>">
+                                <h4><?php echo $value['title']; ?></h4>
                                 <div class="col-xs-12 no-padding">
                                     <p>
-                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
-                                        适合所有有梦想创业者的教育项目。
+                                        <?php echo substr_auto(strip_tags($value['body']),120); ?>
                                     </p>
+                                    <?php
+                                        echo Html::a('了解详情',
+                                            [ 
+                                                'article/view',
+                                                'id' => $value['id']
+                                            ],
+                                            ['class' => 'btn btn-defult']
+                                        ); 
+                                    ?>
                                 </div>
                             </li>
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_4.png">
-                                <h4>神奇物理</h4>
-                                <div class="col-xs-12 no-padding">
-                                    <p>
-                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
-                                        适合所有有梦想创业者的教育项目。
-                                    </p>
-                                </div>
-                            </li>
-                            <li class="col-xs-4 no-padding">
-                                <img class="img-responsive " src="http://static.v1.wakooedu.com/DNS_5.png">
-                                <h4>神奇物理</h4>
-                                <div class="col-xs-12 no-padding">
-                                    <p>
-                                        瓦酷机器人是北京魔趣教育科技有限公司旗下品牌，是一个
-                                        适合所有有梦想创业者的教育项目。
-                                    </p>
-                                </div>
-                            </li>
+                            <?php }} ?>
                         </ul>
                     </div>
                 </div>
                 <a class="left carousel-control" href="#carousel-example-generic3" data-slide="prev">
-                    <img class="run_L" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b8endvs86j018209191mkpkua9.png">
+                    <img class="run_L" src="http://static.v1.wakooedu.com/run_L_02.png">
                 </a>
                 <a class="right carousel-control" href="#carousel-example-generic3" data-slide="next">
-                    <img class="run_R" src="http://7xthhn.com2.z0.glb.clouddn.com/o_1b8enf41d1j8l1ddelf11s4r1abte.png">
+                    <img class="run_R" src="http://static.v1.wakooedu.com/run_R_02.png">
                 </a>
             </div>
         </div>
     </div>
-    <div class="home_continer bg_gray col-xs-12">
+    <div class="home_continer contact_us bg_gray col-xs-12">
         <div class="body-content home_title">
             <h3 class="text-center no-padding no-margin">联系我们</h3>
         </div>
@@ -399,83 +441,95 @@ $contact->setScenario('AjaxContact');
 
                 <?php
                     echo $form->field($contact, 'verifyCode')->widget(Captcha::className(), [
-                        'options'=>['placeholder'=>'验证码'],
+                        'options'=>['placeholder'=>'请输入验证码'],
                         'captchaAction'=>'site/contact_captcha',
-                        'template' => '<div class= "body"><div class="col-lg-4 no-padding">{input}</div><div class="col-lg-3">{image}</div></div>',
+                        'template' => '<div class="body"><div class="col-lg-4 col-sm-4 col-xs-4 no-padding code_input">{input}</div><div class="col-lg-3 col-sm-3 col-xs-3">{image}</div></div>',
                         'imageOptions'=>['alt'=>'图片无法加载','title'=>'点击换图', 'style'=>'cursor:pointer'],
                     ])
                 ->label(false)->hint(false)  ?>
-                <button class="btn btn-defult pull-left col-sm-12 ">提交</button>
+                <button class="btn btn-defult pull-left col-sm-12 col-xs-12">提交</button>
                 <?php ActiveForm::end(); ?>
             </div>
         </div>
     </div>
 </div>
+    <!--
     <div class="address_choose col-xs-12" id="enlist">
-      <?php $form = ActiveForm::begin([
-              'id' => 'form-id',
-              'action' => Url::to(['ajax-apply']),
-              //'enableAjaxValidation' => true,
-              'enableClientValidation'=>true,
-              //'validationUrl' => Url::to(['apply-validate'])
-              ]
-      )?>
+      <?php /*
+            $form = ActiveForm::begin([
+              'id'                     => 'form-id',
+              'action'                 => Url::to(['ajax-apply']),
+              // 'enableAjaxValidation'   => true,
+              'enableClientValidation' =>true,
+              // 'validationUrl'          => Url::to(['apply-validate'])
+              ])
+            */
+        ?>
         <h4>瓦酷，创造不一样！</h4>
          <div class="col-sm-12 no-padding">
 
             <div class="form-group">
 
                  <div class="col-sm-4 no-padding">
-                    <?php echo $form->field($model,'province')
-                    ->dropDownList([])->hint(false)->label(false)?>
+                    <?php /* echo $form->field($model,'province')
+                    ->dropDownList([])->hint(false)->label(false) */?>
+    -->
                     <!-- <select name="input_province" id="input_province" class="form-control"></select> -->
+    <!--
                 </div>
                 <div class="col-sm-4 no-padding">
-                    <?php echo $form->field($model,'city')
-                    ->dropDownList([])->hint(false)->label(false)?>
+                    <?php /* echo $form->field($model,'city')
+                    ->dropDownList([])->hint(false)->label(false) */?>
+    -->
                     <!-- <select name="input_city" id="input_city" class="form-control"></select> -->
+    <!--
                 </div>
                 <div class="col-sm-4 no-padding">
-                     <?php echo $form->field($model,'region')
-                    ->dropDownList([])->hint(false)->label(false)?>
+                     <?php /* echo $form->field($model,'region')
+                    ->dropDownList([])->hint(false)->label(false) */?>
+    -->
                    <!--  <select name="input_area" id="input_area" class="form-control"></select> -->
+    <!--
                 </div>
             </div>
 
     </div>
         <div class="col-sm-12 no-padding">
-            <?php echo $form->field($model,'username')
-            ->textInput(['placeholder'=>'请输入您的姓名'])->label(false)->hint(false) ?>
+            <?php /* echo $form->field($model,'username')
+            ->textInput(['placeholder'=>'请输入您的姓名'])->label(false)->hint(false) */?>
 
-            <?php echo $form->field($model,'phone_number')
-            ->textInput(['placeholder'=>'请输入您的电话'])->label(false)->hint(false) ?>
+            <?php /* echo $form->field($model,'phone_number')
+            ->textInput(['placeholder'=>'请输入您的电话'])->label(false)->hint(false) */?>
 
-            <?php echo $form->field($model,'email')
-            ->textInput(['placeholder'=>'请输入您的邮箱'])->label(false)->hint(false) ?>
+            <?php /* echo $form->field($model,'email')
+            ->textInput(['placeholder'=>'请输入您的邮箱'])->label(false)->hint(false) */?>
 
-            <?php
+            <?php /*
                echo $form->field($model, 'verifyCode')->widget(Captcha::className(), [
                         'options'=>['placeholder'=>'验证码'],
                         'template' => '<div class="row"><div class="col-lg-6">{input}</div><div class="col-lg-6">{image}</div></div>',
                         'imageOptions'=>['alt'=>'图片无法加载','title'=>'点击换图', 'style'=>'cursor:pointer']
                     ])
-                ->label(false)->hint(false)  ?>
+                ->label(false)->hint(false)  */?>
+    -->
             <!-- <input class="col-sm-12" placeholder="请输入您的姓名">
             <input class="col-sm-12" placeholder="请输入您的电话">
             <input class="col-sm-12" placeholder="请输入您的邮箱"> -->
+    <!--
         </div>
+    -->
         <!-- <button  class="btn btn-warning col-sm-12">立即报名</button> -->
-
-        <?= Html::submitButton(
+    <!--
+        <?php /* echo Html::submitButton(
             Yii::t('backend', '立即报名'),
             [
             'id' => 'save-' . $model->formName(),
             'class' => 'btn btn-warning col-sm-12'
             ]);
-            ?>
-        <?php ActiveForm::end(); ?>
+            */?>
+        <?php /* ActiveForm::end(); */?>
     </div>
-
+    -->
 
 
 
@@ -489,14 +543,14 @@ $(window).load(function(){
 function Change(){
     $('.box2').hide();
     $('#find1').mouseenter(function(){
-        $('.course h4').removeClass('yellow_bg');
-        $(this).addClass('yellow_bg');
+        $('.course h4').removeClass('yellow');
+        $(this).addClass('yellow');
         $('.box2').hide();
         $('.box1').show();
     });
     $('#find2').mouseenter(function(){
-        $('.course h4').removeClass('yellow_bg');
-        $(this).addClass('yellow_bg');
+        $('.course h4').removeClass('yellow');
+        $(this).addClass('yellow');
         $('.box1').hide();
         $('.box2').show();
     });
@@ -507,7 +561,7 @@ function showfont(){
     $('.container').css('padding','0');
     $('.container').css('width','100%');
     var H_li = $('.down_run li img').height();
-    console.log(H_li);
+    //console.log(H_li);
     $('.down_run li div').hide();
     $('.down_run li').hover(function(){
         $(this).children('div').show();
@@ -519,6 +573,7 @@ function showfont(){
 }
 $(window).resize(function() {
     showfont();
+    news_resize();
 });
 
 
@@ -583,7 +638,7 @@ $(function () {
 
 function showhide(){
     var Width = $(window).width();
-    console.log(Width);
+    //console.log(Width);
     if(Width < 768){
         $('#enlist').removeClass('address_choose');
         $('#enlist').addClass('address_choose1');
@@ -690,6 +745,24 @@ $(document).ready(function () {
             });
             return false;
          });
+    });
+
+    function news_resize() {
+        var width = $(window).width();
+         if(width<1000){
+            $('.news_caonima').removeClass('col-xs-6').addClass('col-xs-12');
+            
+         }else{
+          $('.news_caonima').removeClass('col-xs-12').addClass('col-xs-6');
+         }
+    };
+     $(window).load(function(){
+         var width = $(window).width();
+        if(width<1000){
+            $('.news_caonima').removeClass('col-xs-6').addClass('col-xs-12');
+         }else{
+            $('.news_caonima').removeClass('col-xs-12').addClass('col-xs-6');
+         }
     });
 </script>
 

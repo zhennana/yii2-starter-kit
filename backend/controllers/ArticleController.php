@@ -52,13 +52,13 @@ class ArticleController extends Controller
     public function actionCreate()
     {
         $model = new Article();
-
+        $categories  = $model->category_recursion(ArticleCategory::find()->active()->asArray()->all());
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
         } else {
             return $this->render('create', [
                 'model' => $model,
-                'categories' => ArticleCategory::find()->active()->all(),
+                'categories' => $categories,
             ]);
         }
     }
@@ -72,13 +72,13 @@ class ArticleController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        $categories  = $model->category_recursion(ArticleCategory::find()->active()->asArray()->all());
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
         } else {
             return $this->render('update', [
                 'model' => $model,
-                'categories' => ArticleCategory::find()->active()->all(),
+                'categories' => $categories,
             ]);
         }
     }

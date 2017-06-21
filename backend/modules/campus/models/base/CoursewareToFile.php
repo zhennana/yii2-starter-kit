@@ -11,9 +11,8 @@ use yii\behaviors\TimestampBehavior;
  * This is the base-model class for table "courseware_to_file".
  *
  * @property integer $courseware_to_file_id
- * @property integer $school_id
- * @property integer $grade_id
- * @property string $title
+ * @property integer $file_storage_item_id
+ * @property integer $courseware_id
  * @property integer $status
  * @property integer $sort
  * @property integer $updated_at
@@ -22,13 +21,17 @@ use yii\behaviors\TimestampBehavior;
  */
 abstract class CoursewareToFile extends \yii\db\ActiveRecord
 {
+    const COURSEWARE_STATUS_OPEN = 1;//正常
+    const COURSEWARE_STATUS_DELECT = 0;//删除
 
-
-     /**
-     * @return \yii\db\Connection the database connection used by this AR class.
-     */
-    public static function getDb()
-    {
+    public static function optsStatus(){
+        return [
+                self::COURSEWARE_STATUS_OPEN => '正常',
+                self::COURSEWARE_STATUS_DELECT => '删除'
+            ];
+    }
+    public static function getDb(){
+        //return \Yii::$app->getModule('campus')->campus;
         return Yii::$app->get('campus');
     }
 
@@ -39,7 +42,6 @@ abstract class CoursewareToFile extends \yii\db\ActiveRecord
     {
         return 'courseware_to_file';
     }
-
 
     /**
      * @inheritdoc
@@ -59,9 +61,8 @@ abstract class CoursewareToFile extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['school_id', 'grade_id', 'title'], 'required'],
-            [['school_id', 'grade_id', 'status', 'sort'], 'integer'],
-            [['title'], 'string', 'max' => 512]
+            [['file_storage_item_id', 'courseware_id'], 'required'],
+            [['file_storage_item_id', 'courseware_id', 'status', 'sort'], 'integer']
         ];
     }
 
@@ -71,14 +72,13 @@ abstract class CoursewareToFile extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'courseware_to_file_id' => Yii::t('common', '课件附件关系自增ID'),
-            'school_id' => Yii::t('common', '学校ID'),
-            'grade_id' => Yii::t('common', '班级ID'),
-            'title' => Yii::t('common', '标题'),
-            'status' => Yii::t('common', '1：正常；0标记删除；2待审核； '),
-            'sort' => Yii::t('common', '默认与排序'),
-            'updated_at' => Yii::t('common', 'Updated At'),
-            'created_at' => Yii::t('common', 'Created At'),
+            'courseware_to_file_id' => Yii::t('models', '课件附件关系自增ID'),
+            'file_storage_item_id' => Yii::t('models', '文件ID'),
+            'courseware_id' => Yii::t('models', '课件ID'),
+            'status' => Yii::t('models', '状态'),
+            'sort' => Yii::t('models', '排序'),
+            'updated_at' => Yii::t('models', '更新时间'),
+            'created_at' => Yii::t('models', '创建时间'),
         ];
     }
 
@@ -88,16 +88,20 @@ abstract class CoursewareToFile extends \yii\db\ActiveRecord
     public function attributeHints()
     {
         return array_merge(parent::attributeHints(), [
-            'courseware_to_file_id' => Yii::t('common', '课件附件关系自增ID'),
-            'school_id' => Yii::t('common', '学校ID'),
-            'grade_id' => Yii::t('common', '班级ID'),
-            'title' => Yii::t('common', '标题'),
-            'status' => Yii::t('common', '1：正常；0标记删除；2待审核； '),
-            'sort' => Yii::t('common', '默认与排序'),
+            'courseware_to_file_id' => Yii::t('models', '课件附件关系自增ID'),
+            'file_storage_item_id' => Yii::t('models', '学校ID'),
+            'courseware_id' => Yii::t('models', '课件ID'),
+            'status' => Yii::t('models', '1：正常；0标记删除；2待审核； '),
+            'sort' => Yii::t('models', '默认与排序'),
         ]);
     }
 
-
+    public function getFileStorageItem(){
+        return $this->hasOne(
+            \backend\modules\campus\models\FileStorageItem::className(),
+            ['file_storage_item_id'=>'file_storage_item_id']
+        );
+    }
     
     /**
      * @inheritdoc

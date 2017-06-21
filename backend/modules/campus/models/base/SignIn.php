@@ -27,7 +27,8 @@ abstract class SignIn extends \yii\db\ActiveRecord
 
     const STATUS_UNREAD = 0;    // 未查看
     const STATUS_READ   = 10;   // 已查看
-
+    const TYPE_STATUS_MORMAL = 10; //正常
+    const TYPE_STATUS_ABSENTEEISM = 20; //缺勤
     /**
      * @inheritdoc
      */
@@ -37,6 +38,7 @@ abstract class SignIn extends \yii\db\ActiveRecord
     }
 
     public static function getDb(){
+        //return \Yii::$app->modules['campus']->get('campus');
         return Yii::$app->get('campus');
     }
 
@@ -58,8 +60,31 @@ abstract class SignIn extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['school_id', 'grade_id', 'course_id', 'student_id', 'teacher_id'], 'required'],
-            [['school_id', 'grade_id', 'course_id', 'student_id', 'teacher_id', 'auditor_id', 'status'], 'integer']
+            [['school_id', 'grade_id', 'course_id','type_status', 'student_id'], 'required'],
+            ['teacher_id','default','value'=>isset(Yii::$app->user->identity->id) ? Yii::$app->user->identity->id : 0],
+            [['school_id', 'grade_id', 'type_status','course_id', 'student_id', 'teacher_id', 'auditor_id', 'status'], 'integer'],
+            ['describe','string','max' => '32'],
+            ['school_id','filter','filter'=>function(){
+                return (int)$this->school_id;
+            }],
+             ['school_id','filter','filter'=>function(){
+                return (int)$this->school_id;
+            }],
+            ['school_id','filter','filter'=>function(){
+                return (int)$this->school_id;
+            }],
+            ['grade_id','filter','filter'=>function(){
+                return (int)$this->grade_id;
+            }],
+            ['student_id','filter','filter'=>function(){
+                return (int)$this->student_id;
+            }],
+            ['course_id','filter','filter'=>function(){
+                return (int)$this->course_id;
+            }],
+            ['type_status','filter','filter'=>function(){
+                return (int)$this->type_status;
+            }],
         ];
     }
 
@@ -70,11 +95,11 @@ abstract class SignIn extends \yii\db\ActiveRecord
     {
         return [
             'signin_id'  => Yii::t('common', '签到记录ID'),
-            'school_id'  => Yii::t('common', '学校ID'),
-            'grade_id'   => Yii::t('common', '班级ID'),
-            'course_id'  => Yii::t('common', '课程ID'),
-            'student_id' => Yii::t('common', '学员ID'),
-            'teacher_id' => Yii::t('common', '教师ID'),
+            'school_id'  => Yii::t('common', '学校'),
+            'grade_id'   => Yii::t('common', '班级'),
+            'course_id'  => Yii::t('common', '课程'),
+            'student_id' => Yii::t('common', '学员'),
+            'teacher_id' => Yii::t('common', '教师'),
             'auditor_id' => Yii::t('common', '审核人'),
             'status'     => Yii::t('common', '状态'),
             'updated_at' => Yii::t('common', '更新时间'),
@@ -89,18 +114,24 @@ abstract class SignIn extends \yii\db\ActiveRecord
     {
         return array_merge(parent::attributeHints(), [
             'signin_id'  => Yii::t('common', '签到记录ID'),
-            'school_id'  => Yii::t('common', '学校ID'),
-            'grade_id'   => Yii::t('common', '班级ID'),
-            'course_id'  => Yii::t('common', '课程ID'),
-            'student_id' => Yii::t('common', '学员ID'),
-            'teacher_id' => Yii::t('common', '教师ID'),
-            'auditor_id' => Yii::t('common', '审核人'),
-            'status'     => Yii::t('common', '状态'),
+            // 'school_id'  => Yii::t('common', '学校'),
+            // 'grade_id'   => Yii::t('common', '班级'),
+            // 'course_id'  => Yii::t('common', '课程'),
+            // 'student_id' => Yii::t('common', '学员'),
+            // 'teacher_id' => Yii::t('common', '教师'),
+            'auditor_id' => Yii::t('common', '创建后不可变更'),
+            'status'     => Yii::t('common', '是否已被查看'),
             'updated_at' => Yii::t('common', '更新时间'),
             'created_at' => Yii::t('common', '签到时间'),
         ]);
     }
-
+    public static function optsTypeStatus()
+    {
+        return [
+            self::TYPE_STATUS_MORMAL   => Yii::t('common', '正常'),
+            self::TYPE_STATUS_ABSENTEEISM => Yii::t('common', '缺勤'),
+        ];
+    }
     public static function optsSignInStatus()
     {
         return [
@@ -117,7 +148,61 @@ abstract class SignIn extends \yii\db\ActiveRecord
         }
         return $value;
     }
+    /**
+     * 一共签到多少人，
+     * @param  [type] $course_id [description]
+     * @return [type]            [description]
+     */
+    public static function singInCount($course_id,$params = NULL){
+        $modelQuery =  self::find()->where(['course_id'=>$course_id]);
+        if($params != NULL){
+            $modelQuery = $modelQuery->andWhere(['type_status'=>self::TYPE_STATUS_MORMAL]);
+        }
+        return $modelQuery->count();
+    }
+    public function getSchool()
+    {
+        return $this->hasOne(\backend\modules\campus\models\School::className(),['id' => 'school_id']);
+    }
 
+    public function getGrade()
+    {
+        return $this->hasOne(\backend\modules\campus\models\Grade::className(),['grade_id' => 'grade_id']);
+    }
+
+    public function getCourse()
+    {
+        return $this->hasOne(\backend\modules\campus\models\Course::className(),['course_id' => 'course_id']);
+    }
+
+    
+    public function getCourseOrder()
+    {
+        return $this->hasOne(\backend\modules\campus\models\CourseOrderItem::className(),['user_id' => 'student_id']);
+    }
+    public function getUser()
+    {
+        return $this->hasOne(\common\models\User::className(),['id' => 'student_id']);
+    }
+
+    public function getSignIns(){
+        return $this->hasOne(\backend\modules\campus\models\SignIn::className(),['student_id' => 'student_id']);
+    }
+    public static function getUserName($id)
+    {
+        $user = \common\models\User::findOne($id);
+        $name = '';
+        if(isset($user->realname) && !empty($user->realname)){
+            return $user->realname;
+        }
+        if(isset($user->username) && !empty($user->username)){
+           return $user->username;
+        }
+        // if(isset($user->phone_number) && !empty($user->phone_number)){
+        //     return $user->phone_number;
+        // }
+        return $name;
+    }
     /**
      * @inheritdoc
      * @return \backend\modules\campus\models\query\SignInQuery the active query used by this AR class.

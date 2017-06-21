@@ -8,16 +8,23 @@ use yii\helpers\ArrayHelper;
 use backend\modules\campus\models\School;
 use backend\modules\campus\models\Grade;
 use backend\modules\campus\models\GradeCategory;
+use common\models\User;
 
     /**
     * @var yii\web\View $this
     * @var backend\modules\campus\models\Grade $model
     * @var yii\widgets\ActiveForm $form
     */
-    $schools = School::find()->where(['status'=>School::SCHOOL_STATUS_OPEN])->asArray()->all();
-    $schools = ArrayHelper::map($schools,'id','school_title');
+
+    $schools = [Yii::$app->user->identity->currentSchool];
+    $schools = ArrayHelper::map($schools,'school_id','school_title');
+
     $category_ids = GradeCategory::find()->where(['status'=>GradeCategory::CATEGORY_OPEN])->asArray()->all();
     $category_ids = ArrayHelper::map($category_ids,'grade_category_id','name');
+
+     $user = Yii::$app->user->identity->getSchoolToUser(Yii::$app->user->identity->currentSchoolId , 20);
+    // getSchoolToUser
+     $data_user = ArrayHelper::map($user,'id','username');
 ?>
 
 <div class="grade-form">
@@ -34,7 +41,9 @@ use backend\modules\campus\models\GradeCategory;
         <?php $this->beginBlock('main'); ?>
 
         <p>
-            
+            <?php 
+                $model->school_id =Yii::$app->user->identity->currentSchoolId
+            ?>
 <!-- attribute school_id -->
 			<?= $form->field($model, 'school_id')->dropDownlist($schools,['prompt'=>'--请选择--']) ?>
 
@@ -46,7 +55,7 @@ use backend\modules\campus\models\GradeCategory;
 			<?= $form->field($model, 'grade_title')->textInput() ?>
 
 <!-- attribute owner_id -->
-            <?= $form->field($model, 'owner_id')->textInput() ?>
+            <?= $form->field($model, 'owner_id')->dropDownlist($data_user,['prompt'=>'--请选择--']) ?>
 
 <!-- attribute creater_id -->
 			<!-- <? //= $form->field($model, 'creater_id')->textInput() ?> -->
@@ -73,7 +82,7 @@ use backend\modules\campus\models\GradeCategory;
             'encodeLabels' => false,
             'items' => [                   
                 [
-                    'label'   => Yii::t('backend', 'Grade'),
+                    'label'   => Yii::t('backend', '班级管理'),
                     'content' => $this->blocks['main'],
                     'active'  => true,
                 ],
@@ -86,7 +95,7 @@ use backend\modules\campus\models\GradeCategory;
 
         <?= Html::submitButton(
         '<span class="glyphicon glyphicon-check"></span> ' .
-        ($model->isNewRecord ? Yii::t('backend', 'Create') : Yii::t('backend', 'Save')),
+        ($model->isNewRecord ? Yii::t('backend', '创建') : Yii::t('backend', '更新')),
         [
         'id' => 'save-' . $model->formName(),
         'class' => 'btn btn-success'

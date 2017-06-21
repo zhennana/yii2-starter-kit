@@ -32,37 +32,12 @@ use common\components\Qiniu\Storage\BucketManager;
 
 use cheatsheet\Time;
 
+use common\components\aliyunMNS\SendSMSMessage;
+
 class SignInController extends \common\components\ControllerFrontendApi
 {
     public $modelClass = 'common\models\User';
-    // https://github.com/zircote/swagger-php/blob/master/Examples/swagger-spec/petstore/api.php
-    // host="114.215.71.102",
-    // host="localhost:8089/edu-manager/frontend/web",
 
-    /**
-     * @SWG\Swagger(
-     *     schemes={"http"},
-     *     host="114.215.71.102",
-     *     basePath="/api/v1",
-     *     @SWG\Info(
-     *         version="1.0.0",
-     *         title="APP 接口在线调试",
-     *         description="This is a sample server Petstore server.  You can find out more about Swagger at <a href=""http://swagger.io"">http://swagger.io</a> or on irc.freenode.net, #swagger.  For this sample, you can use the api key ""special-key"" to test the authorization filters",
-     *         termsOfService="http://helloreverb.com/terms/",
-     *         @SWG\Contact(
-     *             email="apiteam@wordnik.com"
-     *         ),
-     *         @SWG\License(
-     *             name="Apache 2.0",
-     *             url="http://www.apache.org/licenses/LICENSE-2.0.html"
-     *         )
-     *     ),
-     *     @SWG\ExternalDocumentation(
-     *         description="Find out more about Swagger",
-     *         url="http://swagger.io"
-     *     )
-     * )
-     */
     public function beforeAction($action)
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -103,74 +78,6 @@ class SignInController extends \common\components\ControllerFrontendApi
         return [
             'options' => OptionsAction::class,
         ];
-    }
-
-        /**
-     * @SWG\Get(path="/sign-in/reset-by-sms",
-     *     tags={"100-SignIn-用户接口"},
-     *     summary="验证码发送[待开发]",
-     *     description="发送验证码，成功返回验证码与手机号信息",
-     *     produces={"application/json"},
-     *     @SWG\Parameter(
-     *        in = "query",
-     *        name = "phone_number",
-     *        description = "手机号",
-     *        required = true,
-     *        type = "string"
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "query",
-     *        name = "type",
-     *        description = "发送验证码类型",
-     *        required = true,
-     *        type = "string",
-     *        enum = {"singup", "repasswd"}
-     *     ),
-     *     @SWG\Response(
-     *         response = 200,
-     *         description = "用户激活成功"
-     *     )
-     * )
-     *
-     */
-    /**
-     * 验证码发送
-     * @return string|Response
-     */
-    public function actionResetBySms($phone_number, $type='singup')
-    {
-        \Yii::$app->language = 'zh-CN';
-        $user = User::find()->where(['phone_number'=>$phone_number])->one();
-        if(!$user){
-            return [
-                'message'=>[
-                    '手机号不存在'
-                ]
-            ];
-        }
-// var_dump($user); exit();
-        $type =  ($type == 'singup') ? UserToken::TYPE_PHONE_SINGUP : UserToken::TYPE_PHONE_REPASSWD;
-
-        UserToken::deleteAll([
-            'user_id' => $user->id,
-            'type' => $type,
-        ]);
-
-        $code = UserToken::randomCode();
-        $token = UserToken::create(
-            $user->id,
-            $type,
-            Time::SECONDS_IN_A_DAY,
-            $code
-        );
-        $info = [
-                'message'=>$code.' 验证码',
-                'phone'=>$user->phone_number,
-        ];
-        if($token){ // 发送短信
-            ymSms($info);
-        }
-        return $info;
     }
 
     /**
@@ -279,6 +186,7 @@ class SignInController extends \common\components\ControllerFrontendApi
      */
     public function actionIndex()
     {
+        
         if(\Yii::$app->user->isGuest){
             Yii::$app->response->statusCode = 422;
             return [
@@ -292,7 +200,7 @@ class SignInController extends \common\components\ControllerFrontendApi
             unset($attrUser['password_hash']);
         }
         $attrUser['avatar'] = '';
-        $account  = Yii::$app->user->identity->getAccount();
+        //$account  = Yii::$app->user->identity->getAccount();
 
         $proFileUser = Yii::$app->user->identity->userProfile;
 
@@ -301,20 +209,22 @@ class SignInController extends \common\components\ControllerFrontendApi
         {
             $attrUser['avatar'] = $proFileUser->avatar_base_url.$proFileUser->avatar_path;
         }else{
+            /*
             $fansMpUser = Yii::$app->user->identity->fansMp;
             if($fansMpUser){
                 $attrUser['avatar'] = $fansMpUser->avatar;
             }
+            */
         }
         //$user['roles']=\Yii::$app->authManager->getRolesByUser(\Yii::$app->user->id);
-        return  array_merge($attrUser,$account);
-        
+        //return  array_merge($attrUser,$account);
+        return $attrUser;
     }
 
     /**
      * @SWG\Post(path="/sign-in/signup",
      *     tags={"100-SignIn-用户接口"},
-     *     summary="用户注册[待开发]",
+     *     summary="用户注册[已自测]",
      *     description="成功返回注册完信息，失败返回具体原因",
      *     produces={"application/json"},
      *     @SWG\Parameter(
@@ -389,14 +299,62 @@ class SignInController extends \common\components\ControllerFrontendApi
                 } else {
                     Yii::$app->getUser()->login($user);
                 }
-                $account  = $user->getAccount();
-                return array_merge($user->attributes, $account);
+                //$account  = $user->getAccount();
+                return array_merge($user->attributes, ['token'=>$model->token, 'messageId'=> $model->messageId]);
+                //return $user->attributes;
             }
         }
 
         Yii::$app->response->statusCode = 422;
          //var_dump($model->getErrors());exit;
         return $model->getErrors();
+    }
+
+    /**
+     * @SWG\POST(path="/sign-in/smscode",
+     *     tags={"100-SignIn-用户接口"},
+     *     summary="验证码有效性[已经自测]",
+     *     description="激活用户状态user.status",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "token",
+     *        description = "验证码",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "phone_number",
+     *        description = "手机号",
+     *        required = false,
+     *        type = "string"
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "验证码是否有效"
+     *     )
+     * )
+     *
+     */
+    /**
+     * 验证码用户激活
+     * @return string|Response
+     */
+    public function actionSmscode()
+    {
+        $token = Yii::$app->request->post('token',0);
+        $userToken = UserToken::find()
+            //->byType(UserToken::TYPE_PHONE_SIGNUP)
+            ->byToken($token)
+            ->notExpired()
+            ->one();
+//var_dump($userToken);
+        if (!$userToken) {
+            return ['status'=>1, 'message'=>['验证码无效。']];
+        }else{
+            return ['status'=>0, 'message'=>['验证码有效。']];
+        }
     }
 
     /**
@@ -435,11 +393,11 @@ class SignInController extends \common\components\ControllerFrontendApi
         $token = Yii::$app->request->post('token',0);
         $password = Yii::$app->request->post('password',null);
         $userToken = UserToken::find()
-            ->byType(UserToken::TYPE_PHONE_SINGUP)
+            ->byType(UserToken::TYPE_PHONE_SIGNUP)
             ->byToken($token)
             ->notExpired()
             ->one();
-// var_dump($usertoken);  exit();
+//var_dump($userToken);  exit();
         if (!$userToken) {
             //throw new BadRequestHttpException;
             return ['message'=>['验证码无效。']];
@@ -470,6 +428,82 @@ class SignInController extends \common\components\ControllerFrontendApi
         ];
         */
         return $user->attributes;
+    }
+
+    /**
+     * @SWG\Get(path="/sign-in/reset-by-sms",
+     *     tags={"100-SignIn-用户接口"},
+     *     summary="用户表已经存在的手机号用户，验证码发送测试[已经测试]",
+     *     description="发送验证码，成功返回验证码与手机号信息",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "phone_number",
+     *        description = "手机号",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "type",
+     *        description = "发送验证码类型",
+     *        required = true,
+     *        type = "string",
+     *        enum = {"repasswd", "signup"}
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "用户激活成功"
+     *     )
+     * )
+     *
+     */
+    /**
+     * 验证码发送
+     * @return string|Response
+     */
+    public function actionResetBySms($phone_number, $type='signup')
+    {
+        $code = UserToken::randomCode();
+        $instance = new SendSMSMessage();
+
+        \Yii::$app->language = 'zh-CN';
+        $user = User::find()->where(['phone_number'=>$phone_number])->one();
+        if(!$user){
+            return [
+                'message'=>[
+                    '手机号不存在'
+                ]
+            ];
+        }
+
+        $type =  ($type == 'signup') ? UserToken::TYPE_PHONE_SIGNUP : UserToken::TYPE_PHONE_REPASSWD;
+
+        UserToken::deleteAll([
+            'user_id' => $user->id,
+            'type' => $type,
+        ]);
+
+        
+        $token = UserToken::create(
+            $user->id,
+            $type,
+            Time::SECONDS_IN_A_DAY,
+            $code
+        );
+
+        if($token){ // 发送短信
+            $res = $instance->registerCode($user->phone_number,['code' => $code]);
+        }
+
+        $info = [
+            'message'=>$code.' 验证码',
+            'phone'=>$user->phone_number,
+            'messageId' => $res,
+            'status' => $res ? 0 : 500 ,
+        ];
+
+        return $info;
     }
 
     /**
@@ -542,13 +576,99 @@ class SignInController extends \common\components\ControllerFrontendApi
         return $user->attributes;
     }
 
+    /**
+     * @SWG\POST(path="/sign-in/update-local-profile",
+     *     tags={"100-SignIn-用户接口"},
+     *     summary="更新用户附属信息",
+     *     description="更新用户附属表信息",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "user[user_id]",
+     *        description = "用户ID",
+     *        required = true,
+     *        default = 1,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "user[realname]",
+     *        description = "真实姓名",
+     *        required = false,
+     *        default = "牛佳杰",
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "user[avatar_base_url]",
+     *        description = "头像域名",
+     *        required = false,
+     *        default = "http://omsqlyn5t.bkt.clouddn.com/",
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "user[avatar_path]",
+     *        description = "头像路径",
+     *        required = false,
+     *        default = "touxiang_06.png",
+     *        type = "string"
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "修改成功"
+     *     )
+     * )
+     *
+     */
+    public function actionUpdateLocalProfile()
+    {
 
+        $user = Yii::$app->request->post('user');
+        $user['user_id'] = isset($user['user_id']) ? intval($user['user_id']) : 0 ;
+        $user['realname'] = isset($user['realname']) ? $user['realname'] : '' ;
+        $user['avatar_base_url'] = isset($user['avatar_base_url']) ? $user['avatar_base_url'] : '' ;
+        $user['avatar_path'] = isset($user['avatar_path']) ? $user['avatar_path'] : '' ;
+
+//var_dump($user); exit();
+        if(empty($user['user_id'])){
+            return [
+                'message' => 'user ID is not null.',
+            ];
+        }
+        $userInfo = $userProfileInfo = [];
+
+        if(!empty($user['avatar_base_url']) && !empty($user['avatar_path'])){
+            $model = UserProfile::findOne($user['user_id']);
+            if($model){ // 更新
+                $model->avatar_base_url = $user['avatar_base_url'];
+                $model->avatar_path = $user['avatar_path'];
+                $model->save(false);
+            }else{ // 创建
+                $model = new UserProfile();
+                $model->user_id = $user['user_id'];
+                $model->avatar_base_url = $user['avatar_base_url'];
+                $model->avatar_path = $user['avatar_path'];
+                $model->save(false);
+            }
+            $userProfileInfo = $model->attributes;
+        }
+
+        if(!empty($user['realname'])){
+            $model = User::findOne($user['user_id']);
+            $model->realname = $user['realname'];
+            $model->save(false);
+            $userInfo = $model->attributes;
+        }
+
+        return array_merge($userInfo, $userProfileInfo);
+    }
 
 
     /**
      * @SWG\POST(path="/sign-in/update-profile",
      *     tags={"100-SignIn-用户接口"},
-     *     summary="更新用户附属信息",
+     *     summary="七牛云接口返回，更新用户附属信息",
      *     description="更新用户附属表信息 http://developer.qiniu.com/docs/v6/sdk/ios-sdk.html",
      *     produces={"application/json"},
      *     @SWG\Parameter(
@@ -588,7 +708,7 @@ class SignInController extends \common\components\ControllerFrontendApi
     public function actionUpdateProfile()
     {
         $avatar_base_url = 'http://7xrpkx.com1.z0.glb.clouddn.com/';
-        $avatar_base_url = 'http://7xsm8j.com1.z0.glb.clouddn.com/';
+        $avatar_base_url = \Yii::$app->params['qiniu']['static-v1']['domain'];
         $user_id = Yii::$app->request->post('user_id');
         $data = Yii::$app->request->post('json_data');
         $data = json_decode($data, true);
@@ -602,11 +722,11 @@ class SignInController extends \common\components\ControllerFrontendApi
             $key = $model->avatar_path;
             if($key != $data['key']){
                 $auth = new Auth(
-                    \Yii::$app->params['qiniu']['yajol-static']['access_key'], 
-                    \Yii::$app->params['qiniu']['yajol-static']['secret_key']
+                    \Yii::$app->params['qiniu']['static-v1']['access_key'], 
+                    \Yii::$app->params['qiniu']['static-v1']['secret_key']
                 );
                 $bucketMgr = new BucketManager($auth);
-                $bucket = \Yii::$app->params['qiniu']['yajol-static']['bucket'];
+                $bucket = \Yii::$app->params['qiniu']['static-v1']['bucket'];
                 $key = $model->avatar_path;
                 $err = $bucketMgr->delete($bucket, $key);
 //var_dump($err); exit();
@@ -625,10 +745,12 @@ class SignInController extends \common\components\ControllerFrontendApi
         return $model->attributes;
     }
 
+     
+
     /**
      * @SWG\Get(path="/sign-in/qiniu-token",
      *     tags={"100-SignIn-用户接口"},
-     *     summary="获取七牛云Token",
+     *     summary="获取七牛云Token，用于客户端上传七牛云",
      *     description="返回七牛云上传Token",
      *     produces={"application/json"},
      *     @SWG\Response(
@@ -640,13 +762,26 @@ class SignInController extends \common\components\ControllerFrontendApi
      */
     public function actionQiniuToken()
     {
-        $auth = new Auth(\Yii::$app->params['qiniu']['yajol-static']['access_key'], \Yii::$app->params['qiniu']['yajol-static']['secret_key']);
+        $auth = new Auth(
+            \Yii::$app->params['qiniu']['static-v1']['access_key'], 
+            \Yii::$app->params['qiniu']['static-v1']['secret_key']
+        );
+
         $policy['returnBody'] = '{"name": $(fname),"size": $(fsize),"type": $(mimeType),"hash": $(etag),"key":$(key)}';
-        $token = $auth->uploadToken(\Yii::$app->params['qiniu']['yajol-static']['bucket'],null,3600,$policy);
+
+        $token = $auth->uploadToken(
+            \Yii::$app->params['qiniu']['static-v1']['bucket'],
+            null,
+            3600,
+            $policy
+        );
+
         Yii::$app->response->format = Response::FORMAT_JSON;
         
         Yii::$app->response->data = [
-            'uptoken' => $token
+            'uptoken' => $token,
+            'domain' => \Yii::$app->params['qiniu']['static-v1']['domain'],
+            'bucket' => \Yii::$app->params['qiniu']['static-v1']['bucket'],
         ]; 
         //echo '{"uptoken": "'.$token.'"}';
     }

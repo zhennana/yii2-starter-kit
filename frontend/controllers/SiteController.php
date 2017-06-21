@@ -2,10 +2,14 @@
 namespace frontend\controllers;
 
 use Yii;
-use frontend\models\ContactForm;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
-use backend\modules\campus\models\ApplyToPlay;
-use backend\modules\campus\models\Contact;
+use frontend\models\ContactForm;
+use frontend\models\ApplyToPlay;
+use frontend\models\Contact;
+use common\models\Article;
+use common\models\ArticleCategory;
+use common\models\school\School;
 
 /*
 use Superman2014\Aliyun\Sms\Sms\Request\V20160927 as Sms;
@@ -28,14 +32,14 @@ class SiteController extends Controller
                 'class' => 'yii\web\ErrorAction'
             ],
             'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                  'height' => 40,
-                  'width' => 100,
-                  'minLength' => 4,
-                  'maxLength' => 4,
-                  'padding'=>0, 
-                  'offset'=>4, 
-                  'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null
+                'class'           => 'yii\captcha\CaptchaAction',
+                'height'          => 40,
+                'width'           => 100,
+                'minLength'       => 4,
+                'maxLength'       => 4,
+                'padding'         => 0,
+                'offset'          => 4,
+                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null
 
             ],
             'contact_captcha'=>[
@@ -72,11 +76,136 @@ class SiteController extends Controller
                 //api_key 是文档浏览key,文档放到线上，我们并不需要让每个人都能看到，所以可以通过设置这项来实现。配置后浏览文档时需要在右上角的api_key输入框中输入配置的值，才能正常访问文档.
                 'api_key' => '8868',
             ],
+
+            //文档预览地址,配置好后可以直接访问:http://api.yourhost.com/sign-in/doc
+            'frontend-doc' => [
+                'class' => 'light\swagger\SwaggerAction',
+                'restUrl' => \yii\helpers\Url::to(['/site/frontend-api'], true),
+            ],
+            //看到上面配置的*restUrl*了么，没错, 它就是指向这个地址
+            'frontend-api' => [
+                'class' => 'light\swagger\SwaggerApiAction',
+                //这里配置需要扫描的目录,不支持yii的alias,所以需要这里直接获取到真实地址
+                'scanDir' => [
+                    //Yii::getAlias('@frontend/controllers/api'),
+                    Yii::getAlias('@frontend/controllers/gedu/v1'),
+                    //Yii::getAlias('@api/modules/v1/models'),
+                    //Yii::getAlias('@api/models'),
+                ],
+                //api_key 是文档浏览key,文档放到线上，我们并不需要让每个人都能看到，所以可以通过设置这项来实现。配置后浏览文档时需要在右上角的api_key输入框中输入配置的值，才能正常访问文档.
+                'api_key' => '8868',
+            ],
+
+            'frontend-wakoo-doc' => [
+                'class' => 'light\swagger\SwaggerAction',
+                'restUrl' => \yii\helpers\Url::to(['/site/frontend-wakoo-api'], true),
+            ],
+            //看到上面配置的*restUrl*了么，没错, 它就是指向这个地址
+            'frontend-wakoo-api' => [
+                'class' => 'light\swagger\SwaggerApiAction',
+                //这里配置需要扫描的目录,不支持yii的alias,所以需要这里直接获取到真实地址
+                'scanDir' => [
+                    //Yii::getAlias('@frontend/controllers/api'),
+                    Yii::getAlias('@frontend/controllers/wedu/v1'),
+                    //Yii::getAlias('@api/modules/v1/models'),
+                    //Yii::getAlias('@api/models'),
+                ],
+                //api_key 是文档浏览key,文档放到线上，我们并不需要让每个人都能看到，所以可以通过设置这项来实现。配置后浏览文档时需要在右上角的api_key输入框中输入配置的值，才能正常访问文档.
+                'api_key' => '8868',
+            ],
         ];
     }
 
     public function actionIndex()
     {
+    
+        $model = ArticleCategory::find()
+            ->select(['id','parent_id'])
+            ->where([
+              'or',
+              ['id'        => [3, 22]],
+              ['parent_id' => [9, 12]]
+            ])
+            ->andWhere([
+                'status' => ArticleCategory::STATUS_ACTIVE
+            ])
+            ->asArray()
+            ->all();
+
+        // dump($model);exit;
+        $course_left  = [];
+        $course_right = [];
+        $dongtai      = [];
+        $zuopin       = [];
+        foreach ($model as $key => $value) {
+            if($value['parent_id'] == 9){
+                $course_left[]  = $value['id'];
+
+            }elseif($value['parent_id'] == 12){
+                $course_right[] = $value['id'];
+
+            }elseif($value['id'] == 22){
+                $zuopin[] = $value['id'];
+
+            }elseif($value['id'] == 3){
+                $dongtai[]      = $value['id'];
+
+            }
+        }
+
+        $ids = array_column($model, 'id');
+        // dump($ids);exit;
+        $articles = Article::find()
+        ->where(['category_id' => $ids])
+        ->orderBy(['updated_at' => SORT_DESC])
+        ->asArray()
+        ->all(); 
+
+        $data = [
+          'course_left'  => [],
+          'course_right' => [],
+          'dongtai'      => [],
+          'zuopin'       => []
+        ];
+
+        // dump($articles);exit;
+        foreach($articles as $key => $value){
+            if(in_array($value['category_id'], $course_left)){
+                $data['course_left'][] = $value;
+            }
+
+            if(in_array($value['category_id'], $course_right)){
+                $data['course_right'][] = $value;
+            }
+
+            if(in_array($value['category_id'], $dongtai)){
+                $data['dongtai'][] = $value;
+            }
+            if (in_array($value['category_id'], $zuopin)) {
+                $data['zuopin'][] = $value;
+            }
+        }
+        //dump($data['course_left']);exit;
+            // if($value['id'] == 3){
+            //  // $data['dongtai']['title'] = $value['title'];
+            //   //wakoo 动态
+            //   $data['dongtai'][] = $value;
+            
+            // }elseif($value['parent_id'] == 9){
+            //   //$data['course_tope']          = $value;
+              
+            //   //wakoo 学前课程（3-6）
+            //   $data['course_left'][]    = $value;
+            
+            // }elseif($value['parent_id'] == 12){
+              
+            //   //wakoo 学前课程（7-13）
+            //   $data['course_right'][]    = $value;
+            
+            // }elseif($value['id'] == 1 ){
+            //   //关于wakoo
+            // }
+    // dump($data);exit;
       //exit();
       /*
        * 阿里云发送短信.
@@ -106,7 +235,9 @@ class SiteController extends Controller
         );
         var_dump($resource);
         */
-        return $this->render('index');
+        return $this->render('index',[
+            'model' => $data
+        ]);
     }
 
     /**
@@ -117,16 +248,17 @@ class SiteController extends Controller
     public function actionAjaxApply(){
         $model = new ApplyToPlay;
         $model->setScenario('AjaxApply');
+
         if (Yii::$app->request->isAjax) {
-           
-           Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
             if($model->load(Yii::$app->request->post()) && $model->save()){
                 return ['status' => true];
             }else{
-                return ['status'=>false,'errors' => $model->getErrors()];
+              // var_dump($model->getErrors());
+                return ['status' => false, 'errors' => $model->getErrors()];
             }
         }
-
     }
     /**
      * 异步提交数据
@@ -189,4 +321,23 @@ class SiteController extends Controller
             'model' => $model
         ]);
     }
+
+    public function actionSchoolLists($province_id)
+    {
+        $query = School::find()
+            ->where(['parent_id' => 0])
+            ->andWhere(['status' => School::SCHOOL_NORMAL]);
+        $school = $query
+            ->where(['province_id' => $province_id])
+            ->all();
+
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        if ($query->count() > 0 || !empty($school)) {
+            $school = ArrayHelper::map($school, 'id', 'school_short_title');
+            return $school;
+        }else{
+            return ['0' => '暂无校区'];
+        }
+    }
+    
 }

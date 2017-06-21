@@ -63,15 +63,15 @@ abstract class School extends \yii\db\ActiveRecord
     }
     public static function tableName()
     {
-        return 'school';
-    }
+       return 'school';
+   }
     /**
      * @return \yii\db\Connection the database connection used by this AR class.
      */
-    public static function getDb()
-    {
+     public static function getDb()
+     {
         return Yii::$app->get('campus');
-    }
+     }
 
     /**
      * @inheritdoc
@@ -109,27 +109,55 @@ abstract class School extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('common', '自增ID'),
-            'parent_id' => Yii::t('common', '主校ID'),
-            'school_id' => Yii::t('common', '学校ID'),
-            'language' => Yii::t('common', '语言'),
-            'school_title' => Yii::t('common', '学校名称'),
-            'school_short_title' => Yii::t('common', '学校简称'),
-            'school_slogan' => Yii::t('common', '学校标语'),
-            'school_logo_path' => Yii::t('common', 'Logo Path'),
-            'school_backgroud_path' => Yii::t('common', '学校背景图路径'),
-            'longitude' => Yii::t('common', '经度'),
-            'latitude' => Yii::t('common', '纬度'),
-            'address' => Yii::t('common', '地址'),
-            'province_id' => Yii::t('common', '省'),
-            'city_id' => Yii::t('common', '城市'),
-            'region_id' => Yii::t('common', '区县'),
-            'created_at' => Yii::t('common', 'Created At'),
-            'updated_at' => Yii::t('common', 'Updated At'),
-            'created_id' => Yii::t('common', 'Created ID'),
-            'status' => Yii::t('common', '状态'),
-            'sort' => Yii::t('common', '默认与排序'),
+            'id'                    => Yii::t('backend', '自增ID'),
+            'parent_id'             => Yii::t('backend', '主校ID'),
+            'school_id'             => Yii::t('backend', '学校ID'),
+            'language'              => Yii::t('backend', '语言'),
+            'school_title'          => Yii::t('backend', '学校名称'),
+            'school_short_title'    => Yii::t('backend', '学校简称'),
+            'school_slogan'         => Yii::t('backend', '学校标语'),
+            'school_logo_path'      => Yii::t('backend', 'Logo路径'),
+            'school_backgroud_path' => Yii::t('backend', '学校背景图路径'),
+            'longitude'             => Yii::t('backend', '经度'),
+            'latitude'              => Yii::t('backend', '纬度'),
+            'address'               => Yii::t('backend', '地址'),
+            'province_id'           => Yii::t('backend', '省'),
+            'city_id'               => Yii::t('backend', '城市'),
+            'region_id'             => Yii::t('backend', '区县'),
+            'created_at'            => Yii::t('backend', 'Created At'),
+            'updated_at'            => Yii::t('backend', 'Updated At'),
+            'created_id'            => Yii::t('backend', 'Created ID'),
+            'status'                => Yii::t('backend', '状态'),
+            'sort'                  => Yii::t('backend', '排序'),
         ];
+    }
+
+    public function fields(){
+        return ArrayHelper::merge(
+            parent::fields(),
+            [
+            'school_id'=>function(){
+                return (int)$this->school_id;
+            },
+            'parent_id'=>function(){
+                return (int)$this->parent_id;
+            } ,
+            'province_id'=>function(){
+                return (int)$this->province_id;
+            },
+            'city_id'=>function(){
+                return (int)$this->city_id;
+            },
+            'created_id'=>function(){
+                return (int)$this->created_id;
+            },
+            'region_id'=>function(){
+                return (int)$this->region_id;
+            },
+            'status'=>function(){
+                return (int)$this->status;
+            }
+        ]);
     }
     
 
@@ -140,28 +168,30 @@ abstract class School extends \yii\db\ActiveRecord
     public function attributeHints()
     {
         return array_merge(parent::attributeHints(), [
-            'id' => Yii::t('common', '自增ID'),
-            'parent_id' => Yii::t('common', '主校ID'),
-            'school_id' => Yii::t('common', '学校ID'),
-            'language' => Yii::t('common', '语言'),
-            'school_title' => Yii::t('common', '学校名称'),
-            'school_short_title' => Yii::t('common', '学校简称'),
-            'school_slogan' => Yii::t('common', '学校标语'),
-            'longitude' => Yii::t('common', '经度'),
-            'latitude' => Yii::t('common', '纬度'),
-            'address' => Yii::t('common', '地址'),
-            'province_id' => Yii::t('common', '省'),
-            'city_id' => Yii::t('common', '城市'),
-            'region_id' => Yii::t('common', '区县'),
-            'status' => Yii::t('common', '0正常；1：标记删除；2:待审核；'),
-            'sort' => Yii::t('common', '默认与排序'),
+            'id'                    => Yii::t('backend', '自增ID'),
+            'parent_id'             => Yii::t('backend', '主校ID'),
+            'school_id'             => Yii::t('backend', '学校ID'),
+            'language'              => Yii::t('backend', '语言'),
+            'school_title'          => Yii::t('backend', '学校名称'),
+            'school_short_title'    => Yii::t('backend', '学校简称'),
+            'school_slogan'         => Yii::t('backend', '学校标语'),
+            'school_logo_path'      => Yii::t('backend', 'Logo路径'),
+            'school_backgroud_path' => Yii::t('backend', '学校背景图路径'),
+            'longitude'             => Yii::t('backend', '经度'),
+            'latitude'              => Yii::t('backend', '纬度'),
+            'address'               => Yii::t('backend', '地址'),
+            'province_id'           => Yii::t('backend', '省'),
+            'city_id'               => Yii::t('backend', '城市'),
+            'region_id'             => Yii::t('backend', '区县'),
+            'status'                => Yii::t('backend', '状态'),
+            'sort'                  => Yii::t('backend', '排序'),
         ]);
     }
 
     /**
     * 三级联动地区
     **/
-    public function getCitylist($typeid = 0,$id=false){
+    public function getCitylist($typeid = 0,$id = false){
         if($typeid == 1){
             $province = CnProvince::find()->asArray()->all();
             return  ArrayHelper::map($province, 'province_id', 'province_name');
@@ -182,6 +212,12 @@ abstract class School extends \yii\db\ActiveRecord
     }
     public function getRegion(){
         return $this->hasOne(\backend\modules\campus\models\CnRegion::ClassName(),['region_id'=>'region_id']);
+    }
+    public function getSchool(){
+        return $this->hasOne(\backend\modules\campus\models\School::ClassName(),['parent_id'=>'school_id']);
+    }
+      public function getGrade(){
+        return $this->hasOne(\backend\modules\campus\models\Grade::ClassName(),['school_id'=>'school_id']);
     }
     /**
      * @inheritdoc

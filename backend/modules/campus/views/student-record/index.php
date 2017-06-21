@@ -10,33 +10,33 @@ use yii\grid\GridView;
     * @var common\models\StudentRecordSearch $searchModel
 */
 
-
-
+$this->title = Yii::t('models', '学员档案管理');
+$this->params['breadcrumbs'][] = $this->title;
 /**
 * create action column template depending acces rights
 */
     $actionColumnTemplates = [];
 
-    if (\Yii::$app->user->can('manager')) { 
+    if (\Yii::$app->user->can('P_teacher')) { 
         $actionColumnTemplates[] = '{view}';
     }
 
-    if (\Yii::$app->user->can('manager')) {
+    if (\Yii::$app->user->can('P_teacher')) {
         $actionColumnTemplates[] = '{update}';
     }
 
-    if (\Yii::$app->user->can('manager')) {
+    if (\Yii::$app->user->can('P_teacher')) {
         $actionColumnTemplates[] = '{delete}';
     }
-    
+
     if (isset($actionColumnTemplates)) {
-        
+
         $actionColumnTemplate = implode(' ', $actionColumnTemplates);
         $actionColumnTemplateString = $actionColumnTemplate;
-    
+
     } else {
-    
-        Yii::$app->view->params['pageButtons'] = Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'New'), ['create'], ['class' => 'btn btn-success']);
+
+        Yii::$app->view->params['pageButtons'] = Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'), ['create'], ['class' => 'btn btn-success']);
         $actionColumnTemplateString = "{view} {update} {delete}";
     }
 ?>
@@ -49,13 +49,13 @@ use yii\grid\GridView;
     <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
 
     <h1>
-        <?= Yii::t('backend', '学生档案管理') ?>        <small>
+        <?= Yii::t('backend', '学员档案管理') ?>        <small>
             列表
         </small>
     </h1>
     <div class="clearfix crud-navigation">
 <?php
-if(\Yii::$app->user->can('manager')){
+if(\Yii::$app->user->can('P_teacher')){
 ?>
         <div class="pull-left">
             <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'), ['create'], ['class' => 'btn btn-success']) ?>
@@ -63,12 +63,12 @@ if(\Yii::$app->user->can('manager')){
 <?php
 }
 ?>
-        <div class="pull-right">              
+        <div class="pull-right">
             <?= \yii\bootstrap\ButtonDropdown::widget(
                 [
                     'id' => 'giiant-relations',
                     'encodeLabel' => false,
-                    'label' => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('backend', 'Relations'),
+                    'label' => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('backend', '相关管理'),
                     'dropdown' => [
                         'options' => [
                             'class' => 'dropdown-menu-right'
@@ -92,8 +92,8 @@ if(\Yii::$app->user->can('manager')){
             'dataProvider' => $dataProvider,
             'pager' => [
                 'class' => yii\widgets\LinkPager::className(),
-                'firstPageLabel' => Yii::t('backend', 'First'),
-                'lastPageLabel' => Yii::t('backend', 'Last')        
+                'firstPageLabel' => Yii::t('backend', '首页'),
+                'lastPageLabel' => Yii::t('backend', '尾页')        
             ],
             'filterModel' => $searchModel,
             'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
@@ -110,12 +110,49 @@ if(\Yii::$app->user->can('manager')){
                 },
                 'contentOptions' => ['nowrap'=>'nowrap']
             ],
-            'user_id',
-            'school_id',
-            'grade_id',
+            [
+                'attribute'=>'user_id',
+                'value'=>function($model){
+                        return isset($model->user->username) ? $model->user->username : '';
+                }
+            ],
+            [
+                    'attribute'=>'school_id',
+                    'value'=>function($model){
+                        return isset($model->school->school_title) ? $model->school->school_title : '';
+                    }
+                ],
+            [
+                'attribute'=>'grade_id',
+                'value'=>function($model){
+                    return isset($model->grade->grade_name) ? $model->grade->grade_name  : '';
+                }
+            ],
+            [
+                'attribute'=>'course_id',
+                'label'    => '课程标题',
+                'value'=>function($model){
+                    return isset($model->course->title) ? $model->course->title  : '';
+                }
+            ],
             'title',
             'status',
             'sort',
+            'updated_at:datetime',
+            'created_at:datetime',
+            [
+                'label'=>'',
+                'format'    => 'raw',
+                'value'=>function($model){
+                    return Html::a('编写学员档案',['student-record-value/create-value',
+                        'user_id'     => $model->user_id,
+                        'school_id'   => $model->school_id,
+                        'grade_id'    => $model->grade_id,
+                        'student_record_id'=> $model->student_record_id,
+                    ]);
+                }
+            ]
+
         ],
         ]); ?>
     </div>
