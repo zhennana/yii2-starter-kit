@@ -23,7 +23,7 @@ class StudentRecord extends BaseStudentRecord
 				'user_id'	=> $value,
 				])->one();
 			if(!$model){
-				$model = new $model;
+				$model = new StudentRecord;
 			}
 			$model->user_id = $value;
 			$model->school_id = $data['school_id'];
