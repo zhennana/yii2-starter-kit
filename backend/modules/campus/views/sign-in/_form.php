@@ -60,6 +60,8 @@ use common\models\User;
                     'pluginEvents'=>[
                         "change" => "function() { 
                             handleChange(3,this.value,'#signin-course_id');
+                            handleChange(4,this.value,'#signin-student_id');
+                            handleChange(5,this.value,'#signin-teacher_id');
                          }",
                     ]
                 ]); ?>
@@ -73,78 +75,64 @@ use common\models\User;
                         'allowClear'=> true,
                     ],
                     'pluginEvents'=>[
-                        "change" => "function() { 
-                             handleChange(4,this.value,'#signin-user_id');
-                        }",
+                        // "change" => "function() { 
+                        //      handleChange(4,this.value,'#signin-student_id');
+                        // }",
                     ]
-                ]); ?> 
+                ]); ?>
 
 <!-- attribute student_id -->
 			<?= $form->field($model, 'student_id')->widget(Select2::className(),[
-                'data' => ArrayHelper::map(User::find()
-                    ->where([
-                        'status' => User::STATUS_ACTIVE
-                    ])->asArray()->all(),
-                    'id',
-                    'username'
-                ),
+                'data' =>[],
                 'options'=>['placeholder'=>'请选择'],
             ]) ?>
 
 <!-- attribute teacher_id -->
 			<?= $form->field($model, 'teacher_id')->widget(Select2::className(),[
-                'data' => ArrayHelper::map(User::find()
-                    ->where([
-                        'status' => User::STATUS_ACTIVE
-                    ])->asArray()->all(),
-                    'id',
-                    'username'
-                ),
-                'options'=>['placeholder'=>'请选择'],
-            ]) ?>
+                    'data' =>[],
+                    'options'=>['placeholder'=>'请选择'],]
+            ) ?>
 
 <!-- attribute auditor_id -->
 			<?php
                 if ($model->isNewRecord) {
-                    echo $form->field($model, 'auditor_id')->widget(Select2::className(),[
-                        'data' => ArrayHelper::map(User::find()
-                            ->where([
-                                'status' => User::STATUS_ACTIVE
-                            ])->asArray()->all(),
-                            'id',
-                            'username'
-                        ),
-                        'options'=>['placeholder'=>'请选择'],
-                    ]);
+                    // echo $form->field($model, 'auditor_id')->widget(Select2::className(),[
+                    //     'data' => ArrayHelper::map(User::find()
+                    //         ->where([
+                    //             'status' => User::STATUS_ACTIVE
+                    //         ])->asArray()->all(),
+                    //         'id',
+                    //         'username'
+                    //     ),
+                    //     'options'=>['placeholder'=>'请选择'],
+                    // ]);
                 }else{
-                    echo $form->field($model, 'auditor_id')->widget(Select2::className(),[
-                        'data' => ArrayHelper::map(User::find()
-                            ->where([
-                                'status' => User::STATUS_ACTIVE
-                            ])->asArray()->all(),
-                            'id',
-                            'username'
-                        ),
-                        'options'=>['placeholder'=>'请选择'],
-                        'disabled' => true,
-                    ]);
+                    // echo $form->field($model, 'auditor_id')->widget(Select2::className(),[
+                    //     'data' => ArrayHelper::map(User::find()
+                    //         ->where([
+                    //             'status' => User::STATUS_ACTIVE
+                    //         ])->asArray()->all(),
+                    //         'id',
+                    //         'username'
+                    //     ),
+                    //     'options'=>['placeholder'=>'请选择'],
+                    //     'disabled' => true,
+                    // ]);
                 }
             ?>
-
+            <!-- attribute status -->
+            <?php
+                echo $form->field($model, 'type_status')->widget(Select2::className(),[
+                        'data' => SignIn::optsTypeStatus(),
+                        'options'=>['placeholder'=>'请选择'],
+                ])->label('类型');
+            ?>
 <!-- attribute status -->
 			<?php
-                if ($model->isNewRecord) {
-                    echo $form->field($model, 'status')->widget(Select2::className(),[
+                echo $form->field($model, 'status')->widget(Select2::className(),[
                         'data' => SignIn::optsSignInStatus(),
                         'options'=>['placeholder'=>'请选择'],
-                    ]);
-                }else{
-                    echo $form->field($model, 'status')->widget(Select2::className(),[
-                        'data'     => SignIn::optsSignInStatus(),
-                        'disabled' => true,
-                        'options'=>['placeholder'=>'请选择'],
-                    ]);
-                }
+                ]);
             ?>
 
         </p>
@@ -183,7 +171,7 @@ use common\models\User;
 <script>
     function handleChange(type_id,id,form){
         $.ajax({
-            "url":"<?php echo Url::to(['student-record/ajax-form'])?>",
+            "url":"<?php echo Url::to(['ajax-form'])?>",
             "data":{type_id:type_id,id:id},
             'type':"GET",
             'success':function(data){
