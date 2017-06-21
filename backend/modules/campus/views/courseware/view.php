@@ -50,23 +50,25 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '课件详情');
     <div class="clearfix crud-navigation">
 
         <!-- menu buttons -->
-        <div class='pull-left'>
-            <?= Html::a(
-            '<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('backend', '修改'),
-            [ 'update', 'courseware_id' => $model->courseware_id],
-            ['class' => 'btn btn-info']) ?>
+        <?php if(Yii::$app->user->can('manager')){
+        ?>
+            <div class='pull-left'>
+                <?= Html::a(
+                '<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('backend', '修改'),
+                [ 'update', 'courseware_id' => $model->courseware_id],
+                ['class' => 'btn btn-info']) ?>
 
-            <?= Html::a(
-            '<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('backend', '克隆'),
-            ['create', 'courseware_id' => $model->courseware_id, 'Courseware'=>$copyParams],
-            ['class' => 'btn btn-success']) ?>
+                <?= Html::a(
+                '<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('backend', '克隆'),
+                ['create', 'courseware_id' => $model->courseware_id, 'Courseware'=>$copyParams],
+                ['class' => 'btn btn-success']) ?>
 
-            <?= Html::a(
-            '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'),
-            ['create'],
-            ['class' => 'btn btn-success']) ?>
-        </div>
-
+                <?= Html::a(
+                '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'),
+                ['create'],
+                ['class' => 'btn btn-success']) ?>
+            </div>
+        <?php  } ?>
         <div class="pull-right">
             <?= Html::a('<span class="glyphicon glyphicon-list"></span> '
             . Yii::t('backend', '返回列表'), ['index'], ['class'=>'btn btn-default']) ?>
@@ -125,11 +127,14 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '课件详情');
     <?php $this->beginBlock('backend\modules\campus\models\CoursewareToFile');?>
     <div>
     <?php
-        $qiniu = '<div>'.common\widgets\Qiniu\UploadCourseware::widget([
-                'uptoken_url' => yii\helpers\Url::to(['token-cloud']),
-                'upload_url'  => yii\helpers\Url::to(['upload-cloud','courseware_id'=>$model->courseware_id]),
-                        //'delete_url'  => yii\helpers\Url::to(['delete-cloud'])
-            ]).'</div><br /> ';
+        $qiniu = '';
+        if(Yii::$app->user->can('manager')){
+            $qiniu = '<div>'.common\widgets\Qiniu\UploadCourseware::widget([
+                    'uptoken_url' => yii\helpers\Url::to(['token-cloud']),
+                    'upload_url'  => yii\helpers\Url::to(['upload-cloud','courseware_id'=>$model->courseware_id]),
+                            //'delete_url'  => yii\helpers\Url::to(['delete-cloud'])
+                ]).'</div><br /> ';
+    }
     ?>
     </div>
     <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main1', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
@@ -261,6 +266,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '课件详情');
             'label'   => '<b class="">关联课件</b>',
             'content' => $this->blocks['backend\modules\campus\models\CoursewareToCourseware'],
             'active'  => false,
+            'visible'=>Yii::$app->user->can('manager'),
             ],
         ]
     ]);

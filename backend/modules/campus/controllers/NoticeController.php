@@ -182,7 +182,7 @@ class NoticeController extends \backend\modules\campus\controllers\base\NoticeCo
                     'info'=>$info
                     ]);
             }else{
-                return $this->redirect(['teacher-notice']);
+                return $this->redirect(['family-school-notice']);
             }
         }
         return $this->render('_teacher_notice_form',

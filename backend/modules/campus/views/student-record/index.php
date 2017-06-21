@@ -24,11 +24,11 @@ $this->params['breadcrumbs'][] = $this->title;
     if (\Yii::$app->user->can('P_teacher')) {
         $actionColumnTemplates[] = '{update}';
     }
-
+/*
     if (\Yii::$app->user->can('P_teacher')) {
         $actionColumnTemplates[] = '{delete}';
     }
-
+*/
     if (isset($actionColumnTemplates)) {
 
         $actionColumnTemplate = implode(' ', $actionColumnTemplates);
