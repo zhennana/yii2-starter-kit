@@ -36,11 +36,11 @@ if(is_string($schoolOrGrade) && $schoolOrGrade == 'all'){
 */
     $actionColumnTemplates = [];
 
-    if (\Yii::$app->user->can('P_teacher', ['route' => true])) {
+     if (\Yii::$app->user->can('P_teacher', ['route' => true]) || \Yii::$app->user->can('E_manager') || Yii::$app->user->can('manager')) {
         $actionColumnTemplates[] = '{view}';
     }
 
-    if (\Yii::$app->user->can('P_director', ['route' => true])) {
+     if (\Yii::$app->user->can('P_director', ['route' => true]) || \Yii::$app->user->can('E_manager') || Yii::$app->user->can('manager')) {
         $actionColumnTemplates[] = '{update}';
     }
 
@@ -74,7 +74,7 @@ if(is_string($schoolOrGrade) && $schoolOrGrade == 'all'){
     </h1>
     <div class="clearfix crud-navigation">
     <?php
-        if(\Yii::$app->user->can('P_director', ['route' => true])){
+        if (\Yii::$app->user->can('P_director', ['route' => true]) || \Yii::$app->user->can('E_manager') || Yii::$app->user->can('manager')) {
     ?>
         <div class="pull-left">
           

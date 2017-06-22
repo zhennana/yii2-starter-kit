@@ -41,7 +41,9 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
 
 
     <div class="clearfix crud-navigation">
-
+    <?php
+         if (\Yii::$app->user->can('P_teacher', ['route' => true]) || \Yii::$app->user->can('E_manager') || Yii::$app->user->can('manager')) {
+    ?>
         <!-- menu buttons -->
         <div class='pull-left'>
             <?= Html::a(
@@ -64,7 +66,9 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
             <?= Html::a('<span class="glyphicon glyphicon-list"></span> '
             . Yii::t('backend', '返回列表'), ['index'], ['class'=>'btn btn-default']) ?>
         </div>
-
+    <?php
+        }
+    ?>
     </div>
 
     <hr />

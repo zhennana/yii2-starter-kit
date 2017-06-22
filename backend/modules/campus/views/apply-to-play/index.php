@@ -25,7 +25,7 @@ $province_id = ArrayHelper::map($province_id, 'province_id', 'province_name');
 */
     $actionColumnTemplates = [];
 
-    if (\Yii::$app->user->can('manager', ['route' => true])) {
+    if(\Yii::$app->user->can('manager', ['route' => true]) || \Yii::$app->user->can('E_manager', ['route' => true])){
         $actionColumnTemplates[] = '{view}';
     }
 
@@ -62,7 +62,7 @@ $province_id = ArrayHelper::map($province_id, 'province_id', 'province_name');
     </h1>
     <div class="clearfix crud-navigation">
 <?php
-if(\Yii::$app->user->can('manager', ['route' => true])){
+if(\Yii::$app->user->can('manager', ['route' => true]) || \Yii::$app->user->can('E_manager', ['route' => true])){
 ?>
         <div class="pull-left">
            <!--  <? //= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('common', 'New'), ['create'], ['class' => 'btn btn-success']) ?> -->
