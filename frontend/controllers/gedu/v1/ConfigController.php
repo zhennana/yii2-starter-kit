@@ -362,7 +362,7 @@ class ConfigController extends \common\rest\Controller
             10 => '在线报名',
         ];
 
-        for ($i=1; $i < 9 ; $i++) {
+        for ($i=1; $i < 11 ; $i++) {
             $data[$i]['button_id']   = ''. $i;
             $data[$i]['button_type'] = 'URL'; // 类型：url跳转，还是APP内部跳转
             $data[$i]['button_icon'] = $icon[$i] ; // 

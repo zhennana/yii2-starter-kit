@@ -71,10 +71,12 @@ public function actionIndex()
     $dataProvider = $searchModel->search($_GET);
     //var_dump($this->schoolIdCurrent,$this->gradeIdCurrent);exit;
     //获取老师已上过的课程
-    if(Yii::$app->user->can('director')){
-        //var_dump($this->schoolIdCurrent);exit;
+    if(Yii::$app->user->can('P_director') || Yii::$app->user->can('E_manager') ||
+Yii::$app->user->can('manager')
+        ){
         $dataProvider->query->andWhere([
-            'school_id'=>$this->schoolIdCurrent
+            'school_id' =>    $this->schoolIdCurrent,
+            'grade_id'  =>    $this->gradeIdCurrent
         ]);
     }else{
         $courseIds  = Course::getAboveCourse($user_id,$this->schoolIdCurrent,$this->gradeIdCurrent,Course::COURSE_STATUS_FINISH);

@@ -28,13 +28,12 @@ class UserToSchoolController extends \backend\modules\campus\controllers\base\Us
         $model = new UserToSchoolForm;
         $info = [];
         $schools =  Yii::$app->user->identity->schoolsInfo;
-        /**
-         * 获取合并
-         * @var [type]
-         */
+        $e_roles = [];
+        if(Yii::$app->user->can('E_manager')){
+            $e_roles =  ArrayHelper::map(Yii::$app->authManager->getChildRoles('E_administrator'),'name','description');
+        }
         $p_roles = ArrayHelper::map(Yii::$app->authManager->getChildRoles('P_administrator'),'name','description');
         //var_dump($p_roles);exit;
-        $e_roles =  ArrayHelper::map(Yii::$app->authManager->getChildRoles('E_administrator'),'name','description');
         $roles = ArrayHelper::merge($p_roles,$e_roles);
         //$schools = ArrayHelper::map($schools,'school_id','school_title');
         $schools = ArrayHelper::map($schools,'school_id','school_title');
@@ -68,9 +67,11 @@ class UserToSchoolController extends \backend\modules\campus\controllers\base\Us
      */
     public function actionAccount($user_id){
         $model = new UserForm();
-         $p_roles = ArrayHelper::map(Yii::$app->authManager->getChildRoles('P_administrator'),'name','description');
-        //var_dump($p_roles);exit;
-        $e_roles =  ArrayHelper::map(Yii::$app->authManager->getChildRoles('E_administrator'),'name','description');
+        $p_roles = ArrayHelper::map(Yii::$app->authManager->getChildRoles('P_administrator'),'name','description');
+        $e_roles = [];
+       if(Yii::$app->user->can('E_manager')){
+            $e_roles =  ArrayHelper::map(Yii::$app->authManager->getChildRoles('E_administrator'),'name','description');
+        }
         $roles = ArrayHelper::merge($p_roles,$e_roles);
 
         $user = User::find()->where(['id' => $user_id])->one();
