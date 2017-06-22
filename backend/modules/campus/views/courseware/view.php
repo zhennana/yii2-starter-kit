@@ -50,7 +50,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '课件详情');
     <div class="clearfix crud-navigation">
 
         <!-- menu buttons -->
-        <?php if(Yii::$app->user->can('manager')){
+        <?php if(Yii::$app->user->can('manager') || \Yii::$app->user->can('E_manager')){
         ?>
             <div class='pull-left'>
                 <?= Html::a(
@@ -128,7 +128,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '课件详情');
     <div>
     <?php
         $qiniu = '';
-        if(Yii::$app->user->can('manager')){
+        if(Yii::$app->user->can('manager') ||  \Yii::$app->user->can('E_manager')){
             $qiniu = '<div>'.common\widgets\Qiniu\UploadCourseware::widget([
                     'uptoken_url' => yii\helpers\Url::to(['token-cloud']),
                     'upload_url'  => yii\helpers\Url::to(['upload-cloud','courseware_id'=>$model->courseware_id]),
@@ -266,7 +266,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '课件详情');
             'label'   => '<b class="">关联课件</b>',
             'content' => $this->blocks['backend\modules\campus\models\CoursewareToCourseware'],
             'active'  => false,
-            'visible'=>Yii::$app->user->can('manager'),
+            'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager')),
             ],
         ]
     ]);

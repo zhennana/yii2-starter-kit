@@ -26,7 +26,7 @@ class UserForm extends Model
     public  $birth;
     public  $gender;
     private $model;
-    public  $school_id;
+  //  public  $school_id;
 
     /**
      * @inheritdoc
@@ -68,8 +68,9 @@ class UserForm extends Model
                     'name'
                 )]
             ],
-            [['gender','birth'],'required'],
-            ['school_id', 'required', 'on'=>'create'],
+            [['gender','birth'],'safe'],
+         //  [['gender','birth'],'required','on'=>['']],
+            //['school_id', 'required', 'on'=>'create'],
         ];
     }
 /**
@@ -103,7 +104,7 @@ class UserForm extends Model
             'phone_number' => Yii::t('common', '手机号'),
              'birth'        => Yii::t('common', '出生年月'),
              'gender'       => Yii::t('common', '性别'),
-             'school_id'       => Yii::t('common', '学校'),
+            // 'school_id'       => Yii::t('common', '学校'),
             //'realname' => Yii::t('common', 'Realname'),
             //'nickname' => Yii::t('common', 'Nickname'),
             'email' => Yii::t('common', '邮箱'),
@@ -153,8 +154,9 @@ class UserForm extends Model
      */
     public function save()
     {
+
         if ($this->validate()) {
-//var_dump($this->roles);exit;
+
             $model = $this->getModel();
             $isNewRecord = $model->getIsNewRecord();
             //var_dump($isNewRecord);exit;
@@ -185,9 +187,14 @@ class UserForm extends Model
             $auth = Yii::$app->authManager;
             //查询用户自身权限
             $P_rules = $auth->getChildRoles('P_administrator');
-            $E_rules = $auth->getChildRoles('E_administrator');
+            $E_rules = [];
+            if(Yii::$app->user->can('E_manager')){
+                $E_rules =  $auth->getChildRoles('E_administrator');
+            }
+//var_dump($E_rules);exit;
+            //$E_rules = $auth->getChildRoles('E_administrator');
             $rules = ArrayHelper::merge($P_rules,$E_rules);
-           //var_dump($rules);exit;
+           //var_dump('<pre>',$rules);exit;
             foreach ($rules as $rule) {
                 $auth->revoke($rule,$model->id);
             }

@@ -45,7 +45,7 @@ return [
             ],
             [
                 'allow' => true,
-                'roles' => ['manager' ],
+                'roles' => ['manager','E_manager'],
             ],
             [
                 'controllers'=>['timeline-event'],

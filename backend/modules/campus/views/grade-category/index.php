@@ -23,15 +23,15 @@ $this->params['breadcrumbs'][] = $this->title;
 */
     $actionColumnTemplates = [];
 
-    if (\Yii::$app->user->can('director', ['route' => true])) {
+    if (\Yii::$app->user->can('P_director', ['route' => true]) || \Yii::$app->user->can('E_manager') || \Yii::$app->user->can('manager')) {
         $actionColumnTemplates[] = '{view}';
     }
 
-    if (\Yii::$app->user->can('manager', ['route' => true])) {
+    if (\Yii::$app->user->can('E_manager') || \Yii::$app->user->can('manager')) {
         $actionColumnTemplates[] = '{update}';
     }
 
-    if (\Yii::$app->user->can('manager', ['route' => true])) {
+    if (\Yii::$app->user->can('E_manager') || \Yii::$app->user->can('manager')) {
         $actionColumnTemplates[] = '{delete}';
     }
     if (isset($actionColumnTemplates)) {
@@ -60,7 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </h1>
     <div class="clearfix crud-navigation">
 <?php
-if(\Yii::$app->user->can('manager', ['route' => true])){
+if(\Yii::$app->user->can('manager', ['route' => true]) || \Yii::$app->user->can('E_manager')){
 ?>
         <div class="pull-left">
             <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'), ['create'], ['class' => 'btn btn-success']) ?>

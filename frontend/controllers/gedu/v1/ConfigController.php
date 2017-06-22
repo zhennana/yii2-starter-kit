@@ -293,8 +293,8 @@ class ConfigController extends \common\rest\Controller
     public function actionBanner()
     {
         $img=[
-            1 => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/573ed468312f3.jpg?imageView2/1/w/640/h/282',
-            2 => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/bannerone.jpg?imageView2/1/w/640/h/282'
+            1 => 'http://orh16je38.bkt.clouddn.com/banner.png',
+            2 => 'http://orh16je38.bkt.clouddn.com/banner.png'
         ];
         $title=[
             1 => '直击精品课程',
@@ -362,7 +362,7 @@ class ConfigController extends \common\rest\Controller
             10 => '在线报名',
         ];
 
-        for ($i=1; $i < 9 ; $i++) {
+        for ($i=1; $i < 11 ; $i++) {
             $data[$i]['button_id']   = ''. $i;
             $data[$i]['button_type'] = 'URL'; // 类型：url跳转，还是APP内部跳转
             $data[$i]['button_icon'] = $icon[$i] ; // 
