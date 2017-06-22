@@ -132,14 +132,14 @@ return [
             [
                 'controllers'=>['campus/notice','campus/share-stream'],
                 'allow'=>true,
-                'actions'=>['index','ajax-form','school-notice','school-notice-create','teacher-notice','teacher-notice-create'],
+                'actions'=>['index','ajax-form','school-notice','school-notice-create','teacher-notice','teacher-notice-create','create'],
                 'roles'=>['P_director']
             ],
             //查看班级通知,家校沟通
             [
                 'controllers'=>['campus/notice','campus/student-record-value'],
                 'allow'=>true,
-                'actions'=>['grade-notice','ajax-form','family-school-notice','family-school-notice-create','create-value'],
+                'actions'=>['grade-notice','ajax-form','family-school-notice','family-school-notice-create','create-value','grade-notice-create'],
                 'roles'=>['P_teacher']
             ],
             //查看预约信息
