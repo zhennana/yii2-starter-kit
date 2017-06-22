@@ -25,15 +25,15 @@ $this->params['breadcrumbs'][] = $this->title;
  */
 $actionColumnTemplates = [];
 
-if (\Yii::$app->user->can('manager', ['route' => true])) {
+if (\Yii::$app->user->can('manager', ['route' => true])  || \Yii::$app->user->can('E_manager', ['route' => true])) {
 	$actionColumnTemplates[] = '{view}';
 }
 
-if (\Yii::$app->user->can('manager', ['route' => true])) {
+if (\Yii::$app->user->can('manager', ['route' => true]) || \Yii::$app->user->can('E_manager', ['route' => true])) {
 	$actionColumnTemplates[] = '{update}';
 }
 
-if (\Yii::$app->user->can('manager', ['route' => true])) {
+if (\Yii::$app->user->can('manager', ['route' => true]) || \Yii::$app->user->can('E_manager', ['route' => true])) {
 	$actionColumnTemplates[] = '{delete}';
 }
 if (isset($actionColumnTemplates)) {

@@ -23,15 +23,15 @@ $this->params['breadcrumbs'][] = $this->title;
 */
     $actionColumnTemplates = [];
 
-    if (\Yii::$app->user->can('P_teacher', ['route' => true])) {
+    if (\Yii::$app->user->can('P_teacher', ['route' => true]) || \Yii::$app->user->can('E_manager') || \Yii::$app->user->can('manager')) {
         $actionColumnTemplates[] = '{view}';
     }
 
-    if (\Yii::$app->user->can('manager', ['route' => true])) {
+    if (\Yii::$app->user->can('manager', ['route' => true]) || \Yii::$app->user->can('E_manager')) {
         $actionColumnTemplates[] = '{update}';
     }
 
-    if (\Yii::$app->user->can('manager', ['route' => true])) {
+    if (\Yii::$app->user->can('manager', ['route' => true]) || \Yii::$app->user->can('E_manager')) {
         $actionColumnTemplates[] = '{delete}';
     }
     if (isset($actionColumnTemplates)) {
@@ -49,8 +49,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php
 //             echo $this->render('_search', ['model' =>$searchModel]);
         ?>
-
-    
     <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
 
     <h1>
@@ -61,7 +59,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </h1>
     <div class="clearfix crud-navigation">
     <?php
-        if(\Yii::$app->user->can('manager', ['route' => true])){
+        if(\Yii::$app->user->can('manager', ['route' => true]) || \Yii::$app->user->can('E_manager')){
     ?>
         <div class="pull-left">
             <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'), ['create'], ['class' => 'btn btn-success']) ?>
@@ -70,8 +68,6 @@ $this->params['breadcrumbs'][] = $this->title;
     }
     ?>
         <div class="pull-right">
-
-                        
             <?= \yii\bootstrap\ButtonDropdown::widget(
                     [
                         'id' => 'giiant-relations',

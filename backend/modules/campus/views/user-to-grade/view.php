@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
 
     <div class="clearfix crud-navigation">
     <?php
-        if(Yii::$app->user->can('director')){
+       if (\Yii::$app->user->can('P_director', ['route' => true]) || \Yii::$app->user->can('E_manager') || Yii::$app->user->can('manager')) {
     ?>
         <!-- menu buttons -->
         <div class='pull-left'>
