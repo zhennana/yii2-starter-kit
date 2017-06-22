@@ -218,10 +218,9 @@
 	margin: 20px;
 }
 
+
 /*-- 方块展示 --*/
-.main-3-school{
-	position: relative;
-}
+
 .banner-bottom-left{
 	float:left;
 	width:80%;
@@ -230,33 +229,19 @@
 	float:left;
 	width:20%;
 	height:100%;
-	background:url("http://7xsm8j.com2.z0.glb.qiniucdn.com/xiaoyuaoyijiao.png") no-repeat;
+	background:#333333;
 }
 .banner-bottom-left-grid2{
 	float:left;
 	width:20%;
 	height:100%;
-	background:url("http://7xsm8j.com2.z0.glb.qiniucdn.com/jiaoxiulou.png") no-repeat;
-	background-position: -10px -15px;
+	background:#723c8e;
 }
 .banner-bottom-left-grid3{
 	float:left;
 	width:20%;
 	height:100%;
 	background:#f1f1f1;
-}
-.banner-bottom-left-grid4{
-	float:left;
-	width:20%;
-	height:100%;
-	background:url("http://7xsm8j.com2.z0.glb.qiniucdn.com/jiaoshijiangtai.png") no-repeat;
-}
-.banner-bottom-left-grid5{
-	float:left;
-	width:20%;
-	height:100%;
-	background:url("http://7xsm8j.com2.z0.glb.qiniucdn.com/caochang.png") no-repeat;
-	background-position: -10px -15px;
 }
 .banner-bottom-left-grid h3{
 	color:#F56DA1;
@@ -274,13 +259,6 @@
 }
 .txt1{
 	color: white;
-}
-.banner-bottom-left-grid5 a{
-	color: black;
-}
-#txt5 a:hover {
-	text-decoration:none;
-	color: black;
 }
 .txt a:hover {
 	text-decoration:none;
