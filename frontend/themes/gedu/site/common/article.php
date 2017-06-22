@@ -69,6 +69,7 @@ use yii\helpers\Html;
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
         <div class="">
             <video src="http://orh16je38.bkt.clouddn.com/guangda86m.mov" width="100%" height="100%" id="yjzxVideo" controls autobuffer >
+            您的浏览器不支持该视频播放
             </video>
         </div>                              
     </div>
