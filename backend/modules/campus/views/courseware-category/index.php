@@ -25,11 +25,11 @@ $this->params['breadcrumbs'][] = $this->title;
  */
 $actionColumnTemplates = [];
 
-if (\Yii::$app->user->can('P_teacher', ['route' => true])) {
+if (\Yii::$app->user->can('P_teacher', ['route' => true]) || Yii::$app->user->can('E_manager') || Yii::$app->user->can('manager')) {
 	$actionColumnTemplates[] = '{view}';
 }
 
-if (\Yii::$app->user->can('manager', ['route' => true])) {
+if (\Yii::$app->user->can('manager', ['route' => true]) || Yii::$app->user->can('E_manager')) {
 	$actionColumnTemplates[] = '{update}';
 }
 

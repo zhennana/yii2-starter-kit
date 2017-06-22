@@ -1,6 +1,6 @@
 <?php
 
-use dmstr\helpers\Html;
+use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\GridView;
 use yii\widgets\DetailView;
@@ -33,16 +33,18 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
         <?= Yii::t('backend', '学校') ?>        <small>
             <?= $model->id ?>        </small>
     </h1>
-
-
+     <?php
+        if(\Yii::$app->user->can('manager') || \Yii::$app->user->can('E_manager')){
+    ?>
     <div class="clearfix crud-navigation">
-
+   
         <!-- menu buttons -->
         <div class='pull-left'>
-            <?= Html::a(
+            <?php echo  Html::a(
             '<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('backend', '更新'),
             [ 'update', 'id' => $model->id],
-            ['class' => 'btn btn-info']) ?>
+            ['class' => 'btn btn-info']) 
+            ?>
 
             <?= Html::a(
             '<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('backend', '复制'),
@@ -61,7 +63,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
         </div>
 
     </div>
-
+<?php  } ?>
     <hr />
 
     <?php $this->beginBlock('backend\modules\campus\models\School'); ?>
