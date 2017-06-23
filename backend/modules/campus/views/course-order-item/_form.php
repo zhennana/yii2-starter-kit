@@ -84,7 +84,7 @@ use backend\modules\campus\models\CourseOrderItem;
             ]);*/ ?> -->
 
 <!-- attribute payment -->
-			<?= $form->field($model, 'payment')->widget(Select2::className(),
+		<!-- 	<?/* $form->field($model, 'payment')->widget(Select2::className(),
                 [
                     'data'          => CourseOrderItem::optPayment(),
                     'options'       => ['placeholder' => '请选择','value' => '200'],
@@ -93,9 +93,9 @@ use backend\modules\campus\models\CourseOrderItem;
                     'pluginOptions' => [
                         'allowClear' => true,
                     ],
-                ]); ?>
+                ]); */?> -->
 <!-- attribute payment_status -->
-			<?= $form->field($model, 'payment_status')->widget(Select2::className(),
+			<!-- <? /* $form->field($model, 'payment_status')->widget(Select2::className(),
                 [
                     'data'          => CourseOrderItem::optPaymentStatus(),
                     'disabled' => true,
@@ -104,8 +104,8 @@ use backend\modules\campus\models\CourseOrderItem;
                     'pluginOptions' => [
                         'allowClear' => true,
                     ],
-                ]); ?>
-
+                ]);*/ ?>
+ -->
 
 
 <!-- attribute status -->
