@@ -155,8 +155,8 @@ class UserForm extends Model
     public function save()
     {
 
-        if ($this->validate()) {
 
+        if ($this->validate()) {
             $model = $this->getModel();
             $isNewRecord = $model->getIsNewRecord();
             //var_dump($isNewRecord);exit;
@@ -177,7 +177,7 @@ class UserForm extends Model
                     'gender'=>$this->gender,
             ];
             if ($isNewRecord) {
-                $model->afterSignup();
+                $model->afterSignup($profile);
             }else{
                 if($model->userProfile){
                     $model->userProfile->load($profile,'');
