@@ -5,6 +5,7 @@ namespace frontend\models\wedu\resources;
 use Yii;
 use frontend\models\base\SignIn as BaseSignIn;
 use yii\helpers\ArrayHelper;
+use frontend\models\wedu\resources\Course;
 
 /**
  * This is the model class for table "sign_in".
@@ -37,6 +38,7 @@ public function behaviors()
        if(empty($params)){
            $data['error'][] = '数据不能为空';
         }
+        $i = 0;
         foreach ($params['SignIn'] as $key => $value) {
             $model = new $this;
             $is_check = self::find()
@@ -63,6 +65,11 @@ public function behaviors()
                             'title'     => '',
                             'status'    => 1,
                         ]);
+                      if($i == 0){
+                        Course::updateAll(['status'=>Course::COURSE_STATUS_FINISH],'course_id='.$model->course_id);
+                        $i++;
+                      }
+
                   }
                   $data['message'][$key] = $model;
                 }
@@ -118,6 +125,13 @@ public function behaviors()
         }
         return true;
     }
+    /**
+     * *
+     * @return [type] [description]
+     */
+    // public function closeCourse($course_id){
+
+    // }
 /**
  * 签到表详情详情
  * @param  [type] $id [description]
