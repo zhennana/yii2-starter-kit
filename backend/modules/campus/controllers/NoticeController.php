@@ -166,7 +166,7 @@ class NoticeController extends \backend\modules\campus\controllers\base\NoticeCo
 //family-school-notice-create
     public function actionFamilySchoolNoticeCreate(){
         $model = new Notice;
-        $model->setScenario('teacher');
+        $model->setScenario('student');
         //默认学校
         $schools = Yii::$app->user->identity->schoolsInfo;
         $schools = ArrayHelper::map($schools,'school_id','school_title');
@@ -193,7 +193,7 @@ class NoticeController extends \backend\modules\campus\controllers\base\NoticeCo
             ]);
     }
 
-    //教师公告
+//教师公告
     public function actionTeacherNotice(){
         $searchModel  = new NoticeSearch;
         $dataProvider = $searchModel->search($_GET);
@@ -201,15 +201,16 @@ class NoticeController extends \backend\modules\campus\controllers\base\NoticeCo
         $schools = Yii::$app->user->identity->schoolsInfo;
         $schools = ArrayHelper::map($schools,'school_id','school_title');
 
-        $grades = Yii::$app->user->identity->getGrades(
+        $grades =  [];
+        /*Yii::$app->user->identity->getGrades(
             Yii::$app->user->identity->id,
             array_keys($schools)
-            );
+            );*/
         $grades = ArrayHelper::map($grades,'grade_id','grade_name');
 
         $dataProvider->query->andWhere([
             'school_id'=> array_keys($schools),
-            'grade_id' => array_keys($grades),
+            //'grade_id' => array_keys($grades),
             'category' => 1,
             ]);
         $dataProvider->query->andWhere([

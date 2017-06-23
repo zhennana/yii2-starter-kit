@@ -126,7 +126,7 @@ return [
                 'controllers'=>['campus/course-order-item'],
                 'allow'=>true,
                 //'actions'=>['index','view','create','update'],
-                'roles'=>['P_director']
+                'roles'=>['P_financial']
             ],
             //查看消息分享 学校通知 班级通知 教师通知 通知
             [

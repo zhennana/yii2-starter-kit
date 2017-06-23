@@ -78,8 +78,8 @@ abstract class Notice extends \yii\db\ActiveRecord
             [['title'], 'string', 'max' => 128],
             [['message_hash', 'receiver_name', 'wechat_message_id'], 'string', 'max' => 32],
             [['receiver_phone_numeber'], 'string', 'max' => 11],
-            ['grade_id','required','on'=>['grade','teacher']],
-            [['receiver_id'],'required','on'=>'teacher'],
+            ['grade_id','required','on'=>['grade']],
+            [['receiver_id'],'required','on'=>['teacher','student']],
         ];
     }
 
