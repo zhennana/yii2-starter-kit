@@ -148,7 +148,7 @@ class MyController extends \common\rest\Controller
     }
 
      /**
-     * @SWG\Get(path="/my/notice-check",
+     * @SWG\Post(path="/my/notice-check",
      *     tags={"700-My-我的页面接口"},
      *     summary="改变消息查看状态",
      *     description="返回我的消息",
