@@ -185,17 +185,31 @@ class UserForm extends Model
                 }
             }
             $auth = Yii::$app->authManager;
-            //查询用户自身权限
-            $P_rules = $auth->getChildRoles('P_administrator');
-            $E_rules = [];
-            if(Yii::$app->user->can('E_manager')){
-                $E_rules =  $auth->getChildRoles('E_administrator');
-            }
-//var_dump($E_rules);exit;
-            //$E_rules = $auth->getChildRoles('E_administrator');
-            $rules = ArrayHelper::merge($P_rules,$E_rules);
-           //var_dump('<pre>',$rules);exit;
-            foreach ($rules as $rule) {
+//查询用户自身权限
+        $p_roles = [];
+        $e_roles = []; 
+        if(Yii::$app->user->can('E_manager')){
+            $e_roles =  $auth ->getChildRoles('E_administrator');
+        }
+//主任
+        if(Yii::$app->user->can('P_director')){
+            $p_roles = $auth->getChildRoles('P_director');
+        }
+//校长
+        if(Yii::$app->user->can('P_leader')){
+
+            $p_roles = $auth->getChildRoles('P_leader');
+        }
+//代理管理员
+        if(Yii::$app->user->can('P_manager')){
+            $p_roles = $auth->getChildRoles('P_manager');
+        }
+//代理超级管理员
+        if(Yii::$app->user->can('P_administrator') || Yii::$app->user->can('manager')){
+            $p_roles = $auth->getChildRoles('P_administrator');
+        }
+        $roles = ArrayHelper::merge($e_roles,$p_roles);
+            foreach ($roles as $rule) {
                 $auth->revoke($rule,$model->id);
             }
             $user = $auth->getRolesByUser(Yii::$app->user->identity->id); 
