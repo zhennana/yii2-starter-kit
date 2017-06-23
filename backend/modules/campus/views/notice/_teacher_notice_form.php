@@ -18,7 +18,15 @@ use common\models\User;
 * @var yii\widgets\ActiveForm $form
 */
 //var_dump($category);exit;
-
+if($category == 1){
+    $handleChange  = "function() {
+                            handleChange(2,this.value,'#notice-receiver_id');
+                    }";
+}else{
+    $handleChange  = "function() {
+                            handleChange(1,this.value,'#notice-grade_id');
+                    }";
+}
 ?>
 
 <div class="notice-form">
@@ -63,16 +71,14 @@ use common\models\User;
                     'multiple'    => false,
                 ],
                 'pluginOptions' => [
-                    'allowClear' => true 
+                    'allowClear' => true,
                 ],
                 'pluginEvents' => [
-                        "change" => "function() {
-                            handleChange(1,this.value,'#notice-grade_id');
-
-                    }",
+                        "change" =>$handleChange,
                 ]
             ]);
             ?>
+            <?php if($category == 2){?>
             <?=
                 $form->field($model, 'grade_id')->widget(Select2::className(),[
                 // 'language'          => 'en',
@@ -98,6 +104,7 @@ use common\models\User;
                 ]
             ]);
             ?>
+            <?php } ?>
             <?=
               $form->field($model, 'receiver_id')->widget(Select2::className(),[
                 // 'language'          => 'en',

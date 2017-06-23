@@ -84,34 +84,35 @@ use backend\modules\campus\models\CourseOrderItem;
             ]);*/ ?> -->
 
 <!-- attribute payment -->
-			<?= $form->field($model, 'payment')->widget(Select2::className(),
+		<!-- 	<?/* $form->field($model, 'payment')->widget(Select2::className(),
                 [
                     'data'          => CourseOrderItem::optPayment(),
-                    'options'       => ['placeholder' => '请选择'],
+                    'options'       => ['placeholder' => '请选择','value' => '200'],
+                    'disabled' => true,
                     'hideSearch'    => true,
                     'pluginOptions' => [
                         'allowClear' => true,
                     ],
-                ]); ?>
-
+                ]); */?> -->
 <!-- attribute payment_status -->
-			<?= $form->field($model, 'payment_status')->widget(Select2::className(),
+			<!-- <? /* $form->field($model, 'payment_status')->widget(Select2::className(),
                 [
                     'data'          => CourseOrderItem::optPaymentStatus(),
-                    'options'       => ['placeholder' => '请选择'],
+                    'disabled' => true,
+                    'options'       => ['placeholder' => '请选择', 'value' => '300'],
                     'hideSearch'    => true,
                     'pluginOptions' => [
                         'allowClear' => true,
                     ],
-                ]); ?>
-
+                ]);*/ ?>
+ -->
 
 
 <!-- attribute status -->
             <?= $form->field($model, 'status')->widget(Select2::className(),
                 [
                     'data'          => CourseOrderItem::optStatus(),
-                    'options'       => ['placeholder' => '请选择'],
+                    'options'       => ['placeholder' => '请选择' ],
                     'hideSearch'    => true,
                     'pluginOptions' => [
                         'allowClear' => true,
