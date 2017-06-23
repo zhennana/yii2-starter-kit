@@ -371,7 +371,7 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                         Yii::$app->user->can('E_manager')   ||
                                         Yii::$app->user->can('P_financial') ||
                                         Yii::$app->user->can('E_financial') ||
-                                        Yii::$app->user->can('P_director')
+                                        Yii::$app->user->can('P_teacher')
                                         ),
                             'options'=>['class'=>'treeview'],
                             'items'=>[
