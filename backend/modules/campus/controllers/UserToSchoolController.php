@@ -47,7 +47,7 @@ class UserToSchoolController extends \backend\modules\campus\controllers\base\Us
             $p_roles = ArrayHelper::map(Yii::$app->authManager->getChildRoles('P_manager'),'name','description');
         }
 //代理超级管理员
-        if(Yii::$app->user->can('P_administrator') || Yii::$app->user->can('manager')){
+        if(Yii::$app->user->can('P_administrator') || Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager')){
             $p_roles = ArrayHelper::map(Yii::$app->authManager->getChildRoles('P_administrator'),'name','description');
         }
       //  var_dump('<pre>',$p_roles);exit;
@@ -103,7 +103,7 @@ class UserToSchoolController extends \backend\modules\campus\controllers\base\Us
             $p_roles = ArrayHelper::map(Yii::$app->authManager->getChildRoles('P_manager'),'name','description');
         }
 //代理超级管理员
-        if(Yii::$app->user->can('P_administrator') || Yii::$app->user->can('manager')){
+        if(Yii::$app->user->can('P_administrator') || Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager')){
             $p_roles = ArrayHelper::map(Yii::$app->authManager->getChildRoles('P_administrator'),'name','description');
         }
         $roles = ArrayHelper::merge($e_roles,$p_roles);
