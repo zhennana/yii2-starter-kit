@@ -337,16 +337,16 @@ class ConfigController extends \common\rest\Controller
     public function actionButton()
     {
         $icon = [
-            1  => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/ShanSong.png?imageView2/1/w/86/h/86', 
-            2  => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/PiFa.png?imageView2/1/w/86/h/86',
-            3  => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/miaoshou.jpg?imageView2/1/w/86/h/86',
-            4  => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/Tel.png?imageView2/1/w/86/h/86',
-            5  => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/BianMin.png?imageView2/1/w/86/h/86',
-            6  => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/market.png?imageView2/1/w/86/h/86',
-            7  => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/shangjia.jpg?imageView2/1/w/86/h/86',
-            8  => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/chuyou.jpg?imageView2/1/w/86/h/86',
-            9  => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/Tel.png?imageView2/1/w/86/h/86',
-            10 => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/ShanSong.png?imageView2/1/w/86/h/86', 
+            1  => 'http://orh16je38.bkt.clouddn.com/university.png?imageView2/1/w/86/h/86', 
+            2  => 'http://orh16je38.bkt.clouddn.com/open-book.png?imageView2/1/w/86/h/86',
+            3  => 'http://orh16je38.bkt.clouddn.com/open-book-2.png?imageView2/1/w/86/h/86',
+            4  => 'http://orh16je38.bkt.clouddn.com/globe.png?imageView2/1/w/86/h/86',
+            5  => 'http://orh16je38.bkt.clouddn.com/diamond.png?imageView2/1/w/86/h/86',
+            6  => 'http://orh16je38.bkt.clouddn.com/archive.png?imageView2/1/w/86/h/86',
+            7  => 'http://orh16je38.bkt.clouddn.com/graduate.png?imageView2/1/w/86/h/86',
+            8  => 'http://orh16je38.bkt.clouddn.com/speech-bubble-4.png?imageView2/1/w/86/h/86',
+            9  => 'http://orh16je38.bkt.clouddn.com/brief-case-2.png?imageView2/1/w/86/h/86',
+            10 => 'http://orh16je38.bkt.clouddn.com/mouse.png?imageView2/1/w/86/h/86', 
         ];
 
         $title = [
