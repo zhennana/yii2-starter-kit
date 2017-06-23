@@ -118,8 +118,8 @@ class NoticeController extends \common\rest\Controller
             $model->andWhere([
                 'or',
                 ['receiver_id'=>Yii::$app->user->identity->id],
-                ['school_id'=> $school_id,'grade_id'=> NULL ],
-                ['school_id'=>$school_id , 'grade_id' => $grade_id],
+                ['school_id'=> $school_id,'grade_id'=> NULL,'receiver_id'=> NULL],
+                ['school_id'=>$school_id , 'grade_id' => $grade_id ,'receiver_id'=>NULL],
             ]);
         }
         $model->orderBy(['created_at'=> SORT_DESC]);
