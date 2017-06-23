@@ -71,7 +71,15 @@ if(Yii::$app->session->hasFlash('alert')):?>
                             
                         ]
                     ],
-                    ['label' => Yii::t('frontend', '合作交流'), 'url' => ['/article/view', 'id'=>'12']],
+                    ['label' => Yii::t('frontend', '合作交流'),
+                        'items'=>[
+                            [
+                                'label' => Yii::t('frontend', '光大合作'),
+                                'url' => ['/article/view', 'id'=>'12']
+                            ],
+                            
+                        ]
+                    ],
                     ['label' => Yii::t('frontend', '招生专栏'),
                         'items'=>[
                             [

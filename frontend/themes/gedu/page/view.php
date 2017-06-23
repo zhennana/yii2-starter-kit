@@ -10,7 +10,7 @@ use yii\helpers\Html;
       if($model->id==31){
         echo $this->render('@frontend/themes/gedu/page/common/sidebarteacher');
       }else{
-        echo $this->render('@frontend/themes/gedu/page/common/sidebar');
+        echo $this->render('@frontend/themes/gedu/page/common/sidebarteacher');
       }
       
     ?>
