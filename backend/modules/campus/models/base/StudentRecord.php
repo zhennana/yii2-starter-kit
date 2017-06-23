@@ -6,7 +6,7 @@ namespace backend\modules\campus\models\base;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
-use backend\modules\campus\models\SignIn;
+//use backend\modules\campus\models\SignIn;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -79,7 +79,7 @@ abstract class StudentRecord extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'school_id', 'grade_id', 'title'], 'required'],
+            [['user_id', 'school_id', 'grade_id'], 'required'],
             [['user_id', 'school_id', 'grade_id', 'status', 'sort'], 'integer'],
             [['title'], 'string', 'max' => 512]
         ];
@@ -156,12 +156,12 @@ abstract class StudentRecord extends \yii\db\ActiveRecord
              *
              */
             //var_dump($id);exit;
-            $user = SignIn::find()->where(['course_id' => $id,'type_status'=> SignIn::TYPE_STATUS_MORMAL ])->asArray()->all();
+            $user = \backend\modules\campus\models\SignIn::find()->where(['course_id' => $id,'type_status'=>  \backend\modules\campus\models\SignIn::TYPE_STATUS_MORMAL ])->asArray()->all();
 
             $users = [];
             foreach ($user as $key => $value) {
                 $users[$key]['user_id'] = $value['student_id'];
-                $users[$key]['username'] = SignIn::getUserName($value['student_id']);
+                $users[$key]['username'] =  \backend\modules\campus\models\SignIn::getUserName($value['student_id']);
             }
             return ArrayHelper::map($users,'user_id','username');
         }

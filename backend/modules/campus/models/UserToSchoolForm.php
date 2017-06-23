@@ -149,6 +149,7 @@ class UserToSchoolForm extends Model
                     'school_user_type'        => $this->school_user_type,
                   ]
               );
+            /*
             if($this->school_user_type != 10 ){
                 $user_to_school = $this->addUserToSchool(
                   [
@@ -161,7 +162,7 @@ class UserToSchoolForm extends Model
               );
                 //var_dump('<pre>',$user_to_school);exit;
             }
-         
+         */
 // var_dump( $user_to_school);exit;
             if(!empty($user_to_school->getErrors())){
                $info['error'][$key] = $user_to_school->getErrors();

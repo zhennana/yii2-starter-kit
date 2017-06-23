@@ -52,7 +52,7 @@ use common\models\User;
             <?= $form->field($model, 'grade_name')->textInput(['maxlength' => true]) ?>
 
 <!-- attribute grade_title -->
-			<?= $form->field($model, 'grade_title')->textInput() ?>
+		<!-- 	<? // $form->field($model, 'grade_title')->textInput() ?> -->
 
 <!-- attribute owner_id -->
             <?= $form->field($model, 'owner_id')->dropDownlist($data_user,['prompt'=>'--请选择--']) ?>
