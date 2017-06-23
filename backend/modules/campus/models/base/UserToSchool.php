@@ -28,6 +28,7 @@ abstract class UserToSchool extends \yii\db\ActiveRecord
     const SCHOOL_USER_TYPE_STUDENTS = 10; // 学生
     const SCHOOL_USER_TYPE_DIRECTOR = 30; //主任
     const SCHOOL_USER_TYPE_LEADER   = 40; //校长
+    const SCHOOL_USER_TYPE_WORKER   = 50; //职工
 
     const SCHOOL_STATUS_ACTIVE  = 1; //正常
     const SCHOOL_STATUS_CLOSE   = 0; //关闭
@@ -44,7 +45,8 @@ abstract class UserToSchool extends \yii\db\ActiveRecord
             self::SCHOOL_USER_TYPE_LEADER   => '校长',
             self::SCHOOL_USER_TYPE_DIRECTOR => '主任',
             self::SCHOOL_USER_TYPE_TEACHER  => '老师',
-            self::SCHOOL_USER_TYPE_STUDENTS => '学生'
+            self::SCHOOL_USER_TYPE_STUDENTS => '学生',
+            self::SCHOOL_USER_TYPE_WORKER   => '职工',
         ];
     }
     public static function optsUserStatus(){

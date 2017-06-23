@@ -69,7 +69,9 @@ public function behaviors()
         }
         $model = $model->orderby(['created_at'=> SORT_DESC])
                 ->asArray()->one();
-
+        if(!$model){
+            $mdoel = [];
+        }
       return $model;
     }
 /*
