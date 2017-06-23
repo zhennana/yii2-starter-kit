@@ -60,7 +60,7 @@ class Notice extends BaseNotice
                 $data['message_hash'] = md5($data['message']);
                 $data['sender_id'] = Yii::$app->user->identity->id;
                 $model->load($data,'');
-               // var_dump($model->save());exit;
+               //var_dump($model->save());exit;
                 if(!$model->save()){
                     $info[$key] = $model;
                 }
@@ -98,7 +98,7 @@ class Notice extends BaseNotice
             if($category == 2){
                 $user = Yii::$app->user->identity->getGradeToUser($id,10);
             }else{
-                $user = Yii::$app->user->identity->getGradeToUser($id);
+                $user = Yii::$app->user->identity->getSchoolToUser($id,20);
             }
             //var_dump($user);exit;
             return ArrayHelper::map($user,'id','username');
