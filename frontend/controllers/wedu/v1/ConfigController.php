@@ -383,6 +383,22 @@ class ConfigController extends \common\rest\Controller
      *     summary="我的页面",
      *     description="返回通知 老师说的话 课程相关 以上课程 我的照片 关于我们",
      *     produces={"application/json"},
+     * @SWG\Parameter(
+     *        in = "query",
+     *        name = "school_id",
+     *        description = "学校",
+     *        required = false,
+     *        default = 1,
+     *        type = "integer"
+     *     ),
+     * @SWG\Parameter(
+     *        in = "query",
+     *        name = "grade_id",
+     *        description = "班级",
+     *        required = false,
+     *        default = 1,
+     *        type = "integer"
+     *     ),
      *     @SWG\Response(
      *         response = 200,
      *         description = "返回通知 老师说的话 课程相关 以上课程 我的照片 关于我们"
@@ -390,7 +406,7 @@ class ConfigController extends \common\rest\Controller
      * )
      *
     **/
-    public function actionAccount(){
+    public function actionAccount($school_id = NULL,$grade_id = NULL){
         $data = [
              'message'=>['label'=>'通知'],
              'teacher_said'=>['label'=>'老师说的话'],
@@ -406,16 +422,16 @@ class ConfigController extends \common\rest\Controller
             $this->serializer['message'] = '请你先登录';
             return [];
         }
-        $notice         = new Notice;
-        $course_order   = new CourseOrderItem;
-        $my_photos      =    new StudentRecord;
+        $notice          =    new Notice;
+        $course_order    =    new CourseOrderItem;
+        $my_photos       =    new StudentRecord;
         $student_record  =  StudentRecord::find()
                             ->where(['user_id'=>$user_id])
                             ->with('course')
                             ->orderBy(['created_at'=>'SORT_SESC'])
                             ->asArray()
                             ->one();
-        $data['message']                   = array_merge($data['message'],$notice->message(Notice::CATEGORY_ONE));
+        $data['message']                   = array_merge($data['message'],$notice->message(Notice::CATEGORY_ONE,$school_id,$grade_id));
         $data['teacher_said']              = array_merge($data['teacher_said'],$notice->message(Notice::CATEGORY_TWO));
         $data['course_item_order']         = array_merge($data['course_item_order'],$course_order->statistical());
         $data['above_course']['title']     = isset($student_record['course']['intro']) ? $student_record['course']['intro']: '';
