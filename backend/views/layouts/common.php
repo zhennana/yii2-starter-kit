@@ -361,13 +361,18 @@ $avatar .= '?imageView2/3/w/215/h/215';
                         [
                             'label'=>Yii::t('backend', '分部(代理)'),
                             'options' => ['class' => 'header'],
-                            'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_teacher') || Yii::$app->user->can('E_financial')),
+                            'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_teacher') || Yii::$app->user->can('E_financial') || Yii::$app->user->can('P_financial')),
                         ],
                         [
                             'label'=>Yii::t('backend', '教务管理'),
                             'url' => '#',
                             'icon'=>'<i class="fa fa-university"></i>',
-                            'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_teacher')),
+                            'visible'=>(Yii::$app->user->can('manager')     ||
+                                        Yii::$app->user->can('E_manager')   ||
+                                        Yii::$app->user->can('P_financial') ||
+                                        Yii::$app->user->can('E_financial') ||
+                                        Yii::$app->user->can('P_teacher')
+                                        ),
                             'options'=>['class'=>'treeview'],
                             'items'=>[
                                 [
@@ -404,7 +409,7 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                 [
                                     'label'=>Yii::t('backend', '课程订单管理'),
                                     'url'=>['/campus/course-order-item/index'], 'icon'=>'<i class=" fa  fa-file-text"></i>',
-                                     'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_financial') || Yii::$app->user->can('P_financial') || Yii::$app->user->can('E_financial')),
+                                     'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_financial') || Yii::$app->user->can('P_financial')),
                                 ],
                                 /*
                                 ['label'=>Yii::t('backend', '课件管理'), 'url'=>['/campus/courseware/index'], 'icon'=>'<i class="fa  fa-file-text"></i>'
@@ -440,7 +445,10 @@ $avatar .= '?imageView2/3/w/215/h/215';
                             'label'=>Yii::t('backend', '通知公告管理'),
                             'url' => '#',
                             'icon'=>'<i class="fa  fa-volume-up"></i>',
-                            'visible'=>(Yii::$app->user->can('P_teacher') || Yii::$app->user->can('P_manager') || Yii::$app->user->can('E_manager')),
+                            'visible'=>(Yii::$app->user->can('P_teacher') || 
+                                Yii::$app->user->can('E_manager') ||
+                                Yii::$app->user->can('manager')
+                                ),
                             'options'=>['class'=>'treeview'],
                             'items'=>[
                                 [

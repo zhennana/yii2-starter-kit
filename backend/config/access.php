@@ -126,20 +126,20 @@ return [
                 'controllers'=>['campus/course-order-item'],
                 'allow'=>true,
                 //'actions'=>['index','view','create','update'],
-                'roles'=>['P_director']
+                'roles'=>['P_financial']
             ],
             //查看消息分享 学校通知 班级通知 教师通知 通知
             [
                 'controllers'=>['campus/notice','campus/share-stream'],
                 'allow'=>true,
-                'actions'=>['index','ajax-form','school-notice','school-notice-create','teacher-notice','teacher-notice-create','create'],
+                'actions'=>['index','ajax-form','school-notice','school-notice-create','teacher-notice','teacher-notice-create','create','update','view'],
                 'roles'=>['P_director']
             ],
             //查看班级通知,家校沟通
             [
                 'controllers'=>['campus/notice','campus/student-record-value'],
                 'allow'=>true,
-                'actions'=>['grade-notice','ajax-form','family-school-notice','family-school-notice-create','create-value','grade-notice-create'],
+                'actions'=>['grade-notice','ajax-form','family-school-notice','family-school-notice-create','create-value','grade-notice-create','remove'],
                 'roles'=>['P_teacher']
             ],
             //查看预约信息

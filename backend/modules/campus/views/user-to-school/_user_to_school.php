@@ -12,11 +12,16 @@ $userToGrade = new UserToGrade;
 $this->title = Yii::t('backend', '学校人员管理');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '学校人员管理'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-//var_dump($schools);exit;
-// $school = Yii::$app->user->identity->schoolsInfo;
-// // $school = ArrayHelper::map($school,'school_id','school_title');
-// $a = ArrayHelper::map(Yii::$app->authManager->getChildRoles('P_administrator'),'name','description');
-// var_dump($a);exit;
+$userToSchool =  UserToSchool::optsUserType();
+// if(!Yii::$app->can('E_manager') || !Yii::$app->can('P_manager')  || !Yii::$app->can('manager') ){
+
+//}
+if((Yii::$app->user->can('manager')) || (Yii::$app->user->can('E_manager')) || (Yii::$app->user->can('P_leader'))){
+}else{
+    //var_dump(Yii::$app->user->can('P_manager'));exit;
+     unset($userToSchool['40']);
+}
+//if((!Yii::$app->user->can('P_leader') || !Yii::$app->user->can('P_leader')) ){}
 ?>
 
 
@@ -101,7 +106,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     $form->field($model, 'school_user_type')
                         ->widget(Select2::className(),
                         [
-                            'data'=>UserToSchool::optsUserType(),
+                            'data'=>$userToSchool,
                              'options'=>[
                                 'placeholder'=>'请选择学校',
                             ],
@@ -147,7 +152,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-lg-12">
                 <?=
                     $form->field($model, 'body')->textArea(['rows' => 10,'maxlength' => true,])->hint('用户名 手机号 邮箱 性别(男/女) 生日(2001-6-25)以空格隔开
-                        每个用户信息已空格 隔开
+                        每个用户信息已换行隔开
                      ');
                 ?>
         </div>
@@ -184,4 +189,4 @@ $this->params['breadcrumbs'][] = $this->title;
     #usertoschoolform-roles label{
         display:block;
     }
-</style>>
+</style>

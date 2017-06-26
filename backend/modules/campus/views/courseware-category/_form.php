@@ -123,7 +123,7 @@ Tabs::widget(
     else
     {
         url = "<?php echo Url::to(['delete-cloud']) ;?>";
-    }    
+    }
     jQuery.ajax({
         type: "post",
         url: url,

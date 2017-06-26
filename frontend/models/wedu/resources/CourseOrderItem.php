@@ -38,7 +38,7 @@ public function behaviors()
      */
     public function statistical(){
    
-        $model =  self::find()->select(['SUM(total_course + presented_course) as total_courses'])->where(['user_id'=>Yii::$app->user->identity->id,'payment_status'=>CourseOrderItem::PAYMENT_STATUS_PAID])->asArray()->one();
+        $model =  self::find()->select(['SUM(total_course + presented_course) as total_courses'])->where(['user_id'=>Yii::$app->user->identity->id,'payment_status'=>CourseOrderItem::PAYMENT_STATUS_PAID,'status'=>CourseOrderItem::STATUS_VALID])->asArray()->one();
         $obove_course_count = $this->oboveCourse();
         $data = [];
         $data = [
