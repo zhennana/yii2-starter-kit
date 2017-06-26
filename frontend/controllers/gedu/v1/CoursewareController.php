@@ -385,14 +385,14 @@ class CoursewareController extends \common\rest\Controller
     /**
      * @SWG\Post(path="/courseware/collect",
      *     tags={"300-Courseware-课件接口"},
-     *     summary="收藏主课件、记录子课件播放时间[待开发]",
+     *     summary="收藏主课件",
      *     description="返回提示信息",
      *     produces={"application/json"},
      *     @SWG\Parameter(
      *        in = "formData",
      *        name = "courseware_master_id",
      *        description = "主课件 ID",
-     *        required = false,
+     *        required = true,
      *        type = "integer"
      *     ),
      *     @SWG\Parameter(
@@ -413,56 +413,204 @@ class CoursewareController extends \common\rest\Controller
      */
     public function actionCollect()
     {
-        /*
+        if(Yii::$app->user->isGuest){
+            $this->serializer['errno']   = 422;
+            $this->serializer['message'] = '请您先登录';
+            return [];
+        }
+        if (!isset(Yii::$app->request->post()['status']) || empty(Yii::$app->request->post('status'))) {
+            $this->serializer['errno']   = __LINE__;
+            $this->serializer['message'] = 'status 不能为空';
+            return [];
+        }
+
+        $model = Collect::find()->where([
+            'user_id'              => Yii::$app->user->identity->id,
+            'courseware_master_id' => Yii::$app->request->post('courseware_master_id')
+        ])->one();
+
+        // 创建
+        if (!$model) {
+            $model = new Collect;
+            $model->user_id = Yii::$app->user->identity->id;
+            if (!$model->load(Yii::$app->request->post(),'') || !$model->save()) {
+                $this->serializer['errno']   = __LINE__;
+                $this->serializer['message'] = $model->getErrors();
+            }
+            return [];
+        }
+
+        // 更新，包括全部子课件
+        $count = Collect::updateAll([
+            'status' => Yii::$app->request->post('status')
+        ],[
+            'user_id'              => Yii::$app->user->identity->id,
+            'courseware_master_id' => Yii::$app->request->post('courseware_master_id')
+        ]);
+
+        if ($model->status != Yii::$app->request->post('status') && $count == 0) {
+            $this->serializer['errno']   = __LINE__;
+            $this->serializer['message'] = 'status 更新失败';
+        }
+        return [];
+    }
+
+    /**
+     * @SWG\Post(path="/courseware/set-play-time",
+     *     tags={"300-Courseware-课件接口"},
+     *     summary="记录子课件视频播放时间",
+     *     description="返回提示信息",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "courseware_master_id",
+     *        description = "主课件 ID",
+     *        required = true,
+     *        type = "integer"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "courseware_id",
+     *        description = "子课件 ID",
+     *        required = true,
+     *        type = "integer"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "play_back_time",
+     *        description = "时间断点",
+     *        required = true,
+     *        type = "integer",
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "type",
+     *        description = "文件类型",
+     *        required = true,
+     *        type = "string",
+     *        default = "video/mp4",
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "成功返回成功信息，失败返回具体信息"
+     *     ),
+     * )
+     *
+     */
+    public function actionSetPlayTime()
+    {
         if(Yii::$app->user->isGuest){
             $this->serializer['errno']   = 422;
             $this->serializer['message'] = '请您先登录';
             return [];
         }
 
-        if (!Yii::$app->request->post('courseware_master_id')) {
-            $this->serializer['errno']   = 1;
-            $this->serializer['message'] = '参数错误：courseware_master_id不能为空';
+        if (!isset($_POST['courseware_master_id']) || empty($_POST['courseware_master_id'])) {
+            $this->serializer['errno']   = __LINE__;
+            $this->serializer['message'] = 'courseware_master_id 不能为空';
+            return [];
+        }
+
+        if (!isset($_POST['courseware_id']) || empty($_POST['courseware_id'])) {
+            $this->serializer['errno']   = __LINE__;
+            $this->serializer['message'] = 'courseware_id 不能为空';
+            return [];
+        }
+
+        if (!isset($_POST['play_back_time']) || empty($_POST['play_back_time'])) {
+            $this->serializer['errno']   = __LINE__;
+            $this->serializer['message'] = 'play_back_time 不能为空';
+            return [];
+        }
+
+        $query = Collect::find()->where([
+            'user_id' => Yii::$app->user->identity->id
+        ]);
+
+        $master = $query->andWhere([
+            'courseware_master_id' => $_POST['courseware_master_id'],
+            'status'               => Collect::STATUS_COLLECTED,
+            'courseware_id' => 0
+        ])->one();
+        if (!$master) {
+            $this->serializer['errno']   = __LINE__;
+            $this->serializer['message'] = '主课件未被收藏';
+            return [];
+        }
+        $model = $query->where([
+            'user_id'              => Yii::$app->user->identity->id,
+            'courseware_master_id' => $_POST['courseware_master_id'],
+            'courseware_id'        => $_POST['courseware_id'],
+        ])->one();
+
+        // 创建
+        if (!$model) {
+            $model = new Collect;
+            $model->user_id = Yii::$app->user->identity->id;
+            $model->status  = $master->status;
+            if (!$model->load($_POST,'') || !$model->save()) {
+                $this->serializer['errno']   = __LINE__;
+                $this->serializer['message'] = $model->getErrors();
+                return [];
+            }
+        }
+
+        // 更新
+        $model->play_back_time = $_POST['play_back_time'];
+        if (!$model->save()) {
+            $this->serializer['errno']   = __LINE__;
+            $this->serializer['message'] = $model->getErrors();
+            return [];
+        }
+        return [];
+    }
+
+    /**
+     * @SWG\Get(path="/courseware/get-play-time",
+     *     tags={"300-Courseware-课件接口"},
+     *     summary="获取子课件视频播放时间记录",
+     *     description="返回子课件视频播放时间记录",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "courseware_id",
+     *        description = "子课件 ID",
+     *        required = true,
+     *        type = "integer"
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "成功返回成功信息，失败返回具体信息"
+     *     ),
+     * )
+     *
+     */
+    public function actionGetPlayTime($courseware_id = NULL)
+    {
+        if(Yii::$app->user->isGuest){
+            $this->serializer['errno']   = 422;
+            $this->serializer['message'] = '请您先登录';
+            return [];
+        }
+
+        if ($courseware_id == NULL) {
+            $this->serializer['errno']   = __LINE__;
+            $this->serializer['message'] = 'courseware_id 不能为空';
             return [];
         }
 
         $model = Collect::find()->where([
-            'courseware_master_id' => Yii::$app->request->post('courseware_master_id')
-        ]);
+            'user_id'       => Yii::$app->user->identity->id,
+            'courseware_id' => $courseware_id,
+            'status'        => Collect::STATUS_COLLECTED
+        ])->one();
 
-        if (Yii::$app->request->post('courseware_id')) {
-            $model = $model->andWhere([
-                'courseware_id' => Yii::$app->request->post('courseware_id')
-            ])->one();
-            if (!$model) {
-                $model = new Collect;
-            }
-            $model->load(Yii::$app->request->post(),'');
-            if (!$model->save()) {
-                $this->serializer['errno']   = 1;
-                $this->serializer['message'] = $model->getErrors();
-                return $model->getErrors();
-            }
-            return $model;
+        if (!$model) {
+            $this->serializer['errno']   = __LINE__;
+            $this->serializer['message'] = '该记录不存在';
+            return [];
         }
-
-        if ($model->count() == 0) {
-            $model = new Collect;
-            $model->load(Yii::$app->request->post(),'');
-            if (!$model->save()) {
-                $this->serializer['errno']   = 1;
-                $this->serializer['message'] = $model->getErrors();
-                return $model->getErrors();
-            }
-            return $model;
-        }
-        $count = Collect::updateAll([
-            'status' => Yii::$app->request->post('status')
-        ],[
-            'courseware_master_id' => Yii::$app->request->post('courseware_master_id')
-        ]);
-var_dump($count);exit;
-    */
+        return $model;
 
     }
 
