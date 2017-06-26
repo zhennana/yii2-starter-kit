@@ -177,13 +177,14 @@ class CourseController extends \common\rest\Controller
 	    	->one();
 
 	    $data = [];
-	    $data['title'] = isset($studentRecord['course']['title']) ? $studentRecord['course']['title'] : '' ;
-	    $data['intro'] = isset($studentRecord['course']['courseware']['body']) ? $studentRecord['course']['courseware']['body'] : '';
         $data = [
             'expression'=>'',
             'process'   =>'',
             'image_url' =>[]
         ];
+	    $data['title'] = isset($studentRecord['course']['title']) ? $studentRecord['course']['title'] : '' ;
+	    $data['intro'] = isset($studentRecord['course']['courseware']['body']) ? $studentRecord['course']['courseware']['body'] : '';
+        
         if(isset($studentRecord['studentRecordValue'])){
             $studentRecord['studentRecordValue'] = ArrayHelper::index($studentRecord['studentRecordValue'],'student_record_key_id');
             //孩子的表现
