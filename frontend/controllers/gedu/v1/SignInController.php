@@ -171,6 +171,7 @@ class SignInController extends \common\components\ControllerFrontendApi
             if ($model->user->userToGrade) {
                 $attrUser['grade_name'] = $model->user->userToGrade->grade->grade_name;
                 $attrUser['school_title'] = $model->user->userToGrade->school->school_title;
+                $attrUser['school_id'] = $model->user->userToGrade->school->school_id;
             }
 
             // 家长关系
