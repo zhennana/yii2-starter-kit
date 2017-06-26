@@ -443,20 +443,20 @@ class ConfigController extends \common\rest\Controller
      * @SWG\POST(path="/config/feedback",
      *     tags={"800-Config-配置信息接口"},
      *     summary="反馈意见",
-     *     description="errorno= 0 反馈意见成功",
+     *     description="error= 0 反馈意见成功",
      *     produces={"application/json"},
      *     @SWG\Parameter(
      *        in = "formData",
      *        name = "school_id",
      *        description = "学校ID",
-     *        required = false,
+     *        required = true,
      *        type = "integer"
      *     ),
      *     @SWG\Parameter(
      *        in = "formData",
      *        name = "body",
-     *        description = "反馈内容",
-     *        required = false,
+     *        description = "反馈内容,max=255",
+     *        required = true,
      *        default = "",
      *        type = "string"
      *     ),
