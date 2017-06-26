@@ -5,8 +5,8 @@
 namespace backend\modules\campus\controllers\base;
 
 use backend\modules\campus\models\StudentRecordValue;
-    use backend\modules\campus\models\search\StudentRecordValueSearch;
-use yii\web\Controller;
+use backend\modules\campus\models\search\StudentRecordValueSearch;
+use common\components\Controller;
 use yii\web\HttpException;
 use yii\helpers\Url;
 use yii\filters\AccessControl;

@@ -139,7 +139,7 @@ return [
             [
                 'controllers'=>['campus/notice','campus/student-record-value'],
                 'allow'=>true,
-                'actions'=>['grade-notice','ajax-form','family-school-notice','family-school-notice-create','create-value','grade-notice-create'],
+                'actions'=>['grade-notice','ajax-form','family-school-notice','family-school-notice-create','create-value','grade-notice-create','remove'],
                 'roles'=>['P_teacher']
             ],
             //查看预约信息

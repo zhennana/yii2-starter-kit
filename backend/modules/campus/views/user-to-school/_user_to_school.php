@@ -16,8 +16,9 @@ $userToSchool =  UserToSchool::optsUserType();
 // if(!Yii::$app->can('E_manager') || !Yii::$app->can('P_manager')  || !Yii::$app->can('manager') ){
 
 //}
-if((Yii::$app->user->can('manager')) || (Yii::$app->user->can('P_manager')) || (Yii::$app->user->can('P_leader'))){
+if((Yii::$app->user->can('manager')) || (Yii::$app->user->can('E_manager')) || (Yii::$app->user->can('P_leader'))){
 }else{
+    //var_dump(Yii::$app->user->can('P_manager'));exit;
      unset($userToSchool['40']);
 }
 //if((!Yii::$app->user->can('P_leader') || !Yii::$app->user->can('P_leader')) ){}
