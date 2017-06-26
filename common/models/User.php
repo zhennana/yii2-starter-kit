@@ -203,7 +203,7 @@ class User extends ActiveRecord implements IdentityInterface
         $user_id = empty($user_id) ? $this->id : $user_id ;
         if(Yii::$app->user->can('manager') || Yii::$app->user->can('E_financial')){
             $this->schoolsInfo = School::find()
-            ->where(['status'=>School::SCHOOL_STATUS_OPEN])
+            //->where(['status'=>School::SCHOOL_STATUS_OPEN])
             ->orderBy(['sort'=>SORT_ASC])
             ->all();
         }else{
@@ -283,10 +283,10 @@ class User extends ActiveRecord implements IdentityInterface
                 ->leftJoin('grade as g','t.grade_id = g.grade_id');
             if(Yii::$app->user->can('manager') || Yii::$app->user->can('P_director') || Yii::$app->user->can('E_financial') || Yii::$app->user->can('P_financial')){
             }else{
-                $query->andWhere('t.user_id = :user_id',[':user_id'=>$user_id]);
+                $query->andWhere('t.user_id = :user_id',[':user_id'=>$user_id])
+                ->andwhere('g.status = :status',[':status'=>Grade::GRADE_STATUS_OPEN]);
             }
-            $query->andwhere('g.status = :status',[':status'=>Grade::GRADE_STATUS_OPEN])
-                ->andwhere(['g.school_id'=>$schools_id])
+                 $query->andwhere(['g.school_id'=>$schools_id])
                 ->orderBy('t.sort ASC , t.updated_at DESC')
                 ->limit($limit)
                 ->groupBy(['g.grade_id']);
