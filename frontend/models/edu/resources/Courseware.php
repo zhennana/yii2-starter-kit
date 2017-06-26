@@ -1,11 +1,13 @@
 <?php
 namespace frontend\models\edu\resources;
 
+use yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use frontend\models\base\Courseware  as BaseCourseware;
 use frontend\models\base\CoursewareToCourseware;
 use frontend\models\base\CoursewareCategory;
+use frontend\models\base\Collect;
 
 /**
  * 
@@ -51,7 +53,15 @@ class Courseware extends BaseCourseware
                     return isset($model->toFile[0]->fileStorageItem->type) ? $model->toFile[0]->fileStorageItem->type : 'image/jpeg';
                 },
                 'video_record' => function($model){
-                    return rand(0,60).':'.rand(0,60);
+                    $time = Collect::find()->where([
+                        'user_id'       => Yii::$app->user->identity->id,
+                        'courseware_id' => $model->courseware_id,
+                        'status'        => Collect::STATUS_COLLECTED
+                    ])->one();
+                    if (!$time) {
+                        return 0;
+                    }
+                    return $time->play_back_time;
                 },
                 'price' => function($model){
                     return sprintf("%.2f",rand(0,100));
@@ -63,7 +73,15 @@ class Courseware extends BaseCourseware
                     return 'free/off/vip/none';
                 },
                 'favorite' => function($model){
-                    return rand(0,1);
+                    $collect = Collect::find()->where([
+                        'courseware_master_id' => $model->courseware_id
+                    ])->orWhere([
+                        'courseware_id' => $model->courseware_id
+                    ])->one();
+                    if (!$collect) {
+                        return 0;
+                    }
+                    return $collect->status;
                 },
                 'purchased' => function($model){
                     return rand(0,1);
