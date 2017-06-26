@@ -187,7 +187,10 @@ $this->registerJs($updateJs);
 ?>
 <script type="text/javascript">
     var dom = '<li class="data-update" >';
-    dom += '<a href="#w0-tab1" data-toggle="modal" data-target="#update-modal" >创建标题</a>';
-    dom += '</li>';
-    $('#w0').append(dom);
+    var visible = "<?php  echo Yii::$app->user->can('manager') ?>";
+    if(visible){
+        dom += '<a href="#w0-tab1" data-toggle="modal" data-target="#update-modal" >创建标题</a>';
+        dom += '</li>';
+        $('#w0').append(dom);
+    }
 </script>

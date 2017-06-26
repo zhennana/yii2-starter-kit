@@ -201,7 +201,7 @@ class User extends ActiveRecord implements IdentityInterface
             return $this->schoolInfo;
         }
         $user_id = empty($user_id) ? $this->id : $user_id ;
-        if(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager')){
+        if(Yii::$app->user->can('manager') || Yii::$app->user->can('E_financial')){
             $this->schoolsInfo = School::find()
             ->where(['status'=>School::SCHOOL_STATUS_OPEN])
             ->orderBy(['sort'=>SORT_ASC])
@@ -281,7 +281,7 @@ class User extends ActiveRecord implements IdentityInterface
             $query->select('g.*')
                 ->from('users_to_grade as t')
                 ->leftJoin('grade as g','t.grade_id = g.grade_id');
-            if(Yii::$app->user->can('manager') || Yii::$app->user->can('P_director') || Yii::$app->user->can('E_manager')){
+            if(Yii::$app->user->can('manager') || Yii::$app->user->can('P_director') || Yii::$app->user->can('E_financial') || Yii::$app->user->can('P_financial')){
             }else{
                 $query->andWhere('t.user_id = :user_id',[':user_id'=>$user_id]);
             }

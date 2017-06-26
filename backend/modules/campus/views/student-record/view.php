@@ -131,7 +131,8 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
             <?=  '<div  class="table-responsive">'.$html.\yii\grid\GridView::widget([
                 'layout'=>'{summary}{pager}<br/>{items}{pager}',
                 'dataProvider'=>  new \yii\data\ActiveDataProvider([
-                        'query' => $model->getStudentRecordValue(),
+                        'query' => $model->getStudentRecordValue()->andwhere([
+                            'not',['student_record_key_id'=>4]]),
                         'pagination' => [
                             'pageSize' => 20,
                             'pageParam'=>'page-studentrecordvaluetofiles',
