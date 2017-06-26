@@ -24,7 +24,7 @@ if(Yii::$app->session->hasFlash('alert')):?>
         <div class="top-logo"><img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/top-logo.png"></div>
         <div class="top-tel">
             <div class="top-tel-logo"><img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/top-tel-logo.png"></div>
-            <div class="top-tel-text">服务热线</div>
+            <div class="top-tel-text"><span style="font-weight: bold;">服务热线</span></div>
             <div class="top-tel-tel"> 0316-<span>5899988</span></div>
         </div>
         <div class="clear"></div>
@@ -45,11 +45,11 @@ if(Yii::$app->session->hasFlash('alert')):?>
                         'items'=>[
                             [
                                 'label' => Yii::t('frontend', '学校概况'),
-                                'url' => ['/article/view', 'id'=>'55']
+                                'url' => ['/article/index', 'category_id'=>'9']
                             ],
                             [
                                 'label' => Yii::t('frontend', '办学理念'),
-                                'url' => ['/article/view', 'id'=>'58'],
+                                'url' => ['/article/index', 'category_id'=>'32'],
                             ],
                             [
                                 'label' => Yii::t('frontend', '校园风光'),
@@ -66,7 +66,7 @@ if(Yii::$app->session->hasFlash('alert')):?>
                         'items'=>[
                             [
                                 'label' => Yii::t('frontend', '家校沟通'),
-                                'url' => ['/article/view', 'id'=>'14']
+                                'url' => ['/article/index', 'category_id'=>'29']
                             ],
                             
                         ]
@@ -75,7 +75,7 @@ if(Yii::$app->session->hasFlash('alert')):?>
                         'items'=>[
                             [
                                 'label' => Yii::t('frontend', '光大合作'),
-                                'url' => ['/article/view', 'id'=>'12']
+                                'url' => ['/article/index', 'category_id'=>'34']
                             ],
                             
                         ]
