@@ -91,7 +91,29 @@ class CourseController extends \common\rest\Controller
     		$this->serializer['message'] 	= '请先登录';
     		return [];
     	}
-    	$signin = SignIn::find()->where(['student_id'=>Yii::$app->user->identity->id]);
+
+        $studentRecord = StudentRecord::find()->where(['user_id'=>Yii::$app->user->identity->id,'status'=>StudentRecord::STUDEN_RECORD_STATUS_VALID
+            ]);
+        $pages = new Pagination(['totalCount' =>$studentRecord->count(), 'pageSize' => '12']);
+        $studentRecord =  $studentRecord->offset($pages->offset)->limit($pages->limit)->all();
+        if(!$studentRecord){
+            $this->serializer['errno'] = 300;
+            $this->serializer['message'] = '数据是空的';
+            return [];
+        }
+        foreach ($studentRecord as $key => $value) {
+                if($value->studentRecordValue){
+                    if($value->course){
+                        if($value->course){
+                            $data[$key] = $value->course->toArray(['course_id','title','created_at','courseware_id']);
+                            //$data[$key]['image_url'] = Yii::$app->params['user_avatar'];
+                    }
+                }
+            }
+        }
+
+        /*
+    	$signin = SignIn::find()->where(['student_id'=>Yii::$app->user->identity->id,'type_status'=>SignIn::TYPE_STATUS_MORMAL]);
     	$pages = new Pagination(['totalCount' =>$signin->count(), 'pageSize' => '12']);
     	$signin =  $signin->offset($pages->offset)->limit($pages->limit)->all();
     	if(!$signin){
@@ -104,7 +126,7 @@ class CourseController extends \common\rest\Controller
     			$data[$key] = $value->course->toArray(['course_id','title','created_at','courseware_id']);
     			$data[$key]['image_url'] = Yii::$app->params['user_avatar'];
     		}
-    	}
+    	}*/
     	//添加分页
     	$data['pages'] = $pages;
     	return $data;
@@ -140,9 +162,12 @@ class CourseController extends \common\rest\Controller
     		->select(['course_id','student_record_id'])
 	    	->where(['user_id'=>Yii::$app->user->identity->id,'course_id'=>$course_id])
 	    	->andWhere(['status'=>StudentRecord::STUDEN_RECORD_STATUS_VALID])
-	    	->with(['course','studentRecordValue'=>function($query){
-                    $query->select(['student_record_value_id','student_record_id','body']);
-	    			$query->with(['studentRecordValueToFile'=>function($query){
+	    	->with(['course'=>function($query){
+                $query->with(['courseware']);
+            },
+            'studentRecordValue'=>function($query){
+                    $query->select(['student_record_key_id','student_record_value_id','student_record_id','body']);
+                    $query->with(['studentRecordValueToFile'=>function($query){
 
                             $query->select(['student_record_value_id','file_storage_item_id']);
 	    					$query->with('fileStorageItem');
@@ -150,21 +175,34 @@ class CourseController extends \common\rest\Controller
 	    	}])
 	    	->asArray()
 	    	->one();
+
 	    $data = [];
 	    $data['title'] = isset($studentRecord['course']['title']) ? $studentRecord['course']['title'] : '' ;
-	    $data['intro'] = isset($studentRecord['course']['intro']) ? $studentRecord['course']['intro'] : '';
-	    $data['expression'] = isset($studentRecord['studentRecordValue'][0]['body']) ? $studentRecord['studentRecordValue'][0]['body']:'';
-	    $data['image_url']  = [];
-	    if(isset($studentRecord['studentRecordValue'][0]['studentRecordValueToFile'])){
-	    	$file = $studentRecord['studentRecordValue'][0]['studentRecordValueToFile'];
-	    		foreach ($file as $key => $value) {
-    
-	    			$data['image_url'][] = [
-                               'image_original' =>$value['fileStorageItem']['url'].$value['fileStorageItem']['file_name'].Yii::$app->params['image']['image_original_size'],
-                                'image_shrinkage'=>$value['fileStorageItem']['url'].$value['fileStorageItem']['file_name'].Yii::$app->params['image']['image_shrinkage_size'],
-                     ];
-	    		}
-	    }
+	    $data['intro'] = isset($studentRecord['course']['courseware']['body']) ? $studentRecord['course']['courseware']['body'] : '';
+        $data = [
+            'expression'=>'',
+            'process'   =>'',
+            'image_url' =>[]
+        ];
+        if(isset($studentRecord['studentRecordValue'])){
+            $studentRecord['studentRecordValue'] = ArrayHelper::index($studentRecord['studentRecordValue'],'student_record_key_id');
+            //孩子的表现
+            $data['expression'] = isset($studentRecord['studentRecordValue'][1]['body']) ? $studentRecord['studentRecordValue'][1]['body']:'';
+            //教学过程
+            $data['process'] = isset($studentRecord['studentRecordValue'][5]['body']) ? $studentRecord['studentRecordValue'][5]['body']:'';
+        //图片
+            if(isset($studentRecord['studentRecordValue'][4]['studentRecordValueToFile'])){
+                $file = $studentRecord['studentRecordValue'][4]['studentRecordValueToFile'];
+                    foreach ($file as $key => $value) {
+                        $data['image_url'][] = [
+                                   'image_original' =>$value['fileStorageItem']['url'].$value['fileStorageItem']['file_name'].Yii::$app->params['image']['image_original_size'],
+                                    'image_shrinkage'=>$value['fileStorageItem']['url'].$value['fileStorageItem']['file_name'].Yii::$app->params['image']['image_shrinkage_size'],
+                         ];
+                    }
+            }
+
+        }
+
 	    return $data;
     }
 
