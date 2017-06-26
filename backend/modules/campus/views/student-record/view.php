@@ -75,7 +75,6 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
 
     <?php $this->beginBlock('backend\modules\campus\models\StudentRecord'); ?>
 
-    
     <?= DetailView::widget([
     'model' => $model,
     'attributes' => [

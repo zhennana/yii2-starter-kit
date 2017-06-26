@@ -154,9 +154,10 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                 ],
     			'title',
     			'intro',
+
                 [
-                    'attribute' => 'creater_id',
-                    'label'     => '创建者ID',
+                    'attribute' => 'teacher_id',
+                    'label'     => '上课老师',
                     'value'     => function($model){
                         return isset($model->user->username) ?$model->user->username : '';
                     }

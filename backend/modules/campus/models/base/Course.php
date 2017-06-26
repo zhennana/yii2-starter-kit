@@ -91,7 +91,7 @@ abstract class Course extends \yii\db\ActiveRecord
             [['title'], 'string', 'max' => 11],
             [['intro'], 'string', 'max' => 128],
             ['teacher_id','required','when'=>function($model,$attribute){
-                    if($mdoel->status == self::COURSE_STATUS_OPEN ){
+                    if($model->status == self::COURSE_STATUS_OPEN ){
                         $models = self::find()->where([
                                 'teacher_id'=> $model->teacher_id,
                                 'status'    => self::COURSE_STATUS_OPEN
@@ -119,7 +119,7 @@ abstract class Course extends \yii\db\ActiveRecord
             [
                 'start_time','required',  'when' => function($model,$attribute){
                     $time = time();
-                    if($mdoel->status == self::COURSE_STATUS_OPEN){
+                    if($model->status == self::COURSE_STATUS_OPEN){
                         if($model->start_time <  $time ){
                             $model->addError($attribute,'课程开始时间不能小于当前时间');
                         }

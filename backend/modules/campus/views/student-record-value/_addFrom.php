@@ -7,7 +7,7 @@ use \dmstr\bootstrap\Tabs;
 use yii\helpers\StringHelper;
 use yii\bootstrap\Modal;
 use backend\modules\campus\models\StudentRecordKey;
-
+use backend\modules\campus\models\StudentRecordValueToFile;
 /**
 * @var yii\web\View $this
 * @var backend\modules\campus\models\StudentRecordValue $model
@@ -124,7 +124,6 @@ Modal::end();
         <?php $this->beginBlock('keys');
             $model = new StudentRecordKey;
          ?>
-            
             <p>
 <!-- attribute school_id -->
             <?= $form->field($model, 'school_id')->textInput() ?>
@@ -169,6 +168,58 @@ Modal::end();
     </div>
 
 </div>
+
+<?=  '<div  class="table-responsive">'.\yii\grid\GridView::widget([
+                'layout'=>'{summary}{pager}<br/>{items}{pager}',
+                'dataProvider'=>  new \yii\data\ActiveDataProvider([
+                        'query' => StudentRecordValueToFile::find()->where(['student_record_value_id'=>$image['value']->student_record_value_id]),
+                        'pagination' => [
+                            'pageSize' => 20,
+                            'pageParam'=>'page-studentrecordvaluetofiles',
+                        ]
+                    ]),
+                //'filterModel'=> $CoursewareToCoursewareSearch,
+                'columns'=>[
+                    [
+                    'attribute'=>'student_record_value_to_file_id',
+                    'label'    => 'id',
+                    ],
+                    [
+                    //'attribute' => '2',
+                    'label'     => '内容',
+                    'value'     =>function($model){
+                        return $model->studentRecordValue->body;
+                        }
+                    ],
+                    [
+                        'label' => '文件',
+                        'format' => 'raw',
+                        'value' => function($model, $key, $index, $grid){
+                            $url = $model->fileStorageItem->url.$model->fileStorageItem->file_name;
+                            if(strstr($model->fileStorageItem->type,'image')){
+                                return Html::a('<img width="50px" height="50px" class="img-thumbnail" src="'.$url.'?imageView2/1/w/50/h/50" />', $url.'?imageView2/1/w/500/h/500', ['title' => '访问','target' => '_blank']);
+                            }else{
+                                return Html::a($model->fileStorageItem->type, $url, ['title' => '访问','target' => '_blank']);
+                            }
+                        }
+                    ],
+                    [
+                        'class'=>'yii\grid\ActionColumn',
+                        'header'=>'操作审核',
+                        'template'=>'{button}',
+                        'buttons'=>[
+                            'button'=>function($url,$model,$key){
+                                return Html::button('删除',[
+                                        'class'=>'btn btn-danger audit',
+                                        'title'=>'查看',
+                                        'field_id'   => $model->student_record_value_to_file_id
+                                        ]);
+                            }
+                        ]
+                    ]
+                ]
+            ]).'</div>'
+        ?>
 <?php
 
 $requestUpdateUrl = Url::toRoute(['student-record-key/ajax-student-key']);
@@ -193,4 +244,24 @@ $this->registerJs($updateJs);
         dom += '</li>';
         $('#w0').append(dom);
     }
+
+    $(document).on("click",".audit",function(){
+        field_id = $(this).attr("field_id");
+        var data = {"field_id":field_id};
+        $.ajax({
+            url:"<?php echo Url::to(['student-record-value/remove']) ?>",
+            type : "GET",
+            data :data,
+            success:function(result){
+                if(result.status){
+                    alert(result.status);
+                    window.location.reload();
+                }
+                if(result.error){
+                    alert(result.error);
+                }
+
+            }
+        })
+    });
 </script>
