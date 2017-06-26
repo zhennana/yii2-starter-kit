@@ -259,11 +259,12 @@ $school = ArrayHelper::map($school,'school_id','school_title');
             data :data,
             success:function(result){
                 if(result.status){
-                    alert(result.status);
-                //    window.location.reload()
+                   alert(result.status);
+                    window.location.reload();
                 }
                 if(result.error){
                     alert(result.error);
+                    window.location.reload();
                 }
 
             }

@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
     }
 
    if (\Yii::$app->user->can('manager') || \Yii::$app->user->can('E_manager'))  {
-        $actionColumnTemplates[] = '{delete}';
+       // $actionColumnTemplates[] = '{delete}';
     }
 
     if (isset($actionColumnTemplates)) {

@@ -5,8 +5,8 @@
 namespace backend\modules\campus\controllers\base;
 
 use backend\modules\campus\models\ApplyToPlay;
-    use backend\modules\campus\models\search\ApplyToPlaySearch;
-use yii\web\Controller;
+use backend\modules\campus\models\search\ApplyToPlaySearch;
+use common\components\Controller;
 use yii\web\HttpException;
 use yii\helpers\Url;
 use yii\filters\AccessControl;
@@ -63,14 +63,21 @@ public function actionIndex()
 {
     $searchModel  = new ApplyToPlaySearch;
     $dataProvider = $searchModel->search($_GET);
+    $dataProvider->query->andWhere([
+                'school_id'=>$this->schoolIdCurrent
+        ]);
+    $dataProvider->sort = [
+            'defaultOrder'=>[
+                'updated_at'=>SORT_DESC
+            ]
+    ];
+    Tabs::clearLocalStorage();
 
-Tabs::clearLocalStorage();
-
-Url::remember();
-\Yii::$app->session['__crudReturnUrl'] = null;
+    Url::remember();
+    \Yii::$app->session['__crudReturnUrl'] = null;
 
 return $this->render('index', [
-'dataProvider' => $dataProvider,
+    'dataProvider' => $dataProvider,
     'searchModel' => $searchModel,
 ]);
 }
