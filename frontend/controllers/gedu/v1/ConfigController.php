@@ -447,6 +447,13 @@ class ConfigController extends \common\rest\Controller
      *     produces={"application/json"},
      *     @SWG\Parameter(
      *        in = "formData",
+     *        name = "school_id",
+     *        description = "学校ID",
+     *        required = false,
+     *        type = "integer"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
      *        name = "content",
      *        description = "反馈内容",
      *        required = false,
@@ -479,7 +486,7 @@ class ConfigController extends \common\rest\Controller
 
         $feedback = new Feedback;
         $feedback->load($_POST,'');
-        $feedback->feedback_rater = Yii::$app->user->identity->id;
+        $feedback->feedback_rater_id = Yii::$app->user->identity->id;
         if(!$feedback->save()){
             $this->serializer['errno']   = __LINE__;
             $this->serializer['message'] = $feedback->getErrors();
