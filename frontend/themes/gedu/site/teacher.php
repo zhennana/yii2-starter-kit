@@ -5,14 +5,16 @@ $imgsize="?imageView2/1/w/250/h/300";
 
  $teachers=[
     '1'=>[
-      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/liangfengrui1.jpg',
-      'name'=>'梁丰瑞',
-      'school'=>'女，29岁，本科，河北师范大学，数学。'
+    'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/libaocai1.jpg',
+      'name'=>'李宝才',
+      'school'=>'男，56岁，本科，哈尔滨师范大学，中学高级教师,光大小学教务主任。'
+      
       ],
     '2'=>[
-      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/qijing1.JPG',
-      'name'=>'齐婧',
-      'school'=>'女，26岁，本科，邢台学院（小学教育），数学。'
+      
+      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/jinrong1.jpg',
+      'name'=>'靳荣',
+      'school'=>'女，29岁，本科，河北师范大学（音乐教育），音乐。'
       ],
     '3'=>[
       'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/liuyanan1.jpg',
@@ -50,14 +52,14 @@ $imgsize="?imageView2/1/w/250/h/300";
       'school'=>'女，24岁，本科，北京城市学院，数学。'
       ],
     '10'=>[
-      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/jinrong1.jpg',
-      'name'=>'靳荣',
-      'school'=>'女，29岁，本科，河北师范大学（音乐教育），音乐。'
+      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/qijing1.JPG',
+      'name'=>'齐婧',
+      'school'=>'女，26岁，本科，邢台学院（小学教育），数学。'
       ],
     '11'=>[
-      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/libaocai1.jpg',
-      'name'=>'李宝才',
-      'school'=>'男，56岁，本科，哈尔滨师范大学，中学高级教师,光大小学教务主任。'
+      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/liangfengrui1.jpg',
+      'name'=>'梁丰瑞',
+      'school'=>'女，29岁，本科，河北师范大学，数学。'
     ],
     '12'=>[
       'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/dongyanchun2.jpg',
