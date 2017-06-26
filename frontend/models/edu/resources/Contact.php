@@ -3,13 +3,13 @@
 namespace frontend\models\edu\resources;
 
 use Yii;
-use frontend\models\base\Feedback as BaseFeedback;
+use frontend\models\base\Contact as BaseContact;
 use yii\helpers\ArrayHelper;
 
 /**
- * This is the model class for table "feedback".
+ * This is the model class for table "Contact".
  */
-class Feedback extends BaseFeedback
+class Contact extends BaseContact
 {
 
 public function behaviors()
