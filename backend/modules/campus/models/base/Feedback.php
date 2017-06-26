@@ -57,8 +57,8 @@ abstract class Feedback extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['feedback_rater', 'content'], 'required'],
-            [['feedback_rater', 'client_source_type'], 'integer'],
+            [['feedback_rater_id', 'content'], 'required'],
+            [['feedback_rater_id', 'client_source_type'], 'integer'],
             [['content'], 'string', 'max' => 255]
         ];
     }
@@ -70,7 +70,8 @@ abstract class Feedback extends \yii\db\ActiveRecord
     {
         return [
             'feedback_id' => 'Feedback ID',
-            'feedback_rater' => 'Feedback Rater',
+            'school_id' => 'School ID',
+            'feedback_rater_id' => 'Feedback Rater ID',
             'content' => 'Content',
             'client_source_type' => 'Client Source Type',
             'created_at' => 'Created At',
@@ -84,7 +85,8 @@ abstract class Feedback extends \yii\db\ActiveRecord
     public function attributeHints()
     {
         return array_merge(parent::attributeHints(), [
-            'feedback_rater' => '反馈者',
+            'school_id' => '学校 ID',
+            'feedback_rater_id' => '反馈者ID',
             'content' => '反馈内容',
             'client_source_type' => '10:PC;20:安卓；30：IOS',
         ]);
