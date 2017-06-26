@@ -13,6 +13,7 @@ use frontend\modules\api\v1\resources\Article;
 use frontend\models\edu\resources\Course;
 use frontend\models\edu\resources\UsersToUsers;
 use frontend\models\edu\resources\Courseware;
+use frontend\models\edu\resources\Feedback;
 
 class ConfigController extends \common\rest\Controller
 {
@@ -436,6 +437,55 @@ class ConfigController extends \common\rest\Controller
             $this->serializer['message'] = '参数错误：AppID或AppSecret';
             return [];
         }
+    }
+
+    /**
+     * @SWG\POST(path="/config/feedback",
+     *     tags={"800-Config-配置信息接口"},
+     *     summary="反馈意见",
+     *     description="errorno= 0 反馈意见成功",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "content",
+     *        description = "反馈内容",
+     *        required = false,
+     *        default = "",
+     *        type = "string"
+     *     ),
+     *    @SWG\Parameter(
+     *        in = "formData",
+     *        name = "client_source_type",
+     *        description = "类型反馈，10:pc;20:安卓; 30: IOS",
+     *        required = false,
+     *        default = 10,
+     *        type = "integer",
+     *        enum = {10,20,30},
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "errorno= 0  成功  其他错误"
+     *     ),
+     * )
+     *
+    **/
+    public function actionFeedback()
+    {
+        if(Yii::$app->user->isGuest){
+            $this->serializer['errno']   = 422;
+            $this->serializer['message'] = '请您先登录';
+            return [];
+        }
+
+        $feedback = new Feedback;
+        $feedback->load($_POST,'');
+        $feedback->feedback_rater = Yii::$app->user->identity->id;
+        if(!$feedback->save()){
+            $this->serializer['errno']   = __LINE__;
+            $this->serializer['message'] = $feedback->getErrors();
+        }
+
+        return [];
     }
 
 }

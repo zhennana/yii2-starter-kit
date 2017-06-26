@@ -397,20 +397,6 @@ class CoursewareController extends \common\rest\Controller
      *     ),
      *     @SWG\Parameter(
      *        in = "formData",
-     *        name = "courseware_id",
-     *        description = "子课件 ID",
-     *        required = false,
-     *        type = "integer"
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "play_back_time",
-     *        description = "播放时间记录",
-     *        required = false,
-     *        type = "integer"
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
      *        name = "status",
      *        description = "收藏状态：10收藏；20取消收藏",
      *        required = true,
