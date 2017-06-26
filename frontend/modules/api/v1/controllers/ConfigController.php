@@ -10,6 +10,8 @@ use yii\web\ForbiddenHttpException;
 use yii\web\HttpException;
 use yii\helpers\Url;
 
+use \backend\modules\campus\models\Notice;
+
 /**
  *
  * Class DeveloperController
@@ -295,6 +297,87 @@ class ConfigController extends \yii\rest\Controller
 
         ];
         return $data;
+    }
+
+     /**
+     * @SWG\Post(path="/config/list-notices",
+     *     tags={"800-Config-配置信息接口"},
+     *     summary="用户反馈通知列表",
+     *     description="返回主视觉信息",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "user_id",
+     *        description = "用户ID",
+     *        required = true,
+     *        default = 1,
+     *        type = "string"
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "添加用户反馈"
+     *     ),
+     * )
+     *
+    **/
+    public function actionListNotices(){
+
+        $user = Yii::$app->user->identity->attributes;
+        $data = [
+            'news_notices_numbers' => 1,
+            
+            'notices' => [
+                [
+                    'questions' => '特别卡，网速慢，改如何解决？',
+                    'answers'   => '检查网络',
+                ],
+            ],
+            'userinfo' => [
+                'id' => $user['id'],
+                'username' => $user['username'],
+                'email' => $user['email'],
+                'phone_number' => $user['phone_number'],
+            ],
+        ];
+
+        return $data;
+    }
+
+    /**
+     * @SWG\Post(path="/config/add-notices",
+     *     tags={"800-Config-配置信息接口"},
+     *     summary="添加用户反馈",
+     *     description="返回主视觉信息",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "user_id",
+     *        description = "用户ID",
+     *        required = true,
+     *        default = 1,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "message",
+     *        description = "用户反馈内容",
+     *        required = true,
+     *        default = "特别卡，网速慢，改如何解决？",
+     *        type = "string"
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "添加用户反馈"
+     *     ),
+     * )
+     *
+    **/
+    public function actionAddNotices(){
+        $modle = new Notice;
+        $data['user_id'] = Yii::$app->request->post('user_id', 0);
+        $data['message'] = Yii::$app->request->post('message', ''); 
+        //$model->message = ;
+
     }
 
     public function actionFeedback(){
