@@ -1,14 +1,17 @@
 <?php
+use yii\helpers\Html;
 $imgsize="?imageView2/1/w/250/h/300";
 
  $teachers=[
+
     '1'=>[
-      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/liangfengrui1.jpg',
-      'name'=>'梁丰瑞',
+      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/jinrong1.jpg',
+      'name'=>'靳荣',
       ],
     '2'=>[
-      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/qijing1.JPG',
-      'name'=>'齐婧',
+      
+      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/libaocai1.jpg',
+      'name'=>'李宝才',
       ],
     '3'=>[
       'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/liuyanan1.jpg',
@@ -39,12 +42,12 @@ $imgsize="?imageView2/1/w/250/h/300";
       'name'=>'郭小溶',
       ],
     '10'=>[
-      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/jinrong1.jpg',
-      'name'=>'靳荣',
+      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/liangfengrui1.jpg',
+      'name'=>'梁丰瑞',
       ],
     '11'=>[
-      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/libaocai1.jpg',
-      'name'=>'李宝才',
+      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/qijing1.JPG',
+      'name'=>'齐婧',
     ],
     '12'=>[
       'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/dongyanchun2.jpg',
@@ -89,7 +92,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                 <?php
                                     foreach ($teachers as $key => $value) {
                                         
-                                        if($key>1&&$key<6){          
+                                        if($key>0&&$key<5){          
                                 ?>
                                 <div class="col-md-3 col-sm-3 col-xs-3">
                                     <div class="box1">
@@ -107,7 +110,8 @@ $imgsize="?imageView2/1/w/250/h/300";
                                         </ul>
                                       </div>
                                     </div>
-                                    <div class="main-2-teacher-inner-p"><p><?php echo $value['name'];?></p></div>
+                                    <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher']) ;?></p>
+                                    </div>
                                   </div> 
                                   <?php }}
                                 ?>
@@ -118,7 +122,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                 
                                 foreach ($teachers as $key => $value) {
                                     
-                                    if(5<$key&&$key<10){          
+                                    if(4<$key&&$key<9){          
                             ?>
                             <div class="col-md-3 col-sm-3 col-xs-3">
                                 <div class="box1">
@@ -136,7 +140,8 @@ $imgsize="?imageView2/1/w/250/h/300";
                                     </ul>
                                   </div>
                                 </div>
-                                <div class="main-2-teacher-inner-p"><p><?php echo $value['name'];?></p></div>
+                                <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher']) ;?></p>
+                                </div>
                               </div> 
                               <?php }}
                             ?>
@@ -146,7 +151,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                 
                                 foreach ($teachers as $key => $value) {
                                     
-                                    if(9<$key&&$key<14){          
+                                    if(8<$key&&$key<14){          
                             ?>
                             <div class="col-md-3 col-sm-3 col-xs-3">
                                 <div class="box1">
@@ -164,7 +169,8 @@ $imgsize="?imageView2/1/w/250/h/300";
                                     </ul>
                                   </div>
                                 </div>
-                                <div class="main-2-teacher-inner-p"><p><?php echo $value['name'];?></p></div>
+                                <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher']) ;?></p>
+                                </div>
                               </div> 
                               <?php }}
                             ?>
@@ -219,7 +225,8 @@ $imgsize="?imageView2/1/w/250/h/300";
                                         </ul>
                                       </div>
                                     </div>
-                                    <div class="main-2-teacher-inner-p"><p><?php echo $value['name'];?></p></div>
+                                    <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher']) ;?></p>
+                                    </div>
                                   </div> 
                                   <?php }}
                                 ?>
@@ -248,7 +255,8 @@ $imgsize="?imageView2/1/w/250/h/300";
                                     </ul>
                                   </div>
                                 </div>
-                                <div class="main-2-teacher-inner-p"><p><?php echo $value['name'];?></p></div>
+                               <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher']) ;?></p>
+                                    </div>
                               </div> 
                               <?php }}
                             ?>
@@ -276,7 +284,8 @@ $imgsize="?imageView2/1/w/250/h/300";
                                     </ul>
                                   </div>
                                 </div>
-                                <div class="main-2-teacher-inner-p"><p><?php echo $value['name'];?></p></div>
+                               <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher']) ;?></p>
+                                </div>
                               </div> 
                               <?php }}
                             ?>
@@ -331,7 +340,8 @@ $imgsize="?imageView2/1/w/250/h/300";
                                         </ul>
                                       </div>
                                     </div>
-                                    <div class="main-2-teacher-inner-p"><p><?php echo $value['name'];?></p></div>
+                                    <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher']) ;?></p>
+                                    </div>
                                   </div> 
                                   <?php }}
                                 ?>
@@ -360,7 +370,8 @@ $imgsize="?imageView2/1/w/250/h/300";
                                     </ul>
                                   </div>
                                 </div>
-                                <div class="main-2-teacher-inner-p"><p><?php echo $value['name'];?></p></div>
+                                <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher']) ;?></p>
+                                    </div>
                               </div> 
                               <?php }}
                             ?>
@@ -388,7 +399,8 @@ $imgsize="?imageView2/1/w/250/h/300";
                                     </ul>
                                   </div>
                                 </div>
-                                <div class="main-2-teacher-inner-p"><p><?php echo $value['name'];?></p></div>
+                                <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher']) ;?></p>
+                                    </div>
                               </div> 
                               <?php }}
                             ?>
@@ -443,7 +455,8 @@ $imgsize="?imageView2/1/w/250/h/300";
                                         </ul>
                                       </div>
                                     </div>
-                                    <div class="main-2-teacher-inner-p"><p><?php echo $value['name'];?></p></div>
+                                    <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher']) ;?></p>
+                                    </div>
                                   </div> 
                                   <?php }}
                                 ?>
@@ -472,7 +485,8 @@ $imgsize="?imageView2/1/w/250/h/300";
                                     </ul>
                                   </div>
                                 </div>
-                                <div class="main-2-teacher-inner-p"><p><?php echo $value['name'];?></p></div>
+                                <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher']) ;?></p>
+                                    </div>
                               </div> 
                               <?php }}
                             ?>
@@ -500,7 +514,8 @@ $imgsize="?imageView2/1/w/250/h/300";
                                     </ul>
                                   </div>
                                 </div>
-                                <div class="main-2-teacher-inner-p"><p><?php echo $value['name'];?></p></div>
+                                <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher']) ;?></p>
+                                    </div>
                               </div> 
                               <?php }}
                             ?>
@@ -554,7 +569,8 @@ $imgsize="?imageView2/1/w/250/h/300";
                                         </ul>
                                       </div>
                                     </div>
-                                    <div class="main-2-teacher-inner-p"><p><?php echo $value['name'];?></p></div>
+                                    <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher']) ;?></p>
+                                    </div>
                                   </div> 
                                   <?php }}
                                 ?>
@@ -583,7 +599,8 @@ $imgsize="?imageView2/1/w/250/h/300";
                                     </ul>
                                   </div>
                                 </div>
-                                <div class="main-2-teacher-inner-p"><p><?php echo $value['name'];?></p></div>
+                                <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher']) ;?></p>
+                                    </div>
                               </div> 
                               <?php }}
                             ?>
@@ -611,7 +628,8 @@ $imgsize="?imageView2/1/w/250/h/300";
                                     </ul>
                                   </div>
                                 </div>
-                                <div class="main-2-teacher-inner-p"><p><?php echo $value['name'];?></p></div>
+                                <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher']) ;?></p>
+                                    </div>
                               </div> 
                               <?php }}
                             ?>
