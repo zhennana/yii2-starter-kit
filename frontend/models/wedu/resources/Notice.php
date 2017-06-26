@@ -73,9 +73,11 @@ public function behaviors()
         }
         $model = $model->orderby(['created_at'=> SORT_DESC])
                 ->asArray()->one();
-        if(!$model){
-            $mdoel = [];
+
+        if($model == NULL){
+            $model = [];
         }
+      // var_dump(123);exit;
       return $model;
     }
 /*

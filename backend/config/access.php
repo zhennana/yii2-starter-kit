@@ -132,7 +132,7 @@ return [
             [
                 'controllers'=>['campus/notice','campus/share-stream'],
                 'allow'=>true,
-                'actions'=>['index','ajax-form','school-notice','school-notice-create','teacher-notice','teacher-notice-create','create'],
+                'actions'=>['index','ajax-form','school-notice','school-notice-create','teacher-notice','teacher-notice-create','create','update','view'],
                 'roles'=>['P_director']
             ],
             //查看班级通知,家校沟通

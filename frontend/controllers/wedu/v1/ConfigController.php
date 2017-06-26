@@ -8,7 +8,6 @@ use yii\rest\ActiveController;
 use yii\web\ForbiddenHttpException;
 use yii\web\HttpException;
 use yii\helpers\Url;
-
 use frontend\modules\api\v1\resources\Article;
 use frontend\models\edu\resources\Course;
 use frontend\models\edu\resources\UsersToUsers;
@@ -431,6 +430,7 @@ class ConfigController extends \common\rest\Controller
                             ->orderBy(['created_at'=>'SORT_SESC'])
                             ->asArray()
                             ->one();
+   //var_dump($notice->message(Notice::CATEGORY_ONE,$school_id,$grade_id));exit;
         $data['message']                   = array_merge($data['message'],$notice->message(Notice::CATEGORY_ONE,$school_id,$grade_id));
         $data['teacher_said']              = array_merge($data['teacher_said'],$notice->message(Notice::CATEGORY_TWO));
         $data['course_item_order']         = array_merge($data['course_item_order'],$course_order->statistical());

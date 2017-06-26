@@ -100,7 +100,8 @@ class CourseOrderItemController extends \common\rest\Controller
             ->where(
                 [
                 'user_id'=>Yii::$app->user->identity->id,
-                'payment_status'=>CourseOrderItem::PAYMENT_STATUS_PAID
+                'payment_status'=>CourseOrderItem::PAYMENT_STATUS_PAID,
+                'status'        =>CourseOrderItem::STATUS_VALID
                 ])
             ->orderBy(['created_at'=>'SORT_DESC'])
             ->asArray()
