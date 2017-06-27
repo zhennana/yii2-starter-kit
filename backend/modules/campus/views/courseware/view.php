@@ -97,7 +97,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '课件详情');
         'level',
         [
             'attribute'=>'creater_id',
-            'value'    =>isset($model->user->username) ? $model->user->username : ''
+            'value'    =>Yii::$app->user->identity->getUserName($model->creater_id)
         ],
         'body:ntext',
         'file_counts',

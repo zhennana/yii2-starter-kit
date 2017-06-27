@@ -513,14 +513,14 @@ $avatar .= '?imageView2/3/w/215/h/215';
                             ],
                         ],
                         [
-                            'label'=>Yii::t('backend', '用户管理'),
+                            'label'=>Yii::t('backend', '校园人员管理'),
                             'url' => '#',
                             'icon'=>'<i class="fa fa-users"></i>',
                            'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_director')),
                             'options'=>['class'=>'treeview'],
                             'items'=>[
                                 [
-                                    'label'=>Yii::t('backend', '学校人员管理'),
+                                    'label'=>Yii::t('backend', '校园人员管理'),
                                     'icon'=>'<i class="fa fa-database"></i>',
                                     'options'=>['class'=>'treeview'],
                                     'url'=>['/campus/user-to-school/index','type'=>'200'],

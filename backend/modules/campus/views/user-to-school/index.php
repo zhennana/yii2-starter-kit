@@ -31,13 +31,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' =>'user_id',
                 'format'    => 'raw',
                 'value'     => function($model){
-                    if(isset($model->user->username)){
-                        return  Html::a($model->user->username,[
+                        return  Html::a(Yii::$app->user->identity->getUserName($model->user_id),[
                             'account',
                             'user_id'=>$model->user_id
                             ]);
-                    }
-                        return '未知';
                     }
             ],
             [
@@ -64,7 +61,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'updated_at:datetime',
             'created_at:datetime',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+            'class' => 'yii\grid\ActionColumn',
+            'template' => "{update}",
+
+            ],
         ],
     ]); ?>
 

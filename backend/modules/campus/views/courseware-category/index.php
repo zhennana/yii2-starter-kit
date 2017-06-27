@@ -134,7 +134,6 @@ if (\Yii::$app->user->can('manager', ['route' => true]) || Yii::$app->user->can(
 				'contentOptions' => ['nowrap'=>'nowrap']
 			],
 			'parent_id',
-			'creater_id',
 			'name',
 			'description',
 			[

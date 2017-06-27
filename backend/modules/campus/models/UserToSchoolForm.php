@@ -73,16 +73,16 @@ class UserToSchoolForm extends Model
             $value = preg_replace("/\s+|\t+/",' ',$value);
             $temp = explode(" ",$value);
           //var_dump($temp);exit;
-            $users['username'] = isset($temp[0]) && !empty($temp[0]) ?trim($temp[0]):NULL;
+            $users['realname'] = isset($temp[0]) && !empty($temp[0]) ?trim($temp[0]):NULL;
             $users['phone_number'] = isset($temp[1]) && !empty($temp[1]) ?trim($temp[1]):NULL;
-            $users['email'] = isset($temp[2]) && !empty($temp[2]) ? trim($temp[2]):NULL;
-            $users['gender'] = isset($temp[3]) && !empty($temp[3]) ? trim($temp[3]) : NULL;
-            $users['birth'] = isset($temp[4]) && !empty($temp[4]) ? trim($temp[4]) : NULL;
+            //$users['email'] = isset($temp[2]) && !empty($temp[2]) ? trim($temp[2]):NULL;
+            $users['gender'] = isset($temp[2]) && !empty($temp[2]) ? trim($temp[2]) : NULL;
+            $users['birth'] = isset($temp[3]) && !empty($temp[3]) ? trim($temp[3]) : NULL;
             $users['password'] = substr($users['phone_number'], 5);
             $users['roles'] = $this->roles;
 
-            if(empty($users['username'])){
-                $info['error'][$key] = [['用户名不能为空']];
+            if(empty($users['realname'])){
+                $info['error'][$key] = [['姓名不能为空']];
                 continue;
             }
 
@@ -94,12 +94,12 @@ class UserToSchoolForm extends Model
                 $info['error'][$key] = [['手机号格式不正确']];
                 continue;
             }
-            if(empty($users['email'])){
-                $info['error'][$key] = [['邮箱不能为空']];
-                continue;
-            }
-            if(empty($users['email'])){
-              $info['error'][$key] = [[ $users['username'] .'性别不能为空']];
+            // if(empty($users['email'])){
+            //     $info['error'][$key] = [['邮箱不能为空']];
+            //     continue;
+            // }
+            if(empty($users['gender'])){
+              $info['error'][$key] = [[ $users['realname'] .'性别不能为空']];
                 continue;
             }
             //var_dump($users['gender']);exit;
@@ -110,11 +110,11 @@ class UserToSchoolForm extends Model
               $users['gender']  = 2;
             }
             if(!in_array($users['gender'],[1,2])){
-                $info['error'][$key] = [[$users['username'] .'性别格式不正确']];
+                $info['error'][$key] = [[$users['realname'] .'性别格式不正确']];
                 continue;
             }
             if(empty($users['birth'])){
-                $info['error'][$key] = [[ $users['username'] .'出生年月不能为空']];
+                $info['error'][$key] = [[ $users['realname'] .'出生年月不能为空']];
                 continue;
             }
             //匹配时间格式
@@ -201,8 +201,8 @@ class UserToSchoolForm extends Model
      * @return [type]       [description]
      */
     public function AddUser($users){
-      //var_dump($users);exit;
       //$users['email'] = 'web@126.com';
+      //var_dump($users);
       $user = User::find()
       ->where(['phone_number'=> $users['phone_number']])
       ->one();
@@ -214,6 +214,7 @@ class UserToSchoolForm extends Model
       }
       $users['status'] = 2;
       $model->load($users,'');
+     //var_dump($model->load($users,''));exit;
       $model->save();
       return $model;
     }

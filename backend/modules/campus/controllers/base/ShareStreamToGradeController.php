@@ -5,7 +5,7 @@
 namespace backend\modules\campus\controllers\base;
 
 use backend\modules\campus\models\ShareStreamToGrade;
-    use backend\modules\campus\models\ShareStreamToGradeSearch;
+    use backend\modules\campus\models\search\ShareStreamToGradeSearch;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\helpers\Url;
@@ -81,14 +81,14 @@ return $this->render('index', [
 *
 * @return mixed
 */
-public function actionView($share_stream_id)
+public function actionView($share_stream_to_grade_id)
 {
 \Yii::$app->session['__crudReturnUrl'] = Url::previous();
 Url::remember();
 Tabs::rememberActiveState();
 
 return $this->render('view', [
-'model' => $this->findModel($share_stream_id),
+'model' => $this->findModel($share_stream_to_grade_id),
 ]);
 }
 
@@ -120,9 +120,9 @@ return $this->render('create', ['model' => $model]);
 * @param integer $share_stream_id
 * @return mixed
 */
-public function actionUpdate($share_stream_id)
+public function actionUpdate($share_stream_to_grade_id)
 {
-$model = $this->findModel($share_stream_id);
+$model = $this->findModel($share_stream_to_grade_id);
 
 if ($model->load($_POST) && $model->save()) {
 return $this->redirect(Url::previous());
@@ -139,25 +139,26 @@ return $this->render('update', [
 * @param integer $share_stream_id
 * @return mixed
 */
-public function actionDelete($share_stream_id)
+public function actionDelete($share_stream_to_grade_id)
 {
 try {
-$this->findModel($share_stream_id)->delete();
+$this->findModel($share_stream_to_grade_id)->delete();
 } catch (\Exception $e) {
 $msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
 \Yii::$app->getSession()->addFlash('error', $msg);
 return $this->redirect(Url::previous());
 }
-
+ 
 // TODO: improve detection
-$isPivot = strstr('$share_stream_id',',');
+$isPivot = strstr('$share_stream_to_grade_id',',');
 if ($isPivot == true) {
-return $this->redirect(Url::previous());
+
+//return $this->redirect(Url::previous());
 } elseif (isset(\Yii::$app->session['__crudReturnUrl']) && \Yii::$app->session['__crudReturnUrl'] != '/') {
 Url::remember(null);
 $url = \Yii::$app->session['__crudReturnUrl'];
 \Yii::$app->session['__crudReturnUrl'] = null;
-
+ //var_dump($url);exit;
 return $this->redirect($url);
 } else {
 return $this->redirect(['index']);
@@ -171,9 +172,9 @@ return $this->redirect(['index']);
 * @return ShareStreamToGrade the loaded model
 * @throws HttpException if the model cannot be found
 */
-protected function findModel($share_stream_id)
+protected function findModel($share_stream_to_grade_id)
 {
-if (($model = ShareStreamToGrade::findOne($share_stream_id)) !== null) {
+if (($model = ShareStreamToGrade::findOne($share_stream_to_grade_id)) !== null) {
 return $model;
 } else {
 throw new HttpException(404, 'The requested page does not exist.');

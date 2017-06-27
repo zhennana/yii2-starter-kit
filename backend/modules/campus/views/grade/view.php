@@ -82,7 +82,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
         'grade_title',
         [
             'attribute' => 'owner_id',
-            'value' => isset($model->owner_id) ? $model->getUserName($model->owner_id) : '',
+            'value' =>  Yii::$app->user->identity->getUserName($model->owner_id),
         ],
         //'classroom_group_levels',
         [
@@ -97,7 +97,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
         'time_of_graduation:datetime',
         [
             'attribute' => 'creater_id',
-            'value'     => isset($model->creater_id) ? $model->getUserName($model->creater_id) : '',
+            'value'     =>  Yii::$app->user->identity->getUserName($model->owner_id),
         ],
         'sort',
     ],

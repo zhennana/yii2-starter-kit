@@ -84,7 +84,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
         'parent_id',
         [
             'attribute' => 'creater_id',
-            'value'     => GradeCategory::getUserName($model->creater_id),
+            'value'     => Yii::$app->user->identity->getUserName($model->creater_id),
         ],
         [
             'attribute' => 'status',

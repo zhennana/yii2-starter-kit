@@ -61,7 +61,7 @@ class UserController extends \backend\controllers\UserController
     {
         $model = new UserForm();
         $e_roles = Yii::$app->authManager->getChildRoles('E_administrator');
-        //$e_roles = [];
+        $e_roles = [];
         ArrayHelper::multisort($e_roles,['updatedAt'],[SORT_ASC]);
         $e_roles =  ArrayHelper::map($e_roles,'name','description');
         $p_roles = Yii::$app->authManager->getChildRoles('P_administrator');

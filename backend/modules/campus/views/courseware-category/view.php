@@ -82,7 +82,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
 			'parent_id',
 			[
 				'attribute'=>'creater_id',
-				'value'=>isset($model->user->username)? $model->user->username : '',
+				'value'=>Yii::$app->user->identity->getUserName($model->creater_id),
 			],
 			'name',
 			'description',
