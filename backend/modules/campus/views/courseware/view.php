@@ -139,7 +139,27 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '课件详情');
     </div>
     <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main1', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
         <?php
-            
+            $actionColumnTemplates = [];
+        // if (\Yii::$app->user->can('P_teacher', ['route' => true])|| \Yii::$app->user->can('E_manager') || \Yii::$app->user->can('manager')) {
+        //         $actionColumnTemplates[] = '{view}';
+        //     }
+
+        if (\Yii::$app->user->can('E_manager') ||
+            \Yii::$app->user->can('manager')
+            ) {
+            $actionColumnTemplates[] = '{update}';
+        }
+        if (
+            \Yii::$app->user->can('E_manager') ||
+            \Yii::$app->user->can('manager')
+            ) {
+            $actionColumnTemplates[] = '{delete}';
+        }
+        $actionColumnTemplateString = '';
+        if(isset($actionColumnTemplates)){
+            $actionColumnTemplate = implode(' ', $actionColumnTemplates);
+            $actionColumnTemplateString = $actionColumnTemplate;
+        }
             echo   '<div  class="table-responsive">'.$qiniu.\yii\grid\GridView::widget([
                 'layout'=>'{summary}{pager}<br/>{items}{pager}',
                 'dataProvider'=>$CoursewareToFileDataProvider,
@@ -148,9 +168,9 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '课件详情');
                      [
                         'class' => 'yii\grid\ActionColumn',
                         'controller' => 'courseware-to-file',
-                        'template' => '{update} {delete}'
+                        'template' => $actionColumnTemplateString,
                     ],
-                    
+                   
                     'courseware_id',
                     [
                         'class'     => \common\grid\EnumColumn::ClassName(),

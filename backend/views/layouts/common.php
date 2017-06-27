@@ -364,6 +364,22 @@ $avatar .= '?imageView2/3/w/215/h/215';
                             'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_teacher') || Yii::$app->user->can('E_financial') || Yii::$app->user->can('P_financial')),
                         ],
                         [
+                            'label'=>Yii::t('backend', '课程体系管理'),
+                            'url' => '#',
+                            'icon'=>'<i class="fa fa-edit"></i>',
+                              'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_director')),
+                            'options'=>['class'=>'treeview'],
+                            'items'=>[
+                                [
+                                'label'=>Yii::t('backend', '课件管理'), 
+                                'url'=>['/campus/courseware/index'],
+                                'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager')|| Yii::$app->user->can('P_director')),
+
+                                 'icon'=>'<i class="fa  fa-file-text"></i>'
+                                ],
+                            ],
+                        ],
+                        [
                             'label'=>Yii::t('backend', '教务管理'),
                             'url' => '#',
                             'icon'=>'<i class="fa fa-university"></i>',
