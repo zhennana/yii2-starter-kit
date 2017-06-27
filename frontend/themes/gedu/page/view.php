@@ -8,9 +8,9 @@ use yii\helpers\Html;
     <!-- 左边侧边栏 -->
     <?php
       if($model->id==31){
-        echo $this->render('@frontend/themes/gedu/page/common/sidebarteacher');
+        echo $this->render('@frontend/themes/gedu/page/common/sidebar');
       }else{
-        echo $this->render('@frontend/themes/gedu/page/common/sidebarteacher');
+        echo $this->render('@frontend/themes/gedu/page/common/sidebar');
       }
       
     ?>
