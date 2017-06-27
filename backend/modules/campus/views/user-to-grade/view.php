@@ -83,7 +83,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
     'attributes' => [
         [
             'attribute' => 'user_id',
-            'value'     => isset($model->user->username) ? $model->user->username : '',
+            'value'     => Yii::$app->user->identity->getUserName($model->user_id),
         ],
         [
             'attribute' => 'school_id',

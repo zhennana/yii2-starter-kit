@@ -166,13 +166,13 @@ if (\Yii::$app->user->can('manager', ['route' => true]) || \Yii::$app->user->can
                 // 'value'     => function($model){
                 //     return $model->status;
                 //     },
-                ],
+            ],
 			//'author_id',
             [
                 'attribute'=>'author_id',
                 'label'    => '创建者',
                 'value'=>function($model){
-                        return $model->getUserName($model->author_id);
+                    return Yii::$app->user->identity->getUserName($model->author_id);
                 }
             ],
          /*

@@ -151,10 +151,7 @@ if(is_string($schoolOrGrade) && $schoolOrGrade == 'all'){
     			[
                     'attribute' =>'user_id',
                     'value'     => function($model){
-                        if(isset($model->user->username)){
-                            return $model->user->username;
-                        }
-                        return '未知';
+                       return Yii::$app->user->identity->getUserName($model->user_id);
                     }
                 ],
     			[

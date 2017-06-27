@@ -8,6 +8,9 @@ use yii\widgets\Pjax;
 use dmstr\bootstrap\Tabs;
 use backend\modules\campus\models\search\ShareToFileSearch;
 use backend\modules\campus\models\search\ShareStreamToGradeSearch;
+use backend\modules\campus\models\ShareStreamToGrade;
+use backend\modules\campus\models\ShareStream;
+
 
 
     $ShareToGradeSearch = new ShareStreamToGradeSearch;
@@ -16,7 +19,7 @@ use backend\modules\campus\models\search\ShareStreamToGradeSearch;
     $ShareToFile =   $ShareToFileSearch->search($_GET);
     $ShareToFile->query->andwhere(['share_stream_id'=>$model->share_stream_id]);
     //$ShareToFile->query->orderby(['sort'=>SORT_DESC]);
-
+    \Yii::$app->session['__crudReturnUrl'] = ['/campus/share-stream/view','share_stream_id'=>$model->share_stream_id];
 /**
 * @var yii\web\View $this
 * @var backend\modules\campus\models\ShareStream $model
@@ -82,9 +85,16 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
     <?= DetailView::widget([
     'model' => $model,
     'attributes' => [
+            //'author_id',
+            [
+                'attribute'=>'author_id',
+                'label'    => '创建者',
+                'value'=>function($model){
+                    return Yii::$app->user->identity->getUserName($model->author_id);
+                }
+            ],
             'body',
             'status',
-            'author_id',
         ],
     ]); ?>
 
@@ -122,7 +132,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
     'columns' => [
  [
     'class'      => 'yii\grid\ActionColumn',
-    'template'   => '{view} {update}',
+    'template'   => '{delete}',
     'contentOptions' => ['nowrap'=>'nowrap'],
     'urlCreator' => function ($action, $model, $key, $index) {
         // using the column name as key, not mapping to 'id' like the standard generator
@@ -160,7 +170,6 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
             }
         }
     ],
-        'status',
         'updated_at:datetime',
         'created_at:datetime',
 ]
@@ -198,7 +207,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
     'columns' => [
  [
     'class'      => 'yii\grid\ActionColumn',
-    'template'   => '{view} {update}',
+    'template'   => '{delete}',
     'contentOptions' => ['nowrap'=>'nowrap'],
     'urlCreator' => function ($action, $model, $key, $index) {
         // using the column name as key, not mapping to 'id' like the standard generator
@@ -212,12 +221,21 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
     ],
     'controller' => 'share-stream-to-grade'
 ],
-        'school_id',
-        'grade_id',
-        'status',
-        'updated_at',
-        'created_at',
-        'auditor_id',
+        [
+            'attribute'=>'school_id',
+            'value'    =>function($model){
+                return isset($model->school->school_title) ? $model->school->school_title : '';
+            }
+        ],
+        [
+            'attribute'=>'grade_id',
+            'value'    =>function($model){
+                return isset($model->grade->grade_name) ? $model->grade->grade_name : '';
+            }
+        ],
+        'updated_at:datetime',
+        'created_at:datetime',
+        //'auditor_id',
 ]
 ])
  . '</div>' 

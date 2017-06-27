@@ -18,7 +18,7 @@ class UserForm extends Model
     public  $username;
     public  $email;
     public  $phone_number;
-    //public $realname;
+    public  $realname;
     //public $nickname;
     public  $password;
     public  $status;
@@ -34,8 +34,8 @@ class UserForm extends Model
     public function rules()
     {
         return [
-            ['username', 'filter', 'filter' => 'trim'],
-            [['username','phone_number'], 'required'],
+            [['username','realname'], 'filter', 'filter' => 'trim'],
+            [['phone_number'], 'required'],
             ['username', 'unique', 'targetClass' => User::className(), 'filter' => function ($query) {
                 if (!$this->getModel()->isNewRecord) {
                     $query->andWhere(['not', ['id'=>$this->getModel()->id]]);
@@ -46,11 +46,11 @@ class UserForm extends Model
                     $query->andWhere(['not', ['id'=>$this->getModel()->id]]);
                 }
             }],
-            ['username', 'string', 'min' => 2, 'max' => 32],
+           [['username','realname'], 'string', 'min' => 2, 'max' => 32],
             //['nickname', 'string', 'min' => 2, 'max' => 32],
             //['realname', 'string', 'min' => 2, 'max' => 32],
             ['email', 'filter', 'filter' => 'trim'],
-            ['email', 'required'],
+           // ['email', 'required'],
             ['email', 'email'],
             ['email', 'unique', 'targetClass'=> User::className(), 'filter' => function ($query) {
                 if (!$this->getModel()->isNewRecord) {
@@ -105,7 +105,7 @@ class UserForm extends Model
              'birth'        => Yii::t('common', '出生年月'),
              'gender'       => Yii::t('common', '性别'),
             // 'school_id'       => Yii::t('common', '学校'),
-            //'realname' => Yii::t('common', 'Realname'),
+            'realname' => Yii::t('common', '真实姓名'),
             //'nickname' => Yii::t('common', 'Nickname'),
             'email' => Yii::t('common', '邮箱'),
             'status' => Yii::t('common', 'Status'),
@@ -125,7 +125,7 @@ class UserForm extends Model
         $this->username = $model->username;
         $this->email = $model->email;
         $this->phone_number = $model->phone_number;
-        //$this->realname = $model->realname;
+        $this->realname = $model->realname;
         //$this->nickname = $model->nickname;
         $this->status = $model->status;
         $this->model = $model;
@@ -155,14 +155,13 @@ class UserForm extends Model
     public function save()
     {
 
-
         if ($this->validate()) {
             $model = $this->getModel();
             $isNewRecord = $model->getIsNewRecord();
             //var_dump($isNewRecord);exit;
-            $model->username = $this->username;
+            //$model->username = $this->username;
             //$model->nickname = $this->nickname;
-            //$model->realname = $this->realname;
+            $model->realname = $this->realname;
             $model->email = $this->email;
             $model->phone_number = $this->phone_number;
             $model->status = $this->status;

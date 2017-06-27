@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
     }
 
     if (\Yii::$app->user->can('E_manager') || \Yii::$app->user->can('manager')) {
-        //$actionColumnTemplates[] = '{delete}';
+        $actionColumnTemplates[] = '{delete}';
     }
     if (isset($actionColumnTemplates)) {
     $actionColumnTemplate = implode(' ', $actionColumnTemplates);
@@ -50,7 +50,14 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
 
     
-    <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
+    <?php \yii\widgets\Pjax::begin([
+        'id'=>'pjax-main', 
+        'enableReplaceState'=> false, 
+        'linkSelector'=>'#pjax-main ul.pagination a, th a', 
+        'clientOptions' => 
+            [
+            'pjax:success'=>'function(){alert("yo")}']
+            ]) ?>
 
     <h1>
         <?= Yii::t('backend', '班级分类管理') ?>
@@ -139,7 +146,7 @@ if(\Yii::$app->user->can('manager', ['route' => true]) || \Yii::$app->user->can(
             [
                 'attribute' => 'creater_id',
                 'value'     => function($model){
-                    return GradeCategory::getUserName($model->creater_id);
+                    return Yii::$app->user->identity->getUserName($model->creater_id);
                 }
             ],
             [

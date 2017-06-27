@@ -167,7 +167,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                     'attribute' => 'teacher_id',
                     'label'     => '上课老师',
                     'value'     => function($model){
-                        return isset($model->user->username) ? $model->user->username : '';
+                        return Yii::$app->user->identity->getUserName($model->teacher_id);
                     }
                 ],
     			'start_time:datetime',

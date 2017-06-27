@@ -566,4 +566,20 @@ class User extends ActiveRecord implements IdentityInterface
         }
         return $this->email;
     }
+    //用户名信息
+    public  function getUserName($id)
+    {
+        $user = \common\models\User::findOne($id);
+        $name = '';
+        if(isset($user->realname) && !empty($user->realname)){
+            return $user->realname;
+        }
+        if(isset($user->username) && !empty($user->username)){
+           return $user->username;
+        }
+        // if(isset($user->phone_number) && !empty($user->phone_number)){
+        //     return $user->phone_number;
+        // }
+        return $name;
+    }
 }

@@ -109,22 +109,8 @@ abstract class ShareStream extends \yii\db\ActiveRecord
     public function getShareToGrade(){
         return $this->hasmany(\backend\modules\campus\models\ShareStreamToGrade::className(),['share_stream_id'=>'share_stream_id']);
     }
-
-    public  function getUserName($id)
-    {
-
-        $user = \common\models\User::findOne($id);
-        $name = '';
-        if(isset($user->realname) && !empty($user->realname)){
-            return $user->realname;
-        }
-        if(isset($user->username) && !empty($user->username)){
-           return $user->username;
-        }
-        // if(isset($user->phone_number) && !empty($user->phone_number)){
-        //     return $user->phone_number;
-        // }
-        return $name;
+    public function getSchool(){
+        return $this->hasOne(\backend\modules\campus\models\School::className(),['school_id'=>'school_id']);
     }
     //获取用户头像
     public function getUserAvatar($id)
