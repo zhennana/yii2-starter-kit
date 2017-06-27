@@ -461,7 +461,7 @@ $avatar .= '?imageView2/3/w/215/h/215';
                             'label'=>Yii::t('backend', '通知公告管理'),
                             'url' => '#',
                             'icon'=>'<i class="fa  fa-volume-up"></i>',
-                            'visible'=>(Yii::$app->user->can('P_teacher') || 
+                            'visible'=>(Yii::$app->user->can('P_teacher') ||
                                 Yii::$app->user->can('E_manager') ||
                                 Yii::$app->user->can('manager')
                                 ),
