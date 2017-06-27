@@ -123,7 +123,7 @@ class SiteController extends Controller
             ->select(['id','parent_id'])
             ->where([
               'or',
-              ['id'        => [3, 22]],
+              ['id'        => [1, 3, 22]],
               ['parent_id' => [9, 12]]
             ])
             ->andWhere([
@@ -137,6 +137,7 @@ class SiteController extends Controller
         $course_right = [];
         $dongtai      = [];
         $zuopin       = [];
+        $about        = [];
         foreach ($model as $key => $value) {
             if($value['parent_id'] == 9){
                 $course_left[]  = $value['id'];
@@ -149,7 +150,8 @@ class SiteController extends Controller
 
             }elseif($value['id'] == 3){
                 $dongtai[]      = $value['id'];
-
+            }elseif ($value['id'] == 1) {
+                $about[] = $value['id'];
             }
         }
 
@@ -165,7 +167,8 @@ class SiteController extends Controller
           'course_left'  => [],
           'course_right' => [],
           'dongtai'      => [],
-          'zuopin'       => []
+          'zuopin'       => [],
+          'about'        => []
         ];
 
         // dump($articles);exit;
@@ -183,6 +186,9 @@ class SiteController extends Controller
             }
             if (in_array($value['category_id'], $zuopin)) {
                 $data['zuopin'][] = $value;
+            }
+            if (in_array($value['category_id'], $about)) {
+                $data['about'][] = $value;
             }
         }
         //dump($data['course_left']);exit;
