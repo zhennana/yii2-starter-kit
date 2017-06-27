@@ -440,7 +440,7 @@ class ConfigController extends \common\rest\Controller
     }
 
     /**
-     * @SWG\POST(path="/config/feedback",
+     * @SWG\Post(path="/config/feedback",
      *     tags={"800-Config-配置信息接口"},
      *     summary="反馈意见",
      *     description="error= 0 反馈意见成功",
