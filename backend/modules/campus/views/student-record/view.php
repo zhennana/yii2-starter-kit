@@ -113,8 +113,6 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
             'created_at:datetime'
     ],
     ]); ?>
-
-    
     <hr/>
 
     <!-- <? /* Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('backend', '删除'), ['delete', 'student_record_id' => $model->student_record_id],
