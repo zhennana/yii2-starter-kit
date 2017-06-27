@@ -148,8 +148,16 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                 [
                     'attribute' => 'courseware_title',
                     'label'     => '课件',
+                     'format'    => 'raw',
                     'value'     => function($model){
-                        return isset($model->courseware->title) ?$model->courseware->title  : '';
+                        if($model->courseware->title){
+                            return Html::a($model->courseware->title,[
+                                        '/campus/courseware/view','courseware_id'=>$model->courseware_id
+                                ]);
+                        }else{
+                            return '';
+                        }
+                      //  return isset($model->courseware->title) ?$model->courseware->title  : '';
                     }
                 ],
     			'title',
@@ -159,7 +167,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                     'attribute' => 'teacher_id',
                     'label'     => '上课老师',
                     'value'     => function($model){
-                        return isset($model->user->username) ?$model->user->username : '';
+                        return Yii::$app->user->identity->getUserName($model->teacher_id);
                     }
                 ],
     			'start_time:datetime',

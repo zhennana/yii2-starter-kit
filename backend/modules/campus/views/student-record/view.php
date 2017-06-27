@@ -81,7 +81,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
             [
             'attribute'=>'user_id',
             'value'=>function($model){
-                return isset($model->user->username) ? $model->user->username : '';
+                return Yii::$app->user->identity->getUserName($model->user_id);
                 }
             ],
             [

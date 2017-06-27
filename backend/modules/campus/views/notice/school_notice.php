@@ -11,7 +11,7 @@ use backend\modules\campus\models\Notice;
 * @var yii\data\ActiveDataProvider $dataProvider
     * @var backend\modules\campus\models\NoticeSearch $searchModel
 */
-
+ \Yii::$app->session['__crudReturnUrl'] = ['/campus/notice/school-notice'];
 $this->title = Yii::t('backend', '学校公告');
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -20,17 +20,21 @@ $this->params['breadcrumbs'][] = $this->title;
 */
 $actionColumnTemplates = [];
 
-if (\Yii::$app->user->can('campus_notice_view', ['route' => true])) {
-    $actionColumnTemplates[] = '{view}';
+if (\Yii::$app->user->can('E_manager', ['route' => true]) || \Yii::$app->user->can('manager')
+|| \Yii::$app->user->can('P_director')) {
+    //$actionColumnTemplates[] = '{view}';
 }
 
-if (\Yii::$app->user->can('campus_notice_update', ['route' => true])) {
-    $actionColumnTemplates[] = '{update}';
+if (\Yii::$app->user->can('E_manager', ['route' => true]) || \Yii::$app->user->can('manager')
+|| \Yii::$app->user->can('P_director')){
+    //$actionColumnTemplates[] = '{update}';
 }
 
-if (\Yii::$app->user->can('campus_notice_delete', ['route' => true])) {
+if (\Yii::$app->user->can('E_manager', ['route' => true]) || \Yii::$app->user->can('manager')
+|| \Yii::$app->user->can('P_director')){
     $actionColumnTemplates[] = '{delete}';
 }
+
 if (isset($actionColumnTemplates)) {
 $actionColumnTemplate = implode(' ', $actionColumnTemplates);
     $actionColumnTemplateString = $actionColumnTemplate;
@@ -57,13 +61,13 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
     </h1>
     <div class="clearfix crud-navigation">
         <div class="pull-left">
-            <?php if(\Yii::$app->user->can('campus_notice_create', ['route' => true])){ ?>
 
-            <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'New'), ['create'], ['class' => 'btn btn-success']) ?>
 
-            <?php } ?>
-
-            <?php echo Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建学校公告'), ['school-notice-create'], ['class' => 'btn btn-success']) ?>
+            <?php 
+                if (\Yii::$app->user->can('E_manager', ['route' => true]) || \Yii::$app->user->can('manager')|| \Yii::$app->user->can('P_director')){
+                    echo  Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建学校公告'), ['school-notice-create'], ['class' => 'btn btn-success']) ;
+                }
+             ?>
         </div>
         <div class="pull-right">
             <?= \yii\bootstrap\ButtonDropdown::widget([
@@ -98,18 +102,6 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
             'tableOptions'     => ['class' => 'table table-striped table-bordered table-hover'],
             'headerRowOptions' => ['class'=>'x'],
             'columns'          => [
-                'notice_id',
-                [
-                    'class'     =>\common\grid\EnumColumn::className(),
-                    'attribute' =>'school_id',
-                    'options'   => ['width' => '10%'],
-                    'format'    => 'raw',
-                    'enum'      => $schools,
-                    'value'     => function($model){
-                        return $model->status_send;
-                    },
-                ],
-                'title',
                 [
                     'class'    => 'yii\grid\ActionColumn',
                     'template' => $actionColumnTemplateString,
@@ -133,6 +125,19 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                 },
                 'contentOptions' => ['nowrap'=>'nowrap']
                 ],
+                'notice_id',
+                [
+                    'class'     =>\common\grid\EnumColumn::className(),
+                    'attribute' =>'school_id',
+                    'options'   => ['width' => '10%'],
+                    'format'    => 'raw',
+                    'enum'      => $schools,
+                    'value'     => function($model){
+                        return $model->status_send;
+                    },
+                ],
+                'title',
+
                 [
                     'attribute' => 'message',
                     'options'   => ['width' => '50%'],

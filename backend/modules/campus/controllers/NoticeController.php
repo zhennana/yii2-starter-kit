@@ -129,6 +129,7 @@ class NoticeController extends \backend\modules\campus\controllers\base\NoticeCo
     //老师对学生说的话
     public function actionFamilySchoolNotice(){
         $searchModel  = new NoticeSearch;
+
         $dataProvider = $searchModel->search($_GET);
 
         $schools = Yii::$app->user->identity->schoolsInfo;
@@ -143,7 +144,7 @@ class NoticeController extends \backend\modules\campus\controllers\base\NoticeCo
         $dataProvider->query->andWhere([
             'school_id'=> array_keys($schools),
             'grade_id' => array_keys($grades),
-            'category' => 2,
+           // 'category' => 2,
             ]);
         $dataProvider->query->andWhere([
             'NOT',
@@ -170,7 +171,6 @@ class NoticeController extends \backend\modules\campus\controllers\base\NoticeCo
         //默认学校
         $schools = Yii::$app->user->identity->schoolsInfo;
         $schools = ArrayHelper::map($schools,'school_id','school_title');
-
         if($model->load($_POST)){
             $info = $model->batch_save($_POST['Notice']);
             if(!empty($info)){

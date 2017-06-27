@@ -74,11 +74,11 @@ abstract class Notice extends \yii\db\ActiveRecord
         return [
             [['title','message','school_id','category', 'sender_id'], 'required'],
             [['message'], 'string'],
-            [['sender_id', 'receiver_id', 'is_sms', 'is_wechat_message', 'times', 'status_send', 'status_check'], 'integer'],
+            [['sender_id', 'grade_id','receiver_id', 'is_sms', 'is_wechat_message', 'times', 'status_send', 'status_check'], 'integer'],
             [['title'], 'string', 'max' => 128],
             [['message_hash', 'receiver_name', 'wechat_message_id'], 'string', 'max' => 32],
             [['receiver_phone_numeber'], 'string', 'max' => 11],
-            ['grade_id','required','on'=>['grade']],
+            ['grade_id','required','on'=>['grade','student']],
             [['receiver_id'],'required','on'=>['teacher','student']],
         ];
     }

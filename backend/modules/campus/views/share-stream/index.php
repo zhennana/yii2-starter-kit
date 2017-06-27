@@ -44,11 +44,11 @@ if (\Yii::$app->user->can('manager', ['route' => true]) || \Yii::$app->user->can
 if (\Yii::$app->user->can('manager', ['route' => true]) || \Yii::$app->user->can('E_manager') || \Yii::$app->user->can('P_director')) {
     $actionColumnTemplates[] = '{update}';
 }
-/*
-if (\Yii::$app->user->can('user', ['route' => true])) {
+
+if (\Yii::$app->user->can('manager', ['route' => true]) || \Yii::$app->user->can('E_manager') || \Yii::$app->user->can('P_director')) {
     $actionColumnTemplates[] = '{delete}';
 }
-*/
+
 if (isset($actionColumnTemplates)) {
 $actionColumnTemplate = implode(' ', $actionColumnTemplates);
     $actionColumnTemplateString = $actionColumnTemplate;
@@ -166,13 +166,13 @@ if (\Yii::$app->user->can('manager', ['route' => true]) || \Yii::$app->user->can
                 // 'value'     => function($model){
                 //     return $model->status;
                 //     },
-                ],
+            ],
 			//'author_id',
             [
                 'attribute'=>'author_id',
                 'label'    => '创建者',
                 'value'=>function($model){
-                        return $model->getUserName($model->author_id);
+                    return Yii::$app->user->identity->getUserName($model->author_id);
                 }
             ],
          /*
