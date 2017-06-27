@@ -33,7 +33,7 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
         <div class="col-xs-12  col-md-12 margin_bottom no-padding">
             <div class="col-md-12 about_wakoo">
                 <p>
-                    <?= $model['about'][0]['body']; ?>
+                    <?= isset($model['about'][0]['body']) ? $model['about'][0]['body'] : ''; ?>
                 </p>
             </div>
             <!--<div class="col-md-6">
