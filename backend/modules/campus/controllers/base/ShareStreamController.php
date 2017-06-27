@@ -13,6 +13,8 @@ use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 use yii\filters\AccessControl;
 use dmstr\bootstrap\Tabs;
+use common\components\Qiniu\Auth;
+use common\components\Qiniu\Storage\BucketManager;
 
 
 /**
@@ -158,7 +160,29 @@ return $this->render('update', [
 public function actionDelete($share_stream_id)
 {
 try {
-$this->findModel($share_stream_id)->delete();
+  $model = $this->findModel($share_stream_id);
+  if($model->shareToFile){
+        foreach ($model->shareToFile as $key => $value) {
+            if($value->fileStorageItem){
+                $keys = $value->fileStorageItem->file_name;
+                $value->fileStorageItem->delete();
+                $auth = new Auth(
+                \Yii::$app->params['qiniu']['wakooedu']['access_key'], 
+                \Yii::$app->params['qiniu']['wakooedu']['secret_key']
+                );
+                $bucketMgr = new BucketManager($auth);
+                $bucket    = \Yii::$app->params['qiniu']['wakooedu']['bucket'];
+                $err       = $bucketMgr->delete($bucket,$keys);
+            }
+            $value->delete();
+        }
+  }
+  if($model->shareToGrade){
+     ShareStreamToGrade::deleteAll(['share_stream_id'=>$model->share_stream_id]);
+
+  }
+ // var_dump($model->shareToGrade);exit;
+  $model->delete();
 } catch (\Exception $e) {
 $msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
 \Yii::$app->getSession()->addFlash('error', $msg);

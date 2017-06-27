@@ -14,21 +14,25 @@ use backend\modules\campus\models\Notice;
 
 $this->title = Yii::t('backend', '班级公告');
 $this->params['breadcrumbs'][] = $this->title;
+    \Yii::$app->session['__crudReturnUrl'] = ['/campus/notice/grade-notice'];
 
 /**
 * create action column template depending acces rights
 */
 $actionColumnTemplates = [];
 
-if (\Yii::$app->user->can('campus_notice_view', ['route' => true])) {
-    $actionColumnTemplates[] = '{view}';
+if (\Yii::$app->user->can('E_manager', ['route' => true]) || \Yii::$app->user->can('manager')
+|| \Yii::$app->user->can('P_teacher')) {
+    //$actionColumnTemplates[] = '{view}';
 }
 
-if (\Yii::$app->user->can('campus_notice_update', ['route' => true])) {
-    $actionColumnTemplates[] = '{update}';
+if (\Yii::$app->user->can('E_manager', ['route' => true]) || \Yii::$app->user->can('manager')
+|| \Yii::$app->user->can('P_teacher')) {
+   //$actionColumnTemplates[] = '{update}';
 }
 
-if (\Yii::$app->user->can('campus_notice_delete', ['route' => true])) {
+if (\Yii::$app->user->can('E_manager', ['route' => true]) || \Yii::$app->user->can('manager')
+|| \Yii::$app->user->can('P_teacher')) {
     $actionColumnTemplates[] = '{delete}';
 }
 if (isset($actionColumnTemplates)) {
@@ -98,23 +102,6 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
             'tableOptions'     => ['class' => 'table table-striped table-bordered table-hover'],
             'headerRowOptions' => ['class'=>'x'],
             'columns'          => [
-                'notice_id',
-                [
-                    'class'     =>\common\grid\EnumColumn::className(),
-                    'attribute' =>'school_id',
-                    'options'   => ['width' => '10%'],
-                    'format'    => 'raw',
-                    'enum'      => $schools,
-                ],
-                [
-                    'class'     =>\common\grid\EnumColumn::className(),
-                    'attribute' =>'grade_id',
-                    'options'   => ['width' => '10%'],
-                    'format'    => 'raw',
-                    'enum'      => $grades,
-
-                ],
-                'title',
                 [
                     'class'    => 'yii\grid\ActionColumn',
                     'template' => $actionColumnTemplateString,
@@ -138,6 +125,24 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                 },
                 'contentOptions' => ['nowrap'=>'nowrap']
                 ],
+                'notice_id',
+                [
+                    'class'     =>\common\grid\EnumColumn::className(),
+                    'attribute' =>'school_id',
+                    'options'   => ['width' => '10%'],
+                    'format'    => 'raw',
+                    'enum'      => $schools,
+                ],
+                [
+                    'class'     =>\common\grid\EnumColumn::className(),
+                    'attribute' =>'grade_id',
+                    'options'   => ['width' => '10%'],
+                    'format'    => 'raw',
+                    'enum'      => $grades,
+
+                ],
+                'title',
+    
                 [
                     'attribute' => 'message',
                     'options'   => ['width' => '50%'],

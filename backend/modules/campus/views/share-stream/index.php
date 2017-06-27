@@ -44,11 +44,11 @@ if (\Yii::$app->user->can('manager', ['route' => true]) || \Yii::$app->user->can
 if (\Yii::$app->user->can('manager', ['route' => true]) || \Yii::$app->user->can('E_manager') || \Yii::$app->user->can('P_director')) {
     $actionColumnTemplates[] = '{update}';
 }
-/*
-if (\Yii::$app->user->can('user', ['route' => true])) {
+
+if (\Yii::$app->user->can('manager', ['route' => true]) || \Yii::$app->user->can('E_manager') || \Yii::$app->user->can('P_director')) {
     $actionColumnTemplates[] = '{delete}';
 }
-*/
+
 if (isset($actionColumnTemplates)) {
 $actionColumnTemplate = implode(' ', $actionColumnTemplates);
     $actionColumnTemplateString = $actionColumnTemplate;

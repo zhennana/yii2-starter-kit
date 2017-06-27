@@ -61,7 +61,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'updated_at:datetime',
             'created_at:datetime',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+            'class' => 'yii\grid\ActionColumn',
+            'template' => "{update}",
+
+            ],
         ],
     ]); ?>
 

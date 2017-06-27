@@ -13,24 +13,30 @@ use backend\modules\campus\models\Notice;
 */
 $title = '教师公告';
 if(isset($category) && $category != 1){
+     \Yii::$app->session['__crudReturnUrl'] = ['/campus/notice/family-school-notice'];
     $title = '家校沟通';
 }
-$this->title = Yii::t('backend', $title);
+    $this->title = Yii::t('backend', $title);
     $this->params['breadcrumbs'][] = $this->title;
+    \Yii::$app->session['__crudReturnUrl'] = ['/campus/notice/teacher-notice'];
+
 /**
 * create action column template depending acces rights
 */
 $actionColumnTemplates = [];
 
-if (\Yii::$app->user->can('campus_notice_view', ['route' => true])) {
-    $actionColumnTemplates[] = '{view}';
+if (\Yii::$app->user->can('E_manager', ['route' => true]) || \Yii::$app->user->can('manager')
+|| \Yii::$app->user->can('P_director')) {
+    //$actionColumnTemplates[] = '{view}';
 }
 
-if (\Yii::$app->user->can('campus_notice_update', ['route' => true])) {
-    $actionColumnTemplates[] = '{update}';
+if (\Yii::$app->user->can('E_manager', ['route' => true]) || \Yii::$app->user->can('manager')
+|| \Yii::$app->user->can('P_director')){
+    //$actionColumnTemplates[] = '{update}';
 }
 
-if (\Yii::$app->user->can('campus_notice_delete', ['route' => true])) {
+if (\Yii::$app->user->can('E_manager', ['route' => true]) || \Yii::$app->user->can('manager')
+|| \Yii::$app->user->can('P_director')){
     $actionColumnTemplates[] = '{delete}';
 }
 if (isset($actionColumnTemplates)) {
@@ -65,7 +71,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                         ['family-school-notice-create'],
                         ['class' => 'btn btn-success']);
         }else{
-            echo Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建班级公告'), ['teacher-notice-create'], ['class' => 'btn btn-success']);
+            echo Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建教师公告'), ['teacher-notice-create'], ['class' => 'btn btn-success']);
         }
         ?>
         </div>
@@ -102,24 +108,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
             'tableOptions'     => ['class' => 'table table-striped table-bordered table-hover'],
             'headerRowOptions' => ['class'=>'x'],
             'columns'          => [
-                'notice_id',
-                [
-                    'class'     =>\common\grid\EnumColumn::className(),
-                    'attribute' =>'school_id',
-                    'options'   => ['width' => '10%'],
-                    'format'    => 'raw',
-                    'enum'      => $schools,
-                ],
-                [
-                    'class'     =>\common\grid\EnumColumn::className(),
-                    'attribute' =>'grade_id',
-                    'options'   => ['width' => '10%'],
-                    'format'    => 'raw',
-                    'enum'      => $grades,
-
-                ],
-                'title',
-                [
+                 [
                     'class'    => 'yii\grid\ActionColumn',
                     'template' => $actionColumnTemplateString,
                     'buttons'  => [
@@ -142,6 +131,24 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                 },
                 'contentOptions' => ['nowrap'=>'nowrap']
                 ],
+                'notice_id',
+                [
+                    'class'     =>\common\grid\EnumColumn::className(),
+                    'attribute' =>'school_id',
+                    'options'   => ['width' => '10%'],
+                    'format'    => 'raw',
+                    'enum'      => $schools,
+                ],
+                [
+                    'class'     =>\common\grid\EnumColumn::className(),
+                    'attribute' =>'grade_id',
+                    'options'   => ['width' => '10%'],
+                    'format'    => 'raw',
+                    'enum'      => $grades,
+
+                ],
+                'title',
+               
                 [
                     'attribute' => 'message',
                     'options'   => ['width' => '50%'],

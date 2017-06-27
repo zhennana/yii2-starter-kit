@@ -5,7 +5,7 @@
 namespace backend\modules\campus\controllers\base;
 
 use backend\modules\campus\models\ShareToFile;
-    use backend\modules\campus\models\search\ShareToFileSearch;
+use backend\modules\campus\models\search\ShareToFileSearch;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\helpers\Url;

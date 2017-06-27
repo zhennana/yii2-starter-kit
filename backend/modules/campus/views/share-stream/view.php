@@ -98,7 +98,6 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
         ],
     ]); ?>
 
-    
     <hr/>
 
     <?= Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('backend', 'Delete'), ['delete', 'share_stream_id' => $model->share_stream_id],
@@ -109,8 +108,6 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
     ]); ?>
     <?php $this->endBlock(); ?>
 
-
-    
 <?php $this->beginBlock('ShareToFiles'); ?>
 <div style='position: relative'>
 <div style='position:absolute; right: 0px; top: 0px;'>

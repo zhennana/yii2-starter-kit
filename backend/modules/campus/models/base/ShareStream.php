@@ -103,11 +103,11 @@ abstract class ShareStream extends \yii\db\ActiveRecord
 
 
     public function getShareToFile(){
-        return $this->hasmany(\backend\modules\campus\models\ShareToFile::className(),['share_stream_id'=>'share_stream_id']);
+        return $this->hasMany(\backend\modules\campus\models\ShareToFile::className(),['share_stream_id'=>'share_stream_id']);
     }
 
     public function getShareToGrade(){
-        return $this->hasmany(\backend\modules\campus\models\ShareStreamToGrade::className(),['share_stream_id'=>'share_stream_id']);
+        return $this->hasMany(\backend\modules\campus\models\ShareStreamToGrade::className(),['share_stream_id'=>'share_stream_id']);
     }
     public function getSchool(){
         return $this->hasOne(\backend\modules\campus\models\School::className(),['school_id'=>'school_id']);
