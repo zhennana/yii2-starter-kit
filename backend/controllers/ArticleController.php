@@ -27,6 +27,42 @@ class ArticleController extends Controller
         ];
     }
 
+        public function actions()
+    {
+        return [
+            // 七牛云
+            'token-cloud' => [//得到上传token
+                'class' => 'common\actions\QiniuArticleAction',
+                'type' => 'token'
+            ],
+            'upload-cloud' => [//上传
+                'class' => 'common\actions\QiniuArticleAction',
+                'type' => 'upload'
+            ],
+            'privacy' => [//是否公开
+                'class' => 'common\actions\QiniuArticleAction',
+                'type' => 'privacy'
+            ],
+
+            // 系统
+            'upload' => [
+                'class' => 'trntv\filekit\actions\UploadAction',
+                'deleteRoute' => 'upload-delete'
+            ],
+            'upload-delete' => [
+                'class' => 'trntv\filekit\actions\DeleteAction'
+            ],
+
+            // 文章活动内容编辑器，本地上传
+            'upload-imperavi' => [
+                'class' => 'trntv\filekit\actions\UploadAction',
+                'fileparam' => 'file',
+                'responseUrlParam'=> 'filelink',
+                'multiple' => false,
+                'disableCsrf' => true
+            ]
+        ];
+    }
     /**
      * Lists all Article models.
      * @return mixed

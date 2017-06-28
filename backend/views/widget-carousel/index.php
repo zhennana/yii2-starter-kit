@@ -13,9 +13,15 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="widget-carousel-index">
 
     <p>
-        <?php echo Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建', [
-                'modelClass' => 'Widget Carousel',
-            ]), ['create'], ['class' => 'btn btn-success']) ?>
+        <?php 
+        $string = '{update}';
+            if(Yii::$app->user->can('manager')){
+                echo Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建', [
+                        'modelClass' => 'Widget Carousel',
+                    ]), ['create'], ['class' => 'btn btn-success']);
+                $string = "{update}{delete}";
+            }
+        ?>
     </p>
 
     <?php echo GridView::widget([
@@ -40,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template'=>'{update} {delete}'
+                'template'=>$string
             ],
         ],
     ]); ?>
