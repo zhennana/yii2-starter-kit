@@ -33,7 +33,7 @@ if (\Yii::$app->user->can('P_director', ['route' => true]) ||
     \Yii::$app->user->can('E_manager') ||
     \Yii::$app->user->can('manager')
     ) {
-    $actionColumnTemplates[] = '{delete}';
+    //$actionColumnTemplates[] = '{delete}';
 }
 if (isset($actionColumnTemplates)) {
     $actionColumnTemplate = implode(' ', $actionColumnTemplates);
