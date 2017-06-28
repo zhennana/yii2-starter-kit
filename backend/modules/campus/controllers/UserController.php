@@ -3,7 +3,7 @@ namespace backend\modules\campus\controllers;
 
 use Yii;
 use common\models\User;
-use backend\models\search\UserSearch;
+use backend\modules\campus\models\search\UserSearch;
 use yii\helpers\ArrayHelper;
 use common\components\Controller;
 use yii\web\NotFoundHttpException;
@@ -61,7 +61,6 @@ class UserController extends \backend\controllers\UserController
     {
         $model = new UserForm();
         $e_roles = Yii::$app->authManager->getChildRoles('E_administrator');
-        $e_roles = [];
         ArrayHelper::multisort($e_roles,['updatedAt'],[SORT_ASC]);
         $e_roles =  ArrayHelper::map($e_roles,'name','description');
         $p_roles = Yii::$app->authManager->getChildRoles('P_administrator');
@@ -89,9 +88,16 @@ class UserController extends \backend\controllers\UserController
     {
         $model = new UserForm();
         $model->setModel($this->findModel($id));
-        $e_roles =  ArrayHelper::map(Yii::$app->authManager->getChildRoles('E_administrator'),'name','description');
-        $p_roles = ArrayHelper::map(Yii::$app->authManager->getChildRoles('P_administrator'),'name','description');
-        $roles = ArrayHelper::merge($p_roles,$e_roles);
+        $e_roles = [];
+        $e_roles = Yii::$app->authManager->getChildRoles('E_administrator');
+        ArrayHelper::multisort($e_roles,['updatedAt'],[SORT_ASC]);
+        $e_roles =  ArrayHelper::map($e_roles,'name','description');
+        $p_roles = Yii::$app->authManager->getChildRoles('P_administrator');
+        ArrayHelper::multisort($p_roles,['updatedAt'],[SORT_ASC]);
+        //var_dump('<pre>',$p_roles);exit;
+        $p_roles = ArrayHelper::map($p_roles,'name','description');
+
+        $roles = ArrayHelper::merge($e_roles,$p_roles);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
         }
