@@ -92,7 +92,7 @@ if(Yii::$app->session->hasFlash('alert')):?>
                                 
                             // ],
                             [
-                                'label' => Yii::t('frontend', '小学招生'),
+                                'label' => Yii::t('frontend', '小学部招生'),
                                 'url' => ['/article/index', 'category_id'=>'26']
                             
                             ],
@@ -102,21 +102,21 @@ if(Yii::$app->session->hasFlash('alert')):?>
                               
                             // ],
                             [
-                                'label' => Yii::t('frontend', '中学招生'),
+                                'label' => Yii::t('frontend', '中学部招生'),
                                 'url' => ['/article/index', 'category_id'=>'27']
                             ],
                             [
-                                'label' => Yii::t('frontend', '国际招生'),
+                                'label' => Yii::t('frontend', '国际部招生'),
                                 'url' => ['/article/index', 'category_id'=>'28']
                             ],
                             [
                                 'label' => Yii::t('frontend', '韩语班招生'),
                                 'url' => ['/article/index', 'category_id'=>'39']
                             ],
-                            // [
-                            //     'label' => Yii::t('frontend', '特长部招生'),
-                            //     'url' => ['/page/view', 'slug'=>'te-zhang-bu-zhao-sheng-jian-zhang']
-                            // ],
+                            [
+                                'label' => Yii::t('frontend', '特长部招生'),
+                                'url' => ['/article/index', 'category_id'=>'40']
+                            ],
                             
                         ]
                     ],

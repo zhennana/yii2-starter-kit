@@ -1,6 +1,6 @@
 a{
-	font-weight: bold;
-	font-family: Arial;
+	font-weight: normal;
+	font-family: '微软雅黑';
 }
 h6{
 	font-weight: 600;
@@ -18,6 +18,7 @@ h6{
 .top-tel-tel{width:190px; font-weight: bold; font-size: 21px; color: #723c8e; margin-top: -3%; font-style: italic;}
 .top-tel-tel span{font-size: 24px;  color: #723c8e;}
 .top-nov ul{margin-left: 23%; font-size: 16px;}
+/*导航条背景颜色*/
 .top-nov .navbar-default{
 	background-color: transparent; 
 	margin-bottom: 0; 
@@ -25,33 +26,41 @@ h6{
 	border-bottom: none;
 	background: #723c8e;
 }
-.top-nov .dropdown-menu{margin: 0 auto; min-width: 110px; background-color:rgba(144,60,142,0.7); border-top-color: #723c8e;}
+/*下拉背景颜色*/
+.top-nov .dropdown-menu{margin: 0 auto; min-width: 110px;font-size: 12px; background-color:rgba(47,47,47,0.7); border-top-color: #723c8e;}
+.top-nov .dropdown-menu li a{font-size: 14px;}
+.top-nov .dropdown-menu li{text-align: center;}
+/*下拉字体颜色*/
 .top-nov .dropdown-menu>li>a{padding: 3px 14px; color: #efefef;}
+/*鼠标经过下拉列表的颜色*/
 .top-nov .dropdown-menu>li>a:hover{background-color: #723c8e;}
-.top-nov .navbar-default .navbar-nav>.open>a{background-color: rgba(255,255,255,0.15); color: white;}
-.top-nov .dropdown-menu .active :hover{background-color: #723c8e;}
+/*鼠标经过有下拉框的按钮颜色*/
+.top-nov .navbar-default .navbar-nav>.open>a{background-color: rgba(47,47,47,0.15); color: white;}
 
-.top-nov .navbar-default .navbar-nav>li>a{color: white;}
+/*鼠标滑过下拉框处于活动状态的按钮颜色*/
+.top-nov .dropdown-menu .active :hover{background-color:rgba(47,47,47,0.1);}
+/*导航字体颜色*/
+.top-nov .navbar-default .navbar-nav>li>a{color: white;} 
 
-.top-nov .navbar-default .navbar-nav>li>a :hover{background-color:rgba(255,255,255,0.15);color: white;}
-
-.top-nov .navbar-default .navbar-nav .active>li>a{background: red;}
+/*.top-nov .navbar-default .navbar-nav>li>a :hover{background-color:red;color: white;}*/
+/*鼠标滑过处于活动状态的按钮颜色*/
 .navbar-default .navbar-nav > .active > a:hover{
-	background-color:rgba(255,255,255,0.15);
+	background-color:rgba(47,47,47,0.15);
 	color: white;
 }
 .navbar-default .navbar-nav>li>a:hover{
-	background-color:rgba(255,255,255,0.15);
+	background-color:rgba(47,47,47,0.15);
 	color: white;
 }
 /*.navbar-default .navbar-nav .active {
 	background: black;
 }*/
+/*处于活动状态的按钮颜色*/
 .navbar-default .navbar-nav > .active > a{
-	background-color: rgba(255,255,255,0.1);
+	background-color: rgba(47,47,47,0.3);
 }
-
-.top-nov .navbar-nav>li>a:hover{background-color:rgba(255,255,255,0.15);color: white; }
+/*鼠标滑过没有下拉菜单按钮的颜色*/
+.top-nov .navbar-nav>li>a:hover{background-color:rgba(47,47,47,0.15);color: white; }
 
 /*banner*/
 .ban-but-L{margin-left: 100%; padding-top: 80%;}
@@ -480,6 +489,9 @@ h6{
   	color: white;
   	margin-left: 5px;
   }
+  .geu-content .box-body p{
+  	line-height: 30px;
+  }
 .demo .teabor .teacherdetail{
 	margin-top: 20px;
 }
@@ -633,27 +645,7 @@ h6{
 .port-4.effect-1:hover img{
 	transform: rotateY(0deg) scale(0, 0);
 }
-/*.port-6{
-	float:left;
-	width: 100%;
-	position: relative;
-	overflow: hidden;
-	text-align: center;
-	border:4px solid rgba(255,255,255,0.9);
-	overflow: visible;
 
-}
-.port-6 .effect-1{
-	z-index:8;
-}
-.port-6 .effect-1 img{
-	transition:0.5s;
-}
-.port-6 .effect-1:hover img{
-	transform:scale(0.3) translateY(110%);
-}*/
-
-/* effect-6 css */
 /* effect-7 css */
 .port-7{float: left; width: 100%; position: relative; overflow: hidden; text-align: center; border: 4px solid rgba(255, 255, 255, 0.9); overflow: hidden;}
 .port-7 .text-desc{opacity: 0; transition: 0.5s; color: #000;}
@@ -711,6 +703,181 @@ h6{
 	overflow: hidden;
 }
 /* effect-4 css end */
+
+/*---------------*/
+/***** Layla *****/
+/*---------------*/
+
+figure.effect-layla {
+	background: #18a367;
+}
+
+figure.effect-layla img {
+	height: 390px;
+}
+
+figure.effect-layla figcaption {
+	padding: 3em;
+}
+
+figure.effect-layla figcaption::before,
+figure.effect-layla figcaption::after {
+	position: absolute;
+	content: '';
+	opacity: 0;
+}
+
+figure.effect-layla figcaption::before {
+	top: 50px;
+	right: 30px;
+	bottom: 50px;
+	left: 30px;
+	border-top: 1px solid #fff;
+	border-bottom: 1px solid #fff;
+	-webkit-transform: scale(0,1);
+	transform: scale(0,1);
+	-webkit-transform-origin: 0 0;
+	transform-origin: 0 0;
+}
+
+figure.effect-layla figcaption::after {
+	top: 30px;
+	right: 50px;
+	bottom: 30px;
+	left: 50px;
+	border-right: 1px solid #fff;
+	border-left: 1px solid #fff;
+	-webkit-transform: scale(1,0);
+	transform: scale(1,0);
+	-webkit-transform-origin: 100% 0;
+	transform-origin: 100% 0;
+}
+
+figure.effect-layla h2 {
+	padding-top: 26%;
+	-webkit-transition: -webkit-transform 0.35s;
+	transition: transform 0.35s;
+}
+
+figure.effect-layla p {
+	padding: 0.5em 2em;
+	text-transform: none;
+	opacity: 0;
+	-webkit-transform: translate3d(0,-10px,0);
+	transform: translate3d(0,-10px,0);
+}
+
+figure.effect-layla img,
+figure.effect-layla h2 {
+	-webkit-transform: translate3d(0,-30px,0);
+	transform: translate3d(0,-30px,0);
+}
+
+figure.effect-layla img,
+figure.effect-layla figcaption::before,
+figure.effect-layla figcaption::after,
+figure.effect-layla p {
+	-webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+	transition: opacity 0.35s, transform 0.35s;
+}
+
+figure.effect-layla:hover img {
+	opacity: 0.7;
+	-webkit-transform: translate3d(0,0,0);
+	transform: translate3d(0,0,0);
+}
+
+figure.effect-layla:hover figcaption::before,
+figure.effect-layla:hover figcaption::after {
+	opacity: 1;
+	-webkit-transform: scale(1);
+	transform: scale(1);
+}
+
+figure.effect-layla:hover h2,
+figure.effect-layla:hover p {
+	opacity: 1;
+	-webkit-transform: translate3d(0,0,0);
+	transform: translate3d(0,0,0);
+}
+
+figure.effect-layla:hover figcaption::after,
+figure.effect-layla:hover h2,
+figure.effect-layla:hover p,
+figure.effect-layla:hover img {
+	-webkit-transition-delay: 0.15s;
+	transition-delay: 0.15s;
+}
+
+/*校园风光*/
+.works .row{
+	
+	margin:30px 0px;
+}
+.work{
+	box-shadow: 0 0 0 1px #fff;
+	overflow: hidden;
+	position: relative;
+}
+.no-gutter [class*=col-]{
+	padding-left: 0;
+	padding-right: 0;
+}
+.work img{
+	width:100%;
+	height: 100%
+}
+.work .overlay{
+	background: rgba(74,74,74,0.9);
+	height: 100%;
+	width:100%;
+	left:0;
+	top:0;
+	opacity: 0;
+	position: absolute;
+	-moz-transition:opacity,0.3s;
+	-o-transition:opacity,0.3s;
+	-webkit-transition:opacity,0.3s;
+	transition: opacity,0.3s;
+
+}
+.work .overlay-caption{
+	position: absolute;
+	text-align: center;
+	top:50%;
+	width: 100%;
+	-moz-transform:translateY(-50%);
+	-o-transform:translateY(-50%);
+	-webkit-transform:translateY(-50%);
+	transform:translateY(-50%);
+}
+.work h5, .work p, .work img {
+	-moz-transition: all, 0.5s;
+	-o-transition: all, 0.5s;
+	-webkit-transition: all, 0.5s;
+	transition: all, 0.5s; 
+}
+.work h5, .work p {
+	color: #fff;
+	margin: 0;
+	opacity: 0; 
+}
+.work-box:hover img{
+  -moz-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  -webkit-transform: scale(1.2);
+transform: scale(1.2);
+}
+.work-box:hover .overlay{
+	opacity: 0.8;
+}
+.work-box:hover .overlay h5, .work-box:hover .overlay p {
+    opacity: 1;
+    -moz-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0); 
+}
 
 .col-padding {
   padding: 10px !important;
