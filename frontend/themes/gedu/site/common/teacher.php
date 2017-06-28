@@ -100,7 +100,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                       <div class="box-content">
                                         <ul class="icon">
                                           <?php 
-                                            $href= yii\helpers\Url::to(['site/teacher']);
+                                            $href= yii\helpers\Url::to(['site/teacher','category_id'=>'38']);
                                             $html='';
                                             $html.='<li><a href="'.$href.'">';
                                             $html.='<img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/teachsearch.png">';
@@ -110,7 +110,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                         </ul>
                                       </div>
                                     </div>
-                                    <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher']) ;?></p>
+                                    <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher','category_id'=>'38']) ;?></p>
                                     </div>
                                   </div> 
                                   <?php }}
@@ -130,7 +130,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                   <div class="box-content">
                                     <ul class="icon">
                                       <?php 
-                                        $href= yii\helpers\Url::to(['site/teacher']);
+                                        $href= yii\helpers\Url::to(['site/teacher','category_id'=>'38']);
                                         $html='';
                                         $html.='<li><a href="'.$href.'">';
                                         $html.='<img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/teachsearch.png">';
@@ -140,7 +140,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                     </ul>
                                   </div>
                                 </div>
-                                <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher']) ;?></p>
+                                <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher','category_id'=>'38']) ;?></p>
                                 </div>
                               </div> 
                               <?php }}
@@ -159,7 +159,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                   <div class="box-content">
                                     <ul class="icon">
                                       <?php 
-                                        $href= yii\helpers\Url::to(['site/teacher']);
+                                        $href= yii\helpers\Url::to(['site/teacher','category_id'=>'38']);
                                         $html='';
                                         $html.='<li><a href="'.$href.'">';
                                         $html.='<img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/teachsearch.png">';
@@ -169,7 +169,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                     </ul>
                                   </div>
                                 </div>
-                                <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher']) ;?></p>
+                                <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher','category_id'=>'38']) ;?></p>
                                 </div>
                               </div> 
                               <?php }}
@@ -215,7 +215,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                       <div class="box-content">
                                         <ul class="icon">
                                           <?php 
-                                            $href= yii\helpers\Url::to(['site/teacher']);
+                                            $href= yii\helpers\Url::to(['site/teacher','category_id'=>'38']);
                                             $html='';
                                             $html.='<li><a href="'.$href.'">';
                                             $html.='<img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/teachsearch.png">';
@@ -225,7 +225,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                         </ul>
                                       </div>
                                     </div>
-                                    <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher']) ;?></p>
+                                    <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher','category_id'=>'38']) ;?></p>
                                     </div>
                                   </div> 
                                   <?php }}
@@ -245,7 +245,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                   <div class="box-content">
                                     <ul class="icon">
                                       <?php 
-                                        $href= yii\helpers\Url::to(['site/teacher']);
+                                        $href= yii\helpers\Url::to(['site/teacher','category_id'=>'38']);
                                         $html='';
                                         $html.='<li><a href="'.$href.'">';
                                         $html.='<img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/teachsearch.png">';
@@ -255,7 +255,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                     </ul>
                                   </div>
                                 </div>
-                               <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher']) ;?></p>
+                               <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher','category_id'=>'38']) ;?></p>
                                     </div>
                               </div> 
                               <?php }}
@@ -274,7 +274,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                   <div class="box-content">
                                     <ul class="icon">
                                       <?php 
-                                        $href= yii\helpers\Url::to(['site/teacher']);
+                                        $href= yii\helpers\Url::to(['site/teacher','category_id'=>'38']);
                                         $html='';
                                         $html.='<li><a href="'.$href.'">';
                                         $html.='<img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/teachsearch.png">';
@@ -284,7 +284,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                     </ul>
                                   </div>
                                 </div>
-                               <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher']) ;?></p>
+                               <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher','category_id'=>'38']) ;?></p>
                                 </div>
                               </div> 
                               <?php }}
@@ -330,7 +330,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                       <div class="box-content">
                                         <ul class="icon">
                                           <?php 
-                                            $href= yii\helpers\Url::to(['site/teacher']);
+                                            $href= yii\helpers\Url::to(['site/teacher','category_id'=>'38']);
                                             $html='';
                                             $html.='<li><a href="'.$href.'">';
                                             $html.='<img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/teachsearch.png">';
@@ -340,7 +340,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                         </ul>
                                       </div>
                                     </div>
-                                    <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher']) ;?></p>
+                                    <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher','category_id'=>'38']) ;?></p>
                                     </div>
                                   </div> 
                                   <?php }}
@@ -360,7 +360,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                   <div class="box-content">
                                     <ul class="icon">
                                       <?php 
-                                        $href= yii\helpers\Url::to(['site/teacher']);
+                                        $href= yii\helpers\Url::to(['site/teacher','category_id'=>'38']);
                                         $html='';
                                         $html.='<li><a href="'.$href.'">';
                                         $html.='<img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/teachsearch.png">';
@@ -370,7 +370,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                     </ul>
                                   </div>
                                 </div>
-                                <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher']) ;?></p>
+                                <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher','category_id'=>'38']) ;?></p>
                                     </div>
                               </div> 
                               <?php }}
@@ -389,7 +389,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                   <div class="box-content">
                                     <ul class="icon">
                                       <?php 
-                                        $href= yii\helpers\Url::to(['site/teacher']);
+                                        $href= yii\helpers\Url::to(['site/teacher','category_id'=>'38']);
                                         $html='';
                                         $html.='<li><a href="'.$href.'">';
                                         $html.='<img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/teachsearch.png">';
@@ -399,7 +399,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                     </ul>
                                   </div>
                                 </div>
-                                <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher']) ;?></p>
+                                <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher','category_id'=>'38']) ;?></p>
                                     </div>
                               </div> 
                               <?php }}
@@ -445,7 +445,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                       <div class="box-content">
                                         <ul class="icon">
                                           <?php 
-                                            $href= yii\helpers\Url::to(['site/teacher']);
+                                            $href= yii\helpers\Url::to(['site/teacher','category_id'=>'38']);
                                             $html='';
                                             $html.='<li><a href="'.$href.'">';
                                             $html.='<img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/teachsearch.png">';
@@ -455,7 +455,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                         </ul>
                                       </div>
                                     </div>
-                                    <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher']) ;?></p>
+                                    <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher','category_id'=>'38']) ;?></p>
                                     </div>
                                   </div> 
                                   <?php }}
@@ -475,7 +475,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                   <div class="box-content">
                                     <ul class="icon">
                                       <?php 
-                                        $href= yii\helpers\Url::to(['site/teacher']);
+                                        $href= yii\helpers\Url::to(['site/teacher','category_id'=>'38']);
                                         $html='';
                                         $html.='<li><a href="'.$href.'">';
                                         $html.='<img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/teachsearch.png">';
@@ -485,7 +485,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                     </ul>
                                   </div>
                                 </div>
-                                <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher']) ;?></p>
+                                <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher','category_id'=>'38']) ;?></p>
                                     </div>
                               </div> 
                               <?php }}
@@ -504,7 +504,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                   <div class="box-content">
                                     <ul class="icon">
                                       <?php 
-                                        $href= yii\helpers\Url::to(['site/teacher']);
+                                        $href= yii\helpers\Url::to(['site/teacher','category_id'=>'38']);
                                         $html='';
                                         $html.='<li><a href="'.$href.'">';
                                         $html.='<img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/teachsearch.png">';
@@ -514,7 +514,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                     </ul>
                                   </div>
                                 </div>
-                                <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher']) ;?></p>
+                                <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher','category_id'=>'38']) ;?></p>
                                     </div>
                               </div> 
                               <?php }}
@@ -559,7 +559,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                       <div class="box-content">
                                         <ul class="icon">
                                           <?php 
-                                            $href= yii\helpers\Url::to(['site/teacher']);
+                                            $href= yii\helpers\Url::to(['site/teacher','category_id'=>'38']);
                                             $html='';
                                             $html.='<li><a href="'.$href.'">';
                                             $html.='<img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/teachsearch.png">';
@@ -569,7 +569,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                         </ul>
                                       </div>
                                     </div>
-                                    <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher']) ;?></p>
+                                    <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher','category_id'=>'38']) ;?></p>
                                     </div>
                                   </div> 
                                   <?php }}
@@ -589,7 +589,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                   <div class="box-content">
                                     <ul class="icon">
                                       <?php 
-                                        $href= yii\helpers\Url::to(['site/teacher']);
+                                        $href= yii\helpers\Url::to(['site/teacher','category_id'=>'38']);
                                         $html='';
                                         $html.='<li><a href="'.$href.'">';
                                         $html.='<img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/teachsearch.png">';
@@ -599,7 +599,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                     </ul>
                                   </div>
                                 </div>
-                                <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher']) ;?></p>
+                                <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher','category_id'=>'38']) ;?></p>
                                     </div>
                               </div> 
                               <?php }}
@@ -618,7 +618,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                   <div class="box-content">
                                     <ul class="icon">
                                       <?php 
-                                        $href= yii\helpers\Url::to(['site/teacher']);
+                                        $href= yii\helpers\Url::to(['site/teacher','category_id'=>'38']);
                                         $html='';
                                         $html.='<li><a href="'.$href.'">';
                                         $html.='<img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/teachsearch.png">';
@@ -628,7 +628,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                     </ul>
                                   </div>
                                 </div>
-                                <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher']) ;?></p>
+                                <div class="main-2-teacher-inner-p"><p><?php echo Html::a($value['name'],['site/teacher','category_id'=>'38']) ;?></p>
                                     </div>
                               </div> 
                               <?php }}
