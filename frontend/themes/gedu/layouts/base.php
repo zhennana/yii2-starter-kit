@@ -21,7 +21,7 @@ if(Yii::$app->session->hasFlash('alert')):?>
 <?php echo $this->render('@frontend/themes/gedu/layouts/common/_alert'); ?>
 <div class="wrap">
      <div class="top">
-        <div class="top-logo"><img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/top-logo.png"></div>
+        <div class="top-logo"><img width="210px" height="70px" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/top-logo.png"></div>
         <div class="top-tel">
             <div class="top-tel-logo"><img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/top-tel-logo.png"></div>
             <div class="top-tel-text"><span style="font-weight: bold;">服务热线</span></div>
@@ -53,11 +53,11 @@ if(Yii::$app->session->hasFlash('alert')):?>
                             ],
                             [
                                 'label' => Yii::t('frontend', '校园风光'),
-                                'url' => ['/site/sights'],
+                                'url' => ['/site/sights', 'category_id'=>'37'],
                             ],
                             [
                                 'label' => Yii::t('frontend', '教师风采'),
-                                'url' => ['/site/teacher'],
+                                'url' => ['/site/teacher','category_id'=>'38'],
                             ]
                             
                         ]
@@ -121,7 +121,7 @@ if(Yii::$app->session->hasFlash('alert')):?>
                         ]
                     ],
                     // ['label' => Yii::t('frontend', '产品展示'), 'url' => ['/page/view', 'slug'=>'ke-cheng-ti-xi']],
-                    ['label' => Yii::t('frontend', '招贤纳士'), 'url' => ['/page/view', 'slug'=>'guang-da-xue-xiao-zhao-pin']],
+                    ['label' => Yii::t('frontend', '招贤纳士'), 'url' => ['/article/index', 'category_id'=>'33']],
                     ['label' => Yii::t('frontend', '在线报名'), 'url' => ['/site/apply-to-play']],
                     ['label' => Yii::t('frontend', '联系我们'), 'url' => ['/site/contact']],
                 ]
@@ -150,6 +150,23 @@ if(Yii::$app->session->hasFlash('alert')):?>
                 <span><a href="#">光大学校</a></span>
             </div>
         </div>
+
+
+  <!--       <div style="height: 150px;background: #76147c; padding: 28px 20px;">
+            <div style="border:solid 1px;margin: 0 auto;width:1141px;height: 100px">
+                <div class="col-md-6">
+                    <div class="">
+                                <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/footer-2-add.png">
+                            </div> 
+                </div>
+                <div class="col-md-6">
+                    
+                </div>
+
+            </div>
+        </div> -->
+
+
         <div class="footer-2">
             <div class="container">
                 <div class="row">
@@ -165,17 +182,7 @@ if(Yii::$app->session->hasFlash('alert')):?>
                             </div> 
                         </div>
                     </div>
-                    <div class="col-md-4 col-md-4 col-sm-4 col-xs-4">
-                       <!--  <div class="footer-2-box2">
-                            <div class="footer-2-icon">
-                                <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/footer-2-fax.png">
-                            </div>                        
-                            <div class="footer-2-text">
-                                <h3>Fax</h3>
-                                <p>0316-8888888</p>
-                            </div>
-                        </div>  -->
-                    </div>
+                   
                     <div class="col-md-4 col-md-4 col-sm-4 col-xs-4">
                         <div class="footer-2-box3">
                             <div class="footer-2-icon">
@@ -187,10 +194,21 @@ if(Yii::$app->session->hasFlash('alert')):?>
                             </div>
                         </div> 
                     </div>
+                    <div class="col-md-4 col-md-4 col-sm-4 col-xs-4">
+                        <div class="footer-2-box3">
+                            <div class="footer-2-icon">
+                                <img width="50px" height="42px" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/weixin.png">
+                            </div>                        
+                            <div class="footer-2-text">
+                                <img width="100px" height="100px" class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/WechatIMG1.jpeg">
+                           
+                            </div>
+                        </div> 
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="footer-3">
+        <!-- <div class="footer-3">
             <div class="container">
                 <div class="row">
                     
@@ -202,14 +220,14 @@ if(Yii::$app->session->hasFlash('alert')):?>
                     </div>
                     
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                       <!--  <div class="footer-3-box2">
+                        <div class="footer-3-box2">
                             <img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/footer-ma.png">
                             <p>服务号</p>
-                        </div> -->
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <div class="footer-4">
             <div class="container">
                 <div class="row">

@@ -65,7 +65,8 @@ public function actionIndex()
 
     $searchModel  = new GradeSearch;
     $dataProvider = $searchModel->search($_GET);
-    $schools = ArrayHelper::map($this->schoolCurrent,'school_id','school_title');
+    $schools[] = $this->schoolCurrent;
+    $schools = ArrayHelper::map($schools,'school_id','school_title');
     $dataProvider->query->andwhere([
         'school_id'=>$this->schoolIdCurrent
     ]);
@@ -73,7 +74,7 @@ public function actionIndex()
        'defaultOrder'=>[
             'updated_at'=>SORT_DESC,
        ]
-    ];;
+    ];
 Tabs::clearLocalStorage();
 
 Url::remember();

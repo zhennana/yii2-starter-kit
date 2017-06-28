@@ -3,6 +3,7 @@
 use common\grid\EnumColumn;
 use common\models\User;
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
@@ -21,6 +22,23 @@ $this->params['breadcrumbs'][] = $this->title;
     'modelClass' => 'User',
 ]), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+    <br/>
+    <p>
+    <?php
+        $e_roles = Yii::$app->authManager->getChildRoles('E_administrator');
+        $p_roles = Yii::$app->authManager->getChildRoles('P_administrator');
+        $role = ArrayHelper::merge($e_roles,$p_roles);
+        $auth = ArrayHelper::map($role, 'name', 'description');
+        foreach ($auth as $key => $value) {
+            echo ' '.Html::a(
+                Yii::t('backend', $value, ['modelClass' => 'User']), 
+                ['index','UserSearch[item_name]'=>$key], 
+                ['class' => 'btn btn-info']
+            );
+
+        }
+    ?>
+    </p>
 
     <?php echo GridView::widget([
         'dataProvider' => $dataProvider,
@@ -31,6 +49,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             'id',
             'username',
+            'realname',
             'email:email',
             'phone_number',
             [
@@ -43,7 +62,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'logged_at:datetime',
             // 'updated_at',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+            'class' => 'yii\grid\ActionColumn',
+             'template' => "{update}{view}",
+            ],
         ],
     ]); ?>
 

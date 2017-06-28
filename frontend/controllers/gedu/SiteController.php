@@ -9,6 +9,7 @@ use common\models\Page;
 use common\models\ArticleAttachment;
 use frontend\models\search\ArticleSearch;
 use frontend\models\Contact;
+use common\models\ArticleCategory;
 use frontend\models\ContactForm;
 /*
 use Superman2014\Aliyun\Sms\Sms\Request\V20160927 as Sms;
@@ -70,8 +71,31 @@ class SiteController extends Controller
     /**
     *教师风采
     */
-    public function actionTeacher(){
-        $data['teacher']['all']=Page::find()->where(['slug'=>'jiao-shi-jian-jie'])->asArray()->one();
+    public function actionTeacher($category_id=""){
+       $category=[];
+        if($category_id){
+            $category['childs']=ArticleCategory::find()->where(['parent_id'=>$category_id])->asArray()->all();
+
+            $category['cateIds']=ArrayHelper::getColumn($category['childs'],'id');
+            $category['self']=ArticleCategory::find()->where(['id'=>$category_id])->asArray()->one();
+
+            $category['parent']=ArticleCategory::find()->where(['id'=>$category['self']['parent_id']])->asArray()->one();
+            if(empty($category['parent'])){
+                $category['pare_name']=$category['self']['title'];
+                $category['pare_id']=$category['self']['id'];
+            }else{
+                $category['pare_name']=$category['parent']['title'];
+                $category['pare_id']=$category['parent']['id'];
+            }
+
+            if(empty($category['self']['parent_id'])){
+                $category['child']=ArticleCategory::find()->where(['parent_id'=>$category['self']['parent_id']])->asArray()->all();
+            }else{
+                $category['child']=ArticleCategory::find()->where(['parent_id'=>$category['self']['parent_id']])->asArray()->all();
+            }
+            
+        }  
+       /* $data['teacher']['all']=Page::find()->where(['slug'=>'jiao-shi-jian-jie'])->asArray()->one();
         //小学老师
         $data['teacher']['primary']=Page::find()->where(['slug'=>'xiao-xue-lao-shi'])->asArray()->one();
         //中学老师
@@ -79,15 +103,43 @@ class SiteController extends Controller
         //国际部老师
         $data['teacher']['internation']=Page::find()->where(['slug'=>'guo-ji-lao-shi'])->asArray()->one();
         //特长部老师
-        $data['teacher']['speciality']=Page::find()->where(['slug'=>'te-zhang-lao-shi'])->asArray()->one();
+        $data['teacher']['speciality']=Page::find()->where(['slug'=>'te-zhang-lao-shi'])->asArray()->one();*/
 
-        return $this->render("teacher",['data'=>$data]);
+        return $this->render("teacher",['category'=>$category]);
     }
      /**
     *校园风光
     */
-    public function actionSights(){
-        return $this->render("sights");
+    public function actionSights($category_id=""){
+        
+        $category=[];
+        if($category_id){
+            $category['childs']=ArticleCategory::find()->where(['parent_id'=>$category_id])->asArray()->all();
+
+            $category['cateIds']=ArrayHelper::getColumn($category['childs'],'id');
+            $category['self']=ArticleCategory::find()->where(['id'=>$category_id])->asArray()->one();
+
+            $category['parent']=ArticleCategory::find()->where(['id'=>$category['self']['parent_id']])->asArray()->one();
+            if(empty($category['parent'])){
+                $category['pare_name']=$category['self']['title'];
+                $category['pare_id']=$category['self']['id'];
+            }else{
+                $category['pare_name']=$category['parent']['title'];
+                $category['pare_id']=$category['parent']['id'];
+            }
+
+            if(empty($category['self']['parent_id'])){
+                $category['child']=ArticleCategory::find()->where(['parent_id'=>$category['self']['parent_id']])->asArray()->all();
+            }else{
+                $category['child']=ArticleCategory::find()->where(['parent_id'=>$category['self']['parent_id']])->asArray()->all();
+            }
+            
+        }   
+
+
+        // $category=Yii::$app->request->queryParams;
+        
+        return $this->render("sights",['category'=>$category]);
     }
     public function actionContact()
     {
