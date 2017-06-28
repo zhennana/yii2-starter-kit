@@ -146,7 +146,6 @@ if (\Yii::$app->user->can('manager', ['route' => true])) {
                         'value'    =>function($model){
                             if(isset($model->fileStorageItem->type)){
                                  return $model->fileStorageItem->type;
-                                
                             }
                             return '';
                         }
@@ -158,7 +157,7 @@ if (\Yii::$app->user->can('manager', ['route' => true])) {
                         'value'    =>function($model){
                             if(isset($model->fileStorageItem->page_view)){
                                  return $model->fileStorageItem->page_view;
-                                
+
                             }
                             return '';
                         }

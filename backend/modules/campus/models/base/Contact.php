@@ -28,6 +28,9 @@ abstract class Contact extends \yii\db\ActiveRecord
     public $verifyCode; 
     CONST CONTACT_STATUS_NOT_AUDIT = 1; //未查看
     CONST CONTACT_STATUS_APPROVED  = 2; //已查看
+
+    CONST SCENARIO_FEEDBACK  = 'feedback'; // 用户反馈场景
+    CONST SCENARIO_CONTACTUS = 'contactus'; // 联系我们场景
     /**
      * @inheritdoc
      */
@@ -70,8 +73,10 @@ abstract class Contact extends \yii\db\ActiveRecord
     {
         return [
             [['username','phone_number', 'body'], 'required'],
-            [['auditor_id', 'status'], 'integer'],
-            [['username'], 'string', 'max' => 32],
+            [['auditor_id', 'status', 'school_id', 'user_id'], 'integer'],
+            ['username', 'string', 'max' => 32],
+            ['phone_number','string', 'max' => 11],
+            ['school_id','required' ,'on' => self::SCENARIO_FEEDBACK],
             ['status','default','value'=>Contact::CONTACT_STATUS_NOT_AUDIT],
             ['verifyCode','required','on'=>'AjaxContact'],
             ['verifyCode','captcha','captchaAction'=>'/site/contact_captcha' ,'on'=>'AjaxContact'],
@@ -81,11 +86,14 @@ abstract class Contact extends \yii\db\ActiveRecord
         ];
     }
     public static function getDb(){
-         return \Yii::$app->modules['campus']->get('campus');
+         return \Yii::$app->get('campus');
     }
     public  function scenarios(){
         $scenarios = parent::scenarios();
-        //$scenarios['AjaxApply'] = ['verifyCode'];
+        $scenarios[self::SCENARIO_FEEDBACK] = [
+            'school_id','user_id','username','phone_number','body','status'
+        ];
+        // $scenarios[self::SCENARIO_CONTACTUS] = [];
         return $scenarios;
     }
     /**

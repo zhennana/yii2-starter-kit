@@ -11,8 +11,8 @@ use \backend\modules\campus\models\ShareToFile;
 */
 class ShareToFileController extends \backend\modules\campus\controllers\base\ShareToFileController
 {
-
-    public function actionDelete($share_to_file_id){
+    /*
+    public function actionDelete1($share_to_file_id){
        // var_dump($share_to_file_id);exit;
        if(\Yii::$app->request->isAjax){
             $model = $this->findModel($share_to_file_id);
@@ -37,12 +37,11 @@ class ShareToFileController extends \backend\modules\campus\controllers\base\Sha
                         \Yii::$app->getSession()->addFlash('info', '成功删除一张照片');
                         return ['status'=>'删除成功'];
                     }
-                    
                 }
             }
             return ['error'=>'数据异常'];
         }else{
             return false;
         }
-    }
+    }*/
 }

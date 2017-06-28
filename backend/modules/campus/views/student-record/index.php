@@ -113,7 +113,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute'=>'user_id',
                 'value'=>function($model){
-                        return isset($model->user->username) ? $model->user->username : '';
+                        return Yii::$app->user->identity->getUserName($model->user_id);
                 }
             ],
             [

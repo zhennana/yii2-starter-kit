@@ -90,13 +90,13 @@ $this->params['breadcrumbs'][] = Yii::t('cruds', '查看');
             [
                 'attribute' =>'user_id',
                 'value'     => function($model){
-                    return isset($model->user->username) ? $model->user->username : '未知';
+                    return Yii::$app->user->identity->getUserName($model->user_id);
                 }
             ],
             [
                 'attribute' =>'introducer_id',
                 'value'     => function($model){
-                    return isset($model->introducer->username) ? $model->introducer->username : '未知';
+                    return Yii::$app->user->identity->getUserName($model->introducer_id);
                 }
             ],
             [

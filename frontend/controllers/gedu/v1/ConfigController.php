@@ -13,7 +13,7 @@ use frontend\modules\api\v1\resources\Article;
 use frontend\models\edu\resources\Course;
 use frontend\models\edu\resources\UsersToUsers;
 use frontend\models\edu\resources\Courseware;
-use frontend\models\edu\resources\Feedback;
+use frontend\models\edu\resources\Contact;
 
 class ConfigController extends \common\rest\Controller
 {
@@ -440,34 +440,25 @@ class ConfigController extends \common\rest\Controller
     }
 
     /**
-     * @SWG\POST(path="/config/feedback",
+     * @SWG\Post(path="/config/feedback",
      *     tags={"800-Config-配置信息接口"},
      *     summary="反馈意见",
-     *     description="errorno= 0 反馈意见成功",
+     *     description="error= 0 反馈意见成功",
      *     produces={"application/json"},
      *     @SWG\Parameter(
      *        in = "formData",
      *        name = "school_id",
      *        description = "学校ID",
-     *        required = false,
+     *        required = true,
      *        type = "integer"
      *     ),
      *     @SWG\Parameter(
      *        in = "formData",
-     *        name = "content",
-     *        description = "反馈内容",
-     *        required = false,
+     *        name = "body",
+     *        description = "反馈内容,max=255",
+     *        required = true,
      *        default = "",
      *        type = "string"
-     *     ),
-     *    @SWG\Parameter(
-     *        in = "formData",
-     *        name = "client_source_type",
-     *        description = "类型反馈，10:pc;20:安卓; 30: IOS",
-     *        required = false,
-     *        default = 10,
-     *        type = "integer",
-     *        enum = {10,20,30},
      *     ),
      *     @SWG\Response(
      *         response = 200,
@@ -484,9 +475,26 @@ class ConfigController extends \common\rest\Controller
             return [];
         }
 
-        $feedback = new Feedback;
+        if (isset($_POST['body']) && !empty($_POST['body']) && isset($_POST['school_id']) && !empty($_POST['school_id'])) {
+            $count = Contact::find()->where([
+                'school_id' => $_POST['school_id'],
+                'user_id'   => Yii::$app->user->identity->id,
+                'body'      => $_POST['body'],
+                // 'status'   => Contact::CONTACT_STATUS_APPROVED
+            ])->count();
+            if ($count > 0) {
+                $this->serializer['message'] = '该问题已经被记录过了';
+                return [];
+            }
+        }
+
+        $feedback = new Contact();
+        $feedback->setScenario(Contact::SCENARIO_FEEDBACK);
+        $_POST['user_id']      = Yii::$app->user->identity->id;
+        $_POST['username']     = Yii::$app->user->identity->username;
+        $_POST['phone_number'] = Yii::$app->user->identity->phone_number;
+        // var_dump($feedback->load($_POST,''));exit;
         $feedback->load($_POST,'');
-        $feedback->feedback_rater_id = Yii::$app->user->identity->id;
         if(!$feedback->save()){
             $this->serializer['errno']   = __LINE__;
             $this->serializer['message'] = $feedback->getErrors();

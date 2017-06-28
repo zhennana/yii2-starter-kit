@@ -93,9 +93,15 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
                 }
             ],
             [
+                'attribute' => 'teacher_id',
+                'value'     => function($model){
+                    return Yii::$app->user->identity->getUserName($model->teacher_id);
+                }
+            ],
+            [
                 'attribute' => 'creater_id',
                 'value' => function($model){
-                    return isset($model->user->username) ? $model->user->username : '';
+                    return Yii::$app->user->identity->getUserName($model->creater_id);
                 }
             ],
             'start_time:datetime',
