@@ -74,7 +74,7 @@ public function actionIndex()
        'defaultOrder'=>[
             'updated_at'=>SORT_DESC,
        ]
-    ];;
+    ];
 Tabs::clearLocalStorage();
 
 Url::remember();
