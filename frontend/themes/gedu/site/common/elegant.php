@@ -10,7 +10,7 @@ use yii\helpers\Html;
                 <div class="text-desc">
                     <h3>教学楼外观</h3>
                     <p>学校占地30余亩，建筑面积10000平方米。</p>
-                    <?php echo Html::a('了解更多',['site/sights'],['class'=>'btn'])?>
+                    <?php echo Html::a('了解更多',['site/sights','category_id'=>37],['class'=>'btn'])?>
                 </div>
                 <!-- <div class="cap1">
                     <span> </span>
@@ -27,7 +27,7 @@ use yii\helpers\Html;
                 <div class="text-desc">
                     <h3>校园一角</h3>
                     <p>光大学校小学部教学体系分三个层次，基础课程、校本课程、兴趣课程。</p>
-                    <?php echo Html::a('了解更多',['site/sights'],['class'=>'btn'])?>
+                    <?php echo Html::a('了解更多',['site/sights','category_id'=>37],['class'=>'btn'])?>
                 </div>
                 <!-- <div class="cap">
                     <span> </span>
@@ -40,7 +40,7 @@ use yii\helpers\Html;
                 <div class="text-desc">
                     <h3>教室讲台</h3>
                     <p>光大学校小学部教学体系分三个层次，基础课程、校本课程、兴趣课程。</p>
-                    <?php echo Html::a('了解更多',['site/sights'],['class'=>'btn'])?>
+                    <?php echo Html::a('了解更多',['site/sights','category_id'=>37],['class'=>'btn'])?>
                 </div>
                 <!-- <div class="cap5">
                     <span> </span>
@@ -64,7 +64,7 @@ use yii\helpers\Html;
             <div class="text-desc">
                 <h3>招生咨询处</h3>
                 <p>光大学校小学部教学体系分三个层次，基础课程、校本课程、兴趣课程。</p>
-                 <?php echo Html::a('了解更多',['site/sights'],['class'=>'btn'])?>
+                 <?php echo Html::a('了解更多',['site/sights','category_id'=>37],['class'=>'btn'])?>
             </div>
             <!-- <div class="cap3">
                 <span> </span>
@@ -92,7 +92,7 @@ use yii\helpers\Html;
                 <div class="text-desc">
                     <h3>学校操场</h3>
                     <p>光大学校小学部教学体系分三个层次，基础课程、校本课程、兴趣课程。</p>
-                    <?php echo Html::a('了解更多',['site/sights'],['class'=>'btn'])?>
+                    <?php echo Html::a('了解更多',['site/sights','category_id'=>37],['class'=>'btn'])?>
                 </div>
                 <!-- <div class="cap4">
                     <span> </span>
