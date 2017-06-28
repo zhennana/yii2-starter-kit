@@ -48,7 +48,7 @@ class ShareStream extends BaseShareStream
                       return $data;
                     },
                     'user_label'=>function($model){
-                        return $this->getUserName($this->author_id);
+                        return Yii::$app->user->identity->getUserName($model->author_id);
                     },
                     // 'created_at'=>function(){
                     //     return date('Y-m-d h:i:s',$this->created_at);
