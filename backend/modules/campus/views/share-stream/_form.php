@@ -22,6 +22,7 @@ $school = ArrayHelper::map($school,'school_id','school_title');
  $ShareToFileSearch  = new ShareToFileSearch;
  $ShareToFile =   $ShareToFileSearch->search($_GET);
  $ShareToFile->query->andwhere(['share_stream_id'=>$model->share_stream_id]);
+\Yii::$app->session['__crudReturnUrl'] = ['/campus/share-stream/update','share_stream_id'=>$model->share_stream_id];
 ?>
 
 
@@ -214,7 +215,7 @@ $school = ArrayHelper::map($school,'school_id','school_title');
         'status',
         'updated_at:datetime',
         'created_at:datetime',
-        [
+      /*  [
                     'class'=>'yii\grid\ActionColumn',
                     'header'=>'操作审核',
                     'template'=>'{button}',
@@ -227,7 +228,7 @@ $school = ArrayHelper::map($school,'school_id','school_title');
                                     ]);
                         }
                     ]
-        ]
+        ]*/
 ]
 ])
  . '</div>' 
@@ -248,26 +249,27 @@ $school = ArrayHelper::map($school,'school_id','school_title');
                 }
             })
         }
-
+/*
 
    $(document).on("click",".audit",function(){
         share_to_file_id = $(this).attr("share_to_file_id");
         var data = {"share_to_file_id":share_to_file_id};
         $.ajax({
-            url:"<?php echo Url::to(['share-to-file/delete']) ?>",
+            url:"<?php //echo Url::to(['share-to-file/delete']) ?>",
             type : "GET",
             data :data,
             success:function(result){
                 if(result.status){
-                    alert(result.status);
-                //    window.location.reload()
+                   alert(result.status);
+                    window.location.reload();
                 }
                 if(result.error){
                     alert(result.error);
+                    window.location.reload();
                 }
 
             }
         })
-    });
+    });*/
 
     </script>

@@ -1,4 +1,12 @@
-
+a{
+	font-weight: bold;
+}
+h6{
+	font-weight: 600;
+}
+.geu-sidebar2 span{
+	font-weight: 600;
+}
 .clear{clear: both;}
 .top .top-logo{float: left; padding-left: 18%; padding-top: 1%; padding-bottom: 1%;}
 .top-logo-sma{padding: 5px 15px;}
@@ -144,7 +152,7 @@
 }
 .geu-sidebar2{
 	background: #f1f1f1;
-	height: 350px;	
+	height: auto;	
 }
 .geu-sidebar a{
 	color: #4f4f4f;

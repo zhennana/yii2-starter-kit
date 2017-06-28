@@ -101,9 +101,9 @@ abstract class Grade extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['school_id', 'grade_title','group_category_id'], 'required'],
+            [['school_id','group_category_id'], 'required'],
             ['creater_id','default','value'=>Yii::$app->user->identity->id],
-            [['school_id', 'grade_title', 'owner_id', 'creater_id', 'sort', 'status', 'graduate', 'time_of_graduation', 'time_of_enrollment','group_category_id'], 'integer'],
+            [['school_id', 'owner_id', 'creater_id', 'sort', 'status', 'graduate', 'time_of_graduation', 'time_of_enrollment','group_category_id'], 'integer'],
             [['grade_name'], 'string', 'max' => 32]
         ];
     }

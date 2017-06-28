@@ -58,12 +58,12 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
             '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'),
             ['create'],
             ['class' => 'btn btn-success']) ?>
-            <?= Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('backend', '删除'), ['delete', 'grade_category_id' => $model->grade_category_id],
+        <!--     <?/* Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('backend', '删除'), ['delete', 'grade_category_id' => $model->grade_category_id],
                 [
                 'class' => 'btn btn-danger',
                 'data-confirm' => '' . Yii::t('backend', '确定要删除该项目吗？') . '',
                 'data-method' => 'post',
-                ]); ?>
+                ]); */?> -->
         </div>
     <?php }?>
         <div class="pull-right">
@@ -84,7 +84,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
         'parent_id',
         [
             'attribute' => 'creater_id',
-            'value'     => GradeCategory::getUserName($model->creater_id),
+            'value'     => Yii::$app->user->identity->getUserName($model->creater_id),
         ],
         [
             'attribute' => 'status',

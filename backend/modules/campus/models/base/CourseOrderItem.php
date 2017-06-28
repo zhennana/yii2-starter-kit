@@ -131,7 +131,9 @@ abstract class CourseOrderItem extends \yii\db\ActiveRecord
     {
         return [
             [['parent_id', 'school_id', 'grade_id', 'user_id', 'introducer_id', 'payment', 'presented_course', 'status', 'payment_status', 'total_course'], 'integer'],
-            [['user_id', 'payment', 'payment_status', 'total_price','total_course'], 'required'],
+            [['user_id', 'total_price','total_course'], 'required'],
+            ['payment_status','default','value'=>300],
+            ['payment','default','value'=>200],
             ['real_price','default','value'=>function(){
                 $this->real_price = ($this->total_price-$this->coupon_price);
                 return $this->real_price;

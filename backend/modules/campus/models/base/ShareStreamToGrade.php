@@ -25,6 +25,16 @@ use yii\helpers\ArrayHelper;
 abstract class ShareStreamToGrade extends \yii\db\ActiveRecord
 {
 
+    CONST SHARESTREAM_STATUS_OPEN = 10; //正常;
+    CONST SHARESTREAM_STATUS_CLOSE = 20 ; //关闭;
+
+    public static function optsStatus(){
+        return [
+            self::SHARESTREAM_STATUS_OPEN=>'正常',
+            self::SHARESTREAM_STATUS_CLOSE=>'关闭',
+        ];
+    }
+
 
     public $school_ids = [];
     /**

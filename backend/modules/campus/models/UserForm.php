@@ -18,7 +18,7 @@ class UserForm extends Model
     public  $username;
     public  $email;
     public  $phone_number;
-    //public $realname;
+    public  $realname;
     //public $nickname;
     public  $password;
     public  $status;
@@ -34,8 +34,8 @@ class UserForm extends Model
     public function rules()
     {
         return [
-            ['username', 'filter', 'filter' => 'trim'],
-            [['username','phone_number'], 'required'],
+            [['username','realname'], 'filter', 'filter' => 'trim'],
+            [['phone_number'], 'required'],
             ['username', 'unique', 'targetClass' => User::className(), 'filter' => function ($query) {
                 if (!$this->getModel()->isNewRecord) {
                     $query->andWhere(['not', ['id'=>$this->getModel()->id]]);
@@ -46,11 +46,11 @@ class UserForm extends Model
                     $query->andWhere(['not', ['id'=>$this->getModel()->id]]);
                 }
             }],
-            ['username', 'string', 'min' => 2, 'max' => 32],
+           [['username','realname'], 'string', 'min' => 2, 'max' => 32],
             //['nickname', 'string', 'min' => 2, 'max' => 32],
             //['realname', 'string', 'min' => 2, 'max' => 32],
             ['email', 'filter', 'filter' => 'trim'],
-            ['email', 'required'],
+           // ['email', 'required'],
             ['email', 'email'],
             ['email', 'unique', 'targetClass'=> User::className(), 'filter' => function ($query) {
                 if (!$this->getModel()->isNewRecord) {
@@ -105,7 +105,7 @@ class UserForm extends Model
              'birth'        => Yii::t('common', '出生年月'),
              'gender'       => Yii::t('common', '性别'),
             // 'school_id'       => Yii::t('common', '学校'),
-            //'realname' => Yii::t('common', 'Realname'),
+            'realname' => Yii::t('common', '真实姓名'),
             //'nickname' => Yii::t('common', 'Nickname'),
             'email' => Yii::t('common', '邮箱'),
             'status' => Yii::t('common', 'Status'),
@@ -125,7 +125,7 @@ class UserForm extends Model
         $this->username = $model->username;
         $this->email = $model->email;
         $this->phone_number = $model->phone_number;
-        //$this->realname = $model->realname;
+        $this->realname = $model->realname;
         //$this->nickname = $model->nickname;
         $this->status = $model->status;
         $this->model = $model;
@@ -156,13 +156,12 @@ class UserForm extends Model
     {
 
         if ($this->validate()) {
-
             $model = $this->getModel();
             $isNewRecord = $model->getIsNewRecord();
             //var_dump($isNewRecord);exit;
-            $model->username = $this->username;
+            //$model->username = $this->username;
             //$model->nickname = $this->nickname;
-            //$model->realname = $this->realname;
+            $model->realname = $this->realname;
             $model->email = $this->email;
             $model->phone_number = $this->phone_number;
             $model->status = $this->status;
@@ -177,7 +176,7 @@ class UserForm extends Model
                     'gender'=>$this->gender,
             ];
             if ($isNewRecord) {
-                $model->afterSignup();
+                $model->afterSignup($profile);
             }else{
                 if($model->userProfile){
                     $model->userProfile->load($profile,'');
@@ -185,17 +184,31 @@ class UserForm extends Model
                 }
             }
             $auth = Yii::$app->authManager;
-            //查询用户自身权限
-            $P_rules = $auth->getChildRoles('P_administrator');
-            $E_rules = [];
-            if(Yii::$app->user->can('E_manager')){
-                $E_rules =  $auth->getChildRoles('E_administrator');
-            }
-//var_dump($E_rules);exit;
-            //$E_rules = $auth->getChildRoles('E_administrator');
-            $rules = ArrayHelper::merge($P_rules,$E_rules);
-           //var_dump('<pre>',$rules);exit;
-            foreach ($rules as $rule) {
+//查询用户自身权限
+        $p_roles = [];
+        $e_roles = []; 
+        if(Yii::$app->user->can('E_manager')){
+            $e_roles =  $auth ->getChildRoles('E_administrator');
+        }
+//主任
+        if(Yii::$app->user->can('P_director')){
+            $p_roles = $auth->getChildRoles('P_director');
+        }
+//校长
+        if(Yii::$app->user->can('P_leader')){
+
+            $p_roles = $auth->getChildRoles('P_leader');
+        }
+//代理管理员
+        if(Yii::$app->user->can('P_manager')){
+            $p_roles = $auth->getChildRoles('P_manager');
+        }
+//代理超级管理员
+        if(Yii::$app->user->can('P_administrator') || Yii::$app->user->can('manager')){
+            $p_roles = $auth->getChildRoles('P_administrator');
+        }
+        $roles = ArrayHelper::merge($e_roles,$p_roles);
+            foreach ($roles as $rule) {
                 $auth->revoke($rule,$model->id);
             }
             $user = $auth->getRolesByUser(Yii::$app->user->identity->id); 

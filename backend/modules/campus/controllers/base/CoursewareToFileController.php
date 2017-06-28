@@ -14,6 +14,8 @@ namespace backend\modules\campus\controllers\base;
 use backend\modules\campus\models\CoursewareToFile;
 use backend\modules\campus\models\search\CoursewareToFileSearch;
 use common\components\Controller;
+use common\components\Qiniu\Auth;
+use common\components\Qiniu\Storage\BucketManager;
 use yii\web\HttpException;
 use yii\helpers\Url;
 use yii\filters\AccessControl;
@@ -155,7 +157,19 @@ class CoursewareToFileController extends Controller
 	 */
 	public function actionDelete($id) {
 		try {
-			$this->findModel($id)->delete();
+			$model = $this->findModel($id);
+			if($model->fileStorageItem){
+				$keys = $model->fileStorageItem->file_name;
+				$model->fileStorageItem->delete();
+				$auth = new Auth(
+                        \Yii::$app->params['qiniu']['wakooedu']['access_key'], 
+                        \Yii::$app->params['qiniu']['wakooedu']['secret_key']
+                );
+                $bucketMgr = new BucketManager($auth);
+                $bucket    = \Yii::$app->params['qiniu']['wakooedu']['bucket'];
+                $err       = $bucketMgr->delete($bucket,$keys);
+			}
+			$model->delete();
 		} catch (\Exception $e) {
 			$msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
 			\Yii::$app->getSession()->addFlash('error', $msg);

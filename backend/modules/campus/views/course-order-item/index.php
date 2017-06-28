@@ -20,11 +20,11 @@ $this->params['breadcrumbs'][] = $this->title;
 */
 $actionColumnTemplates = [];
 
-if (\Yii::$app->user->can('P_director', ['route' => true])) {
+if (\Yii::$app->user->can('P_financial', ['route' => true]) || \Yii::$app->user->can('E_manager') || \Yii::$app->user->can('manager')) {
     $actionColumnTemplates[] = '{view}';
 }
 
-if (\Yii::$app->user->can('P_director', ['route' => true])) {
+if (\Yii::$app->user->can('P_financial', ['route' => true]) || \Yii::$app->user->can('E_manager') || \Yii::$app->user->can('manager')) {
     $actionColumnTemplates[] = '{update}';
 }
 
@@ -55,7 +55,8 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
 
     <div class="clearfix crud-navigation">
 
-        <?php if(\Yii::$app->user->can('P_director', ['route' => true])){ ?>
+        <?php 
+            if (\Yii::$app->user->can('P_financial', ['route' => true]) || \Yii::$app->user->can('E_manager') || \Yii::$app->user->can('manager')) { ?>
             <div class="pull-left">
                 <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('cruds', '创建'), ['create'], ['class' => 'btn btn-success']) ?>
             </div>
@@ -135,7 +136,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                 [
                     'attribute' =>'user_id',
                     'value'     => function($model){
-                        return isset($model->user->username) ? $model->user->username : '未知';
+                        return Yii::$app->user->identity->getUserName($model->user_id);
                     }
                 ],
                 // [

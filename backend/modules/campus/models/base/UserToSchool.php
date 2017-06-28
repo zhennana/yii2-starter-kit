@@ -28,6 +28,7 @@ abstract class UserToSchool extends \yii\db\ActiveRecord
     const SCHOOL_USER_TYPE_STUDENTS = 10; // 学生
     const SCHOOL_USER_TYPE_DIRECTOR = 30; //主任
     const SCHOOL_USER_TYPE_LEADER   = 40; //校长
+    const SCHOOL_USER_TYPE_WORKER   = 50; //职工
 
     const SCHOOL_STATUS_ACTIVE  = 1; //正常
     const SCHOOL_STATUS_CLOSE   = 0; //关闭
@@ -44,7 +45,8 @@ abstract class UserToSchool extends \yii\db\ActiveRecord
             self::SCHOOL_USER_TYPE_LEADER   => '校长',
             self::SCHOOL_USER_TYPE_DIRECTOR => '主任',
             self::SCHOOL_USER_TYPE_TEACHER  => '老师',
-            self::SCHOOL_USER_TYPE_STUDENTS => '学生'
+            self::SCHOOL_USER_TYPE_STUDENTS => '学生',
+            self::SCHOOL_USER_TYPE_WORKER   => '职工',
         ];
     }
     public static function optsUserStatus(){
@@ -53,6 +55,7 @@ abstract class UserToSchool extends \yii\db\ActiveRecord
             self::SCHOOL_STATUS_CLOSE => '关闭',
         ];
     }
+
 
     /**
      * @inheritdoc
@@ -84,6 +87,18 @@ abstract class UserToSchool extends \yii\db\ActiveRecord
         return [
             [['user_id', 'school_id'], 'required'],
             [['user_id', 'school_id', 'user_title_id_at_school', 'status', 'sort', 'school_user_type'], 'integer'],
+        /*    [
+                'school_user_type','integer','when'=>function($model,$attribute){
+                    $models = self::find()->where([
+                            'user_id'=>$model->user_id,
+                            'school_user_type'=>$model->school_user_type,
+                            'school_id'       => $model->school_id,
+                        ])->one();
+                    if($models && ($models->user_to_school_id != $model->user_to_school_id)){
+                        $model->addError($attribute,'用户在此学校已拥改职称,请去列表查看');
+                    }
+                }
+            ]*/
         //     [['user_id', 'school_id'], 'unique', 'targetAttribute' => ['user_id', 'school_id'], 'message' => 'The combination of 用户ID and 学校ID has already been taken.']
          ];
     }
@@ -123,6 +138,9 @@ abstract class UserToSchool extends \yii\db\ActiveRecord
 
     public function getUser(){
         return  $this->hasOne(\common\models\User::className(),['id'=>'user_id']);
+    }
+    public function getSchool(){
+        return  $this->hasOne(\backend\modules\campus\models\School::className(),['school_id'=>'school_id']);
     }
     /**
      * @inheritdoc

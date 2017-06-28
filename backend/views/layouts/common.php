@@ -312,7 +312,7 @@ $avatar .= '?imageView2/3/w/215/h/215';
                             'label'=>Yii::t('backend', '通知公告管理'),
                             'url' => '#',
                             'icon'=>'<i class="fa  fa-volume-up"></i>',
-                            'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') ),
+                            'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager')),
                             'options'=>['class'=>'treeview'],
                             'items'=>[
                                 [
@@ -361,13 +361,34 @@ $avatar .= '?imageView2/3/w/215/h/215';
                         [
                             'label'=>Yii::t('backend', '分部(代理)'),
                             'options' => ['class' => 'header'],
-                            'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_teacher')),
+                            'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_teacher') || Yii::$app->user->can('E_financial') || Yii::$app->user->can('P_financial')),
+                        ],
+                        [
+                            'label'=>Yii::t('backend', '课程体系管理'),
+                            'url' => '#',
+                            'icon'=>'<i class="fa fa-edit"></i>',
+                              'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_director')),
+                            'options'=>['class'=>'treeview'],
+                            'items'=>[
+                                [
+                                'label'=>Yii::t('backend', '课件管理'), 
+                                'url'=>['/campus/courseware/index'],
+                                'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager')|| Yii::$app->user->can('P_director')),
+
+                                 'icon'=>'<i class="fa  fa-file-text"></i>'
+                                ],
+                            ],
                         ],
                         [
                             'label'=>Yii::t('backend', '教务管理'),
                             'url' => '#',
                             'icon'=>'<i class="fa fa-university"></i>',
-                            'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_teacher')),
+                            'visible'=>(Yii::$app->user->can('manager')     ||
+                                        Yii::$app->user->can('E_manager')   ||
+                                        Yii::$app->user->can('P_financial') ||
+                                        Yii::$app->user->can('E_financial') ||
+                                        Yii::$app->user->can('P_teacher')
+                                        ),
                             'options'=>['class'=>'treeview'],
                             'items'=>[
                                 [
@@ -404,7 +425,7 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                 [
                                     'label'=>Yii::t('backend', '课程订单管理'),
                                     'url'=>['/campus/course-order-item/index'], 'icon'=>'<i class=" fa  fa-file-text"></i>',
-                                     'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_director')),
+                                     'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_financial') || Yii::$app->user->can('P_financial')),
                                 ],
                                 /*
                                 ['label'=>Yii::t('backend', '课件管理'), 'url'=>['/campus/courseware/index'], 'icon'=>'<i class="fa  fa-file-text"></i>'
@@ -440,7 +461,10 @@ $avatar .= '?imageView2/3/w/215/h/215';
                             'label'=>Yii::t('backend', '通知公告管理'),
                             'url' => '#',
                             'icon'=>'<i class="fa  fa-volume-up"></i>',
-                            'visible'=>Yii::$app->user->can('P_teacher'),
+                            'visible'=>(Yii::$app->user->can('P_teacher') ||
+                                Yii::$app->user->can('E_manager') ||
+                                Yii::$app->user->can('manager')
+                                ),
                             'options'=>['class'=>'treeview'],
                             'items'=>[
                                 [
@@ -469,7 +493,7 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                 [
                                     'label'=>Yii::t('backend', '家校沟通'),
                                      'url'=>['/campus/notice/family-school-notice'],
-                                     'visible'=>Yii::$app->user->can('P_teacher'),
+                                     'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_teacher')),
                                      'icon'=>'<i class=" fa  fa-volume-up"></i>'
                                 ],
                                 [
@@ -489,14 +513,14 @@ $avatar .= '?imageView2/3/w/215/h/215';
                             ],
                         ],
                         [
-                            'label'=>Yii::t('backend', '用户管理'),
+                            'label'=>Yii::t('backend', '校园人员管理'),
                             'url' => '#',
                             'icon'=>'<i class="fa fa-users"></i>',
                            'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_director')),
                             'options'=>['class'=>'treeview'],
                             'items'=>[
                                 [
-                                    'label'=>Yii::t('backend', '学校人员管理'),
+                                    'label'=>Yii::t('backend', '校园人员管理'),
                                     'icon'=>'<i class="fa fa-database"></i>',
                                     'options'=>['class'=>'treeview'],
                                     'url'=>['/campus/user-to-school/index','type'=>'200'],

@@ -75,14 +75,13 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
 
     <?php $this->beginBlock('backend\modules\campus\models\StudentRecord'); ?>
 
-    
     <?= DetailView::widget([
     'model' => $model,
     'attributes' => [
             [
             'attribute'=>'user_id',
             'value'=>function($model){
-                return isset($model->user->username) ? $model->user->username : '';
+                return Yii::$app->user->identity->getUserName($model->user_id);
                 }
             ],
             [
@@ -131,7 +130,8 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
             <?=  '<div  class="table-responsive">'.$html.\yii\grid\GridView::widget([
                 'layout'=>'{summary}{pager}<br/>{items}{pager}',
                 'dataProvider'=>  new \yii\data\ActiveDataProvider([
-                        'query' => $model->getStudentRecordValue(),
+                        'query' => $model->getStudentRecordValue()->andwhere([
+                            'not',['student_record_key_id'=>4]]),
                         'pagination' => [
                             'pageSize' => 20,
                             'pageParam'=>'page-studentrecordvaluetofiles',

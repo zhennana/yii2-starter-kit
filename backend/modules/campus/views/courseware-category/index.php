@@ -4,8 +4,6 @@
  *
  * @package default
  */
-
-
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\GridView;
@@ -63,7 +61,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
     </h1>
     <div class="clearfix crud-navigation">
 <?php
-if (\Yii::$app->user->can('manager', ['route' => true])) {
+if (\Yii::$app->user->can('manager', ['route' => true]) || Yii::$app->user->can('E_manager')) {
 ?>
         <div class="pull-left">
             <?php echo Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'New'), ['create'], ['class' => 'btn btn-success']) ?>
@@ -136,7 +134,6 @@ if (\Yii::$app->user->can('manager', ['route' => true])) {
 				'contentOptions' => ['nowrap'=>'nowrap']
 			],
 			'parent_id',
-			'creater_id',
 			'name',
 			'description',
 			[

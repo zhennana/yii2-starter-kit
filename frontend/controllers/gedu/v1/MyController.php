@@ -148,7 +148,7 @@ class MyController extends \common\rest\Controller
     }
 
      /**
-     * @SWG\Get(path="/my/notice-check",
+     * @SWG\Post(path="/my/notice-check",
      *     tags={"700-My-我的页面接口"},
      *     summary="改变消息查看状态",
      *     description="返回我的消息",
@@ -303,10 +303,10 @@ class MyController extends \common\rest\Controller
         $files = $params = [];
 
         $file_url = [
-            1 => 'http://static.v1.wakooedu.com/o_1bd35cueh14i216941t4m2gr1e439.jpg',
-            2 => 'http://static.v1.wakooedu.com/o_1bdaq9i2n1vdmu5g1ods1lrq15i6d.jpg',
-            3 => 'http://static.v1.wakooedu.com/o_1bdaq9i2n1pqr1a3k9uu1vd3cric.jpg',
-            4 => 'http://static.v1.wakooedu.com/o_1bdaq9i2n1g6lsd9oefp2mlceb.jpg',
+            1 => 'http://orh16je38.bkt.clouddn.com/%E6%A8%A1%E5%9D%97%E5%9B%9B.png',
+            2 => 'http://orh16je38.bkt.clouddn.com/%E6%A8%A1%E5%9D%97%E5%9B%9B.png',
+            3 => 'http://orh16je38.bkt.clouddn.com/%E6%A8%A1%E5%9D%97%E5%9B%9B.png',
+            4 => 'http://orh16je38.bkt.clouddn.com/%E6%A8%A1%E5%9D%97%E5%9B%9B.png',
         ];
 
         for ($i=1; $i < 5; $i++) { 

@@ -201,9 +201,9 @@ class User extends ActiveRecord implements IdentityInterface
             return $this->schoolInfo;
         }
         $user_id = empty($user_id) ? $this->id : $user_id ;
-        if(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager')){
+        if(Yii::$app->user->can('manager') || Yii::$app->user->can('E_financial')){
             $this->schoolsInfo = School::find()
-            ->where(['status'=>School::SCHOOL_STATUS_OPEN])
+            //->where(['status'=>School::SCHOOL_STATUS_OPEN])
             ->orderBy(['sort'=>SORT_ASC])
             ->all();
         }else{
@@ -281,12 +281,12 @@ class User extends ActiveRecord implements IdentityInterface
             $query->select('g.*')
                 ->from('users_to_grade as t')
                 ->leftJoin('grade as g','t.grade_id = g.grade_id');
-            if(Yii::$app->user->can('manager') || Yii::$app->user->can('P_director') || Yii::$app->user->can('E_manager')){
+            if(Yii::$app->user->can('manager') || Yii::$app->user->can('P_director') || Yii::$app->user->can('E_financial') || Yii::$app->user->can('P_financial')){
             }else{
-                $query->andWhere('t.user_id = :user_id',[':user_id'=>$user_id]);
+                $query->andWhere('t.user_id = :user_id',[':user_id'=>$user_id])
+                ->andwhere('g.status = :status',[':status'=>Grade::GRADE_STATUS_OPEN]);
             }
-            $query->andwhere('g.status = :status',[':status'=>Grade::GRADE_STATUS_OPEN])
-                ->andwhere(['g.school_id'=>$schools_id])
+                 $query->andwhere(['g.school_id'=>$schools_id])
                 ->orderBy('t.sort ASC , t.updated_at DESC')
                 ->limit($limit)
                 ->groupBy(['g.grade_id']);
@@ -565,5 +565,21 @@ class User extends ActiveRecord implements IdentityInterface
             return $this->username;
         }
         return $this->email;
+    }
+    //用户名信息
+    public  function getUserName($id)
+    {
+        $user = \common\models\User::findOne($id);
+        $name = '';
+        if(isset($user->realname) && !empty($user->realname)){
+            return $user->realname;
+        }
+        if(isset($user->username) && !empty($user->username)){
+           return $user->username;
+        }
+        // if(isset($user->phone_number) && !empty($user->phone_number)){
+        //     return $user->phone_number;
+        // }
+        return $name;
     }
 }

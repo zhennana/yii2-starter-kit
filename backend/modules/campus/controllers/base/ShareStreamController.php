@@ -13,6 +13,8 @@ use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 use yii\filters\AccessControl;
 use dmstr\bootstrap\Tabs;
+use common\components\Qiniu\Auth;
+use common\components\Qiniu\Storage\BucketManager;
 
 
 /**
@@ -64,13 +66,14 @@ public $enableCsrfValidation = false;
 */
 public function actionIndex()
 {
+
     $searchModel  = new ShareStreamSearch;
     $dataProvider = $searchModel->search($_GET);
-    $schoolIds = \Yii::$app->user->identity->schoolsInfo;
-    $schoolIds = ArrayHelper::map($schoolIds,'school_id','school_id');
+    $schoolIds[] = $this->schoolCurrent;
+    $schoolIds = ArrayHelper::map($schoolIds,'school_id','school_title');
    // var_dump();exit;
     $dataProvider->query->andWhere([
-      //  'school_id'=>$schoolIds,
+         'school_id'=>$this->schoolIdCurrent,
         //'t.grade_id' =>$this->gradeIdCurrent
     ]);
     $dataProvider->sort = [
@@ -84,8 +87,9 @@ public function actionIndex()
     \Yii::$app->session['__crudReturnUrl'] = null;
 
     return $this->render('index', [
-    'dataProvider' => $dataProvider,
+        'dataProvider' => $dataProvider,
         'searchModel' => $searchModel,
+        'schoolIds'    =>$schoolIds
     ]);
 }
 
@@ -156,7 +160,29 @@ return $this->render('update', [
 public function actionDelete($share_stream_id)
 {
 try {
-$this->findModel($share_stream_id)->delete();
+  $model = $this->findModel($share_stream_id);
+  if($model->shareToFile){
+        foreach ($model->shareToFile as $key => $value) {
+            if($value->fileStorageItem){
+                $keys = $value->fileStorageItem->file_name;
+                $value->fileStorageItem->delete();
+                $auth = new Auth(
+                \Yii::$app->params['qiniu']['wakooedu']['access_key'], 
+                \Yii::$app->params['qiniu']['wakooedu']['secret_key']
+                );
+                $bucketMgr = new BucketManager($auth);
+                $bucket    = \Yii::$app->params['qiniu']['wakooedu']['bucket'];
+                $err       = $bucketMgr->delete($bucket,$keys);
+            }
+            $value->delete();
+        }
+  }
+  if($model->shareToGrade){
+     ShareStreamToGrade::deleteAll(['share_stream_id'=>$model->share_stream_id]);
+
+  }
+ // var_dump($model->shareToGrade);exit;
+  $model->delete();
 } catch (\Exception $e) {
 $msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
 \Yii::$app->getSession()->addFlash('error', $msg);

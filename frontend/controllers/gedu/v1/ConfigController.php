@@ -13,6 +13,7 @@ use frontend\modules\api\v1\resources\Article;
 use frontend\models\edu\resources\Course;
 use frontend\models\edu\resources\UsersToUsers;
 use frontend\models\edu\resources\Courseware;
+use frontend\models\edu\resources\Contact;
 
 class ConfigController extends \common\rest\Controller
 {
@@ -337,16 +338,16 @@ class ConfigController extends \common\rest\Controller
     public function actionButton()
     {
         $icon = [
-            1  => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/ShanSong.png?imageView2/1/w/86/h/86', 
-            2  => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/PiFa.png?imageView2/1/w/86/h/86',
-            3  => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/miaoshou.jpg?imageView2/1/w/86/h/86',
-            4  => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/Tel.png?imageView2/1/w/86/h/86',
-            5  => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/BianMin.png?imageView2/1/w/86/h/86',
-            6  => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/market.png?imageView2/1/w/86/h/86',
-            7  => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/shangjia.jpg?imageView2/1/w/86/h/86',
-            8  => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/chuyou.jpg?imageView2/1/w/86/h/86',
-            9  => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/Tel.png?imageView2/1/w/86/h/86',
-            10 => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/ShanSong.png?imageView2/1/w/86/h/86', 
+            1  => 'http://orh16je38.bkt.clouddn.com/university.png?imageView2/1/w/86/h/86', 
+            2  => 'http://orh16je38.bkt.clouddn.com/open-book.png?imageView2/1/w/86/h/86',
+            3  => 'http://orh16je38.bkt.clouddn.com/open-book-2.png?imageView2/1/w/86/h/86',
+            4  => 'http://orh16je38.bkt.clouddn.com/globe.png?imageView2/1/w/86/h/86',
+            5  => 'http://orh16je38.bkt.clouddn.com/diamond.png?imageView2/1/w/86/h/86',
+            6  => 'http://orh16je38.bkt.clouddn.com/archive.png?imageView2/1/w/86/h/86',
+            7  => 'http://orh16je38.bkt.clouddn.com/graduate.png?imageView2/1/w/86/h/86',
+            8  => 'http://orh16je38.bkt.clouddn.com/speech-bubble-4.png?imageView2/1/w/86/h/86',
+            9  => 'http://orh16je38.bkt.clouddn.com/brief-case-2.png?imageView2/1/w/86/h/86',
+            10 => 'http://orh16je38.bkt.clouddn.com/mouse.png?imageView2/1/w/86/h/86', 
         ];
 
         $title = [
@@ -436,6 +437,70 @@ class ConfigController extends \common\rest\Controller
             $this->serializer['message'] = '参数错误：AppID或AppSecret';
             return [];
         }
+    }
+
+    /**
+     * @SWG\Post(path="/config/feedback",
+     *     tags={"800-Config-配置信息接口"},
+     *     summary="反馈意见",
+     *     description="error= 0 反馈意见成功",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "school_id",
+     *        description = "学校ID",
+     *        required = true,
+     *        type = "integer"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "body",
+     *        description = "反馈内容,max=255",
+     *        required = true,
+     *        default = "",
+     *        type = "string"
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "errorno= 0  成功  其他错误"
+     *     ),
+     * )
+     *
+    **/
+    public function actionFeedback()
+    {
+        if(Yii::$app->user->isGuest){
+            $this->serializer['errno']   = 422;
+            $this->serializer['message'] = '请您先登录';
+            return [];
+        }
+
+        if (isset($_POST['body']) && !empty($_POST['body']) && isset($_POST['school_id']) && !empty($_POST['school_id'])) {
+            $count = Contact::find()->where([
+                'school_id' => $_POST['school_id'],
+                'user_id'   => Yii::$app->user->identity->id,
+                'body'      => $_POST['body'],
+                // 'status'   => Contact::CONTACT_STATUS_APPROVED
+            ])->count();
+            if ($count > 0) {
+                $this->serializer['message'] = '该问题已经被记录过了';
+                return [];
+            }
+        }
+
+        $feedback = new Contact();
+        $feedback->setScenario(Contact::SCENARIO_FEEDBACK);
+        $_POST['user_id']      = Yii::$app->user->identity->id;
+        $_POST['username']     = Yii::$app->user->identity->username;
+        $_POST['phone_number'] = Yii::$app->user->identity->phone_number;
+        // var_dump($feedback->load($_POST,''));exit;
+        $feedback->load($_POST,'');
+        if(!$feedback->save()){
+            $this->serializer['errno']   = __LINE__;
+            $this->serializer['message'] = $feedback->getErrors();
+        }
+
+        return [];
     }
 
 }

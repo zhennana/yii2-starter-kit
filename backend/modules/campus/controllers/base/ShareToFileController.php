@@ -5,12 +5,14 @@
 namespace backend\modules\campus\controllers\base;
 
 use backend\modules\campus\models\ShareToFile;
-    use backend\modules\campus\models\search\ShareToFileSearch;
+use backend\modules\campus\models\search\ShareToFileSearch;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\helpers\Url;
 use yii\filters\AccessControl;
 use dmstr\bootstrap\Tabs;
+use common\components\Qiniu\Auth;
+use common\components\Qiniu\Storage\BucketManager;
 
 /**
 * ShareToFileController implements the CRUD actions for ShareToFile model.
@@ -142,13 +144,24 @@ return $this->render('update', [
 public function actionDelete($share_to_file_id)
 {
 try {
-$this->findModel($share_to_file_id)->delete();
+    $model = $this->findModel($share_to_file_id);
+    if($model->fileStorageItem){
+        $keys = $model->fileStorageItem->file_name;
+        $model->fileStorageItem->delete();
+        $auth = new Auth(
+            \Yii::$app->params['qiniu']['wakooedu']['access_key'], 
+            \Yii::$app->params['qiniu']['wakooedu']['secret_key']
+          );
+        $bucketMgr = new BucketManager($auth);
+        $bucket    = \Yii::$app->params['qiniu']['wakooedu']['bucket'];
+        $err       = $bucketMgr->delete($bucket,$keys);
+    }
+    $model->delete();
 } catch (\Exception $e) {
-$msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
-\Yii::$app->getSession()->addFlash('error', $msg);
-return $this->redirect(Url::previous());
+    $msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
+    \Yii::$app->getSession()->addFlash('error', $msg);
+    return $this->redirect(Url::previous());
 }
-
 // TODO: improve detection
 $isPivot = strstr('$share_to_file_id',',');
 if ($isPivot == true) {

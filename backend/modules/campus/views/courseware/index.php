@@ -142,7 +142,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' =>'creater_id',
                 'format'    => 'raw',
                 'value'     =>function($model){
-                    return isset($model->user->username) ? $model->user->username : '';
+                    return Yii::$app->user->identity->getUserName($model->creater_id);
                 }
             ],
 			// 'access_domain',

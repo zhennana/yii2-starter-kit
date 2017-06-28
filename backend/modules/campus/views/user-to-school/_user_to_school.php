@@ -12,11 +12,16 @@ $userToGrade = new UserToGrade;
 $this->title = Yii::t('backend', '学校人员管理');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '学校人员管理'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-//var_dump($schools);exit;
-// $school = Yii::$app->user->identity->schoolsInfo;
-// // $school = ArrayHelper::map($school,'school_id','school_title');
-// $a = ArrayHelper::map(Yii::$app->authManager->getChildRoles('P_administrator'),'name','description');
-// var_dump($a);exit;
+$userToSchool =  UserToSchool::optsUserType();
+// if(!Yii::$app->can('E_manager') || !Yii::$app->can('P_manager')  || !Yii::$app->can('manager') ){
+
+//}
+if((Yii::$app->user->can('manager')) || (Yii::$app->user->can('E_manager')) || (Yii::$app->user->can('P_leader'))){
+}else{
+    //var_dump(Yii::$app->user->can('P_manager'));exit;
+     unset($userToSchool['40']);
+}
+//if((!Yii::$app->user->can('P_leader') || !Yii::$app->user->can('P_leader')) ){}
 ?>
 
 
@@ -42,8 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
         如何导入新学员：<br>
            1 没有开过账号的用户会直接开户。密码是手机号后六位。并与学校/班级产生创建关系（学校必选，这里可以不用选择班级,之后可以去班级人员管理分班）。<br>
            2 开过账号的学员会直接更新用户信息。如果选择了班级那么会检测用户是否已经存在班级(一个学员只能有一个班级)<br>
-           3 如果选择了班级，并且班级职称是 学生会先检测用户是否缴费。如果未缴费会提示你,并只会与学校产生关系。并不会与班级产生关系。
-           4 所有用户在学校下边都是学员。
+           3 如果选择了班级，并且班级职称是 学生会先检测用户是否缴费。如果未缴费会提示你,并只会与学校产生关系。并不会与班级产生关系。</br>
     </div>
     <?php
         if(isset($info) && !empty($info)){
@@ -101,7 +105,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     $form->field($model, 'school_user_type')
                         ->widget(Select2::className(),
                         [
-                            'data'=>UserToSchool::optsUserType(),
+                            'data'=>$userToSchool,
                              'options'=>[
                                 'placeholder'=>'请选择学校',
                             ],
@@ -146,8 +150,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <div class="col-lg-12">
                 <?=
-                    $form->field($model, 'body')->textArea(['rows' => 10,'maxlength' => true,])->hint('用户名 手机号 邮箱 性别(男/女) 生日(2001-6-25)以空格隔开
-                        每个用户信息已空格 隔开
+                    $form->field($model, 'body')->textArea(['rows' => 10,'maxlength' => true,])->hint('用户名 手机号 性别(男/女) 生日(2001-6-25)以空格隔开
+                        每个用户信息已换行隔开
                      ');
                 ?>
         </div>
@@ -184,4 +188,4 @@ $this->params['breadcrumbs'][] = $this->title;
     #usertoschoolform-roles label{
         display:block;
     }
-</style>>
+</style>

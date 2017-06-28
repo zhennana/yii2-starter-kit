@@ -169,14 +169,14 @@ $actionColumnTemplates = [];
                 [
                     'attribute' => 'creater_id',
                     'value'     => function($model){
-                        return $model->getUserName($model->creater_id);
+                        return Yii::$app->user->identity->getUserName($model->creater_id);
                     }
                 ],
     			//'classroom_group_levels',
                 [
                     'attribute' => 'owner_id',
                     'value'     => function($model){
-                        return $model->getUserName($model->owner_id);
+                        return Yii::$app->user->identity->getUserName($model->owner_id);
                     }
                 ],
     			'sort',

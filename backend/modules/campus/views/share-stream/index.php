@@ -7,14 +7,15 @@ use yii\grid\GridView;
 use yii\bootstrap\Modal;
 use kartik\select2\Select2;
 use backend\modules\campus\models\ShareStream;
-$schoolIds = \Yii::$app->user->identity->schoolsInfo;
-$schoolIds = ArrayHelper::map($schoolIds,'school_id','school_title');
+// $schoolIds = \Yii::$app->user->identity->schoolsInfo;
+// $schoolIds = ArrayHelper::map($schoolIds,'school_id','school_title');
 
 /**
 * @var yii\web\View $this
 * @var yii\data\ActiveDataProvider $dataProvider
     * @var backend\modules\campus\models\ShareStreamSearch $searchModel
 */
+//var_dump($schoolIds);exit;
 
 $this->title = Yii::t('backend', '分享流列表');
 $this->params['breadcrumbs'][] = $this->title;
@@ -35,19 +36,19 @@ Modal::end();
 */
 $actionColumnTemplates = [];
 
-if (\Yii::$app->user->can('user', ['route' => true])) {
+if (\Yii::$app->user->can('manager', ['route' => true]) || \Yii::$app->user->can('E_manager') || \Yii::$app->user->can('P_director')) {
     $actionColumnTemplates[] = '{view}';
 }
 
 
-if (\Yii::$app->user->can('user', ['route' => true])) {
+if (\Yii::$app->user->can('manager', ['route' => true]) || \Yii::$app->user->can('E_manager') || \Yii::$app->user->can('P_director')) {
     $actionColumnTemplates[] = '{update}';
 }
-/*
-if (\Yii::$app->user->can('user', ['route' => true])) {
+
+if (\Yii::$app->user->can('manager', ['route' => true]) || \Yii::$app->user->can('E_manager') || \Yii::$app->user->can('P_director')) {
     $actionColumnTemplates[] = '{delete}';
 }
-*/
+
 if (isset($actionColumnTemplates)) {
 $actionColumnTemplate = implode(' ', $actionColumnTemplates);
     $actionColumnTemplateString = $actionColumnTemplate;
@@ -69,7 +70,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
     </h1>
     <div class="clearfix crud-navigation">
 <?php
-if(\Yii::$app->user->can('user', ['route' => true])){
+if (\Yii::$app->user->can('manager', ['route' => true]) || \Yii::$app->user->can('E_manager') || \Yii::$app->user->can('P_director')) {
 ?>
         <div class="pull-left">
             <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'), ['create'], ['class' => 'btn btn-success']) ?>
@@ -150,6 +151,7 @@ if(\Yii::$app->user->can('user', ['route' => true])){
             [
                 'class'     => \common\grid\EnumColumn::className(),
                 'attribute' => 'school_id',
+                'label'     => '学校',
                 'format'    => 'raw',
                 'enum'      => $schoolIds,
                 // 'value'     => function($model){
@@ -164,13 +166,13 @@ if(\Yii::$app->user->can('user', ['route' => true])){
                 // 'value'     => function($model){
                 //     return $model->status;
                 //     },
-                ],
+            ],
 			//'author_id',
             [
                 'attribute'=>'author_id',
                 'label'    => '创建者',
                 'value'=>function($model){
-                        return $model->getUserName($model->author_id);
+                    return Yii::$app->user->identity->getUserName($model->author_id);
                 }
             ],
          /*

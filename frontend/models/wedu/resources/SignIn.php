@@ -5,6 +5,7 @@ namespace frontend\models\wedu\resources;
 use Yii;
 use frontend\models\base\SignIn as BaseSignIn;
 use yii\helpers\ArrayHelper;
+use frontend\models\wedu\resources\Course;
 
 /**
  * This is the model class for table "sign_in".
@@ -37,6 +38,7 @@ public function behaviors()
        if(empty($params)){
            $data['error'][] = '数据不能为空';
         }
+        $i = 0;
         foreach ($params['SignIn'] as $key => $value) {
             $model = new $this;
             $is_check = self::find()
@@ -54,11 +56,27 @@ public function behaviors()
                 if(!$model->save()){
                   $data['error'][$key] = $model->getErrors();
                 }else{
+                  if($model->type_status == 10){
+                      $this->addStudentRecord([
+                            'user_id'   => $model->student_id,
+                            'school_id' => $model->school_id,
+                            'grade_id'  => $model->grade_id,
+                            'course_id' => $model->course_id,
+                            'title'     => '',
+                            'status'    => 1,
+                        ]);
+                      if($i == 0){
+                        Course::updateAll(['status'=>Course::COURSE_STATUS_FINISH],'course_id='.$model->course_id);
+                        $i++;
+                      }
+
+                  }
                   $data['message'][$key] = $model;
                 }
         }else{
           $data['message'][$key]  = $is_check->one();
         }
+
     }
      return $data;
   }
@@ -76,18 +94,44 @@ public function behaviors()
         $data = [];
         foreach ($params as $key => $value) {
             if(!isset($data[$value->course_id][$key]['title'])){
-                $data[$value->course_id]['course_title']           = isset($value->course->title)? $value->course->title : '';
-                $data[$value->course_id]['created_at']          = isset($value->course->start_time) ?$value->course->start_time  : '';
-                $data[$value->course_id]['sign_in_count']       = (int)self::singInCount($value->course_id);
+                $data[$value->course_id]['course_title']               = isset($value->course->title)? $value->course->title : '';
+                $data[$value->course_id]['created_at']                 = isset($value->course->start_time) ?$value->course->start_time  : '';
+                $data[$value->course_id]['sign_in_count']              = (int)self::singInCount($value->course_id);
                 $data[$value->course_id]['already_signed_count']       = (int)self::singInCount($value->course_id,true);
                 //$data[$value->course_id]['absenteeism_count']   = count($params);
             }
-            $data[$value->course_id]['absence_user'][]['username'] = self::getUserName($value->student_id);
+            $data[$value->course_id]['absence_user'][]['username']      = self::getUserName($value->student_id);
             $data[$value->course_id]['absenteeism_count']   =  count($data[$value->course_id]['absence_user']);
         }
         sort($data);
         return $data;
     }
+    /**
+     * 
+     * @param [type] $data [description]
+     */
+    public function addStudentRecord($data){
+        $studentRecord  = \backend\modules\campus\models\StudentRecord::find()->where([
+            'school_id'=> $data['school_id'],
+            'grade_id' => $data['grade_id'],
+            'user_id'  => $data['user_id'],
+            'course_id'=> $data['course_id'],
+        ])->one();
+        if(!$studentRecord){
+            $studentRecord = new \backend\modules\campus\models\StudentRecord;
+            $studentRecord->load($data,'');
+            $studentRecord->save();
+           // var_dump($studentRecord->getErrors());exit;
+        }
+        return true;
+    }
+    /**
+     * *
+     * @return [type] [description]
+     */
+    // public function closeCourse($course_id){
+
+    // }
 /**
  * 签到表详情详情
  * @param  [type] $id [description]
