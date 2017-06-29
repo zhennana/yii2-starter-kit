@@ -59,7 +59,7 @@ public function behaviors()
               $model->groupby(['student_id']);
           },
           'user'=>function($model){
-              $model->select(['id','username']);
+              $model->select(['id','username','realname']);
           }])
         ->where([
           'school_id'=>$school_id , 'grade_id'=>$grade_id,
@@ -84,7 +84,7 @@ public function behaviors()
        foreach ($model as $key => $value) {
           $data['user_list'][$key] = [
                 'user_id'       =>    (int)$value['user_id'],
-                'username'      =>    $value['user']['username'],
+                'username'      =>    empty($value['user']['username']) ? $value['user']['realname'] : $value['user']['username'],
                 //'school_id'     =>    (int)$value['school_id'],
                 //'school_title'  =>    $value['school']['school_title'],
                 //'grade_id'      =>    (int)$value['grade']['grade_id'],
@@ -117,7 +117,8 @@ public function behaviors()
       $end_time   = $time+60*60*2;
       return self::find()->select(['course_id','title'])
       ->andwhere([
-          'school_id'   => $school_id,'grade_id'=>$grade_id,
+          'school_id'   => $school_id,
+          'grade_id'    =>    $grade_id,
           'teacher_id'  => $user_id,
           'status'      => self::COURSE_STATUS_OPEN
         ])
@@ -125,6 +126,7 @@ public function behaviors()
       //->asArray()
       ->andwhere(['between','start_time',$start_time,$end_time])
       ->one();
+
    }
    /**
     * 课程下边的所有用户id

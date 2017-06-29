@@ -95,13 +95,22 @@ class Notice extends BaseNotice
             return ArrayHelper::map($gradeInfo,'grade_id','grade_name');
         }
         if($type_id == 2){
+            $userName = [];
             if($category == 2){
                 $user = Yii::$app->user->identity->getGradeToUser($id,10);
             }else{
                 $user = Yii::$app->user->identity->getSchoolToUser($id,20);
             }
-            //var_dump($user);exit;
-            return ArrayHelper::map($user,'id','username');
+            foreach ($user as $key => $value) {
+                if($value['username']){
+                    $userName[$value['id']] = $value['username'];
+                    continue;
+                }
+                if($value['realname']){
+                      $userName[$value['id']] = $value['realname'];
+                }
+            }
+            return $userName;
         }
     }
 }
