@@ -199,7 +199,7 @@ class ShareStreamController extends \common\rest\Controller
         return new ActiveDataProvider([
                     'query'=>$modelQuery,
                     'pagination'=>[
-                        'pageSize'=>4
+                        'pageSize'=>10
                     ]
             ]);
     }

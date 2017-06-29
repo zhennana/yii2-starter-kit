@@ -114,13 +114,13 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '课件详情');
     ]); ?>
 
     <hr/>
-
-    <?= Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('backend', 'Delete'), ['delete', 'courseware_id' => $model->courseware_id],
+<!-- 
+    <?/* Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('backend', 'Delete'), ['delete', 'courseware_id' => $model->courseware_id],
     [
     'class' => 'btn btn-danger',
     'data-confirm' => '' . Yii::t('backend', 'Are you sure to delete this item?') . '',
     'data-method' => 'post',
-    ]); ?>
+    ]); */ ?> -->
     <?php $this->endBlock(); ?>
     
 
@@ -153,7 +153,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '课件详情');
             \Yii::$app->user->can('E_manager') ||
             \Yii::$app->user->can('manager')
             ) {
-            $actionColumnTemplates[] = '{delete}';
+           // $actionColumnTemplates[] = '{delete}';
         }
         $actionColumnTemplateString = '';
         if(isset($actionColumnTemplates)){
@@ -191,6 +191,13 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '课件详情');
                             }else{
                                 return Html::a($model->fileStorageItem->type, $url, ['title' => '访问','target' => '_blank']);
                             }
+                        }
+                    ],
+                    [
+                        'attribute'=>'original',
+                        'label'    => '原文件名',
+                        'value'    =>function($model){
+                            return $model->fileStorageItem->original;
                         }
                     ],
                     [

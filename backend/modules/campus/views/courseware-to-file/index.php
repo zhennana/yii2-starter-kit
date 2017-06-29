@@ -26,15 +26,15 @@ $this->params['breadcrumbs'][] = $this->title;
 $actionColumnTemplates = [];
 
 if (\Yii::$app->user->can('manager', ['route' => true]) || Yii::$app->user->can('E_manager')) {
-	$actionColumnTemplates[] = '{view}';
+	//$actionColumnTemplates[] = '{view}';
 }
 
 if (\Yii::$app->user->can('manager', ['route' => true]) || Yii::$app->user->can('E_manager')) {
-	$actionColumnTemplates[] = '{update}';
+	//$actionColumnTemplates[] = '{update}';
 }
 
 if (Yii::$app->user->can('E_manager') || \Yii::$app->user->can('manager', ['route' => true])) {
-	$actionColumnTemplates[] = '{delete}';
+	//$actionColumnTemplates[] = '{delete}';
 }
 if (isset($actionColumnTemplates)) {
 	$actionColumnTemplate = implode(' ', $actionColumnTemplates);
@@ -65,7 +65,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
 if (\Yii::$app->user->can('manager', ['route' => true])) {
 ?>
         <div class="pull-left">
-            <?php echo Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'New'), ['create'], ['class' => 'btn btn-success']) ?>
+           <!--  <?php /*echo Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'New'), ['create'], ['class' => 'btn btn-success'])*/ ?> -->
         </div>
 <?php
 }
@@ -114,7 +114,7 @@ if (\Yii::$app->user->can('manager', ['route' => true])) {
 		          [
                         'class' => 'yii\grid\ActionColumn',
                         'controller' => 'courseware-to-file',
-                        'template' => '{update} {delete}'
+                        'template' => $actionColumnTemplateString
                     ],
                     
                     'courseware_id',

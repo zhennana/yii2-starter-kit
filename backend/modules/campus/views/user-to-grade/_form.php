@@ -35,8 +35,18 @@ use backend\modules\campus\models\UserToSchool;
     if($grade_user_type == UserToGrade::GRADE_USER_TYPE_TEACHER){
         $user = Yii::$app->user->identity->getSchoolToUser($school_id,UserToSchool::SCHOOL_USER_TYPE_TEACHER);
     }
+    $currentUser =  [];
+   foreach ($user as $key => $value) {
+       if(!empty($value['username'])){
+            $currentUser[$value['id']] = $value['username'];
+            continue;
+       }
+       if(!empty($value['realname'])){
+            $currentUser[$value['id']] = $value['realname'];
+       }
+   }
    // var_dump($user);exit;
-     $currentUser = ArrayHelper::map($user,'id','username');
+     //$currentUser = ArrayHelper::map($user,'id','username');
 
 ?>
 <?php
