@@ -73,7 +73,7 @@ abstract class Course extends \yii\db\ActiveRecord
         return [
             [
                 'class'              => TimestampBehavior::className(),
-                'updatedAtAttribute' => true,
+                //'updatedAtAttribute' => true,
             ],
         ];
     }
