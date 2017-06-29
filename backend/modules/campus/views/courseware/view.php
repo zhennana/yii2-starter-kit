@@ -194,6 +194,13 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '课件详情');
                         }
                     ],
                     [
+                        'attribute'=>'original',
+                        'label'    => '原文件名',
+                        'value'    =>function($model){
+                            return $model->fileStorageItem->original;
+                        }
+                    ],
+                    [
                         'attribute'=>'type',
                         'label' => '类型',
                         'format'    => 'raw',

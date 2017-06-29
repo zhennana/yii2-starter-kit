@@ -70,5 +70,4 @@ public function behaviors()
         }
         $school = $school->asArray()->all();
         return ArrayHelper::map($school,'school_id','school_title');*/
-      }
 }

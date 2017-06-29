@@ -53,7 +53,7 @@ public function behaviors()
               return self::UserTitleTypelable($this->user_title_id_at_grade);
             },
             'user_label'=>function(){
-              return isset($this->user->username) ? $this->user->username : '';
+              return Yii::$app->user->identity->getUserName($this->user_id);
             },
             'updated_at'=>function(){
               return date('Y-m-d H:i:s',$this->updated_at);

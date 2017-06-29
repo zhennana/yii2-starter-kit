@@ -100,7 +100,7 @@ public function behaviors()
                 $data[$value->course_id]['already_signed_count']       = (int)self::singInCount($value->course_id,true);
                 //$data[$value->course_id]['absenteeism_count']   = count($params);
             }
-            $data[$value->course_id]['absence_user'][]['username']      = self::getUserName($value->student_id);
+            $data[$value->course_id]['absence_user'][]['username']      = Yii::$app->user->identity->getUserName($value->student_id);
             $data[$value->course_id]['absenteeism_count']   =  count($data[$value->course_id]['absence_user']);
         }
         sort($data);
