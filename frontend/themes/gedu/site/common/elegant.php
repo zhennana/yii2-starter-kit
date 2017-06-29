@@ -34,23 +34,23 @@ use yii\helpers\Html;
                 </div> -->
             </div>
         </li>
-        <li class="banner-bottom-left-grid iusto">
-            <div class="port-4 effect-1">
-                <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-3-3.png?imageView2/1/w/300/h/300" alt=" " class="img-responsive" />
-                <div class="text-desc">
-                    <h3>教室讲台</h3>
-                    <p>光大学校小学部教学体系分三个层次，基础课程、校本课程、兴趣课程。</p>
-                    <?php echo Html::a('了解更多',['site/sights','category_id'=>37],['class'=>'btn'])?>
-                </div>
-                <!-- <div class="cap5">
-                    <span> </span>
-                </div> -->
-            </div>
-        </li>
         <div class="banner-bottom-left-grid txt">
             <a>教室讲台</a>
             <hr class="hr1" />
         </div>
+        <li class="banner-bottom-left-grid iusto">
+            <div class="port-4 effect-1">
+                <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-3-5.png?imageView2/1/w/300/h/300" alt=" " class="img-responsive" />
+                <div class="text-desc">
+                    <h3>学校操场</h3>
+                    <p>光大学校小学部教学体系分三个层次，基础课程、校本课程、兴趣课程。</p>
+                    <?php echo Html::a('了解更多',['site/sights','category_id'=>37],['class'=>'btn'])?>
+                </div>
+                <!-- <div class="cap4">
+                    <span> </span>
+                </div> -->
+            </div>
+        </li>
         <div class="clearfix"></div>
     </div>
     <div class="banner-bottom-left-grids full-length">
@@ -76,29 +76,30 @@ use yii\helpers\Html;
             <a>招生咨询处</a>
             <hr class="hr2" />
         </div>
-        <div class="banner-bottom-left-grid2 txt">
-            <a>学校操场</a>
-            <hr class="hr1" />
-        </div>
+        
+        <li class="banner-bottom-left-grid iusto">
+            <div class="port-4 effect-1">
+                <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-3-3.png?imageView2/1/w/300/h/300" alt=" " class="img-responsive" />
+                <div class="text-desc">
+                    <h3>教室讲台</h3>
+                    <p>光大学校小学部教学体系分三个层次，基础课程、校本课程、兴趣课程。</p>
+                    <?php echo Html::a('了解更多',['site/sights','category_id'=>37],['class'=>'btn'])?>
+                </div>
+                <!-- <div class="cap5">
+                    <span> </span>
+                </div> -->
+            </div>
+        </li>
         <!-- <div class="banner-bottom-left-grid iusto">
             <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-3-5.png" alt=" " class="img-responsive" />
             <div class="cap4">
                 <span> </span>
             </div>
         </div> -->
-        <li class="banner-bottom-left-grid iusto">
-            <div class="port-4 effect-1">
-                <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-3-5.png?imageView2/1/w/300/h/300" alt=" " class="img-responsive" />
-                <div class="text-desc">
-                    <h3>学校操场</h3>
-                    <p>光大学校小学部教学体系分三个层次，基础课程、校本课程、兴趣课程。</p>
-                    <?php echo Html::a('了解更多',['site/sights','category_id'=>37],['class'=>'btn'])?>
-                </div>
-                <!-- <div class="cap4">
-                    <span> </span>
-                </div> -->
-            </div>
-        </li>
+        <div class="banner-bottom-left-grid2 txt">
+            <a>学校操场</a>
+            <hr class="hr1" />
+        </div>
         <div class="clearfix"></div>
     </div>
 </div> 

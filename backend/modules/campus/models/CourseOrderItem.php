@@ -51,9 +51,14 @@ public function behaviors()
             ->all();
             $data = [];
             foreach ($user as $key => $value) {
-                $data[$value->user_id]  = $value->user->username;
+                if($value->user->username){
+                    $data[$value->user_id] = $value->user->username;
+                    continue;
+                }
+                if($value->user->realname){
+                    $data[$value->user_id]  = $value->user->realname;
+                }
             }
-             //var_dump($data);exit;
             return $data;
         }
         $school = School::find()->where(['status'=>School::SCHOOL_STATUS_OPEN])->asArray()->all();

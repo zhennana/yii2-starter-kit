@@ -201,6 +201,18 @@ $avatar .= '?imageView2/3/w/215/h/215';
                             'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') ),
                         ],
                         [
+                                'label'=>Yii::t('backend', '网站内容管理'),
+                                'url' => '#',
+                                'icon'=>'<i class="fa fa-edit"></i>',
+                                'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager')),
+                                'options'=>['class'=>'treeview'],
+                                'items'=>[
+                                    ['label'=>Yii::t('backend', '文章'), 'url'=>['/article/index','type'=>1], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
+                                    ['label'=>Yii::t('backend', '轮播组件'), 'url'=>['/widget-carousel/index','type'=>1], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
+                                    ['label'=>Yii::t('backend', 'Cache'), 'url'=>['/cache/index','type'=>1], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
+                        ],
+
+                        [
                             'label'=>Yii::t('backend', 'Timeline'),
                             'icon'=>'<i class="fa fa-bar-chart-o"></i>',
                             'url'=>['/timeline-event/index'],
@@ -217,7 +229,7 @@ $avatar .= '?imageView2/3/w/215/h/215';
                             'items'=>[
                                 [
                                 'label'=>Yii::t('backend', '课件管理'), 
-                                'url'=>['/campus/courseware/index'],
+                                'url'=>['/campus/courseware/index','type'=>1],
                                 'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') ),
 
                                  'icon'=>'<i class="fa  fa-file-text"></i>'
@@ -228,7 +240,7 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                  'icon'=>'<i class="fa fa-angle-double-right"></i>'
                                 ],
                                 ['label'=>Yii::t('backend', '课件分类'),
-                                 'url'=>['/campus/courseware-category/index'], 
+                                 'url'=>['/campus/courseware-category/index',], 
                                 'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') ),
 
                                  'icon'=>'<i class=" fa  fa-file-text"></i>'
@@ -244,6 +256,7 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                 'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') ),
                                  'icon'=>'<i class=" fa  fa-file-text"></i>'
                                 ],
+                        ],
                             ],
                         ],
                         /*
@@ -292,13 +305,13 @@ $avatar .= '?imageView2/3/w/215/h/215';
                             'items'=>[
                                 [
                                     'label'   =>Yii::t('backend', '学校管理'), 
-                                    'url'     =>['/campus/school/index'],
+                                    'url'     =>['/campus/school/index','type'=>1],
                                     'icon'    =>'<i class="fa fa-angle-double-right"></i>',
                                     'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') ),
                                 ],
                                 [
                                     'label'=>Yii::t('backend', '班级分类管理'),
-                                    'url'=>['/campus/grade-category/index'],
+                                    'url'=>['/campus/grade-category/index','type'=>1],
                                     'icon'=>'<i class="fa fa-angle-double-right"></i>',
                                     'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') ),
                                 ],
@@ -317,7 +330,7 @@ $avatar .= '?imageView2/3/w/215/h/215';
                             'items'=>[
                                 [
                                     'label'=>Yii::t('backend', '预约信息'), 
-                                    'url'=>['/campus/apply-to-play/index'], 
+                                    'url'=>['/campus/apply-to-play/index','type'=>1], 
                                     'icon'=>'<i class="fa  fa-file-text"></i>',
                                     'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') ),
                                 ],
@@ -372,7 +385,7 @@ $avatar .= '?imageView2/3/w/215/h/215';
                             'items'=>[
                                 [
                                 'label'=>Yii::t('backend', '课件管理'), 
-                                'url'=>['/campus/courseware/index'],
+                                'url'=>['/campus/courseware/index','type'=>2],
                                 'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager')|| Yii::$app->user->can('P_director')),
 
                                  'icon'=>'<i class="fa  fa-file-text"></i>'
@@ -393,13 +406,13 @@ $avatar .= '?imageView2/3/w/215/h/215';
                             'items'=>[
                                 [
                                     'label'   =>Yii::t('backend', '学校管理'), 
-                                    'url'     =>['/campus/school/index'],
+                                    'url'     =>['/campus/school/index','type'=>2],
                                     'icon'    =>'<i class="fa fa-angle-double-right"></i>',
                                     'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_director')),
                                 ],
                                 [
                                     'label'=>Yii::t('backend', '班级分类管理'),
-                                    'url'=>['/campus/grade-category/index'],
+                                    'url'=>['/campus/grade-category/index','type'=>2],
                                     'icon'=>'<i class="fa fa-angle-double-right"></i>',
                                      'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_director')),
                                 ],
@@ -424,7 +437,7 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                 ],
                                 [
                                     'label'=>Yii::t('backend', '课程订单管理'),
-                                    'url'=>['/campus/course-order-item/index'], 'icon'=>'<i class=" fa  fa-file-text"></i>',
+                                    'url'=>['/campus/course-order-item/index','type'=>2], 'icon'=>'<i class=" fa  fa-file-text"></i>',
                                      'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_financial') || Yii::$app->user->can('P_financial')),
                                 ],
                                 /*
@@ -505,7 +518,7 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                 ],
                                 [
                                     'label'=>Yii::t('backend', '预约信息'), 
-                                    'url'=>['/campus/apply-to-play/index'], 
+                                    'url'=>['/campus/apply-to-play/index','type'=>2], 
                                     'icon'=>'<i class="fa  fa-file-text"></i>',
                                      'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_director')),
 
@@ -572,11 +585,11 @@ $avatar .= '?imageView2/3/w/215/h/215';
                             'options'=>['class'=>'treeview'],
                             'items'=>[
                                 ['label'=>Yii::t('backend', '静态页面'), 'url'=>['/page/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
-                                ['label'=>Yii::t('backend', '文章'), 'url'=>['/article/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
+                                ['label'=>Yii::t('backend', '文章'), 'url'=>['/article/index','type'=>2], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
                                 ['label'=>Yii::t('backend', '文章分类'), 'url'=>['/article-category/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
                                 ['label'=>Yii::t('backend', '文本组件'), 'url'=>['/widget-text/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
                                 ['label'=>Yii::t('backend', '菜单组件'), 'url'=>['/widget-menu/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
-                                ['label'=>Yii::t('backend', '轮播组件'), 'url'=>['/widget-carousel/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
+                                ['label'=>Yii::t('backend', '轮播组件'), 'url'=>['/widget-carousel/index','type'=>2], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
                             ]
 
                         ],
@@ -599,7 +612,7 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                 ],
                                 ['label'=>Yii::t('backend', 'Key-Value Storage'), 'url'=>['/key-storage/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
                                 ['label'=>Yii::t('backend', 'File Storage'), 'url'=>['/file-storage/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
-                                ['label'=>Yii::t('backend', 'Cache'), 'url'=>['/cache/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
+                                ['label'=>Yii::t('backend', 'Cache'), 'url'=>['/cache/index','type'=>2], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
                                 ['label'=>Yii::t('backend', 'File Manager'), 'url'=>['/file-manager/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
                                 [
                                     'label'=>Yii::t('backend', 'System Information'),

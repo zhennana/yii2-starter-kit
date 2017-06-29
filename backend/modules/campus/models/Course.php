@@ -42,17 +42,24 @@ public function behaviors()
             return ArrayHelper::map($grade,'grade_id','grade_name');
         }
         if($type_id == 2){
-            $UserToGrade = UserToGrade::find()
-                      ->where([
-                        'grade_id'=>$id,
-                        'grade_user_type'=>20
-                        ])
-                      ->with('user')
-                      ->all();
-          $data = [];
-          foreach ($UserToGrade as $key => $value) {
-                $data[$value['user_id']] = $value['user']['username'];
-          }
+              $UserToGrade = UserToGrade::find()
+                        ->where([
+                          'grade_id'=>$id,
+                          'grade_user_type'=>20
+                          ])
+                        ->with('user')
+                        ->all();
+            $data = [];
+            foreach ($UserToGrade as $key => $value) {
+                if($value['user']['username']){
+                  $data[$value['user_id']] = $value['user']['username'];
+                  continue;
+                }
+                if($value['user']['realname']){
+                  $data[$value['user_id']] = $value['user']['realname'];
+                }
+            }
+        }
           return $data;
         }
         /*
@@ -63,5 +70,4 @@ public function behaviors()
         }
         $school = $school->asArray()->all();
         return ArrayHelper::map($school,'school_id','school_title');*/
-      }
 }

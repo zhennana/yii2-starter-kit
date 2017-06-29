@@ -41,7 +41,7 @@
                     中学部办公室         转6013  <br>
                     国际部办公室         转2599  <br>
                     招生部办公室         转6688 </span></li>
-                <li><span href="#">网址：www.guangdaxuexiao.com</span></li>
+               <li><span>网址：<a href="http://www.guangdaxuexiao.com/">www.guangdaxuexiao.com</a></span></li>
               </ul>
             </div>
         </div>

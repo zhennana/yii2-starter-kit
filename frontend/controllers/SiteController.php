@@ -123,7 +123,7 @@ class SiteController extends Controller
             ->select(['id','parent_id'])
             ->where([
               'or',
-              ['id'        => [1, 3, 22]],
+              ['id'        => [23, 3, 22]],
               ['parent_id' => [9, 12]]
             ])
             ->andWhere([
@@ -150,18 +150,20 @@ class SiteController extends Controller
 
             }elseif($value['id'] == 3){
                 $dongtai[]      = $value['id'];
-            }elseif ($value['id'] == 1) {
+            }elseif ($value['id'] == 23) {
                 $about[] = $value['id'];
             }
         }
 
         $ids = array_column($model, 'id');
-        // dump($ids);exit;
+         //dump($about);exit;
         $articles = Article::find()
         ->where(['category_id' => $ids])
+        ->with(['articleAttachments'])
+        ->published()
         ->orderBy(['updated_at' => SORT_DESC])
         ->asArray()
-        ->all(); 
+        ->all();
 
         $data = [
           'course_left'  => [],
@@ -273,9 +275,9 @@ class SiteController extends Controller
     public function actionAjaxContact(){
         $model = new Contact;
         if (Yii::$app->request->isAjax) {
-           
+
            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-          
+
             if($model->load(Yii::$app->request->post()) && $model->save()){
                 return ['status' => true];
             }else{

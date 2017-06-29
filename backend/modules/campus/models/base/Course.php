@@ -20,7 +20,7 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $start_time
  * @property integer $end_time
  * @property integer $status
- * @property integer $updeated_at
+ * @property integer $updated_at
  * @property integer $created_at
  * @property string $aliasModel
  */
@@ -73,7 +73,7 @@ abstract class Course extends \yii\db\ActiveRecord
         return [
             [
                 'class'              => TimestampBehavior::className(),
-                'updatedAtAttribute' => true,
+                //'updatedAtAttribute' => true,
             ],
         ];
     }
@@ -169,7 +169,7 @@ abstract class Course extends \yii\db\ActiveRecord
             'end_time'      => Yii::t('common', '结束时间'),
             'status'        => Yii::t('common', '状态'),
             'created_at'    => Yii::t('common', '创建时间'),
-            'updeated_at'   => Yii::t('common', '更新时间'),
+            'updated_at'   => Yii::t('common', '更新时间'),
         ];
     }
 
