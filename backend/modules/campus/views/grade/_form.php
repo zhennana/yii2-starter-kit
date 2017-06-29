@@ -22,9 +22,20 @@ use common\models\User;
     $category_ids = GradeCategory::find()->where(['status'=>GradeCategory::CATEGORY_OPEN])->asArray()->all();
     $category_ids = ArrayHelper::map($category_ids,'grade_category_id','name');
 
-     $user = Yii::$app->user->identity->getSchoolToUser(Yii::$app->user->identity->currentSchoolId , 20);
+    $user = Yii::$app->user->identity->getSchoolToUser(Yii::$app->user->identity->currentSchoolId , 20);
+    //var_dump('<pre>',$user);exit;
     // getSchoolToUser
-     $data_user = ArrayHelper::map($user,'id','username');
+    $data_user =  [];
+   foreach ($user as $key => $value) {
+       if(!empty($value['username'])){
+            $data_user[$value['id']] = $value['username'];
+            continue;
+       }
+       if(!empty($value['realname'])){
+            $data_user[$value['id']] = $value['realname'];
+       }
+   }
+   //var_dump($data_user);exit;
 ?>
 
 <div class="grade-form">
