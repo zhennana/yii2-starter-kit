@@ -135,10 +135,16 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
     //检测用户是否还有课程
     public function is_course_count($attributes){
         if($this->grade_user_type == self::GRADE_USER_TYPE_STUDENT){
-            $courseCount = CourseOrderItem::find()->select(['SUM(total_course + presented_course) as total_courses'])->where(['user_id'=>$this->user_id,'payment_status'=>CourseOrderItem::PAYMENT_STATUS_PAID])->asArray()->one();
-            $aboverCourse =\backend\modules\campus\models\SignIn::find()->where(['student_id'=>$this->user_id,'type_status'=>\backend\modules\campus\models\SignIn::TYPE_STATUS_MORMAL])->count('student_id');
+            $courseCount = CourseOrderItem::find()
+            ->select(['SUM(total_course + presented_course) as total_courses'])
+            ->where(['user_id'=>$this->user_id,'payment_status'=>CourseOrderItem::PAYMENT_STATUS_PAID])
+            ->asArray()->one();
+            $aboverCourse =\backend\modules\campus\models\SignIn::find()
+            ->where(['student_id'=>$this->user_id,'type_status'=>\backend\modules\campus\models\SignIn::TYPE_STATUS_MORMAL])
+            ->count('student_id');
+
             if(($courseCount['total_courses'] < $aboverCourse) || ($courseCount['total_courses'] == $aboverCourse) ){
-                $message = $this->user->username.'已欠费'.'请先去缴费才能分班';
+                $message = (!empty($this->user->username) ? $this->user->username : $this->user->realname) .'已欠费'.'请先去缴费才能分班';
                 return $this->addError($attributes,$message);
             }
         }
@@ -146,7 +152,7 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
 
     }
     /**
-     * 检测用户在一个班真能拥有一种状态.
+     * 检测用户在一个班只能拥有一种状态.
      * @param  [type]  $attributes [description]
      * @return boolean             [description]
      */
