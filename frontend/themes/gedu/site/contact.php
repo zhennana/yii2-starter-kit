@@ -34,7 +34,7 @@ use yii\captcha\Captcha;
                 </p>
 
                <p>招生咨询时间：（周一至周日8:00-20:00）</p>
-               <p>网址：www.guangdaxuexiao.com</p>
+               <p>网址：<a href="http://www.guangdaxuexiao.com/">www.guangdaxuexiao.com</a></p>
                 </p>
             </div>
       </div>
