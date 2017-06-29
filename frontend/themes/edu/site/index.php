@@ -41,10 +41,26 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
             </div>-->
         </div>
         <div class="col-xs-12 no-padding">
+        <?php
+            if(isset($model['about'][0]['articleAttachments']) && !empty($model['about'][0]['articleAttachments']) ){
+                $Attachments = $model['about'][0]['articleAttachments'];
+            foreach ($attachments as $key => $value) {
+                if($key > 5 ){
+                    break;
+                }
+                $url = $value.'?imageView2/3/w/400/h/300';
+        ?>
            <div class="col-xs-3">
+                <img class="img-responsive about_img" src="<?php echo $url ?>">
+            </div>
+            <?php 
+                }}else{
+            ?>
+
+            <div class="col-xs-3">
                 <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/chuangzao.png?imageView2/3/w/400/h/300">
             </div>
-            <div class="col-xs-3">
+            <div  class="col-xs-3">
                 <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/find.png?imageView2/3/w/400/h/300">
             </div>
             <div class="col-xs-3">
@@ -53,6 +69,7 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
             <div class="col-xs-3">
                 <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/jiejue.png?imageView2/3/w/400/h/300">
             </div>
+        <?php }?>
         </div>
 
         <div class="col-xs-12 knowmore">

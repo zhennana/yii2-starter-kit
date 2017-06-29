@@ -3,6 +3,7 @@
 use trntv\filekit\widget\Upload;
 use trntv\yii\datetime\DateTimeWidget;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\bootstrap\ActiveForm;
 use yii\grid\GridView;
 
@@ -65,15 +66,18 @@ use yii\grid\GridView;
 
     <?php echo $form->field($model, 'view')->textInput(['maxlength' => true]) ?>
 
-    <?php echo $form->field($model, 'status')->checkbox() ?>
-
-    <?php echo $form->field($model, 'published_at')->widget(
+    <?php 
+        if($model->isNewRecord){
+            $model->published_at = time();
+        }
+        echo $form->field($model, 'published_at')->widget(
         DateTimeWidget::className(),
         [
+            'locale'            => Yii::$app->language,
             'phpDatetimeFormat' => 'yyyy-MM-dd\'T\'HH:mm:ssZZZZZ'
         ]
     ) ?>
-
+    <?php echo $form->field($model, 'status')->checkbox() ?>
     <div class="form-group">
         <?php echo Html::submitButton(
             $model->isNewRecord ? Yii::t('backend', '创建') : Yii::t('backend', '更新'),
@@ -114,6 +118,7 @@ use yii\grid\GridView;
                     'filter' => $components
                 ],
                 */
+               'id',
                 [
                     'attribute' => 'base_url',
                     'format' => 'raw',
@@ -157,7 +162,20 @@ use yii\grid\GridView;
 
                 [
                     'class' => 'yii\grid\ActionColumn',
-                    'template' => '{view} {delete}'
+                    'template' => '{delete}',
+                           'urlCreator' => function($action, $model, $key, $index) {
+                            // using the column name as key, not mapping to 'id' like the standard generator
+                        $params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
+                        if($action == 'delete'){
+                            \Yii::$app->session['__crudReturnUrl']  = ['/article/update','id'=>$model->article_id];
+                            $params[0] = \Yii::$app->controller->id ? \Yii::$app->controller->id . '/' . 'delete-attachments' : $action;
+                        }else{
+                            $params[0] = \Yii::$app->controller->id ? \Yii::$app->controller->id . '/' . $action : $action;
+                        }
+                        //var_dump($model,$key,$index,$action,Yii::$app->controller->id);exit;
+                       // var_dump($params);exit;
+                        return Url::toRoute($params);
+            },
                 ]
             ]
         ]);

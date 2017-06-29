@@ -6,9 +6,13 @@ use Yii;
 use common\models\Article;
 use backend\models\search\ArticleSearch;
 use \common\models\ArticleCategory;
+use \common\models\ArticleAttachment;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Url;
+use common\components\Qiniu\Auth;
+use common\components\Qiniu\Storage\BucketManager;
 
 /**
  * ArticleController implements the CRUD actions for Article model.
@@ -130,6 +134,33 @@ class ArticleController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+    //删除附件
+    public function actionDeleteAttachments($id)
+    {
+       $model = ArticleAttachment::findOne($id);
+       //dump(\Yii::$app->session['__crudReturnUrl']);exit;
+       if($model){
+            $keys = $model->path;
+            $model->delete();
+            $auth = new Auth(
+                \Yii::$app->params['qiniu']['wakooedu']['access_key'], 
+                \Yii::$app->params['qiniu']['wakooedu']['secret_key']
+            );
+            $bucketMgr = new BucketManager($auth);
+            $bucket    = \Yii::$app->params['qiniu']['wakooedu']['bucket'];
+            $err       = $bucketMgr->delete($bucket,$keys);
+            //var_dump($err);
+           }
+       if(isset(\Yii::$app->session['__crudReturnUrl']) && \Yii::$app->session['__crudReturnUrl'] != '/'){
+            Url::remember(null);
+            $url = \Yii::$app->session['__crudReturnUrl'];
+            \Yii::$app->session['__crudReturnUrl'] = null;
+
+            return $this->redirect($url);
+        }else{
+            return $this->redirect(['index']);
+        }
     }
 
     /**
