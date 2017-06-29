@@ -22,7 +22,7 @@ class CourseSearch extends Course
     public function rules()
     {
         return [
-            [['course_id', 'school_id', 'teacher_id','grade_id', 'courseware_id', 'creater_id', 'start_time', 'end_time', 'status', 'created_at', 'updeated_at'], 'integer'],
+            [['course_id', 'school_id', 'teacher_id','grade_id', 'courseware_id', 'creater_id', 'start_time', 'end_time', 'status', 'created_at', 'updated_at'], 'integer'],
             [['title', 'intro', 'school_title','grade_name','courseware_title'], 'safe'],
         ];
     }
@@ -102,9 +102,9 @@ class CourseSearch extends Course
                       'asc'  => ['course.created_at' => SORT_ASC],
                       'desc' => ['course.created_at' => SORT_DESC],
                 ],
-                'updeated_at' => [
-                      'asc'  => ['course.updeated_at' => SORT_ASC],
-                      'desc' => ['course.updeated_at' => SORT_DESC],
+                'updated_at' => [
+                      'asc'  => ['course.updated_at' => SORT_ASC],
+                      'desc' => ['course.updated_at' => SORT_DESC],
                 ],
             ]
         ]);
@@ -128,7 +128,7 @@ class CourseSearch extends Course
                     'course.end_time'      => $this->end_time,
                     'course.status'        => $this->status,
                     'course.created_at'    => $this->created_at,
-                    'course.updeated_at'   => $this->updeated_at,
+                    'course.updated_at'   => $this->updated_at,
                 ]);
 
         $query->andFilterWhere(['like', 'course.title', $this->title])

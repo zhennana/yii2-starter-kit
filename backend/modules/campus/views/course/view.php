@@ -111,7 +111,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
                 'value' => Course::getStatusValueLabel($model->status),
             ],
             'created_at:datetime',
-            'updeated_at:datetime',
+            'updated_at:datetime',
         ],
     ]); ?>
 
