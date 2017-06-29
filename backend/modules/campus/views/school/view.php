@@ -72,8 +72,8 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
     <?= DetailView::widget([
     'model' => $model,
     'attributes' => [
-            'id',
-        'parent_id',
+        'id',
+       // 'parent_id',
         'school_id',
         'language',
         'school_title',
@@ -83,14 +83,25 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
         'school_backgroud_path',
         'longitude',
         'latitude',
+     
+       // 'province_id',
+        [
+            'attribute'=>'province_id',
+            'value'     =>isset($model->province->province_name) ? $model->province->province_name : '',
+        ],
+        [
+            'attribute'=>'city_id',
+            'value'     =>isset($model->city->city_name) ? $model->city->city_name : '',
+        ],
+        [
+            'attribute'=>'region_id',
+            'value'     =>isset($model->region->region_name) ? $model->region->region_name : '',
+        ],
         'address',
-        'province_id',
-        'city_id',
-        'region_id',
-        'created_at',
-        'updated_at',
-        'created_id',
-        'status',
+        'created_at:datetime',
+        'updated_at:datetime',
+        //'created_id',
+        //'status',
         'sort',
     ],
     ]); ?>
@@ -98,12 +109,12 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
     
     <hr/>
 
-    <?= Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('backend', '删除'), ['delete', 'id' => $model->id],
-    [
-    'class' => 'btn btn-danger',
-    'data-confirm' => '' . Yii::t('backend', '确定要删除该项目吗？') . '',
-    'data-method' => 'post',
-    ]); ?>
+  <!--   // <?// Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('backend', '删除'), ['delete', 'id' => $model->id],
+    // [
+    // 'class' => 'btn btn-danger',
+    // 'data-confirm' => '' . Yii::t('backend', '确定要删除该项目吗？') . '',
+    // 'data-method' => 'post',
+    // ]); ?> -->
     <?php $this->endBlock(); ?>
 
 

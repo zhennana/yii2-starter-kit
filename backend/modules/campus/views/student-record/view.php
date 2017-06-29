@@ -113,16 +113,14 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
             'created_at:datetime'
     ],
     ]); ?>
-
-    
     <hr/>
 
-    <?= Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('backend', '删除'), ['delete', 'student_record_id' => $model->student_record_id],
+    <!-- <? /* Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('backend', '删除'), ['delete', 'student_record_id' => $model->student_record_id],
     [
     'class' => 'btn btn-danger',
     'data-confirm' => '' . Yii::t('backend', '确定要删除该项目吗？') . '',
     'data-method' => 'post',
-    ]); ?>
+    ]);*/ ?> -->
     <?php $this->endBlock(); ?>
 
 

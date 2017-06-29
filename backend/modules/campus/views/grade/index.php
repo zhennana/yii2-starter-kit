@@ -38,7 +38,7 @@ $actionColumnTemplates = [];
     }
 
      if (\Yii::$app->user->can('P_director', ['route' => true]) || \Yii::$app->user->can('E_manager') || Yii::$app->user->can('manager')) {
-        $actionColumnTemplates[] = '{delete}';
+       // $actionColumnTemplates[] = '{delete}';
     }
     if (isset($actionColumnTemplates)) {
     $actionColumnTemplate = implode(' ', $actionColumnTemplates);
@@ -55,7 +55,6 @@ $actionColumnTemplates = [];
 //             echo $this->render('_search', ['model' =>$searchModel]);
         ?>
 
-    
     <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
 
     <h1>

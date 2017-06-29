@@ -13,10 +13,12 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '轮播组件'), 
 $this->params['breadcrumbs'][] = Yii::t('backend', '更新');
 ?>
 <div class="widget-carousel-update">
-
-    <?php echo $this->render('_form', [
+    <?php 
+        if(Yii::$app->user->can('manager')){
+            echo $this->render('_form', [
         'model' => $model,
-    ]) ?>
+    ]);
+    } ?>
 
     <p>
         <?php echo Html::a(Yii::t('backend', '创建轮播组件项目', [

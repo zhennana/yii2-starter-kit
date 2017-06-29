@@ -58,12 +58,12 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
             ['create'],
             ['class' => 'btn btn-success']) ?>
 
-            <?= Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('backend', '删除'), ['delete', 'user_to_grade_id' => $model->user_to_grade_id],
+           <!--  <?/* Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('backend', '删除'), ['delete', 'user_to_grade_id' => $model->user_to_grade_id],
                 [
                 'class' => 'btn btn-danger',
                 'data-confirm' => '' . Yii::t('backend', '确定要删除该项目吗？') . '',
                 'data-method' => 'post',
-                ]); ?>
+                ]);*/ ?> -->
         </div>
     <?php } ?>
         <div class="pull-right">
