@@ -10,7 +10,7 @@ $cateParent=!empty($category['pare_name'])?$category['pare_name']:'光大学校'
       echo $this->render('@frontend/themes/gedu/article/common/sidebarnew',['category'=>$category]);
     ?>
     <!-- 文章内容部分 -->
-    <div class="col-md-8 ">
+    <div class="col-md-9" style="padding-right:0; box-sizing:border-box;">
     <div class="box box-widget geu-content">
             <div class="box-header with-border box-header with-border ">
                 <ol class="breadcrumb" style="margin-bottom: -10px">

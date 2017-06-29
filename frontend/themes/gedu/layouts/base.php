@@ -19,14 +19,70 @@ if(Yii::$app->session->hasFlash('alert')):?>
 <?php endif; ?>
 
 <?php echo $this->render('@frontend/themes/gedu/layouts/common/_alert'); ?>
+<style>
+    .navbar-right li a{
+        font-size:14px !important;
+    }
+    .top-nov .dropdown-menu li a{
+        font-size:12px !important;
+    }
+    .dropdown-menu > .active > a{
+        background-color: #723c8e !important;
+    }
+    .dropdown-menu{
+        box-shadow: none;
+        border-color:transparent;
+        padding: 0;
+    }
+    .navbar-collapse{
+        padding:0 !important;
+    }
+    h4{margin:0;}
+    .box .box-header{
+        padding-left: 10px;
+    }
+    .navbar .container{
+        margin:0 auto;
+        padding: 0 !important;
+        width: 1000px;
+    }
+    .top{margin:0 auto;}
+    .top .container1-f{
+        margin: 0 auto;
+        text-align: center;
+    }
+    .top>.container1{
+         width: 1000px;
+         overflow: hidden;
+        text-align: center;
+    }
+    @media (min-width: 1200px){
+        .top > .container,.main-1 > .container{
+            width: 1000px;
+        }
+        .container{width: 100%}
+    }
+    @media (min-width: 1200px){
+        .navbar-right{
+            margin: 0 !important;
+        }
+    }
+    @media (max-width: 768px){
+        .navbar .container{
+            width:100%;
+        }
+    }
+</style>
 <div class="wrap">
      <div class="top">
-        <div class="top-logo"><img width="210px" height="70px" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/top-logo.png"></div>
-        <div class="top-tel">
-            <div class="top-tel-logo"><img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/top-tel-logo.png"></div>
-            <div class="top-tel-text"><span style="font-weight: bold;">服务热线</span></div>
-            <div class="top-tel-tel"> 0316-<span>5899988</span></div>
-        </div>
+         <div class='container'>
+             <div class="top-logo"><img width="190px" height="60px" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/top-logo.png"></div>
+            <div class="top-tel">
+                <div class="top-tel-logo"><img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/top-tel-logo.png"></div>
+                <div class="top-tel-text"><span style="font-weight: bold;">服务热线</span></div>
+                <div class="top-tel-tel"> 0316-<span>5899988</span></div>
+            </div>
+         </div>
         <div class="clear"></div>
         <div class="top-nov">
            <?php
@@ -92,7 +148,7 @@ if(Yii::$app->session->hasFlash('alert')):?>
                                 
                             // ],
                             [
-                                'label' => Yii::t('frontend', '小学招生'),
+                                'label' => Yii::t('frontend', '小学部招生'),
                                 'url' => ['/article/index', 'category_id'=>'26']
                             
                             ],
@@ -102,21 +158,21 @@ if(Yii::$app->session->hasFlash('alert')):?>
                               
                             // ],
                             [
-                                'label' => Yii::t('frontend', '中学招生'),
+                                'label' => Yii::t('frontend', '中学部招生'),
                                 'url' => ['/article/index', 'category_id'=>'27']
                             ],
                             [
-                                'label' => Yii::t('frontend', '国际招生'),
+                                'label' => Yii::t('frontend', '国际部招生'),
                                 'url' => ['/article/index', 'category_id'=>'28']
                             ],
                             [
                                 'label' => Yii::t('frontend', '韩语班招生'),
                                 'url' => ['/article/index', 'category_id'=>'39']
                             ],
-                            // [
-                            //     'label' => Yii::t('frontend', '特长部招生'),
-                            //     'url' => ['/page/view', 'slug'=>'te-zhang-bu-zhao-sheng-jian-zhang']
-                            // ],
+                            [
+                                'label' => Yii::t('frontend', '特长部招生'),
+                                'url' => ['/article/index', 'category_id'=>'40']
+                            ],
                             
                         ]
                     ],
