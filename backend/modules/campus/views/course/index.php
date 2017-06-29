@@ -181,7 +181,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                         return $model->status;
                     },
                 ],
-    			'updeated_at:datetime',
+    			'updated_at:datetime',
                 'created_at:datetime'
             ],
         ]); ?>
