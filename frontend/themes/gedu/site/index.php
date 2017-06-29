@@ -3,11 +3,16 @@ use yii\helpers\Html;
 //var_dump(empty(null));exit;
 //var_dump($data['other']);exit;
 ?>
+<style type="text/css">
+    .wrap > .container{
+        padding: 70px 0 20px ;
+    }
+</style>
     <div class="main">
         <div class="main-1">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-3 col-md-3 col-sm-3 col-xs-3">
+                    <div class="col-md-3 col-md-3 col-sm-3 col-xs-3 row-1">
                         <div class="row-box">
                             <!-- <div class="main-1-icon-1"><a href="#"><div class="aaa"></div></a></div> -->
                             <!-- <a href="#"><div class="main-1-icon-1"></div></a> -->
@@ -24,7 +29,7 @@ use yii\helpers\Html;
                             <h6>Primary School Department</h6></h4>
                         </div>
                     </div>
-                    <div class="col-md-3 col-md-3 col-sm-3 col-xs-3">
+                    <div class="col-md-3 col-md-3 col-sm-3 col-xs-3 row-1">
                         <div class="row-box">
                             <!-- <a href="#"><div class="main-1-icon-2"></div></a> -->
                             <?php 
@@ -41,7 +46,7 @@ use yii\helpers\Html;
                             <h6>Daltonian</h6>
                         </div>
                     </div>
-                    <div class="col-md-3 col-md-3 col-sm-3 col-xs-3">
+                    <div class="col-md-3 col-md-3 col-sm-3 col-xs-3 row-1">
                         <div class="row-box">
                             <!-- <a href="#"><div class="main-1-icon-3"></div></a> -->
                             <?php 
@@ -83,23 +88,26 @@ use yii\helpers\Html;
             <?php echo $this->render('@frontend/themes/gedu/site/common/teacher.php',['data'=>$data]);?>
         </div>
         <div class="main-3">
-            <div class="main-3-head">
-                <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 main-2-top">
-                        <h1>CAMPUS FEATURES</h1>
-                        <h4>校园风采</h4>
-                        <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-line.png" width="100%">
+            <div class="main-3-head-fu">
+               <div class="main-3-head">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 main-2-top">
+                            <h1>CAMPUS FEATURES</h1>
+                            <h4>校园风采</h4>
+                            <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-line.png" width="100%">
+                        </div>
                     </div>
                 </div>
+                <!--校园风采模块 -->
+                <?php 
+                    if(!is_mobile()){
+                        echo $this->render('@frontend/themes/gedu/site/common/elegant.php');
+                    }else{
+                        echo $this->render('@frontend/themes/gedu/site/common/mobile_elegant');
+                    } 
+                ?>  
             </div>
-            <!--校园风采模块 -->
-            <?php 
-                if(!is_mobile()){
-                    echo $this->render('@frontend/themes/gedu/site/common/elegant.php');
-                }else{
-                    echo $this->render('@frontend/themes/gedu/site/common/mobile_elegant');
-                } 
-            ?>    
+               
         </div>
 
         <!--新闻模块，视频播放模块 -->
@@ -142,3 +150,4 @@ use yii\helpers\Html;
         }
       })
 </script>
+

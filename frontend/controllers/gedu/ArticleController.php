@@ -48,7 +48,7 @@ class ArticleController extends Controller{
 			}else{
 				$category['child']=ArticleCategory::find()->where(['parent_id'=>$category['self']['parent_id']])->asArray()->all();
 			}
-			//echo'<pre>';var_dump($category);exit;
+			
 			
 			$articleQuery->andWhere(['category_id'=>!empty($category['cateIds'])?$category['cateIds']:$category_id])->asArray()->all();
 			
