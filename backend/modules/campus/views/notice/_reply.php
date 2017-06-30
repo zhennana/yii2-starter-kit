@@ -33,14 +33,30 @@ use common\models\User;
                 echo $form->errorSummary($answers);
         ?>
         <p>
+
+           <div class="form-group field-notice-message required">
+                <label class="control-label col-sm-3" for="notice-message">问题</label>
+                <div class="col-sm-6">
+                <textarea id="notice-message1" class="form-control" name="" readonly="" rows="6"><?php echo $questions->message ?>
+                </textarea>
+                </div>
+            </div>
+           <!-- <div class="col-sm-6">
+                <textarea id="notice-message1" class="form-control" name="Notice[][message]" readonly="" rows="6"><?php echo $questions->message ?></textarea>
+                <div class="help-block help-block-error "></div>
+                </div> -->
 <!-- attribute category -->
             <?= $form->field($answers, 'category')->textInput()->hiddenInput([
                 'value' => Notice::CATEGORY_THREE
                 ])->label(false)->hint(false) ?>
+
+         
+
             <?= $form->field($answers, 'replay_notice_id')->textInput()->hiddenInput([
                 'value' => $questions->notice_id
                 ])->label(false)->hint(false) ?>
-            <?= $form->field($questions, 'message')->textarea(['rows' => 6,'readonly'=>true])->label('问题')->hint(false)?>
+
+            
 <!-- attribute message -->
             <?= $form->field($answers, 'message')->textarea(['rows' => 6])->label('回复')->hint(false) ?>
 
