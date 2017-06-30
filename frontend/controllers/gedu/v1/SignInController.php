@@ -569,12 +569,12 @@ class SignInController extends \common\components\ControllerFrontendApi
     /**
      * @SWG\Get(path="/sign-in/logout",
      *     tags={"100-SignIn-用户接口"},
-     *     summary="]",
-     *     description="退出接口",
+     *     summary="退出用户账户",
+     *     description="退出用户账户接口",
      *     produces={"application/json"},
      *     @SWG\Response(
      *         response = 200,
-     *         description = "返回1"
+     *         description = "成功返回[]，失败返回提示信息"
      *     )
      * )
      *
