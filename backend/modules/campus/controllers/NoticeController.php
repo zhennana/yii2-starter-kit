@@ -276,4 +276,50 @@ class NoticeController extends \backend\modules\campus\controllers\base\NoticeCo
 
     }
 
+    //反馈意见
+    public function actionFeedback(){
+        $searchModel  = new NoticeSearch;
+        $dataProvider = $searchModel->search($_GET);
+        $dataProvider->query->andWhere([
+                'category'         =>3,
+                'replay_notice_id' =>NULL
+            ]);
+        $dataProvider->sort = [
+            'defaultOrder'=>[
+                'updated_at' => SORT_DESC
+            ]
+        ];
+        return $this->render('feedback', [
+            'dataProvider' => $dataProvider,
+            'searchModel'  => $searchModel,
+        ]);
+    }
+    public function actionReply($notice_id = false){
+        $questions = Notice::findOne($notice_id);
+       // var_dump($questions);exit;
+        if($questions->reply){
+            $answers = $questions->reply;
+        }else{
+            $answers = new Notice;
+        }
+        if($answers->load($_POST)){
+            $answers->status_check = Notice::STATUS_CHECK_NOT_LOOK;
+            $answers->status_send  = Notice::STATUS_SEND_SENT;
+            $answers->sender_id    = Yii::$app->user->identity->id;
+            $answers->receiver_id  = $questions->sender_id;
+            $answers->message_hash = md5($answers->message);
+            $answers->school_id    = 0;
+
+            if($answers->save()){
+                $questions->status_check = Notice::STATUS_CHECK_LOOK;
+                $questions->save();
+                return $this->redirect(['feedback']);
+            }
+        }
+        return $this->renderAjax('_reply',[
+                'questions'=>$questions,
+                'answers'  =>$answers,
+            ]);
+    }
+
 }

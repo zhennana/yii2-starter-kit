@@ -36,6 +36,7 @@ abstract class Notice extends \yii\db\ActiveRecord
 
     CONST CATEGORY_ONE     = 1; //消息通知；
     CONST CATEGORY_TWO     = 2; //老师对学生说的话；
+    CONST CATEGORY_THREE   = 3;
 
     CONST STATUS_SEND_SENT   = 10;    // 发送
     CONST STATUS_SEND_UNSENT = 20;    // 未发送
@@ -72,14 +73,14 @@ abstract class Notice extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title','message','school_id','category', 'sender_id'], 'required'],
+            [['message','school_id','category', 'sender_id'], 'required'],
             [['message'], 'string'],
-            [['sender_id', 'grade_id','receiver_id', 'is_sms', 'is_wechat_message', 'times', 'status_send', 'status_check'], 'integer'],
+            [['sender_id','replay_notice_id', 'grade_id','receiver_id', 'is_sms', 'is_wechat_message', 'times', 'status_send', 'status_check'], 'integer'],
             [['title'], 'string', 'max' => 128],
             [['message_hash', 'receiver_name', 'wechat_message_id'], 'string', 'max' => 32],
             [['receiver_phone_numeber'], 'string', 'max' => 11],
-            ['grade_id','required','on'=>['grade','student']],
-            [['receiver_id'],'required','on'=>['teacher','student']],
+            [['grade_id','title'],'required','on'=>['grade','student']],
+            [['receiver_id','title'],'required','on'=>['teacher','student']],
         ];
     }
 
@@ -101,8 +102,8 @@ abstract class Notice extends \yii\db\ActiveRecord
             'notice_id'              => Yii::t('backend', '消息ID'),
             'title'                  => Yii::t('backend', '消息标题'),
             'message'                => Yii::t('backend', '消息内容'),
-            'school_id'                => Yii::t('backend', '学校'),
-            'grade_id'                => Yii::t('backend', '班级'),
+            'school_id'              => Yii::t('backend', '学校'),
+            'grade_id'               => Yii::t('backend', '班级'),
             //'message'                => Yii::t('backend', '消息内容'),
             'message_hash'           => Yii::t('backend', 'Message Hash'),
             'sender_id'              => Yii::t('backend', '发送者ID'),
@@ -149,6 +150,13 @@ abstract class Notice extends \yii\db\ActiveRecord
         ];
     }
 
+    public static function optsStatusCheck(){
+        return [
+            self::STATUS_CHECK_LOOK => '查看',//查看；
+            self:: STATUS_CHECK_NOT_LOOK => '未查看', //未查看；
+        ];
+    }
+
     public static function getStatusSendLabel($value)
     {
         $labels = self::optsStatusSend();
@@ -173,7 +181,18 @@ abstract class Notice extends \yii\db\ActiveRecord
         // }
         return $name;
     }
-    
+    //根据问题回复
+    public function getReply(){
+        return $this->hasOne(\backend\modules\campus\models\Notice::className(),[
+            'replay_notice_id'=>'notice_id'
+            ]);
+    }
+    //根据答案获取问题
+    public function getQuestion(){
+        return $this->hasOne(\backend\modules\campus\models\Notice::className(),[
+            'notice_id'=>'replay_notice_id'
+            ]);
+    }
     /**
      * @inheritdoc
      * @return \backend\modules\campus\models\query\NoticeQuery the active query used by this AR class.

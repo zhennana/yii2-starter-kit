@@ -61,11 +61,9 @@ namespace backend\modules\campus\controllers\base;
         {
             $searchModel  = new SchoolSearch;
             $dataProvider = $searchModel->search($_GET);
-
             $schools = \Yii::$app->user->identity->schoolsInfo;
             $schools = ArrayHelper::map($schools,'school_id','school_id');
-
-            $dataProvider->query->where([
+            $dataProvider->query->andWhere([
                 'school_id'=>array_keys($schools)
                 ]);
             Tabs::clearLocalStorage();
@@ -76,7 +74,7 @@ namespace backend\modules\campus\controllers\base;
             return $this->render('index', [
                 'dataProvider' => $dataProvider,
                 'searchModel' => $searchModel,
-                'schools'      => $schools,
+                //'schools'      => $schools,
             ]);
         }
 
