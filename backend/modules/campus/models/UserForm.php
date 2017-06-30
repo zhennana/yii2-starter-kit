@@ -46,6 +46,7 @@ class UserForm extends Model
                     $query->andWhere(['not', ['id'=>$this->getModel()->id]]);
                 }
             }],
+            [['username','realname'],'required','on'=>'create'],
            [['username','realname'], 'string', 'min' => 2, 'max' => 32],
             //['nickname', 'string', 'min' => 2, 'max' => 32],
             //['realname', 'string', 'min' => 2, 'max' => 32],
