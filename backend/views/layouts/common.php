@@ -590,6 +590,11 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                 ['label'=>Yii::t('backend', '文本组件'), 'url'=>['/widget-text/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
                                 ['label'=>Yii::t('backend', '菜单组件'), 'url'=>['/widget-menu/index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
                                 ['label'=>Yii::t('backend', '轮播组件'), 'url'=>['/widget-carousel/index','type'=>2], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
+                                [
+                                    'label'=>Yii::t('backend', '用户反馈意见'), 
+                                    'url'=>['/campus/notice/feedback'], 
+                                    'icon'=>'<i class="fa fa-angle-double-right"></i>'
+                                ],
                             ]
 
                         ],
