@@ -76,7 +76,7 @@ $imgsize="?imageView2/1/w/250/h/300";
       echo $this->render('@frontend/themes/gedu/article/common/sidebarnew',['category'=>$category]);
     ?>
     <!-- 文章内容部分 -->
-    <div class="col-md-8 ">
+    <div class="col-md-9 ">
       <div class="box box-widget geu-content">
             <div class="box-header with-border ">
               <div class="">

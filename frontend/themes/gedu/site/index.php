@@ -36,7 +36,7 @@ use yii\helpers\Html;
                                 $href= yii\helpers\Url::to(['page/view','slug'=>'chu-zhong-bu-zhao-sheng-jian-zhang']);
                                 $html='';
                                 $html.='<a href="'.$href.'">';
-                                $html.='<div class="main-1-icon-1"></div>';
+                                $html.='<div class="main-1-icon-2"></div>';
                                 $html.='</a>';
                                 echo $html;
                             ?>
@@ -53,7 +53,7 @@ use yii\helpers\Html;
                                 $href= yii\helpers\Url::to(['page/view','slug'=>'guo-ji-zhong-xue-bu-zhao-sheng-jian-zhang']);
                                 $html='';
                                 $html.='<a href="'.$href.'">';
-                                $html.='<div class="main-1-icon-1"></div>';
+                                $html.='<div class="main-1-icon-3"></div>';
                                 $html.='</a>';
                                 echo $html;
                             ?>
@@ -70,7 +70,7 @@ use yii\helpers\Html;
                                 $href= yii\helpers\Url::to(['page/view','slug'=>'te-zhang-bu-zhao-sheng-jian-zhang']);
                                 $html='';
                                 $html.='<a href="'.$href.'">';
-                                $html.='<div class="main-1-icon-1"></div>';
+                                $html.='<div class="main-1-icon-4"></div>';
                                 $html.='</a>';
                                 echo $html;
                             ?>
@@ -83,6 +83,13 @@ use yii\helpers\Html;
                 </div>
             </div>
         </div>
+         <!--新闻模块，视频播放模块 -->
+                <div class="main-4">
+                    <div class="main-4-fu">
+                     <?php echo $this->render('@frontend/themes/gedu/site/common/article.php',['data'=>$data]);?>
+                    </div>
+
+                </div>
         <!--教师风采页面-->
         <div class="main-2">
             <?php echo $this->render('@frontend/themes/gedu/site/common/teacher.php',['data'=>$data]);?>
@@ -110,10 +117,7 @@ use yii\helpers\Html;
                
         </div>
 
-        <!--新闻模块，视频播放模块 -->
-        <div class="main-4">
-            <?php echo $this->render('@frontend/themes/gedu/site/common/article.php',['data'=>$data]);?>
-        </div>
+
     </div>
 
     <script type="text/javascript">

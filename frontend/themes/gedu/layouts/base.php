@@ -2,6 +2,7 @@
 
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
+use yii\helpers\Html;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -199,13 +200,13 @@ if(Yii::$app->session->hasFlash('alert')):?>
 
 <footer class="footer">
      <div class="footer">
-        <div class="footer-1">
+     <!--   <div class="footer-1">
             <div class="footer-1-inner">
                 <img class="footer-1-inner-img" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/footer-1-links.png">
                 <span><a href="#"></a></span>
                 <span><a href="#">光大学校</a></span>
             </div>
-        </div>
+        </div> -->
 
 
   <!--       <div style="height: 150px;background: #76147c; padding: 28px 20px;">
@@ -221,49 +222,91 @@ if(Yii::$app->session->hasFlash('alert')):?>
 
             </div>
         </div> -->
-
-
         <div class="footer-2">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-4 col-md-4 col-sm-4 col-xs-4 row-box1">
-                        <div class="footer-2-box1">
-                            <div class="footer-2-icon">
-                                <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/footer-2-add.png">
-                            </div>                        
-                            <div class="footer-2-text">
-                                <h3 >Address</h3>
-                                <p>河北省三河市燕郊开发区燕灵路236号</p>
-                                <p id="footer-2-box1-p">（三河二中西门路北）</p>
-                            </div> 
+                    <div class="container">
+                        <div class="row footer-row">
+                            <div class="col-md-4 col-md-4 col-sm-4 col-xs-4 row-box1" style="margin-top:15px;padding:0;">
+                                <div class="footer-2-box1">
+                                    <div class="footer-2-icon">
+                                        <img width="27" height="27" src="http://orh16je38.bkt.clouddn.com/adress.png">
+                                    </div>
+                                    <div class="footer-2-text1">
+                                        <h3 >Address</h3>
+                                        <p>河北省三河市燕郊开发区燕灵路236号</p>
+                                        <p id="footer-2-box1-p">（三河二中西门路北）</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-md-4 col-sm-4 col-xs-4" style="margin-top:15px;">
+                                <div class="footer-2-box3">
+                                    <div class="footer-2-icon dinahua">
+                                        <img width="35" height="35" src="http://orh16je38.bkt.clouddn.com/dianhua.png">
+                                    </div>
+                                    <div class="footer-2-text">
+                                        <h3>0316-5899988</h3>
+                                        <p>服务热线</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-md-4 col-sm-4 col-xs-4" style="margin-top:15px;padding:0;text-align:right;">
+                                <div class="footer-2-box3">
+                                    <div class="footer-2-icon weixin-img">
+                                        <img width="35" height="35" src="http://orh16je38.bkt.clouddn.com/weixin1.png">
+                                    </div>
+                                    <div class="footer-2-text weixin">
+                                        <img width="70" height="70" class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/WechatIMG1.jpeg">
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                   
-                    <div class="col-md-4 col-md-4 col-sm-4 col-xs-4">
-                        <div class="footer-2-box3">
-                            <div class="footer-2-icon">
-                                <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/footer-2-tel.png">
-                            </div>                        
-                            <div class="footer-2-text">
-                                <h3>0316-5899988</h3>
-                                <p>服务热线</p>
-                            </div>
-                        </div> 
-                    </div>
-                    <div class="col-md-4 col-md-4 col-sm-4 col-xs-4">
-                        <div class="footer-2-box3">
-                            <div class="footer-2-icon">
-                                <img width="50px" height="42px" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/weixin.png">
-                            </div>                        
-                            <div class="footer-2-text">
-                                <img width="100px" height="100px" class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/WechatIMG1.jpeg">
-                           
-                            </div>
-                        </div> 
+                </div>
+
+
+<div class="footer-3">
+            <div class="container">
+                <div class="row footer-row-nav">
+                    <div class="footer-row-nav-fu">
+                        <ul>
+                            <li><h1><?php echo Html::a('走进光大',['article/index','category_id'=>9])?></h1></li>
+                            <li><?php echo Html::a('学校概况',['article/index','category_id'=>9])?></li>
+                            <li><?php echo Html::a('办学理念',['article/index','category_id'=>32])?></li>
+                            <li><?php echo Html::a('校园风光',['site/sights','category_id'=>37])?></li>
+                            <li><?php echo Html::a('教师风采',['site/teacher','category_id'=>38])?></li>
+                        </ul>
+                        <ul>
+                            <li><h1><?php echo Html::a('教育教学',['article/index','category_id'=>29])?></h1></li>
+                            <li><?php echo Html::a('家校沟通',['article/index','category_id'=>29])?></li>
+                        </ul>
+                        <ul>
+                            <li><h1><?php echo Html::a('合作交流',['article/index','category_id'=>34])?></h1></li>
+                            <li><?php echo Html::a('光大合作',['article/index','category_id'=>34])?></li>
+                        </ul>
+                        <ul>
+                            <li><h1><?php echo Html::a('招生专栏',['article/index','category_id'=>25])?></h1></li>
+                            <li><?php echo Html::a('入学手册',['article/index','category_id'=>25])?></li>
+                            <li><?php echo Html::a('小学部招生',['article/index','category_id'=>26])?></li>
+                            <li><?php echo Html::a('中学部招生',['article/index','category_id'=>27])?></li>
+                            <li><?php echo Html::a('国际部招生',['article/index','category_id'=>28])?></li>
+                            <li><?php echo Html::a('韩语班招生',['article/index','category_id'=>39])?></li>
+                            <li><?php echo Html::a('特长部招生',['article/index','category_id'=>40])?></li>
+                        </ul>
+                        <ul>
+                            <li><h1><?php echo Html::a('招贤纳士',['article/index','category_id'=>33])?></h1></li>
+                        </ul>
+                        <ul>
+                            <li><h1><?php echo Html::a('在线报名',['site/apply-to-play'])?></h1></li>
+                        </ul>
+                        <ul>
+                            <li><h1><?php echo Html::a('联系我们',['site/contact'])?></h1></li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
+
         <!-- <div class="footer-3">
             <div class="container">
                 <div class="row">
@@ -288,8 +331,8 @@ if(Yii::$app->session->hasFlash('alert')):?>
             <div class="container">
                 <div class="row">
                     <div class="col-md-12 col-md-12 col-sm-12 col-xs-12">
-                        <p>版权所有：光大学校&nbsp;&nbsp;&nbsp;2016 @ All Rights Reserved 冀ICP备16001426号-1</p>
-                        <p>技术支持：<a target="blank" href="http://www.yajol.com/">燕郊在线</a></p>     
+                        <span>版权所有：光大学校&nbsp;&nbsp;&nbsp;2016 @ All Rights Reserved 冀ICP备16001426号-1</span>
+                        <span style="margin-left:20px">技术支持：<a target="blank" href="http://www.yajol.com/">燕郊在线</a></span>
                     </div>
                 </div>
             </div>
