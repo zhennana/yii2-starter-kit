@@ -194,7 +194,17 @@ $avatar .= '?imageView2/3/w/215/h/215';
                     'submenuTemplate'=>"\n<ul class=\"treeview-menu\">\n{items}\n</ul>\n",
                     'activateParents'=>true,
                     'items'=>[
-//总部
+//总部    
+                        [
+                            'label'=>Yii::t('backend', 'Timeline'),
+                            'icon'=>'<i class="fa fa-bar-chart-o"></i>',
+                            'url'=>['/timeline-event/index'],
+                              'visible'=>(
+                                Yii::$app->user->can('manager') ||
+                                Yii::$app->user->can('E_manager')),
+                            'badge'=> TimelineEvent::find()->today()->count(),
+                            'badgeBgClass'=>'label-success',
+                        ],
                         [
                             'label'=>Yii::t('backend', '总部(校企)'),
                             'options' => ['class' => 'header'],
@@ -210,21 +220,15 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                     ['label'=>Yii::t('backend', '文章'), 'url'=>['/article/index','type'=>1], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
                                     ['label'=>Yii::t('backend', '轮播组件'), 'url'=>['/widget-carousel/index','type'=>1], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
                                     ['label'=>Yii::t('backend', 'Cache'), 'url'=>['/cache/index','type'=>1], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
-                        ],
-
-                        [
-                            'label'=>Yii::t('backend', 'Timeline'),
-                            'icon'=>'<i class="fa fa-bar-chart-o"></i>',
-                            'url'=>['/timeline-event/index'],
-                              'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') ),
-                            'badge'=> TimelineEvent::find()->today()->count(),
-                            'badgeBgClass'=>'label-success',
+                                    ]
                         ],
                         [
                             'label'=>Yii::t('backend', '课程体系管理'),
                             'url' => '#',
                             'icon'=>'<i class="fa fa-edit"></i>',
-                              'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager')),
+                              //'visible'=>(
+                                // Yii::$app->user->can('manager') ||
+                                // Yii::$app->user->can('E_manager')),
                             'options'=>['class'=>'treeview'],
                             'items'=>[
                                 [
@@ -258,7 +262,6 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                 ],
                         ],
                             ],
-                        ],
                         /*
                         [
                             'label'=>Yii::t('backend', '班级管理'),

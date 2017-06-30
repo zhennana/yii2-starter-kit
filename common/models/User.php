@@ -136,6 +136,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             'username' => Yii::t('common', 'Username'),
+            'realname' => '真实姓名',
             'email' => Yii::t('common', 'E-mail'),
             'phone_number' => Yii::t('common', '手机号'),
             'status' => Yii::t('common', 'Status'),
