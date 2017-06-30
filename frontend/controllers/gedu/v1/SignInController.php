@@ -492,8 +492,8 @@ class SignInController extends \common\components\ControllerFrontendApi
      */
     public function actionUpdateProfile()
     {
-        $avatar_base_url = 'http://7xrpkx.com1.z0.glb.clouddn.com/';
-        $avatar_base_url = 'http://7xsm8j.com1.z0.glb.clouddn.com/';
+        $avatar_base_url = Yii::$app->params['qiniu']['wakooedu']['domain'];
+        //var_dump($avatar_base_url);exit;
         $user_id         = Yii::$app->request->post('user_id');
         $data            = Yii::$app->request->post('json_data');
         $data            = json_decode($data, true);
@@ -510,11 +510,11 @@ class SignInController extends \common\components\ControllerFrontendApi
             $key = $model->avatar_path;
             if($key != $data['key']){
                 $auth = new Auth(
-                    \Yii::$app->params['qiniu']['yajol-static']['access_key'], 
-                    \Yii::$app->params['qiniu']['yajol-static']['secret_key']
+                    \Yii::$app->params['qiniu']['wakooedu']['access_key'], 
+                    \Yii::$app->params['qiniu']['wakooedu']['secret_key']
                 );
                 $bucketMgr = new BucketManager($auth);
-                $bucket    = \Yii::$app->params['qiniu']['yajol-static']['bucket'];
+                $bucket    = \Yii::$app->params['qiniu']['wakooedu']['bucket'];
                 $key       = $model->avatar_path;
                 $err       = $bucketMgr->delete($bucket, $key);
 //var_dump($err); exit();
@@ -531,11 +531,11 @@ class SignInController extends \common\components\ControllerFrontendApi
         }
 
         if (!$model->save(false)) {
-            $this->serializer['errno']   = 1;
+            $this->serializer['errno']   = 422;
             $this->serializer['message'] = $model->getErrors();
             return [];
         }
-        return $model->attributes;
+        return ['avatar_url'=>$model->attributes['avatar_base_url'].'/'.$model->attributes['avatar_path']];
     }
 
      
@@ -555,24 +555,42 @@ class SignInController extends \common\components\ControllerFrontendApi
      */
     public function actionQiniuToken()
     {
-        $auth = new Auth(\Yii::$app->params['qiniu']['yajol-static']['access_key'], \Yii::$app->params['qiniu']['yajol-static']['secret_key']);
+        $auth = new Auth(\Yii::$app->params['qiniu']['wakooedu']['access_key'], \Yii::$app->params['qiniu']['wakooedu']['secret_key']);
         $policy['returnBody'] = '{"name": $(fname),"size": $(fsize),"type": $(mimeType),"hash": $(etag),"key":$(key)}';
-        $token = $auth->uploadToken(\Yii::$app->params['qiniu']['yajol-static']['bucket'],null,3600,$policy);
+        $token = $auth->uploadToken(\Yii::$app->params['qiniu']['wakooedu']['bucket'],null,3600,$policy);
         Yii::$app->response->format = Response::FORMAT_JSON;
         
-        Yii::$app->response->data = [
+       return  Yii::$app->response->data = [
             'uptoken' => $token
-        ]; 
-        //echo '{"uptoken": "'.$token.'"}';
+        ];
     }
 
+
+    /**
+     * @SWG\Get(path="/sign-in/logout",
+     *     tags={"100-SignIn-用户接口"},
+     *     summary="]",
+     *     description="退出接口",
+     *     produces={"application/json"},
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "返回1"
+     *     )
+     * )
+     *
+     */
     /**
      * @return Response
      */
     public function actionLogout()
     {
-        Yii::$app->user->logout();
-        return $this->goHome();
+        if(Yii::$app->user->logout()){
+            return [];
+        }else{
+            $this->serializer['errno']   = 1;
+            $this->serializer['message'] = '退出失败，请重试';
+            return [];
+        };
     }
 
     public function actiolAuthKey()
