@@ -126,4 +126,5 @@ use yii\captcha\Captcha;
 
     </div>
   </div>
+  </div>
 

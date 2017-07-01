@@ -26,6 +26,7 @@ use yii\helpers\Html;
                     </ol>
                 </div>
                 <div class="box-body">
+                  <h3 style="text-align:center;"><?php echo $model->title;?></h3>
                   <?php echo $model->body;?>
                 </div>
         </div>
