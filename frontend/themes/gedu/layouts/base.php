@@ -21,6 +21,7 @@ if(Yii::$app->session->hasFlash('alert')):?>
 
 <?php echo $this->render('@frontend/themes/gedu/layouts/common/_alert'); ?>
 <style>
+
     .navbar-right li a{
         font-size:14px !important;
     }
@@ -222,7 +223,7 @@ if(Yii::$app->session->hasFlash('alert')):?>
 
             </div>
         </div> -->
-        <div class="footer-2">
+    <!--    <div class="footer-2">
                     <div class="container">
                         <div class="row footer-row">
                             <div class="col-md-4 col-md-4 col-sm-4 col-xs-4 row-box1" style="margin-top:15px;padding:0;">
@@ -262,7 +263,7 @@ if(Yii::$app->session->hasFlash('alert')):?>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
 
 <div class="footer-3">
@@ -299,9 +300,17 @@ if(Yii::$app->session->hasFlash('alert')):?>
                         <ul>
                             <li><h1><?php echo Html::a('在线报名',['site/apply-to-play'])?></h1></li>
                         </ul>
-                        <ul>
-                            <li><h1><?php echo Html::a('联系我们',['site/contact'])?></h1></li>
-                        </ul>
+                        <div class="footer-info">
+                            <div class="footer-weixin">
+                                 <!--   <div class="footer-2-icon weixin-img">
+                                        <img width="35" height="35" src="http://orh16je38.bkt.clouddn.com/weixin1.png">
+                                    </div> -->
+                                    <div class="weixin-img">
+                                        <img width="110" height="110" class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/WechatIMG1.jpeg">
+                                    </div>
+                                    <span>关注光大微信公众号，及时了解光大动态，扫码开启吧!</span>
+                                </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -310,14 +319,12 @@ if(Yii::$app->session->hasFlash('alert')):?>
         <!-- <div class="footer-3">
             <div class="container">
                 <div class="row">
-                    
                     <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                         <div class="footer-3-box1">
                             <img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/WechatIMG1.jpeg">
                             <p>公众号</p>
                         </div>
                     </div>
-                    
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                         <div class="footer-3-box2">
                             <img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/footer-ma.png">
@@ -330,7 +337,7 @@ if(Yii::$app->session->hasFlash('alert')):?>
         <div class="footer-4">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-xs-12 end">
                         <span>版权所有：光大学校&nbsp;&nbsp;&nbsp;2016 @ All Rights Reserved 冀ICP备16001426号-1</span>
                         <span style="margin-left:20px">技术支持：<a target="blank" href="http://www.yajol.com/">燕郊在线</a></span>
                     </div>

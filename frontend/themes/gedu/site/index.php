@@ -5,7 +5,7 @@ use yii\helpers\Html;
 ?>
 <style type="text/css">
     .wrap > .container{
-        padding: 70px 0 20px ;
+        padding: 70px 0 40px ;
     }
 </style>
     <div class="main">
@@ -134,24 +134,46 @@ use yii\helpers\Html;
         var donebg=$('.done_bg');
 
      
-     if(!(navigator.userAgent.indexOf("Safari") > -1 && navigator.userAgent.indexOf("Chrome") == -1)){
-        oVbox.on('click',function(){
-          oV.play();
-          oVbg.css({'display':'none','background':'none'});
-        });
-      }
-        /*oV.play();*/
-        if(navigator.userAgent.indexOf('Firefox') >= 0){
-            donebg.addClass('fire_bg');
-            donebg_p.css({'display':'-moz-box','padding-bottom':'170px'});
-        }
-        if(navigator.userAgent.indexOf("Safari") > -1 && navigator.userAgent.indexOf("Chrome") == -1){
-            oVbox.css({'height':'0'});
-            oVbtn.on('click',function(){
-                  
-                  oVbtn.css({'display':'none','background':'none'});
-                });
-        }
+         if(!(navigator.userAgent.indexOf("Safari") > -1 && navigator.userAgent.indexOf("Chrome") == -1)){
+            oVbox.on('click',function(){
+              oV.play();
+              oVbg.css({'display':'none','background':'none'});
+            });
+            }
+            /*oV.play();*/
+            if(navigator.userAgent.indexOf('Firefox') >= 0){
+                donebg.addClass('fire_bg');
+                donebg_p.css({'display':'-moz-box','padding-bottom':'170px'});
+            }
+            if(navigator.userAgent.indexOf("Safari") > -1 && navigator.userAgent.indexOf("Chrome") == -1){
+                oVbox.css({'height':'0'});
+                oVbtn.on('click',function(){
+
+                      oVbtn.css({'display':'none','background':'none'});
+                    });
+         }
       })
+     $(document).ready(function(){
+         $(window).scroll(function(){
+             if($(window).scrollTop()>350){
+                 $(".main-4-newsBox").css({
+                    "transform": "translate3d(0, 0, 0)",
+                    "-ms-transform": "translate3d(0, 0, 0)",
+                    "-o-transform": "translate3d(0, 0, 0)",
+                    "-webkit-transform": "translate3d(0, 0, 0)",
+                    "-moz-transform": "translate3d(0, 0, 0)",
+                    "opacity": 1
+                 });
+                 $(".main-4-videoBox").css({
+                    "transform": "translate3d(0, 0, 0)",
+                    "-ms-transform": "translate3d(0, 0, 0)",
+                    "-o-transform": "translate3d(0, 0, 0)",
+                    "-webkit-transform": "translate3d(0, 0, 0)",
+                    "-moz-transform": "translate3d(0, 0, 0)",
+                    "opacity": 1
+                 });
+             };
+         });
+     });
 </script>
 

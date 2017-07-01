@@ -89,21 +89,22 @@ h6{
 /*.row-box .main-1-icon-1{background:url("../g-img/open-book.png") no-repeat center;
  padding:37% 10% 20% 10%; margin: 6% 21%;}*/
 .row-box .main-1-icon-1{background:url("http://orh16je38.bkt.clouddn.com/open-book@2x.png") no-repeat center;
- padding:50% 50% 20% 50%;background-size: contain;}
+ padding:50% 50% 20% 50%;background-size: contain;transform:rotate(0deg);animation: mytrans 3s;-moz-animation: mytrans 3s;-o-animation: mytrans 3s;-webkit-animation: mytrans 3s;
+}
 .row-box .main-1-icon-2{background:url("http://orh16je38.bkt.clouddn.com/open-book-2@2x.png") no-repeat center;
- padding:50% 50% 20% 50%;background-size: contain;}
+ padding:50% 50% 20% 50%;background-size: contain;transform:rotate(0deg);animation: mytrans 3s;-moz-animation: mytrans 3s;-o-animation: mytrans 3s;-webkit-animation: mytrans 3s;}
 .row-box .main-1-icon-3{background:url("http://orh16je38.bkt.clouddn.com/globe@2x.png") no-repeat center;
- padding:50% 50% 20% 50%;background-size: contain;}
+ padding:50% 50% 20% 50%;background-size: contain;transform:rotate(0deg);animation: mytrans 3s;-moz-animation: mytrans 3s;-o-animation: mytrans 3s;-webkit-animation: mytrans 3s;}
 .row-box .main-1-icon-4{background:url("http://orh16je38.bkt.clouddn.com/diamond@2x.png") no-repeat center;
- padding:50% 50% 20% 50%;background-size: contain;}
+ padding:50% 50% 20% 50%;background-size: contain;transform:rotate(0deg);animation: mytrans 3s;-moz-animation: mytrans 3s;-o-animation: mytrans 3s;-webkit-animation: mytrans 3s;}
 .row-box .main-1-icon-1:hover{background:url("http://7xsm8j.com2.z0.glb.qiniucdn.com/open-book-0.png") no-repeat center;
- padding:50% 50% 20% 50%;}
+ padding:50% 50% 20% 50%;background-size: contain;}
 .row-box .main-1-icon-2:hover{background:url("http://7xsm8j.com2.z0.glb.qiniucdn.com/open-book-2-0.png") no-repeat center;
- padding:50% 50% 20% 50%;}
+ padding:50% 50% 20% 50%;background-size: contain;}
 .row-box .main-1-icon-3:hover{background:url("http://7xsm8j.com2.z0.glb.qiniucdn.com/globe-0.png") no-repeat center;
- padding:50% 50% 20% 50%;}
+ padding:50% 50% 20% 50%;background-size: contain;}
 .row-box .main-1-icon-4:hover{background:url("http://7xsm8j.com2.z0.glb.qiniucdn.com/diamond-0.png") no-repeat center;
- padding:50% 50% 20% 50%;}
+ padding:50% 50% 20% 50%;background-size: contain;}
 /*main-2*/
 .main-2 h1{font-size: 42px;color:#723c8e;}
 .main-2 h4{font-size: 21px;width:100%;}
@@ -143,9 +144,34 @@ h6{
 /*main-4*/
 .main-4{background-color: #fff; padding: 3% 0;}
 .main-4-fu{width:1000px;margin:0 auto}
-.main-4 .main-4-newsBox{background-color: #fff;padding-left: 0}
+.main-4 .main-4-newsBox{background-color: #fff;padding-left: 0;
+	position:absolute;left:0;top:0;
+	transform: translate3d(0, 0, 150px);
+	-ms-transform: translate3d(-150px, 0, 0);
+	-webkit-transform: translate3d(-150px, 0, 0);
+	-o-transform: translate3d(-150px, 0, 0);
+	-moz-transform: translate3d(-150px, 0, 0);
+	opacity: 0;
+	transition: transform 1s ease 0s, opacity 1s ease 0s;
+	-moz-transition: -moz-transform 1s ease 0s, opacity 1s ease 0s;
+	-webkit-transition: -webkit-transform 1s ease 0s, opacity 1s ease 0s;
+	-o-transition: -o-transform 1s ease 0s, opacity 1s ease 0s;
+	-ms-transition: -ms-transform 1s ease 0s, opacity 1s ease 0s;}
 .page-header{padding-left:3%;}
-.main-4-videoBox{padding-right:0;}
+.main-4-videoBox{padding-right:0;position:absolute;right:0;
+	top:0;
+	transform: translate3d(150px, 0, 0);
+	-ms-transform: translate3d(150px, 0, 0);
+	-webkit-transform: translate3d(150px, 0, 0);
+	-o-transform: translate3d(150px, 0, 0);
+	-moz-transform: translate3d(150px, 0, 0);
+	opacity: 0;
+	transition: transform 1s ease 0s, opacity 1s ease 0s;
+	-moz-transition: -moz-transform 1s ease 0s, opacity 1s ease 0s;
+	-webkit-transition: -webkit-transform 1s ease 0s, opacity 1s ease 0s;
+	-o-transition: -o-transform 1s ease 0s, opacity 1s ease 0s;
+	-ms-transition: -ms-transform 1s ease 0s, opacity 1s ease 0s;
+	}
 .newsBox-top .newsBox-top-L{ display: block; content: ''; clear: both; }
 .newsBox-top-L img{float: left; padding-top: 5%; padding-left: 2%;}
 .newsBox-top-L-news{float: left; margin-left: 2%;}
@@ -187,7 +213,7 @@ h6{
 .footer-2 p{font-size: 14px; color: #333;font-size: 12px;}
 .footer-2-icon{float: left; padding:2%;}
 .dinahua{margin-left:22%;}
-.weixin-img{margin-left:30%;}
+.weixin-img{margin-left:15%;}
 .footer-2-text{float: left; /*border-left: 1px #87599f solid; margin-top: 11%;*/}
 .weixin{margin-top:-4%;}
 /*.footer-2-text1{ margin-top: 6%;}*/
@@ -200,13 +226,13 @@ h6{
 .footer-2-box2 .footer-2-icon{padding-left: 30%;}
 
 /*footer-3*/
-.footer-3{text-align: center; padding:2% 0 .5%;background: #e0e0e0}
+.footer-3{text-align: center; padding:2% 0 .5%;background: #404040;}
 .footer-3-box1{padding-left: 70%; padding-top: 6%; padding-right: 14.5%;}
 .footer-3-box2{padding-left: 10%; padding-top: 6%; padding-right: 74%;}
 .footer-3-box1 p,.footer-3-box2 p{padding-top: 7%;}
 /*footer-4*/
-.footer-4{text-align: center;background: #a5a2a7;padding:10px 0}
-.footer-4 p{color: #777;}
+.footer-4{text-align: center;background: #222;padding:15px 0}
+.footer-4 p{color: #fff;}
 .gbox{
 	background: #723c8e;
 	height: 40px;
@@ -534,7 +560,7 @@ h6{
   	margin-left: 5px;
   }
   .geu-content .box-body p{
-  	line-height: 30px;
+  	line-height: 24px;
   }
 .demo .teabor .teacherdetail{
 	margin-top: 20px;
@@ -1083,7 +1109,7 @@ transform: scale(1.2);
 }
 .navbar-default .navbar-brand{margin-left:20px;}
 .footer-row-nav ul{
-	padding:0 4%;
+	padding:0 8% 0 0;
 	float: left;
 	font-weight: bold;
 }
@@ -1100,3 +1126,25 @@ transform: scale(1.2);
 	width:1000px;
 	margin:0 auto;
 }
+.footer-row-nav-fu ul li h1 a{
+	color:#fff
+}
+.footer-row-nav-fu ul li a{
+	color:#999;
+}
+@keyframes  mytrans {
+	0%{
+		transform: rotate(0deg);
+	}
+	100%{
+		transform: rotate(360deg);
+	}
+}
+.footer-info{float: left;width:15%;margin-left:1%}
+.footer-addr h3{font-size:16px;color:#fff;width: 60%;display:inline-block;}
+.footer-addr p{font-size:12px;color:#999;}
+.footer-weixin{margin-top:20px;}
+.footer-weixin .weixin-img{text-align:center;}
+.footer-weixin span{display:inline-block;text-align:center;color:#999;margin-top:5px;}
+.end span,.end span a{color:#999;font-size:12px;}
+.end span a:hover{color: #732c8e;}
