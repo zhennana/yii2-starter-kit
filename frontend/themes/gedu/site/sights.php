@@ -46,7 +46,7 @@ $school=[
       echo $this->render('@frontend/themes/gedu/article/common/sidebarnew',['category'=>$category]);
     ?>
     <!-- 文章内容部分 -->
-    <div class="col-md-8 ">
+    <div class="col-md-9 campuse-content">
       <div class="box box-widget geu-content">
             <div class="box-header with-border ">
               <div class="">

@@ -35,13 +35,13 @@
         <div class="box-body geu-sidebar2" >
            <div class="box-body">
               <ul>
-                <li><span href="#">地址：河北省三河市燕郊开发区燕灵路236号（三河二中西门路北）</span></li>
-                <li><span href="#">电话：<br>办公室0316-5997070   转6009 <br>
+                <li><span href="#"><span class="contact-us" >地址：</span>河北省三河市燕郊开发区燕灵路236号（三河二中西门路北）</span><br></li>
+                <li><span href="#"><span class="contact-us" >电话：</span>办公室0316-5997070   转6009 <br>
                     小学部办公室         转6003 <br>
                     中学部办公室         转6013  <br>
                     国际部办公室         转2599  <br>
                     招生部办公室         转6688 </span></li>
-               <li><span>网址：<a href="http://www.guangdaxuexiao.com/">www.guangdaxuexiao.com</a></span></li>
+               <li><span><span class="contact-us" >网址：</span><a href="http://www.guangdaxuexiao.com/">www.guangdaxuexiao.com</a></span></li>
               </ul>
             </div>
         </div>
