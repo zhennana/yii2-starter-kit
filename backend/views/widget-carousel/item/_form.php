@@ -26,12 +26,9 @@ $carousel_id = isset($carousel->id) ? $carousel->id : $model->carousel_id ;
          }
     ?>
     <?php echo $form->field($model,'carousel_id')->hiddenInput(['value'=>$carousel_id])->label('') ?>
-    
-    <?php echo $form->field($model, 'order')->textInput() ?>
-
     <?php echo $form->field($model, 'url')->textInput(['maxlength' => 1024])->label() ?>
-    <?php echo $form->field($model, 'base_url')->textInput() ?>
-    <?php echo $form->field($model, 'path')->textInput() ?>
+    <?php echo $form->field($model, 'base_url')->textInput(['readonly'=>'readonly']) ?>
+    <?php echo $form->field($model, 'path')->textInput(['readonly'=>'readonly']) ?>
     <?php //echo $form->field($model,'base_url')->hiddenInput(['value'=>Yii::$app->params['qiniu']['wakooedu']['domain']])->label('') ?>
 
     <?php echo $form->field($model, 'caption')->widget(
@@ -46,7 +43,7 @@ $carousel_id = isset($carousel->id) ? $carousel->id : $model->carousel_id ;
                 'removeEmptyTags'=>false
             ]
         ]) ?>
-
+    <?php echo $form->field($model, 'order')->textInput() ?>
     <?php echo $form->field($model, 'status')->checkbox() ?>
 
     <div class="form-group">

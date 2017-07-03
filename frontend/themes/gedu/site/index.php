@@ -5,7 +5,7 @@ use yii\helpers\Html;
 ?>
 <style type="text/css">
     .wrap > .container{
-        padding: 70px 0 20px ;
+        padding: 70px 0 40px ;
     }
 </style>
     <div class="main">
@@ -36,7 +36,7 @@ use yii\helpers\Html;
                                 $href= yii\helpers\Url::to(['page/view','slug'=>'chu-zhong-bu-zhao-sheng-jian-zhang']);
                                 $html='';
                                 $html.='<a href="'.$href.'">';
-                                $html.='<div class="main-1-icon-1"></div>';
+                                $html.='<div class="main-1-icon-2"></div>';
                                 $html.='</a>';
                                 echo $html;
                             ?>
@@ -53,7 +53,7 @@ use yii\helpers\Html;
                                 $href= yii\helpers\Url::to(['page/view','slug'=>'guo-ji-zhong-xue-bu-zhao-sheng-jian-zhang']);
                                 $html='';
                                 $html.='<a href="'.$href.'">';
-                                $html.='<div class="main-1-icon-1"></div>';
+                                $html.='<div class="main-1-icon-3"></div>';
                                 $html.='</a>';
                                 echo $html;
                             ?>
@@ -70,7 +70,7 @@ use yii\helpers\Html;
                                 $href= yii\helpers\Url::to(['page/view','slug'=>'te-zhang-bu-zhao-sheng-jian-zhang']);
                                 $html='';
                                 $html.='<a href="'.$href.'">';
-                                $html.='<div class="main-1-icon-1"></div>';
+                                $html.='<div class="main-1-icon-4"></div>';
                                 $html.='</a>';
                                 echo $html;
                             ?>
@@ -83,6 +83,13 @@ use yii\helpers\Html;
                 </div>
             </div>
         </div>
+         <!--新闻模块，视频播放模块 -->
+                <div class="main-4">
+                    <div class="main-4-fu">
+                     <?php echo $this->render('@frontend/themes/gedu/site/common/article.php',['data'=>$data]);?>
+                    </div>
+
+                </div>
         <!--教师风采页面-->
         <div class="main-2">
             <?php echo $this->render('@frontend/themes/gedu/site/common/teacher.php',['data'=>$data]);?>
@@ -110,10 +117,7 @@ use yii\helpers\Html;
                
         </div>
 
-        <!--新闻模块，视频播放模块 -->
-        <div class="main-4">
-            <?php echo $this->render('@frontend/themes/gedu/site/common/article.php',['data'=>$data]);?>
-        </div>
+
     </div>
 
     <script type="text/javascript">
@@ -130,24 +134,46 @@ use yii\helpers\Html;
         var donebg=$('.done_bg');
 
      
-     if(!(navigator.userAgent.indexOf("Safari") > -1 && navigator.userAgent.indexOf("Chrome") == -1)){
-        oVbox.on('click',function(){
-          oV.play();
-          oVbg.css({'display':'none','background':'none'});
-        });
-      }
-        /*oV.play();*/
-        if(navigator.userAgent.indexOf('Firefox') >= 0){
-            donebg.addClass('fire_bg');
-            donebg_p.css({'display':'-moz-box','padding-bottom':'170px'});
-        }
-        if(navigator.userAgent.indexOf("Safari") > -1 && navigator.userAgent.indexOf("Chrome") == -1){
-            oVbox.css({'height':'0'});
-            oVbtn.on('click',function(){
-                  
-                  oVbtn.css({'display':'none','background':'none'});
-                });
-        }
+         if(!(navigator.userAgent.indexOf("Safari") > -1 && navigator.userAgent.indexOf("Chrome") == -1)){
+            oVbox.on('click',function(){
+              oV.play();
+              oVbg.css({'display':'none','background':'none'});
+            });
+            }
+            /*oV.play();*/
+            if(navigator.userAgent.indexOf('Firefox') >= 0){
+                donebg.addClass('fire_bg');
+                donebg_p.css({'display':'-moz-box','padding-bottom':'170px'});
+            }
+            if(navigator.userAgent.indexOf("Safari") > -1 && navigator.userAgent.indexOf("Chrome") == -1){
+                oVbox.css({'height':'0'});
+                oVbtn.on('click',function(){
+
+                      oVbtn.css({'display':'none','background':'none'});
+                    });
+         }
       })
+     $(document).ready(function(){
+         $(window).scroll(function(){
+             if($(window).scrollTop()>350){
+                 $(".main-4-newsBox").css({
+                    "transform": "translate3d(0, 0, 0)",
+                    "-ms-transform": "translate3d(0, 0, 0)",
+                    "-o-transform": "translate3d(0, 0, 0)",
+                    "-webkit-transform": "translate3d(0, 0, 0)",
+                    "-moz-transform": "translate3d(0, 0, 0)",
+                    "opacity": 1
+                 });
+                 $(".main-4-videoBox").css({
+                    "transform": "translate3d(0, 0, 0)",
+                    "-ms-transform": "translate3d(0, 0, 0)",
+                    "-o-transform": "translate3d(0, 0, 0)",
+                    "-webkit-transform": "translate3d(0, 0, 0)",
+                    "-moz-transform": "translate3d(0, 0, 0)",
+                    "opacity": 1
+                 });
+             };
+         });
+     });
 </script>
 
