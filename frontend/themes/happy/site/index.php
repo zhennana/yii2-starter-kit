@@ -14,6 +14,9 @@ $box_color = [
     6 => 'box-darkpink',
     7 => 'box-cornsilk',
 ];
+$images =[
+    1 => 'http://orkp7ug0b.bkt.clouddn.com/starter1.png?imageView2/3/w/140/h/140',
+];
 $image = 'http://orfaphl6n.bkt.clouddn.com/Starter1.png?imageView2/3/w/140/h/140';
 ?>
 <div class="site-index">

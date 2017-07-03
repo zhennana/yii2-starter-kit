@@ -13,6 +13,7 @@ use frontend\models\search\ArticleSearch;
 
 use backend\modules\campus\models\CoursewareCategory;
 use backend\modules\campus\models\CoursewareToCourseware;
+use backend\modules\campus\models\CoursewareToFile;
 use backend\modules\campus\models\Courseware;
 
 /**
@@ -58,13 +59,18 @@ class ArticleController extends Controller
         }
         if ($model->toFile) {
             foreach ($model->toFile as $key => $value) {
-                $files[$key] = $value->fileStorageItem->toArray();
+                if ($value->status == CoursewareToFile::COURSEWARE_STATUS_OPEN) {
+                    $files[$key] = $value->fileStorageItem->toArray();
+                }else{
+                    continue;
+                }
             }
         }
 
         $to_courseware = CoursewareToCourseware::find()
             ->with('coursewareMaster')
             ->where([
+                'status' => CoursewareToCourseware::COURSEWARE_STATUS_OPEN,
                 'courseware_id' => $courseware_id
             ])->one();
         if (!$to_courseware) {
@@ -115,7 +121,11 @@ class ArticleController extends Controller
         if ($masterModel) {
             $master = $masterModel->toArray();
             foreach ($masterModel->toFile as $key => $value) {
-                $master['files'][$key] = $value->fileStorageItem->toArray();
+                if ($value->status == CoursewareToFile::COURSEWARE_STATUS_OPEN) {
+                    $master['files'][$key] = $value->fileStorageItem->toArray();
+                }else{
+                    continue;
+                }
             }
         }
         if (!isset($master) || empty($master) || !$model) {
