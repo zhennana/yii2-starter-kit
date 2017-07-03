@@ -15,7 +15,15 @@ $box_color = [
     7 => 'box-cornsilk',
 ];
 $images =[
-    1 => 'http://orkp7ug0b.bkt.clouddn.com/starter1.png?imageView2/3/w/140/h/140',
+    0 => 'http://orkp7ug0b.bkt.clouddn.com/starter1.png?imageView2/3/w/140/h/140',
+    1 => 'http://orkp7ug0b.bkt.clouddn.com/Starter2.png?imageView2/3/w/140/h/140',
+    2 => 'http://orkp7ug0b.bkt.clouddn.com/L1.png?imageView2/3/w/140/h/140',
+    3 => 'http://orkp7ug0b.bkt.clouddn.com/L2.png?imageView2/3/w/140/h/140',
+    4 => 'http://orkp7ug0b.bkt.clouddn.com/L3.png?imageView2/3/w/140/h/140',
+    5 => 'http://orkp7ug0b.bkt.clouddn.com/L4.png?imageView2/3/w/140/h/140',
+    6 => 'http://orkp7ug0b.bkt.clouddn.com/L5.png?imageView2/3/w/140/h/140',
+    7 => 'http://orkp7ug0b.bkt.clouddn.com/L6.png?imageView2/3/w/140/h/140',
+    8 => 'http://orkp7ug0b.bkt.clouddn.com/L7.png?imageView2/3/w/140/h/140',
 ];
 $image = 'http://orfaphl6n.bkt.clouddn.com/Starter1.png?imageView2/3/w/140/h/140';
 ?>
@@ -55,7 +63,7 @@ $image = 'http://orfaphl6n.bkt.clouddn.com/Starter1.png?imageView2/3/w/140/h/140
                         <?php 
                         if (isset($value['courseware_id']) && !empty($value['courseware_id'])) {
                             echo Html::a(
-                                '<img class="img-responsive center-block" src='.$image.'/><h4>'.'</h4>',
+                                '<img class="img-responsive center-block" src='.$images[$key].'/><h4>'.'</h4>',
                                 ['article/course','master_id'=>$value['courseware_id']]
                             );
                         }
