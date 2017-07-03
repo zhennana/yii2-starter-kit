@@ -17,7 +17,7 @@ $img = 'http://orfaphl6n.bkt.clouddn.com/Unit1-Classroom-commands.png';
         <div class="courseware_download">
             <?php
                 if (isset($master['files']) && !empty($master['files'])) {
-                    foreach ($master['files'] as $key => $value) { 
+                    foreach ($master['files'] as $key => $value) {
                         $url = $value['url'].$value['file_name'];
                         $filename = $value['original'];
             ?>
