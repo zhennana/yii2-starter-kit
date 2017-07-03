@@ -59,13 +59,18 @@ class ArticleController extends Controller
         }
         if ($model->toFile) {
             foreach ($model->toFile as $key => $value) {
-                $files[$key] = $value->fileStorageItem->toArray();
+                if ($value->status == CoursewareToFile::COURSEWARE_STATUS_OPEN) {
+                    $files[$key] = $value->fileStorageItem->toArray();
+                }else{
+                    continue;
+                }
             }
         }
 
         $to_courseware = CoursewareToCourseware::find()
             ->with('coursewareMaster')
             ->where([
+                'status' => CoursewareToCourseware::COURSEWARE_STATUS_OPEN,
                 'courseware_id' => $courseware_id
             ])->one();
         if (!$to_courseware) {
