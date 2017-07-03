@@ -44,9 +44,9 @@ if(Yii::$app->session->hasFlash('alert')):?>
         padding-left: 10px;
     }
     .navbar .container{
+        width:1000px;
         margin:0 auto;
         padding: 0 !important;
-        width: 1000px;
     }
     .top{margin:0 auto;}
     .top .container1-f{
@@ -268,7 +268,7 @@ if(Yii::$app->session->hasFlash('alert')):?>
 
 <div class="footer-3">
             <div class="container">
-                <div class="row footer-row-nav">
+                <div class="row footer-row-nav col-xs-12">
                     <div class="footer-row-nav-fu">
                         <ul>
                             <li><h1><?php echo Html::a('走进光大',['article/index','category_id'=>9])?></h1></li>
