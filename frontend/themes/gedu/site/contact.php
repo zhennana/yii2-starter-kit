@@ -12,7 +12,7 @@ use yii\captcha\Captcha;
   <div class="">
    
     <!-- 文章内容部分 -->
-    <div class="col-md-12 ">
+    <div class="col-md-12 " style="padding:0;">
     <div class="box box-widget geu-content">
             <div class="box-header with-border" >
               <ol class="breadcrumb">

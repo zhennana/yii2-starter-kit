@@ -1,7 +1,7 @@
 <?php
 use yii\helpers\Html; 
 ?>
-<div class="row" style="position:relative;height:280px;">
+<div class="row col-xs-12" style="position:relative;height:280px;padding:0;">
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 main-4-newsBox">
         <div class="newsBox">  
           <h2 class="page-header">

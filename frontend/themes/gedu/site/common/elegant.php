@@ -16,12 +16,15 @@ use yii\helpers\Html;
                 </div> -->
             </div>
         </li>
-        <div class="banner-bottom-left-grid txt">
-
-            <h3>校园一角</h3>
-            <p>内容缺</p>
-            <hr class="hr1" />
-        </div>
+        <li class="banner-wenzi">
+             <div class="campuse" >
+                  <img src="http://orh16je38.bkt.clouddn.com/background.png" alt=" " class="img-responsive" />
+                  <div class="campuse-detail">
+                      <h3>校园一角</h3>
+                      <p>内容缺</p>
+                  </div>
+              </div>
+        </li>
         <li class="banner-bottom-left-grid iusto">
                     <div class="port-4 effect-1">
                     <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-3-4.png?imageView2/1/w/300/h/300" alt=" " class="img-responsive" />
@@ -34,11 +37,15 @@ use yii\helpers\Html;
                     </div> -->
                     </div>
                 </li>
-        <div class="banner-bottom-left-grid txt">
-            <h3>教室讲台</h3>
-             <p>内容缺</p>
-            <hr class="hr1" />
-        </div>
+        <li class="banner-wenzi">
+             <div class="campuse">
+                  <img src="http://orh16je38.bkt.clouddn.com/background.png" alt=" " class="img-responsive" />
+                  <div class="campuse-detail">
+                      <h3>教室讲台</h3>
+                      <p>内容缺</p>
+                  </div>
+              </div>
+        </li>
         <li class="banner-bottom-left-grid iusto">
             <div class="port-4 effect-1">
                 <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-3-5.png?imageView2/1/w/300/h/300" alt=" " class="img-responsive" />
@@ -55,11 +62,17 @@ use yii\helpers\Html;
         <div class="clearfix"></div>
     </div>
     <div class="banner-bottom-left-grids full-length">
-        <div class="banner-bottom-left-grid2 txt">
-             <h3>教学楼外观</h3>
-             <p>学校占地30余亩，建筑面积10000平方米。</p>
-            <hr class="hr1" />
-        </div>
+
+        <li class="banner-wenzi">
+                 <div class="campuse" >
+                    <img src="http://orh16je38.bkt.clouddn.com/background.png" alt=" " class="img-responsive" />
+                    <div class="campuse-detail">
+                        <h3>教学楼外观</h3>
+                        <p>学校占地30余亩，建筑面积10000平方米。</p>
+                    </div>
+
+                </div>
+         </li>
         <li class="banner-bottom-left-grid iusto">
                     <div class="port-4 effect-1">
                         <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-3-2.png?imageView2/1/w/300/h/300" alt=" " class="img-responsive" />
@@ -73,14 +86,15 @@ use yii\helpers\Html;
                     </div>
          </li>
 
-
-        <div class="banner-bottom-left-grid3 txt">
-
-            <h3>招生咨询处</h3>
-            <p>光大学校小学部教学体系分三个层次，基础课程、校本课程、兴趣课程。</p>
-            <hr class="hr2" />
-        </div>
-        
+        <li class="banner-wenzi">
+             <div class="campuse" >
+                  <img src="http://orh16je38.bkt.clouddn.com/background.png" alt=" " class="img-responsive" />
+                  <div class="campuse-detail">
+                      <h3>招生咨询处</h3>
+                      <p>光大学校小学部教学体系分三个层次，基础课程、校本课程、兴趣课程。</p>
+                  </div>
+              </div>
+        </li>
         <li class="banner-bottom-left-grid iusto">
             <div class="port-4 effect-1">
                 <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-3-3.png?imageView2/1/w/300/h/300" alt=" " class="img-responsive" />
@@ -99,11 +113,15 @@ use yii\helpers\Html;
                 <span> </span>
             </div>
         </div> -->
-        <div class="banner-bottom-left-grid2 txt">
-            <h3>学校操场</h3>
-            <p>内容缺</p>
-            <hr class="hr1" />
-        </div>
+        <li class="banner-wenzi">
+             <div class="campuse" >
+                  <img src="http://orh16je38.bkt.clouddn.com/background.png" alt=" " class="img-responsive" />
+                  <div class="campuse-detail">
+                      <h3>学校操场</h3>
+                      <p>内容缺</p>
+                  </div>
+              </div>
+        </li>
         <div class="clearfix"></div>
     </div>
 </div> 
