@@ -169,6 +169,18 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '课件详情');
                         'class' => 'yii\grid\ActionColumn',
                         'controller' => 'courseware-to-file',
                         'template' => $actionColumnTemplateString,
+                        
+                        'urlCreator' => function($action, $model, $key, $index) {
+                    // using the column name as key, not mapping to 'id' like the standard generator
+                    // /*
+                        if($action == "update"){
+                            \Yii::$app->session['__crudReturnUrl']  = ['campus/courseware/view','courseware_id'=>$model->courseware_id];
+                        }
+                        $params = is_array($key) ? $key : ['id' => (string) $key];
+                        $params[0] = 'courseware-to-file' . '/' . $action ;
+                       // var_dump($params);exit;
+                        return Url::toRoute($params);
+                },
                     ],
                    
                     'courseware_id',

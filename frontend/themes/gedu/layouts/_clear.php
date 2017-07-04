@@ -5,7 +5,7 @@ use yii\helpers\Html;
 
 // http://static.v1.wakooedu.com/jquery-3.2.0.min.js
 // http://static.v1.wakooedu.com/jquery-latest.js
-\frontend\assets\FrontendAsset::register($this);
+\frontend\assets\GeduFrontendAsset::register($this);
 \common\assets\React::register($this);
 ?>
 <?php $this->beginPage() ?>

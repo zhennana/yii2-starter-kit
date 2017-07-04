@@ -17,7 +17,7 @@ use yii\helpers\Html;
                             <!-- <div class="main-1-icon-1"><a href="#"><div class="aaa"></div></a></div> -->
                             <!-- <a href="#"><div class="main-1-icon-1"></div></a> -->
                             <?php 
-                                $href= yii\helpers\Url::to(['page/view','slug'=>'xiao-xue-bu-zhao-sheng-jian-zhang']);
+                                $href= yii\helpers\Url::to(['article/index','category_id'=>41]);
                                 $html='';
                                 $html.='<a href="'.$href.'">';
                                 $html.='<div class="main-1-icon-1"></div>';
@@ -25,7 +25,7 @@ use yii\helpers\Html;
                                 echo $html;
                             ?>
                             <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-1-line.png">
-                            <h4><?php echo Html::a('小学部',['page/view','slug'=>'xiao-xue-bu-zhao-sheng-jian-zhang'],['class'=>'headcolor','data-method'=>'open',]);?>
+                            <h4><?php echo Html::a('小学部',['article/index','category_id'=>41],['class'=>'headcolor','data-method'=>'open',]);?>
                             <h6>Primary School Department</h6></h4>
                         </div>
                     </div>
@@ -33,7 +33,7 @@ use yii\helpers\Html;
                         <div class="row-box">
                             <!-- <a href="#"><div class="main-1-icon-2"></div></a> -->
                             <?php 
-                                $href= yii\helpers\Url::to(['page/view','slug'=>'chu-zhong-bu-zhao-sheng-jian-zhang']);
+                                $href= yii\helpers\Url::to(['article/index','category_id'=>42]);
                                 $html='';
                                 $html.='<a href="'.$href.'">';
                                 $html.='<div class="main-1-icon-2"></div>';
@@ -42,7 +42,7 @@ use yii\helpers\Html;
                             ?>
                             <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-1-line.png">
                         
-                            <h4><?php echo Html::a('中学部',['page/view','slug'=>'gao-zhong-bu-zhao-sheng-jian-zhang'],['class'=>'headcolor','data-method'=>'open',]);?>
+                            <h4><?php echo Html::a('中学部',['article/index','category_id'=>42],['class'=>'headcolor','data-method'=>'open',]);?>
                             <h6>Daltonian</h6>
                         </div>
                     </div>
@@ -50,7 +50,7 @@ use yii\helpers\Html;
                         <div class="row-box">
                             <!-- <a href="#"><div class="main-1-icon-3"></div></a> -->
                             <?php 
-                                $href= yii\helpers\Url::to(['page/view','slug'=>'guo-ji-zhong-xue-bu-zhao-sheng-jian-zhang']);
+                                $href= yii\helpers\Url::to(['article/index','category_id'=>43]);
                                 $html='';
                                 $html.='<a href="'.$href.'">';
                                 $html.='<div class="main-1-icon-3"></div>';
@@ -59,7 +59,7 @@ use yii\helpers\Html;
                             ?>
                             <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-1-line.png">
                             
-                            <h4><?php echo Html::a('国际部',['page/view','slug'=>'guo-ji-zhong-xue-bu-zhao-sheng-jian-zhang'],['class'=>'headcolor','data-method'=>'open',]);?>
+                            <h4><?php echo Html::a('国际部',['article/index','category_id'=>43],['class'=>'headcolor','data-method'=>'open',]);?>
                             <h6>Oversea sales</h6>
                         </div>
                     </div>
@@ -67,7 +67,7 @@ use yii\helpers\Html;
                         <div class="row-box">
                             <!-- <a href="#"><div class="main-1-icon-4"></div></a> -->
                             <?php 
-                                $href= yii\helpers\Url::to(['page/view','slug'=>'te-zhang-bu-zhao-sheng-jian-zhang']);
+                                $href= yii\helpers\Url::to(['article/index','category_id'=>44]);
                                 $html='';
                                 $html.='<a href="'.$href.'">';
                                 $html.='<div class="main-1-icon-4"></div>';
@@ -76,7 +76,7 @@ use yii\helpers\Html;
                             ?>
                             <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-1-line.png">
                             
-                            <h4><?php echo Html::a('特长部',['page/view','slug'=>'te-zhang-bu-zhao-sheng-jian-zhang'],['class'=>'headcolor','data-method'=>'open',]);?>
+                            <h4><?php echo Html::a('特长部',['article/index','category_id'=>44],['class'=>'headcolor','data-method'=>'open',]);?>
                             <h6>Specialty department</h6>
                         </div>
                     </div>
