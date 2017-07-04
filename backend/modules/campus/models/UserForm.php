@@ -160,7 +160,9 @@ class UserForm extends Model
             $model = $this->getModel();
             $isNewRecord = $model->getIsNewRecord();
             //var_dump($isNewRecord);exit;
-            //$model->username = $this->username;
+            if($this->username){
+                $model->username = $this->username;
+            }
             //$model->nickname = $this->nickname;
             $model->realname = $this->realname;
             $model->email = $this->email;
