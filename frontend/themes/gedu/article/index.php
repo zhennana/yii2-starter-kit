@@ -1,13 +1,17 @@
 <?php
 use yii\helpers\Html;
- // echo'<pre>';var_dump($category['parent']['title']);exit;
+  // echo'<pre>';var_dump($category['parent']);exit;
 $cateParent=!empty($category['pare_name'])?$category['pare_name']:'光大学校';
 ?>
 <div class="gdu-content">
   <div class="row gdu-content-wrap">
     <!-- 左边侧边栏 -->
     <?php
+    if($category['parent']['id']==46){
+        echo $this->render('@frontend/themes/gedu/article/common/sidebar');
+    }else{
       echo $this->render('@frontend/themes/gedu/article/common/sidebarnew',['category'=>$category]);
+    }
     ?>
     <!-- 文章内容部分 -->
     <div class="content-wrap col-md-9" style="padding-right:0; box-sizing:border-box;">
