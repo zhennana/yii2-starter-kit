@@ -53,6 +53,9 @@ class Courseware extends BaseCourseware
                     return isset($model->toFile[0]->fileStorageItem->type) ? $model->toFile[0]->fileStorageItem->type : 'image/jpeg';
                 },
                 'video_record' => function($model){
+                    if (Yii::$app->user->isGuest) {
+                        return 0;
+                    }
                     $time = Collect::find()->where([
                         'user_id'       => Yii::$app->user->identity->id,
                         'courseware_id' => $model->courseware_id,
