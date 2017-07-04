@@ -8,11 +8,13 @@ use yii\rest\ActiveController;
 use yii\web\ForbiddenHttpException;
 use yii\web\HttpException;
 use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
 
 use frontend\modules\api\v1\resources\Article;
 use frontend\models\edu\resources\Course;
 use frontend\models\edu\resources\UsersToUsers;
 use frontend\models\edu\resources\Courseware;
+use frontend\models\edu\resources\Collect;
 use frontend\models\wedu\resources\Notice;
 
 class MyController extends \common\rest\Controller
@@ -96,12 +98,26 @@ class MyController extends \common\rest\Controller
         $model = [];
         $modelClass = new Courseware;
 
-        // 需要用user_id查询已购买/已收藏/已上完的课程
+        /* 
+        需要用user_id查询满足如下条件的课程
+                已购买
+                已收藏    √
+                已上完   
+        */
+        // 已收藏课程
+        $collect_course = Collect::find()->where([
+            'user_id'       => Yii::$app->user->identity->id,
+            'status'        => Collect::STATUS_COLLECTED,
+            'courseware_id' => 0
+        ])->asArray()->all();
+        $courseware_id = ArrayHelper::getColumn($collect_course, 'courseware_master_id');
+
         $model = $modelClass::find()
+        ->where(['courseware_id' => $courseware_id])
             // 状态失效(下架)的课程仅展示
             // ->where(['status' => $modelClass::COURSEWARE_STATUS_VALID])
-            ->andWhere(['category_id' => 14])
-            ->andWhere(['courseware_id' => $modelClass->prentCourseware()])
+            // ->andWhere(['category_id' => 14])
+            // ->andWhere(['courseware_id' => $modelClass->prentCourseware()])
             ->all();
 
         return $model;
