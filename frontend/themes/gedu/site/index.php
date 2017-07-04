@@ -117,7 +117,6 @@ use yii\helpers\Html;
                
         </div>
 
-
     </div>
 
     <script type="text/javascript">
@@ -176,4 +175,3 @@ use yii\helpers\Html;
          });
      });
 </script>
-

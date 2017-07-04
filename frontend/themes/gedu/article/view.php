@@ -12,7 +12,7 @@ use yii\helpers\Html;
        ]);
     ?>
     <!-- 文章内容部分 -->
-    <div class="col-md-9" style="box-sizing: border-box;padding-right: 0;">
+    <div class="col-md-9 content-wrap" style="box-sizing: border-box;padding-right: 0;">
 
         <div class="box box-widget geu-content">
                 <div class="box-header with-border box-header with-border ">
