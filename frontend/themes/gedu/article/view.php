@@ -12,7 +12,7 @@ use yii\helpers\Html;
        ]);
     ?>
     <!-- 文章内容部分 -->
-    <div class="col-md-9" style="box-sizing: border-box;padding-right: 0;">
+    <div class="col-md-9 content-wrap" style="box-sizing: border-box;padding-right: 0;">
 
         <div class="box box-widget geu-content">
                 <div class="box-header with-border box-header with-border ">
@@ -26,6 +26,7 @@ use yii\helpers\Html;
                     </ol>
                 </div>
                 <div class="box-body">
+                  <h3 style="text-align:center;"><?php echo $model->title;?></h3>
                   <?php echo $model->body;?>
                 </div>
         </div>

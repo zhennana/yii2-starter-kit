@@ -46,6 +46,7 @@ class UserForm extends Model
                     $query->andWhere(['not', ['id'=>$this->getModel()->id]]);
                 }
             }],
+            [['username','realname'],'required','on'=>'create'],
            [['username','realname'], 'string', 'min' => 2, 'max' => 32],
             //['nickname', 'string', 'min' => 2, 'max' => 32],
             //['realname', 'string', 'min' => 2, 'max' => 32],
@@ -159,7 +160,9 @@ class UserForm extends Model
             $model = $this->getModel();
             $isNewRecord = $model->getIsNewRecord();
             //var_dump($isNewRecord);exit;
-            //$model->username = $this->username;
+            if($this->username){
+                $model->username = $this->username;
+            }
             //$model->nickname = $this->nickname;
             $model->realname = $this->realname;
             $model->email = $this->email;

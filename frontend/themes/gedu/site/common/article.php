@@ -1,11 +1,11 @@
 <?php
 use yii\helpers\Html; 
 ?>
-<div class="row" >
+<div class="row col-xs-12" style="position:relative;height:280px;padding:0;">
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 main-4-newsBox">
         <div class="newsBox">  
           <h2 class="page-header">
-           <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-4-news.png">
+           <img width="27" height="" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-4-news.png">
            <?php echo Html::a(
                     "新闻资讯",
                     ['article/index','category_id'=>22],
@@ -21,7 +21,12 @@ use yii\helpers\Html;
                         <div class="newsBox-news">
                             <p class="newsBox-news-p1"><?php echo date('Y-m-d',$data['one']['created_at']);?></p>
 
-                            <h3 class="newsBox-news-h3"><?php echo $data['one']['title']?></h3>
+                            <h3 class="newsBox-news-h3">
+                            <?php echo Html::a(
+                                                            substr_auto(strip_tags($data['one']['title']),35),
+                                                            ['article/view','id'=>$data['one']['id']],
+                                                            ['class'=>'','data-method'=>'open',]);
+                                                        ?></h3>
                             <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-4-line.png" style="width: 20%;height: 3px">
                             <p class="newsBox-news-p2"><?php echo Html::a(
                                 substr_auto(strip_tags($data['one']['body']),200),
@@ -42,7 +47,7 @@ use yii\helpers\Html;
                         <div class="newsBox-news">
                             <p class="newsBox-news-p1"><?php echo date('Y-m-d',$value['created_at']);?></p>
                             <h3 class="newsBox-news-h3"><?php echo Html::a(
-                                substr_auto(strip_tags($value['title']),20),
+                                substr_auto(strip_tags($value['title']),35),
                                 ['article/view','id'=>$value['id']],
                                 ['class'=>'','data-method'=>'open',]);
                             ?></h3>
@@ -59,14 +64,14 @@ use yii\helpers\Html;
                     ?>     
                 </div>
                 <!-- 轮播（Carousel）导航 -->
-                <a class="carousel-control right" href="#myCarousel8" 
-                   data-slide="next" style="margin-top: 180px"><img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-4-circle.png"></a>
+                <a class="carousel-control right right-row" href="#myCarousel8"
+                   data-slide="next"><img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-4-circle.png"></a>
             </div> 
         </div>
         </div>
     </div>
 
-    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 main-4-videoBox">
         <div class="">
             <video src="http://orh16je38.bkt.clouddn.com/guangda86m.mov" width="100%" height="100%" id="yjzxVideo" controls autobuffer >
             您的浏览器不支持该视频播放

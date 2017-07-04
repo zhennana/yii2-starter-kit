@@ -134,7 +134,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'class'     =>\common\grid\EnumColumn::className(),
                 'attribute' =>'category_id',
                 'format'        => 'raw',
-               
                 'enum'      => $categories
             ],
 			'level',

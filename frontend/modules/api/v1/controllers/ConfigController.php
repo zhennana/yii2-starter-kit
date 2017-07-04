@@ -306,7 +306,7 @@ class ConfigController extends \yii\rest\Controller
      *     description="返回主视觉信息",
      *     produces={"application/json"},
      *     @SWG\Parameter(
-     *        in = "query",
+     *        in = "formData",
      *        name = "user_id",
      *        description = "用户ID",
      *        required = true,
@@ -321,17 +321,39 @@ class ConfigController extends \yii\rest\Controller
      *
     **/
     public function actionListNotices(){
+        if(isset(Yii::$app->user->identity->id)){
+            $user = Yii::$app->user->identity->attributes;
+            //var_dump($user);exit;
+        }else{
+            return [
+                'errorno'=> 203,
+                'message'=>'请先登录',
+            ];
+        }
+        //var_dump($user['id']);exit;
+        $model = Notice::find();
+        $model->andwhere([
+            'receiver_id'=>$user['id'], 
+            'category'=>Notice::CATEGORY_THREE
+            ]);
+        //var_dump();exit;
 
-        $user = Yii::$app->user->identity->attributes;
+        //获取已回复的问题答案
+        $answers = $model
+                ->with('question')
+                ->asArray()
+                ->limit(10)
+                ->orderBy(['updated_at'=>SORT_DESC])
+                ->all();
+// var_dump($answers);exit;
+        $answers_count = $model->andwhere([
+            'status_check'=>Notice::STATUS_CHECK_NOT_LOOK
+            ])
+        ->count('notice_id');
+        //$data = [];
         $data = [
-            'news_notices_numbers' => 1,
-            
-            'notices' => [
-                [
-                    'questions' => '特别卡，网速慢，改如何解决？',
-                    'answers'   => '检查网络',
-                ],
-            ],
+            'news_notices_numbers' => isset($answers_count)? $answers_count : 0,
+            'notices'              => [],
             'userinfo' => [
                 'id' => $user['id'],
                 'username' => $user['username'],
@@ -339,9 +361,16 @@ class ConfigController extends \yii\rest\Controller
                 'phone_number' => $user['phone_number'],
             ],
         ];
-
+        foreach ($answers as $key => $value) {
+            $data['notices'][$key]=[
+                    'questions'=>isset($value['question']['message']) ?$value['question']['message'] : '',
+                    'answers'  => isset($value['message'])? $value['message'] : '',
+            ];
+        }
         return $data;
     }
+
+
 
     /**
      * @SWG\Post(path="/config/add-notices",
@@ -350,7 +379,7 @@ class ConfigController extends \yii\rest\Controller
      *     description="返回主视觉信息",
      *     produces={"application/json"},
      *     @SWG\Parameter(
-     *        in = "query",
+     *        in = "formData",
      *        name = "user_id",
      *        description = "用户ID",
      *        required = true,
@@ -358,7 +387,7 @@ class ConfigController extends \yii\rest\Controller
      *        type = "string"
      *     ),
      *     @SWG\Parameter(
-     *        in = "query",
+     *        in = "formData",
      *        name = "message",
      *        description = "用户反馈内容",
      *        required = true,
@@ -373,10 +402,18 @@ class ConfigController extends \yii\rest\Controller
      *
     **/
     public function actionAddNotices(){
-        $modle = new Notice;
-        $data['user_id'] = Yii::$app->request->post('user_id', 0);
-        $data['message'] = Yii::$app->request->post('message', ''); 
-        //$model->message = ;
+        $model = new Notice;
+        $data = [];
+        $data['sender_id']         = Yii::$app->request->post('user_id', 0);
+        $data['message']           = Yii::$app->request->post('message', '');
+        $data['message_hash']      = md5($data['message']);
+        $data['school_id']         = 0;
+        $data['category']          = Notice::CATEGORY_THREE;
+        $data['status_send']       = Notice::STATUS_SEND_SENT;
+        $data['status_check']       = Notice::STATUS_CHECK_NOT_LOOK;
+        $model->load($data,'');
+        $model->save();
+        return $model;
 
     }
 
@@ -403,7 +440,7 @@ class ConfigController extends \yii\rest\Controller
             $data['errors']   = '反馈类型不能为空';
             return $data;
         }
-
+ 
         $feedback = new Feedback;
         //$feedback->setattribute = null;
         $feedback->feedback_rater     = Yii::$app->user->identity->id;

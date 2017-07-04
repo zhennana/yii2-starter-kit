@@ -55,9 +55,9 @@ class UserSearch extends User
         }
         $query->andFilterWhere([
             'id' => $this->id,
-            'u.status' => $this->status,
-            'u.created_at' => $this->created_at,
-            'u.updated_at' => $this->updated_at,
+            'status' => $this->status,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
             'logged_at' => $this->logged_at
         ]);
         if(isset($params['UserSearch']['item_name']) && !empty($params['UserSearch']['item_name'])){

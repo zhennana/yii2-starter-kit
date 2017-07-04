@@ -48,9 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
         'columns' => [
             'id',
-            'username',
             'realname',
-            'email:email',
             'phone_number',
             [
                 'class' => EnumColumn::className(),
@@ -58,6 +56,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'enum' => User::statuses(),
                 'filter' => User::statuses()
             ],
+            'username',
+            'email:email',
             'created_at:datetime',
             'logged_at:datetime',
             // 'updated_at',

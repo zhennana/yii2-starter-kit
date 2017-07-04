@@ -99,13 +99,13 @@ class WidgetCarouselItem extends ActiveRecord
             'id' => Yii::t('common', 'ID'),
             'carousel_id' => Yii::t('common', 'Carousel ID'),
             'image' => Yii::t('common', 'Image'),
-            'base_url' => Yii::t('common', 'Base URL'),
-            'path' => Yii::t('common', 'Path'),
-            'type' => Yii::t('common', 'File Type'),
-            'url' => Yii::t('common', 'Url'),
+            'base_url' => Yii::t('common', '域名'),
+            'path' => Yii::t('common', '文件名'),
+            'type' => Yii::t('common', '类型'),
+            'url' => Yii::t('common', '跳转链接'),
             'caption' => Yii::t('common', 'Caption'),
             'status' => Yii::t('common', 'Status'),
-            'order' => Yii::t('common', 'Order')
+            'order' => Yii::t('common', '排序')
         ];
     }
 

@@ -59,9 +59,11 @@ $imgsize="?imageView2/1/w/250/h/300";
     <div class="main-2-head">
         <div class="row row-teacher">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 main-2-top">
-                <h1>TEACHER STYLE</h1>
-                <h4>教师风采</h4>
-                <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-line.png" width="100%">
+                <div class="main-2-top-child">
+                    <h1>TEACHER STYLE</h1>
+                    <h4>教师风采</h4>
+                    <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-line.png" width="100%">
+                </div>
             </div>
             <div class="main-2-nav-fu">
                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 main-2-nav">
@@ -205,7 +207,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                 <li data-target="#myCarousel3" data-slide-to="1"></li>
                                 <li data-target="#myCarousel6" data-slide-to="2"></li>
 
-                            </ol>  -->  
+                            </ol>  -->
                             <!-- 轮播（Carousel）项目 -->
                             <div class="carousel-inner" id="teacher">
                                 <div class="item active">
@@ -298,7 +300,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                 </div>
                             </div>
                             <!-- 轮播（Carousel）导航 -->
-                           <!--  <a class="carousel-control left main-2-teacher-left" href="#myCarousel2" 
+                           <!--  <a class="carousel-control left main-2-teacher-left" href="#myCarousel2"
                                data-slide="prev"><img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-2-L.png"></a>
                             <a class="carousel-control right main-2-teacher-right" href="#myCarousel2" 
                                data-slide="next"><img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-2-R.png"></a> -->
@@ -315,12 +317,12 @@ $imgsize="?imageView2/1/w/250/h/300";
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div id="myCarousel4" class="carousel slide">
                             <!-- 轮播（Carousel）指标 -->
-                            <ol class="carousel-indicators main-2-teacher-ol">
+                           <!-- <ol class="carousel-indicators main-2-teacher-ol">
                                 <li data-target="#myCarousel4" data-slide-to="0" class="active"></li>
                                 <li data-target="#myCarousel4" data-slide-to="1"></li>
                                 <li data-target="#myCarousel6" data-slide-to="2"></li>
-                                
-                            </ol>   
+
+                            </ol>   -->
                             <!-- 轮播（Carousel）项目 -->
                             <div class="carousel-inner" id="teacher">
                                 <div class="item active">
@@ -413,10 +415,10 @@ $imgsize="?imageView2/1/w/250/h/300";
                                 </div>
                             </div>
                             <!-- 轮播（Carousel）导航 -->
-                            <a class="carousel-control left main-2-teacher-left" href="#myCarousel2" 
+                       <!--     <a class="carousel-control left main-2-teacher-left" href="#myCarousel2"
                                data-slide="prev"><img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-2-L.png"></a>
                             <a class="carousel-control right main-2-teacher-right" href="#myCarousel2" 
-                               data-slide="next"><img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-2-R.png"></a>
+                               data-slide="next"><img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-2-R.png"></a> -->
                         </div>
                     </div>
                 </div>
@@ -430,12 +432,12 @@ $imgsize="?imageView2/1/w/250/h/300";
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div id="myCarousel5" class="carousel slide">
                             <!-- 轮播（Carousel）指标 -->
-                            <ol class="carousel-indicators main-2-teacher-ol">
+                        <!--    <ol class="carousel-indicators main-2-teacher-ol">
                                 <li data-target="#myCarousel5" data-slide-to="0" class="active"></li>
                                 <li data-target="#myCarousel5" data-slide-to="1"></li>
                                 <li data-target="#myCarousel6" data-slide-to="2"></li>
 
-                            </ol>   
+                            </ol> -->
                             <!-- 轮播（Carousel）项目 -->
                             <div class="carousel-inner" id="teacher">
                                 <div class="item active">
@@ -528,10 +530,10 @@ $imgsize="?imageView2/1/w/250/h/300";
                                 </div>
                             </div>
                             <!-- 轮播（Carousel）导航 -->
-                            <a class="carousel-control left main-2-teacher-left" href="#myCarousel2" 
+                         <!--   <a class="carousel-control left main-2-teacher-left" href="#myCarousel2"
                                data-slide="prev"><img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-2-L.png"></a>
                             <a class="carousel-control right main-2-teacher-right" href="#myCarousel2" 
-                               data-slide="next"><img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-2-R.png"></a>
+                               data-slide="next"><img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-2-R.png"></a> -->
                         </div>
                     </div>
                 </div>
@@ -545,11 +547,11 @@ $imgsize="?imageView2/1/w/250/h/300";
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div id="myCarousel6" class="carousel slide">
                             <!-- 轮播（Carousel）指标 -->
-                            <ol class="carousel-indicators main-2-teacher-ol">
+                       <!--     <ol class="carousel-indicators main-2-teacher-ol">
                                 <li data-target="#myCarousel6" data-slide-to="0" class="active"></li>
                                 <li data-target="#myCarousel6" data-slide-to="1"></li>
                                 <li data-target="#myCarousel6" data-slide-to="2"></li>
-                            </ol>   
+                            </ol> -->
                             <!-- 轮播（Carousel）项目 -->
                             <div class="carousel-inner" id="teacher">
                                 <div class="item active">
@@ -642,10 +644,10 @@ $imgsize="?imageView2/1/w/250/h/300";
                                 </div>
                             </div>
                             <!-- 轮播（Carousel）导航 -->
-                            <a class="carousel-control left main-2-teacher-left" href="#myCarousel2" 
+                      <!--      <a class="carousel-control left main-2-teacher-left" href="#myCarousel2"
                                data-slide="prev"><img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-2-L.png"></a>
                             <a class="carousel-control right main-2-teacher-right" href="#myCarousel2" 
-                               data-slide="next"><img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-2-R.png"></a>
+                               data-slide="next"><img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-2-R.png"></a>-->
                         </div>
                     </div>
                 </div>
@@ -654,4 +656,8 @@ $imgsize="?imageView2/1/w/250/h/300";
         </div>
       </div>
     </div>
- 
+ <script>
+    $('.main-2-nav span').click(function(){
+        $(this).addClass('active').siblings().removeClass('active');
+    })
+ </script>

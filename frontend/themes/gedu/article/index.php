@@ -4,13 +4,13 @@ use yii\helpers\Html;
 $cateParent=!empty($category['pare_name'])?$category['pare_name']:'光大学校';
 ?>
 <div class="gdu-content">
-  <div class="row">
+  <div class="row gdu-content-wrap">
     <!-- 左边侧边栏 -->
     <?php
       echo $this->render('@frontend/themes/gedu/article/common/sidebarnew',['category'=>$category]);
     ?>
     <!-- 文章内容部分 -->
-    <div class="col-md-9" style="padding-right:0; box-sizing:border-box;">
+    <div class="content-wrap col-md-9" style="padding-right:0; box-sizing:border-box;">
     <div class="box box-widget geu-content">
             <div class="box-header with-border box-header with-border ">
                 <ol class="breadcrumb" style="margin-bottom: -10px">
