@@ -13,7 +13,7 @@ use yii\web\AssetBundle;
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
  */
-class FrontendAsset extends AssetBundle
+class GeduFrontendAsset extends AssetBundle
 {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
@@ -21,13 +21,12 @@ class FrontendAsset extends AssetBundle
     public $css = [
         'css/style.css',
         'css/course.css',
+        'css/gstyle.css',
+        'css/gresstyle.css',
     ];
 
     public $js = [
         'js/app.js',
-        'html5media.min.js',
-  
-
     ];
 
     public $depends = [
