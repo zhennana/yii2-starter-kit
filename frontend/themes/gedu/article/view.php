@@ -1,16 +1,19 @@
 <?php
 use yii\helpers\Html;
- // echo'<pre>';var_dump($category);
 ?>
 
 <div class="gdu-content">
   <div class="row" style="margin:0;">
     <!-- 左边侧边栏 -->
     <?php
+    if($category['parent']['id']==46){
+      echo $this->render('@frontend/themes/gedu/article/common/sidebar');
+    }else{
       echo $this->render('@frontend/themes/gedu/article/common/sidebarnew',[
        'category'=>$category
        ]);
-    ?>
+    }
+          ?>
     <!-- 文章内容部分 -->
     <div class="col-md-9 content-wrap" style="box-sizing: border-box;padding-right: 0;">
 
