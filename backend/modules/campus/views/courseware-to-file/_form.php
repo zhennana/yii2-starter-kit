@@ -48,15 +48,17 @@ $coursewares = ArrayHelper::map($coursewares, 'courseware_id', 'title');
 <!-- attribute file_storage_item_id -->
 			<?php echo $form->field($model, 'file_storage_item_id')->widget(Select2::className(),[
                 'data' => $files,
+                 'disabled' => true,
                 'options' => ['placeholder' => '请选择'],
                 'pluginOptions' => [ 
                     'allowClear' => true
                 ],
-            ]) ?>
+            ])->label('文件名') ?>
 
 <!-- attribute courseware_id -->
 			<?php echo $form->field($model, 'courseware_id')->widget(Select2::className(),[
                 'data' => $coursewares,
+                 'disabled' => true,
                 'options' => ['placeholder' => '请选择'],
                 'pluginOptions' => [ 
                     'allowClear' => true

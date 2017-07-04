@@ -137,9 +137,17 @@ class CoursewareToFileController extends Controller
 	 */
 	public function actionUpdate($id) {
 		$model = $this->findModel($id);
-
 		if ($model->load($_POST) && $model->save()) {
-			return $this->redirect(Url::previous());
+			if(isset(\Yii::$app->session['__crudReturnUrl']) && \Yii::$app->session['__crudReturnUrl'] != '/'){
+					Url::remember(null);
+					$url = \Yii::$app->session['__crudReturnUrl'];
+					\Yii::$app->session['__crudReturnUrl'] = null;
+
+					return $this->redirect($url);
+
+			}else{
+				return $this->redirect(Url::previous());
+			}
 		} else {
 			return $this->render('update', [
 					'model' => $model,
