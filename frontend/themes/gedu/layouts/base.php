@@ -44,7 +44,7 @@ if(Yii::$app->session->hasFlash('alert')):?>
         padding-left: 10px;
     }
     .navbar .container{
-        width:1000px;
+//        width:1000px;
         margin:0 auto;
         padding: 0 !important;
     }
@@ -63,10 +63,13 @@ if(Yii::$app->session->hasFlash('alert')):?>
             width: 1000px;
         }
         .container{width: 100%}
+        .navbar .container{
+             width:1000px;
+        }
     }
     @media (min-width: 1200px){
         .navbar-right{
-            margin: 0 !important;
+//            margin: 0 !important;
         }
     }
     @media (max-width: 768px){

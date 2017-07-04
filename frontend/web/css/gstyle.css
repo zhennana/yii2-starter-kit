@@ -1,3 +1,16 @@
+html,
+body {
+	height: 100%;
+}
+li{
+	list-style: none;
+}
+.wrap {
+	min-height: 100%;
+	height: auto;
+	margin: 0 auto -60px;
+	padding: 0 0 60px;
+}
 body{font-size: 12px;}
 a{
 	font-weight: normal;
@@ -31,7 +44,7 @@ h6{
 .top-tel-text{font-size: 14px; color: #333;}
 .top-tel-tel{width:190px; font-weight: bold; font-size: 21px; color: #723c8e; margin-top: -3%; font-style: italic;}
 .top-tel-tel span{font-size: 24px;  color: #723c8e;}
-.top-nov ul{margin-left: 23%; font-size: 16px;}
+/*.top-nov ul{margin-left: 23%; font-size: 16px;}*/
 /*导航条背景颜色*/
 .top-nov .navbar-default{
 	background-color: transparent; 
@@ -41,9 +54,9 @@ h6{
 	background: #723c8e;
 }
 /*下拉背景颜色*/
-.top-nov .dropdown-menu{margin: 0 auto; min-width: 100px;font-size: 12px; background-color:rgba(47,47,47,0.7); border-top-color: #723c8e;}
+.top-nov .dropdown-menu{margin: 0 auto; min-width: 101px;font-size: 12px; background-color:rgba(47,47,47,0.7); border-top-color: #723c8e;}
 .top-nov .dropdown-menu li a{font-size: 14px;}
-.top-nov .dropdown-menu li{text-align: center;}
+.top-nov .dropdown-menu li{text-align: center;padding:5px 0;}
 /*下拉字体颜色*/
 .top-nov .dropdown-menu>li>a{padding: 3px 14px; color: #efefef;}
 /*鼠标经过下拉列表的颜色*/
@@ -305,7 +318,8 @@ h6{
 	border-bottom-style: solid;
 	border-bottom-width: 1px;
 	border-bottom-color:#723c8e;
-	padding: 0px !important;
+	padding-top:10px;
+	padding-bottom:10px;
 }
 .geu-content .with-bordersm{
 	border-bottom-style: solid;
@@ -328,15 +342,15 @@ h6{
 .geu-content .contacborder{
 	width: 90%;
 	padding-top: 20px;
-	margin: 0 auto;
+	/*margin: 0 auto;*/
 }
 
 .geu-content a{
 	color: #4f4f4f;
 }
 .gdu-content{
-	/*width:1000px;*/
-	margin:30px auto 0;
+	/*overflow: hidden;*/
+	margin:50px auto 30px;
 }
 .todo-list .coperli{
 	background-color: white;
@@ -667,7 +681,7 @@ h6{
 }
 .geu-content .breadcrumb{
 	position:relative;
-	padding:0;
+	padding:8px 0;
 	margin-bottom: -10px;
 	background: none;
 	width: 100% !important;
@@ -1086,7 +1100,7 @@ transform: scale(1.2);
   @media only screen and (max-width:990px){
     .box{ margin-bottom: 30px; }
   }
- .my-map { margin: 0px auto; width: 950px; height: 600px; }
+ .my-map { margin: 0px auto; height: 600px; }
  .my-map .icon { background: url(http://lbs.amap.com/console/public/show/marker.png) no-repeat; }
  .my-map .icon-cir { height: 31px; width: 28px; }
  .my-map .icon-cir-red { background-position: -11px -5px; }
@@ -1103,11 +1117,13 @@ transform: scale(1.2);
 @media (max-width: 768px){
 .top-logo,.top-tel{display: none;}
 .ban-but-L,.ban-but-R{height: 56%; width: 29%;}
-
+.navbar-right{float: left !important;}
 /*.top-nov .dropdown-menu>li>a{margin-left: -15%;}*/
+	.top-nov ul{margin-left: 2%;}
 }
 @media (min-width: 768px){
 .top-logo-sma{display: none;}
+.navbar-right{float: left !important;}
 }
 @media (min-width: 768px) and (max-width:980px){
 /*.top .top-logo{padding-left: 12%;}*/
@@ -1117,7 +1133,7 @@ transform: scale(1.2);
 }
 @media (min-width: 980px) and (max-width:1137px){
 /*.top .top-tel{padding-top: 4%;}*/
-.top-nov ul{margin-left: 9%;}	
+/*.top-nov ul{margin-left: 9%;}*/
 }
 @media (max-width: 1200px){
 .footer-2 h3{font-size: 20px;}
@@ -1260,7 +1276,7 @@ transform: scale(1.2);
 	margin-right:15px;
 }
 .top-nov ul{
-	margin-left: 2%;
+	/*margin-left: 2%;*/
 }
 @media (max-width:768px) {
 	.navbar-default .navbar-nav .open .dropdown-menu li a{
