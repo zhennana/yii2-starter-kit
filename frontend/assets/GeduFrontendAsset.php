@@ -19,8 +19,8 @@ class GeduFrontendAsset extends AssetBundle
     public $baseUrl = '@web';
 
     public $css = [
-        'css/style.css',
-        'css/course.css',
+//        'css/style.css',
+//        'css/course.css',
         'css/gstyle.css',
         'css/gresstyle.css',
     ];
