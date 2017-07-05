@@ -5,7 +5,7 @@ use yii\helpers\Html;
 ?>
 <style type="text/css">
     .wrap > .container{
-        padding: 70px 0 40px ;
+        padding: 0 0 40px ;
     }
 </style>
     <div class="main">
