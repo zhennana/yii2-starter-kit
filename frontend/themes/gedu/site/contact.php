@@ -39,7 +39,7 @@ use yii\captcha\Captcha;
             </div>
       </div>
     </div>
-    <div class="col-md-12 ">
+    <div class="col-md-12 " style="padding:0;margin-bottom:30px;">
         <div class="box box-widget geu-content" >
         <div class="box-header contacborder" >
                 <div class="with-borderleft"><a href="#" style="margin-left: 10px;">光大学校地图</a></div> 

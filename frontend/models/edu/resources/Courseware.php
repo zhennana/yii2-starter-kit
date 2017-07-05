@@ -76,7 +76,12 @@ class Courseware extends BaseCourseware
                     return 'free/off/vip/none';
                 },
                 'favorite' => function($model){
+                    if (Yii::$app->user->isGuest) {
+                        return 0;
+                    }
                     $collect = Collect::find()->where([
+                        'user_id' => Yii::$app->user->identity->id
+                    ])->andWhere([
                         'courseware_master_id' => $model->courseware_id
                     ])->orWhere([
                         'courseware_id' => $model->courseware_id
