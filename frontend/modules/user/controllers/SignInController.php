@@ -95,6 +95,11 @@ class SignInController extends \yii\web\Controller
         }
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
+        } else if(env('THEME') == 'happy'){
+            $this->layout = '@backend/views/layouts/base.php';
+            return $this->render('loginv2', [
+                'model' => $model
+            ]);
         } else {
             return $this->render('login', [
                 'model' => $model
