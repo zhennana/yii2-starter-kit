@@ -1,6 +1,12 @@
 <?php
 use yii\helpers\Html; 
 ?>
+<div class="move-box move-box1" style="display:none">
+    <div class="embed-box" id="video_play">
+        <video id="yjzxVideo" src="http://orh16je38.bkt.clouddn.com/guangda86m.mov" quality="high" width="860" height="483" align="middle" controls='controls'>您的浏览器不支持该视频播放</video>
+        <button id="video_close">X</button>
+    </div>
+</div>
 <div class="row col-xs-12" style="position:relative;height:280px;padding:0;">
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 main-4-newsBox">
         <div class="newsBox">  
@@ -72,11 +78,21 @@ use yii\helpers\Html;
     </div>
 
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 main-4-videoBox">
-        <div class="">
-            <video src="http://orh16je38.bkt.clouddn.com/guangda86m.mov" width="100%" height="100%" id="yjzxVideo" controls autobuffer >
-            您的浏览器不支持该视频播放
-            </video>
-        </div>                              
+        <div class="video">
+            <img class="img-responsive" style="height:260px;width:100%;" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-3-1.png?imageView2/1/w/500/h/400"></a>
+            <i class="icon-video"></i>
+        </div>
     </div>
 </div>
+<script>
+    $('.main-4-videoBox').click(function(){
+        $(".move-box1").show();
+        $('video').trigger('play');
+        $('video').enterFullScreen();
+    });
 
+   $("#video_close").click(function(){
+        $(".move-box1").hide();
+        $('video').trigger('pause');
+   });
+</script>
