@@ -79,7 +79,8 @@ use yii\helpers\Html;
 
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 main-4-videoBox">
         <div class="video">
-            <img class="img-responsive" style="height:260px;width:100%;" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-3-1.png?imageView2/1/w/500/h/400"></a>
+            <img class="img-responsive" style="height:260px;width:100%;" src="http://orh16je38.bkt.clouddn.com/%E9%85%8D%E5%A5%97%E6%9C%8D%E5%8A%A1%E6%95%88%E6%9E%9C%E5%9B%BE1.png?imageView2/3/h/260/w/485"></a>
+            <div class="mask"></div>
             <i class="icon-video"></i>
         </div>
     </div>
