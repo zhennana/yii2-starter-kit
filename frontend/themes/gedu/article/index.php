@@ -19,8 +19,10 @@ $cateParent=!empty($category['pare_name'])?$category['pare_name']:'光大学校'
             <div class="box-header with-border box-header with-border ">
                 <ol class="breadcrumb" style="margin-bottom: -10px">
                   <li><span class=""><i class="fa fa-map-marker margin-r-5 text-purple"></i>当前位置: </span>&nbsp<?php echo Html::a('首页',['site/index'])?></li>
-                  <?php if(!empty($category['parent'])){?>
-                  <li><?php echo Html::a($cateParent,['article/index','category_id'=>$category['pare_id']])?></li>
+                  <?php 
+                    if(!empty($category['parent'])&&$category['parent']['id']!=46){               
+                  ?>
+                    <li><?php echo Html::a($cateParent,['article/index','category_id'=>$category['pare_id']])?></li>
                   <?php }?>
                   <li class="activeli"><?php echo $category['self']['title']?></li>
                 </ol>
