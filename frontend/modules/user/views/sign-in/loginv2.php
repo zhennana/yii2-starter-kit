@@ -39,7 +39,7 @@ $logo = 'http://orfaphl6n.bkt.clouddn.com/logo.png';
             ]) ?>
             <div class="text-center" style="color:#999;margin:1em 0">
                     <?php echo Yii::t('frontend', 'If you forgot your password you can reset it <a href="{link}">here</a>', [
-                        'link'=>yii\helpers\Url::to(['sign-in/request-password-reset'])
+                        'link'=>yii\helpers\Url::to(['sign-in/login'])
                     ]) ?>
             </div>
         </div>
