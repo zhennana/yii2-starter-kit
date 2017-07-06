@@ -21,7 +21,7 @@ use yii\helpers\Html;
                 <div class="box-header with-border box-header with-border ">
                     <ol class="breadcrumb" style="margin-bottom: -10px">
                       <li><span class=""><i class="fa fa-map-marker margin-r-5 text-purple"></i>当前位置: </span>&nbsp<?php echo Html::a('首页',['site/index'])?></li>
-                      <?php if(!empty($category['parent'])){?>
+                      <?php if(!empty($category['parent']&&$category['parent']['id']!=46)){?>
                       <li><?php echo Html::a($category['pare_name'],['article/index','category_id'=>$model->category_id])?></li>
                       <?php }?>
                       <li><?php echo Html::a($category['self'],['article/index','category_id'=>$model->category_id])?></li>

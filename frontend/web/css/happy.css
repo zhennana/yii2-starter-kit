@@ -251,15 +251,15 @@ nav .container{
   border: none;
   background-color: #35b9d0;
 }
-.dropdown-menu > li:hover{
-  background-color: black !important;
+.dropdown-menu > li > a:hover{
+  background-color: #35a0d0;
 }
 .navbar-inverse .navbar-nav .open .dropdown-menu > .active > a{
   background-color: #35a0d0;
 }
 
 .dropdown-menu li > a{
-  color: white;
+  color: white !important;
 }
 ::-webkit-input-placeholder { /* WebKit browsers */
     color: #fff;
