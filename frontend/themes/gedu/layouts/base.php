@@ -191,12 +191,7 @@ if(Yii::$app->session->hasFlash('alert')):?>
         </div>
     </div>
     
-    <?php echo \common\widgets\DbCarousel::widget([
-        'key'=>'index',
-        'options' => [
-            'class' => 'slide', // enables slide effect
-        ],
-    ]) ?>
+
 
     <?php echo $content ?>
 
