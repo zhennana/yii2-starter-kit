@@ -36,7 +36,7 @@ return [
     'Error while oauth process.' => 'oauth进程错误',
     'Female' => '女性',
     'Home' => '主页',
-    'If you forgot your password you can reset it <a href="{link}">here</a>' => '忘记密码请点击 <a href="{link}"></a>',
+    'If you forgot your password you can reset it <a href="{link}">here</a>' => '忘记密码请点击 <a href="{link}">这里</a>',
     'Incorrect username or password.' => '用户名或密码错误',
     'Language' => '语言',
     'Log in with' => 'Log in with',
