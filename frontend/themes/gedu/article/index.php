@@ -1,8 +1,31 @@
 <?php
 use yii\helpers\Html;
-  // echo'<pre>';var_dump($category['parent']);exit;
+//  echo'<pre>';var_dump($category['parent']);
 $cateParent=!empty($category['pare_name'])?$category['pare_name']:'光大学校';
+$banner=array(
+24=>"http://orh16je38.bkt.clouddn.com/Admissions%20.jpg?imageView2/1/w/1920/h/400",//招生专栏
+36=>"http://orh16je38.bkt.clouddn.com/education.jpg?imageView2/1/w/1920/h/400",//教育教学
+30=>"http://orh16je38.bkt.clouddn.com/cooperation.jpg?imageView2/1/w/1920/h/400",//合作交流
+31=>"http://orh16je38.bkt.clouddn.com/celebrated%20.jpg?imageView2/1/w/1920/h/400",//招贤纳士
+30=>"http://orh16je38.bkt.clouddn.com/cooperation.jpg?imageView2/1/w/1920/h/400",//合作交流
+1=>"http://orh16je38.bkt.clouddn.com/everbright.jpg?imageView2/1/w/1920/h/400",//走进光大
+);
+//var_dump($banner);
 ?>
+<div style="margin-left:-15px;margin-right:-15px;">
+    <?php if($category['parent']['id']==1){ ?>
+        <img width='100%' src="<?php echo $banner[1]?>">
+    <?php }else if($category['parent']['id']==24){ ?>
+        <img width='100%' src="<?php echo $banner[24]?>">
+    <?php }else if($category['parent']['id']==36){ ?>
+        <img width='100%' src="<?php echo $banner[36]?>">
+    <?php }else if($category['parent']['id']==30){ ?>
+            <img width='100%' src="<?php echo $banner[30]?>">
+    <?php }else if($category['parent']['id']==31){ ?>
+            <img width='100%' src="<?php echo $banner[31]?>">
+     <?php }?>
+
+</div>
 <div class="gdu-content">
   <div class="row gdu-content-wrap">
     <!-- 左边侧边栏 -->
