@@ -5,7 +5,7 @@ use yii\helpers\Html;
 ?><!-- 左边侧边栏 -->
     <div class="col-md-3" style="box-sizing: border-box;padding:0">
       
-      <div class="">
+      <!--<div class="">
         <div class="gbox">
           <h4 class="">联系我们</h4>
         </div>
@@ -28,7 +28,11 @@ use yii\helpers\Html;
               </ul>
             </div>
         </div>
-      </div>
+      </div>-->
+      <div style="background:#f1f1f1">
+              <span style="display:inline-block;padding:5px 0;"><img width='100%' src="http://orh16je38.bkt.clouddn.com/Sidebar1.jpg?imageView2/1/w/357/h/179"></span>
+              <span style="display:inline-block;padding:5px 0;"><img width='100%' src="http://orh16je38.bkt.clouddn.com/Sidebar2.jpg?imageView2/1/w/357/h/179"></span>
+            </div>
     </div>
     <style type="text/css">
       .box-body{

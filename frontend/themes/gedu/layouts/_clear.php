@@ -13,6 +13,7 @@ use yii\helpers\Html;
 <html lang="<?php echo Yii::$app->language ?>">
 <head>
     <meta charset="<?php echo Yii::$app->charset ?>"/>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="http://7xsm8j.com2.z0.glb.qiniucdn.com/guangdaicon.ico">
     <script src="http://static.v1.wakooedu.com/jquery-latest.js"></script>
