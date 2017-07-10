@@ -127,7 +127,7 @@ use yii\grid\GridView;
                         if(strstr($model->type,'image')){
                             return Html::a('<img width="50px" height="50px" class="img-thumbnail" src="'.$url.'?imageView2/1/w/50/h/50" />', $url.'?imageView2/1/w/500/h/500', ['title' => '访问','target' => '_blank']);
                         }else{
-                            return Html::a('访问', $url, ['title' => '访问','target' => '_blank']);
+                            return Html::a('访问', , ['title' => '访问','target' => '_blank']);
                         }
                     }
                 ],

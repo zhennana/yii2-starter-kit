@@ -1,7 +1,7 @@
 <?php
 
 namespace backend\modules\campus\controllers;
-
+use kartik\mpdf\Pdf;
 
 
 /**
@@ -31,5 +31,18 @@ class CoursewareController extends \backend\modules\campus\controllers\base\Cour
                 'type' => 'privacy'
             ],
         ];
+    }
+
+    public function actionPdf(){
+        $this->layout = false;
+        return   $this->render('_PDF');
+    }
+
+    public function actionPicture(){
+        $domain =  \Yii::$app->params['qiniu']['wakooedu']['domain'];
+        if(isset($_GET['files'])){
+            $_GET['files'] = '';
+        }
+       return $this->render('_picture',['files'=>$domain.'/'.$_GET['files']]);
     }
 }
