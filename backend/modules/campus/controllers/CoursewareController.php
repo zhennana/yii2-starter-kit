@@ -40,7 +40,7 @@ class CoursewareController extends \backend\modules\campus\controllers\base\Cour
 
     public function actionPicture(){
         $domain =  \Yii::$app->params['qiniu']['wakooedu']['domain'];
-        if(isset($_GET['files'])){
+        if(!isset($_GET['files'])){
             $_GET['files'] = '';
         }
        return $this->render('_picture',['files'=>$domain.'/'.$_GET['files']]);
