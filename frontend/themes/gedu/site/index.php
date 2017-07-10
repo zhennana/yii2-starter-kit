@@ -3,6 +3,12 @@ use yii\helpers\Html;
 //var_dump(empty(null));exit;
 //var_dump($data['other']);exit;
 ?>
+<?php echo \common\widgets\DbCarousel::widget([
+          'key'=>'index',
+          'options' => [
+              'class' => 'slide', // enables slide effect
+          ],
+      ]) ?>
 <style type="text/css">
     .wrap > .container{
         padding: 0 0 40px ;
@@ -164,6 +170,24 @@ use yii\helpers\Html;
                     "opacity": 1
                  });
                  $(".main-4-videoBox").css({
+                    "transform": "translate3d(0, 0, 0)",
+                    "-ms-transform": "translate3d(0, 0, 0)",
+                    "-o-transform": "translate3d(0, 0, 0)",
+                    "-webkit-transform": "translate3d(0, 0, 0)",
+                    "-moz-transform": "translate3d(0, 0, 0)",
+                    "opacity": 1
+                 });
+             };
+             if($(window).scrollTop()>1450){
+                 $(".campus-top").css({
+                    "transform": "translate3d(0, 0, 0)",
+                    "-ms-transform": "translate3d(0, 0, 0)",
+                    "-o-transform": "translate3d(0, 0, 0)",
+                    "-webkit-transform": "translate3d(0, 0, 0)",
+                    "-moz-transform": "translate3d(0, 0, 0)",
+                    "opacity": 1
+                 });
+                 $(".campus-bottom").css({
                     "transform": "translate3d(0, 0, 0)",
                     "-ms-transform": "translate3d(0, 0, 0)",
                     "-o-transform": "translate3d(0, 0, 0)",
