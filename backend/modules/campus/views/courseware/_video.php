@@ -72,7 +72,7 @@
             z-index:400;
             color:  white;
             position: absolute;
-            right:  25%;
+            right:  50%;
             top: 20px;
         }
     }
