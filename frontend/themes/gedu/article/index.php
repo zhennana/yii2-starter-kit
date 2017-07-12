@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use yii\widgets\LinkPager;
 //  echo'<pre>';var_dump($category['parent']);
 $cateParent=!empty($category['pare_name'])?$category['pare_name']:'光大学校';
 $banner=array(
@@ -77,12 +78,11 @@ $banner=array(
                   </div>
                 </li>
               <?php }?>
-                 <?php 
-		        //   echo \yii\widgets\LinkPager::widget([
-		        //     'pagination'=>$dataProvider->pagination,
-		        //     'options' => ['class' => 'pagination'],
-		        // ]);
-            ?>
+                <?php
+                  echo LinkPager::widget([
+                    'pagination'=>$pagination,
+                    ])
+                ?>
 
               </ul>
                    
