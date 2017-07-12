@@ -178,7 +178,7 @@ use yii\helpers\Html;
                     "opacity": 1
                  });
              };
-             if($(window).scrollTop()>1450){
+             if($(window).scrollTop()>1650){
                  $(".campus-top").css({
                     "transform": "translate3d(0, 0, 0)",
                     "-ms-transform": "translate3d(0, 0, 0)",
@@ -188,6 +188,26 @@ use yii\helpers\Html;
                     "opacity": 1
                  });
                  $(".campus-bottom").css({
+                    "transform": "translate3d(0, 0, 0)",
+                    "-ms-transform": "translate3d(0, 0, 0)",
+                    "-o-transform": "translate3d(0, 0, 0)",
+                    "-webkit-transform": "translate3d(0, 0, 0)",
+                    "-moz-transform": "translate3d(0, 0, 0)",
+                    "opacity": 1
+                 });
+             };
+             if($(window).scrollTop()>650){
+                 $(".teacher-img1").css({
+                    "transform": "translate3d(0, 0, 0)",
+                    "-ms-transform": "translate3d(0, 0, 0)",
+                    "-o-transform": "translate3d(0, 0, 0)",
+                    "-webkit-transform": "translate3d(0, 0, 0)",
+                    "-moz-transform": "translate3d(0, 0, 0)",
+                    "opacity": 1
+                 });
+             };
+             if($(window).scrollTop()>1050){
+                 $(".teacher-img2").css({
                     "transform": "translate3d(0, 0, 0)",
                     "-ms-transform": "translate3d(0, 0, 0)",
                     "-o-transform": "translate3d(0, 0, 0)",

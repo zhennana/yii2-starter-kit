@@ -95,7 +95,7 @@ h6{
 /*main-1*/
 .main-1{padding-top: 3%; padding-bottom: 3%;background: #e0e0e0;}
 .row-1{box-sizing: border-box;border-right:1px solid #eee;}
-.row-teacher{width:100%;}
+.row-teacher{width:100%;max-height:200px;}
 .row-box{text-align: center;}
 .row-box h4{font-size: 21px;}
 .row-box h6{font-size: 12px;}
@@ -129,12 +129,83 @@ h6{
 /*.main-2-nav span.active{border-bottom:1px solid #723c8e;}*/
 .main-2-nav span.active a{color:#723c8e;}
 .main-2-nav span a{color:#333;}
-.main-2-nav-fu{width:1000px;overflow: hidden;margin:0 auto;}
+.main-2-nav-fu,.teacher-wrap{width:1000px;overflow: hidden;margin:0 auto;}
 .tab-content-fu{width:100%;text-align: center; background-color: #e0e0e0;}
+/*教师风采重写*/
+.panel.panel-card{position:relative;height:280px;border:none;overflow: hidden;background:rgba(214,224,226,0.2)}
+.panel.panel-card .panel-heading{position:relative;z-index:2;height:140px;border-bottom-color:#fff;overflow: hidden;transition: height 600ms ease 0s;-webkit-transition: height 600ms ease 0s;}
+.panel.panel-card .panel-heading img{position:absolute;top:50%;left:50%;z-index:1;width:120%;transform:translate3d(-50%,-50%,0);-weblit-transform:translate3d(-50%,-50%,0)}
+.panel.panel-card .panel-figure {
+	position: absolute;
+	top: auto;
+	left: 50%;
+	z-index: 3;
+	width: 120px;
+	height: 120px;
+	background-color: #fff;
+	border-radius: 50%;
+	opacity: 1;
+	-webkit-box-shadow: 0 0 0 5px rgba(255,255,255,0.6);
+	box-shadow: 0 0 0 5px rgba(255,255,255,0.6);
+
+	-webkit-transform: translate3d(-50%,-50%,0);
+	transform: translate3d(-50%,-50%,0);
+
+	-webkit-transition: opacity 400ms ease-in-out;
+	transition: opacity 400ms ease-in-out;
+}
+
+.panel.panel-card .panel-figure img{
+	width: 165px;
+	height:100%;
+}
+
+.panel.panel-card .panel-body {
+	padding-top: 60px;
+	padding-bottom: 20px;
+
+	-webkit-transition: padding 400ms ease-in-out;
+	transition: padding 400ms ease-in-out;
+}
+
+.panel.panel-card .panel-thumbnails {
+	padding: 0 30px 30px;
+}
+.panel-thumbnails .thumbnail {
+	max-width: 100%;
+	margin: 0 auto;
+	box-shadow: none;
+	border-color: #eeeeee;
+	background-color: #fff;
+	border-radius: 3px;
+}
+
+
+.panel.panel-card:hover .panel-heading {
+	height: 55px;
+
+	-webkit-transition: height 400ms ease-in-out;
+	transition: height 400ms ease-in-out;
+}
+.panel.panel-card:hover .panel-figure {
+	opacity: 0;
+
+	-webkit-transition: opacity 400ms ease-in-out;
+	transition: opacity 400ms ease-in-out;
+}
+.panel.panel-card:hover .panel-body {
+	padding-top: 20px;
+
+	-webkit-transition: padding 400ms ease-in-out;
+	transition: padding 400ms ease-in-out;
+}
+.icon{padding: 0}
+.icon li a{display:inline-block;margin:0 auto;}
+
 .tab-content{width: 1000px;margin:0 auto;}
 .main-2-nav,.main-2-top{ padding-top: 2%;}
 .main-2-top h1{color:#723c8e;font-family:SimSun}
-.main-2-teacher{padding: 4% 0;}
+.main-2-teacher{padding: 1% 0 4%;}
 .main-2-teacher-inner{float: left;}
 .main-2-teacher-inner-p{background-color: #fff; font-size: 16px; color: #474747; text-align: center; padding: 4% 0 1% 0;}
 .main-2-teacher-inner-p a{color:#0f0f0f;font-size: 12px;}
@@ -153,7 +224,33 @@ h6{
 .main-3-box1,.main-3-box2,.main-3-box3,.main-3-box4,.main-3-box5{float: left;}
 .main-3-head-fu{width:1000px;margin:30px auto 0;}
 .main-3-school{margin: 2% 0;}
-.teacher-img{padding:0 5px;}
+.teacher-img{padding:0 5px;
+	transform: translate3d(0, 720px, 0);
+	-ms-transform: translate3d(0, 720px, 0);
+	-webkit-transform: translate3d(0,720px, 0);
+	-o-transform: translate3d(0, 720px, 0);
+	-moz-transform: translate3d(0,720px, 0);
+	opacity: 0;
+	transition: transform 1s ease-out 0s,opacity 1s ease 0s;
+	-moz-transition: -moz-transform 1s ease-out 0s,opacity 1s ease 0s;
+	-webkit-transition: -webkit-transform 1s ease-out 0s,opacity 1s ease 0s;
+	-o-transition: -o-transform 1s ease-out 0s,opacity 1s ease 0s;
+	-ms-transition: -ms-transform 1s ease-out 0s,opacity 1s ease 0s;
+}
+.teacher-img:nth-child(2), .teacher-img:nth-child(5){
+	transition: transform 1s ease-out 0.1s,opacity 1s ease 0s;
+	-moz-transition: -moz-transform 1s ease-out 0.1s,opacity 1s ease 0s;
+	-webkit-transition: -webkit-transform 1s ease-out 0.1s,opacity 1s ease 0s;
+	-o-transition: -o-transform 1s ease-out 0.1s,opacity 1s ease 0s;
+	-ms-transition: -ms-transform 1s ease-out 0.1s,opacity 1s ease 0s;
+}
+.teacher-img:nth-child(3), .teacher-img:nth-child(6){
+	transition: transform 1s ease-out 0.2s,opacity 1s ease 0s;
+	-moz-transition: -moz-transform 1s ease-out 0.2s,opacity 1s ease 0s;
+	-webkit-transition: -webkit-transform 1s ease-out 0.2s,opacity 1s ease 0s;
+	-o-transition: -o-transform 1s ease-out 0.2s,opacity 1s ease 0s;
+	-ms-transition: -ms-transform 1s ease-out 0.2s,opacity 1s ease 0s;
+}
 /*main-4*/
 .move-box1{background-color: rgba(0,0,0,0.6);width:100%;height:100%;position:fixed;top:0;left:0;z-index:100000;padding:0;}
 .move-box .embed-box{position:relative;margin:0 auto;width:900px;padding:20px;top:10%;box-sizing:border-box;border-radius:20px;background:#000;overflow:hidden;}
@@ -166,11 +263,11 @@ h6{
 	-webkit-transform: scale(1.2);
 	-o-transform: scale(1.2);
 	-moz-transform: scale(1.2);
-	transition: transform 2s ease 0s;
-	-moz-transition:transform 2s ease 0s;
-	-webkit-transition:transform 2s ease 0s;
-	-o-transition:transform 2s ease 0s;
-	-ms-transition:transform 2s ease 0s;
+	transition: transform 2s ease 0s,opacity 1s ease 0s;
+	-moz-transition:transform 2s ease 0s,opacity 1s ease 0s;
+	-webkit-transition:transform 2s ease 0s,opacity 1s ease 0s;
+	-o-transition:transform 2s ease 0s,opacity 1s ease 0s;
+	-ms-transition:transform 2s ease 0s,opacity 1s ease 0s;
 }
 .icon-video{display:inline-block;width:48px;height:48px;position:absolute;left:48%;top:48%;border-radius:24px;background-color:#fff;background-image: url(http://orh16je38.bkt.clouddn.com/shipin.png)}
 .main-4{background-color: #fff; padding: 3% 0;overflow: hidden;}
@@ -183,11 +280,11 @@ h6{
 	-o-transform: translate3d(-150px, 0, 0);
 	-moz-transform: translate3d(-150px, 0, 0);
 	opacity: 0;
-	transition: transform 1s ease 0s, opacity 1s ease 0s;
-	-moz-transition: -moz-transform 1s ease 0s, opacity 1s ease 0s;
-	-webkit-transition: -webkit-transform 1s ease 0s, opacity 1s ease 0s;
-	-o-transition: -o-transform 1s ease 0s, opacity 1s ease 0s;
-	-ms-transition: -ms-transform 1s ease 0s, opacity 1s ease 0s;}
+	transition: transform 2s ease-out 0s, opacity 2s ease 0s;
+	-moz-transition: -moz-transform 2s ease-out 0s, opacity 2s ease 0s;
+	-webkit-transition: -webkit-transform 2s ease-out 0s, opacity 2s ease 0s;
+	-o-transition: -o-transform 2s ease-out 0s, opacity 2s ease 0s;
+	-ms-transition: -ms-transform 2s ease-out 0s, opacity 2s ease 0s;}
 .page-header{padding-left:3%;}
 .main-4-videoBox{padding-right:0;position:absolute;right:0;
 	top:0;
@@ -197,11 +294,11 @@ h6{
 	-o-transform: translate3d(150px, 0, 0);
 	-moz-transform: translate3d(150px, 0, 0);
 	opacity: 0;
-	transition: transform 1s ease 0s, opacity 1s ease 0s;
-	-moz-transition: -moz-transform 1s ease 0s, opacity 1s ease 0s;
-	-webkit-transition: -webkit-transform 1s ease 0s, opacity 1s ease 0s;
-	-o-transition: -o-transform 1s ease 0s, opacity 1s ease 0s;
-	-ms-transition: -ms-transform 1s ease 0s, opacity 1s ease 0s;
+	transition: transform 2s ease 0s, opacity 2s ease 0s;
+	-moz-transition: -moz-transform 2s ease 0s, opacity 2s ease 0s;
+	-webkit-transition: -webkit-transform 2s ease 0s, opacity 2s ease 0s;
+	-o-transition: -o-transform 2s ease 0s, opacity 2s ease 0s;
+	-ms-transition: -ms-transform 2s ease 0s, opacity 2s ease 0s;
 	}
 .newsBox-top .newsBox-top-L{ display: block; content: ''; clear: both; }
 .newsBox-top-L img{float: left; padding-top: 5%; padding-left: 2%;}
@@ -812,7 +909,7 @@ h6{
 }
 .text-desc{
 	position: absolute;
-	left: 0; top: 100%;
+	left: 0; top: 0;
 	background-color: #fff;
 	height: 100%;
 	opacity: 0;
@@ -820,7 +917,10 @@ h6{
 	padding: 20px;
 	/*display:none;*/
 	z-index:100;
-	transition: transform 1s ease 0s, opacity 1s ease 0s, top 1s ease 0s;
+	transition: all 1s ease 0s;
+}
+.port-4 .text-desc{
+	top: 100%;
 }
 .text-desc .img-introduct{
 	display: block;
@@ -894,6 +994,7 @@ h6{
 	position: relative;
 	overflow: hidden;
 }
+.main-2-teacher #teacher .item{overflow:hidden;clear:both;height:221px;}
 /* effect-4 css end */
 
 /*---------------*/
