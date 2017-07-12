@@ -1,5 +1,15 @@
 <?php
     $url = Yii::getAlias('@backendUrl/../../common/widgets/pdf/');
+    $urlCss = Yii::getAlias('@backendUrl/js/viewer.css');
+    // $this->registerCssFile($url.'web/viewer.css',['positon' => $this::POS_HEAD]);
+    // $this->registerJsFile($url.'web/compatibility.js',['positon' => $this::POS_HEAD]);
+    // $this->registerJsFile($url.'web/l10n.js',['positon' => $this::POS_HEAD]);
+    // $this->registerJsFile($url.'build/pdf.js',['positon' => $this::POS_HEAD]);
+    // $this->registerJsFile($url.'web/viewer.js',['positon' => $this::POS_HEAD]);
+    // $this->registerJsFile($url.'web/locale/locale.properties',['positon' => $this::POS_HEAD]);
+    //var_dump($this->registerJsFile($url.'web/locale/locale.properties',['positon' => $this::POS_HEAD]));exit;
+    //\backend\assets\BackendAsset::register($this);
+   // $this->registerJsFile();
      //var_dump($a);exit;
 ?>
 <!DOCTYPE html>
@@ -10,14 +20,14 @@
     <meta name="google" content="notranslate">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>PDF.js viewer</title>
-    <link rel="stylesheet" href="<?php echo $url.'web/viewer.css' ?>">
-
-    <script src="<?php echo $url ?>web/compatibility.js"> </script>
+    <link rel="stylesheet" href="<?php echo $urlCss ?>">
+<!-- 
+    <script src="<?php //echo $url ?>web/compatibility.js"> </script> -->
 <!-- This snippet is used in production (included from viewer.html) -->
-<link rel="resource" type="application/l10n" href="<?php echo $url ?>web/locale/locale.properties">
-<script src="<?php echo $url ?>web/l10n.js"></script>
-<script src="<?php echo $url ?>build/pdf.js"></script>
-<script src="<?php echo $url ?>web/viewer.js"></script>
+<!-- <link rel="resource" type="application/l10n" href="<?php //echo $url ?>web/locale/locale.properties">
+<script src="<?php //echo $url ?>web/l10n.js"></script>
+<script src="<?php //echo $url ?>build/pdf.js"></script>
+<script src="<?php //echo $url ?>web/viewer.js"></script> -->
 </head>
 
 
