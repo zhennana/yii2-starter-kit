@@ -1,6 +1,6 @@
 <?php
-    $a = Yii::getAlias('@common/widgets/pdf/web/viewer.css');
-   //  var_dump($a);exit;
+    $url = Yii::getAlias('@backendUrl/../../common/widgets/pdf/');
+     //var_dump($a);exit;
 ?>
 <!DOCTYPE html>
 <html dir="ltr" mozdisallowselectionprint moznomarginboxes>
@@ -10,7 +10,7 @@
     <meta name="google" content="notranslate">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>PDF.js viewer</title>
-    <link rel="stylesheet" href="<?= $a ?>">
+    <link rel="stylesheet" href="<?= $url.'web/viewer.css' ?>">
 
     <script src="../../../../common/widgets/pdf/web/compatibility.js"> </script>
 <!-- This snippet is used in production (included from viewer.html) -->
