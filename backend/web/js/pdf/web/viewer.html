@@ -1,7 +1,25 @@
-<?php
-    $url = Yii::getAlias('@backendUrl/js/pdf/');
-?>
 <!DOCTYPE html>
+<!--
+Copyright 2012 Mozilla Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+Adobe CMap resources are covered by their own copyright but the same license:
+
+    Copyright 1990-2015 Adobe Systems Incorporated.
+
+See https://github.com/adobe-type-tools/cmap-resources
+-->
 <html dir="ltr" mozdisallowselectionprint moznomarginboxes>
   <head>
     <meta charset="utf-8">
@@ -9,18 +27,25 @@
     <meta name="google" content="notranslate">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>PDF.js viewer</title>
-    <link rel="stylesheet" href="<?php echo $url.'web/viewer.css' ?>">
 
-    <script src="<?php echo $url ?>web/compatibility.js"> </script> 
+
+    <link rel="stylesheet" href="viewer.css">
+
+    <script src="compatibility.js"></script>
+
+
+
 <!-- This snippet is used in production (included from viewer.html) -->
- <link rel="resource" type="application/l10n" href="<?php echo $url ?>web/locale/locale.properties">
-<script src="<?php echo $url ?>web/l10n.js"></script>
-<script src="<?php echo $url ?>build/pdf.js"></script>
-<script src="<?php echo $url ?>web/viewer.js"></script> 
-</head>
+<link rel="resource" type="application/l10n" href="locale/locale.properties">
+<script src="l10n.js"></script>
+<script src="../build/pdf.js"></script>
 
 
-  <body tabindex="1" class="loadingInProgress" onselectstart="return false">
+    <script src="viewer.js"></script>
+
+  </head>
+
+  <body tabindex="1" class="loadingInProgress">
     <div id="outerContainer">
 
       <div id="sidebarContainer">
@@ -78,11 +103,11 @@
               <span data-l10n-id="open_file_label">Open</span>
             </button>
 
-            <button id="secondaryPrint" class="secondaryToolbarButton print visibleMediumView" title="Print" tabindex="53" data-l10n-id="print" style="display : none">
+            <button id="secondaryPrint" class="secondaryToolbarButton print visibleMediumView" title="Print" tabindex="53" data-l10n-id="print">
               <span data-l10n-id="print_label">Print</span>
             </button>
 
-            <button id="secondaryDownload" class="secondaryToolbarButton download visibleMediumView" title="Download" tabindex="54" data-l10n-id="download" style="display : none">
+            <button id="secondaryDownload" class="secondaryToolbarButton download visibleMediumView" title="Download" tabindex="54" data-l10n-id="download">
               <span data-l10n-id="download_label">Download</span>
             </button>
 
@@ -154,11 +179,11 @@
                   <span data-l10n-id="open_file_label">Open</span>
                 </button>
 
-                <button id="print" class="toolbarButton print hiddenMediumView" title="Print" tabindex="33" data-l10n-id="print" style="display: none">
+                <button id="print" class="toolbarButton print hiddenMediumView" title="Print" tabindex="33" data-l10n-id="print">
                   <span data-l10n-id="print_label">Print</span>
                 </button>
 
-                <button id="download" class="toolbarButton download hiddenMediumView" title="Download" tabindex="34" data-l10n-id="download" style="display: none">
+                <button id="download" class="toolbarButton download hiddenMediumView" title="Download" tabindex="34" data-l10n-id="download">
                   <span data-l10n-id="download_label">Download</span>
                 </button>
                 <a href="#" id="viewBookmark" class="toolbarButton bookmark hiddenSmallView" title="Current view (copy or open in new window)" tabindex="35" data-l10n-id="bookmark">
@@ -325,33 +350,4 @@
     <div id="printContainer"></div>
   </body>
 </html>
-<script type="text/javascript">
-    this.DOMAIN = "<?php echo Yii::$app->params['qiniu']['wakooedu']['domain'].'/'?>";
-    this.PATH = "<?php  echo  $url.'build/pdf.worker.js'?>"
-    var insertMobile =  function(){
-        var tel = "<?php echo isset(Yii::$app->user->identity->username)?Yii::$app->user->identity->username :Yii::$app->user->identity->phone_number?>";
-        var textLayerDivs = document.getElementsByClassName('textLayer');
-        for(var i = 0; i < textLayerDivs.length; i++){
-            var mobile  = document.createElement('div');
-            mobile.style.float =  'left';
-            mobile.style.fontSize = '35px';
-            mobile.style.color = 'red';
-            mobile.innerHTML = tel;
-            textLayerDivs[i].appendChild(mobile);
-        }
-
-    }
-    setTimeout(insertMobile,2000);
-     //inserMobile();
-    function Click(){
-        //console.log(event);
-        if (event.button == 2){
-                alert('禁止复制');
-        }
-    }
-       document.onmousedown=Click;
-</script>
-
-
-
 
