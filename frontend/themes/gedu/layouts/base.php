@@ -81,7 +81,7 @@ if(Yii::$app->session->hasFlash('alert')):?>
 <div class="wrap">
      <div class="top">
          <div class='container'>
-             <div class="top-logo"><img width="190px" height="60px" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/top-logo.png"></div>
+             <div class="top-logo"><img width="190px" height="60px" src="http://orh16je38.bkt.clouddn.com/guangnewlogo.jpg?imageView2/1/w/800/h/259"></div>
             <div class="top-tel">
                 <div class="top-tel-logo"><img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/top-tel-logo.png"></div>
                 <div class="top-tel-text"><span style="font-weight: bold;">服务热线</span></div>

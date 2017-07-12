@@ -6,6 +6,7 @@ use common\models\Article;
 use common\models\ArticleCategory;
 use yii\web\Controller;
 use frontend\models\search\ArticleSearch;
+use yii\data\Pagination;
 
 class ArticleController extends Controller{
 	
@@ -53,11 +54,23 @@ class ArticleController extends Controller{
 			$articleQuery->andWhere(['category_id'=>!empty($category['cateIds'])?$category['cateIds']:$category_id])->asArray()->all();
 			
 		}
+		$count=$articleQuery->count();
+		$pagination=new Pagination([
+			'totalCount'=>$count,
+			'pageSize'=>10,
+			]);
 		
-		$modelArticle=$articleQuery->asArray()->all();
+		$modelArticle=$articleQuery
+		->limit($pagination->limit)
+		->asArray()
+		->all();
 		
 		
-        return $this->render('index', ['category'=>$category,'modelArticle'=>$modelArticle]);
+        return $this->render('index', [
+        	'category'=>$category,
+        	'modelArticle'=>$modelArticle,
+        	'pagination'=>$pagination
+        	]);
 	}
 
 	public function actionView($id=''){

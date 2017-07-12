@@ -320,9 +320,9 @@ class MyController extends \common\rest\Controller
 
         $file_url = [
             1 => 'http://orh16je38.bkt.clouddn.com/%E6%A8%A1%E5%9D%97%E5%9B%9B.png',
-            2 => 'http://orh16je38.bkt.clouddn.com/%E6%A8%A1%E5%9D%97%E5%9B%9B.png',
+            2 => 'http://orh16je38.bkt.clouddn.com/shijuan.jpg',
             3 => 'http://orh16je38.bkt.clouddn.com/%E6%A8%A1%E5%9D%97%E5%9B%9B.png',
-            4 => 'http://orh16je38.bkt.clouddn.com/%E6%A8%A1%E5%9D%97%E5%9B%9B.png',
+            4 => 'http://orh16je38.bkt.clouddn.com/shijuan.jpg',
         ];
 
         for ($i=1; $i < 5; $i++) { 
