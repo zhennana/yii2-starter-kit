@@ -129,8 +129,11 @@ h6{
 /*.main-2-nav span.active{border-bottom:1px solid #723c8e;}*/
 .main-2-nav span.active a{color:#723c8e;}
 .main-2-nav span a{color:#333;}
-.main-2-nav-fu,.teacher-wrap{width:1000px;overflow: hidden;margin:0 auto;}
-.tab-content-fu{width:100%;text-align: center; background-color: #efefef;}
+.main-2-nav-fu,.teacher-wrap{overflow: hidden;margin:0 auto;}
+@media (min-width:1200px ) {
+	.main-2-nav-fu,.teacher-wrap{width:1000px;overflow: hidden;margin:0 auto;}
+}
+.tab-content-fu{width:100%;text-align: center; background-color: #efefef;padding:20px 0 60px;}
 /*教师风采重写*/
 .panel.panel-card{position:relative;height:280px;border:none;overflow: hidden;background:rgba(214,224,226,0.5)}
 .panel.panel-card .panel-heading{position:relative;z-index:2;height:140px;border-bottom-color:#fff;overflow: hidden;transition: height 600ms ease 0s;-webkit-transition: height 600ms ease 0s;}
@@ -222,7 +225,7 @@ h6{
 		
 /*main-3*/
 .main-3-box1,.main-3-box2,.main-3-box3,.main-3-box4,.main-3-box5{float: left;}
-.main-3-head-fu{width:1000px;margin:30px auto 0;}
+.main-3-head-fu{width:1000px;margin:30px auto;}
 .main-3-school{margin: 2% 0;}
 .teacher-img{padding:0 5px;
 	transform: translate3d(0, 720px, 0);
@@ -270,7 +273,7 @@ h6{
 	-ms-transition:transform 2s ease 0s,opacity 1s ease 0s;
 }
 .icon-video{display:inline-block;width:48px;height:48px;position:absolute;left:48%;top:48%;border-radius:24px;background-color:#fff;background-image: url(http://orh16je38.bkt.clouddn.com/shipin.png)}
-.main-4{background-color: #fff; padding: 3% 0;overflow: hidden;}
+.main-4{background-color: #fff; padding: 5% 0;overflow: hidden;}
 .main-4-fu{width:1000px;margin:0 auto;padding:0;}
 .main-4 .main-4-newsBox{background-color: #fff;padding-left: 0;
 	position:absolute;left:0;top:0;
@@ -471,10 +474,17 @@ h6{
 	background-color: white;
 }
 .teabor{
-	margin: 20px;
+	/*margin: 20px;*/
 }
-
-
+/*教师风采详情页*/
+.teacher-content{height:240px;padding:15px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;margin:10px 0;border:1px solid transparent;}
+.teacher-content:hover{box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);-webkit-box-shadow:0 12px 30px rgba(0, 0, 0, 0.15);border:1px solid #eee;border-radius:5px;}
+.teacher-content h3{font-size:18px;color:#732c8e;}
+.teacher-image{margin-top:20px;box-sizing:border-box}
+.img-wrap{display:inline-block;width:135px;height:160px;background: rgba(114,60,142,.1);box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);-webkit-box-shadow:0 0 10px 0 rgba(0,0,0,0.2);padding:5px;}
 /*-- 方块展示 --*/
 
 .banner-bottom-left{
