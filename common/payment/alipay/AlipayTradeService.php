@@ -1,7 +1,7 @@
 <?php
 namespace common\payment\alipay;
 
-use yii\base\Exception
+use yii\base\Exception;
 use common\payment\alipay\request\AlipayTradeWapPayRequest;
 use common\payment\alipay\AopClient;
 /* *
