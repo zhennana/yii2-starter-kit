@@ -1,4 +1,7 @@
-
+<?php
+    $url = Yii::getAlias('@backendUrl/../../common/widgets/pdf/');
+     //var_dump($a);exit;
+?>
 <!DOCTYPE html>
 <html dir="ltr" mozdisallowselectionprint moznomarginboxes>
   <head>
@@ -7,9 +10,9 @@
     <meta name="google" content="notranslate">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>PDF.js viewer</title>
-    <link rel="stylesheet" href="../../../../common/widgets/pdf/web/viewer.css">
+    <link rel="stylesheet" href="<?= $url.'web/viewer.css' ?>">
 
-    <script src="../../../../common/widgets/pdf/web/compatibility.js"></script>
+    <script src="../../../../common/widgets/pdf/web/compatibility.js"> </script>
 <!-- This snippet is used in production (included from viewer.html) -->
 <link rel="resource" type="application/l10n" href="/repositories/yii2-starter-kit/common/widgets/pdf/web/locale/locale.properties">
 <script src="../../../../common/widgets/pdf/web/l10n.js"></script>

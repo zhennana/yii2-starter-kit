@@ -205,6 +205,10 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '课件详情');
                             }elseif(strstr($model->fileStorageItem->type,'pdf')){
                                 //return 
                                 // "<a href='/repositories/yii2-starter-kit/common/widgets/pdfi-view/web/viewer.html?file=http://static.v1.wakooedu.com/o_1behs9jf11fms1ge81mpsnm2v4t9.pdf'>云梯</a>";
+                                // return Html::a($model->fileStorageItem->file_name,$url,[
+                                //     'title'=>'访问',
+                                //     'target'=>'_blank'
+                                //     ]);
                                  return Html::a($model->fileStorageItem->file_name, ['courseware/pdf','file'=>$model->fileStorageItem->file_name], ['title' => '访问','target' => '_blank']);
                             }elseif(strstr($model->fileStorageItem->type,'mp4')){
                                 return Html::a($model->fileStorageItem->file_name, ['courseware/video','files'=>$model->fileStorageItem->file_name] ,[
