@@ -49,6 +49,7 @@ class CoursewareController extends \backend\modules\campus\controllers\base\Cour
     }
 
     public function actionVideo(){
+         //$this->layout = false;
         $domain =  \Yii::$app->params['qiniu']['wakooedu']['domain'];
             if(!isset($_GET['files'])){
                 $_GET['files'] = '';
