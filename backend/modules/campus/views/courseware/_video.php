@@ -38,7 +38,7 @@
             //屏幕改变模式时，执行的代码
            
         }); 
-    
+    $('#video1').bind('contextmenu',function() { return false; }); 
     </script>
     <style type="text/css">
      /*   video:-webkit-full-screen {  
@@ -51,7 +51,7 @@
             overflow:hidden;
         }
         video::-webkit-media-controls-panel {
-            width: calc(100% + 30px); 
+            width: calc(100% + 30px);
         }
         #watermark{
             z-index:133333;
