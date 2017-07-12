@@ -1,4 +1,6 @@
-
+<?php
+    $url = Yii::getAlias('@backendUrl/js/pdf/');
+?>
 <!DOCTYPE html>
 <html dir="ltr" mozdisallowselectionprint moznomarginboxes>
   <head>
@@ -7,14 +9,14 @@
     <meta name="google" content="notranslate">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>PDF.js viewer</title>
-    <link rel="stylesheet" href="../../../../common/widgets/pdf/web/viewer.css">
+    <link rel="stylesheet" href="<?php echo $url.'web/viewer.css' ?>">
 
-    <script src="../../../../common/widgets/pdf/web/compatibility.js"></script>
+    <script src="<?php echo $url ?>web/compatibility.js"> </script> 
 <!-- This snippet is used in production (included from viewer.html) -->
-<link rel="resource" type="application/l10n" href="/repositories/yii2-starter-kit/common/widgets/pdf/web/locale/locale.properties">
-<script src="../../../../common/widgets/pdf/web/l10n.js"></script>
-<script src="../../../../common/widgets/pdf/build/pdf.js"></script>
-<script src="../../../../common/widgets/pdf/web/viewer.js"></script>
+ <link rel="resource" type="application/l10n" href="<?php echo $url ?>web/locale/locale.properties">
+<script src="<?php echo $url ?>web/l10n.js"></script>
+<script src="<?php echo $url ?>build/pdf.js"></script>
+<script src="<?php echo $url ?>web/viewer.js"></script> 
 </head>
 
 
@@ -325,6 +327,7 @@
 </html>
 <script type="text/javascript">
     this.DOMAIN = "<?php echo Yii::$app->params['qiniu']['wakooedu']['domain'].'/'?>";
+    this.PATH = "<?php  echo  $url.'build/pdf.worker.js'?>"
     var insertMobile =  function(){
         var tel = "<?php echo isset(Yii::$app->user->identity->username)?Yii::$app->user->identity->username :Yii::$app->user->identity->phone_number?>";
         var textLayerDivs = document.getElementsByClassName('textLayer');

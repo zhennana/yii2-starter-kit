@@ -105,7 +105,7 @@ use yii\helpers\Html;
                <div class="main-3-head">
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 main-2-top">
-                            <h1>CAMPUS FEATURES</h1>
+                            <h1 style="text-align:center"><span style="display:inline-block;width:392px;height:30px;"><img src="http://orh16je38.bkt.clouddn.com/campuse%20features1.png" width="100%"><span></h1>
                             <h4>校园风采</h4>
                             <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-line.png" width="100%">
                         </div>
@@ -178,7 +178,7 @@ use yii\helpers\Html;
                     "opacity": 1
                  });
              };
-             if($(window).scrollTop()>1450){
+             if($(window).scrollTop()>1650){
                  $(".campus-top").css({
                     "transform": "translate3d(0, 0, 0)",
                     "-ms-transform": "translate3d(0, 0, 0)",
@@ -188,6 +188,26 @@ use yii\helpers\Html;
                     "opacity": 1
                  });
                  $(".campus-bottom").css({
+                    "transform": "translate3d(0, 0, 0)",
+                    "-ms-transform": "translate3d(0, 0, 0)",
+                    "-o-transform": "translate3d(0, 0, 0)",
+                    "-webkit-transform": "translate3d(0, 0, 0)",
+                    "-moz-transform": "translate3d(0, 0, 0)",
+                    "opacity": 1
+                 });
+             };
+             if($(window).scrollTop()>650){
+                 $(".teacher-img1").css({
+                    "transform": "translate3d(0, 0, 0)",
+                    "-ms-transform": "translate3d(0, 0, 0)",
+                    "-o-transform": "translate3d(0, 0, 0)",
+                    "-webkit-transform": "translate3d(0, 0, 0)",
+                    "-moz-transform": "translate3d(0, 0, 0)",
+                    "opacity": 1
+                 });
+             };
+             if($(window).scrollTop()>1050){
+                 $(".teacher-img2").css({
                     "transform": "translate3d(0, 0, 0)",
                     "-ms-transform": "translate3d(0, 0, 0)",
                     "-o-transform": "translate3d(0, 0, 0)",

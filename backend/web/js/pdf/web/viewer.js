@@ -15,7 +15,8 @@
 'use strict';
 var DEFAULT_URL = '';
 var DOMAIN      = '';
-;
+var PATH;
+console.log(PATH);
 var pdfjsWebLibs;
 {
  pdfjsWebLibs = { pdfjsWebPDFJS: window.pdfjsDistBuildPdf };
@@ -5619,7 +5620,8 @@ var pdfjsWebLibs;
    var DISABLE_AUTO_FETCH_LOADING_BAR_TIMEOUT = 5000;
    function configure(PDFJS) {
     //PDFJS.imageResourcesPath = './images/';
-    PDFJS.workerSrc = '../../../../common/widgets/pdf/build/pdf.worker.js';
+   
+    PDFJS.workerSrc = PATH;
     //PDFJS.cMapUrl = '../web/cmaps/';
     PDFJS.cMapPacked = true;
    }

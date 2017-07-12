@@ -198,15 +198,25 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '课件详情');
                         'label' => '文件',
                         'format' => 'raw',
                         'value' => function($model, $key, $index, $grid){
-                              $url = $model->fileStorageItem->url.$model->fileStorageItem->file_name;//'http://static.v1.wakooedu.com/o_1bil7rau811nngqouui1b6gqr69.mp4'
+                            //'http://static.v1.wakooedu.com/o_1bil7rau811nngqouui1b6gqr69.mp4';
+                              $url = $model->fileStorageItem->url.$model->fileStorageItem->file_name;
                             if(strstr($model->fileStorageItem->type,'image')){
                                 return Html::a('<img width="50px" height="50px" class="img-thumbnail" src="'.$url.'?imageView2/1/w/50/h/50" />',['picture','files'=>$model->fileStorageItem->file_name], ['title' => '访问','target' => '_blank']);
                             }elseif(strstr($model->fileStorageItem->type,'pdf')){
                                 //return 
                                 // "<a href='/repositories/yii2-starter-kit/common/widgets/pdfi-view/web/viewer.html?file=http://static.v1.wakooedu.com/o_1behs9jf11fms1ge81mpsnm2v4t9.pdf'>云梯</a>";
-                                 return Html::a($model->fileStorageItem->type, ['courseware/pdf','file'=>$model->fileStorageItem->file_name], ['title' => '访问','target' => '_blank']);
+                                // return Html::a($model->fileStorageItem->file_name,$url,[
+                                //     'title'=>'访问',
+                                //     'target'=>'_blank'
+                                //     ]);
+                                 return Html::a($model->fileStorageItem->file_name, ['courseware/pdf','file'=>$model->fileStorageItem->file_name], ['title' => '访问','target' => '_blank']);
+                            }elseif(strstr($model->fileStorageItem->type,'mp4')){
+                                return Html::a($model->fileStorageItem->file_name, ['courseware/video','files'=>$model->fileStorageItem->file_name] ,[
+                                    'title'=>'访问',
+                                    'target'=>'_blank'
+                                    ]);
                             }else{
-                                return Html::a($url, $url ,['title'=>'访问','target'=>'_blank']);
+                                return $model->fileStorageItem->file_name;
                             }
                         }
                     ],
