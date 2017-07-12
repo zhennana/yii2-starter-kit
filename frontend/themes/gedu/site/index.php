@@ -105,7 +105,7 @@ use yii\helpers\Html;
                <div class="main-3-head">
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 main-2-top">
-                            <h1>CAMPUS FEATURES</h1>
+                            <h1 style="text-align:center"><span style="display:inline-block;width:392px;height:30px;"><img src="http://orh16je38.bkt.clouddn.com/campuse%20features1.png" width="100%"><span></h1>
                             <h4>校园风采</h4>
                             <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-line.png" width="100%">
                         </div>

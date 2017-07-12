@@ -60,7 +60,7 @@ $imgsize="?imageView2/1/w/250/h/300";
         <div class="row row-teacher">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 main-2-top">
                 <div class="main-2-top-child">
-                    <h1>TEACHER STYLE</h1>
+                    <h1 style="text-align:center"><span style="display:inline-block;width:334px;height:30px;"><img src="http://orh16je38.bkt.clouddn.com/teacher%20style1.png" width="100%"><span></h1>
                     <h4>教师风采</h4>
                     <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-line.png" width="100%">
                 </div>
@@ -83,7 +83,7 @@ $imgsize="?imageView2/1/w/250/h/300";
             <div class="col-sm-6 col-md-4 teacher-img teacher-img1">
                 <div class="panel panel-default panel-card">
                     <div class="panel-heading">
-                        <img style="width:100%;height:100%;" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-3-1.png?imageView2/1/w/272/h/50">
+                        <img style="width:100%;" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-3-1.png">
                     </div>
                     <div class="panel-figure">
                         <img class="img-responsive img-circle" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/jinrong1.jpg">
@@ -115,7 +115,7 @@ $imgsize="?imageView2/1/w/250/h/300";
             <div class="col-sm-6 col-md-4 teacher-img teacher-img1">
                 <div class="panel panel-default panel-card">
                     <div class="panel-heading">
-                        <img style="width:100%;height:100%;" src="http://orh16je38.bkt.clouddn.com/11.jpg?imageView2/1/w/272/h/50">
+                        <img style="width:100%;" src="http://orh16je38.bkt.clouddn.com/11.jpg">
                     </div>
                     <div class="panel-figure">
                         <img class="img-responsive img-circle" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/libaocai1.jpg">
@@ -147,7 +147,7 @@ $imgsize="?imageView2/1/w/250/h/300";
             <div class="col-sm-6 col-md-4 teacher-img teacher-img1">
                 <div class="panel panel-default panel-card">
                     <div class="panel-heading">
-                        <img style="width:100%;height:100%;" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-3-1.png?imageView2/1/w/272/h/50">
+                        <img style="width:100%;" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-3-1.png">
                     </div>
                     <div class="panel-figure">
                         <img class="img-responsive img-circle" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/liuyanan1.jpg">
@@ -179,7 +179,7 @@ $imgsize="?imageView2/1/w/250/h/300";
             <div class="col-sm-6 col-md-4 teacher-img teacher-img2">
                 <div class="panel panel-default panel-card">
                     <div class="panel-heading">
-                        <img style="width:100%;height:100%;" src="http://orh16je38.bkt.clouddn.com/11.jpg?imageView2/1/w/272/h/50">
+                        <img style="width:100%;" src="http://orh16je38.bkt.clouddn.com/11.jpg">
                     </div>
                     <div class="panel-figure">
                         <img class="img-responsive img-circle" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/tianyadong1.jpg">
@@ -211,7 +211,7 @@ $imgsize="?imageView2/1/w/250/h/300";
             <div class="col-sm-6 col-md-4 teacher-img teacher-img2">
                 <div class="panel panel-default panel-card">
                     <div class="panel-heading">
-                        <img style="width:100%;height:100%;" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-3-1.png?imageView2/1/w/272/h/50">
+                        <img style="width:100%;" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-3-1.png">
                     </div>
                     <div class="panel-figure">
                         <img class="img-responsive img-circle" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/tianyuan1.jpg">
@@ -243,7 +243,7 @@ $imgsize="?imageView2/1/w/250/h/300";
             <div class="col-sm-6 col-md-4 teacher-img teacher-img2">
                 <div class="panel panel-default panel-card">
                     <div class="panel-heading">
-                        <img style="width:100%;height:100%;" src="http://orh16je38.bkt.clouddn.com/11.jpg?imageView2/1/w/272/h/50">
+                        <img style="width:100%;" src="http://orh16je38.bkt.clouddn.com/11.jpg">
                     </div>
                     <div class="panel-figure">
                         <img class="img-responsive img-circle" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/yangmeijuan1.jpg">
