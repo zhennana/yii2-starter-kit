@@ -77,7 +77,7 @@ return [
             [
                 'controllers'=>['campus/courseware'],
                 'allow'=>true,
-                'actions'=>['index','view','ajax-form'],
+                'actions'=>['index','view','ajax-form','pdf','picture','video'],
                 'roles'=>['manager','P_teacher']
             ],
             [
