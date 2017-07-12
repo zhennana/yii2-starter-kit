@@ -93,7 +93,7 @@ h6{
 .ban-but-L{margin-left: 100%; padding-top: 80%;}
 .ban-but-R{margin-left: -100%; padding-top: 80%;}
 /*main-1*/
-.main-1{padding-top: 3%; padding-bottom: 3%;background: #e0e0e0;}
+.main-1{padding-top: 3%; padding-bottom: 3%;background: #efefef;}
 .row-1{box-sizing: border-box;border-right:1px solid #eee;}
 .row-teacher{width:100%;max-height:200px;}
 .row-box{text-align: center;}
@@ -120,8 +120,8 @@ h6{
  padding:50% 50% 20% 50%;background-size: contain;}
 /*main-2*/
 .main-2 h1{font-size: 42px;color:#723c8e;}
-.main-2 h4{font-size: 21px;width:100%;}
-.main-2-head{background-color: #e0e0e0;}
+.main-2 h4{font-size: 18px;width:100%;}
+.main-2-head{background-color: #efefef;}
 .main-2-top{text-align: center;}
 .main-2-top-child{width:1000px;margin:0 auto;}
 .main-2-nav{margin-bottom: 1%;padding:0;}
@@ -130,9 +130,9 @@ h6{
 .main-2-nav span.active a{color:#723c8e;}
 .main-2-nav span a{color:#333;}
 .main-2-nav-fu,.teacher-wrap{width:1000px;overflow: hidden;margin:0 auto;}
-.tab-content-fu{width:100%;text-align: center; background-color: #e0e0e0;}
+.tab-content-fu{width:100%;text-align: center; background-color: #efefef;}
 /*教师风采重写*/
-.panel.panel-card{position:relative;height:280px;border:none;overflow: hidden;background:rgba(214,224,226,0.2)}
+.panel.panel-card{position:relative;height:280px;border:none;overflow: hidden;background:rgba(214,224,226,0.5)}
 .panel.panel-card .panel-heading{position:relative;z-index:2;height:140px;border-bottom-color:#fff;overflow: hidden;transition: height 600ms ease 0s;-webkit-transition: height 600ms ease 0s;}
 .panel.panel-card .panel-heading img{position:absolute;top:50%;left:50%;z-index:1;width:120%;transform:translate3d(-50%,-50%,0);-weblit-transform:translate3d(-50%,-50%,0)}
 .panel.panel-card .panel-figure {
@@ -161,7 +161,7 @@ h6{
 }
 
 .panel.panel-card .panel-body {
-	padding-top: 60px;
+	padding-top: 70px;
 	padding-bottom: 20px;
 
 	-webkit-transition: padding 400ms ease-in-out;
@@ -204,7 +204,7 @@ h6{
 
 .tab-content{width: 1000px;margin:0 auto;}
 .main-2-nav,.main-2-top{ padding-top: 2%;}
-.main-2-top h1{color:#723c8e;font-family:SimSun}
+.main-2-top h1{color:#723c8e;}
 .main-2-teacher{padding: 1% 0 4%;}
 .main-2-teacher-inner{float: left;}
 .main-2-teacher-inner-p{background-color: #fff; font-size: 16px; color: #474747; text-align: center; padding: 4% 0 1% 0;}
