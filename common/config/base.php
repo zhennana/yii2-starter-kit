@@ -270,6 +270,35 @@ $config = [
             'KRW' => '韩圆',
             'PHP' => '菲律宾披索',
         */
+        'payment' => [
+            'gedu' => [
+                'alipay' => [
+                //应用ID,您的APPID。
+                'app_id' => "2017071107712808", // 光大
+
+                //商户私钥，您的原始格式RSA私钥
+                'merchant_private_key' => file_get_contents(Yii::getAlias('@common').'\payment\alipay\cert\gedu_rsa_private_key.pem'),
+
+                //异步通知地址
+                'notify_url' => Yii::getAlias('@frontend').'\web\gedu_alipay_notify.php',
+
+                //同步跳转
+                'return_url' => Yii::getAlias('@frontend').'\web\gedu_alipay_return.php',
+
+                //编码格式
+                'charset' => "UTF-8",
+
+                //签名方式
+                'sign_type'=>"RSA",
+
+                //支付宝网关
+                'gatewayUrl' => "https://openapi.alipay.com/gateway.do",
+
+                //支付宝公钥,查看地址：https://openhome.alipay.com/platform/keyManage.htm 对应APPID下的支付宝公钥。
+                'alipay_public_key' => file_get_contents(Yii::getAlias('@common').'\payment\alipay\cert\alipay_public_key.pem'),
+                ],
+            ],
+        ],
 
     ], // component 结束
     

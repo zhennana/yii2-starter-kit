@@ -73,7 +73,7 @@ class ConfigController extends \common\rest\Controller
 
     /**
      * @SWG\Get(path="/config/index",
-     *     tags={"800-Config-配置信息接口"},
+     *     tags={"GEDU-Config-配置信息接口"},
      *     summary="信息流列表",
      *     description="返回首页流",
      *     produces={"application/json"},
@@ -129,7 +129,7 @@ class ConfigController extends \common\rest\Controller
 
     /**
      * @SWG\Get(path="/config/init",
-     *     tags={"800-Config-配置信息接口"},
+     *     tags={"GEDU-Config-配置信息接口"},
      *     summary="初始化",
      *     description="返回更新版本信息",
      *     produces={"application/json"},
@@ -275,7 +275,7 @@ class ConfigController extends \common\rest\Controller
 
     /**
      * @SWG\Get(path="/config/banner",
-     *     tags={"800-Config-配置信息接口"},
+     *     tags={"GEDU-Config-配置信息接口"},
      *     summary="Banner",
      *     description="返回Banner",
      *     produces={"application/json"},
@@ -324,7 +324,7 @@ class ConfigController extends \common\rest\Controller
 
     /**
      * @SWG\Get(path="/config/button",
-     *     tags={"800-Config-配置信息接口"},
+     *     tags={"GEDU-Config-配置信息接口"},
      *     summary="按钮",
      *     description="返回首页按钮",
      *     produces={"application/json"},
@@ -377,7 +377,7 @@ class ConfigController extends \common\rest\Controller
 
     /**
      * @SWG\Get(path="/config/share",
-     *     tags={"800-Config-配置信息接口"},
+     *     tags={"GEDU-Config-配置信息接口"},
      *     summary="微信内嵌网页分享",
      *     description="返回首页按钮",
      *     produces={"application/json"},
@@ -441,7 +441,7 @@ class ConfigController extends \common\rest\Controller
 
     /**
      * @SWG\Post(path="/config/feedback",
-     *     tags={"800-Config-配置信息接口"},
+     *     tags={"GEDU-Config-配置信息接口"},
      *     summary="反馈意见",
      *     description="error= 0 反馈意见成功",
      *     produces={"application/json"},
