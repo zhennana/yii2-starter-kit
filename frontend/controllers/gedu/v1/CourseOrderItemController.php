@@ -199,7 +199,7 @@ class CourseOrderItemController extends \common\rest\Controller
 
         $body              = '《如来神掌(精装)》全集(共15节课程)，限时特价0.01元';
         $subject           = '《如来神掌(精装)》全集(共15节课程)';
-        $out_trade_no      = 'GD'.rand(1000000,9999999).rand(1000000,9999999);
+        $out_trade_no      = $order->builderNumber();
         $total_amount      = '0.01';
         $timeout_express   = '1m';
         $payRequestBuilder = new AlipayTradeWapPayContentBuilder;

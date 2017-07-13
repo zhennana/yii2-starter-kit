@@ -48,3 +48,6 @@ backend/web/.phptidy-cache
 backend/web/.phptidy-cache
 
 frontend/controllers/edu/SignInApi.php
+
+# cert
+common/payment/alipay/cert
