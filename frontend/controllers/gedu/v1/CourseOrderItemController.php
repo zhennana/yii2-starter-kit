@@ -186,9 +186,18 @@ class CourseOrderItemController extends \common\rest\Controller
      */
     public function actionAlipay()
     {
-
         $data          = [];
         $alipay_config = Yii::$app->params['payment']['gedu']['alipay'];
+
+        $merchant_private_key = file_get_contents($alipay_config['merchant_private_key']);
+        $alipay_public_key    = file_get_contents($alipay_config['alipay_public_key']);
+        
+        if (!$merchant_private_key || !$alipay_public_key) {
+            $this->serializer['errno']   = __LINE__;
+            $this->serializer['message'] = '秘钥或公钥不能空';
+            return [];
+        }
+
         $modelClass    = $this->modelClass;
         $order         = $modelClass::findOne(Yii::$app->request->post('course_order_item_id'));
         if (!$order) {
