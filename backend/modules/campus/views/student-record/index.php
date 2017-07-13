@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\GridView;
-
+use backend\modules\campus\models\StudentRecord;
 /**
 * @var yii\web\View $this
 * @var yii\data\ActiveDataProvider $dataProvider
@@ -136,7 +136,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             'title',
-            'status',
+             [
+                'class'=>\common\grid\EnumColumn::className(),
+                'attribute' =>'status',
+                'enum'      => StudentRecord::optsStatus(),
+            ],
+            [
+                'label'=>'上传档案个数',
+                'value'=>function($model){
+                        return $model->getStudentRecordValue()->count();
+                    }
+            ],
             'sort',
             'updated_at:datetime',
             'created_at:datetime',
@@ -145,9 +155,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format'    => 'raw',
                 'value'=>function($model){
                     return Html::a('编写学员档案',['student-record-value/create-value',
-                        'user_id'     => $model->user_id,
-                        'school_id'   => $model->school_id,
-                        'grade_id'    => $model->grade_id,
+                        //'user_id'     => $model->user_id,
+                        //'school_id'   => $model->school_id,
+                        //'grade_id'    => $model->grade_id,
+                        'course_id'     => $model->course_id,
                         'student_record_id'=> $model->student_record_id,
                     ]);
                 }

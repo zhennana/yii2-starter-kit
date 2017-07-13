@@ -443,10 +443,14 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                     'url'=>['/campus/course-order-item/index','type'=>2], 'icon'=>'<i class=" fa  fa-file-text"></i>',
                                      'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_financial') || Yii::$app->user->can('P_financial')),
                                 ],
-                                /*
-                                ['label'=>Yii::t('backend', '课件管理'), 'url'=>['/campus/courseware/index'], 'icon'=>'<i class="fa  fa-file-text"></i>'
+
+                                [
+                                    'label'=>Yii::t('backend', '教师工作记录'), 
+                                    'url'=>['/campus/work-record/index'],
+                                    'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_teacher')),
+                                    'icon'=>'<i class="fa  fa-file-text"></i>'
                                 ],
-                                */
+
                             ],
                         ],
 
