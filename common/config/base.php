@@ -277,7 +277,7 @@ $config = [
                 'app_id' => "2017071107712808", // 光大
 
                 //商户私钥，您的原始格式RSA私钥
-                'merchant_private_key' => file_get_contents(Yii::getAlias('@common').'\payment\alipay\cert\gedu_rsa_private_key.pem'),
+                'merchant_private_key' => file_get_contents(Yii::getAlias('@common').'\payment\alipay\cert\gedu\gedu_rsa_private_key.pem'),
 
                 //异步通知地址
                 'notify_url' => Yii::getAlias('@frontend').'\web\gedu_alipay_notify.php',
@@ -295,7 +295,7 @@ $config = [
                 'gatewayUrl' => "https://openapi.alipay.com/gateway.do",
 
                 //支付宝公钥,查看地址：https://openhome.alipay.com/platform/keyManage.htm 对应APPID下的支付宝公钥。
-                'alipay_public_key' => file_get_contents(Yii::getAlias('@common').'\payment\alipay\cert\alipay_public_key.pem'),
+                'alipay_public_key' => file_get_contents(Yii::getAlias('@common').'\payment\alipay\cert\gedu\alipay_public_key.pem'),
                 ],
             ],
         ],

@@ -68,16 +68,16 @@ if($result) {//验证成功
     //获取支付宝的通知返回参数，可参考技术文档中服务器异步通知参数列表
 	
 	//商户订单号
+    $out_trade_no = $_POST['out_trade_no'];
 
-	$out_trade_no = $_POST['out_trade_no'];
+    //支付宝交易号
 
-	//支付宝交易号
+    $trade_no = $_POST['trade_no'];
 
-	$trade_no = $_POST['trade_no'];
+    //交易状态
+    $trade_status = $_POST['trade_status'];
 
-	//交易状态
-	$trade_status = $_POST['trade_status'];
-
+fileWrite($_POST);
 
     if($_POST['trade_status'] == 'TRADE_FINISHED') {
 
@@ -107,5 +107,16 @@ if($result) {//验证成功
 
 }
 
+function fileWrite($data, $filename=''){
+    $filename = '../runtime/payment/call_back.log';
+    if(!is_file($filename)){
+        return false;
+    }
+    $fh = fopen($filename, "a");
+    $fr = fwrite($fh, $data."\r\n");
+    fclose($fh);
+
+    return $fr;
+}
 ?>
 
