@@ -3,7 +3,7 @@
 // You should not change it manually as it will be overwritten on next build
 
 namespace backend\modules\campus\controllers\base;
-
+use Yii;
 use backend\modules\campus\models\WorkRecord;
     use backend\modules\campus\models\search\WorkRecordSearch;
 //use yii\web\Controller;/**/
@@ -71,6 +71,11 @@ public function actionIndex()
             'school_id'=>array_keys($schools),
             'grade_id' =>array_keys($grades)
     ]);
+    if(!Yii::$app->user->can('P_director') || !Yii::$app->user->can('manager') || !Yii::$app->user->can('E_manager')){
+    $dataProvider->query->andWhere([
+        'user_id'=>Yii::$app->user->identity->id,
+    ]);
+    }
      $dataProvider->sort = [
        'defaultOrder'=>[
             'updated_at'=>SORT_DESC,

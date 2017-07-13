@@ -20,7 +20,7 @@ use Superman2014\Aliyun\Core\DefaultAcsClient;
 /**
  * Site controller
  */
-class SiteController extends Controller
+class SiteController extends \frontend\controllers\SiteController
 {
     /**
      * @inheritdoc

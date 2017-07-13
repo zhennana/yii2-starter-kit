@@ -73,11 +73,6 @@ public function actionIndex()
             'school_id'=>array_keys($schools),
             'grade_id' =>array_keys($grades)
     ]);
-    if(!Yii::$app->can('P_director') || !Yii::$app->can('manager') || !Yii::$app->can('E_manager')){
-        $dataProvider->query->andWhere([
-            'user_id'=>Yii::$app->user->identity->id,
-        ]);
-    }
      $dataProvider->sort = [
        'defaultOrder'=>[
             'updated_at'=>SORT_DESC,
