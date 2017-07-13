@@ -15,6 +15,7 @@ use frontend\models\edu\resources\Courseware;
 use frontend\models\wedu\resources\Notice;
 use frontend\models\wedu\resources\CourseOrderItem;
 use frontend\models\wedu\resources\StudentRecord;
+use backend\modules\campus\models\WorkRecord;
 
 class ConfigController extends \common\rest\Controller
 {
@@ -456,26 +457,42 @@ class ConfigController extends \common\rest\Controller
      * 老师工作
     */
     public function actionWorkingState(){
+        if(isset(Yii::$app->user->identity->id)){
+            $user_id = Yii::$app->user->identity->id;
+        }else{
+            $this->serializer['errno'] = 300;
+            $this->serializer['message'] = '请你先登录';
+            return [];
+        }
         $notice          = new Notice;
+        $work_recourd    =  WorkRecord::find()->where(['user_id'=>$user_id])->all();
+       // var_dump($work_recourd);exit;
         $data['message'] = $notice->message(Notice::CATEGORY_ONE);
-        $data['working_state'] = [
-                [
-                    'title'  =>'上传学生档案',
-                    'status' =>10,
-                ],
-                [
-                    'title'  => '备课',
-                    'status' => 10,
-                ],
-                [
-                    'title'  => '签到记录',
-                    'status' => 20,
-                ],
-                [
-                    'title'  => '家长访问',
-                    'status' => 10,
-                ],
-            ];
+        $data['working_state'] = [];
+        foreach ($work_recourd as $key => $value) {
+            if($value->type == 1 ){
+                $data['working_state'][0]['title']  = $value['title'];
+                if(!isset($data['working_state'][0]['status']) || $data['working_state'][0]['status'] == 10){
+                        $data['working_state'][0]['status'] = $value->status;
+
+                }
+            }
+            if($value->type == 2){
+                $data['working_state'][1]['title']  = $value['title'];
+              if(!isset($data['working_state'][1]['status']) || $data['working_state'][0]['status'] == 10){
+                        $data['working_state'][1]['status'] = $value->status;
+
+                }
+            }
+            if($value->type == 4){
+                $data['working_state'][2]['title']  = $value['title'];
+                 if(!isset($data['working_state'][2]['status']) || $data['working_state'][0]['status'] == 10){
+                        $data['working_state'][2]['status'] = $value->status;
+
+                }
+            }
+        }
+        sort($data['working_state']);
         return $data;
     }
 }

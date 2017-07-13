@@ -6,7 +6,7 @@ use Yii;
 use frontend\models\base\SignIn as BaseSignIn;
 use yii\helpers\ArrayHelper;
 use frontend\models\wedu\resources\Course;
-
+use backend\modules\campus\models\WorkRecord;
 /**
  * This is the model class for table "sign_in".
  */
@@ -56,6 +56,7 @@ public function behaviors()
                 if(!$model->save()){
                   $data['error'][$key] = $model->getErrors();
                 }else{
+                  // 添加学生档案
                   if($model->type_status == 10){
                       $this->addStudentRecord([
                             'user_id'   => $model->student_id,
@@ -75,6 +76,21 @@ public function behaviors()
                 }
         }else{
           $data['message'][$key]  = $is_check->one();
+        }
+
+        //更新老师工作接口接口
+        if($data['message']){
+            $WorkRecord = WorkRecord::find()->andwhere([
+              'course_id'=>$params['course_id'],
+              'type'=>2,
+              'grade_id'=>$params['grade_id'],
+              'status'=> 20])
+            ->one();
+            //var_dump($WorkRecord);exit;
+            if($WorkRecord){
+               $WorkRecord->status = 10;
+               $WorkRecord->save();
+            }
         }
 
     }

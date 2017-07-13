@@ -10,6 +10,20 @@ use \backend\modules\campus\models\base\StudentRecord as BaseStudentRecord;
  */
 class StudentRecord extends BaseStudentRecord
 {
+
+	//检测老师是否已经上传的课程
+  public static function studentRecouedCount($course_id){
+    $RecouedCount = self::find()
+            ->from('student_record as s')
+            ->JoinWith(['studentRecordValue as v'=>function($query){
+                  //$query->select('count(v.student_record_id)');
+                  $query->andwhere(['v.status'=> StudentRecordValue::STUDENT_VALUE_STATUS_OPEN]);
+                  $query->groupBy('v.student_record_id');
+            }])
+            ->andwhere(['s.course_id'=>$course_id])
+            ->count();
+    return $RecouedCount;
+  }
 	public function create($data){
 		$info = [
 			'errorno' =>0,

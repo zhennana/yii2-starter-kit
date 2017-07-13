@@ -146,7 +146,7 @@ abstract class StudentRecord extends \yii\db\ActiveRecord
              */
             $course = Course::find()->where([
                 'grade_id'=>$id,
-                'teacher_id'=>Yii::$app->user->identity->id,
+                //'teacher_id'=>Yii::$app->user->identity->id,
                 'status'=>Course::COURSE_STATUS_FINISH])->asArray()->all();
             return ArrayHelper::map($course,'course_id','title');
         }
