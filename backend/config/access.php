@@ -75,7 +75,7 @@ return [
             ],
             //课程体系管理
             [
-                'controllers'=>['campus/courseware','campus/work-recourd'],
+                'controllers'=>['campus/courseware'],
                 'allow'=>true,
                 'actions'=>['index','view','ajax-form','pdf','picture','video'],
                 'roles'=>['manager','P_teacher','E_manager']
@@ -166,13 +166,13 @@ return [
 
              //教师工作
             [
-                'controllers'=>['campus/work-recourd'],
+                'controllers'=>['campus/work-record'],
                 'allow'=>true,
                 'actions'=>['index'],
                 'roles'=>['E_manager','manager','P_teacher']
             ],
             [
-                'controllers'=>['campus/work-recourd'],
+                'controllers'=>['campus/work-record'],
                 'allow'=>true,
                 'actions'=>['update'],
                 'roles'=>['E_manager','manager','P_director']
