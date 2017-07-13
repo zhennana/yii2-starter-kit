@@ -209,6 +209,29 @@ abstract class CourseOrderItem extends \yii\db\ActiveRecord
     public function getGrade(){
         return $this->hasOne(\backend\modules\campus\models\Grade::className(),['grade_id'=>'grade_id']);
     }
+
+    /**
+     * 生成订单号，小于32位
+     * @author Bruce_bnu@126.com
+     * @copyright   [copyright]
+     * @license     [license]
+     * @version     [version]
+     * @date        2016-06-28
+     * @anotherdate 2016-06-28T14:35:01+0800
+     * @param       [type]                   $buyer_id [description]
+     * @param       integer                  $level    [description]
+     * @return      [string]                             [小于32位]
+     */
+    public function builderNumber($params = [])
+    {
+        $year_code = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N');
+        $order_sn  = $year_code[intval(date('Y'))-2010];
+        $order_sn .= strtoupper(dechex(date('m')));
+        $order_sn .= date('d').substr(time(),-5);
+        $order_sn .= substr(microtime(),2,5);
+        $order_sn .= sprintf('%02d',rand(0,99));
+        return $order_sn;
+    }
     
     /**
      * @inheritdoc
