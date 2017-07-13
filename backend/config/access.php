@@ -75,10 +75,10 @@ return [
             ],
             //课程体系管理
             [
-                'controllers'=>['campus/courseware'],
+                'controllers'=>['campus/courseware','campus/work-recourd'],
                 'allow'=>true,
                 'actions'=>['index','view','ajax-form','pdf','picture','video'],
-                'roles'=>['manager','P_teacher']
+                'roles'=>['manager','P_teacher','E_manager']
             ],
             [
                 'controllers'=>['campus/courseware','campus/courseware-to-file','campus/courseware-category','campus/courseware-to-courseware','campus/file-storage-item'],
@@ -162,6 +162,20 @@ return [
                 'allow'=>true,
                 //'actions'=>['index','user-to-school-form'],
                 'roles'=>['P_teacher']
+            ],
+
+             //教师工作
+            [
+                'controllers'=>['campus/work-recourd'],
+                'allow'=>true,
+                'actions'=>['index'],
+                'roles'=>['E_manager','manager','P_teacher']
+            ],
+            [
+                'controllers'=>['campus/work-recourd'],
+                'allow'=>true,
+                'actions'=>['update'],
+                'roles'=>['E_manager','manager','P_director']
             ],
         ]
     ];

@@ -21,4 +21,5 @@ class StudentRecordController extends \backend\modules\campus\controllers\base\S
 		 	 echo Html::tag('option',Html::encode($value),array('value'=>$key));
 		}
 	}
+	
 }

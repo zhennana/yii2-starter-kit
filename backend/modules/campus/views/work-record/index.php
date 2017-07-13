@@ -3,33 +3,34 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\GridView;
-
+use backend\modules\campus\models\WorkRecord;
 /**
 * @var yii\web\View $this
 * @var yii\data\ActiveDataProvider $dataProvider
     * @var backend\modules\campus\models\search\WorkRecordSearch $searchModel
 */
 
-$this->title = Yii::t('models', 'Work Records');
+$this->title = Yii::t('models', '老师工作记录');
 $this->params['breadcrumbs'][] = $this->title;
-
-
 /**
 * create action column template depending acces rights
 */
 $actionColumnTemplates = [];
 
-if (\Yii::$app->user->can('campus_work-record_view', ['route' => true])) {
-    $actionColumnTemplates[] = '{view}';
-}
+// if (\Yii::$app->user->can('campus_work-record_view', ['route' => true])) {
+//     $actionColumnTemplates[] = '{view}';
+// }
 
-if (\Yii::$app->user->can('campus_work-record_update', ['route' => true])) {
+if (\Yii::$app->user->can('manager', ['route' => true])   || 
+    \Yii::$app->user->can('E_manager', ['route' => true]) ||
+    \Yii::$app->user->can('P_director', ['route' => true])
+    ) {
     $actionColumnTemplates[] = '{update}';
 }
 
-if (\Yii::$app->user->can('campus_work-record_delete', ['route' => true])) {
-    $actionColumnTemplates[] = '{delete}';
-}
+// if (\Yii::$app->user->can('campus_work-record_delete', ['route' => true])) {
+//     $actionColumnTemplates[] = '{delete}';
+// }
 if (isset($actionColumnTemplates)) {
 $actionColumnTemplate = implode(' ', $actionColumnTemplates);
     $actionColumnTemplateString = $actionColumnTemplate;
@@ -49,9 +50,9 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
     <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
 
     <h1>
-        <?= Yii::t('models', 'Work Records') ?>
+        <?= Yii::t('models', '教师工作记录') ?>
         <small>
-            List
+            列表
         </small>
     </h1>
     <div class="clearfix crud-navigation">
@@ -66,7 +67,6 @@ if(\Yii::$app->user->can('campus_work-record_create', ['route' => true])){
 ?>
         <div class="pull-right">
 
-                        
             <?= 
             \yii\bootstrap\ButtonDropdown::widget(
             [
@@ -126,11 +126,34 @@ if(\Yii::$app->user->can('campus_work-record_create', ['route' => true])){
             },
             'contentOptions' => ['nowrap'=>'nowrap']
         ],
-			'user_id',
+            [
+                'attribute'=>'user_id',
+                'label'    => '教师',
+                'value'    =>function($model){
+                    return Yii::$app->user->identity->getUserName($model->user_id);
+                }
+            ],
+            // [
+            //     'class'=>\common\grid\EnumColumn::className(),
+            //     'attribute' =>'school_id',
+            //     'label'     =>'学校',
+            //     'enum'      => WorkRecord::optsStatus(),
+            // ],
+            // [
+            //     'class'=>\common\grid\EnumColumn::className(),
+            //     'attribute' =>'grade_id',
+            //     'label'     =>'班级33',
+            //     'enum'      => WorkRecord::optsStatus(),
+            // ],
 			'title',
-			'status',
-			'auditer_id',
-			'body',
+            [
+                'class'=>\common\grid\EnumColumn::className(),
+                'attribute' =>'status',
+                'label'     =>'状态',
+                'enum'      => WorkRecord::optsStatus(),
+            ],
+            'updated_at:datetime',
+            'created_at:datetime'
         ],
         ]); ?>
     </div>
