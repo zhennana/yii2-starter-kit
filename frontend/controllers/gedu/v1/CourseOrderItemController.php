@@ -188,7 +188,7 @@ class CourseOrderItemController extends \common\rest\Controller
     {
         $data          = [];
         $alipay_config = Yii::$app->params['payment']['gedu']['alipay'];
-var_dump(Yii::$app->params['payment']['gedu']['alipay']);exit;
+var_dump($alipay_config);exit;
         if (!file_exists($alipay_config['merchant_private_key']) || !file_exists($alipay_config['alipay_public_key'])) {
             $this->serializer['errno']   = __LINE__;
             $this->serializer['message'] = '秘钥或公钥不存在';
