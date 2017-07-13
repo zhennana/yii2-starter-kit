@@ -277,13 +277,13 @@ $config = [
                 'app_id' => "2017071107712808", // 光大
 
                 //商户私钥，您的原始格式RSA私钥
-                'merchant_private_key' => Yii::getAlias('@common').DIRECTORY_SEPARATOR.'payment'.DIRECTORY_SEPARATOR.'alipay'.DIRECTORY_SEPARATOR.'cert'.DIRECTORY_SEPARATOR.'gedu'.DIRECTORY_SEPARATOR.'gedu_rsa_private_key.pem',
+                'merchant_private_key' => Yii::getAlias('@common').'/payment/alipay/cert/gedu_rsa_private_key.pem',
 
                 //异步通知地址
-                'notify_url' => Yii::getAlias('@frontend').DIRECTORY_SEPARATOR.'web'.DIRECTORY_SEPARATOR.'gedu_alipay_notify.php',
+                'notify_url' => 'http://'.$_SERVER['HTTP_HOST'].'/frontend/web/gedu_alipay_notify.php',
 
                 //同步跳转
-                'return_url' => Yii::getAlias('@frontend').DIRECTORY_SEPARATOR.'web'.DIRECTORY_SEPARATOR.'gedu_alipay_return.php',
+                'return_url' => 'http://'.$_SERVER['HTTP_HOST'].'/frontend/web/gedu_alipay_return.php',
 
                 //编码格式
                 'charset' => "UTF-8",
@@ -295,7 +295,7 @@ $config = [
                 'gatewayUrl' => "https://openapi.alipay.com/gateway.do",
 
                 //支付宝公钥,查看地址：https://openhome.alipay.com/platform/keyManage.htm 对应APPID下的支付宝公钥。
-                'alipay_public_key' => Yii::getAlias('@common').DIRECTORY_SEPARATOR.'payment'.DIRECTORY_SEPARATOR.'alipay'.DIRECTORY_SEPARATOR.'cert'.DIRECTORY_SEPARATOR.'gedu'.DIRECTORY_SEPARATOR.'alipay_public_key.pem',
+                'alipay_public_key' => \Yii::getAlias('@common').'/payment/alipay/cert/alipay_public_key.pem',
                 ],
             ],
         ],
