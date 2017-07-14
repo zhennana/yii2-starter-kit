@@ -40,8 +40,8 @@ class StudentRecordValue extends BaseStudentRecordValue
  */
 
     public function batchAdd($params,$student_record_id){
-     // var_dump('<pre>',$params);exit;
       $info = [];
+      //var_dump();exit;
       foreach ($params as $k => $v) {
           if(empty($v['body'])){continue;}
           if($k == 4 && (!isset($v['FileStorageItem']) || empty($v['FileStorageItem']))){
@@ -60,7 +60,6 @@ class StudentRecordValue extends BaseStudentRecordValue
               $transaction->rollBack();
               continue;
           };
-
           /**
            * 添加附件
            */

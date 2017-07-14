@@ -3,22 +3,22 @@
 // You should not change it manually as it will be overwritten on next build
 
 namespace backend\modules\campus\controllers\base;
-
+use Yii;
 use backend\modules\campus\models\WorkRecord;
     use backend\modules\campus\models\search\WorkRecordSearch;
-use yii\web\Controller;
+//use yii\web\Controller;/**/
+use common\components\Controller;
 use yii\web\HttpException;
 use yii\helpers\Url;
 use yii\filters\AccessControl;
 use dmstr\bootstrap\Tabs;
+use yii\helpers\ArrayHelper;
 
 /**
 * WorkRecordController implements the CRUD actions for WorkRecord model.
 */
 class WorkRecordController extends Controller
 {
-
-
 /**
 * @var boolean whether to enable CSRF validation for the actions in this controller.
 * CSRF validation is enabled only when both this property and [[Request::enableCsrfValidation]] are true.
@@ -63,16 +63,35 @@ public function actionIndex()
 {
     $searchModel  = new WorkRecordSearch;
     $dataProvider = $searchModel->search($_GET);
+    $schools[] = $this->schoolCurrent; //Yii::$app->user->identity->schoolsInfo;
+    $grades[] =  $this->gradeCurrent;//Yii::$app->user->identity->gradesInfo;
+    $schools = ArrayHelper::map($schools,'school_id','school_title');
+    $grades  = ArrayHelper::map($grades,'grade_id','grade_name');
+    $dataProvider->query->andWhere([
+            'school_id'=>array_keys($schools),
+            'grade_id' =>array_keys($grades)
+    ]);
+    if(!Yii::$app->user->can('P_director') || !Yii::$app->user->can('manager') || !Yii::$app->user->can('E_manager')){
+    $dataProvider->query->andWhere([
+        'user_id'=>Yii::$app->user->identity->id,
+    ]);
+    }
+     $dataProvider->sort = [
+       'defaultOrder'=>[
+            'updated_at'=>SORT_DESC,
+       ]
+    ];
+    Tabs::clearLocalStorage();
 
-Tabs::clearLocalStorage();
+    Url::remember();
+    \Yii::$app->session['__crudReturnUrl'] = null;
 
-Url::remember();
-\Yii::$app->session['__crudReturnUrl'] = null;
-
-return $this->render('index', [
-'dataProvider' => $dataProvider,
-    'searchModel' => $searchModel,
-]);
+    return $this->render('index', [
+    'dataProvider' => $dataProvider,
+        'searchModel' => $searchModel,
+        'grades'     =>  $grades,
+        'schools'    =>  $schools
+    ]);
 }
 
 /**
@@ -83,13 +102,13 @@ return $this->render('index', [
 */
 public function actionView($work_record_id)
 {
-\Yii::$app->session['__crudReturnUrl'] = Url::previous();
-Url::remember();
-Tabs::rememberActiveState();
+    \Yii::$app->session['__crudReturnUrl'] = Url::previous();
+    Url::remember();
+    Tabs::rememberActiveState();
 
-return $this->render('view', [
-'model' => $this->findModel($work_record_id),
-]);
+    return $this->render('view', [
+    'model' => $this->findModel($work_record_id),
+    ]);
 }
 
 /**
@@ -99,19 +118,22 @@ return $this->render('view', [
 */
 public function actionCreate()
 {
-$model = new WorkRecord;
+    $model = new WorkRecord;
 
-try {
-if ($model->load($_POST) && $model->save()) {
-return $this->redirect(['view', 'work_record_id' => $model->work_record_id]);
-} elseif (!\Yii::$app->request->isPost) {
-$model->load($_GET);
-}
-} catch (\Exception $e) {
-$msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
-$model->addError('_exception', $msg);
-}
-return $this->render('create', ['model' => $model]);
+    try {
+        if ($model->load($_POST) && $model->save()) {
+
+            return $this->redirect(['view', 'work_record_id' => $model->work_record_id]);
+
+        } elseif (!\Yii::$app->request->isPost) {
+        $model->load($_GET);
+    }
+    } catch (\Exception $e) {
+
+        $msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
+        $model->addError('_exception', $msg);
+    }
+    return $this->render('create', ['model' => $model]);
 }
 
 /**

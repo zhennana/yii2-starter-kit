@@ -1,5 +1,10 @@
 <?php
     $userName = isset(Yii::$app->user->identity->username) ? Yii::$app->user->identity->username :Yii::$app->user->identity->phone_number;
+   // $userName = "企业_超管";
+   $userName = str_replace(['-','_',''],['/','',''],$userName);
+  //var_dump($userName);exit;
+  // $userName =  base64_encode($userName);
+  // var_dump($userName);exit;
     $watermark = "?watermark/2/text/";
     $watermark .= base64_encode($userName)."/findsize/100/fill/";
     $watermark .= base64_encode('white').'/dissolve/80/gravity/SouthEast/dx/20/dy/20';
