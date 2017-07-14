@@ -30,7 +30,7 @@ return [
     'Body' => '内容',
     'Check your email for further instructions.' => '请检查您的邮件',
     'Confirm Password' => '密码确认',
-    'Contact' => '联系',
+    'Contact' => '联系我们',
     'E-mail' => 'Email',
     'Email' => 'Email',
     'Error while oauth process.' => 'oauth进程错误',
