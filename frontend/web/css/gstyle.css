@@ -67,13 +67,16 @@ h6{
 /*鼠标滑过下拉框处于活动状态的按钮颜色*/
 .top-nov .dropdown-menu .active :hover{background-color:rgba(47,47,47,0.1);}
 /*导航字体颜色*/
-.top-nov .navbar-default .navbar-nav>li>a{color: white;} 
+.top-nov .navbar-default .navbar-nav>li>a{color: white;text-align: center;}
 
 /*.top-nov .navbar-default .navbar-nav>li>a :hover{background-color:red;color: white;}*/
 /*鼠标滑过处于活动状态的按钮颜色*/
 .navbar-default .navbar-nav > .active > a:hover{
 	background-color:rgba(47,47,47,0.15);
 	color: white;
+}
+.navbar-default .navbar-nav>li{
+	min-width: 100px;
 }
 .navbar-default .navbar-nav>li>a:hover{
 	background-color:rgba(47,47,47,0.15);
@@ -761,10 +764,10 @@ h6{
 	width: 200px;
 }
 .span8{
-	width: 476px;
+	width: 496px;
 }
 .span12{
-	width: 860px;
+	width: 901px;
 }
 #btnspace,#btnspacetwo,#applyspace2,#applyspace,#applyspace3:hover{
 	color:black; 
