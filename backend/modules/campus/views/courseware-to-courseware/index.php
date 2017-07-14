@@ -138,7 +138,7 @@ if (\Yii::$app->user->can('manager', ['route' => true])) {
 	            'attribute'=>'courseware_master_id',
 	            'format'    => 'raw',
 	            'value'=>function($model){
-                    if (isset($model->courseware_master_id)) {
+                    if (isset($model->coursewareMaster) && !empty($model->coursewareMaster)) {
                 	   return 'master_id:'.$model->courseware_master_id."<br />".$model->coursewareMaster->title;
                     }
             	}
@@ -147,7 +147,7 @@ if (\Yii::$app->user->can('manager', ['route' => true])) {
                 'attribute'=>'courseware_id',
                 'format'    => 'raw',
                 'value'=>function($model){
-                    if (isset($model->courseware_id)) {
+                    if (isset($model->courseware) && !empty($model->courseware)) {
                         return 'courseware_id:'.$model->courseware_id."<br />".$model->courseware->title;
                     }
                 }
