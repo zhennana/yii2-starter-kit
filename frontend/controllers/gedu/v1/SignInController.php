@@ -167,11 +167,11 @@ class SignInController extends \common\components\ControllerFrontendApi
             }
 
             // 学校班级
-            // var_dump($model->user->userToGrade->school);exit;
-            if ($model->user->userToGrade) {
-                $attrUser['grade_name'] = $model->user->userToGrade->grade->grade_name;
-                $attrUser['school_title'] = $model->user->userToGrade->school->school_title;
-                $attrUser['school_id'] = $model->user->userToGrade->school->school_id;
+            $attrUser['grade_name'] = $attrUser['school_title'] =$attrUser['school_id'] ='';
+            if ($model->user->getCharacterDetailes()) {
+                $attrUser['grade_name'] = $model->user->getCharacterDetailes()['grade_label'];
+                $attrUser['school_title'] = $model->user->getCharacterDetailes()['school_label'];
+                $attrUser['school_id'] = $model->user->getCharacterDetailes()['school_id'];
             }
 
             // 家长关系
