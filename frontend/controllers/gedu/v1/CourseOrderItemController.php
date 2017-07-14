@@ -186,12 +186,12 @@ class CourseOrderItemController extends \common\rest\Controller
      */
     public function actionAlipay()
     {
+// var_dump(Yii::getAlias('@common'));exit;
         if (!isset($_POST) || empty($_POST)) {
             $this->serializer['errno']   = __LINE__;
             $this->serializer['message'] = '调试错误，请回到请求来源地，重新发起请求。';
             return [];
         }
-
         $data          = [];
         $alipay_config = Yii::$app->params['payment']['gedu']['alipay'];
 
