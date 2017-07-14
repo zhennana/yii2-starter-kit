@@ -11,6 +11,7 @@ use frontend\models\search\ArticleSearch;
 use frontend\models\Contact;
 use common\models\ArticleCategory;
 use frontend\models\ContactForm;
+use frontend\models\edu\ApplyToPlay;
 /*
 use Superman2014\Aliyun\Sms\Sms\Request\V20160927 as Sms;
 use Superman2014\Aliyun\Core\Profile\DefaultProfile;
@@ -166,7 +167,15 @@ class SiteController extends \frontend\controllers\SiteController
     }
     //报名表
     public function actionApplyToPlay(){
-        return $this->render("apply-to-play");
+        $model=new ApplyToPlay;
+        
+         if (Yii::$app->request->isPost) {
+            $post = Yii::$app->request->post();
+            if ($model->apply($post)) {
+                Yii::$app->session->setFlash('info', '报名成功');
+            }
+        }
+        return $this->render("apply-to-play",['model' => $model]);
     }
 
 

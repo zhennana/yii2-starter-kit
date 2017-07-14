@@ -101,50 +101,50 @@ if(Yii::$app->session->hasFlash('alert')):?>
             <?php echo Nav::widget([
                 'options' => ['class' => 'navbar-nav navbar-right'],
                 'items' => [
-                    ['label' => Yii::t('frontend', '首页'), 'url' => ['/site/index']], 
-                    ['label' => Yii::t('frontend', '走进光大'),
+                    ['label' => Yii::t('frontend', 'Home'), 'url' => ['/site/index']], 
+                    ['label' => Yii::t('frontend', 'About Guang Da'),
                         'items'=>[
                             [
-                                'label' => Yii::t('frontend', '学校概况'),
+                                'label' => Yii::t('frontend', 'Shool & Department'),
                                 'url' => ['/article/index', 'category_id'=>'9']
                             ],
                             [
-                                'label' => Yii::t('frontend', '办学理念'),
+                                'label' => Yii::t('frontend', 'Concepts'),
                                 'url' => ['/article/index', 'category_id'=>'32'],
                             ],
                             [
-                                'label' => Yii::t('frontend', '校园风光'),
+                                'label' => Yii::t('frontend', 'Campus Mien'),
                                 'url' => ['/site/sights', 'category_id'=>'37'],
                             ],
                             [
-                                'label' => Yii::t('frontend', '教师风采'),
+                                'label' => Yii::t('frontend', 'Faculties'),
                                 'url' => ['/site/teacher','category_id'=>'38'],
                             ]
                             
                         ]
                     ],
-                    ['label' => Yii::t('frontend', '教育教学'),
+                    ['label' => Yii::t('frontend', 'Education Teaching'),
                         'items'=>[
                             [
-                                'label' => Yii::t('frontend', '家校沟通'),
+                                'label' => Yii::t('frontend', 'Communication'),
                                 'url' => ['/article/index', 'category_id'=>'29']
                             ],
                             
                         ]
                     ],
-                    ['label' => Yii::t('frontend', '合作交流'),
+                    ['label' => Yii::t('frontend', 'Cooperation & Communication'),
                         'items'=>[
                             [
-                                'label' => Yii::t('frontend', '光大合作'),
+                                'label' => Yii::t('frontend', 'Cooperative Partner'),
                                 'url' => ['/article/index', 'category_id'=>'34']
                             ],
                             
                         ]
                     ],
-                    ['label' => Yii::t('frontend', '招生专栏'),
+                    ['label' => Yii::t('frontend', 'Enrollment Column'),
                         'items'=>[
                             [
-                                'label' => Yii::t('frontend', '入学手册'),
+                                'label' => Yii::t('frontend', 'Admissions Manual'),
                                 'url' => ['/article/index', 'category_id'=>'25']
                             ],
                             // [
@@ -153,7 +153,7 @@ if(Yii::$app->session->hasFlash('alert')):?>
                                 
                             // ],
                             [
-                                'label' => Yii::t('frontend', '小学部招生'),
+                                'label' => Yii::t('frontend', 'Primary Enrollment'),
                                 'url' => ['/article/index', 'category_id'=>'26']
                             
                             ],
@@ -163,28 +163,60 @@ if(Yii::$app->session->hasFlash('alert')):?>
                               
                             // ],
                             [
-                                'label' => Yii::t('frontend', '中学部招生'),
+                                'label' => Yii::t('frontend', 'Middle Enrollment'),
                                 'url' => ['/article/index', 'category_id'=>'27']
                             ],
                             [
-                                'label' => Yii::t('frontend', '国际部招生'),
+                                'label' => Yii::t('frontend', 'International  Enrollment'),
                                 'url' => ['/article/index', 'category_id'=>'28']
                             ],
                             [
-                                'label' => Yii::t('frontend', '韩语班招生'),
+                                'label' => Yii::t('frontend', 'Korean Enrollment'),
                                 'url' => ['/article/index', 'category_id'=>'39']
                             ],
                             [
-                                'label' => Yii::t('frontend', '特长部招生'),
+                                'label' => Yii::t('frontend', 'Special  Enrollment'),
                                 'url' => ['/article/index', 'category_id'=>'40']
                             ],
                             
                         ]
                     ],
                     // ['label' => Yii::t('frontend', '产品展示'), 'url' => ['/page/view', 'slug'=>'ke-cheng-ti-xi']],
-                    ['label' => Yii::t('frontend', '招贤纳士'), 'url' => ['/article/index', 'category_id'=>'33']],
-                    ['label' => Yii::t('frontend', '在线报名'), 'url' => ['/site/apply-to-play']],
-                    ['label' => Yii::t('frontend', '联系我们'), 'url' => ['/site/contact']],
+                    ['label' => Yii::t('frontend', 'Empoyment'), 'url' => ['/article/index', 'category_id'=>'33']],
+                    ['label' => Yii::t('frontend', 'Online Registration'), 'url' => ['/site/apply-to-play']],
+                    ['label' => Yii::t('frontend', 'Contact'), 'url' => ['/site/contact']],
+                    ['label' => Yii::t('frontend', 'Login'), 'url' => ['/user/sign-in/login'], 'visible'=>Yii::$app->user->isGuest],
+                    [
+                        'label' => Yii::$app->user->isGuest ? '' : Yii::$app->user->identity->getPublicIdentity(),
+                        'visible'=>!Yii::$app->user->isGuest,
+                        'items'=>[
+                            [
+                                'label' => Yii::t('frontend', 'Settings'),
+                                'url' => ['/user/default/index']
+                            ],
+                            [
+                                'label' => Yii::t('frontend', 'Backend'),
+                                'url' => Yii::getAlias('@backendUrl'),
+                                'visible'=>Yii::$app->user->can('manager')
+                            ],
+                            [
+                                'label' => Yii::t('frontend', 'Logout'),
+                                'url' => ['/user/sign-in/logout'],
+                                'linkOptions' => ['data-method' => 'post']
+                            ]
+                        ]
+                    ],
+                    [
+                        'label'=>Yii::t('frontend', 'Language'),
+                        'items'=>array_map(function ($code) {
+                            return [
+                                'label' => Yii::$app->params['availableLocales'][$code],
+                                'url' => ['/site/set-locale', 'locale'=>$code],
+                                'active' => Yii::$app->language === $code
+                            ];
+                        }, array_keys(Yii::$app->params['availableLocales']))
+                    ]
+
                 ]
             ]); ?>
             <?php NavBar::end(); ?>
