@@ -467,11 +467,12 @@ class ConfigController extends \common\rest\Controller
           $start = date('Y-m-d').' 00:00:00';
           $end   = date('Y-m-d')." 23:59:59";
           $start = strtotime($start);
-          $end    = strtotime($end);
+          $end   = strtotime($end);
         $notice          = new Notice;
         $work_recourd    =  WorkRecord::find()
                          ->andwhere(['user_id'=>$user_id])
-                         ->andWhere('between','created_at',$start,$end)
+                         ->andwhere(['between','created_at',$start,$end])
+                         //->andWhere('between','created_at',$start,$end)
                          ->all();
         $data['message'] = $notice->message(Notice::CATEGORY_ONE);
         $data['working_state'] = [];
