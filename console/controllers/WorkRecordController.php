@@ -68,7 +68,7 @@ class WorkRecordController extends controller
             $studentRecord['type']  = 4 ;
             $this->addWorkRecord($studentRecord,true);
         }
-        return 123232322;
+        return true;
     }
 
   }
@@ -106,7 +106,7 @@ class WorkRecordController extends controller
       $start = strtotime($start);
       $end    = strtotime($end);
     //  var_dump($data,$da);exit;
-      $WorkRecord = WorkRecord::find()->andwhere(['course_id'=>$data['course_id'],'type'=>$data['type'],'grade_id'=>$data['grade_id'],'status'=> 20])->andwhere(['between','created_at',$start,$end])->one();
+      $WorkRecord = WorkRecord::find()->andwhere(['course_id'=>$data['course_id'],'type'=>$data['type'],'grade_id'=>$data['grade_id']])->andwhere(['between','created_at',$start,$end])->one();
     //  var_dump($WorkRecord,date('Y-m-d H:i:s'),$start);exit;
       if($WorkRecord == NULL){
           $WorkRecord = new WorkRecord;
