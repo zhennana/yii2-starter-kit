@@ -92,7 +92,7 @@ class SignInController extends \common\components\ControllerFrontendApi
 
     /**
      * @SWG\Post(path="/sign-in/login",
-     *     tags={"100-SignIn-用户接口"},
+     *     tags={"GEDU-SignIn-用户接口"},
      *     summary="用户登录[已经自测]",
      *     description="用户登录：成功返回用户信息；失败返回具体原因",
      *     produces={"application/json"},
@@ -167,11 +167,11 @@ class SignInController extends \common\components\ControllerFrontendApi
             }
 
             // 学校班级
-            // var_dump($model->user->userToGrade->school);exit;
-            if ($model->user->userToGrade) {
-                $attrUser['grade_name'] = $model->user->userToGrade->grade->grade_name;
-                $attrUser['school_title'] = $model->user->userToGrade->school->school_title;
-                $attrUser['school_id'] = $model->user->userToGrade->school->school_id;
+            $attrUser['grade_name'] = $attrUser['school_title'] =$attrUser['school_id'] ='';
+            if ($model->user->getCharacterDetailes()) {
+                $attrUser['grade_name'] = $model->user->getCharacterDetailes()['grade_label'];
+                $attrUser['school_title'] = $model->user->getCharacterDetailes()['school_label'];
+                $attrUser['school_id'] = $model->user->getCharacterDetailes()['school_id'];
             }
 
             // 家长关系
@@ -202,7 +202,7 @@ class SignInController extends \common\components\ControllerFrontendApi
 
     /**
      * @SWG\Get(path="/sign-in/index",
-     *     tags={"100-SignIn-用户接口"},
+     *     tags={"GEDU-SignIn-用户接口"},
      *     summary="登陆请求验证已经登陆[已经自测]",
      *     description="验证是否已经登陆。已登录则返回用户信息",
      *     produces={"application/json"},
@@ -256,7 +256,7 @@ class SignInController extends \common\components\ControllerFrontendApi
 
     /**
      * @SWG\Get(path="/sign-in/send-sms",
-     *     tags={"100-SignIn-用户接口"},
+     *     tags={"GEDU-SignIn-用户接口"},
      *     summary="发送验证码[已经自测]",
      *     description="发送验证码，成功返回验证码与用户信息",
      *     produces={"application/json"},
@@ -367,7 +367,7 @@ class SignInController extends \common\components\ControllerFrontendApi
 
     /**
      * @SWG\Post(path="/sign-in/signup",
-     *     tags={"100-SignIn-用户接口"},
+     *     tags={"GEDU-SignIn-用户接口"},
      *     summary="用户注册[已经自测]",
      *     description="成功返回注册完信息，失败返回具体原因",
      *     produces={"application/json"},
@@ -452,7 +452,7 @@ class SignInController extends \common\components\ControllerFrontendApi
 
     /**
      * @SWG\POST(path="/sign-in/update-profile",
-     *     tags={"100-SignIn-用户接口"},
+     *     tags={"GEDU-SignIn-用户接口"},
      *     summary="更新用户附属信息(头像等)",
      *     description="更新用户附属表信息 http://developer.qiniu.com/docs/v6/sdk/ios-sdk.html",
      *     produces={"application/json"},
@@ -542,7 +542,7 @@ class SignInController extends \common\components\ControllerFrontendApi
 
     /**
      * @SWG\Get(path="/sign-in/qiniu-token",
-     *     tags={"100-SignIn-用户接口"},
+     *     tags={"GEDU-SignIn-用户接口"},
      *     summary="获取七牛云Token[待开发]",
      *     description="返回七牛云上传Token",
      *     produces={"application/json"},
@@ -568,7 +568,7 @@ class SignInController extends \common\components\ControllerFrontendApi
 
     /**
      * @SWG\Get(path="/sign-in/logout",
-     *     tags={"100-SignIn-用户接口"},
+     *     tags={"GEDU-SignIn-用户接口"},
      *     summary="退出用户账户",
      *     description="退出用户账户接口",
      *     produces={"application/json"},

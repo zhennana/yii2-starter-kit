@@ -23,8 +23,22 @@ use yii\behaviors\TimestampBehavior;
 abstract class WorkRecord extends \yii\db\ActiveRecord
 {
 
+    CONST TYPE_ONE   = 1; //上传学生档案
+    CONST TYPE_TWO   = 2; //上正课
+    CONST TYPE_THREE = 3; //备课
+    CONST TYPE_FOUR  = 4; //家长访问
 
-
+    CONST STATUS_FULFILL    = 10; //完成
+    CONST STATUS_UNFINISHED = 20; //未完成
+    CONST STATUS_CLOSE = 30; //关闭
+    
+    public static function optsStatus(){
+        return [
+            self::STATUS_FULFILL    =>'完成',
+            self::STATUS_UNFINISHED =>'未完成',
+            self::STATUS_CLOSE      => '关闭',
+        ];
+    }
     /**
      * @inheritdoc
      */
@@ -55,7 +69,7 @@ abstract class WorkRecord extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'title', 'status'], 'required'],
-            [['user_id', 'auditer_id', 'status'], 'integer'],
+            [['user_id', 'auditer_id', 'type','status','school_id','grade_id','course_id'], 'integer'],
             [['title'], 'string', 'max' => 225],
             [['body'], 'string', 'max' => 522]
         ];

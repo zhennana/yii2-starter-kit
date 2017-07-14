@@ -71,7 +71,7 @@ class CoursewareController extends \common\rest\Controller
 
     /**
      * @SWG\Get(path="/courseware/list",
-     *     tags={"300-Courseware-课件接口"},
+     *     tags={"GEDU-Courseware-课件接口"},
      *     summary="课件列表",
      *     description="根据课件分类返回课件列表",
      *     produces={"application/json"},
@@ -104,7 +104,7 @@ class CoursewareController extends \common\rest\Controller
 
     /**
      * @SWG\Get(path="/courseware/view",
-     *     tags={"300-Courseware-课件接口"},
+     *     tags={"GEDU-Courseware-课件接口"},
      *     summary="课件内容",
      *     description="返回课件内容和相关课件列表",
      *     produces={"application/json"},
@@ -179,7 +179,7 @@ class CoursewareController extends \common\rest\Controller
 
     /**
      * @SWG\Get(path="/courseware/hot-words",
-     *     tags={"300-Courseware-课件接口"},
+     *     tags={"GEDU-Courseware-课件接口"},
      *     summary="热词",
      *     description="返回课件搜索词",
      *     produces={"application/json"},
@@ -236,7 +236,7 @@ class CoursewareController extends \common\rest\Controller
 
     /**
      * @SWG\Get(path="/courseware/search",
-     *     tags={"300-Courseware-课件接口"},
+     *     tags={"GEDU-Courseware-课件接口"},
      *     summary="搜索主课件",
      *     description="返回主课件列表",
      *     produces={"application/json"},
@@ -302,7 +302,7 @@ class CoursewareController extends \common\rest\Controller
 
     /**
      * @SWG\Post(path="/courseware/collect",
-     *     tags={"300-Courseware-课件接口"},
+     *     tags={"GEDU-Courseware-课件接口"},
      *     summary="收藏主课件",
      *     description="返回提示信息",
      *     produces={"application/json"},
@@ -375,7 +375,7 @@ class CoursewareController extends \common\rest\Controller
 
     /**
      * @SWG\Post(path="/courseware/set-play-time",
-     *     tags={"300-Courseware-课件接口"},
+     *     tags={"GEDU-Courseware-课件接口"},
      *     summary="记录子课件视频播放时间",
      *     description="返回提示信息",
      *     produces={"application/json"},
@@ -485,7 +485,7 @@ class CoursewareController extends \common\rest\Controller
 
     /**
      * @SWG\Get(path="/courseware/get-play-time",
-     *     tags={"300-Courseware-课件接口"},
+     *     tags={"GEDU-Courseware-课件接口"},
      *     summary="获取子课件视频播放时间记录",
      *     description="返回子课件视频播放时间记录",
      *     produces={"application/json"},

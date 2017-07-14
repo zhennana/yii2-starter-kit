@@ -3,8 +3,9 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use \dmstr\bootstrap\Tabs;
+use kartik\select2\Select2;
 use yii\helpers\StringHelper;
-
+use backend\modules\campus\models\WorkRecord;
 /**
 * @var yii\web\View $this
 * @var backend\modules\campus\models\WorkRecord $model
@@ -28,22 +29,24 @@ use yii\helpers\StringHelper;
         <?php $this->beginBlock('main'); ?>
 
         <p>
-            
-
 <!-- attribute user_id -->
-			<?= $form->field($model, 'user_id')->textInput() ?>
+			<?= $form->field($model, 'user_id')
+            ->textInput(['value'=>Yii::$app->user->identity->getUserName($model->user_id),'disabled'=>"disabled"]) ?>
 
 <!-- attribute title -->
-			<?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+			<?= $form->field($model, 'title')->textInput(['maxlength' => true,'disabled'=>"disabled"]) ?>
 
 <!-- attribute status -->
-			<?= $form->field($model, 'status')->textInput() ?>
+<!-- attribute status -->
+            <?= $form->field($model,'status')->widget(Select2::className(),[
+                'data'          => WorkRecord::optsStatus(),
+                'hideSearch'    => true,
+                // 'options'       => ['placeholder' => '请选择'],
+                'pluginOptions' => [
+                    'allowClear' => false
+                ],
+            ])->label('状态') ?>
 
-<!-- attribute auditer_id -->
-			<?= $form->field($model, 'auditer_id')->textInput() ?>
-
-<!-- attribute body -->
-			<?= $form->field($model, 'body')->textInput(['maxlength' => true]) ?>
         </p>
         <?php $this->endBlock(); ?>
         
