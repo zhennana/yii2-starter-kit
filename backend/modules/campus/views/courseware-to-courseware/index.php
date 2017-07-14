@@ -138,16 +138,18 @@ if (\Yii::$app->user->can('manager', ['route' => true])) {
 	            'attribute'=>'courseware_master_id',
 	            'format'    => 'raw',
 	            'value'=>function($model){
-                    $master_id = isset($model->courseware_master_id) ? $model->courseware_master_id : '';
-                	return 'master_id:'.$master_id."<br />".$model->coursewareMaster->title;
+                    if (isset($model->courseware_master_id)) {
+                	   return 'master_id:'.$model->courseware_master_id."<br />".$model->coursewareMaster->title;
+                    }
             	}
             ],
             [
                 'attribute'=>'courseware_id',
                 'format'    => 'raw',
                 'value'=>function($model){
-                    $courseware_id = isset($model->courseware_id) ? $model->courseware_id : '';
-                    return 'courseware_id:'.$courseware_id."<br />".$model->courseware->title;
+                    if (isset($model->courseware_id)) {
+                        return 'courseware_id:'.$model->courseware_id."<br />".$model->courseware->title;
+                    }
                 }
             ],
             'sort',
