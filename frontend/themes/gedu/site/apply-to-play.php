@@ -21,107 +21,83 @@ use yii\captcha\Captcha;
             </div>
       </div>
       <div class="box-body geu-content">
-        <!-- <div class="row">
-          <div class="col-xs-12" >
-           <div class="apply">
-            <div><a>在线报名</a></div>
-          </div>
-          </div>
-        </div> -->
+         <?php
+            if (Yii::$app->session->hasFlash('info')) {
+                echo Yii::$app->session->getFlash('info');
+            }
+            $form = ActiveForm::begin([
+                'fieldConfig' => [
+                    'template' => '<div class="span12 field-box">{label}{input}</div>{error}',
+                ],
+                'options' => [
+                    'class' => 'new_user_form inline-input',
+                ],
+            ]);
+        ?>
 
         <div class="row btn-line">
+        <!-- 姓名 -->
           <div class="col-xs-12 col-md-4">
-           <div class="input-group">
-            <div class="input-group-btn">
-              <button id="btnspacetwo" type="button" class="btn btncolor" style="outline:none;"><i class="fa fa-fw fa-star text-red"></i>学生姓名</button>
-            </div>
-            <!-- /btn-group -->
-            <input class="form-control" type="text">
+           <div class="input-group text-two">
+            <span class="applystar"><i class="fa fa-fw fa-star text-red"></i></span>
+            <?php echo $form->field($model, 'username')->textInput(['class' => 'span4']);?>
           </div>
           </div>
+          <!-- 性别 -->
           <div class="col-xs-12 col-md-4">
-            <div class="input-group">
-              <div class="input-group-btn">
-                <button type="button" class="btn btncolor" id="applyspace2" style="outline:none;"><i class="fa fa-fw fa-star text-red"></i>性别</button>
-              </div>
-              <!-- /btn-group -->
-              <input class="form-control" type="text">
+            <div class="input-group text-two">
+              <span class="applystar"><i class="fa fa-fw fa-star text-red"></i></span><?php echo $form->field($model, 'gender')->dropDownList(['1'=>'男','2'=>'女'], ['prompt'=>'请选择','class' => 'span4']);?>
             </div>
           </div>
+          <!-- 年龄-->
           <div class="col-xs-12 col-md-4">
-            <div class="input-group">
-              <div class="input-group-btn">
-                <button id="btnspacetwo" type="button" class="btn btncolor" style="outline:none;"><i class="fa fa-fw fa-star text-red"></i>出生日期</button>
-              </div>
-              <!-- /btn-group -->
-              <input class="form-control" type="text">
+            <div class="input-group text-two">
+              <span class="applystar"><i class="fa fa-fw fa-star text-red"></i></span><?php  echo $form->field($model, 'age')->textInput(['class' => 'span4']);?>
+            </div>
+          </div>
+        </div>
+        <div class="row btn-line">
+          <div class="col-xs-12 col-md-4">
+           <div class="input-group text-two">
+            <span class="applystar"><i class="fa fa-fw fa-star text-red"></i></span><?php echo $form->field($model, 'nation')->textInput(['class' => 'span4']);?>
+          </div>
+          </div>
+          <div class="col-xs-12 col-md-4">
+            <div class="input-group text-three">
+              <span class="applystar"><i class="fa fa-fw fa-star text-red"></i></span><?php echo $form->field($model, 'guardian')->textInput(['class' => 'span4']);?>
+            </div>
+          </div>
+          <div class="col-xs-12 col-md-4">
+            <div class="input-group text-two">
+              <span class="applystar"><i class="fa fa-fw fa-star text-red"></i></span><?php  echo $form->field($model, 'phone_number')->textInput(['class' => 'span4']);?>
             </div>
           </div>
         </div>
 
-        <div class="row btn-line">
-          <div class="col-xs-12 col-md-4">
-           <div class="input-group">
-            <div class="input-group-btn">
-              <button type="button" class="btn btncolor" id="applyspace" style="outline:none;"><i class="fa fa-fw fa-star text-red"></i>民族</button>
-            </div>
-            <!-- /btn-group -->
-            <input class="form-control" type="text">
-          </div>
-          </div>
-          <div class="col-xs-12 col-md-4">
-            <div class="input-group">
-              <div class="input-group-btn">
-                <button id="btnspacetwo" type="button" class="btn btncolor" style="outline:none;"><i class="fa fa-fw fa-star text-red"></i>监护人姓名</button>
-              </div>
-              <!-- /btn-group -->
-              <input class="form-control" type="text">
-            </div>
-          </div>
-          <div class="col-xs-12 col-md-4">
-            <div class="input-group">
-              <div class="input-group-btn">
-                <button  id="btnspacetwo" type="button" class="btn btncolor" style="outline:none;"><i class="fa fa-fw fa-star text-red"></i>手机号码</button>
-              </div>
-              <!-- /btn-group -->
-              <input class="form-control" type="text">
-            </div>
-          </div>
-        </div>
+        <!-- 第三行 -->
         <div class="row btn-line" >
           <div class="col-xs-12 col-md-4">
-           <div class="input-group">
-            <div class="input-group-btn">
-              <button type="button" class="btn btncolor" id="applyspace" style="outline:none;"><i class="fa fa-fw fa-star text-red"></i>邮箱</button>
-            </div>
-            <!-- /btn-group -->
-            <input class="form-control" type="text">
+           <div class="input-group text-two">
+            <span class="applystar"><i class="fa fa-fw fa-star text-red"></i></span><?php echo $form->field($model, 'email')->textInput(['class' => 'span4']);?>
           </div>
           </div>
           <div class="col-xs-12 col-md-8">
-            <div class="input-group">
-              <div class="input-group-btn">
-                <button type="button" class="btn btncolor" id="applyspace2" style="outline:none;"><i class="fa fa-fw fa-star text-red"></i>籍贯</button>
-              </div>
-              <!-- /btn-group -->
-              <input class="form-control" type="text">
+            <div class="input-group text-three">
+              <span class="applystar"><i class="fa fa-fw fa-star text-red"></i></span><?php  echo $form->field($model, 'address')->textInput(['class' => 'span8']);?>
             </div>
           </div>
         </div>
-        <div class="row btn-line">
+        <div class="row btn-line ">
           <div class="col-xs-12">
-           <div class="input-group">
-            <div class="input-group-btn">
-              <button type="button" id="applyspace3" class="btn btncolor" style="outline:none;">个人简介</button>
-            </div>
-            <!-- /btn-group -->
-            <textarea class="form-control" rows="3" placeholder="Enter ..."></textarea>
+           <div class="input-group text-three">
+            <span class="applystar"><i class="fa fa-fw fa-star text-red"></i></span><?php  echo $form->field($model, 'body')->textarea(['rows'=>3,'class' => 'span12']);?>
           </div>
           </div>
         </div>
         <div class="box-footer">
-                <button type="submit" class="btn bg-purple margin pull-right">点击提交</button>
-              </div>
+                <?php echo Html::submitButton('点击提交', ['class' => 'btn bg-purple margin pull-right']); ?>
+        </div>
+        <?php ActiveForm::end(); ?>
       </div>
 
     </div>
