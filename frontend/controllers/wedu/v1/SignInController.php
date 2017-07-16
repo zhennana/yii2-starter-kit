@@ -91,7 +91,7 @@ class SignInController extends \common\components\ControllerFrontendApi
 
     /**
      * @SWG\Post(path="/sign-in/login",
-     *     tags={"100-SignIn-用户接口"},
+     *     tags={"WEDU-SignIn-用户接口"},
      *     summary="用户登录[已经自测]",
      *     description="用户登录：成功返回用户信息；失败返回具体原因",
      *     produces={"application/json"},
@@ -188,7 +188,7 @@ class SignInController extends \common\components\ControllerFrontendApi
 
     /**
      * @SWG\Get(path="/sign-in/index",
-     *     tags={"100-SignIn-用户接口"},
+     *     tags={"WEDU-SignIn-用户接口"},
      *     summary="登陆请求验证已经登陆[已经自测]",
      *     description="验证是否已经登陆。已登录则返回用户信息",
      *     produces={"application/json"},
@@ -248,7 +248,7 @@ class SignInController extends \common\components\ControllerFrontendApi
 
     /**
      * @SWG\Get(path="/sign-in/send-sms",
-     *     tags={"100-SignIn-用户接口"},
+     *     tags={"WEDU-SignIn-用户接口"},
      *     summary="发送验证码[已经自测]",
      *     description="发送验证码，成功返回验证码与用户信息",
      *     produces={"application/json"},
@@ -329,7 +329,7 @@ class SignInController extends \common\components\ControllerFrontendApi
 
     /**
      * @SWG\Post(path="/sign-in/signup",
-     *     tags={"100-SignIn-用户接口"},
+     *     tags={"WEDU-SignIn-用户接口"},
      *     summary="用户注册[已经自测]",
      *     description="成功返回注册完信息，失败返回具体原因",
      *     produces={"application/json"},
@@ -414,7 +414,7 @@ class SignInController extends \common\components\ControllerFrontendApi
 
     /**
      * @SWG\POST(path="/sign-in/update-profile",
-     *     tags={"100-SignIn-用户接口"},
+     *     tags={"WEDU-SignIn-用户接口"},
      *     summary="更新用户附属信息(头像等)[已经自测]",
      *     description="更新用户附属表信息 http://developer.qiniu.com/docs/v6/sdk/ios-sdk.html",
      *     produces={"application/json"},
@@ -504,7 +504,7 @@ class SignInController extends \common\components\ControllerFrontendApi
 
     /**
      * @SWG\Get(path="/sign-in/qiniu-token",
-     *     tags={"100-SignIn-用户接口"},
+     *     tags={"WEDU-SignIn-用户接口"},
      *     summary="获取七牛云Token[待开发]",
      *     description="返回七牛云上传Token",
      *     produces={"application/json"},
@@ -529,7 +529,7 @@ class SignInController extends \common\components\ControllerFrontendApi
 
     /**
      * @SWG\Get(path="/sign-in/logout",
-     *     tags={"100-SignIn-用户接口"},
+     *     tags={"WEDU-SignIn-用户接口"},
      *     summary="]",
      *     description="退出接口",
      *     produces={"application/json"},

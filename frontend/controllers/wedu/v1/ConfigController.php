@@ -75,7 +75,7 @@ class ConfigController extends \common\rest\Controller
 
    /**
     * @SWG\Get(path="/config/index",
-    *     tags={"800-Config-配置信息接口"},
+    *     tags={"WEDU-Config-配置信息接口"},
     *     summary="信息流列表",
     *     description="返回首页流",
     *     produces={"application/json"},
@@ -129,34 +129,36 @@ class ConfigController extends \common\rest\Controller
         return $data;
     }
 
+
     /**
      * @SWG\Get(path="/config/init",
-     *     tags={"800-Config-配置信息接口"},
+     *     tags={"WEDU-Config-配置信息接口"},
      *     summary="初始化",
-     *     description="返回更新版本信息",
+     *     description="返回配置参数",
      *     produces={"application/json"},
      *     @SWG\Parameter(
      *        in = "query",
-     *        name = "user_id",
-     *        description = "用户ID",
+     *        name = "client_type",
+     *        description = "客户端类型：1:Android； 2:IOS",
      *        required = false,
-     *        default = 0,
+     *        default = "Android",
+     *        type = "string",
+     *        enum = {"Android","IOS"}
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "client_version",
+     *        description = "客户端版本：1.0.3 ; Android/4.5",
+     *        required = false,
+     *        default = "1.0.3",
      *        type = "string"
      *     ),
      *     @SWG\Parameter(
      *        in = "query",
      *        name = "server_version",
-     *        description = "服务端版本（奇数测试版本，偶数为正式版本）",
+     *        description = "服务端版本：1.0.3 ",
      *        required = false,
-     *        default = "1.0.2",
-     *        type = "string"
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "query",
-     *        name = "client_version",
-     *        description = "客户端版本：1.0.2 ; Android/4.5",
-     *        required = false,
-     *        default = "1.0.2",
+     *        default = "1.0.3",
      *        type = "string"
      *     ),
      *     @SWG\Parameter(
@@ -169,115 +171,139 @@ class ConfigController extends \common\rest\Controller
      *     ),
      *     @SWG\Response(
      *         response = 200,
-     *         description = "forced_updating=1,强制更新"
+     *         description = "返回配置参数"
      *     ),
      * )
      *
     **/
     /**
-     * 线上版本 2016-08-15
-     * IOS 2.24
-     * 安卓：2.20
+     * 线上版本 2017-07-16
+     * IOS： 1.02
+     * 安卓：1.03
      *
      * 测试版本号
     */
-    public function actionInit($user_id=0, $server_version=0, $client_version=0, $time_stamp=0)
+    public function actionInit($client_type = '', $client_version=0, $server_version=0, $time_stamp=0)
     {
-        $info        = [];
-        $cache       = false;
-        $cache_stamp = strtotime('2017-08-15 21:00:00');
+        $info = [];
 
-        if($time_stamp == $cache_stamp){
-            $cache = true;
+        // 缓存配置
+        $info['sys_params'] = [
+            'cache_stamp' => strtotime('2010-08-15 21:00:00'),
+            'cache'       => false,
+
+        ];
+        if($time_stamp == $info['sys_params']['cache_stamp']){
+            $info['sys_params']['cache'] = false;
         }
 
-        $info = [
+        // 客户端配置
+        // 安卓上线配置
+        if ($client_type == 'Android') {
+            $info['client_params'] = [
 
-            // 时间戳
-            'cache_stamp' => $cache_stamp,
-            'cache'       => $cache,
-            /*
-            'do_business' => [
-                'active'  => 'open',    // close or open
-                'tips'    => '系统维护中。请您谅解，紧急联系方式：400-400-40000',
-                'call_up' => '400-400-40000',
-            ],
-            */
-            // 手动配置更新信息
-            'ios' => [
-                // APP store 审核
+                // 安卓客户端当前版本
+                'client_version' => $client_version,
 
-                // 更新提示：0 关闭 | 1 开启
-                'show_upgrade_status' => '更新提示：0 关闭 | 1 开启',
+                // 安卓客户端最新版本，发版后手动更新为最新版本
+                'uptodate_version' => '1.0.3',
 
-                // 更新版本号
-                'updated_version'   => '更新版本号：2.58.2', // 手动填写
+                // 字段初始化，不需配置，走更新逻辑
+                'show_status'     => '0',   // 更新提示
+                'forced_updating' => '0',   // 强制更新
 
-                // 强制更新(开启慎用)： 0 关闭 | 1 开启 
-                'forced_updating'   => '强制更新(开启慎用)： 0 关闭 | 1 开启',
-                
-                // 服务端版本号
-                'server_version'    => '服务端版本号:'.$server_version,
-
-                // 客户端版本号
-                'client_version'    => '客户端版本号:'.$client_version,
-                
-                // 服务端维护范围
-                'range_server_version' => ['服务端维护范围：1.1'],
-
-                /** ios上线配置 start **/
-                // 更新描述
-                'description' => "更新描述",
-
-                // 安装地址
-                'install_address' => '安装地址：https://itunes.apple.com/cn/app/',
-                'tip'             => '安装失败提示：更新失败，请去应用商店或官网直接下载安装',
-
-                // 客户端维护范围
-                'range_client_version' => [
-                    '客户端维护范围：2.58.2', // 9.1
-                ],
-                /** ios上线配置 end **/
-            ],
-            'android' => [
-                 // 更新提示：0 关闭 | 1 开启
-                'show_upgrade_status' => '更新提示：0 关闭 | 1 开启',
+                // 安卓更新描述，发版后手动更新
+                'description' => "更新描述：\r\n重构新版本更新\r\n修复已知bug\r\n",
 
                 // 安卓特有，CRM数据库字段支持
-                // 'version_code' => '',
-                 
-                // 更新版本号
-                'updated_version' => '更新版本号：2.52', // 2.44
+                // 'version_code' => '', 
 
-                // 强制更新(开启慎用)： 0 关闭 | 1 开启 
-                'forced_updating' => '强制更新(开启慎用)： 0 关闭 | 1 开启 ', 
+                // 安卓安装地址，发版后手动更新
+                'install_address' => 'http://static.v1.meilinyouxuan.com/app-release_103_android%201.0.3.apk',
 
-                // 服务端版本号
-                'server_version' => '服务端版本号：'.$server_version,
+                // 安卓更新失败提示，发版后手动更新
+                'tip' => '更新失败，请去应用商店或官网直接下载安装',
 
-                // 客户端版本号
-                'client_version' => '客户端版本号：'.$client_version,
+                // 安卓客户端维护范围，在此范围内的版本不会强制更新
+                'range_client_version' => [
+                    '1.0.3',
+                ],
+
+                // 安卓服务端版本号
+                // 'server_version' => $server_version,
                 
+                // 安卓服务端维护范围
+                /*
+                'range_server_version' => [
+                    '1.0.3'
+                ],
+                */
 
-                /** 安卓上线配置 start **/
-                'description' => "更新描述",
-
-                // svn 版本号： 2801 10-31 17:57
-                // 安装地址
-                'install_address' => '安装地址：http://7xsm8j.com2.z0.glb.qiniucdn.com',
-                'tip'             => '安装失败提示：更新失败，请去应用商店或官网直接下载安装',
-
-                /** 安卓上线配置 end **/
+            ];
+        // 安卓上线配置结束
+        
+        // IOS上线配置
+        }elseif($client_type == 'IOS'){
+            $info['client_params'] = [
+                // IOS客户端当前版本
+                'client_version' => $client_version,
                 
-            ],
-        ];
+                // IOS客户端最新版本，发版后手动更新为最新版本
+                'uptodate_version' => '1.0.2', 
+
+                // 字段初始化，不需配置，走更新逻辑
+                'show_status'     => '0',   // 更新提示
+                'forced_updating' => '0',   // 强制更新
+
+                // IOS更新描述，发版后手动更新
+                'description' => "更新描述：\r\n重构新版本更新\r\n修复已知bug\r\n",
+
+                // IOS安装地址，发版后手动更新
+                'install_address' => 'https://itunes.apple.com/cn/app/mei-lin-you-xuan/id1185747041?mt=8',
+
+                // IOS更新失败提示，发版后手动更新
+                'tip' => '更新失败，请去应用商店直接下载安装',
+
+                // IOS客户端维护范围，在此范围内的版本不会强制更新
+                'range_client_version' => [
+                    '1.0.2', 
+                ],
+
+                // IOS服务端版本号
+                // 'server_version' => $server_version,
+
+                // IOS服务端维护范围
+                /*
+                'range_server_version' => [
+                    '1.0.2'
+                ],
+                */
+            ];
+        }
+        // IOS上线配置结束
+        
+        // 更新提示、强制更新逻辑
+        if (isset($info['client_params']) && !empty($info['client_params'])) {
+            // 更新提示
+            // 当前客户端版本与最新发布版本[不同]，则提示更新；反之，则不提示更新；
+            if($client_version != $info['client_params']['uptodate_version']){
+                $info['client_params']['show_status'] = '1';
+
+                // 强制更新
+                // 当前客户端版本[不在]客户端维护范围内，则强制更新；反之，则不强制更新；
+                if(!in_array($client_version,$info['client_params']['range_client_version'])){
+                    $info['client_params']['forced_updating'] = '1';
+                }
+            }
+        }
+        
         return $info;
     }
 
 
     /**
      * @SWG\Get(path="/config/banner",
-     *     tags={"800-Config-配置信息接口"},
+     *     tags={"WEDU-Config-配置信息接口"},
      *     summary="Banner",
      *     description="返回Banner",
      *     produces={"application/json"},
@@ -326,7 +352,7 @@ class ConfigController extends \common\rest\Controller
 
     /**
      * @SWG\Get(path="/config/button",
-     *     tags={"800-Config-配置信息接口"},
+     *     tags={"WEDU-Config-配置信息接口"},
      *     summary="按钮",
      *     description="返回首页按钮",
      *     produces={"application/json"},
@@ -379,7 +405,7 @@ class ConfigController extends \common\rest\Controller
 
     /**
      * @SWG\Get(path="/config/account",
-     *     tags={"800-Config-配置信息接口"},
+     *     tags={"WEDU-Config-配置信息接口"},
      *     summary="我的页面",
      *     description="返回通知 老师说的话 课程相关 以上课程 我的照片 关于我们",
      *     produces={"application/json"},
@@ -442,7 +468,7 @@ class ConfigController extends \common\rest\Controller
 
     /**
      * @SWG\Get(path="/config/working-state",
-     *     tags={"800-Config-配置信息接口"},
+     *     tags={"WEDU-Config-配置信息接口"},
      *     summary="老师的工作内容",
      *     description="老师的工作内容",
      *     produces={"application/json"},
