@@ -294,6 +294,12 @@ class ConfigController extends \common\rest\Controller
                 if(!in_array($client_version,$info['client_params']['range_client_version'])){
                     $info['client_params']['forced_updating'] = '1';
                 }
+
+                // IOS手动配置开启或关闭更新提示
+                // if ($client_type == 'IOS') {
+                //     $info['client_params']['show_status']     = '0';
+                //     $info['client_params']['forced_updating'] = '0';
+                // }
             }
         }
         
