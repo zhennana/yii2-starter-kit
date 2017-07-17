@@ -249,7 +249,7 @@ class ConfigController extends \common\rest\Controller
                 'client_version' => $client_version,
                 
                 // IOS客户端最新版本，发版后手动更新为最新版本
-                'uptodate_version' => '1.0.2', 
+                'uptodate_version' => '1.0.3', 
 
                 // 字段初始化，不需配置，走更新逻辑
                 'show_status'     => '0',   // 更新提示
@@ -266,7 +266,7 @@ class ConfigController extends \common\rest\Controller
 
                 // IOS客户端维护范围，在此范围内的版本不会强制更新
                 'range_client_version' => [
-                    '1.0.2', 
+                    '1.0.3', 
                 ],
 
                 // IOS服务端版本号
@@ -296,10 +296,10 @@ class ConfigController extends \common\rest\Controller
                 }
 
                 // IOS手动配置开启或关闭更新提示
-                // if ($client_type == 'IOS') {
-                //     $info['client_params']['show_status']     = '0';
-                //     $info['client_params']['forced_updating'] = '0';
-                // }
+                if ($client_type == 'IOS') {
+                    $info['client_params']['show_status']     = '0';
+                    $info['client_params']['forced_updating'] = '0';
+                }
             }
         }
         
