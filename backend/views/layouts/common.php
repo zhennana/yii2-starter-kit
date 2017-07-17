@@ -226,9 +226,9 @@ $avatar .= '?imageView2/3/w/215/h/215';
                             'label'=>Yii::t('backend', '课程体系管理'),
                             'url' => '#',
                             'icon'=>'<i class="fa fa-edit"></i>',
-                              //'visible'=>(
-                                // Yii::$app->user->can('manager') ||
-                                // Yii::$app->user->can('E_manager')),
+                              'visible'=>(
+                                 Yii::$app->user->can('manager') ||
+                                 Yii::$app->user->can('E_manager')),
                             'options'=>['class'=>'treeview'],
                             'items'=>[
                                 [
@@ -490,7 +490,7 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                 [
                                     'label'=>Yii::t('backend', '学校公告'),
                                     'url'=>['/campus/notice/school-notice'],
-                                    'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_director')),
+                                    'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager')),
 
                                     'icon'=>'<i class=" fa  fa-volume-up"></i>'
                                 ],
@@ -505,7 +505,7 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                 [
                                     'label'=>Yii::t('backend', '班级公告'),
                                     'url'=>['/campus/notice/grade-notice'], 
-                                    'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_teacher')),
+                                    'visible'=>Yii::$app->user->can('manager'),
 
 
                                     'icon'=>'<i class=" fa  fa-volume-up"></i>'
