@@ -74,7 +74,7 @@ class CourseOrderItemController extends \common\rest\Controller
 
      /**
      * @SWG\Get(path="/course-order-item/index",
-     *     tags={"600-CourseOrderItem-课程订单展示"},
+     *     tags={"WEDU-CourseOrderItem-课程订单展示"},
      *     summary="message",
      *     description="返回用户缴费情况",
      *     produces={"application/json"},
