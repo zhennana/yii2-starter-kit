@@ -490,7 +490,7 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                 [
                                     'label'=>Yii::t('backend', '学校公告'),
                                     'url'=>['/campus/notice/school-notice'],
-                                    'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager')),
+                                    'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_manager')),
 
                                     'icon'=>'<i class=" fa  fa-volume-up"></i>'
                                 ],
