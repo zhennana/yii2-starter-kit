@@ -249,24 +249,24 @@ class ConfigController extends \common\rest\Controller
                 'client_version' => $client_version,
                 
                 // IOS客户端最新版本，发版后手动更新为最新版本
-                'uptodate_version' => '1.0.2', 
+                'uptodate_version' => '1.0.3', 
 
                 // 字段初始化，不需配置，走更新逻辑
                 'show_status'     => '0',   // 更新提示
                 'forced_updating' => '0',   // 强制更新
 
                 // IOS更新描述，发版后手动更新
-                'description' => "更新描述：\r\n重构新版本更新\r\n修复已知bug\r\n",
+                'description' => "更新内容：\r\n修复已知bug\r\n",
 
                 // IOS安装地址，发版后手动更新
-                'install_address' => 'https://itunes.apple.com/cn/app/mei-lin-you-xuan/id1185747041?mt=8',
+                'install_address' => 'https://itunes.apple.com/cn/app/瓦酷机器人/id1248260732?mt=8',
 
                 // IOS更新失败提示，发版后手动更新
                 'tip' => '更新失败，请去应用商店直接下载安装',
 
                 // IOS客户端维护范围，在此范围内的版本不会强制更新
                 'range_client_version' => [
-                    '1.0.2', 
+                    '1.0.3', 
                 ],
 
                 // IOS服务端版本号
@@ -296,10 +296,10 @@ class ConfigController extends \common\rest\Controller
                 }
 
                 // IOS手动配置开启或关闭更新提示
-                // if ($client_type == 'IOS') {
-                //     $info['client_params']['show_status']     = '0';
-                //     $info['client_params']['forced_updating'] = '0';
-                // }
+                if ($client_type == 'IOS') {
+                    $info['client_params']['show_status']     = '0';
+                    $info['client_params']['forced_updating'] = '0';
+                }
             }
         }
         
