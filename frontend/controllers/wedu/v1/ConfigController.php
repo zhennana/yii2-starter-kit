@@ -256,10 +256,10 @@ class ConfigController extends \common\rest\Controller
                 'forced_updating' => '0',   // 强制更新
 
                 // IOS更新描述，发版后手动更新
-                'description' => "更新描述：\r\n重构新版本更新\r\n修复已知bug\r\n",
+                'description' => "更新内容：\r\n修复已知bug\r\n",
 
                 // IOS安装地址，发版后手动更新
-                'install_address' => 'https://itunes.apple.com/cn/app/mei-lin-you-xuan/id1185747041?mt=8',
+                'install_address' => 'https://itunes.apple.com/cn/app/瓦酷机器人/id1248260732?mt=8',
 
                 // IOS更新失败提示，发版后手动更新
                 'tip' => '更新失败，请去应用商店直接下载安装',
