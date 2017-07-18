@@ -78,7 +78,8 @@ class CourseOrderItemController extends \common\rest\Controller
      *        name = "courseware_id",
      *        description = "课件ID",
      *        required = true,
-     *        type = "integer"
+     *        type = "integer",
+     *        default = 1
      *     ),
      *     @SWG\Parameter(
      *        in = "formData",
@@ -112,17 +113,35 @@ class CourseOrderItemController extends \common\rest\Controller
      *        in = "formData",
      *        name = "payment",
      *        description = "支付方式：100在线支付；110支付宝；111微信支付；200货到付款",
-     *        required = false,
+     *        required = true,
      *        type = "integer",
      *        default = 110,
      *        enum = {100,110,111,200}
      *     ),
      *     @SWG\Parameter(
      *        in = "formData",
+     *        name = "status",
+     *        description = "订单状态 10有效；20无效",
+     *        required = true,
+     *        type = "integer",
+     *        default = 10,
+     *        enum = {10,20}
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
      *        name = "total_price",
      *        description = "总价",
+     *        required = true,
+     *        type = "integer",
+     *        default = 15
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "coupon_type",
+     *        description = "优惠类型 2首单减免；3随机减免",
      *        required = false,
-     *        type = "integer"
+     *        type = "integer",
+     *        enum = {2,3}
      *     ),
      *     @SWG\Parameter(
      *        in = "formData",
@@ -135,8 +154,9 @@ class CourseOrderItemController extends \common\rest\Controller
      *        in = "formData",
      *        name = "real_price",
      *        description = "实际付款",
-     *        required = false,
-     *        type = "integer"
+     *        required = true,
+     *        type = "integer",
+     *        default = 15
      *     ),
      *     @SWG\Response(
      *         response = 200,
@@ -147,21 +167,27 @@ class CourseOrderItemController extends \common\rest\Controller
     **/
     public function actionCreate()
     {
+        return [];exit();
         if(Yii::$app->user->isGuest){
             $this->serializer['errno']   = 422;
             $this->serializer['message'] = '请您先登录';
             return [];
         }
-        if (NULL == Yii::$app->request->post()) {
-            $this->serializer['errno']   = __LINE__;
-            $this->serializer['message'] = '参数不能为空';
-            return [];
-        }
-        
+
+        $info = [];
+
         $modelClass = $this->modelClass;
         $order      = new $modelClass;
 
-        return $order->processCourseOrder(Yii::$app->request->post());
+        $info = $order->processCourseOrder(Yii::$app->request->post());
+
+        if (isset($info['errno']) && $info['errno'] !== 0) {
+            $this->serializer['errno']   = $info['errno'];
+            $this->serializer['message'] = $info['message'];
+            return [];
+        }
+
+        return $info;
     }
 
     /**
@@ -186,7 +212,6 @@ class CourseOrderItemController extends \common\rest\Controller
      */
     public function actionAlipay()
     {
-// var_dump(Yii::getAlias('@common'));exit;
         if (!isset($_POST) || empty($_POST)) {
             $this->serializer['errno']   = __LINE__;
             $this->serializer['message'] = '调试错误，请回到请求来源地，重新发起请求。';
@@ -215,7 +240,7 @@ class CourseOrderItemController extends \common\rest\Controller
         $body              = '《如来神掌(精装)》全集(共15节课程)，限时特价0.01元';
         $subject           = '《如来神掌(精装)》全集(共15节课程)';
         $out_trade_no      = $order->builderNumber();
-        $total_amount      = '0.01';
+        $total_amount      = 0.01;
         $timeout_express   = '1m';
         $payRequestBuilder = new AlipayTradeWapPayContentBuilder;
         $payRequestBuilder->setBody($body);
@@ -223,7 +248,7 @@ class CourseOrderItemController extends \common\rest\Controller
         $payRequestBuilder->setOutTradeNo($out_trade_no);
         $payRequestBuilder->setTotalAmount($total_amount);
         $payRequestBuilder->setTimeExpress($timeout_express);
-
+// var_dump($alipay_config);exit;
         $payResponse = new AlipayTradeService($alipay_config);
         $result = $payResponse->wapPay($payRequestBuilder,$alipay_config['return_url'],$alipay_config['notify_url']);
         $data = ['wappay' => $result];

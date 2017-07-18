@@ -341,8 +341,8 @@ class AopClient {
 		while (list ($key, $val) = each ($para_temp)) {
 			if (false === $this->checkEmpty($val)) {
 				//$val = $this->characet($val, $this->postCharset);
-				$val = str_replace("'","&apos;",$val);
-				//$val = str_replace("\"","&quot;",$val);
+				// $val = str_replace("'","&apos;",$val);
+				$val = str_replace("\"","&quot;",$val);
 				$sHtml.= "<input type='hidden' name='".$key."' value='".$val."'/>";
 			}
         }
