@@ -21,7 +21,8 @@ use backend\modules\campus\models\UserToSchool;
 * @var yii\widgets\ActiveForm $form
 */
 
-    $grade_user_type =UserToGrade::GRADE_USER_TYPE_STUDENT;
+// var_dump($model->grade_user_type);exit;
+    $grade_user_type =$model->grade_user_type;
     if(isset($_GET['grade_user_type'])){
         $grade_user_type = (int)$_GET['grade_user_type'];
     }
@@ -37,15 +38,15 @@ use backend\modules\campus\models\UserToSchool;
     }
     $currentUser =  [];
    foreach ($user as $key => $value) {
-       if(!empty($value['username'])){
-            $currentUser[$value['id']] = $value['username'];
-            continue;
-       }
        if(!empty($value['realname'])){
             $currentUser[$value['id']] = $value['realname'];
+            continue;
+       }
+       if(!empty($value['username'])){
+            $currentUser[$value['id']] = $value['username'];
        }
    }
-   // var_dump($user);exit;
+    //var_dump($currentUser);exit;
      //$currentUser = ArrayHelper::map($user,'id','username');
 
 ?>
@@ -115,6 +116,7 @@ use backend\modules\campus\models\UserToSchool;
                         ]
                     ]);
                 }else{
+                    //var_dump('<pre>',$currentUser);exit;
                     echo $form->field($model, 'user_id')->widget(Select2::className(),[
                         'data'     => $currentUser,
                         'disabled' => true,
@@ -188,7 +190,7 @@ use backend\modules\campus\models\UserToSchool;
         <?= Tabs::widget([
             'encodeLabels' => false,
             'items'        => [[
-                'label'   => Yii::t('backend', '学员管理'),
+                'label'   => Yii::t('backend', '班级人员管理'),
                 'content' => $this->blocks['main'],
                 'active'  => true,
             ],]

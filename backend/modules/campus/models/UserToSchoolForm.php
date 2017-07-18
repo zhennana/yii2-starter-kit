@@ -121,7 +121,7 @@ class UserToSchoolForm extends Model
             $patten = "/^\d{4}[\-](0?[1-9]|1[012])[\-](0?[1-9]|[12][0-9]|3[01])(\s+(0?[0-9]|1[0-9]|2[0-3])\:(0?[0-9]|[1-5][0-9])\:(0?[0-9]|[1-5][0-9]))?$/";
             // var_dump($users['birth'],preg_match($patten,$users['birth']));exit;
             if(!preg_match($patten,$users['birth'])){
-              $info['error'][$key] = [[ $users['username'] .'出生年月格式不正确']];
+              $info['error'][$key] = [[ $users['realname'] .'出生年月格式不正确']];
                 continue;
             }
 
@@ -171,7 +171,7 @@ class UserToSchoolForm extends Model
             //添加学校或者跟新学校
             if($this->grade_id && !empty($this->grade_id) && $this->grade_id != '0'){
               if($this->school_user_type ==  10 && $this->grade_user_type != 10){
-                $info['error'][$key] = [[$users['username'].'在学校职称是学生,班级职称就不能是老师']];
+                $info['error'][$key] = [[$users['realname'].'在学校职称是学生,班级职称就不能是老师']];
                 continue;
             }
               $userToGrade = $this->addUserToGrade(
@@ -202,7 +202,7 @@ class UserToSchoolForm extends Model
      */
     public function AddUser($users){
       //$users['email'] = 'web@126.com';
-      //var_dump($users);
+      //var_dump($users);exit;
       $user = User::find()
       ->where(['phone_number'=> $users['phone_number']])
       ->one();
