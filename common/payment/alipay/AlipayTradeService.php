@@ -1,6 +1,7 @@
 <?php
 namespace common\payment\alipay;
 
+use Yii;
 use yii\base\Exception;
 use common\payment\alipay\request\AlipayTradeWapPayRequest;
 use common\payment\alipay\AopClient;
@@ -243,8 +244,8 @@ class AlipayTradeService {
 	function writeLog($text) {
 		// $text=iconv("GBK", "UTF-8//IGNORE", $text);
 		//$text = characet ( $text );
-		// var_dump(dirname ( __FILE__ ).DIRECTORY_SEPARATOR."log.txt", date ( "Y-m-d H:i:s" ) . "  " . $text . "\r\n", FILE_APPEND);exit;
-		file_put_contents ( dirname ( __FILE__ ).DIRECTORY_SEPARATOR."log.txt", date ( "Y-m-d H:i:s" ) . "  " . $text . "\r\n", FILE_APPEND );
+		// var_dump(dirname ( __FILE__ ).DIRECTORY_SEPARATOR."../../../frontend/runtime/payment/call_back.log", date ( "Y-m-d H:i:s" ) . "  " . $text . "\r\n", FILE_APPEND);exit;
+		file_put_contents ( dirname ( __FILE__ ).DIRECTORY_SEPARATOR."../../../frontend/runtime/payment/call_back.log", date ( "Y-m-d H:i:s" ) . "  " . $text . "\r\n", FILE_APPEND );
 	}
 
 	/** *利用google api生成二维码图片
