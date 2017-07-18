@@ -39,37 +39,37 @@ use yii\captcha\Captcha;
         <!-- 姓名 -->
           <div class="col-xs-12 col-md-4">
            <div class="input-group text-two">
-            <span class="applystar"><i class="fa fa-fw fa-star text-red"></i></span>
-            <?php echo $form->field($model, 'username')->textInput(['class' => 'span4']);?>
+            <span class="applystar col-xs-1"><i class="fa fa-fw fa-star text-red"></i></span>
+            <?php echo $form->field($model, 'username')->textInput(['class' => 'span4 col-xs-9']);?>
           </div>
           </div>
           <!-- 性别 -->
           <div class="col-xs-12 col-md-4">
             <div class="input-group text-two">
-              <span class="applystar"><i class="fa fa-fw fa-star text-red"></i></span><?php echo $form->field($model, 'gender')->dropDownList(['1'=>'男','2'=>'女'], ['prompt'=>'请选择','class' => 'span4']);?>
+              <span class="applystar col-xs-1"><i class="fa fa-fw fa-star text-red"></i></span><?php echo $form->field($model, 'gender')->dropDownList(['1'=>'男','2'=>'女'], ['prompt'=>'请选择','class' => 'span4 col-xs-9']);?>
             </div>
           </div>
           <!-- 年龄-->
           <div class="col-xs-12 col-md-4">
             <div class="input-group text-two">
-              <span class="applystar"><i class="fa fa-fw fa-star text-red"></i></span><?php  echo $form->field($model, 'age')->textInput(['class' => 'span4']);?>
+              <span class="applystar col-xs-1"><i class="fa fa-fw fa-star text-red"></i></span><?php  echo $form->field($model, 'age')->textInput(['class' => 'span4 col-xs-9']);?>
             </div>
           </div>
         </div>
         <div class="row btn-line">
           <div class="col-xs-12 col-md-4">
            <div class="input-group text-two">
-            <span class="applystar"><i class="fa fa-fw fa-star text-red"></i></span><?php echo $form->field($model, 'nation')->textInput(['class' => 'span4']);?>
+            <span class="applystar col-xs-1"><i class="fa fa-fw fa-star text-red"></i></span><?php echo $form->field($model, 'nation')->textInput(['class' => 'span4 col-xs-9']);?>
           </div>
           </div>
           <div class="col-xs-12 col-md-4">
             <div class="input-group text-three">
-              <span class="applystar"><i class="fa fa-fw fa-star text-red"></i></span><?php echo $form->field($model, 'guardian')->textInput(['class' => 'span4']);?>
+              <span class="applystar col-xs-1"><i class="fa fa-fw fa-star text-red"></i></span><?php echo $form->field($model, 'guardian')->textInput(['class' => 'span4 col-xs-9']);?>
             </div>
           </div>
           <div class="col-xs-12 col-md-4">
             <div class="input-group text-two">
-              <span class="applystar"><i class="fa fa-fw fa-star text-red"></i></span><?php  echo $form->field($model, 'phone_number')->textInput(['class' => 'span4']);?>
+              <span class="applystar col-xs-1"><i class="fa fa-fw fa-star text-red"></i></span><?php  echo $form->field($model, 'phone_number')->textInput(['class' => 'span4 col-xs-9']);?>
             </div>
           </div>
         </div>
@@ -78,19 +78,19 @@ use yii\captcha\Captcha;
         <div class="row btn-line" >
           <div class="col-xs-12 col-md-4">
            <div class="input-group text-two">
-            <span class="applystar"><i class="fa fa-fw fa-star text-red"></i></span><?php echo $form->field($model, 'email')->textInput(['class' => 'span4']);?>
+            <span class="applystar col-xs-1"><i class="fa fa-fw fa-star text-red"></i></span><?php echo $form->field($model, 'email')->textInput(['class' => 'span4 col-xs-9']);?>
           </div>
           </div>
-          <div class="col-xs-12 col-md-8">
+          <div class="col-xs-12 col-md-4">
             <div class="input-group text-three">
-              <span class="applystar"><i class="fa fa-fw fa-star text-red"></i></span><?php  echo $form->field($model, 'address')->textInput(['class' => 'span8']);?>
+              <span class="applystar col-xs-1"><i class="fa fa-fw fa-star text-red"></i></span><?php  echo $form->field($model, 'address')->textInput(['class' => 'span4 col-xs-9']);?>
             </div>
           </div>
         </div>
-        <div class="row btn-line ">
+        <div class="row btn-line">
           <div class="col-xs-12">
-           <div class="input-group text-three">
-            <span class="applystar"><i class="fa fa-fw fa-star text-red"></i></span><?php  echo $form->field($model, 'body')->textarea(['rows'=>3,'class' => 'span12']);?>
+           <div class="input-group text-four">
+            <span class="applystar" style="padding-left:15px;padding-top:17px;"><i class="fa fa-fw fa-star text-red"></i></span><?php  echo $form->field($model, 'body')->textarea(['rows'=>3,'class' => 'span3']);?>
           </div>
           </div>
         </div>
