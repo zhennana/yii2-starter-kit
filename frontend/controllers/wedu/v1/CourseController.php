@@ -66,7 +66,7 @@ class CourseController extends \common\rest\Controller
 
     /**
      * @SWG\Get(path="/course/index",
-     *     tags={"700-Course-课程课表"},
+     *     tags={"WEDU-Course-课程课表"},
      *     summary="以上过课的课程列表",
      *     description="课程列表",
      *     produces={"application/json"},
@@ -134,7 +134,7 @@ class CourseController extends \common\rest\Controller
 
      /**
      * @SWG\Get(path="/course/details",
-     *     tags={"700-Course-课程课表"},
+     *     tags={"WEDU-Course-课程课表"},
      *     summary="每节课学生课程表现",
      *     description="课程列表",
      *     produces={"application/json"},
@@ -209,7 +209,7 @@ class CourseController extends \common\rest\Controller
 
     /**
      * @SWG\Get(path="/course/my-photos",
-     *     tags={"700-Course-课程课表"},
+     *     tags={"WEDU-Course-课程课表"},
      *     summary="我的照片",
      *     description="我的照片",
      *     produces={"application/json"},
@@ -237,7 +237,7 @@ class CourseController extends \common\rest\Controller
 
     /**
      * @SWG\Get(path="/course/course-sign-in-list",
-     *     tags={"700-Course-课程课表"},
+     *     tags={"WEDU-Course-课程课表"},
      *     summary="(老师)课程签到需要的学生列表",
      *     description="课程签到的所有学生列表",
      *     produces={"application/json"},
@@ -268,7 +268,7 @@ class CourseController extends \common\rest\Controller
     }
     /**
      * @SWG\Post(path="/course/create-sign-in",
-     *     tags={"700-Course-课程课表"},
+     *     tags={"WEDU-Course-课程课表"},
      *     summary="(老师)创建签到",
      *     description="创建签到",
      *     produces={"application/json"},
@@ -341,7 +341,7 @@ class CourseController extends \common\rest\Controller
 
     /**
      * @SWG\Get(path="/course/user-details",
-     *     tags={"700-Course-课程课表"},
+     *     tags={"WEDU-Course-课程课表"},
      *     summary="(老师)学生详情",
      *     description="详情",
      *     produces={"application/json"},
@@ -425,7 +425,7 @@ class CourseController extends \common\rest\Controller
 
     /**
      * @SWG\Get(path="/course/school-to-grades",
-     *     tags={"700-Course-课程课表"},
+     *     tags={"WEDU-Course-课程课表"},
      *     summary="(老师)老师下边的所有班级",
      *     description="老师下边的所有班级",
      *     produces={"application/json"},
@@ -460,7 +460,7 @@ class CourseController extends \common\rest\Controller
 
     /**
      * @SWG\Get(path="/course/users-to-grades",
-     *     tags={"700-Course-课程课表"},
+     *     tags={"WEDU-Course-课程课表"},
      *     summary="(老师)老师下边的所有学生{花名册}",
      *     description="老师下边的所有班级",
      *     produces={"application/json"},
@@ -497,7 +497,7 @@ class CourseController extends \common\rest\Controller
 
     /**
      * @SWG\Get(path="/course/sign-in-record",
-     *     tags={"700-Course-课程课表"},
+     *     tags={"WEDU-Course-课程课表"},
      *     summary="(老师)缺勤记录",
      *     description="缺勤记录表",
      *     produces={"application/json"},

@@ -10,7 +10,7 @@
      *     basePath="/wedu/v1",
      *     @SWG\Info(
      *         version="1.0.0",
-     *         title="前台API接口",
+     *         title="瓦酷APP 接口规范",
      *         description="This is a sample server Petstore server.  You can find out more about Swagger at <a href=""http://swagger.io"">http://swagger.io</a> or on irc.freenode.net, #swagger.  For this sample, you can use the api key ""special-key"" to test the authorization filters",
      *         termsOfService="http://helloreverb.com/terms/",
      *         @SWG\Contact(

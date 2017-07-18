@@ -178,7 +178,7 @@ use yii\helpers\Html;
                     "opacity": 1
                  });
              };
-             if($(window).scrollTop()>1650){
+             if($(window).scrollTop()>1850){
                  $(".campus-top").css({
                     "transform": "translate3d(0, 0, 0)",
                     "-ms-transform": "translate3d(0, 0, 0)",
@@ -197,7 +197,23 @@ use yii\helpers\Html;
                  });
              };
              if($(window).scrollTop()>650){
-                 $(".teacher-img1").css({
+                 $(".teacher-img1:nth-child(1)").css({
+                    "transform": "translate3d(0, 0, 0)",
+                    "-ms-transform": "translate3d(0, 0, 0)",
+                    "-o-transform": "translate3d(0, 0, 0)",
+                    "-webkit-transform": "translate3d(0, 0, 0)",
+                    "-moz-transform": "translate3d(0, 0, 0)",
+                    "opacity": 1
+                 });
+                 $(".teacher-img1:nth-child(2)").css({
+                    "transform": "translate3d(0, 0, 0)",
+                    "-ms-transform": "translate3d(0, 0, 0)",
+                    "-o-transform": "translate3d(0, 0, 0)",
+                    "-webkit-transform": "translate3d(0, 0, 0)",
+                    "-moz-transform": "translate3d(0, 0, 0)",
+                    "opacity": 1
+                 });
+                 $(".teacher-img1:nth-child(3)").css({
                     "transform": "translate3d(0, 0, 0)",
                     "-ms-transform": "translate3d(0, 0, 0)",
                     "-o-transform": "translate3d(0, 0, 0)",
@@ -206,8 +222,24 @@ use yii\helpers\Html;
                     "opacity": 1
                  });
              };
-             if($(window).scrollTop()>1050){
-                 $(".teacher-img2").css({
+             if($(window).scrollTop()>1250){
+                 $(".teacher-img1:nth-child(4)").css({
+                    "transform": "translate3d(0, 0, 0)",
+                    "-ms-transform": "translate3d(0, 0, 0)",
+                    "-o-transform": "translate3d(0, 0, 0)",
+                    "-webkit-transform": "translate3d(0, 0, 0)",
+                    "-moz-transform": "translate3d(0, 0, 0)",
+                    "opacity": 1
+                 });
+                 $(".teacher-img1:nth-child(5)").css({
+                    "transform": "translate3d(0, 0, 0)",
+                    "-ms-transform": "translate3d(0, 0, 0)",
+                    "-o-transform": "translate3d(0, 0, 0)",
+                    "-webkit-transform": "translate3d(0, 0, 0)",
+                    "-moz-transform": "translate3d(0, 0, 0)",
+                    "opacity": 1
+                 });
+                 $(".teacher-img1:nth-child(6)").css({
                     "transform": "translate3d(0, 0, 0)",
                     "-ms-transform": "translate3d(0, 0, 0)",
                     "-o-transform": "translate3d(0, 0, 0)",

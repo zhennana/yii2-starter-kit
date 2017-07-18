@@ -69,7 +69,7 @@ class ShareStreamController extends \common\rest\Controller
 
      /**
      * @SWG\Post(path="/share-stream/create",
-     *     tags={"400-Share-Stream-分享"},
+     *     tags={"WEDU-Share-Stream-分享"},
      *     summary="发布分享",
      *     description="分享",
      *     produces={"application/json"},
@@ -143,7 +143,7 @@ class ShareStreamController extends \common\rest\Controller
 
     /**
      * @SWG\Get(path="/share-stream/index",
-     *     tags={"400-Share-Stream-分享"},
+     *     tags={"WEDU-Share-Stream-分享"},
      *     summary="分享列表展示",
      *     description="分享",
      *     produces={"application/json"},
@@ -206,7 +206,7 @@ class ShareStreamController extends \common\rest\Controller
 
     /**
      * @SWG\Post(path="/share-stream/qiniu-delete",
-     *     tags={"400-Share-Stream-分享"},
+     *     tags={"WEDU-Share-Stream-分享"},
      *     summary="删除图片",
      *     description="删除图片",
      *     produces={"application/json"},

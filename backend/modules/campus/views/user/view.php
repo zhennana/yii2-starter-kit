@@ -14,13 +14,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?php echo Html::a(Yii::t('backend', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?php echo Html::a(Yii::t('backend', 'Delete'), ['delete', 'id' => $model->id], [
+        <?php  
+        /*
+        echo Html::a(Yii::t('backend', 'Delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => Yii::t('backend', 'Are you sure you want to delete this item?'),
                 'method' => 'post',
             ],
-        ]) ?>
+        ])  */ ?>
     </p>
 
     <?php echo DetailView::widget([
@@ -34,6 +36,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'status',
                 'value' => common\models\User::getStatusLabel($model->status),
             ],
+            'realname',
+            'phone_number',
             'created_at:datetime',
             'updated_at:datetime',
             'logged_at:datetime',

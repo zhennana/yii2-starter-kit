@@ -67,13 +67,16 @@ h6{
 /*鼠标滑过下拉框处于活动状态的按钮颜色*/
 .top-nov .dropdown-menu .active :hover{background-color:rgba(47,47,47,0.1);}
 /*导航字体颜色*/
-.top-nov .navbar-default .navbar-nav>li>a{color: white;} 
+.top-nov .navbar-default .navbar-nav>li>a{color: white;text-align: center;}
 
 /*.top-nov .navbar-default .navbar-nav>li>a :hover{background-color:red;color: white;}*/
 /*鼠标滑过处于活动状态的按钮颜色*/
 .navbar-default .navbar-nav > .active > a:hover{
 	background-color:rgba(47,47,47,0.15);
 	color: white;
+}
+.navbar-default .navbar-nav>li{
+	min-width: 100px;
 }
 .navbar-default .navbar-nav>li>a:hover{
 	background-color:rgba(47,47,47,0.15);
@@ -744,27 +747,60 @@ h6{
 .applystar{
 	display: inline;
 	float: left; 
-	margin-right: 5px;
-	margin-top:3px
+	/*margin-right: 5px;*/
+	margin-top:3px;
+	box-sizing: border-box;
 }
 .text-two .control-label{
-	letter-spacing: 10px;
+	/*letter-spacing: 10px;*/
+	height:28px;
+	line-height:28px;
 }
 .text-three .control-label{
 	letter-spacing: 2px;
 }
 .span4{
-	width: 180px;
-	margin-left: 7px;
+	/*width: 180px;*/
+	/*margin-left: 7px;*/
+	height:26px;
+	padding:0 1px;
+	border:1px solid #ddd;
 }
 .span5{
 	width: 200px;
 }
 .span8{
-	width: 476px;
+	/*width: 496px;*/
 }
 .span12{
-	width: 860px;
+	/*width: 901px;*/
+}
+
+/*在线报名*/
+.text-two .control-label,.text-three .control-label{
+	width:25%;
+	text-align:center;
+	float:left;
+}
+.text-four .control-label{
+	display:inline-block;
+	padding:20px 5px;
+	float: left;
+}
+.text-four .span3{
+	float:left;
+	width:93%;
+	border:1px solid #ddd;
+}
+.form-group{
+	float: left;
+	width:87%;
+}
+.field-applytoplay-body{
+	width:96%;
+}
+.input-group{
+	display:block;
 }
 #btnspace,#btnspacetwo,#applyspace2,#applyspace,#applyspace3:hover{
 	color:black; 
@@ -851,9 +887,12 @@ h6{
 }
 .btn:hover{
 	background-color: transparent; 
-	color: #723c8e; transition: 0.4s;
+	color: #723c8e !important; transition: 0.4s;
 }
-
+.btn-submit{
+	background-color: #732c8e;
+	border-color:#732c8e;
+}
 
 .campuse{
 	width:100%;
@@ -1319,6 +1358,7 @@ transform: scale(1.2);
 @media (min-width: 992px) and (max-width:1199px){
 .footer-2-box1 .footer-2-text{display: none;}
 	.techer-content,.campuse-content{padding-right:0;}
+	.container{width:1000px;}
 
 }
 .navbar-default .navbar-brand{margin-left:20px;}
@@ -1457,3 +1497,4 @@ transform: scale(1.2);
 .btn.btncolor{width:113px;outline:none;text-align: justify}
 .input-group-btn{height:34px;}
 .input-group{height:40px;}
+.breadcrumb{width:1000px !important;background:transparent;}
