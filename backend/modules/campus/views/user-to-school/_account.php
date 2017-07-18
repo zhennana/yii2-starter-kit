@@ -20,6 +20,7 @@ use trntv\yii\datetime\DateTimeWidget;
 
     <?php $form = ActiveForm::begin(); ?>
         <?php echo $form->field($model, 'username') ?>
+        <?php echo $form->field($model, 'realname') ?>
         <?php echo $form->field($model, 'email') ?>
         <?php echo $form->field($model, 'phone_number') ?>
         <?php echo $form->field($model, 'password')->passwordInput() ?>
