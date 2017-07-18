@@ -97,6 +97,13 @@ class CourseOrderItemController extends \common\rest\Controller
      *     ),
      *     @SWG\Parameter(
      *        in = "formData",
+     *        name = "introducer_id",
+     *        description = "介绍人ID",
+     *        required = false,
+     *        type = "integer"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
      *        name = "total_course",
      *        description = "课程的总数",
      *        required = false,
@@ -133,7 +140,7 @@ class CourseOrderItemController extends \common\rest\Controller
      *        description = "总价",
      *        required = true,
      *        type = "integer",
-     *        default = 15
+     *        default = 47
      *     ),
      *     @SWG\Parameter(
      *        in = "formData",
@@ -156,7 +163,7 @@ class CourseOrderItemController extends \common\rest\Controller
      *        description = "实际付款",
      *        required = true,
      *        type = "integer",
-     *        default = 15
+     *        default = 37
      *     ),
      *     @SWG\Response(
      *         response = 200,
@@ -167,7 +174,7 @@ class CourseOrderItemController extends \common\rest\Controller
     **/
     public function actionCreate()
     {
-        return [];exit();
+        // return [];exit();
         if(Yii::$app->user->isGuest){
             $this->serializer['errno']   = 422;
             $this->serializer['message'] = '请您先登录';
@@ -219,7 +226,7 @@ class CourseOrderItemController extends \common\rest\Controller
         }
         $data          = [];
         $alipay_config = Yii::$app->params['payment']['gedu']['alipay'];
-
+/*
         if (!file_exists($alipay_config['merchant_private_key']) || !file_exists($alipay_config['alipay_public_key'])) {
             $this->serializer['errno']   = __LINE__;
             $this->serializer['message'] = '秘钥或公钥不存在';
@@ -228,6 +235,9 @@ class CourseOrderItemController extends \common\rest\Controller
 
         $alipay_config['merchant_private_key'] = file_get_contents($alipay_config['merchant_private_key']);
         $alipay_config['alipay_public_key']    = file_get_contents($alipay_config['alipay_public_key']);
+*/
+        $alipay_config['merchant_private_key'] = 'MIIEowIBAAKCAQEAyZkDYyz5ah4AYdpmNXR/CTsVdIgWrEKHr4FKpNseKMaylYtFYgk5gwLqhlciA+RGlZtGi249snqqQab2PcZ4Tiz4/zOr1RUCeTf6W6Ivr5AR2V6EcrKACclaWNoUGGC66rbsODdSfJci9H69qIQW272rH+KvvJ1rOpOa5WLmBvJ9HtExgSaGCZLMJiQHQRvVyVE9uchULQJBFdspCI8DzuqagAcfxyRBfSYJsiS+nFU7UtKLIbCX4rRKlhe+uv9DjrR01b/7eXKzdTX+f5ns9/c+5wFjfxWQgs3dDJ0pF5HUv6XyEtitiFkkYNzsOE77m2A5rE2EtJ0ETXBkMCIZJQIDAQABAoIBAGSmUFqjiaLBd89jCsSFdSdWqE+V4jv+u1+UXYARJe2VxnODJRDdKimOuyh3ODRZNCRdccsLLyJ8u6Qrh6UwAcCGE4rWcWPhKWr717MINmagt0ifN+FL3UEFlmXl+0JwiOHGkgk/FZ++lWUcIfSQfhkXiOhSdQrmTTLhnuQHjHDKnS46YQVxmV6nWBG0lGje++5MtBExj5W22iu6759LA+kD1quu1xwnntlQoh2BUk5AB8PqnrgQoOGI2MZzPS6Spy3fAv+DeyUPw/jk09tKPLl7xvWDJtpHaEW2OM+T+enAHSqJEo8nsy65hXqtbHKHBtgEGe4EILSB/hHJsWhZegECgYEA7rUdbjjf1zG34sOKUW0P2Llb7fG1xeglD95iZpXcXn/0rskcA2e6RynwTUysfNEzSNhNZqn9FWyEzYcvSlSRlYY7g3zL0EtSIDaY4MsM7iW25UXBh2W5murSN5aSDvHNlcgugbnhfPnYB16qtQqN2qpniIN0avUbofyBbGx+upkCgYEA2DOwY4S4G8AwnBOCwP1UrrgDEDRv77rckTZOG7+6QcGRZqX5vEViwZwSGCubr3UdBJlr9cDQO1cwaMi2GkD/+WOuw8rR6QQ7Cxo94H1cHHXsuWKUIvkTVUGeRWZrq2DGUelFo3uvsRHY9Yr/tf1oDMtUr8QXM5ftJZKYEMjvlm0CgYEAtlTbbRS+TbZpWim4Xmfq4cT75i1phgjDPnLEQM2ZbQlZ0aRF5If3rmHnbnPxkMmO3cZyoMeZTCL+8aqfwawFI+xLSy0o1SqjSX3KmnIep01hfZEhuRVHh4B0IAe/+vBR82XbuDVOelKw4zg5Nl4ganUc7hZS91vPxpSEG1hoGIkCgYAGvV3DTHDc1JnvU6Bg2cTZCX129NuEcqPLlxDKRqjMwfcBZy0o1FTmyjG6NSnOR21XJl06NP+IyggFTDR5Dwurv5LEIb93bx1UFEZXiDDl5jsx8EPD71XN85S2fyHeHs8v4IC+Pu3ULEVCKkocZ0DmHTSPoiJDBnprEG3TICBv5QKBgHn3ExoTO/1E4bGt8nZ0pxA05amHM368wxjcYL3zIB4Q/nO5uTyfLT3Im31fhJWr/TkQAIdUvA/G5/0UK+SUgBX+ngCaI0bDm59199H58NJN1Pm94xvsktogYBSpz6TxBp0bqF/IWcbJmW59I/HlZFusNmN79c+nG83Yq1ZRKrMl';
+        $alipay_config['alipay_public_key'] = 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDDI6d306Q8fIfCOaTXyiUeJHkrIvYISRcc73s3vF1ZT7XN8RNPwJxo8pWaJMmvyTn9N4HQ632qJBVHf8sxHi/fEsraprwCtzvzQETrNRwVxLO5jVmRGi60j8Ue1efIlzPXV9je9mkjzOmdssymZkh2QhUrCmZYI/FCEa3/cNMW0QIDAQAB';
 
         $modelClass    = $this->modelClass;
         $order         = $modelClass::findOne(Yii::$app->request->post('course_order_item_id'));
@@ -237,18 +247,28 @@ class CourseOrderItemController extends \common\rest\Controller
             return [];
         }
 
-        $body              = '《如来神掌(精装)》全集(共15节课程)，限时特价0.01元';
-        $subject           = '《如来神掌(精装)》全集(共15节课程)';
-        $out_trade_no      = $order->builderNumber();
-        $total_amount      = 0.01;
-        $timeout_express   = '1m';
+        $validate = $order->validateOrderParams($order->attributes);
+        if (isset($validate['errno']) && $validate['errno'] != 0) {
+            $this->serializer['errno']   = $validate['errno'];
+            $this->serializer['message'] = $validate['message'];
+            return [];
+        }
+
+        $body            = '《如来神掌(精装)》全集(共15节课程)，限时特价0.01元';
+        $subject         = '《如来神掌(精装)》全集(共15节课程)';
+        $out_trade_no    = $order->order_sn;
+        $total_amount    = $order->real_price;
+        $timeout_express = '1m';
+        // $seller_id       = '';   // 支付宝账号对应的支付宝唯一用户号
+
         $payRequestBuilder = new AlipayTradeWapPayContentBuilder;
         $payRequestBuilder->setBody($body);
         $payRequestBuilder->setSubject($subject);
         $payRequestBuilder->setOutTradeNo($out_trade_no);
         $payRequestBuilder->setTotalAmount($total_amount);
         $payRequestBuilder->setTimeExpress($timeout_express);
-// var_dump($alipay_config);exit;
+        // $payRequestBuilder->setSellerId($seller_id);
+
         $payResponse = new AlipayTradeService($alipay_config);
         $result = $payResponse->wapPay($payRequestBuilder,$alipay_config['return_url'],$alipay_config['notify_url']);
         $data = ['wappay' => $result];
