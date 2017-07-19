@@ -3,7 +3,7 @@
 /*global FileProgress */
 /*global hljs */
 
-
+var image_path = $('#widgetcarouselitem-path').val();
 $(function() {
     
     var uploader = Qiniu.uploader({
@@ -18,7 +18,7 @@ $(function() {
         uptoken_url: uptoken_url,    //Ajax请求upToken的Url，**强烈建议设置**（服务端提供）
         domain: qiniu_domain,        //bucket 域名，下载资源时用到，**必需**
         // downtoken_url: '/downtoken',
-        unique_names: true,
+        unique_names: false,
         save_key: false,
         // x_vars: {
         //     'id': '1234',
@@ -86,18 +86,30 @@ $(function() {
                var ispublic = $('#status').val();
                var article_id = $('#article_id').val(); 
                var domain = up.getOption('domain');
-               var form = $('form');//hidden
+               var form = $('#w0');//hidden
+               //console.log(form);
+// console.log('widgetcarouselitem',form);
+//o_1blckm2333j9a9nc8k10vf1icd9.jpg
+//http://static.v1.wakooedu.com/o_1blcnbhkjipg1ccg18ot1qpt1rvo9.jpg
+               if(image_path != ""){
+                //console.log('12123',image_path);
+                    var string = $("<div><input id='widgetcarouselitem-delete-path' type ='hidden' name ='WidgetCarouselItem[path2]' value = " + image_path
+                     +"></input></div>");
+                    form.append(string);
+               }
                $('#widgetcarouselitem-path').val(res.key);
                $('#widgetcarouselitem-base_url').val(domain);
                $('#widgetcarouselitem-url').val('/');
-               //console.log(domain);
-
+               if(image_path != ""){
+                    $("#url").hide();
+               }
                 /*var string = $("<div class='form-group field-widgetcarouselitem-path'><input id='widgetcarouselitem-path' type ='type' name ='WidgetCarouselItem[path]' value = " + res.key
                      +"></input></div>");
-                 form.append(string); */
+                 form.append(string);
+                 */
                 $('#pickfiles').hide();
 
-//console.log(article_id);  
+//console.log(article_id);
 //console.log(domain,ispublic);
                //$.post(upload_url,{article_id:article_id,hash:res.hash,type:res.type,size:res.size,file_name:res.name,url:res.key,ispublic:ispublic});
             },
@@ -117,7 +129,7 @@ $(function() {
                  res += chars[id];
                 }
                 return res;
-            },   
+            },
             //'Key': function(up, file) {
             //     return this.generateMixed();
             //}
