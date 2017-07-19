@@ -77,13 +77,12 @@ if(is_string($schoolOrGrade) && $schoolOrGrade == 'all'){
         if (\Yii::$app->user->can('P_director', ['route' => true]) || \Yii::$app->user->can('E_manager') || Yii::$app->user->can('manager')) {
     ?>
         <div class="pull-left">
-          
             <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建班级老师'), ['create','grade_user_type'=>UserToGrade::GRADE_USER_TYPE_TEACHER], ['class' => 'btn btn-success']) ?>
-            <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建 班级学员'), ['create','grade_user_type'=>UserToGrade::GRADE_USER_TYPE_STUDENT], 
+            <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建班级学员'), ['create','grade_user_type'=>UserToGrade::GRADE_USER_TYPE_STUDENT], 
                 ['class' => 'btn btn-success']) ?>
-            <?= Html::a(Yii::t('backend', '查看老师所在的班级'), ['index','UserToGradeSearch[grade_user_type]'=>UserToGrade::GRADE_USER_TYPE_TEACHER], 
+            <?= Html::a(Yii::t('backend', '查看老师'), ['index','UserToGradeSearch[grade_user_type]'=>UserToGrade::GRADE_USER_TYPE_TEACHER], 
                 ['class' => 'btn btn-success']) ?>
-            <?= Html::a(Yii::t('backend', ' 查看学生所在的班级'), ['index','UserToGradeSearch[grade_user_type]'=>UserToGrade::GRADE_USER_TYPE_STUDENT], 
+            <?= Html::a(Yii::t('backend', ' 查看学生'), ['index','UserToGradeSearch[grade_user_type]'=>UserToGrade::GRADE_USER_TYPE_STUDENT], 
                 ['class' => 'btn btn-success']) ?>
         </div>
     <?php } ?>

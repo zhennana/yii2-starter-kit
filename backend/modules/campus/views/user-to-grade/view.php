@@ -13,8 +13,8 @@ use dmstr\bootstrap\Tabs;
 */
 $copyParams = $model->attributes;
 
-$this->title = Yii::t('backend', '学员管理');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '学员管理'), 'url' => ['index']];
+$this->title = Yii::t('backend', '班级人员管理');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '班级人员管理'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => (string)$model->user_to_grade_id, 'url' => ['view', 'user_to_grade_id' => $model->user_to_grade_id]];
 $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
 ?>
@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
     <?php endif; ?>
 
     <h1>
-        <?= Yii::t('backend', '学员管理') ?>
+        <?= Yii::t('backend', '班级人员管理') ?>
         <small>
             <?= $model->user_to_grade_id ?>
         </small>
