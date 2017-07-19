@@ -206,14 +206,14 @@ class ConfigController extends \common\rest\Controller
                 'client_version' => $client_version,
 
                 // 安卓客户端最新版本，发版后手动更新为最新版本
-                'uptodate_version' => '1.0.3',
+                'uptodate_version' => '1.0.1',
 
                 // 字段初始化，不需配置，走更新逻辑
                 'show_status'     => '0',   // 更新提示
                 'forced_updating' => '0',   // 强制更新
 
                 // 安卓更新描述，发版后手动更新
-                'description' => "更新描述：\r\n重构新版本更新\r\n修复已知bug\r\n",
+                'description' => "\r\n修复已知bug\r\n",
 
                 // 安卓特有，CRM数据库字段支持
                 // 'version_code' => '', 
@@ -226,7 +226,8 @@ class ConfigController extends \common\rest\Controller
 
                 // 安卓客户端维护范围，在此范围内的版本不会强制更新
                 'range_client_version' => [
-                    '1.0.3',
+                    '1.0.0',
+                    '1.0.1',
                 ],
 
                 // 安卓服务端版本号
