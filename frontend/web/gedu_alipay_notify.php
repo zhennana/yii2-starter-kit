@@ -114,8 +114,8 @@ if($result) {//验证成功
         $order = CourseOrderItem::find()->where(['order_sn' => $out_trade_no])->one();
 
         // 验证订单号
-        if ($order->order_sn != $trade_no) {
-            $alipaySevice->writeLog('[from notify page] [Order Sn Not Match]: config:'.var_export($order->order_sn,true).'|| alipay:'.var_export($trade_no,true));
+        if ($order->order_sn != $out_trade_no) {
+            $alipaySevice->writeLog('[from notify page] [Order Sn Not Match]: config:'.var_export($order->order_sn,true).'|| alipay:'.var_export($out_trade_no,true));
             exit();
         }
 
