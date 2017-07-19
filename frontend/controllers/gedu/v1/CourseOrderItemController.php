@@ -264,7 +264,7 @@ class CourseOrderItemController extends \common\rest\Controller
             return [];
         }
 
-        $courseware = Courseware::findOne($this->courseware_id);
+        $courseware = Courseware::findOne($order->courseware_id);
         if ($courseware) {
             $body    = '【光大】'.$courseware->title.'(共'.$courseware->isMasterCourseware().'节课程)';
             $subject = '【光大】'.$courseware->title;
