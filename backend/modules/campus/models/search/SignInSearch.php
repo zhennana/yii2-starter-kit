@@ -22,8 +22,8 @@ class SignInSearch extends SignInModel
       public function rules()
       {
             return [
-            [['signin_id', 'school_id', 'grade_id', 'course_id', 'student_id', 'teacher_id', 'auditor_id', 'status', 'updated_at', 'created_at'], 'integer'],
-            [['school_title', 'grade_name', 'course_title'], 'safe'],
+            [['signin_id', 'school_id', 'grade_id', 'course_id', 'student_id', 'teacher_id', 'auditor_id', 'status', 'updated_at', 'created_at','type_status'], 'integer'],
+            [['school_title', 'grade_name', 'course_title','describe'], 'safe'],
             ];
       }
 

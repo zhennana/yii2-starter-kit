@@ -165,6 +165,13 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                 ],
                 [
                     'class'     => \common\grid\EnumColumn::className(),
+                    'attribute' => 'type_status',
+                    'label'     => '签到状态',
+                    'enum'      => SignIn::optsTypeStatus(),
+                ],
+                'describe',
+                [
+                    'class'     => \common\grid\EnumColumn::className(),
                     'attribute' => 'status',
                     'enum'      => SignIn::optsSignInStatus(),
                     'filter'    => SignIn::optsSignInStatus(),
