@@ -270,6 +270,9 @@ class CourseOrderItemController extends \common\rest\Controller
             $subject = '【光大】'.$courseware->title;
         }
 
+        // 拼接同步跳转URL的参数
+        $alipay_config['return_url'] = $alipay_config['return_url'].$courseware->courseware_id;
+
         $out_trade_no    = $order->order_sn;
         $total_amount    = $order->real_price;
         $timeout_express = '1m';
