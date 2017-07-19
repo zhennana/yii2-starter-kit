@@ -218,7 +218,7 @@ class CourseOrderItemController extends \common\rest\Controller
      *        in = "formData",
      *        name = "course_order_item_id",
      *        description = "课程订单_id",
-     *        required = false,
+     *        required = true,
      *        default = 1,
      *        type = "integer"
      *     ),
@@ -230,65 +230,37 @@ class CourseOrderItemController extends \common\rest\Controller
      */
     public function actionAlipay()
     {
-        if (!isset($_POST) || empty($_POST)) {
+        if (!isset($_POST['course_order_item_id']) || empty($_POST['course_order_item_id'])) {
             $this->serializer['errno']   = __LINE__;
-            $this->serializer['message'] = '调试错误，请回到请求来源地，重新发起请求。';
-            return [];
-        }
-        $data          = [];
-        $alipay_config = Yii::$app->params['payment']['gedu']['alipay'];
-        $body          = '【光大】精品课程';
-        $subject       = '【光大】精品课程';
-
-        if (!file_exists($alipay_config['merchant_private_key']) || !file_exists($alipay_config['alipay_public_key'])) {
-            $this->serializer['errno']   = __LINE__;
-            $this->serializer['message'] = '秘钥或公钥不存在';
+            $this->serializer['message'] = 'Order ID Can Not Be Null!';
             return [];
         }
 
-        $alipay_config['merchant_private_key'] = file_get_contents($alipay_config['merchant_private_key']);
-        $alipay_config['alipay_public_key']    = file_get_contents($alipay_config['alipay_public_key']);
+        $modelClass = $this->modelClass;
+        $model      = $modelClass::findOne($_POST['course_order_item_id']);
 
-        $modelClass    = $this->modelClass;
-        $order         = $modelClass::findOne(Yii::$app->request->post('course_order_item_id'));
-        if (!$order) {
+        if (!$model) {
             $this->serializer['errno']   = __LINE__;
-            $this->serializer['message'] = '该订单不存在';
+            $this->serializer['message'] = 'A Order With ID '.$_POST['course_order_item_id'].' Does Not Exist!';
             return [];
         }
 
-        $validate = $order->validateOrderParams($order->attributes);
+        // 验证订单数据
+        $validate = $model->validateOrderParams($model->attributes);
         if (isset($validate['errno']) && $validate['errno'] != 0) {
             $this->serializer['errno']   = $validate['errno'];
             $this->serializer['message'] = $validate['message'];
             return [];
         }
 
-        $courseware = Courseware::findOne($order->courseware_id);
-        if ($courseware) {
-            $body    = '【光大】'.$courseware->title.'(共'.$courseware->isMasterCourseware().'节课程)';
-            $subject = '【光大】'.$courseware->title;
+        // 调用支付宝支付方法
+        $from = $model->wapAlipay();
+        if (isset($from['errno']) && $from['errno'] != 0) {
+            $this->serializer['errno']   = $from['errno'];
+            $this->serializer['message'] = $from['message'];
+            return [];
         }
-
-        // 拼接同步跳转URL的参数
-        $alipay_config['return_url'] = $alipay_config['return_url'].$courseware->courseware_id;
-
-        $out_trade_no    = $order->order_sn;
-        $total_amount    = $order->real_price;
-        $timeout_express = '1m';
-        // $seller_id       = '';   // 支付宝账号对应的支付宝唯一用户号
-
-        $payRequestBuilder = new AlipayTradeWapPayContentBuilder;
-        $payRequestBuilder->setBody($body);
-        $payRequestBuilder->setSubject($subject);
-        $payRequestBuilder->setOutTradeNo($out_trade_no);
-        $payRequestBuilder->setTotalAmount($total_amount);
-        $payRequestBuilder->setTimeExpress($timeout_express);
-        // $payRequestBuilder->setSellerId($seller_id);
-
-        $payResponse = new AlipayTradeService($alipay_config);
-        $result = $payResponse->wapPay($payRequestBuilder,$alipay_config['return_url'],$alipay_config['notify_url']);
-        $data = ['wappay' => $result];
-        return $data;
+        $from = ['wappay' => $from];
+        return $from;
     }
 }
