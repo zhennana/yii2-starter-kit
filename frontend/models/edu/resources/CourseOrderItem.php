@@ -102,22 +102,20 @@ public function behaviors()
         // 验证订单总价和总课程数，待完善
         if (isset($params['total_price']) && !empty($params['total_price'])) {
             $courseware = Courseware::findOne($params['courseware_id']);
-            if ($courseware) {
+            if ($courseware && $courseware->isMasterCourseware()) {
                 if ($courseware->present_price === null) {
                     $info['errno']   = __LINE__;
                     $info['message'] = 'Course Price Data Exception! Please Contact Administrator.';
                     return $info; 
                 }
 
-                if ($courseware->isMasterCourseware()) {
-                    // 未验证会员价等
-                    $params['total_price'] = $courseware->present_price;
-                    $params['total_course'] = $courseware->isMasterCourseware();
-                }else{
-                    $info['errno']   = __LINE__;
-                    $info['message'] = 'A (master)Courseware With ID '.$params['courseware_id'].' Does Not Exist!';
-                    return $info; 
-                }
+                // 未验证会员价等
+                $params['total_price']  = $courseware->present_price;
+                $params['total_course'] = $courseware->isMasterCourseware();
+            }else{
+                $info['errno']   = __LINE__;
+                $info['message'] = 'A (master)Courseware With ID '.$params['courseware_id'].' Does Not Exist!';
+                return $info; 
             }
         }else{
             $info['errno']   = __LINE__;
