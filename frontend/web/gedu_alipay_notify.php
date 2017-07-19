@@ -69,24 +69,24 @@ if($result) {//验证成功
         $total_amount = $_POST['total_amount'];     // 支付宝订单金额
         $trade_status = $_POST['trade_status'];     // 交易状态
 
-        if ($alipay_config['app_id'] != $app_id) {
-            fileWrite("[".date("Y-m-d H:i:s")."] Error: APP ID is not match! [app_id:".$alipay_config['app_id']."|| Received app_id:".$app_id."]");
-            exit();
-        }
+        // if ($alipay_config['app_id'] != $app_id) {
+        //     fileWrite("[".date("Y-m-d H:i:s")."] Error: APP ID is not match! [app_id:".$alipay_config['app_id']."|| Received app_id:".$app_id."]");
+        //     exit();
+        // }
 
         $order = CourseOrderItem::find()->where(['order_sn'=>$out_trade_no])->one();
 
         // 验证订单号
-        if ($order->order_sn != $trade_no) {
-            fileWrite("[".date("Y-m-d H:i:s")."] Error: Order Sn is not match! [order_sn:".$order->order_sn."|| trade_no:".$trade_no."]");
-            exit();
-        }
+        // if ($order->order_sn != $trade_no) {
+        //     fileWrite("[".date("Y-m-d H:i:s")."] Error: Order Sn is not match! [order_sn:".$order->order_sn."|| trade_no:".$trade_no."]");
+        //     exit();
+        // }
 
         // 验证订单金额
-        if ($order->real_price != $total_amount) {
-            fileWrite("[".date("Y-m-d H:i:s")."] Error: Price is not match! [real_price:".$order->real_price."|| total_amount:".$total_amount."]");
-            exit();
-        }
+        // if ($order->real_price != $total_amount) {
+        //     fileWrite("[".date("Y-m-d H:i:s")."] Error: Price is not match! [real_price:".$order->real_price."|| total_amount:".$total_amount."]");
+        //     exit();
+        // }
 
         $order->payment_id     = $trade_no;
         $order->payment_status = CourseOrderItem::PAYMENT_STATUS_PAID;
