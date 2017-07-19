@@ -11,6 +11,11 @@ use kartik\mpdf\Pdf;
 $CoursewareToFileSearch = new \backend\modules\campus\models\search\CoursewareToFileSearch;
 $CoursewareToFileDataProvider = $CoursewareToFileSearch->search($_GET);
 $CoursewareToFileDataProvider->query->andwhere(['courseware_id'=>$model->courseware_id]);
+if(!Yii::$app->user->can('manager') || !Yii::$app->user->can('E_manager')){
+    $CoursewareToFileDataProvider->query
+        ->andwhere(['status'=>\backend\modules\campus\models\CoursewareToFile::COURSEWARE_STATUS_OPEN]);
+
+}
 $CoursewareToFileDataProvider->query->orderby(['sort'=>SORT_DESC]);
 
 $CoursewareToCoursewareSearch  = new \backend\modules\campus\models\search\CoursewareToCoursewareSearch;
