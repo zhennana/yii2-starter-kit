@@ -58,7 +58,7 @@ $result = $alipaySevice->check($arr);
 3、校验通知中的seller_id（或者seller_email) 是否为out_trade_no这笔单据的对应的操作方（有的时候，一个商户可能有多个seller_id/seller_email）
 4、验证app_id是否为该商户本身。
 */
-fileWrite(date("Y-m-d H:i:s").'-----------'.$result);
+fileWrite(var_export($_POST,true).'-----------'.$result);
 if($result) {//验证成功
 
     if($_POST['trade_status'] == 'TRADE_SUCCESS' || $_POST['trade_status'] == 'TRADE_FINISHED') {
@@ -92,7 +92,7 @@ if($result) {//验证成功
         $order->payment_status = CourseOrderItem::PAYMENT_STATUS_PAID;
         $order->payment        = CourseOrderItem::PAYMENT_ALIPAY;
         if (!$order->save()) {
-            fileWrite("[".date("Y-m-d H:i:s")."] Error: Order Update Fail : ".json_encode($order->Errors())." || Notify Params : ".json_encode($_POST)."\r\n");
+            fileWrite(json_encode($order->Errors()).json_encode($_POST)."\r\n");
             exit();
         }
 
@@ -115,15 +115,19 @@ if($result) {//验证成功
 }
 
 function fileWrite($data, $filename=''){
-    $filename = '../runtime/payment/call_back.log';
-    if(!is_file($filename)){
-        return false;
-    }
-    $fh = fopen($filename, "a");
-    $fr = fwrite($fh, $data."\r\n");
-    fclose($fh);
+    file_put_contents ( dirname ( __FILE__ ).DIRECTORY_SEPARATOR."../runtime/payment/call_back.log", date ( "Y-m-d H:i:s" ) . "  " . $data . "\r\n", FILE_APPEND );
 
-    return $fr;
+
+
+    // $filename = '';
+    // if(!is_file($filename)){
+    //     return false;
+    // }
+    // $fh = fopen($filename, "a");
+    // $fr = fwrite($fh, $data."\r\n");
+    // fclose($fh);
+
+    // return $fr;
 }
 ?>
 
