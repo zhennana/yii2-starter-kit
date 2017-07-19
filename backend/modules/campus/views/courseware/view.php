@@ -11,10 +11,11 @@ use kartik\mpdf\Pdf;
 $CoursewareToFileSearch = new \backend\modules\campus\models\search\CoursewareToFileSearch;
 $CoursewareToFileDataProvider = $CoursewareToFileSearch->search($_GET);
 $CoursewareToFileDataProvider->query->andwhere(['courseware_id'=>$model->courseware_id]);
-if(!Yii::$app->user->can('manager') || !Yii::$app->user->can('E_manager')){
+if(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager')){
+
+}else{
     $CoursewareToFileDataProvider->query
         ->andwhere(['status'=>\backend\modules\campus\models\CoursewareToFile::COURSEWARE_STATUS_OPEN]);
-
 }
 $CoursewareToFileDataProvider->query->orderby(['sort'=>SORT_DESC]);
 
@@ -206,8 +207,9 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '课件详情');
                         'value' => function($model, $key, $index, $grid){
                             //'http://static.v1.wakooedu.com/o_1bil7rau811nngqouui1b6gqr69.mp4';
                               $url = $model->fileStorageItem->url.$model->fileStorageItem->file_name;
+                              $message  = '点击查看';
                             if(strstr($model->fileStorageItem->type,'image')){
-                                return Html::a('<img width="50px" height="50px" class="img-thumbnail" src="'.$url.'?imageView2/1/w/50/h/50" />',['picture','files'=>$model->fileStorageItem->file_name], ['title' => '访问','target' => '_blank']);
+                                return '<br>'.Html::a($message.'<img width="50px" height="50px" class="img-thumbnail" src="'.$url.'?imageView2/1/w/50/h/50" />',['picture','files'=>$model->fileStorageItem->file_name], ['title' => '访问','target' => '_blank']);
                             }elseif(strstr($model->fileStorageItem->type,'pdf')){
                                 //return 
                                 // "<a href='/repositories/yii2-starter-kit/common/widgets/pdfi-view/web/viewer.html?file=http://static.v1.wakooedu.com/o_1behs9jf11fms1ge81mpsnm2v4t9.pdf'>云梯</a>";
@@ -215,9 +217,9 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '课件详情');
                                 //     'title'=>'访问',
                                 //     'target'=>'_blank'
                                 //     ]);
-                                 return Html::a($model->fileStorageItem->file_name, ['courseware/pdf','file'=>$model->fileStorageItem->file_name], ['title' => '访问','target' => '_blank']);
+                                 return Html::a($message.'<br>'.$model->fileStorageItem->file_name, ['courseware/pdf','file'=>$model->fileStorageItem->file_name], ['title' => '访问','target' => '_blank']);
                             }elseif(strstr($model->fileStorageItem->type,'mp4')){
-                                return Html::a($model->fileStorageItem->file_name, ['courseware/video','files'=>$model->fileStorageItem->file_name] ,[
+                                return Html::a($message.'<br>'.$model->fileStorageItem->file_name, ['courseware/video','files'=>$model->fileStorageItem->file_name] ,[
                                     'title'=>'访问',
                                     'target'=>'_blank'
                                     ]);

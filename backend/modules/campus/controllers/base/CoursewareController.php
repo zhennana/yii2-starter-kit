@@ -65,16 +65,22 @@ public function actionIndex()
 {
     $searchModel  = new CoursewareSearch;
     $dataProvider = $searchModel->search($_GET);
+    //var_dump(!Yii::$app->user->can('manager'));exit;
+    if((Yii::$app->user->can('manager')) || (Yii::$app->user->can('E_manager')) ){
+    }else{
+        $dataProvider->query->andWhere([
+                'status'=>Courseware::COURSEWARE_STATUS_VALID
+        ]);
+    }
+    Tabs::clearLocalStorage();
 
-Tabs::clearLocalStorage();
+    Url::remember();
+    \Yii::$app->session['__crudReturnUrl'] = null;
 
-Url::remember();
-\Yii::$app->session['__crudReturnUrl'] = null;
-
-return $this->render('index', [
-'dataProvider' => $dataProvider,
-    'searchModel' => $searchModel,
-]);
+    return $this->render('index', [
+    'dataProvider' => $dataProvider,
+        'searchModel' => $searchModel,
+    ]);
 }
 
 /**
