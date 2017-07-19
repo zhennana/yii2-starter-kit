@@ -58,6 +58,7 @@ $result = $alipaySevice->check($arr);
 3、校验通知中的seller_id（或者seller_email) 是否为out_trade_no这笔单据的对应的操作方（有的时候，一个商户可能有多个seller_id/seller_email）
 4、验证app_id是否为该商户本身。
 */
+fileWrite(date("Y-m-d H:i:s").'-----------'.$result);
 if($result) {//验证成功
 
     if($_POST['trade_status'] == 'TRADE_SUCCESS' || $_POST['trade_status'] == 'TRADE_FINISHED') {
