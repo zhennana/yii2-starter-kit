@@ -10,7 +10,7 @@ use yii\behaviors\TimestampBehavior;
 //use \backend\modules\campus\models\Courseware;
 //use \backend\modules\campus\models\CoursewareCategory;
 //use \backend\modules\campus\models\CoursewareToFile;
-//use \backend\modules\campus\models\CoursewareToCourseware;
+use \backend\modules\campus\models\CoursewareToCourseware;
 
 /**
  * This is the base-model class for table "courseware".
@@ -149,6 +149,16 @@ abstract class Courseware extends \yii\db\ActiveRecord
     public function getCoursewareToCourseware(){
         return $this->hasMany(\backend\modules\campus\models\CoursewareToCourseware::className(),
             ['courseware_master_id'=>'courseware_id']);
+    }
+
+    public function isMasterCourseware()
+    {
+        $master_count = CoursewareToCourseware::find()->where([
+            'status' => CoursewareToCourseware::COURSEWARE_STATUS_OPEN,
+            'courseware_master_id' => $this->courseware_id,
+        ])->count();
+        
+        return $master_count;
     }
    
     /**
