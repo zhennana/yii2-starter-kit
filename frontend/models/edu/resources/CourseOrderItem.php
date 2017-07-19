@@ -38,6 +38,11 @@ public function behaviors()
         );
     }
 
+    public function getCourseware(){
+        return $this->hasOne(Courseware::className(),['courseware_id'=>'courseware_id']);
+    }
+
+
     /**
      * [processCourseOrder 处理订单]
      * @param  [type] $params [description]
@@ -225,29 +230,31 @@ public function behaviors()
         $body          = '【光大】精品课程';
         $subject       = '【光大】精品课程';
 
+        // 检测密钥公钥
         if (!file_exists($alipay_config['merchant_private_key']) || !file_exists($alipay_config['alipay_public_key'])) {
             $result['errno']    = __LINE__;
-            $result['message'] = 'The Private Key Or Is Not Exist!';
+            $result['message'] = 'The Private Key Is Not Exist!';
             return $result;
         }
 
         $alipay_config['merchant_private_key'] = file_get_contents($alipay_config['merchant_private_key']);
         $alipay_config['alipay_public_key']    = file_get_contents($alipay_config['alipay_public_key']);
 
-        $courseware = Courseware::findOne($this->courseware_id);
-        if ($courseware) {
-            $body    = '【光大】'.$courseware->title.'(共'.$courseware->isMasterCourseware().'节课程)';
-            $subject = '【光大】'.$courseware->title;
-        }
 
         // 拼接同步跳转URL的参数
-        $alipay_config['return_url'] = $alipay_config['return_url'].$courseware->courseware_id;
+        $alipay_config['return_url'] = $alipay_config['return_url'].$this->courseware_id;
 
+        // 组装业务参数
+        if ($this->courseware) {
+            $body    = '【光大】'.$this->courseware->title.'(共'.$this->courseware->isMasterCourseware().'节课程)';
+            $subject = '【光大】'.$this->courseware->title;
+        }
         $out_trade_no    = $this->order_sn;
         $total_amount    = $this->real_price;
         $timeout_express = '1m';
         // $seller_id       = '';   // 支付宝账号对应的支付宝唯一用户号
 
+        // 构建请求对象
         $payRequestBuilder = new AlipayTradeWapPayContentBuilder;
         $payRequestBuilder->setBody($body);
         $payRequestBuilder->setSubject($subject);
@@ -256,6 +263,7 @@ public function behaviors()
         $payRequestBuilder->setTimeExpress($timeout_express);
         // $payRequestBuilder->setSellerId($seller_id);
 
+        // 调用支付宝sdk
         $payResponse = new AlipayTradeService($alipay_config);
         $result = $payResponse->wapPay($payRequestBuilder,$alipay_config['return_url'],$alipay_config['notify_url']);
         return $result;
