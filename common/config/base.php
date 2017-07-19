@@ -233,10 +233,11 @@ $config = [
         'user_avatar'=>'http://static.v1.wakooedu.com/o_1bf6nmv571qb6rva18c1c4r1kjq9.png',
         'qiniu'=>[
             'wakooedu'=>[
-                'access_key'=>env('QINIU_ACCESS_KEY'),
-                'secret_key'=>env('QINIU_SECRET_KEY'),
-                'domain' => env('QINIU_DOMAIN'),
-                'bucket' => env('QINIU_BUCKET')
+                'access_key'    =>env('QINIU_ACCESS_KEY'),
+                'secret_key'    =>env('QINIU_SECRET_KEY'),
+                'domain'        => env('QINIU_DOMAIN'),
+                'bucket'        => env('QINIU_BUCKET'),
+                'zone_url'      => env('QINIU_ZONEURL')
             ]
         ],
         //裁剪图片大小参数
@@ -334,5 +335,4 @@ if (YII_ENV_DEV) {
         'port' => env('SMTP_PORT'),
     ];
 }
-
 return $config;
