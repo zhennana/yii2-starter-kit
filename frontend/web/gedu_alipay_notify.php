@@ -50,7 +50,7 @@ if (!isset($arr) || empty($arr)) {
     return ;
 }
 $alipaySevice = new AlipayTradeService($alipay_config); 
-$alipaySevice->writeLog(var_export($_POST,true));
+$alipaySevice->writeLog('1111111'.var_export($_POST,true));
 $result = $alipaySevice->check($arr);
 $alipaySevice->writeLog($result);
 /* 实际验证过程建议商户添加以下校验。
