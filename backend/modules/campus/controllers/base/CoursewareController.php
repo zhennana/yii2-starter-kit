@@ -148,9 +148,21 @@ public function actionCreate()
 public function actionUpdate($courseware_id)
 {
     $model = $this->findModel($courseware_id);
-
-    if ($model->load($_POST) && $model->save()) {
-    return $this->redirect(Url::previous());
+    if($model->body){
+        $data = json_decode($model->body,true);
+        $model->process = isset($data['process']) ? $data['process'] : '';
+        $model->target = isset($data['target']) ? $data['target']: '';
+    }
+    if ($model->load($_POST)) {
+        if(!empty($model->target) && !empty($model->process)){
+            $body = ArrayHelper::merge(['target'=>$model->target],['process'=>$model->process]);
+            //var_dump($body);exit;
+            $model->body = json_encode($body,JSON_UNESCAPED_UNICODE);
+            if($model->save()){
+                //return $this->redirect(['view', 'courseware_id' => $model->courseware_id]);
+                return $this->redirect(Url::previous());
+            }
+        }
     } else {
     return $this->render('update', [
     'model' => $model,
