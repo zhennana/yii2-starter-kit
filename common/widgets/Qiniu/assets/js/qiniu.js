@@ -5,7 +5,7 @@
 
 
 if(zone_url == "undefined"){
-    var zone_url = "http://up-z0.qiniu.com";
+    var zone_url = "http://up-z1.qiniu.com";
 }else{
 
 }
