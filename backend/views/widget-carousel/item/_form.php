@@ -8,6 +8,7 @@ $carousel_id = isset($carousel->id) ? $carousel->id : $model->carousel_id ;
 /* @var $this yii\web\View */
 /* @var $model common\models\WidgetCarouselItem */
 /* @var $form yii\bootstrap\ActiveForm */
+
 ?>
 
 <div class="widget-carousel-item-form">
@@ -16,15 +17,22 @@ $carousel_id = isset($carousel->id) ? $carousel->id : $model->carousel_id ;
 
     <?php echo $form->errorSummary($model) ?>
    <?php
-        if($model->isNewRecord){
-             echo  \common\widgets\Qiniu\UploadCarousel::widget([
+
+         echo  \common\widgets\Qiniu\UploadCarousel::widget([
                 'uptoken_url' => yii\helpers\Url::to(['token-cloud']),
                 //'upload_url'  => yii\helpers\Url::to(['upload-cloud']),
-            ]);
-         }else{
-            echo $model->path ? Html::img($model->getImageUrl(), ['style'=>'width: 100%']) : null;
-         }
+        ]);
+        // if($model->isNewRecord){
+            
+        //  }else{
+             // echo $model->path ? Html::img($model->getImageUrl(), ['style'=>'width: 100%']) : null;
+        //  }
     ?>
+    <div id = "img">
+        <?php
+            echo $model->path ? Html::img($model->getImageUrl()."?imageView2/1/w/500/h/500", ['id'=>'url','style'=>'width: 50%']) : null;
+        ?>
+    </div>
     <?php echo $form->field($model,'carousel_id')->hiddenInput(['value'=>$carousel_id])->label('') ?>
     <?php echo $form->field($model, 'url')->textInput(['maxlength' => 1024])->label() ?>
     <?php echo $form->field($model, 'base_url')->textInput(['readonly'=>'readonly']) ?>
@@ -54,6 +62,9 @@ $carousel_id = isset($carousel->id) ? $carousel->id : $model->carousel_id ;
 
 </div>
 <script type="text/javascript">
+    //var path = "<?php //echo $model->getImageUrl() ?>";
+    //console.log('12332',$('#widgetcarouselitem-path').val() == "");
+    
     function delattach(path, type) {
     var send_data = new Object();
     send_data.path = path;
@@ -78,6 +89,7 @@ $carousel_id = isset($carousel->id) ? $carousel->id : $model->carousel_id ;
         success: function(response){
             var pathid = path.slice(0,-4);
             if(response.status == 1){
+                 var base_url =  $('#widgetcarouselitem-base_url').val();
                  $('#widgetcarouselitem-base_url').val("");
                  $('#widgetcarouselitem-url').val("/");
                  $('#widgetcarouselitem-path').val("");
@@ -87,11 +99,29 @@ $carousel_id = isset($carousel->id) ? $carousel->id : $model->carousel_id ;
                 //$("#widgetcarouselitem-path").remove();
                  $("#"+pathid+" .linkWrapper").removeAttr('href');
                  $("#"+pathid+" .info").html("<span class='text-red'>已删除</span>");
+                 $("#url").show();
+                // var image_path = $('#widgetcarouselitem-path').val();
+                 if(image_path){
+                    $('#widgetcarouselitem-path').val(image_path);
+                    $('#widgetcarouselitem-base_url').val(base_url);
+                 }
+                 $("#url").val();
+                 $("#widgetcarouselitem-delete-path").remove();
             }
 //          alert(pathid);
-            
             return true;
         }
     });
 }; 
+/*
+    function  a(){
+        if(path == '/'){
+
+        }else{
+            var string = $("<div class='form-group field-widgetcarouselitem-path'><input id='widgetcarouselitem-path' type ='type' name ='WidgetCarouselItem[path]' value = " + res.key
+                     +"></input></div>");
+            $("#img").append(string);
+        }
+    }
+    a();*/
 </script>
