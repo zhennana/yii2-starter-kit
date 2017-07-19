@@ -5,9 +5,10 @@ use yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use frontend\models\base\Courseware  as BaseCourseware;
-use frontend\models\base\CoursewareToCourseware;
-use frontend\models\base\CoursewareCategory;
-use frontend\models\base\Collect;
+use frontend\models\edu\resources\CoursewareToCourseware;
+use frontend\models\edu\resources\CoursewareCategory;
+use frontend\models\edu\resources\Collect;
+use frontend\models\edu\resources\CourseOrderItem;
 
 /**
  * 
@@ -30,7 +31,7 @@ class Courseware extends BaseCourseware
         return ArrayHelper::merge(
             parent::rules(),
             [
-                # custom validation rules
+                [['original_price','present_price','vip_price'],'integer'],
             ]
         );
     }
@@ -66,15 +67,6 @@ class Courseware extends BaseCourseware
                     }
                     return $time->play_back_time;
                 },
-                'price' => function($model){
-                    return sprintf("%.2f",rand(0,100));
-                },
-                'original_price' => function($model){
-                    return sprintf("%.2f",rand(0,100)+10);
-                },
-                'price_mark' => function($model){
-                    return 'free/off/vip/none';
-                },
                 'favorite' => function($model){
                     if (Yii::$app->user->isGuest) {
                         return 0;
@@ -92,7 +84,19 @@ class Courseware extends BaseCourseware
                     return $collect->status;
                 },
                 'purchased' => function($model){
-                    return rand(0,1);
+                    if (Yii::$app->user->isGuest) {
+                        return 0;
+                    }
+                    $order = CourseOrderItem::find()->where([
+                        'status'         => CourseOrderItem::STATUS_VALID,
+                        'payment_status' => CourseOrderItem::PAYMENT_STATUS_PAID,
+                        'user_id'        => Yii::$app->user->identity->id,
+                        'courseware_id'  => $model->courseware_id,
+                    ])->count();
+                    if ($order) {
+                        return 1;
+                    }
+                    return 0;
                 },
             ]
         );
