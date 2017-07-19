@@ -129,7 +129,7 @@ if($result) {//验证成功
         }
 
         // 如果订单状态不是已支付
-        if ($order->status == CourseOrderItem::PAYMENT_STATUS_NON_PAID || $order->status ==CourseOrderItem::PAYMENT_STATUS_CONFIRMING) {
+        if ($order->payment_status == CourseOrderItem::PAYMENT_STATUS_NON_PAID || $order->payment_status == CourseOrderItem::PAYMENT_STATUS_CONFIRMING) {
             $order->payment_id     = $trade_no;
             $order->payment_status = CourseOrderItem::PAYMENT_STATUS_PAID;
             $order->payment        = CourseOrderItem::PAYMENT_ALIPAY;

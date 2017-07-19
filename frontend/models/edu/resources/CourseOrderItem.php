@@ -236,7 +236,6 @@ public function behaviors()
             $result['message'] = 'The Private Key Is Not Exist!';
             return $result;
         }
-
         $alipay_config['merchant_private_key'] = file_get_contents($alipay_config['merchant_private_key']);
         $alipay_config['alipay_public_key']    = file_get_contents($alipay_config['alipay_public_key']);
 
@@ -263,7 +262,6 @@ public function behaviors()
         $payRequestBuilder->setTimeExpress($timeout_express);
         // $payRequestBuilder->setSellerId($seller_id);
 
-        // 调用支付宝sdk
         $payResponse = new AlipayTradeService($alipay_config);
         $result = $payResponse->wapPay($payRequestBuilder,$alipay_config['return_url'],$alipay_config['notify_url']);
         return $result;
