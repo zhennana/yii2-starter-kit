@@ -283,7 +283,7 @@ $config = [
                 'notify_url' => 'http://'.$_SERVER['HTTP_HOST'].'/gedu_alipay_notify.php',
 
                 //同步跳转
-                'return_url' => 'http://'.$_SERVER['HTTP_HOST'].'/gedu_alipay_return.php',
+                'return_url' => 'http://192.168.5.123:8082/#/',
 
                 //编码格式
                 'charset' => "UTF-8",
