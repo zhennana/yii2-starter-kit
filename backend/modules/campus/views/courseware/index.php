@@ -145,7 +145,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute'=>'target',
                 'value'    => function($model){
                         $data = [];
-                        $$target = '';
+                        $target = '';
                         if($model->body){
                             $data = json_decode($model->body,true);
                             $target  = isset($data['target']) ? $data['target'] : '';
