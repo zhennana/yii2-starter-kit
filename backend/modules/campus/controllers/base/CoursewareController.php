@@ -151,7 +151,7 @@ public function actionUpdate($courseware_id)
     if($model->body){
         $data = json_decode($model->body,true);
         $model->process = isset($data['process']) ? $data['process'] : '';
-        $model->target = isset($data['target']) ? $data['target']: '';
+        $model->target = isset($data['target']) ? $data['target'] : $model->body;
     }
     if ($model->load($_POST)) {
         if(!empty($model->target) && !empty($model->process)){
