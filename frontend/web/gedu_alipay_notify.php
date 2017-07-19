@@ -51,8 +51,8 @@ if (!isset($arr) || empty($arr)) {
 }
 $alipaySevice = new AlipayTradeService($alipay_config); 
 $alipaySevice->writeLog('1111111'.var_export($_POST,true));
+$alipaySevice->writeLog('2222222'.$alipaySevice->check($arr));
 $result = $alipaySevice->check($arr);
-$alipaySevice->writeLog($result);
 /* 实际验证过程建议商户添加以下校验。
 1、商户需要验证该通知数据中的out_trade_no是否为商户系统中创建的订单号，
 2、判断total_amount是否确实为该订单的实际金额（即商户订单创建时的金额），
