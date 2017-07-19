@@ -3,11 +3,8 @@
 /*exported Qiniu */
 /*exported QiniuJsSDK */
 
-
-if(zone_url == "undefined"){
+if(!zone_url){
     var zone_url = "http://up-z1.qiniu.com";
-}else{
-
 }
 function QiniuJsSDK() {
 
