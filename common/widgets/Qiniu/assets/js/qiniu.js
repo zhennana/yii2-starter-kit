@@ -3,11 +3,8 @@
 /*exported Qiniu */
 /*exported QiniuJsSDK */
 
-
-if(zone_url == "undefined"){
+if(!zone_url){
     var zone_url = "http://up-z1.qiniu.com";
-}else{
-
 }
 function QiniuJsSDK() {
 
@@ -623,7 +620,7 @@ function QiniuJsSDK() {
                         }
                     }
 
-                    var url = 'http://up-z1.qiniu.com/mkfile/' + file.size + key + x_vars_url;
+                    var url = zone_url+'/mkfile/' + file.size + key + x_vars_url;
                     var ajax = that.createAjax();
                     ajax.open('POST', url, true);
                     ajax.setRequestHeader('Content-Type', 'text/plain;charset=UTF-8');
