@@ -100,13 +100,37 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '课件详情');
             'value'    =>isset($model->coursewareCategory->name) ? $model->coursewareCategory->name : ''
         ],
         'title',
+        [
+            //'attribute'=>'targets',
+            'label'    => '教学目标',
+            'value'    => function($model){
+                $data = $model->getJsonBody();
+                if(isset($data['target'])){
+                    return $data['target'];
+                }else{
+                    return $model->body;
+                }
+            }
+        ],
+        [
+            'label'    => '教学过程',
+            'format'    => 'raw',
+            'value'     => function($model){
+               $data = $model->getJsonBody();
+               if(isset($data['process'])){
+                    return $data['process'];
+               }else{
+                    return '';
+               }
+            },
+        ],
         'tags',
         'level',
         [
             'attribute'=>'creater_id',
             'value'    =>Yii::$app->user->identity->getUserName($model->creater_id)
         ],
-        'body:ntext',
+        //'body:ntext',
         'file_counts',
         'page_view',
 
