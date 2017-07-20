@@ -11,7 +11,7 @@ use yii\helpers\ArrayHelper;
 //use \backend\modules\campus\models\Courseware;
 //use \backend\modules\campus\models\CoursewareCategory;
 //use \backend\modules\campus\models\CoursewareToFile;
-// use \backend\modules\campus\models\CoursewareToCourseware;
+//use \backend\modules\campus\models\CoursewareToCourseware;
 
 /**
  * This is the base-model class for table "courseware".
