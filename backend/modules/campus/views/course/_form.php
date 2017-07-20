@@ -167,7 +167,8 @@ $Courseware = ArrayHelper::map($Courseware,'courseware_id','title');
             "data":{type_id:type_id,id:id},
             'type':"GET",
             'success':function(data){
-                $('#course-teacher_id option').remove();
+                //console.log($('#course-teacher_id').val());
+                $('#course-teacher_id options').remove();
                 $(form).html(data);
             }
         })
