@@ -55,7 +55,11 @@ class Courseware extends BaseCourseware
                         return 'http://orh16je38.bkt.clouddn.com/1024.png?imageView2/1/w/200/h/100';
                     }
                 },
-                'filetype'   => function($model){
+                'filetype' => function($model){
+                    $childOne = $this->childCoursewareOne();
+                    if (isset($childOne) && !empty($childOne)) {
+                        $model = $childOne;
+                    }
                     if (isset($model->toFile) && !empty($model->toFile)) {
                         foreach ($model->toFile as $key => $value) {
                             if ($value->status != 0) {
@@ -152,7 +156,6 @@ class Courseware extends BaseCourseware
     public function getSortCourse($type,$sort)
     {
         $data   = [];
-        $params = [];
 
         $model  = self::find()->where([
             'courseware_id' => $this->prentCourseware()
@@ -182,6 +185,21 @@ class Courseware extends BaseCourseware
         $model = array_column($model, 'courseware_master_id');
 
         return $model;
+    }
+
+    /**
+     * [childCoursewareOne 获取一个子课件]
+     * @return [type] [description]
+     */
+    public function childCoursewareOne(){
+        $model = CoursewareToCourseware::find()
+            ->joinWith('courseware')
+            ->where(['courseware_master_id' => $this->courseware_id])
+            ->one();
+        if ($model) {
+            return $model->courseware;
+        }
+        return null;
     }
 
     /**
