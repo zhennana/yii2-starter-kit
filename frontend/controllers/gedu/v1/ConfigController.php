@@ -90,8 +90,8 @@ class ConfigController extends \common\rest\Controller
          $model = new Courseware;
          $params = [
             ['type' => 3, 'name' => '热门课程', 'sort' => [1,2,3]],
-            ['type' => 2, 'name' => '精品课程', 'sort' => [4,5]],
-            ['type' => 4, 'name' => '专题推荐', 'sort' => [6,7,8,9]],
+            ['type' => 4, 'name' => '精品课程', 'sort' => [4,5,6,7]],
+            ['type' => 2, 'name' => '专题推荐', 'sort' => [8,9]],
             ['type' => 4, 'name' => '相关推荐', 'sort' => [10,11,12,13]],
             ['type' => 4, 'name' => '免费课程', 'sort' => [14,15,16,17]],
          ];
