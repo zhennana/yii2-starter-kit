@@ -31,7 +31,7 @@ class Courseware extends BaseCourseware
         return ArrayHelper::merge(
             parent::rules(),
             [
-                [['original_price','present_price','vip_price'],'integer'],
+                [['original_price','present_price','vip_price','sort'],'integer'],
             ]
         );
     }
@@ -127,36 +127,58 @@ class Courseware extends BaseCourseware
     }
     
     /**
-     * 首页流数据
-     * @return [type] [description]
+     * [streamData 首页流组装]
+     * @param  [type] $params [description]
+     * @return [type]       [description]
      */
-    public function streamData()
+    public function streamData($params)
     {
-        $params = [];
-        $data   = [];
+        $data = [];
 
-        foreach ($this->category() as $key => $value) {
+        if (isset($params) && !empty($params)) {
+            foreach ($params as $key => $value) {
+                $temp = [];
+                $temp['type'] = $value['type'];
+                $temp['name'] = $value['name'];
+                for ($i=0; $i < $value['type']; $i++) { 
+                    $temp['item'] = $this->getSortCourse($value['sort']);
+                }
 
-            if(in_array($value->counts,[2,3,4])){
-                $model = self::find()->select([
-                    'courseware_id','title'
-                ])->where([
-                    'courseware_id' => $this->prentCourseware(),
-                    'category_id'   => $value->category_id
-                ])->limit($value->counts)->all();
-
-                $params['type']        = $value->counts;
-                $params['name']        = $value->coursewareCategory->name;
-                $params['category_id'] = $value->category_id;
-                $params['target_url']  = \Yii::$app->request->hostInfo.Url::to(['gedu/v1/courseware/list','category_id'=>$value->category_id]);
-                $params['items']       = $model;
-
-                $data[] = $params;
-                unset($model);
+                if ($temp['type'] != count($temp['item'])) {
+                    $temp['item'] = [];
+                }
+                $data[] = $temp;
+            }
         }
-        continue;
-    }
       return $data;
+    }
+
+    /**
+     * [getSortCourse 获取首页流课程数据]
+     * @param  [type] $sort [description]
+     * @return [type]       [description]
+     */
+    public function getSortCourse($sort)
+    {
+        $data   = [];
+        $params = [];
+
+        $model  = self::find()->where([
+            'courseware_id' => $this->prentCourseware()
+        ])->andwhere([
+            'sort' => $sort
+        ])->orderBy('sort,updated_at DESC')->all();
+
+        foreach ($model as $key => $value) {
+            if (!isset($data[$key-1]->sort) || empty($data[$key-1]->sort)) {
+                $data[$key] = $value;
+            }
+        }
+
+        foreach ($data as $k => $v) {
+            $params[] =  $data[$k];
+        }
+        return $params;
     }
 
     /**
@@ -166,14 +188,6 @@ class Courseware extends BaseCourseware
         $model = CoursewareToCourseware::find()->select(['courseware_master_id'])->groupBY('courseware_master_id')->asArray()->all();
         $model = array_column($model, 'courseware_master_id');
 
-        return $model;
-    }
-
-    /**
-     * 获取主课件的分类 符合首页展示数据流 分类
-     */
-    public function category(){
-        $model = Courseware::find()->select(['category_id',"count(*) as counts"])->where(['courseware_id'=>$this->prentCourseware()])->groupBY('category_id')->all();
         return $model;
     }
 
