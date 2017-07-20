@@ -170,14 +170,15 @@ class Courseware extends BaseCourseware
         ])->orderBy('sort,updated_at DESC')->all();
 
         foreach ($model as $key => $value) {
-            if (!isset($data[$key-1]->sort) || empty($data[$key-1]->sort)) {
+            // if (!isset($data[$key-1]->sort) || empty($data[$key-1]->sort)) {
                 $data[$key] = $value;
-            }
+            // }
         }
 
         foreach ($data as $k => $v) {
             $params[] =  $data[$k];
         }
+
         return $params;
     }
 
