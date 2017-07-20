@@ -144,7 +144,7 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
             ->count('student_id');
 
             if(($courseCount['total_courses'] < $aboverCourse) || ($courseCount['total_courses'] == $aboverCourse) ){
-                $message = (!empty($this->user->username) ? $this->user->username : $this->user->realname) .'已欠费'.'请先去缴费才能分班';
+                $message = Yii::$app->user->identity->getUserName($this->user_id) .'已欠费'.'请先去缴费才能分班';
                 return $this->addError($attributes,$message);
             }
         }
@@ -170,7 +170,7 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
         }
         $model = $model->one();
         if($model){
-            $message = $model->user->username.'已存在'.$model->school->school_title.$model->grade->grade_name.'请去修改/或者忽略';
+            $message = Yii::$app->user->identity->getUserName($this->user_id).'已存在'.$model->school->school_title.$model->grade->grade_name.'请去修改/或者忽略';
             return $this->addError($attributes,$message);
         }
     }
