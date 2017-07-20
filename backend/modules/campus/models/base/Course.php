@@ -92,20 +92,24 @@ abstract class Course extends \yii\db\ActiveRecord
             [['intro'], 'string', 'max' => 128],
             ['teacher_id','required','when'=>function($model,$attribute){
                     if($model->status == self::COURSE_STATUS_OPEN ){
-                        $models = self::find()->where([
-                                'teacher_id'=> $model->teacher_id,
-                                'status'    => self::COURSE_STATUS_OPEN
-                            ]);
+                        $start_time = $model->start_time - 15*60;
+                        $end_time   = $model->end_time + 15*60;
+                        $models = self::find()
+                                ->andwhere([
+                                    'teacher_id'=> $model->teacher_id,
+                                    'status'    => self::COURSE_STATUS_OPEN
+                                ])->andWhere(['or',
+                                    ['between','start_time' ,$start_time,$end_time ],
+                                    ['between','end_time',$start_time,$end_time]
+                                ]);
                         if(!$model->isNewRecord){
                             $models->andWhere(['not','course_id'=>$model->course_id]);
                         }
                         $models = $models->orderBy(['end_time'=>SORT_DESC])->one();
                         //var_dump();exit;
                         if($models){
-                            if(($models->end_time + 15*60) > $model->start_time){
                                 $message = '所选时间段本老师有未上完的课程，课程名是'.$models->title.'请检查';
                                 $model->addError($attribute,$message);
-                            }
                         }
             }}],
             [
@@ -123,23 +127,24 @@ abstract class Course extends \yii\db\ActiveRecord
                         if($model->start_time <  $time ){
                             $model->addError($attribute,'课程开始时间不能小于当前时间');
                         }
+                        $start_time = $model->start_time - 15*60;
+                        $end_time   = $model->end_time + 15*60;
                         $models = self::find()
                         ->where([
                             'school_id'=>$model->school_id,
                             'grade_id'=> $model->grade_id,
                             'status'    => self::COURSE_STATUS_OPEN
-
-                            ]);
+                        ])->andWhere(['or',
+                            ['between','start_time' ,$start_time,$end_time ],
+                            ['between','end_time',$start_time,$end_time]
+                        ]);
                         if(!$model->isNewRecord){
-                            //var_dump($model->course_id);exit;
                             $models->andWhere(['not','course_id'=>$model->course_id]);
                         }
                         $models = $models->orderBy(['end_time'=>SORT_DESC])->asArray()->one();
                         //var_dump($models);exit;
                         if($models){
-                            if(($models['end_time']+15*60) > $model->start_time){
-                                 $model->addError($attribute,'本次排课与上一次排课之间的时间必须大于15分钟');
-                            }
+                            $model->addError($attribute,'本次排课与上一次排课之间的时间必须大于15分钟');
                         }
                     }
                 }
