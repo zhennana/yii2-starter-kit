@@ -142,7 +142,7 @@ class Courseware extends BaseCourseware
             foreach ($params as $key => $value) {
                 $data[$key]['type'] = $value['type'];
                 $data[$key]['name'] = $value['name'];
-                $data[$key]['item'] = $this->getSortCourse($value['type'],$value['sort']);
+                $data[$key]['items'] = $this->getSortCourse($value['type'],$value['sort']);
             }
         }
       return $data;
