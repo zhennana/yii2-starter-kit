@@ -134,20 +134,11 @@ class Courseware extends BaseCourseware
     public function streamData($params)
     {
         $data = [];
-
         if (isset($params) && !empty($params)) {
             foreach ($params as $key => $value) {
-                $temp = [];
-                $temp['type'] = $value['type'];
-                $temp['name'] = $value['name'];
-                for ($i=0; $i < $value['type']; $i++) { 
-                    $temp['item'] = $this->getSortCourse($value['sort']);
-                }
-
-                if ($temp['type'] != count($temp['item'])) {
-                    $temp['item'] = [];
-                }
-                $data[] = $temp;
+                $data[$key]['type'] = $value['type'];
+                $data[$key]['name'] = $value['name'];
+                $data[$key]['item'] = $this->getSortCourse($value['type'],$value['sort']);
             }
         }
       return $data;
@@ -158,7 +149,7 @@ class Courseware extends BaseCourseware
      * @param  [type] $sort [description]
      * @return [type]       [description]
      */
-    public function getSortCourse($sort)
+    public function getSortCourse($type,$sort)
     {
         $data   = [];
         $params = [];
@@ -170,16 +161,17 @@ class Courseware extends BaseCourseware
         ])->orderBy('sort,updated_at DESC')->all();
 
         foreach ($model as $key => $value) {
-            // if (!isset($data[$key-1]->sort) || empty($data[$key-1]->sort)) {
-                $data[$key] = $value;
-            // }
+            if(!isset($data[$value->sort])){
+                $data[$value->sort] = $value;
+            }else{
+                continue;
+            }
+        }
+        if(count($data) < $type){
+            return [];
         }
 
-        foreach ($data as $k => $v) {
-            $params[] =  $data[$k];
-        }
-
-        return $params;
+        return array_values($data);
     }
 
     /**
