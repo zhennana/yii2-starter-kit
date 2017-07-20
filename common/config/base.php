@@ -233,10 +233,11 @@ $config = [
         'user_avatar'=>'http://static.v1.wakooedu.com/o_1bf6nmv571qb6rva18c1c4r1kjq9.png',
         'qiniu'=>[
             'wakooedu'=>[
-                'access_key'=>env('QINIU_ACCESS_KEY'),
-                'secret_key'=>env('QINIU_SECRET_KEY'),
-                'domain' => env('QINIU_DOMAIN'),
-                'bucket' => env('QINIU_BUCKET')
+                'access_key'    =>env('QINIU_ACCESS_KEY'),
+                'secret_key'    =>env('QINIU_SECRET_KEY'),
+                'domain'        => env('QINIU_DOMAIN'),
+                'bucket'        => env('QINIU_BUCKET'),
+                'zone_url'      => env('QINIU_ZONEURL')
             ]
         ],
         //裁剪图片大小参数
@@ -282,8 +283,11 @@ $config = [
                 //异步通知地址
                 'notify_url' => 'http://'.$_SERVER['HTTP_HOST'].'/gedu_alipay_notify.php',
 
-                //同步跳转
-                'return_url' => 'http://'.$_SERVER['HTTP_HOST'].'/gedu_alipay_return.php',
+                //同步跳转,尾部需要拼接主课件ID
+                // 'return_url' => 'http://'.$_SERVER['HTTP_HOST'].'/#/coursedetail/',
+
+                // 本地调试回调地址
+                'return_url' => 'http://192.168.5.123:8082/#/coursedetail/',
 
                 //编码格式
                 'charset' => "UTF-8",
@@ -331,5 +335,4 @@ if (YII_ENV_DEV) {
         'port' => env('SMTP_PORT'),
     ];
 }
-
 return $config;

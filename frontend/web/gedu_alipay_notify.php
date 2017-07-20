@@ -40,16 +40,55 @@ $config = \yii\helpers\ArrayHelper::merge(
 (new yii\web\Application($config));
 
 use common\payment\alipay\AlipayTradeService;
+use frontend\models\edu\resources\CourseOrderItem;
 
 
 $alipay_config = Yii::$app->params['payment']['gedu']['alipay'];
+$alipay_config['merchant_private_key'] = file_get_contents($alipay_config['merchant_private_key']);
+$alipay_config['alipay_public_key'] = file_get_contents($alipay_config['alipay_public_key']);
 
+/*
+
+// 返回数据示例
+$_POST = [
+    'gmt_create'       => '2017-07-19 11:35:44',
+    'charset'          => 'UTF-8',
+    'seller_email'     => 'guangdaschool@sina.com',
+    'subject'          => '【光大】麦克米伦小学美语',
+    'sign'             => 'gauqm6ZQP7eXpDEzJLesgNzYyaHXXC1j+1yL5AhHWznmMWqOp6+4BCcU4vUU9+S/48quCxnKDtrEOKGkVw0cg+cvbvxsin4UZ/6zNtZW1RU15NedK7ILnicPA0oEhdQWXohSoF1i2hBpFDbySuAMpG8imgjRMpZ7Btj2ntQhfTg=',
+    'body'             => '【光大】麦克米伦小学美语(共5节课程)',
+    'buyer_id'         => '2088712412045842',
+    'invoice_amount'   => '0.01',
+    'notify_id'        => 'c4508b4221288e7173236b0db125c14mhe',
+    'fund_bill_list'   => '[{"amount":"0.01","fundChannel":"ALIPAYACCOUNT"}]',
+    'notify_type'      => 'trade_status_sync',
+    'trade_status'     => 'TRADE_SUCCESS',
+    'receipt_amount'   => '0.01',
+    'app_id'           => '2017071107712808',
+    'buyer_pay_amount' => '0.01',
+    'sign_type'        => 'RSA',
+    'seller_id'        => '2088721347378596',
+    'gmt_payment'      => '2017-07-19 11:35:45',
+    'notify_time'      => '2017-07-19 12:59:42',
+    'version'          => '1.0',
+    'out_trade_no'     => 'H718652329404456',
+    'total_amount'     => '0.01',
+    'trade_no'         => '2017071921001004840274141522',
+    'auth_app_id'      => '2017071107712808',
+    'buyer_logon_id'   => '554***@qq.com',
+    'point_amount'     => '0.00',
+];
+*/
 $arr = $_POST;
 if (!isset($arr) || empty($arr)) {
-	return ;
+    exit();
 }
 $alipaySevice = new AlipayTradeService($alipay_config); 
-$alipaySevice->writeLog(var_export($_POST,true));
+
+// 写日志
+$alipaySevice->writeLog('[from notify page] [Logs]: Post Data:'.var_export($arr,true));
+
+// 验签
 $result = $alipaySevice->check($arr);
 
 /* 实际验证过程建议商户添加以下校验。
@@ -59,64 +98,64 @@ $result = $alipaySevice->check($arr);
 4、验证app_id是否为该商户本身。
 */
 if($result) {//验证成功
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//请在这里加上商户的业务逻辑程序代
 
-	
-	//——请根据您的业务逻辑来编写程序（以下代码仅作参考）——
-	
-    //获取支付宝的通知返回参数，可参考技术文档中服务器异步通知参数列表
-	
-	//商户订单号
-    $out_trade_no = $_POST['out_trade_no'];
-
-    //支付宝交易号
-
-    $trade_no = $_POST['trade_no'];
-
-    //交易状态
-    $trade_status = $_POST['trade_status'];
-
-fileWrite($_POST);
-
-    if($_POST['trade_status'] == 'TRADE_FINISHED') {
-
-		//判断该笔订单是否在商户网站中已经做过处理
-			//如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
-			//请务必判断请求时的total_amount与通知时获取的total_fee为一致的
-			//如果有做过处理，不执行商户的业务程序
-				
-		//注意：
-		//退款日期超过可退款期限后（如三个月可退款），支付宝系统发送该交易状态通知
-    }
-    else if ($_POST['trade_status'] == 'TRADE_SUCCESS') {
-		//判断该笔订单是否在商户网站中已经做过处理
-			//如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
-			//请务必判断请求时的total_amount与通知时获取的total_fee为一致的
-			//如果有做过处理，不执行商户的业务程序			
-		//注意：
-		//付款完成后，支付宝系统发送该交易状态通知
-    }
-	//——请根据您的业务逻辑来编写程序（以上代码仅作参考）——
+    if($_POST['trade_status'] == 'TRADE_SUCCESS' || $_POST['trade_status'] == 'TRADE_FINISHED') {
         
+        $app_id       = $_POST['app_id'];           // 支付宝 APP ID
+        $out_trade_no = $_POST['out_trade_no'];     // 商户订单号
+        $trade_no     = $_POST['trade_no'];         // 支付宝交易号
+        $total_amount = $_POST['total_amount'];     // 支付宝订单金额
+        $trade_status = $_POST['trade_status'];     // 交易状态
+
+        // 验证APP ID
+        if ($alipay_config['app_id'] != $app_id) {
+            $alipaySevice->writeLog('[from notify page] [AppId Not Match]: config:'.var_export($alipay_config['app_id'],true).' || alipay:'.var_export($app_id,true));
+            exit();
+        }
+
+        // 根据返回商户订单号查询订单
+        $order = CourseOrderItem::find()->where(['order_sn' => $out_trade_no])->one();
+
+        // 验证订单号
+        if ($order->order_sn != $out_trade_no) {
+            $alipaySevice->writeLog('[from notify page] [Order Sn Not Match]: config:'.var_export($order->order_sn,true).' || alipay:'.var_export($out_trade_no,true));
+            exit();
+        }
+
+        // 验证订单金额
+        if ($order->real_price != $total_amount) {
+            $alipaySevice->writeLog('[from notify page] [Order Price Not Match]: config:'.var_export($order->real_price,true).' || alipay:'.var_export($total_amount,true));
+            exit();
+        }
+
+        // 如果订单状态不是已支付
+        if ($order->payment_status == CourseOrderItem::PAYMENT_STATUS_NON_PAID || $order->payment_status == CourseOrderItem::PAYMENT_STATUS_CONFIRMING) {
+            $order->payment_id     = $trade_no;
+            $order->payment_status = CourseOrderItem::PAYMENT_STATUS_PAID;
+            $order->payment        = CourseOrderItem::PAYMENT_ALIPAY;
+            if (!$order->save()) {
+                $alipaySevice->writeLog('[from notify page] [Order Update Fail]:'.var_export($order->getErrors(),true));
+                exit();
+            }
+        }
+
+        //判断该笔订单是否在商户网站中已经做过处理
+            //如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
+            //请务必判断请求时的total_amount与通知时获取的total_fee为一致的
+            //如果有做过处理，不执行商户的业务程序
+                
+        //注意：
+		//退款日期超过可退款期限后（如三个月可退款），支付宝系统发送该交易状态通知
 	echo "success";		//请不要修改或删除
-		
+    exit();
+    }
+        
 }else {
+    $alipaySevice->writeLog('[from notify page] [Fail Logs]: result:'.var_export($result,true).'|| Post Data:'.var_export($arr,true));
     //验证失败
     echo "fail";	//请不要修改或删除
-
+    exit();
 }
 
-function fileWrite($data, $filename=''){
-    $filename = '../runtime/payment/call_back.log';
-    if(!is_file($filename)){
-        return false;
-    }
-    $fh = fopen($filename, "a");
-    $fr = fwrite($fh, $data."\r\n");
-    fclose($fh);
-
-    return $fr;
-}
 ?>
 

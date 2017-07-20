@@ -128,7 +128,32 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'parent_id',
             'title',
-            'body',
+            [
+                'attribute'=>'target',
+                'value'    => function($model){
+                        $data = [];
+                        $target = '';
+                        if($model->body){
+                            $data = json_decode($model->body,true);
+                            $target  = isset($data['target']) ? $data['target'] : $model->body;
+                        }
+                        return $target;
+                }
+            ],
+            [
+                'attribute' =>'process',
+                'format'    => 'raw',
+                'value'     => function($model){
+                    $data = [];
+                    $process = '';
+                    if($model->body){
+                        $data = json_decode($model->body,true);
+                        $process = isset($data['process']) ? $data['process'] : '';
+                    }
+                    return $process;
+                },
+            ],
+            
 			//'category_id',
             [
                 'class'     =>\common\grid\EnumColumn::className(),

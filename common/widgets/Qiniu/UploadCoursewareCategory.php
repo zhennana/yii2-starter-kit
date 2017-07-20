@@ -26,6 +26,8 @@ class UploadCoursewareCategory extends Widget
     //默认配置
     public $uptoken_url;
     public $upload_url;
+    public $zone_url ;
+
     public function run()
     {
         $this->registerClientScript();
@@ -68,11 +70,15 @@ class UploadCoursewareCategory extends Widget
      */
     protected function registerClientScript()
     {
+        $this->zone_url = \Yii::$app->params['qiniu']['wakooedu']['zone_url'];
      //var_dump(\Yii::$app->params); exit();
         $script  = "var uptoken_url = '".$this->uptoken_url."';";
         $script .= "var qiniu_domain ='".\Yii::$app->params['qiniu']['wakooedu']['domain'].'/'."';";
 // $script .= "var delete_url = '".$this->delete_url."';";
-        $script .= "var upload_url='".$this->upload_url."'";
+        $script .= "var upload_url='".$this->upload_url."';";
+        if($this->zone_url != false){
+            $script .= "var zone_url = '".$this->zone_url."';";
+        }
 //var_dump('<pre>',$script);exit;
         $this->view->registerJs($script, View::POS_BEGIN);
         AssetCoursewareCategory::register($this->view);

@@ -5,6 +5,7 @@ use Yii;
 use yii\web\Response;
 use common\payment\alipay\buildermodel\AlipayTradeWapPayContentBuilder;
 use common\payment\alipay\AlipayTradeService;
+use frontend\models\edu\resources\Courseware;
 
 class CourseOrderItemController extends \common\rest\Controller
 {
@@ -71,7 +72,7 @@ class CourseOrderItemController extends \common\rest\Controller
      * @SWG\Post(path="/course-order-item/create",
      *     tags={"GEDU-CourseOrderItem-课件订单接口"},
      *     summary="课件订单创建",
-     *     description="返回课件订单内容",
+     *     description="成功，返回支付宝from表单",
      *     produces={"application/json"},
      *     @SWG\Parameter(
      *        in = "formData",
@@ -92,6 +93,13 @@ class CourseOrderItemController extends \common\rest\Controller
      *        in = "formData",
      *        name = "grade_id",
      *        description = "班级ID",
+     *        required = false,
+     *        type = "integer"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "introducer_id",
+     *        description = "介绍人ID",
      *        required = false,
      *        type = "integer"
      *     ),
@@ -133,7 +141,7 @@ class CourseOrderItemController extends \common\rest\Controller
      *        description = "总价",
      *        required = true,
      *        type = "integer",
-     *        default = 15
+     *        default = 47
      *     ),
      *     @SWG\Parameter(
      *        in = "formData",
@@ -156,38 +164,48 @@ class CourseOrderItemController extends \common\rest\Controller
      *        description = "实际付款",
      *        required = true,
      *        type = "integer",
-     *        default = 15
+     *        default = 37
      *     ),
      *     @SWG\Response(
      *         response = 200,
-     *         description = "返回课件订单内容"
+     *         description = "成功返回支付宝form表单，失败返回具体信息"
      *     )
      * )
      *
     **/
     public function actionCreate()
     {
-        return [];exit();
+        // return [];exit();
         if(Yii::$app->user->isGuest){
             $this->serializer['errno']   = 422;
             $this->serializer['message'] = '请您先登录';
             return [];
         }
 
-        $info = [];
+        $from = [];
 
         $modelClass = $this->modelClass;
         $order      = new $modelClass;
 
-        $info = $order->processCourseOrder(Yii::$app->request->post());
+        $model = $order->processCourseOrder(Yii::$app->request->post());
 
-        if (isset($info['errno']) && $info['errno'] !== 0) {
-            $this->serializer['errno']   = $info['errno'];
-            $this->serializer['message'] = $info['message'];
+        if (isset($model['errno']) && $model['errno'] !== 0) {
+            $this->serializer['errno']   = $model['errno'];
+            $this->serializer['message'] = $model['message'];
             return [];
         }
 
-        return $info;
+        if (is_object($model)) {
+            $from = $model->wapAlipay();
+        }
+
+        if (isset($from['errno']) && $from['errno'] != 0) {
+            $this->serializer['errno']   = $from['errno'];
+            $this->serializer['message'] = $from['message'];
+            return [];
+        }
+        $from = ['wappay' => $from];
+        return $from;
     }
 
     /**
@@ -200,7 +218,7 @@ class CourseOrderItemController extends \common\rest\Controller
      *        in = "formData",
      *        name = "course_order_item_id",
      *        description = "课程订单_id",
-     *        required = false,
+     *        required = true,
      *        default = 1,
      *        type = "integer"
      *     ),
@@ -212,46 +230,37 @@ class CourseOrderItemController extends \common\rest\Controller
      */
     public function actionAlipay()
     {
-        if (!isset($_POST) || empty($_POST)) {
+        if (!isset($_POST['course_order_item_id']) || empty($_POST['course_order_item_id'])) {
             $this->serializer['errno']   = __LINE__;
-            $this->serializer['message'] = '调试错误，请回到请求来源地，重新发起请求。';
-            return [];
-        }
-        $data          = [];
-        $alipay_config = Yii::$app->params['payment']['gedu']['alipay'];
-
-        if (!file_exists($alipay_config['merchant_private_key']) || !file_exists($alipay_config['alipay_public_key'])) {
-            $this->serializer['errno']   = __LINE__;
-            $this->serializer['message'] = '秘钥或公钥不存在';
+            $this->serializer['message'] = 'Order ID Can Not Be Null!';
             return [];
         }
 
-        $alipay_config['merchant_private_key'] = file_get_contents($alipay_config['merchant_private_key']);
-        $alipay_config['alipay_public_key']    = file_get_contents($alipay_config['alipay_public_key']);
+        $modelClass = $this->modelClass;
+        $model      = $modelClass::findOne($_POST['course_order_item_id']);
 
-        $modelClass    = $this->modelClass;
-        $order         = $modelClass::findOne(Yii::$app->request->post('course_order_item_id'));
-        if (!$order) {
+        if (!$model) {
             $this->serializer['errno']   = __LINE__;
-            $this->serializer['message'] = '该订单不存在';
+            $this->serializer['message'] = 'A Order With ID '.$_POST['course_order_item_id'].' Does Not Exist!';
             return [];
         }
 
-        $body              = '《如来神掌(精装)》全集(共15节课程)，限时特价0.01元';
-        $subject           = '《如来神掌(精装)》全集(共15节课程)';
-        $out_trade_no      = $order->builderNumber();
-        $total_amount      = 0.01;
-        $timeout_express   = '1m';
-        $payRequestBuilder = new AlipayTradeWapPayContentBuilder;
-        $payRequestBuilder->setBody($body);
-        $payRequestBuilder->setSubject($subject);
-        $payRequestBuilder->setOutTradeNo($out_trade_no);
-        $payRequestBuilder->setTotalAmount($total_amount);
-        $payRequestBuilder->setTimeExpress($timeout_express);
-// var_dump($alipay_config);exit;
-        $payResponse = new AlipayTradeService($alipay_config);
-        $result = $payResponse->wapPay($payRequestBuilder,$alipay_config['return_url'],$alipay_config['notify_url']);
-        $data = ['wappay' => $result];
-        return $data;
+        // 验证订单数据
+        $validate = $model->validateOrderParams($model->attributes);
+        if (isset($validate['errno']) && $validate['errno'] != 0) {
+            $this->serializer['errno']   = $validate['errno'];
+            $this->serializer['message'] = $validate['message'];
+            return [];
+        }
+
+        // 调用支付宝支付方法
+        $from = $model->wapAlipay();
+        if (isset($from['errno']) && $from['errno'] != 0) {
+            $this->serializer['errno']   = $from['errno'];
+            $this->serializer['message'] = $from['message'];
+            return [];
+        }
+        $from = ['wappay' => $from];
+        return $from;
     }
 }

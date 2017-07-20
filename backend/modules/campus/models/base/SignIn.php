@@ -102,6 +102,8 @@ abstract class SignIn extends \yii\db\ActiveRecord
             'teacher_id' => Yii::t('common', '教师'),
             'auditor_id' => Yii::t('common', '审核人'),
             'status'     => Yii::t('common', '状态'),
+            'describe'   => Yii::t('common','缺勤原因'),
+            'type_status'=> Yii::t('common','签到状态'),
             'updated_at' => Yii::t('common', '更新时间'),
             'created_at' => Yii::t('common', '签到时间'),
         ];
