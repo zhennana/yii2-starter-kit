@@ -44,14 +44,28 @@ class Courseware extends BaseCourseware
                     return  \Yii::$app->request->hostInfo.Url::to(['gedu/v1/courseware/view','courseware_id'=>$model->courseware_id]);
                 },
                 'fileUrl' => function($model){
-                    if(isset($model->toFile[0]->fileStorageItem->url)&& isset($model->toFile[0]->fileStorageItem->file_name)){
-                        return $model->toFile[0]->fileStorageItem->url.$model->toFile[0]->fileStorageItem->file_name;
+                    if (isset($model->toFile) && !empty($model->toFile)) {
+                        foreach ($model->toFile as $key => $value) {
+                            if ($value->status != 0) {
+                                return $value->fileStorageItem->url.$value->fileStorageItem->file_name;
+                            }
+                            continue;
+                        }
                     }else{
                         return 'http://orh16je38.bkt.clouddn.com/1024.png?imageView2/1/w/200/h/100';
                     }
                 },
                 'filetype'   => function($model){
-                    return isset($model->toFile[0]->fileStorageItem->type) ? $model->toFile[0]->fileStorageItem->type : 'image/jpeg';
+                    if (isset($model->toFile) && !empty($model->toFile)) {
+                        foreach ($model->toFile as $key => $value) {
+                            if ($value->status != 0) {
+                                return $value->fileStorageItem->type;
+                            }
+                            continue;
+                        }
+                    }else{
+                        return 'image/jpeg';
+                    }
                 },
                 'video_record' => function($model){
                     if (Yii::$app->user->isGuest) {
