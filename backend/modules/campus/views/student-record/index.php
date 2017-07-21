@@ -24,6 +24,9 @@ $this->params['breadcrumbs'][] = $this->title;
      if (\Yii::$app->user->can('P_teacher', ['route' => true]) || \Yii::$app->user->can('E_manager') || Yii::$app->user->can('manager')) {
         $actionColumnTemplates[] = '{update}';
     }
+    if (\Yii::$app->user->can('P_teacher', ['route' => true]) || \Yii::$app->user->can('E_manager') || Yii::$app->user->can('manager')) {
+        $actionColumnTemplates[] = '{export}';
+    }
 /*
     if (\Yii::$app->user->can('P_teacher')) {
         $actionColumnTemplates[] = '{delete}';
@@ -37,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
     } else {
 
         Yii::$app->view->params['pageButtons'] = Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'), ['create'], ['class' => 'btn btn-success']);
-        $actionColumnTemplateString = "{view} {update} {delete}";
+        $actionColumnTemplateString = "{view} {update} {delete} {export}";
     }
 ?>
 <div class="giiant-crud student-record-index">
@@ -108,6 +111,16 @@ $this->params['breadcrumbs'][] = $this->title;
                     $params[0] = \Yii::$app->controller->id ? \Yii::$app->controller->id . '/' . $action : $action;
                     return Url::toRoute($params);
                 },
+                'buttons' => [
+                    'export' => function($url, $model, $key){
+                        $options = [
+                            'title'      => Yii::t('yii', '导出Doc文档'),
+                            'aria-label' => Yii::t('yii', '导出Doc文档'),
+                            // 'target' => '_blank'
+                        ];
+                        return Html::a('<span class="glyphicon glyphicon-copy"></span>', $url, $options);
+                    }
+                ],
                 'contentOptions' => ['nowrap'=>'nowrap']
             ],
             [
