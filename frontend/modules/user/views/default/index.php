@@ -10,6 +10,8 @@ use yii\widgets\ActiveForm;
 
 $this->title = Yii::t('frontend', 'User Settings')
 ?>
+<div class="gdu-content">
+<div class="box box-widget geu-content">
 
 <div class="user-profile-form">
 
@@ -48,12 +50,15 @@ $this->title = Yii::t('frontend', 'User Settings')
     <?php echo $form->field($model->getModel('account'), 'password_confirm')->passwordInput() ?>
 
     <div class="form-group">
-        <?php echo Html::submitButton(Yii::t('frontend', 'Update'), ['class' => 'btn btn-primary']) ?>
+        <?php echo Html::submitButton(Yii::t('frontend', 'Update'), ['class' => 'btn btn-primary btn-submit']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
 
 </div>
+</div>
+</div>
+
 <script>
     $('.carousel').hide();
-</script>
+</script></div>
