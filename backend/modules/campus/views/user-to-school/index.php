@@ -29,12 +29,21 @@ $this->params['breadcrumbs'][] = $this->title;
             'user_to_school_id',
             [
                 'attribute' =>'user_id',
+                'label'     => '真实姓名',
                 'format'    => 'raw',
                 'value'     => function($model){
                         return  Html::a(Yii::$app->user->identity->getUserName($model->user_id),[
                             'account',
                             'user_id'=>$model->user_id
                             ]);
+                    }
+            ],
+            [
+                'attribute' =>'手机号',
+                'label'     => '手机号',
+                'format'    => 'raw',
+                'value'     => function($model){
+                       return isset($model->user->phone_number) ? $model->user->phone_number : '';
                     }
             ],
             [

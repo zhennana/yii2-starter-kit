@@ -60,7 +60,7 @@ class NoticeController extends \common\rest\Controller
 
     /**
      * @SWG\Get(path="/notice/index",
-     *     tags={"500-Notice-通知消息列表"},
+     *     tags={"WEDU-Notice-通知消息列表"},
      *     summary="message",
      *     description="返回通知消息",
      *     produces={"application/json"},
