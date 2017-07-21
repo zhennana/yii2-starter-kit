@@ -3,13 +3,13 @@
 namespace backend\modules\campus\models;
 
 use Yii;
-use \backend\modules\campus\models\base\CoursewareToCourseware as BaseCoursewareToCourseware;
+//use \backend\modules\campus\models\base\CoursewareToCourseware as BaseCoursewareToCourseware;
 use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "courseware_to_courseware".
  */
-class CoursewareToCourseware extends BaseCoursewareToCourseware
+class CoursewareToCourseware extends \backend\modules\campus\models\base\CoursewareToCourseware
 {
 
 public function behaviors()

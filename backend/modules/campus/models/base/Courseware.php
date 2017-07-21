@@ -6,11 +6,12 @@ namespace backend\modules\campus\models\base;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\helpers\ArrayHelper;
 
 //use \backend\modules\campus\models\Courseware;
 //use \backend\modules\campus\models\CoursewareCategory;
 //use \backend\modules\campus\models\CoursewareToFile;
-use \backend\modules\campus\models\CoursewareToCourseware;
+//use \backend\modules\campus\models\CoursewareToCourseware;
 
 /**
  * This is the base-model class for table "courseware".
@@ -34,7 +35,12 @@ abstract class Courseware extends \yii\db\ActiveRecord
 {
     CONST COURSEWARE_STATUS_VALID   = 10;//有效
     CONST COURSEWARE_STATUS_INVALID = 20;//无效
-
+    //public  $target;
+    //public  $process;
+    public  $data = [
+            'target'    => 'target',
+            'process'   => 'process',
+        ];
 
     public static function optsStatus(){
         return [
@@ -53,8 +59,7 @@ abstract class Courseware extends \yii\db\ActiveRecord
         //return Yii::$app->modules['campus']->get('campus');
         return Yii::$app->get('campus');
     }
-    public  $target;
-    public  $process;
+   
     /**
      * @inheritdoc
      */
@@ -85,13 +90,28 @@ abstract class Courseware extends \yii\db\ActiveRecord
             [['category_id', 'creater_id', 'access_domain', 'access_other', 'status','file_counts','page_view','parent_id'], 'integer'],
             [['title'], 'required'],
             [['process','target'],'required'],
+            //
+            ['body','default','value'=>function(){
+                    $body = $this->setJsonBody();
+                    if(empty($body)){
+                        return $this->body;
+                    }else{
+                        return $body;
+                    }
+            }],
             [['body','tags','process','target'], 'string'],
             ['parent_id','default','value' => 0],
             ['creater_id','default','value'=>Yii::$app->user->identity->id],
-
             [['title','tags'], 'string', 'max' => 512],
             ['slug','safe']
         ];
+    }
+
+    public function attributes(){
+        return ArrayHelper::merge(
+            parent::attributes(),
+            $this->data
+        );
     }
 
     /**
@@ -119,7 +139,6 @@ abstract class Courseware extends \yii\db\ActiveRecord
             'target'    => Yii::t('common', '教学目标'),
         ];
     }
-
     /**
      * @inheritdoc
      */
@@ -153,20 +172,49 @@ abstract class Courseware extends \yii\db\ActiveRecord
     }
 
     public function getCoursewareToCourseware(){
-        return $this->hasMany(\backend\modules\campus\models\CoursewareToCourseware::className(),
+        return $this->hasMany( \backend\modules\campus\models\CoursewareToCourseware::className(),
             ['courseware_master_id'=>'courseware_id']);
     }
 
     public function isMasterCourseware()
     {
-        $master_count = CoursewareToCourseware::find()->where([
-            'status' => CoursewareToCourseware::COURSEWARE_STATUS_OPEN,
+        $master_count =  \backend\modules\campus\models\CoursewareToCourseware::find()->where([
+            'status' =>  \backend\modules\campus\models\CoursewareToCourseware::COURSEWARE_STATUS_OPEN,
             'courseware_master_id' => $this->courseware_id,
         ])->count();
-        
         return $master_count;
     }
-   
+
+    public function  setJsonBody(){
+
+        $data = [];
+        foreach ($this->data as $key => $value) {
+           if(isset($this->$value) && !empty($this->$value)){
+                $data[$value] = $this->$value;
+           }
+        }
+        if($data == []){
+            return [];
+        }
+    //var_dump($data);exit;
+        return json_encode($data,JSON_UNESCAPED_UNICODE);
+    }
+    public function getJsonBody(){
+        $data = [];
+        if($this->body && (json_encode($this->body ,true) != null) ){
+            $data = json_decode($this->body ,true);
+            foreach ($this->data as $key => $value) {
+                $this->$value = isset($data[$value]) ?  $data[$value] : '';
+            }
+        }
+      //  var_dump($this->process);exit;
+        return $data;
+    }
+    public function save($runValidation = true, $attributeNames = null)
+    {
+          return  parent::save(true,parent::attributes());
+    }
+    //public function
     /**
      * @inheritdoc
      * @return \backend\modules\campus\models\query\CoursewareQuery the active query used by this AR class.

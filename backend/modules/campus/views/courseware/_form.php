@@ -59,9 +59,11 @@ $parent = \yii\helpers\ArrayHelper::map($parent, 'courseware_id', 'title');
             <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
 <!-- attribute body -->
-            <?= $form->field($model, 'target')->textarea(['rows' => 6])->label('教学目标') ?>
-            <?= $form->field($model, 'process')->textarea(['rows' => 6])->label('教学过程') ?>
-
+            <?php
+                foreach ($model->data as $key => $value) {
+                  echo   $form->field($model, $value)->textarea(['rows' => 6]);
+                }
+            ?>
 <!-- attribute category_id -->
             <?= $form->field($model, 'category_id')->widget(Select2::className(),[
                 'data'    => $categories,

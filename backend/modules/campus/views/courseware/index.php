@@ -17,7 +17,6 @@ $categories = \yii\helpers\ArrayHelper::map(
 $this->title = Yii::t('backend', '课件管理');
 $this->params['breadcrumbs'][] = $this->title;
 
-
 /**
 * create action column template depending acces rights
 */
@@ -129,28 +128,27 @@ $this->params['breadcrumbs'][] = $this->title;
             'parent_id',
             'title',
             [
-                'attribute'=>'target',
+                //'attribute'=>'targets',
+                'label'    => '教学目标',
                 'value'    => function($model){
-                        $data = [];
-                        $target = '';
-                        if($model->body){
-                            $data = json_decode($model->body,true);
-                            $target  = isset($data['target']) ? $data['target'] : $model->body;
-                        }
-                        return $target;
+                    $data = $model->getJsonBody();
+                    if(isset($data['target'])){
+                        return $data['target'];
+                    }else{
+                        return $model->body;
+                    }
                 }
             ],
             [
-                'attribute' =>'process',
+                'label'    => '教学过程',
                 'format'    => 'raw',
                 'value'     => function($model){
-                    $data = [];
-                    $process = '';
-                    if($model->body){
-                        $data = json_decode($model->body,true);
-                        $process = isset($data['process']) ? $data['process'] : '';
-                    }
-                    return $process;
+                   $data = $model->getJsonBody();
+                   if(isset($data['process'])){
+                        return $data['process'];
+                   }else{
+                        return '';
+                   }
                 },
             ],
             
