@@ -17,7 +17,6 @@ $categories = \yii\helpers\ArrayHelper::map(
 $this->title = Yii::t('backend', '课件管理');
 $this->params['breadcrumbs'][] = $this->title;
 
-
 /**
 * create action column template depending acces rights
 */
@@ -128,7 +127,31 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'parent_id',
             'title',
-            'body',
+            [
+                //'attribute'=>'targets',
+                'label'    => '教学目标',
+                'value'    => function($model){
+                    $data = $model->getJsonBody();
+                    if(isset($data['target'])){
+                        return $data['target'];
+                    }else{
+                        return $model->body;
+                    }
+                }
+            ],
+            [
+                'label'    => '教学过程',
+                'format'    => 'raw',
+                'value'     => function($model){
+                   $data = $model->getJsonBody();
+                   if(isset($data['process'])){
+                        return $data['process'];
+                   }else{
+                        return '';
+                   }
+                },
+            ],
+            
 			//'category_id',
             [
                 'class'     =>\common\grid\EnumColumn::className(),

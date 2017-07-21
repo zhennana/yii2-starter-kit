@@ -406,7 +406,7 @@ class CourseController extends \common\rest\Controller
             if($model){
                 $data = [
                     'user_id'       =>(int)$model['user_id'],
-                    'username'      => (int)isset($model['user']['username']) ? $model['user']['username'] : '',
+                    'username'      => Yii::$app->user->identity->getUserName($model['user_id']),
                     'gender'        => $gender,
                     'birth'         =>isset($model['user']['userProfile']['birth']) ? $model['user']['userProfile']['birth'] : 0,
                     'phone_number'  =>$model['user']['phone_number'],

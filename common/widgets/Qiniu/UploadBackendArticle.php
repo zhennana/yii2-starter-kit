@@ -27,6 +27,8 @@ class UploadBackendArticle extends Widget
     public $uptoken_url;
     public $upload_url;
     public $article_id;
+    public $zone_url ;
+
     public function run()
     {
         $this->registerClientScript();
@@ -66,10 +68,15 @@ class UploadBackendArticle extends Widget
      */
     protected function registerClientScript()
     {
+        $this->zone_url = \Yii::$app->params['qiniu']['wakooedu']['zone_url'];
+
         //var_dump(\Yii::$app->params); exit();
         $script  = "var uptoken_url = '".$this->uptoken_url."';";
         $script .= "var qiniu_domain ='".\Yii::$app->params['qiniu']['wakooedu']['domain'].'/'."';";
-        $script .= "var upload_url='".$this->upload_url."'";
+        $script .= "var upload_url='".$this->upload_url."';";
+           if($this->zone_url != false){
+            $script .= "var zone_url = '".$this->zone_url."';";
+        }
         $this->view->registerJs($script, View::POS_BEGIN);
         AssetBackend::register($this->view);
 

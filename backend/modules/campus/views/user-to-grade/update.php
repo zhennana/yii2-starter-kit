@@ -18,11 +18,11 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '更新');
         <?php
         
             if($model->grade_user_type == UserToGrade::GRADE_USER_TYPE_STUDENT ){
-                echo Yii::t('backend', '创建班级学员');
+                echo Yii::t('backend', '更新班级学员');
             }elseif($model->grade_user_type == UserToGrade::GRADE_USER_TYPE_TEACHER){
-                echo Yii::t('backend', '创建班级老师');
+                echo Yii::t('backend', '更新班级老师');
             }else{
-                echo Yii::t('backend', '创建班级人员');
+                echo Yii::t('backend', '更新班级人员');
         }
     ?>
         <small>

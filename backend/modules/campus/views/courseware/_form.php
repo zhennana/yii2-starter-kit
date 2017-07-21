@@ -59,8 +59,11 @@ $parent = \yii\helpers\ArrayHelper::map($parent, 'courseware_id', 'title');
             <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
 <!-- attribute body -->
-            <?= $form->field($model, 'body')->textarea(['rows' => 6]) ?>
-
+            <?php
+                foreach ($model->data as $key => $value) {
+                  echo   $form->field($model, $value)->textarea(['rows' => 6]);
+                }
+            ?>
 <!-- attribute category_id -->
             <?= $form->field($model, 'category_id')->widget(Select2::className(),[
                 'data'    => $categories,

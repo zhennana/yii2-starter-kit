@@ -5,9 +5,10 @@ use yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use frontend\models\base\Courseware  as BaseCourseware;
-use frontend\models\base\CoursewareToCourseware;
-use frontend\models\base\CoursewareCategory;
-use frontend\models\base\Collect;
+use frontend\models\edu\resources\CoursewareToCourseware;
+use frontend\models\edu\resources\CoursewareCategory;
+use frontend\models\edu\resources\Collect;
+use frontend\models\edu\resources\CourseOrderItem;
 
 /**
  * 
@@ -30,7 +31,7 @@ class Courseware extends BaseCourseware
         return ArrayHelper::merge(
             parent::rules(),
             [
-                # custom validation rules
+                [['original_price','present_price','vip_price','sort'],'integer'],
             ]
         );
     }
@@ -43,14 +44,32 @@ class Courseware extends BaseCourseware
                     return  \Yii::$app->request->hostInfo.Url::to(['gedu/v1/courseware/view','courseware_id'=>$model->courseware_id]);
                 },
                 'fileUrl' => function($model){
-                    if(isset($model->toFile[0]->fileStorageItem->url)&& isset($model->toFile[0]->fileStorageItem->file_name)){
-                        return $model->toFile[0]->fileStorageItem->url.$model->toFile[0]->fileStorageItem->file_name;
+                    if (isset($model->toFile) && !empty($model->toFile)) {
+                        foreach ($model->toFile as $key => $value) {
+                            if ($value->status != 0) {
+                                return $value->fileStorageItem->url.$value->fileStorageItem->file_name;
+                            }
+                            continue;
+                        }
                     }else{
                         return 'http://orh16je38.bkt.clouddn.com/1024.png?imageView2/1/w/200/h/100';
                     }
                 },
-                'filetype'   => function($model){
-                    return isset($model->toFile[0]->fileStorageItem->type) ? $model->toFile[0]->fileStorageItem->type : 'image/jpeg';
+                'filetype' => function($model){
+                    $childOne = $this->childCoursewareOne();
+                    if (isset($childOne) && !empty($childOne)) {
+                        $model = $childOne;
+                    }
+                    if (isset($model->toFile) && !empty($model->toFile)) {
+                        foreach ($model->toFile as $key => $value) {
+                            if ($value->status != 0) {
+                                return $value->fileStorageItem->type;
+                            }
+                            continue;
+                        }
+                    }else{
+                        return 'image/jpeg';
+                    }
                 },
                 'video_record' => function($model){
                     if (Yii::$app->user->isGuest) {
@@ -65,15 +84,6 @@ class Courseware extends BaseCourseware
                         return 0;
                     }
                     return $time->play_back_time;
-                },
-                'price' => function($model){
-                    return sprintf("%.2f",rand(0,100));
-                },
-                'original_price' => function($model){
-                    return sprintf("%.2f",rand(0,100)+10);
-                },
-                'price_mark' => function($model){
-                    return 'free/off/vip/none';
                 },
                 'favorite' => function($model){
                     if (Yii::$app->user->isGuest) {
@@ -92,7 +102,19 @@ class Courseware extends BaseCourseware
                     return $collect->status;
                 },
                 'purchased' => function($model){
-                    return rand(0,1);
+                    if (Yii::$app->user->isGuest) {
+                        return 0;
+                    }
+                    $order = CourseOrderItem::find()->where([
+                        'status'         => CourseOrderItem::STATUS_VALID,
+                        'payment_status' => CourseOrderItem::PAYMENT_STATUS_PAID,
+                        'user_id'        => Yii::$app->user->identity->id,
+                        'courseware_id'  => $model->courseware_id,
+                    ])->count();
+                    if ($order) {
+                        return 1;
+                    }
+                    return 0;
                 },
             ]
         );
@@ -109,36 +131,50 @@ class Courseware extends BaseCourseware
     }
     
     /**
-     * 首页流数据
-     * @return [type] [description]
+     * [streamData 首页流组装]
+     * @param  [type] $params [description]
+     * @return [type]       [description]
      */
-    public function streamData()
+    public function streamData($params)
     {
-        $params = [];
+        $data = [];
+        if (isset($params) && !empty($params)) {
+            foreach ($params as $key => $value) {
+                $data[$key]['type'] = $value['type'];
+                $data[$key]['name'] = $value['name'];
+                $data[$key]['items'] = $this->getSortCourse($value['type'],$value['sort']);
+            }
+        }
+      return $data;
+    }
+
+    /**
+     * [getSortCourse 获取首页流课程数据]
+     * @param  [type] $sort [description]
+     * @return [type]       [description]
+     */
+    public function getSortCourse($type,$sort)
+    {
         $data   = [];
 
-        foreach ($this->category() as $key => $value) {
+        $model  = self::find()->where([
+            'courseware_id' => $this->prentCourseware()
+        ])->andwhere([
+            'sort' => $sort
+        ])->orderBy('sort,updated_at DESC')->all();
 
-            if(in_array($value->counts,[2,3,4])){
-                $model = self::find()->select([
-                    'courseware_id','title'
-                ])->where([
-                    'courseware_id' => $this->prentCourseware(),
-                    'category_id'   => $value->category_id
-                ])->limit($value->counts)->all();
-
-                $params['type']        = $value->counts;
-                $params['name']        = $value->coursewareCategory->name;
-                $params['category_id'] = $value->category_id;
-                $params['target_url']  = \Yii::$app->request->hostInfo.Url::to(['gedu/v1/courseware/list','category_id'=>$value->category_id]);
-                $params['items']       = $model;
-
-                $data[] = $params;
-                unset($model);
+        foreach ($model as $key => $value) {
+            if(!isset($data[$value->sort])){
+                $data[$value->sort] = $value;
+            }else{
+                continue;
+            }
         }
-        continue;
-    }
-      return $data;
+        if(count($data) < $type){
+            return [];
+        }
+
+        return array_values($data);
     }
 
     /**
@@ -152,11 +188,18 @@ class Courseware extends BaseCourseware
     }
 
     /**
-     * 获取主课件的分类 符合首页展示数据流 分类
+     * [childCoursewareOne 获取一个子课件]
+     * @return [type] [description]
      */
-    public function category(){
-        $model = Courseware::find()->select(['category_id',"count(*) as counts"])->where(['courseware_id'=>$this->prentCourseware()])->groupBY('category_id')->all();
-        return $model;
+    public function childCoursewareOne(){
+        $model = CoursewareToCourseware::find()
+            ->joinWith('courseware')
+            ->where(['courseware_master_id' => $this->courseware_id])
+            ->one();
+        if ($model) {
+            return $model->courseware;
+        }
+        return null;
     }
 
     /**
