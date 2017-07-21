@@ -156,96 +156,101 @@ use yii\helpers\Html;
                     });
          }
       })
+      $(function() {
+          $(window).bind('scroll', function() {
+              if($(window).scrollTop()>350){
+                $(".main-4-newsBox").css({
+                   "transform": "translate3d(0, 0, 0)",
+                   "-ms-transform": "translate3d(0, 0, 0)",
+                   "-o-transform": "translate3d(0, 0, 0)",
+                   "-webkit-transform": "translate3d(0, 0, 0)",
+                   "-moz-transform": "translate3d(0, 0, 0)",
+                   "opacity": 1
+                });
+                $(".main-4-videoBox").css({
+                   "transform": "translate3d(0, 0, 0)",
+                   "-ms-transform": "translate3d(0, 0, 0)",
+                   "-o-transform": "translate3d(0, 0, 0)",
+                   "-webkit-transform": "translate3d(0, 0, 0)",
+                   "-moz-transform": "translate3d(0, 0, 0)",
+                   "opacity": 1
+                });
+            };
+            if($(window).scrollTop()>1850){
+                $(".campus-top").css({
+                   "transform": "translate3d(0, 0, 0)",
+                   "-ms-transform": "translate3d(0, 0, 0)",
+                   "-o-transform": "translate3d(0, 0, 0)",
+                   "-webkit-transform": "translate3d(0, 0, 0)",
+                   "-moz-transform": "translate3d(0, 0, 0)",
+                   "opacity": 1
+                });
+                $(".campus-bottom").css({
+                   "transform": "translate3d(0, 0, 0)",
+                   "-ms-transform": "translate3d(0, 0, 0)",
+                   "-o-transform": "translate3d(0, 0, 0)",
+                   "-webkit-transform": "translate3d(0, 0, 0)",
+                   "-moz-transform": "translate3d(0, 0, 0)",
+                   "opacity": 1
+                });
+            };
+            if($(window).scrollTop()>650){
+                $(".teacher-img1:nth-child(1)").css({
+                   "transform": "translate3d(0, 0, 0)",
+                   "-ms-transform": "translate3d(0, 0, 0)",
+                   "-o-transform": "translate3d(0, 0, 0)",
+                   "-webkit-transform": "translate3d(0, 0, 0)",
+                   "-moz-transform": "translate3d(0, 0, 0)",
+                   "opacity": 1
+                });
+                $(".teacher-img1:nth-child(2)").css({
+                   "transform": "translate3d(0, 0, 0)",
+                   "-ms-transform": "translate3d(0, 0, 0)",
+                   "-o-transform": "translate3d(0, 0, 0)",
+                   "-webkit-transform": "translate3d(0, 0, 0)",
+                   "-moz-transform": "translate3d(0, 0, 0)",
+                   "opacity": 1
+                });
+                $(".teacher-img1:nth-child(3)").css({
+                   "transform": "translate3d(0, 0, 0)",
+                   "-ms-transform": "translate3d(0, 0, 0)",
+                   "-o-transform": "translate3d(0, 0, 0)",
+                   "-webkit-transform": "translate3d(0, 0, 0)",
+                   "-moz-transform": "translate3d(0, 0, 0)",
+                   "opacity": 1
+                });
+            };
+            if($(window).scrollTop()>1250){
+                $(".teacher-img1:nth-child(4)").css({
+                   "transform": "translate3d(0, 0, 0)",
+                   "-ms-transform": "translate3d(0, 0, 0)",
+                   "-o-transform": "translate3d(0, 0, 0)",
+                   "-webkit-transform": "translate3d(0, 0, 0)",
+                   "-moz-transform": "translate3d(0, 0, 0)",
+                   "opacity": 1
+                });
+                $(".teacher-img1:nth-child(5)").css({
+                   "transform": "translate3d(0, 0, 0)",
+                   "-ms-transform": "translate3d(0, 0, 0)",
+                   "-o-transform": "translate3d(0, 0, 0)",
+                   "-webkit-transform": "translate3d(0, 0, 0)",
+                   "-moz-transform": "translate3d(0, 0, 0)",
+                   "opacity": 1
+                });
+                $(".teacher-img1:nth-child(6)").css({
+                   "transform": "translate3d(0, 0, 0)",
+                   "-ms-transform": "translate3d(0, 0, 0)",
+                   "-o-transform": "translate3d(0, 0, 0)",
+                   "-webkit-transform": "translate3d(0, 0, 0)",
+                   "-moz-transform": "translate3d(0, 0, 0)",
+                   "opacity": 1
+                });
+            };
+          });
+      }());
      $(document).ready(function(){
          $(window).scroll(function(){
-             if($(window).scrollTop()>350){
-                 $(".main-4-newsBox").css({
-                    "transform": "translate3d(0, 0, 0)",
-                    "-ms-transform": "translate3d(0, 0, 0)",
-                    "-o-transform": "translate3d(0, 0, 0)",
-                    "-webkit-transform": "translate3d(0, 0, 0)",
-                    "-moz-transform": "translate3d(0, 0, 0)",
-                    "opacity": 1
-                 });
-                 $(".main-4-videoBox").css({
-                    "transform": "translate3d(0, 0, 0)",
-                    "-ms-transform": "translate3d(0, 0, 0)",
-                    "-o-transform": "translate3d(0, 0, 0)",
-                    "-webkit-transform": "translate3d(0, 0, 0)",
-                    "-moz-transform": "translate3d(0, 0, 0)",
-                    "opacity": 1
-                 });
-             };
-             if($(window).scrollTop()>1850){
-                 $(".campus-top").css({
-                    "transform": "translate3d(0, 0, 0)",
-                    "-ms-transform": "translate3d(0, 0, 0)",
-                    "-o-transform": "translate3d(0, 0, 0)",
-                    "-webkit-transform": "translate3d(0, 0, 0)",
-                    "-moz-transform": "translate3d(0, 0, 0)",
-                    "opacity": 1
-                 });
-                 $(".campus-bottom").css({
-                    "transform": "translate3d(0, 0, 0)",
-                    "-ms-transform": "translate3d(0, 0, 0)",
-                    "-o-transform": "translate3d(0, 0, 0)",
-                    "-webkit-transform": "translate3d(0, 0, 0)",
-                    "-moz-transform": "translate3d(0, 0, 0)",
-                    "opacity": 1
-                 });
-             };
-             if($(window).scrollTop()>650){
-                 $(".teacher-img1:nth-child(1)").css({
-                    "transform": "translate3d(0, 0, 0)",
-                    "-ms-transform": "translate3d(0, 0, 0)",
-                    "-o-transform": "translate3d(0, 0, 0)",
-                    "-webkit-transform": "translate3d(0, 0, 0)",
-                    "-moz-transform": "translate3d(0, 0, 0)",
-                    "opacity": 1
-                 });
-                 $(".teacher-img1:nth-child(2)").css({
-                    "transform": "translate3d(0, 0, 0)",
-                    "-ms-transform": "translate3d(0, 0, 0)",
-                    "-o-transform": "translate3d(0, 0, 0)",
-                    "-webkit-transform": "translate3d(0, 0, 0)",
-                    "-moz-transform": "translate3d(0, 0, 0)",
-                    "opacity": 1
-                 });
-                 $(".teacher-img1:nth-child(3)").css({
-                    "transform": "translate3d(0, 0, 0)",
-                    "-ms-transform": "translate3d(0, 0, 0)",
-                    "-o-transform": "translate3d(0, 0, 0)",
-                    "-webkit-transform": "translate3d(0, 0, 0)",
-                    "-moz-transform": "translate3d(0, 0, 0)",
-                    "opacity": 1
-                 });
-             };
-             if($(window).scrollTop()>1250){
-                 $(".teacher-img1:nth-child(4)").css({
-                    "transform": "translate3d(0, 0, 0)",
-                    "-ms-transform": "translate3d(0, 0, 0)",
-                    "-o-transform": "translate3d(0, 0, 0)",
-                    "-webkit-transform": "translate3d(0, 0, 0)",
-                    "-moz-transform": "translate3d(0, 0, 0)",
-                    "opacity": 1
-                 });
-                 $(".teacher-img1:nth-child(5)").css({
-                    "transform": "translate3d(0, 0, 0)",
-                    "-ms-transform": "translate3d(0, 0, 0)",
-                    "-o-transform": "translate3d(0, 0, 0)",
-                    "-webkit-transform": "translate3d(0, 0, 0)",
-                    "-moz-transform": "translate3d(0, 0, 0)",
-                    "opacity": 1
-                 });
-                 $(".teacher-img1:nth-child(6)").css({
-                    "transform": "translate3d(0, 0, 0)",
-                    "-ms-transform": "translate3d(0, 0, 0)",
-                    "-o-transform": "translate3d(0, 0, 0)",
-                    "-webkit-transform": "translate3d(0, 0, 0)",
-                    "-moz-transform": "translate3d(0, 0, 0)",
-                    "opacity": 1
-                 });
-             };
+
          });
      });
 </script>
