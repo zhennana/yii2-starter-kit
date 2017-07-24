@@ -24,9 +24,10 @@ if(Yii::$app->session->hasFlash('alert')):?>
 
     .navbar-right li a{
         font-size:14px !important;
+        font-family:'微软雅黑';
     }
     .top-nov .dropdown-menu li a{
-        font-size:12px !important;
+//        font-size:12px !important;
     }
     .dropdown-menu > .active > a{
         background-color: #723c8e !important;
@@ -84,7 +85,7 @@ if(Yii::$app->session->hasFlash('alert')):?>
              <div class="top-logo"><img width="190px" height="60px" src="http://orh16je38.bkt.clouddn.com/guangnewlogo.jpg?imageView2/1/w/800/h/259"></div>
             <div class="top-tel">
                 <div class="top-tel-logo"><img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/top-tel-logo.png"></div>
-                <div class="top-tel-text"><span style="font-weight: bold;">服务热线</span></div>
+                <div class="top-tel-text"><span style="font-weight: bold;font-family:'微软雅黑'">服务热线</span></div>
                 <div class="top-tel-tel"> 0316-<span>5899988</span></div>
             </div>
          </div>
@@ -102,7 +103,7 @@ if(Yii::$app->session->hasFlash('alert')):?>
                 'options' => ['class' => 'navbar-nav navbar-right'],
                 'items' => [
                     ['label' => Yii::t('frontend', 'Home'), 'url' => ['/site/index']], 
-                    ['label' => Yii::t('frontend', 'About Guang Da'),
+                    ['label' => Yii::t('frontend', 'About'),
                         'items'=>[
                             [
                                 'label' => Yii::t('frontend', 'Shool & Department'),
@@ -123,7 +124,7 @@ if(Yii::$app->session->hasFlash('alert')):?>
                             
                         ]
                     ],
-                    ['label' => Yii::t('frontend', 'Education Teaching'),
+                    ['label' => Yii::t('frontend', 'Academics'),
                         'items'=>[
                             [
                                 'label' => Yii::t('frontend', 'Communication'),
@@ -132,19 +133,19 @@ if(Yii::$app->session->hasFlash('alert')):?>
                             
                         ]
                     ],
-                    ['label' => Yii::t('frontend', 'Cooperation & Communication'),
+                    ['label' => Yii::t('frontend', 'Cooperation'),
                         'items'=>[
                             [
-                                'label' => Yii::t('frontend', 'Cooperative Partner'),
+                                'label' => Yii::t('frontend', 'Partner'),
                                 'url' => ['/article/index', 'category_id'=>'34']
                             ],
                             
                         ]
                     ],
-                    ['label' => Yii::t('frontend', 'Enrollment Column'),
+                    ['label' => Yii::t('frontend', 'Admissions'),
                         'items'=>[
                             [
-                                'label' => Yii::t('frontend', 'Admissions Manual'),
+                                'label' => Yii::t('frontend', 'Manual'),
                                 'url' => ['/article/index', 'category_id'=>'25']
                             ],
                             // [
@@ -153,7 +154,7 @@ if(Yii::$app->session->hasFlash('alert')):?>
                                 
                             // ],
                             [
-                                'label' => Yii::t('frontend', 'Primary Enrollment'),
+                                'label' => Yii::t('frontend', 'Primary'),
                                 'url' => ['/article/index', 'category_id'=>'26']
                             
                             ],
@@ -163,27 +164,27 @@ if(Yii::$app->session->hasFlash('alert')):?>
                               
                             // ],
                             [
-                                'label' => Yii::t('frontend', 'Middle Enrollment'),
+                                'label' => Yii::t('frontend', 'Middle'),
                                 'url' => ['/article/index', 'category_id'=>'27']
                             ],
                             [
-                                'label' => Yii::t('frontend', 'International  Enrollment'),
+                                'label' => Yii::t('frontend', 'International'),
                                 'url' => ['/article/index', 'category_id'=>'28']
                             ],
                             [
-                                'label' => Yii::t('frontend', 'Korean Enrollment'),
+                                'label' => Yii::t('frontend', 'Korean'),
                                 'url' => ['/article/index', 'category_id'=>'39']
                             ],
                             [
-                                'label' => Yii::t('frontend', 'Special  Enrollment'),
+                                'label' => Yii::t('frontend', 'Special'),
                                 'url' => ['/article/index', 'category_id'=>'40']
                             ],
                             
                         ]
                     ],
                     // ['label' => Yii::t('frontend', '产品展示'), 'url' => ['/page/view', 'slug'=>'ke-cheng-ti-xi']],
-                    ['label' => Yii::t('frontend', 'Empoyment'), 'url' => ['/article/index', 'category_id'=>'33']],
-                    ['label' => Yii::t('frontend', 'Online Registration'), 'url' => ['/site/apply-to-play']],
+                    ['label' => Yii::t('frontend', 'Recruitment'), 'url' => ['/article/index', 'category_id'=>'33']],
+                    ['label' => Yii::t('frontend', 'Registration'), 'url' => ['/site/apply-to-play']],
                     ['label' => Yii::t('frontend', 'Contact'), 'url' => ['/site/contact']],
                     ['label' => Yii::t('frontend', 'Login'), 'url' => ['/user/sign-in/login'], 'visible'=>Yii::$app->user->isGuest],
                     [

@@ -57,16 +57,19 @@ use yii\captcha\Captcha;
           </div>
         </div>
         <div class="row btn-line">
+<!-- 民族-->
           <div class="col-xs-12 col-md-4">
            <div class="input-group text-two">
-            <span class="applystar col-xs-1"><i class="fa fa-fw fa-star text-red"></i></span><?php echo $form->field($model, 'nation')->textInput(['class' => 'span4 col-xs-9']);?>
+            <span class="applystar col-xs-1"><i ></i></span><?php echo $form->field($model, 'nation')->textInput(['class' => 'span4 col-xs-9']);?>
           </div>
           </div>
+          <!-- 监护人-->
           <div class="col-xs-12 col-md-4">
             <div class="input-group text-three">
-              <span class="applystar col-xs-1"><i class="fa fa-fw fa-star text-red"></i></span><?php echo $form->field($model, 'guardian')->textInput(['class' => 'span4 col-xs-9']);?>
+              <span class="applystar col-xs-1"><i ></i></span><?php echo $form->field($model, 'guardian')->textInput(['class' => 'span4 col-xs-9']);?>
             </div>
           </div>
+          <!-- 电话-->
           <div class="col-xs-12 col-md-4">
             <div class="input-group text-two">
               <span class="applystar col-xs-1"><i class="fa fa-fw fa-star text-red"></i></span><?php  echo $form->field($model, 'phone_number')->textInput(['class' => 'span4 col-xs-9']);?>
@@ -76,22 +79,30 @@ use yii\captcha\Captcha;
 
         <!-- 第三行 -->
         <div class="row btn-line" >
+        <!-- 邮件-->
           <div class="col-xs-12 col-md-4">
            <div class="input-group text-two">
             <span class="applystar col-xs-1"><i class="fa fa-fw fa-star text-red"></i></span><?php echo $form->field($model, 'email')->textInput(['class' => 'span4 col-xs-9']);?>
           </div>
           </div>
+          <!-- 详细地址-->
           <div class="col-xs-12 col-md-4">
             <div class="input-group text-three">
-              <span class="applystar col-xs-1"><i class="fa fa-fw fa-star text-red"></i></span><?php  echo $form->field($model, 'address')->textInput(['class' => 'span4 col-xs-9']);?>
+              <span class="applystar col-xs-1"><i ></i></span><?php  echo $form->field($model, 'address')->textInput(['class' => 'span4 col-xs-9']);?>
             </div>
           </div>
         </div>
         <div class="row btn-line">
+        <!-- 简介-->
           <div class="col-xs-12">
            <div class="input-group text-four">
-            <span class="applystar" style="padding-left:15px;padding-top:17px;"><i class="fa fa-fw fa-star text-red"></i></span><?php  echo $form->field($model, 'body')->textarea(['rows'=>3,'class' => 'span3']);?>
+            <span class="applystar" style="padding-left:30px;padding-top:17px;"><i ></i></span><?php  echo $form->field($model, 'body')->textarea(['rows'=>3,'class' => 'span3']);?>
           </div>
+          </div>
+          <div class="col-xs-12">
+              <div class="input-group text-four">
+                <span class="applystar" style="padding-left:15px;font-size:12px;">（备注：带<i class="fa fa-fw fa-star text-red"></i>为必填项）</span>
+              </div>
           </div>
         </div>
         <div class="box-footer">
