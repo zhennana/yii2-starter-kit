@@ -127,8 +127,11 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                         <h4>联系我们</h4>
                         <p class="no-margin">全国咨询热线</p>
                         <h3 class="no-margin">400-608-0515</h3>
-                        <h5>地址：河北省廊坊市三河市燕郊开发区</h5>
-                        <p>邮编：065201</p>
+                        <h5>总公司地址：北京市通州经济开发区南区鑫隅四街1号-668</h5>
+                        <p style="line-height: 5px">邮编：101108</p>
+                        <br>
+                        <h5>分公司地址：北京东燕郊开发区创意谷街773号瓦酷机器人创客空间</h5>
+                        <p style="line-height: 5px">邮编：065201</p>
                     </li>
                 </ul>
             </div>
