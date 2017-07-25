@@ -31,8 +31,10 @@ public function behaviors()
             [['phone_number'], PhoneValidator::className()],
             ['status','default','value'=>ApplyToPlay::APPLY_TO_PLAY_STATUS_AUDIT],
             ['email','email'],
-            [['auditor_id', 'status', 'province_id', 'school_id', 'age'], 'integer'],
+            [['auditor_id', 'status', 'province_id', 'school_id', 'age','birth'], 'integer'],
+            [['guardian', 'nation','address'], 'string'],
             [['username'], 'string', 'max' => 255],
+            [['body'], 'string', 'max' => 32],
         ];
     }
     public function attributeLabels()

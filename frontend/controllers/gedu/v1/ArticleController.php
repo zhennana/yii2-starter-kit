@@ -131,6 +131,28 @@ class ArticleController extends \common\rest\Controller
         return $data;
     }
 
+    /**
+     * @SWG\Get(path="/article/contact",
+     *     tags={"GEDU-Article-文章接口"},
+     *     summary="联系我们",
+     *     description="返回联系我们信息",
+     *     produces={"application/json"},
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "返回联系我们信息"
+     *     ),
+     * )
+    **/
+    public function actionContact()
+    {
+        $data = [];
+
+        $data = [
+            'body' => '<p>学校地址：河北省三河市燕郊开发区燕灵路236号（三河二中西门路北）</p><p>邮编：065201</p><p>电话： 办公室： 0316-5997070 转6009</p><p>小学部办公室 转6003</p><p>中学部办公室 转6013</p><p>国际部办公室 转2599</p><p>招生办公室 转6688</p><p>董老师:13363653072, 杨老师:18034265209,马老师:18103165099</p><p>招生咨询时间：（周一至周日8:00-20:00）</p><p>网址：www.guangdaxuexiao.com</p>'
+        ];
+        return $data;
+    }
+
 }
 
 ?>
