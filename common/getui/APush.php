@@ -46,7 +46,7 @@ function pushMessageToSingleBatch($data)
 
     foreach ($data as $key => $value) {
 
-        if($value['type'] == 2){
+        if($value['client_source_type'] == 10){
             //安卓 通知透传模板
             $template = IGtNotificationTemplateDemo($value['message']);
         }else{
@@ -134,7 +134,7 @@ function pushMessageToList($data)
     putenv("gexin_pushList_needAsync=true");
 
     $igt = new IGeTui(HOST, APPKEY, MASTERSECRET);
-    if($data['type'] == 2){
+    if($data['client_source_type'] == 10){
         //安卓 通知透传模板
         $template = IGtNotificationTemplateDemo($data['message']);
     }else{
