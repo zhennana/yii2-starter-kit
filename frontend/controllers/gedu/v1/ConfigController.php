@@ -14,6 +14,7 @@ use frontend\models\edu\resources\Course;
 use frontend\models\edu\resources\UsersToUsers;
 use frontend\models\edu\resources\Courseware;
 use frontend\models\edu\resources\Contact;
+use frontend\models\edu\resources\ApplyToPlay;
 
 class ConfigController extends \common\rest\Controller
 {
@@ -529,18 +530,88 @@ class ConfigController extends \common\rest\Controller
      *     produces={"application/json"},
      *     @SWG\Parameter(
      *        in = "formData",
-     *        name = "school_id",
-     *        description = "学校ID",
+     *        name = "username",
+     *        description = "报名人姓名",
      *        required = true,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "age",
+     *        description = "报名人年龄",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "gender",
+     *        description = "性别：1男，2女",
+     *        required = true,
+     *        type = "integer",
+     *        enum = {1,2}
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "guardian",
+     *        description = "监护人",
+     *        required = false,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "phone_number",
+     *        description = "报名人电话",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "email",
+     *        description = "邮箱",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "birth",
+     *        description = "出生年月",
+     *        required = false,
      *        type = "integer"
      *     ),
      *     @SWG\Parameter(
      *        in = "formData",
-     *        name = "body",
-     *        description = "反馈内容,max=255",
-     *        required = true,
-     *        default = "",
+     *        name = "nation",
+     *        description = "民族",
+     *        required = false,
      *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "body",
+     *        description = "个人简历",
+     *        required = false,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "address",
+     *        description = "详细地址",
+     *        required = false,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "province_id",
+     *        description = "省",
+     *        required = false,
+     *        type = "integer"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "school_id",
+     *        description = "校区",
+     *        required = false,
+     *        type = "integer"
      *     ),
      *     @SWG\Response(
      *         response = 200,
@@ -549,5 +620,18 @@ class ConfigController extends \common\rest\Controller
      * )
      *
     **/
+    public function actionApply()
+    {
+        $params['ApplyToPlay'] = Yii::$app->request->post();
+        $model = new ApplyToPlay;
+        if ($model->load($params) && $model->validate()) {
+           if ($model->save()) {
+               return $model;
+           }
+        }
+        $this->serializer['errno']   = __LINE__;
+        $this->serializer['message'] = $model->getErrors();
+        return [];
+    }
 
 }
