@@ -165,7 +165,7 @@ class SignInController extends \common\components\ControllerFrontendApi
             //user_type= 2 是 老师；user_type = 1 是家长; 老师用户都存在默认展示老师
             $attrUser['user_role'] = $model->user->getCharacterDetailes();
 
-            $proFileUser = $model->user->userProfile;
+            $proFileUser = $model->user->getUserProfile();
             // 默认头像
             if(isset($proFileUser->avatar_base_url) && !empty($proFileUser->avatar_base_url))
             {
@@ -410,6 +410,68 @@ class SignInController extends \common\components\ControllerFrontendApi
         $this->serializer['errno']      = 1;
         $this->serializer['message']    = $model->getErrors();
         return $this->serializer['message'];
+    }
+
+    /**
+     * @SWG\POST(path="/sign-in/user-profile",
+     *     tags={"WEDU-SignIn-用户接口"},
+     *     summary="更新用户客户端来源",
+     *     description="更新用户客户端来源",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "user_id",
+     *        description = "用户ID",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "clientid",
+     *        description = "标识客户端身份",
+     *        required = true,
+     *        default  ="9d999e50541561113a6044ef78b2061d",
+     *        type = "string"
+     *     ),
+     *  @SWG\Parameter(
+     *        in = "formData",
+     *        name = "client_source_type",
+     *        description = "来源，10：安卓；20：ios",
+     *        required = true,
+     *        type = "string",
+     *        enum = {"10", "20"}
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "更新成功"
+     *     )
+     * )
+     *
+     */
+    
+    public function actionUserProfile()
+    {
+        $user_id = Yii::$app->request->post('user_id');
+        $client_source_type = Yii::$app->request->post('client_source_type');
+        $clientid           =  Yii::$app->request->post('clientid');
+        if($user_id == NULL ){
+            $user_id = isset(Yii::$app->user->identity->user_id) ? Yii::$app->user->identity->user_id : 0;
+        }
+        if($user_id == 0){
+            $this->serializer['errno']   = 1;
+            $this->serializer['message'] = '请先登录';
+            return [];
+        }
+        $model = UserProfile::findOne($user_id);
+        if(!$model){
+            $this->serializer['errno']   = 1;
+            $this->serializer['message'] = '该用户不存在';
+            return [];
+        }
+        $model->client_source_type = $client_source_type;
+        $model->clientid           = $clientid;
+        $model->save();
+        return $model;
     }
 
     /**
