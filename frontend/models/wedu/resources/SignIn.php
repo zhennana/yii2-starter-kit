@@ -35,6 +35,7 @@ public function behaviors()
 
     public function batch_add($params){
        $data = [];
+       //var_dump($params);exit;
        if(empty($params)){
            $data['error'][] = '数据不能为空';
         }
@@ -56,6 +57,7 @@ public function behaviors()
                 if(!$model->save()){
                   $data['error'][$key] = $model->getErrors();
                 }else{
+                  $message = [];
                   // 添加学生档案
                   if($model->type_status == 10){
                       $this->addStudentRecord([
@@ -67,9 +69,23 @@ public function behaviors()
                             'status'    => 1,
                         ]);
                       if($i == 0){
+                        //更新课程状态
                         Course::updateAll(['status'=>Course::COURSE_STATUS_FINISH],'course_id='.$model->course_id);
                         $i++;
                       }
+                    //发送推送消息
+                    $userProfile = Yii::$app->user->identity->getUserProfile($model->student_id);
+                   //var_dump($userProfile->clientid,$userProfile->client_source_type);exit;
+                    if(isset($userProfile->clientid) && isset($userProfile->client_source_type)){
+                        $message[] = [
+                              'client_source_type'=> $userProfile->client_source_type,
+                              'cid'               => $userProfile->clientid,
+                              'message'           => [
+                                      'title' =>'上课通知',
+                                      'body'  =>'您的孩子签到了:'.$model->course->title
+                              ]
+                        ];
+                    }
 
                   }
                   $data['message'][$key] = $model;
@@ -77,7 +93,6 @@ public function behaviors()
         }else{
           $data['message'][$key]  = $is_check->one();
         }
-
         //更新老师工作接口接口
         if($data['message']){
             $WorkRecord = WorkRecord::find()->andwhere([
@@ -93,6 +108,10 @@ public function behaviors()
             }
         }
 
+    }
+    //签到排课
+    if(!empty($message)){
+        pushMessageToSingleBatch($message);
     }
      return $data;
   }
