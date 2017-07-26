@@ -12,15 +12,32 @@
 
 <link rel="stylesheet" href="<?php echo $url ?>css/main.css">
 <style type="text/css">
-.demo{width:95%;margin:50px auto 10px auto;padding:10px;}
+.demo{
+    position: relative;
+    width:95%;
+    margin:50px auto 10px auto;
+    padding:10px;
+}
+.watermark{
+    font-size: 2em;
+    position: absolute;
+    z-index: 1000;
+    top: 8%;
+    left: 65%;
+    -moz-opacity: 0.7;
+    opacity: 0.7;
+    color: #FFFFFF;
+}
 </style>
 
 </head>
 
 <body>
-
 <div id="main">
     <div class="demo">
+        <div class="watermark">
+        <p><?php  echo isset(Yii::$app->user->identity->username) ? Yii::$app->user->identity->username  : Yii::$app->user->identity->phone_number ?></p>
+        </div>
         <div id="danmup" style="margin:20px auto"></div>
     </div>
 </div>
@@ -31,6 +48,7 @@
 <script src="<?php echo $url ?>js/main.js"></script>
 <script>
 $("#danmup").DanmuPlayer({
+    // src: "http://static.v1.wakooedu.com/o_1blcqepq41hgq184o1hug1psd12fsh.mp4",
     src: "<?php echo $files ?>",
     height: "480px", //区域的高度
     width: "800px" //区域的宽度
