@@ -91,8 +91,8 @@ class CoursewareCategory extends BaseCoursewareCategory
         foreach ($params as $key => $value) {
             $child = self::find()->where(['status'=>self::CATEGORY_STATUS_OPEN,'parent_id' => $value['category_id']])->asArray()->all();
             $temp = $value;
-            $temp['child'] = $child;
             $temp['imgUrl'] = 'http://orh16je38.bkt.clouddn.com/study-picture.png?imageView2/1/w/509/h/209';
+            $temp['child'] = $child;
             $data[] = $temp;
         }
         return $data;
