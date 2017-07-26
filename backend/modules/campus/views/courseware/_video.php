@@ -48,8 +48,8 @@
 <script src="<?php echo $url ?>js/main.js"></script>
 <script>
 $("#danmup").DanmuPlayer({
-    src: "http://static.v1.wakooedu.com/o_1blcqepq41hgq184o1hug1psd12fsh.mp4",
-    // src: "<?php echo $files ?>",
+    // src: "http://static.v1.wakooedu.com/o_1blcqepq41hgq184o1hug1psd12fsh.mp4",
+    src: "<?php echo $files ?>",
     height: "480px", //区域的高度
     width: "800px" //区域的宽度
   });
