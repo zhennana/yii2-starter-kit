@@ -60,7 +60,12 @@ abstract class StudentRecordValueToFile extends \yii\db\ActiveRecord
         );
     }
 
-    
+    public  function getStudentRecordValue(){
+        return $this->hasOne(
+            \backend\modules\campus\models\StudentRecordValue::className(),
+            ['student_record_value_id'=>'student_record_value_id']
+        );
+    }
     /**
      * @inheritdoc
      * @return \backend\modules\campus\models\query\StudentRecordValueToFileQuery the active query used by this AR class.

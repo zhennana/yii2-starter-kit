@@ -45,22 +45,42 @@ public function behaviors()
          ]
     );
 }
-
-    public function message($category){
-      $data = self::find()->select('message')
+  /**
+   * 消息通知
+   * @param  [type] $category [description]
+   * @return [type]           [description]
+   */
+    public function message($category,$school_id = NULL,$grade_id = NULL){
+      $model = self::find()->select('message')
                 ->where([
                     'category'=>$category,
-                    'receiver_id'=>Yii::$app->user->identity->id
-                  ])
+                  ]);
+      if($category == 2){
+            $model->andWhere([
+                'receiver_id'=>Yii::$app->user->identity->id
+            ]);
+        }else{
+            $model->andWhere([
+                'or',
+                ['receiver_id'=> Yii::$app->user->identity->id],
+                [
+                'school_id'  => $school_id, 
+                'grade_id'=> NULL ,
+                'receiver_id' => Yii::$app->user->identity->id
+                ],
+                ['school_id'  => $school_id , 'grade_id' => $grade_id ,'receiver_id' => NULL],
+            ]);
+        }
+        $model = $model->orderby(['created_at'=> SORT_DESC])
                 ->asArray()->one();
-      if($data){
-        $data['count'] = $this->messageCount($category);
-      }else{
-        $data = [];
-      }
-      return $data;
-    }
 
+        if($model == NULL){
+            $model = [];
+        }
+      // var_dump(123);exit;
+      return $model;
+    }
+/*
     public function messageCount($category){
         return self::find()
                 ->where([
@@ -70,7 +90,9 @@ public function behaviors()
                     ])
                 ->count();
     }
+*/
+    /*
     public function messageList(){
       return self::find()->select('message')->asArray()->all();
-    }
+    }*/
 }

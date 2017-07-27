@@ -32,29 +32,35 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
         </div>
         <div class="col-xs-12  col-md-12 margin_bottom no-padding">
             <div class="col-md-12 about_wakoo">
-                <p>    瓦酷机器人是由北京魔趣教育科技有限公司研发的高端教育品牌。
-                是致力于3-13岁青少年的科技教育，让孩子们在“玩中学”，动手拼插 共享创新实践过程,
-                体会抽象的理论知识应用在真实的生活中。从而实现拓展思维和提升生存能力。
-                瓦酷机器人给中国的孩子们带来最特别的教育！</p>
-                 <p>    瓦酷机器人全部应用丹麦的乐高教具。乐高的专利积木产品种类超过2000种、
-                 对产品质量要求非常高：模具公差2微米、软硬适度、超过世界上最严格的卫生标准、
-                 拼插2万次不松脱。瓦酷机器人相信通过知识延伸，构建思维和21世纪技能的培养，
-                 能够让学生积极思考、团队合作，成为终身学习者。！</p>
-                 <p>    瓦酷教育学习方案根据不同年龄(3-13岁)特点设计，
-                 涉及学科内容包括科学、技术、数学、设计、社会学等，
-                 既适用于课堂教学，也可以作为课外活动和技能培训内容。
-                 瓦酷机器人将“快乐教学，创意教学”融入企业文化中。
-                 是全国机器人教育中发展最快，教育理念最优的教育基地。</p>
+                <p>
+                    <?= isset($model['about'][0]['body']) ? $model['about'][0]['body'] : ''; ?>
+                </p>
             </div>
             <!--<div class="col-md-6">
                 <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/bell1.png">
             </div>-->
         </div>
         <div class="col-xs-12 no-padding">
+        <?php
+            if(isset($model['about'][0]['articleAttachments']) && !empty($model['about'][0]['articleAttachments']) && (count($model['about'][0]['articleAttachments']) >= 4) ){
+                $Attachments = $model['about'][0]['articleAttachments'];
+            foreach ($Attachments as $key => $value) {
+                if($key > 3 ){
+                    break;
+                }
+                $url = $value['base_url'] .'/'. $value['path'].'?imageView2/3/w/400/h/300';
+        ?>
            <div class="col-xs-3">
+                <img class="img-responsive about_img" src="<?php echo $url ?>">
+            </div>
+            <?php 
+                }}else{
+            ?>
+
+            <div class="col-xs-3">
                 <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/chuangzao.png?imageView2/3/w/400/h/300">
             </div>
-            <div class="col-xs-3">
+            <div  class="col-xs-3">
                 <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/find.png?imageView2/3/w/400/h/300">
             </div>
             <div class="col-xs-3">
@@ -63,6 +69,7 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
             <div class="col-xs-3">
                 <img class="img-responsive about_img" src="http://static.v1.wakooedu.com/jiejue.png?imageView2/3/w/400/h/300">
             </div>
+        <?php }?>
         </div>
 
         <div class="col-xs-12 knowmore">
@@ -421,7 +428,8 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
             <div class="col-sm-6 ourinfo">
                 <h4 class="text-left">联系方式</h4>
                 <p>北京魔趣教育科技有限公司</p>
-                <p>公司地址：河北省廊坊市三河市燕郊开发区</p>
+                <p>总公司地址：北京市通州经济开发区南区鑫隅四街1号-668</p>
+                <p>分公司地址：北京东燕郊开发区创意谷街773号瓦酷机器人创客空间</p>
                 <p>办公电话：400-608-0515</p>
                 <p>网址：www.wakooedu.com</p>
             </div>

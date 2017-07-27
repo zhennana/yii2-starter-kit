@@ -5,17 +5,18 @@
 namespace backend\modules\campus\controllers\base;
 
 use backend\modules\campus\models\GradeCategory;
-    use backend\modules\campus\models\search\GradeCategorySearch;
+use backend\modules\campus\models\search\GradeCategorySearch;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
 use yii\filters\AccessControl;
 use dmstr\bootstrap\Tabs;
 
 /**
 * GradeCategroyController implements the CRUD actions for GradeCategroy model.
 */
-class GradeCategoryController extends Controller
+class GradeCategoryController extends \common\components\Controller
 {
 
 
@@ -99,19 +100,27 @@ public function actionView($grade_category_id)
 */
 public function actionCreate()
 {
-$model = new GradeCategory;
+    $model = new GradeCategory;
 
-try {
-if ($model->load($_POST) && $model->save()) {
-return $this->redirect(['view', 'grade_category_id' => $model->grade_category_id]);
-} elseif (!\Yii::$app->request->isPost) {
-$model->load($_GET);
-}
-} catch (\Exception $e) {
-$msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
-$model->addError('_exception', $msg);
-}
-return $this->render('create', ['model' => $model]);
+    try {
+        if ($model->load($_POST) && $model->save()) {
+            return $this->redirect(['view', 'grade_category_id' => $model->grade_category_id]);
+        } elseif (!\Yii::$app->request->isPost) {
+            $model->load($_GET);
+        }
+    } catch (\Exception $e) {
+        $msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
+        $model->addError('_exception', $msg);
+    }
+    $parent_category = GradeCategory::find()->where([
+        'status' => GradeCategory::CATEGORY_OPEN,
+    ])->asArray()->all();
+    $parent_category = ArrayHelper::map($parent_category,'grade_category_id','name');
+
+    return $this->render('create', [
+        'model' => $model,
+        'parent_category' => $parent_category,
+    ]);
 }
 
 /**
@@ -122,15 +131,23 @@ return $this->render('create', ['model' => $model]);
 */
 public function actionUpdate($grade_category_id)
 {
-$model = $this->findModel($grade_category_id);
+    $model = $this->findModel($grade_category_id);
 
-if ($model->load($_POST) && $model->save()) {
-return $this->redirect(Url::previous());
-} else {
-return $this->render('update', [
-'model' => $model,
-]);
-}
+    if ($model->load($_POST) && $model->save()) {
+        return $this->redirect(Url::previous());
+    } else {
+        $parent_category = GradeCategory::find()->where([
+            'status' => GradeCategory::CATEGORY_OPEN,
+        ])->andWhere([
+            '<>', 'grade_category_id', $grade_category_id
+        ])->asArray()->all();
+        $parent_category = ArrayHelper::map($parent_category,'grade_category_id','name');
+
+        return $this->render('update', [
+            'model' => $model,
+            'parent_category' => $parent_category
+        ]);
+    }
 }
 
 /**

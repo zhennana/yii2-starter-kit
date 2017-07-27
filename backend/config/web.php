@@ -48,47 +48,7 @@ $config = [
             'defaultRoute'=>'default/index'
         ]
     ],
-    'as globalAccess'=>[
-        'class'=>'\common\behaviors\GlobalAccessBehavior',
-        'rules'=>[
-            [
-                'controllers'=>['sign-in'],
-                'allow' => true,
-                'roles' => ['?'],
-                'actions'=>['login']
-            ],
-            [
-                'controllers'=>['sign-in'],
-                'allow' => true,
-                'roles' => ['@'],
-                'actions'=>['logout']
-            ],
-            [
-                'controllers'=>['site'],
-                'allow' => true,
-                'roles' => ['?', '@'],
-                'actions'=>['error']
-            ],
-            [
-                'controllers'=>['debug/default'],
-                'allow' => true,
-                'roles' => ['?'],
-            ],
-            [
-                'controllers'=>['user'],
-                'allow' => true,
-                'roles' => ['administrator'],
-            ],
-            [
-                'controllers'=>['user'],
-                'allow' => false,
-            ],
-            [
-                'allow' => true,
-                'roles' => ['manager'],
-            ]
-        ]
-    ]
+    'as globalAccess'=>require(__DIR__.'/access.php'),
 ];
 
 if (YII_ENV_DEV) {

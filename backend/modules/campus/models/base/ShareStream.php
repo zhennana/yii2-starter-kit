@@ -27,6 +27,13 @@ abstract class ShareStream extends \yii\db\ActiveRecord
     CONST SHARESTREAM_STATUS_OPEN = 10; //正常;
     CONST SHARESTREAM_STATUS_CLOSE = 20 ; //关闭;
 
+    public static function optsStatus(){
+        return [
+            self::SHARESTREAM_STATUS_OPEN=>'正常',
+            self::SHARESTREAM_STATUS_CLOSE=>'关闭',
+        ];
+    }
+
     /**
      * @inheritdoc
      */
@@ -56,10 +63,9 @@ abstract class ShareStream extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['body'], 'required'],
-            [['auditor_id', 'status','user_id'], 'integer'],
-            [['school_id','grade_id'],'string'],
-            ['user_id','default','value'=>isset(Yii::$app->user->identity->id) ? Yii::$app->user->identity->id  : '' ],
+            [['body','school_id'], 'required'],
+            [['status','author_id'], 'integer'],
+            ['author_id','default','value'=>isset(Yii::$app->user->identity->id) ? Yii::$app->user->identity->id  : '' ],
             ['status','default','value'=>self::SHARESTREAM_STATUS_OPEN],
             [['body'], 'string', 'max' => 256]
         ];
@@ -71,11 +77,11 @@ abstract class ShareStream extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'share_stream_id' => Yii::t('backend', 'Share Stream ID'),
-            'user_id' => Yii::t('backend', 'User ID'),
-            'auditor_id' => Yii::t('backend', 'Auditor ID'),
-            'school_id' => Yii::t('backend', 'School ID'),
-            'grade_id' => Yii::t('backend', '审核人'),
+            'share_stream_id' => Yii::t('backend', 'id'),
+            'author_id' => Yii::t('backend', 'User ID'),
+            //'auditor_id' => Yii::t('backend', 'Auditor ID'),
+           // 'school_id' => Yii::t('backend', 'School ID'),
+            //'grade_id' => Yii::t('backend', '审核人'),
             'body' => Yii::t('backend', '消息内容'),
             'status' => Yii::t('backend', '状态'),
             'updated_at' => Yii::t('backend', 'Updated At'),
@@ -89,7 +95,7 @@ abstract class ShareStream extends \yii\db\ActiveRecord
     public function attributeHints()
     {
         return array_merge(parent::attributeHints(), [
-            'grade_id' => Yii::t('backend', '审核人'),
+           // 'grade_id' => Yii::t('backend', '审核人'),
             'body' => Yii::t('backend', '消息内容'),
             'status' => Yii::t('backend', '状态'),
         ]);
@@ -97,23 +103,14 @@ abstract class ShareStream extends \yii\db\ActiveRecord
 
 
     public function getShareToFile(){
-        return $this->hasmany(\backend\modules\campus\models\ShareToFile::className(),['share_stream_id'=>'share_stream_id']);
+        return $this->hasMany(\backend\modules\campus\models\ShareToFile::className(),['share_stream_id'=>'share_stream_id']);
     }
 
-    public  function getUserName($id)
-    {
-        $user = \common\models\User::findOne($id);
-        $name = '';
-        if(isset($user->realname) && !empty($user->realname)){
-            return $user->realname;
-        }
-        if(isset($user->username) && !empty($user->username)){
-           return $user->username;
-        }
-        // if(isset($user->phone_number) && !empty($user->phone_number)){
-        //     return $user->phone_number;
-        // }
-        return $name;
+    public function getShareToGrade(){
+        return $this->hasMany(\backend\modules\campus\models\ShareStreamToGrade::className(),['share_stream_id'=>'share_stream_id']);
+    }
+    public function getSchool(){
+        return $this->hasOne(\backend\modules\campus\models\School::className(),['school_id'=>'school_id']);
     }
     //获取用户头像
     public function getUserAvatar($id)
@@ -124,7 +121,8 @@ abstract class ShareStream extends \yii\db\ActiveRecord
        // 默认头像
         if(isset($proFileUser->avatar_base_url) && !empty($proFileUser->avatar_base_url))
         {
-           return  $avatar = $proFileUser->avatar_base_url.$proFileUser->avatar_path;
+            
+           return  $avatar = $proFileUser->avatar_base_url.'/'.$proFileUser->avatar_path;
         }else{
             $fansMpUser = isset($user->fansMp) ? $user->fansMp : '';
             if($fansMpUser){

@@ -9,6 +9,8 @@ use yii\helpers\Url;
 use yii\bootstrap\ActiveForm;
 use \dmstr\bootstrap\Tabs;
 use yii\helpers\StringHelper;
+use kartik\select2\Select2;
+use \backend\modules\campus\models\CoursewareCategory;
 
 /**
  *
@@ -44,9 +46,13 @@ use yii\helpers\StringHelper;
 
 
 <!-- attribute parent_id -->
-			<?php echo $form->field($model, 'parent_id')->dropDownList(
-                $parent_category,['prompt'=>'请选择']
-            ) ?>
+			<?php echo $form->field($model, 'parent_id')->widget(Select2::className(),[
+                'data'          => $parent_category,
+                'options'       => ['placeholder' => '请选择'],
+                'pluginOptions' => [ 
+                    'allowClear' => true
+                ],
+            ]); ?>
 
 <!-- attribute creater_id -->
 			<?= $form->field($model, 'creater_id')->hiddenInput(['value'=>Yii::$app->user->identity->id])->label(false)->hint(false) ?>
@@ -59,7 +65,15 @@ use yii\helpers\StringHelper;
 
 <!-- attribute banner_src -->
 			<?php echo $form->field($model, 'banner_src')->textInput(['maxlength' => true]) ?>
-			<?= $form->field($model, 'status')->dropDownList(\backend\modules\campus\models\CoursewareCategory::optsStatus(),['prompt'=>'请选择']); ?>
+
+			<?= $form->field($model, 'status')->widget(Select2::className(),[
+                'data'          => CoursewareCategory::optsStatus(),
+                'options'       => ['placeholder' => '请选择'],
+                'hideSearch'    => true,
+                'pluginOptions' => [
+                    'allowClear' => true
+                ],
+            ]) ?>
 
         </p>
         <?php $this->endBlock(); ?>
@@ -109,7 +123,7 @@ Tabs::widget(
     else
     {
         url = "<?php echo Url::to(['delete-cloud']) ;?>";
-    }    
+    }
     jQuery.ajax({
         type: "post",
         url: url,

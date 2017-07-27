@@ -91,7 +91,7 @@ class SignInController extends \common\components\ControllerFrontendApi
 
     /**
      * @SWG\Post(path="/sign-in/login",
-     *     tags={"100-SignIn-用户接口"},
+     *     tags={"WEDU-SignIn-用户接口"},
      *     summary="用户登录[已经自测]",
      *     description="用户登录：成功返回用户信息；失败返回具体原因",
      *     produces={"application/json"},
@@ -165,11 +165,11 @@ class SignInController extends \common\components\ControllerFrontendApi
             //user_type= 2 是 老师；user_type = 1 是家长; 老师用户都存在默认展示老师
             $attrUser['user_role'] = $model->user->getCharacterDetailes();
 
-            $proFileUser = $model->user->userProfile;
+            $proFileUser = $model->user->getUserProfile();
             // 默认头像
             if(isset($proFileUser->avatar_base_url) && !empty($proFileUser->avatar_base_url))
             {
-                $attrUser['avatar'] = $proFileUser->avatar_base_url.$proFileUser->avatar_path;
+                $attrUser['avatar'] = $proFileUser->avatar_base_url.'/'.$proFileUser->avatar_path;
             }else{
                 $fansMpUser = isset($model->user->fansMp) ? $model->user->fansMp : '';
                 if($fansMpUser){
@@ -188,7 +188,7 @@ class SignInController extends \common\components\ControllerFrontendApi
 
     /**
      * @SWG\Get(path="/sign-in/index",
-     *     tags={"100-SignIn-用户接口"},
+     *     tags={"WEDU-SignIn-用户接口"},
      *     summary="登陆请求验证已经登陆[已经自测]",
      *     description="验证是否已经登陆。已登录则返回用户信息",
      *     produces={"application/json"},
@@ -248,7 +248,7 @@ class SignInController extends \common\components\ControllerFrontendApi
 
     /**
      * @SWG\Get(path="/sign-in/send-sms",
-     *     tags={"100-SignIn-用户接口"},
+     *     tags={"WEDU-SignIn-用户接口"},
      *     summary="发送验证码[已经自测]",
      *     description="发送验证码，成功返回验证码与用户信息",
      *     produces={"application/json"},
@@ -329,7 +329,7 @@ class SignInController extends \common\components\ControllerFrontendApi
 
     /**
      * @SWG\Post(path="/sign-in/signup",
-     *     tags={"100-SignIn-用户接口"},
+     *     tags={"WEDU-SignIn-用户接口"},
      *     summary="用户注册[已经自测]",
      *     description="成功返回注册完信息，失败返回具体原因",
      *     produces={"application/json"},
@@ -413,8 +413,70 @@ class SignInController extends \common\components\ControllerFrontendApi
     }
 
     /**
+     * @SWG\POST(path="/sign-in/user-profile",
+     *     tags={"WEDU-SignIn-用户接口"},
+     *     summary="更新用户客户端来源",
+     *     description="更新用户客户端来源",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "user_id",
+     *        description = "用户ID",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "clientid",
+     *        description = "标识客户端身份",
+     *        required = true,
+     *        default  ="9d999e50541561113a6044ef78b2061d",
+     *        type = "string"
+     *     ),
+     *  @SWG\Parameter(
+     *        in = "formData",
+     *        name = "client_source_type",
+     *        description = "来源，10：安卓；20：ios",
+     *        required = true,
+     *        type = "string",
+     *        enum = {"10", "20"}
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "更新成功"
+     *     )
+     * )
+     *
+     */
+    
+    public function actionUserProfile()
+    {
+        $user_id = Yii::$app->request->post('user_id');
+        $client_source_type = Yii::$app->request->post('client_source_type');
+        $clientid           =  Yii::$app->request->post('clientid');
+        if($user_id == NULL ){
+            $user_id = isset(Yii::$app->user->identity->user_id) ? Yii::$app->user->identity->user_id : 0;
+        }
+        if($user_id == 0){
+            $this->serializer['errno']   = 1;
+            $this->serializer['message'] = '请先登录';
+            return [];
+        }
+        $model = UserProfile::findOne($user_id);
+        if(!$model){
+            $this->serializer['errno']   = 1;
+            $this->serializer['message'] = '该用户不存在';
+            return [];
+        }
+        $model->client_source_type = $client_source_type;
+        $model->clientid           = $clientid;
+        $model->save();
+        return $model;
+    }
+
+    /**
      * @SWG\POST(path="/sign-in/update-profile",
-     *     tags={"100-SignIn-用户接口"},
+     *     tags={"WEDU-SignIn-用户接口"},
      *     summary="更新用户附属信息(头像等)[已经自测]",
      *     description="更新用户附属表信息 http://developer.qiniu.com/docs/v6/sdk/ios-sdk.html",
      *     produces={"application/json"},
@@ -429,7 +491,9 @@ class SignInController extends \common\components\ControllerFrontendApi
      *        in = "formData",
      *        name = "json_data",
      *        description = "七牛返回的JSON数据",
+     *        
      *        required = true,
+     *        
      *        type = "string"
      *     ),
      *     @SWG\Response(
@@ -450,12 +514,11 @@ class SignInController extends \common\components\ControllerFrontendApi
     */
     /*
     {"name":"header.jpg","size":203100,"type":"image\/jpeg","hash":"FoTl-Zw-aJehckIRja4u_KHmGtYi","key":"1470045842510.jpg"}
-
      */
     public function actionUpdateProfile()
     {
-        $avatar_base_url = 'http://7xrpkx.com1.z0.glb.clouddn.com/';
-        $avatar_base_url = 'http://7xsm8j.com1.z0.glb.clouddn.com/';
+        $avatar_base_url = Yii::$app->params['qiniu']['wakooedu']['domain'];
+        //var_dump($avatar_base_url);exit;
         $user_id         = Yii::$app->request->post('user_id');
         $data            = Yii::$app->request->post('json_data');
         $data            = json_decode($data, true);
@@ -497,14 +560,13 @@ class SignInController extends \common\components\ControllerFrontendApi
             $this->serializer['message'] = $model->getErrors();
             return [];
         }
-        return $model->attributes;
+        return ['avatar_url'=>$model->attributes['avatar_base_url'].'/'.$model->attributes['avatar_path']];
     }
 
-     
 
     /**
      * @SWG\Get(path="/sign-in/qiniu-token",
-     *     tags={"100-SignIn-用户接口"},
+     *     tags={"WEDU-SignIn-用户接口"},
      *     summary="获取七牛云Token[待开发]",
      *     description="返回七牛云上传Token",
      *     produces={"application/json"},
@@ -528,12 +590,28 @@ class SignInController extends \common\components\ControllerFrontendApi
     }
 
     /**
+     * @SWG\Get(path="/sign-in/logout",
+     *     tags={"WEDU-SignIn-用户接口"},
+     *     summary="]",
+     *     description="退出接口",
+     *     produces={"application/json"},
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "返回1"
+     *     )
+     * )
+     *
+     */
+    /**
      * @return Response
      */
     public function actionLogout()
     {
-        Yii::$app->user->logout();
-        return $this->goHome();
+        if(Yii::$app->user->logout()){
+            return 1;
+        }else{
+            return 0;
+        };
     }
 
     public function actiolAuthKey()

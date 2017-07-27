@@ -10,7 +10,7 @@ $(function() {
         browse_button: 'pickfiles',      //上传选择的点选按钮，**必需**
         container: 'container',
         drop_element: 'container',
-        max_file_size: '20mb',           //最大文件体积限制
+        max_file_size: '1024mb',           //最大文件体积限制
         flash_swf_url: 'js/plupload/Moxie.swf',
         dragdrop: true,
         chunk_size: '4mb',
@@ -59,6 +59,7 @@ $(function() {
                 $('#success').show();
             },
             'FileUploaded': function(up, file, info) {
+                //console.log('up:', file.name);
                 // 每个文件上传成功后,处理相关的事情
                 // 其中 info 是文件上传成功后，服务端返回的json，形式如
                 // {
@@ -86,8 +87,8 @@ $(function() {
                var article_id = $('#article_id').val(); 
                var domain = up.getOption('domain');
 //console.log(article_id);
-//console.log(domain,ispublic);
-               $.post(upload_url,{article_id:article_id,hash:res.hash,type:res.type,size:res.size,file_name:res.name,url:res.key,ispublic:ispublic});
+// console.log(res);
+               $.post(upload_url,{article_id:article_id,hash:res.hash,type:res.type,size:res.size,file_name:file.name,url:res.key,ispublic:ispublic});
             },
             'Error': function(up, err, errTip) {
                 //上传出错时,处理相关的事情

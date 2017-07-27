@@ -36,13 +36,75 @@ abstract class CourseOrderItem extends \yii\db\ActiveRecord
     const PAYMENT_STATUS_CONFIRMING = 200;     // 200确认中
     const PAYMENT_STATUS_NON_PAID   = 100;     // 100未支付
 
+    const PAYMENT_ONLINE  = 100;        // 在线支付
+    const PAYMENT_ALIPAY  = 110;        // 支付宝
+    const PAYMENT_WECHAT  = 111;        // 微信支付
+    const PAYMENT_OFFLINE = 200;        // 线下支付
+
+    const STATUS_VALID   = 10;        // 有效
+    const STATUS_INVALID = 20;        // 无效
+
+    public static function optStatus()
+    {
+        return [
+            self::STATUS_VALID   => '有效',
+            self::STATUS_INVALID => '无效',
+        ];
+    }
+
+    public static function getStatusValueLabel($value)
+    {
+        $lable = self::optStatus();
+        if(isset($lable[$value])){
+            return $lable[$value];
+        }
+        return $value;
+    }
+
+    public static function optPayment()
+    {
+        return [
+            self::PAYMENT_ONLINE  => '在线支付',
+            self::PAYMENT_ALIPAY  => '支付宝',
+            self::PAYMENT_WECHAT  => '微信支付',
+            self::PAYMENT_OFFLINE => '线下支付',
+        ];
+    }
+
+    public static function getPaymentValueLabel($value)
+    {
+        $lable = self::optPayment();
+        if(isset($lable[$value])){
+            return $lable[$value];
+        }
+        return $value;
+    }
+
+    public static function optPaymentStatus()
+    {
+        return [
+            self::PAYMENT_STATUS_REFUNDED   => '退款',
+            self::PAYMENT_STATUS_PAID       => '成功支付',
+            self::PAYMENT_STATUS_CONFIRMING => '确认中',
+            self::PAYMENT_STATUS_NON_PAID   => '未支付',
+        ];
+    }
+
+    public static function getPaymentStatusValueLabel($value)
+    {
+        $lable = self::optPaymentStatus();
+        if(isset($lable[$value])){
+            return $lable[$value];
+        }
+        return $value;
+    }
 
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'couese_order_item';
+        return 'course_order_item';
     }
 
 
@@ -69,8 +131,22 @@ abstract class CourseOrderItem extends \yii\db\ActiveRecord
     {
         return [
             [['parent_id', 'school_id', 'grade_id', 'user_id', 'introducer_id', 'payment', 'presented_course', 'status', 'payment_status', 'total_course'], 'integer'],
-            [['user_id', 'payment', 'payment_status', 'total_price', 'real_price', 'total_course'], 'required'],
-            [['total_price', 'real_price', 'coupon_price'], 'number']
+            [['user_id', 'total_price','total_course'], 'required'],
+            ['payment_status','default','value'=>300],
+            ['payment','default','value'=>200],
+            ['real_price','default','value'=>function(){
+                $this->real_price = ($this->total_price-$this->coupon_price);
+                return $this->real_price;
+            }],
+            [
+                'total_price','required','when'=>function($model,$attribute){
+                        if($model->total_price < $model->coupon_price){
+                            return $this->addError($attribute,'总金额不能小于优惠价格');
+                        }
+                }
+            ],
+            [['total_price',  'coupon_price'], 'number'],
+            ['real_price','safe']
         ];
     }
 
@@ -80,22 +156,22 @@ abstract class CourseOrderItem extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'couese_order_item_id' => Yii::t('backend', 'Couese Order Item ID'),
-            'parent_id' => Yii::t('backend', '父订单id'),
-            'school_id' => Yii::t('backend', 'School ID'),
-            'grade_id' => Yii::t('backend', 'Grade ID'),
-            'user_id' => Yii::t('backend', 'User ID'),
-            'introducer_id' => Yii::t('backend', '介绍人'),
-            'payment' => Yii::t('backend', '100 在线支付； 110 支付宝 支付 ； 111 微信支付；  200 货到付款'),
-            'presented_course' => Yii::t('backend', '赠送的课程'),
-            'status' => Yii::t('backend', '订单的状态'),
-            'payment_status' => Yii::t('backend', '支付状态 100未支付；200 确认中 ； 300 已支付； '),
-            'total_price' => Yii::t('backend', '总价'),
-            'real_price' => Yii::t('backend', '实际付款'),
-            'coupon_price' => Yii::t('backend', '优惠金额'),
-            'total_course' => Yii::t('backend', '课程的总数'),
-            'created_at' => Yii::t('backend', 'Created At'),
-            'updated_at' => Yii::t('backend', 'Updated At'),
+            'course_order_item_id' => Yii::t('backend', '课程订单ID'),
+            'parent_id'            => Yii::t('backend', '父订单ID'),
+            'school_id'            => Yii::t('backend', '学校'),
+            'grade_id'             => Yii::t('backend', '班级'),
+            'user_id'              => Yii::t('backend', '用户'),
+            'introducer_id'        => Yii::t('backend', '介绍人'),
+            'payment'              => Yii::t('backend', '支付方式'),
+            'presented_course'     => Yii::t('backend', '赠送课程'),
+            'status'               => Yii::t('backend', '订单状态'),
+            'payment_status'       => Yii::t('backend', '支付状态'),
+            'total_price'          => Yii::t('backend', '总价'),
+            'real_price'           => Yii::t('backend', '实际付款'),
+            'coupon_price'         => Yii::t('backend', '优惠金额'),
+            'total_course'         => Yii::t('backend', '课程总数'),
+            'created_at'           => Yii::t('backend', '创建时间'),
+            'updated_at'           => Yii::t('backend', '更新时间'),
         ];
     }
 
@@ -105,20 +181,57 @@ abstract class CourseOrderItem extends \yii\db\ActiveRecord
     public function attributeHints()
     {
         return array_merge(parent::attributeHints(), [
-            'parent_id' => Yii::t('backend', '父订单id'),
-            'introducer_id' => Yii::t('backend', '介绍人'),
-            'payment' => Yii::t('backend', '100 在线支付； 110 支付宝 支付 ； 111 微信支付；  200 货到付款'),
+            'parent_id'        => Yii::t('backend', '父订单id'),
+            'introducer_id'    => Yii::t('backend', '介绍人'),
+            'payment'          => Yii::t('backend', '支付方式'),
             'presented_course' => Yii::t('backend', '赠送的课程'),
-            'status' => Yii::t('backend', '订单的状态'),
-            'payment_status' => Yii::t('backend', '支付状态 100未支付；200 确认中 ； 300 已支付； '),
-            'total_price' => Yii::t('backend', '总价'),
-            'real_price' => Yii::t('backend', '实际付款'),
-            'coupon_price' => Yii::t('backend', '优惠金额'),
-            'total_course' => Yii::t('backend', '课程的总数'),
+            'status'           => Yii::t('backend', '订单的状态'),
+            'payment_status'   => Yii::t('backend', '支付状态'),
+            'total_price'      => Yii::t('backend', '总价'),
+            'real_price'       => Yii::t('backend', '实际付款'),
+            'coupon_price'     => Yii::t('backend', '优惠金额'),
+            'total_course'     => Yii::t('backend', '课程总数，不含赠送'),
         ]);
     }
 
+    public function getUser(){
+        return $this->hasOne(\common\models\User::className(),['id'=>'user_id']);
+    }
 
+    public function getIntroducer(){
+        return $this->hasOne(\common\models\User::className(),['id'=>'introducer_id']);
+    }
+
+    public function getSchool(){
+        return $this->hasOne(\backend\modules\campus\models\School::className(),['school_id'=>'school_id']);
+    }
+
+    public function getGrade(){
+        return $this->hasOne(\backend\modules\campus\models\Grade::className(),['grade_id'=>'grade_id']);
+    }
+
+    /**
+     * 生成订单号，小于32位
+     * @author Bruce_bnu@126.com
+     * @copyright   [copyright]
+     * @license     [license]
+     * @version     [version]
+     * @date        2016-06-28
+     * @anotherdate 2016-06-28T14:35:01+0800
+     * @param       [type]                   $buyer_id [description]
+     * @param       integer                  $level    [description]
+     * @return      [string]                             [小于32位]
+     */
+    public function builderNumber($params = [])
+    {
+        $year_code = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N');
+        $order_sn  = $year_code[intval(date('Y'))-2010];
+        $order_sn .= strtoupper(dechex(date('m')));
+        $order_sn .= date('d').substr(time(),-5);
+        $order_sn .= substr(microtime(),2,5);
+        $order_sn .= sprintf('%02d',rand(0,99));
+        return $order_sn;
+    }
     
     /**
      * @inheritdoc

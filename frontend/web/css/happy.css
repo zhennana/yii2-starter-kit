@@ -1,0 +1,449 @@
+#article-index{
+  padding: 2% 10%;
+}
+#article-index .box{
+  padding: 3%;
+}
+.article-item {
+  margin-bottom: 15px;
+}
+.article-item .article-title,
+.article-item .article-title a {
+  color: inherit;
+  margin: 0;
+}
+.article-item .article-meta,
+.article-item .article-meta a {
+  color: #999;
+  font-size: .85em;
+}
+.article-item .article-meta a {
+  text-decoration: underline;
+}
+.article-item .article-thumb {
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.article-item .article-text {
+  margin-top: 7px;
+}
+
+/**
+ * box color start
+ */
+.box.box-solid.box-darkpink{
+  border: 1px solid #e798ba;
+}
+.box.box-darkpink{
+  border-top-color: #e798ba;
+}
+.box.box-solid.box-darkpink>.box-header {
+  color: #fff;
+  background: #e798ba;
+  background-color: #e798ba;
+}
+
+.box.box-solid.box-cornsilk{
+  border: 1px solid #ADFF2F;
+}
+.box.box-cornsilk{
+  border-top-color: #ADFF2F;
+}
+.box.box-solid.box-cornsilk>.box-header {
+  color: #fff;
+  background: #ADFF2F;
+  background-color: #ADFF2F;
+}
+/**
+ * box color end
+ */
+
+html,
+body {
+  height: 100%;
+}
+ul{
+  padding: 0;
+}
+li{
+  list-style: none;
+}
+h1,h2,h3,h4,h5{
+    color: #EE7600;
+}
+.user-profile-form{
+  padding: 2% 10%;
+}
+.wrap {
+  min-height: 100%;
+  height: auto;
+  margin: 0 auto -60px;
+  padding: 0 0 60px;
+}
+.container {
+  padding: 0;
+  width: auto;
+}
+.footer {
+  background-color: #0070a8;
+  border-top: 4px solid #35b9d0;
+}
+.jumbotron {
+  text-align: center;
+  background-color: transparent;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+.jumbotron .btn {
+  font-size: 2rem;
+}
+.jumbotron .intr{
+  display: block;
+  color: black;
+}
+.jumbotron img{
+  height: 120px;
+}
+.jumbotron p{
+  font-size: 1.3em;
+  height: 60px;
+}
+.not-set {
+  color: #c55;
+  font-style: italic;
+}
+/* add sorting icons to gridview sort links */
+a.asc:after,
+a.desc:after {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: 'Glyphicons Halflings';
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  padding-left: 5px;
+}
+a.asc:after {
+  content: "\e151";
+}
+a.desc:after {
+  content: "\e152";
+}
+.sort-numerical a.asc:after {
+  content: "\e153";
+}
+.sort-numerical a.desc:after {
+  content: "\e154";
+}
+.sort-ordinal a.asc:after {
+  content: "\e155";
+}
+.sort-ordinal a.desc:after {
+  content: "\e156";
+}
+.grid-view th {
+  white-space: nowrap;
+}
+.hint-block {
+  display: block;
+  margin-top: 5px;
+  color: #999;
+}
+.error-summary {
+  color: #a94442;
+  background: #fdf7f7;
+  border-left: 3px solid #eed3d7;
+  padding: 10px 20px;
+  margin: 0 0 15px 0;
+}
+
+.navbar{
+  border-radius:0;
+  margin: 0;
+}
+.navbar{
+  padding:0 !important;
+  margin:0;
+  width: 100%;
+}
+nav .container{
+  /*width: 100%;*/
+}
+.content{
+  margin-top: 50px;
+}
+.breadcrumb{
+  left: 0;
+  border-radius: 0;
+  padding:0 15%;
+}
+.breadcrumb a{
+  line-height: 50px;
+  color: #777;
+}
+.breadcrumb > .active{
+  color: #e61d4d;
+}
+.breadcrumb > li + li:before{
+  content: '>';
+}
+.site-index{
+  position: relative;
+}
+
+/* 首页 */
+.top_box{
+  height: 160px;
+}
+.top_logo{
+  padding-top: 30px;
+  padding-left: 100px;
+}
+.sign_in{
+  background-color: #F0F0F0;
+  width: 260px;
+  margin-top: 40px;
+}
+.sign_in .fa-user{
+  width: 14px;
+}
+.sign_in .input-group-addon{
+  background-color: #E0E0E0;
+}
+
+.navbar-inverse{
+  background-color: #f89406;
+  border: none;
+}
+.navbar-inverse .container{
+  padding: 0;
+}
+.navbar-inverse .navbar-nav .active > a,
+.navbar-inverse .navbar-nav .active > a:hover,
+.navbar-inverse .navbar-nav .active > a:focus,
+.navbar-inverse .navbar-nav > .open > a,
+.navbar-inverse .navbar-nav > .open > a:hover,
+.navbar-inverse .navbar-nav > .open > a:focus,
+.navbar-collapse .navbar-nav li:hover{
+  background-color: #f89406;
+}
+
+
+.navbar-inverse .navbar-nav  > li > a{
+  color: white;
+}
+.navbar-header{
+  background-color: #35b9d0;
+  padding:0 15px;
+}
+.navbar-collapse .navbar-nav > li{
+  padding: 0 15px;
+  border-right: 1px solid #c67604;
+}
+.nav_search input{
+  padding: 15px 160px 15px 15px;
+  background-color: #35b9d0;
+  border: none;
+}
+.dropdown-menu{
+  border-radius: 0;
+  border: none;
+  background-color: #35b9d0;
+}
+.dropdown-menu > li > a:hover{
+  background-color: #35a0d0;
+}
+.navbar-inverse .navbar-nav .open .dropdown-menu > .active > a{
+  background-color: #35a0d0;
+}
+
+.dropdown-menu li > a{
+  color: white !important;
+}
+::-webkit-input-placeholder { /* WebKit browsers */
+    color: #fff;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #fff;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #fff;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color: #fff;
+}
+.btn_search{
+  background-color: #f89406;
+  border: none;
+  height: 50px;
+  padding: 0 20px;
+}
+.btn_search .fa-search{
+  color: white;
+}
+.dropdown-toggle, .navbar-brand{
+  color: #fff !important;
+}
+.course_box h4{
+  color: white;
+  font: 800 2rem/3rem sans-serif !important;
+}
+.btn_begin{
+  color: #fff;
+  background-color: #1bb4b9;
+}
+.btn_begin:hover{
+  box-shadow:0px 0px 1px 1px #00BBFF;
+  color: #fff;
+  background-color: #00BBFF;
+  transition: all 0.5s;
+  -moz-transition: all 0.5s; /* Firefox 4 */
+  -webkit-transition: all 0.5s; /* Safari 和 Chrome */
+  -o-transition: all 0.5s;
+}
+.web_map h4{
+  color: #35b9d0;
+  font-weight:bold;
+  font-size: 2.5rem; 
+  line-height: 1em;
+  padding-bottom: 5%;
+  border-bottom: 1px solid #35b9d0;
+}
+.web_map p{
+  padding: 0 1%;
+  color: #bdb3b9;
+  font-size: 1.5rem;
+}
+.web_map li{
+  padding: 0 45px;
+}
+.bottom{
+  border-top: 1px solid #444444;
+  background-color: #35b9d0;
+  color: #bdc3c7;
+  line-height: 40px;
+  padding: 0 2%;
+}
+.bottom a{
+  color: #f89406;
+}
+
+/* 二级、三级页面 */
+.course_info h1{
+  font-size: 2.5em;
+  font-family: 'Fredoka One';
+}
+.course_info p{
+  font-size: 1.3em;
+}
+
+.course_list{
+  margin-top: 4%;
+  border-top: 3px solid #35b9d0;
+}
+.course_list > ul > li{
+  padding: 1% 0;
+}
+.course_title h1{
+  line-height:90%;
+  padding-top: 1.5%;
+  font-weight: bolder;
+  font-size: 1.8em;
+  color: #1bb4b9;
+}
+.article-item > .course_title{
+  margin: 2% 3%;
+}
+.media_box {
+    position: relative;
+    overflow: hidden;
+}
+.media_box video {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit:fill;
+}
+.media_box h1,.course_materials h1{
+  display:block;
+  overflow:visible;
+  margin-top: 30px;
+  font-size:2.5rem;
+  text-shadow:#f3f3f3 1px 1px 0px, #b2b2b2 1px 2px 0
+}
+.download{
+    font-weight: bold;
+    font-size: 20px;
+    color: #000000;
+}
+.note{
+    margin: 20px auto 0;
+    width: 80%;
+    min-height: 150px;
+    padding: 2%;
+    position:relative;
+    background: -webkit-gradient(linear, 0% 20%, 0% 92%, from(#f3f3f3), to(#fff), color-stop(.1,#f3f3f3));
+    border-top: 1px solid white;
+    border-right: 1px solid #ccc;
+    -webkit-border-bottom-right-radius: 60px 60px;
+    -webkit-box-shadow: -1px 2px 2px rgba(0, 0, 0, 0.2);
+}
+.note:before{
+    content:'';    
+    width: 25px;
+    height: 20px;
+    background: white;
+    position: absolute;
+    bottom:0; right:0;
+    background: -webkit-gradient(linear, 0% 20%, 50% 40%, from(#fff), to( #eee), color-stop(.1,#fff));
+    -webkit-border-bottom-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    -webkit-box-shadow: -2px -2px 5px rgba(0, 0, 0, 0.3);
+    box-shadow: -2px -2px 5px rgba(0, 0, 0, 0.3);
+    -webkit-transform: rotate(-20deg)
+      skew(-40deg,-3deg)
+      translate(-13px,-13px);
+      transform: rotate(-20deg)
+      skew(-40deg,-3deg)
+      translate(-13px,-13px);
+}
+.note:after{
+  content: '';
+  z-index: -1;
+  width: 100px;
+  height: 100px;
+  position:absolute;
+  bottom:0;
+  right:0;
+  background: rgba(0, 0, 0, 0.2);
+  display: inline-block;
+  -webkit-box-shadow: 20px 20px 8px rgba(0, 0, 0, 0.2);
+  -webkit-transform: rotate(0deg)
+    translate(-45px,-20px)
+    skew(20deg);
+}
+.note p{
+  padding: 1%;
+  font-size: 2rem;
+}
+.note li{
+  list-style: inside;
+  margin-bottom:3px;
+}
+.note_ribbon{
+  position:absolute;
+  top:-25px; left: 30%;
+  width: 130px;
+  height: 40px;
+  background: -webkit-gradient(linear, 555% 20%, 0% 92%, from(rgba(0, 0, 0, 0.1)), to(rgba(0, 0, 0, 0.0)), color-stop(.1,rgba(0, 0, 0, 0.2)));
+  border-left: 1px dashed rgba(0, 0, 0, 0.1);
+  border-right: 1px dashed rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.2);
+}
+
+.materials hr{
+  height:1px;
+  border:none;
+  border-top:1px dashed #1E90FF;
+}

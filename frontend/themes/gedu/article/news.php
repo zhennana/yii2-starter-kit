@@ -3,7 +3,7 @@ use yii\helpers\Url;
 use yii\widgets\LinkPager;
 
 
-$this->title = Yii::t('frontend', '瓦酷动态');
+$this->title = Yii::t('frontend', '光大动态');
 // $this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Articles'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <?php
                                     $timeInfo = '';
                                     $timeInfo .= date('Y-m-d H:i:s', $value->published_at);
-                                    $timeInfo .= ' 瓦酷创客空间';
+                                    $timeInfo .= ' 光大空间';
                                     echo $timeInfo;
                                 ?>
                             </span>

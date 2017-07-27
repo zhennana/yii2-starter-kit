@@ -93,9 +93,15 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
                 }
             ],
             [
+                'attribute' => 'teacher_id',
+                'value'     => function($model){
+                    return Yii::$app->user->identity->getUserName($model->teacher_id);
+                }
+            ],
+            [
                 'attribute' => 'creater_id',
                 'value' => function($model){
-                    return isset($model->user->username) ? $model->user->username : '';
+                    return Yii::$app->user->identity->getUserName($model->creater_id);
                 }
             ],
             'start_time:datetime',
@@ -105,20 +111,20 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
                 'value' => Course::getStatusValueLabel($model->status),
             ],
             'created_at:datetime',
-            'updeated_at:datetime',
+            'updated_at:datetime',
         ],
     ]); ?>
 
     <hr/>
 
-    <?= Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('backend', '删除'),
+    <!-- <? /* Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('backend', '删除'),
         ['delete', 'course_id' => $model->course_id],
         [
             'class'        => 'btn btn-danger',
             'data-confirm' => '' . Yii::t('backend', '确定删除该项目吗？') . '',
             'data-method'  => 'post',
         ]
-    ); ?>
+    );*/ ?> -->
 
     <?php $this->endBlock(); ?>
     

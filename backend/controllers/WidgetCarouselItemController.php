@@ -10,6 +10,8 @@ use yii\web\Controller;
 use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use common\components\Qiniu\Auth;
+use common\components\Qiniu\Storage\BucketManager;
 
 /**
  * WidgetCarouselItemController implements the CRUD actions for WidgetCarouselItem model.
@@ -88,6 +90,16 @@ class WidgetCarouselItemController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            if(isset($_POST['WidgetCarouselItem']['path2'])){
+                $keys = $_POST['WidgetCarouselItem']['path2'];
+                $auth = new Auth(
+                        \Yii::$app->params['qiniu']['wakooedu']['access_key'], 
+                        \Yii::$app->params['qiniu']['wakooedu']['secret_key']
+                );
+                $bucketMgr = new BucketManager($auth);
+                $bucket    = \Yii::$app->params['qiniu']['wakooedu']['bucket'];
+                $err       = $bucketMgr->delete($bucket,$keys);
+            }
             Yii::$app->getSession()->setFlash('alert', ['options'=>['class'=>'alert-success'], 'body'=>Yii::t('backend', 'Carousel slide was successfully saved')]);
             return $this->redirect(['/widget-carousel/update', 'id' => $model->carousel_id]);
         }

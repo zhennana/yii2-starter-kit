@@ -18,18 +18,22 @@ $this->params['breadcrumbs'][] = $this->title;
 */
     $actionColumnTemplates = [];
 
-    if (\Yii::$app->user->can('manager')) { 
-        $actionColumnTemplates[] = '{view}';
+    if (\Yii::$app->user->can('manager') || \Yii::$app->user->can('E_manager')
+        || \Yii::$app->user->can('P_director'))
+    {
+         $actionColumnTemplates[] = '{view}';
     }
 
-    if (\Yii::$app->user->can('manager')) {
+    if (\Yii::$app->user->can('manager') || \Yii::$app->user->can('E_manager')
+        )
+    {
         $actionColumnTemplates[] = '{update}';
     }
 
-    if (\Yii::$app->user->can('manager')) {
-        $actionColumnTemplates[] = '{delete}';
+   if (\Yii::$app->user->can('manager') || \Yii::$app->user->can('E_manager'))  {
+       // $actionColumnTemplates[] = '{delete}';
     }
-    
+
     if (isset($actionColumnTemplates)) {
         $actionColumnTemplate = implode(' ', $actionColumnTemplates);
         $actionColumnTemplateString = $actionColumnTemplate;
@@ -40,11 +44,11 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
     <div class="giiant-crud school-index">
 
-        <?php          
+        <?php
         //   echo $this->render('_search', ['model' =>$searchModel]);
         ?>
 
-        
+
         <?php \yii\widgets\Pjax::begin([
                 'id'=>'pjax-main', 'enableReplaceState'=> false,
                  'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' =>
@@ -55,19 +59,19 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
 
         <h1>
-            <?= Yii::t('backend', '学校管理') ?>        
+            <?= Yii::t('backend', '学校管理') ?>
             <small> 列表 </small>
         </h1>
         <div class="clearfix crud-navigation">
             <?php
-                if(\Yii::$app->user->can('manager')){
+            if (\Yii::$app->user->can('manager') || \Yii::$app->user->can('E_manager')){
             ?>
                     <div class="pull-left">
                         <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'), ['create'], ['class' => 'btn btn-success']) ?>
                     </div>
             <?php } ?>
             <div class="pull-right">
-            
+
                 <?= 
                 \yii\bootstrap\ButtonDropdown::widget(
                 [

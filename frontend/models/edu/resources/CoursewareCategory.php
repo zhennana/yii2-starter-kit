@@ -29,14 +29,15 @@ class CoursewareCategory extends BaseCoursewareCategory
         );
     }
 
-    public function fields(){
-            $fields =  ArrayHelper::merge(
-                    parent::fields(),
-                    [
-                        'descriptions'=>'description'
-                    ]);
-             unset($fields['description']);
-            return $fields;
+    public function fields()
+    {
+        $fields =  ArrayHelper::merge(
+            parent::fields(),
+            [
+                'descriptions'=>'description'
+            ]);
+        unset($fields['description']);
+        return $fields;
     }
 
     /**
@@ -47,11 +48,12 @@ class CoursewareCategory extends BaseCoursewareCategory
      */
     public function categoryList()
     {
-        $model = self::find()->where(['status'=>self::CATEGORY_STATUS_OPEN])->asArray()->all();
+        $model = self::find()->where(['status'=>self::CATEGORY_STATUS_OPEN,'parent_id' => 0])->asArray()->all();
         $data =  self::formatByApi($model);
         return $data;
     }
 
+    /*
     public static  function formatByApi($parame,$pid = 0,$level = 1){
         $data = [];
         $clid = [];
@@ -59,6 +61,7 @@ class CoursewareCategory extends BaseCoursewareCategory
         foreach ($parame as $key => $value) {
             if($value['parent_id'] == $pid){
                 $value['descriptions'] =  $value['description'];
+                $value['imgUrl'] =  'http://orh16je38.bkt.clouddn.com/study-picture.png?imageView2/1/w/509/h/209';
                 unset($parame[$key],$value['description']);
                 $clid = self::formatByApi($parame,$value['category_id'],$level+1);
                 
@@ -71,13 +74,26 @@ class CoursewareCategory extends BaseCoursewareCategory
                 }else{
                     if($level == 3){
                         //continue;
-                        $value['url']   = \Yii::$app->request->hostInfo.Url::to(['edu/courseware/list','category_id'=>$value['category_id']]);
+                        $value['target_url'] = \Yii::$app->request->hostInfo.Url::to(['edu/courseware/list','category_id'=>$value['category_id']]);
                     }
                 }
 
-                $data[]    = $value;
+                $data[] = $value;
             }
 
+        }
+        return $data;
+    }
+    */
+    public static function formatByApi($params){
+        $data = [];
+        $child = [];
+        foreach ($params as $key => $value) {
+            $child = self::find()->where(['status'=>self::CATEGORY_STATUS_OPEN,'parent_id' => $value['category_id']])->asArray()->all();
+            $temp = $value;
+            $temp['imgUrl'] = 'http://orh16je38.bkt.clouddn.com/study-picture.png?imageView2/1/w/509/h/209';
+            $temp['child'] = $child;
+            $data[] = $temp;
         }
         return $data;
     }

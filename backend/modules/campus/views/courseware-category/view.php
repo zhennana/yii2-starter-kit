@@ -82,7 +82,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
 			'parent_id',
 			[
 				'attribute'=>'creater_id',
-				'value'=>isset($model->user->username)? $model->user->username : '',
+				'value'=>Yii::$app->user->identity->getUserName($model->creater_id),
 			],
 			'name',
 			'description',
@@ -104,13 +104,13 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
 
 
     <hr/>
-
-    <?php echo Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('backend', 'Delete'), ['delete', 'category_id' => $model->category_id],
-	[
-		'class' => 'btn btn-danger',
-		'data-confirm' => '' . Yii::t('backend', 'Are you sure to delete this item?') . '',
-		'data-method' => 'post',
-	]); ?>
+<!-- 
+ //    <?php //echo Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('backend', 'Delete'), ['delete', 'category_id' => $model->category_id],
+	// [
+	// 	'class' => 'btn btn-danger',
+	// 	'data-confirm' => '' . Yii::t('backend', 'Are you sure to delete this item?') . '',
+	// 	'data-method' => 'post',
+	// ]); ?> -->
     <?php $this->endBlock(); ?>
 
 

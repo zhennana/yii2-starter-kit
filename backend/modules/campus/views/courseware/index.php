@@ -17,22 +17,21 @@ $categories = \yii\helpers\ArrayHelper::map(
 $this->title = Yii::t('backend', '课件管理');
 $this->params['breadcrumbs'][] = $this->title;
 
-
 /**
 * create action column template depending acces rights
 */
     $actionColumnTemplates = [];
 
-    if (\Yii::$app->user->can('manager', ['route' => true])) {
+    if (\Yii::$app->user->can('P_teacher', ['route' => true]) || \Yii::$app->user->can('E_manager') || \Yii::$app->user->can('manager')) {
         $actionColumnTemplates[] = '{view}';
     }
 
-    if (\Yii::$app->user->can('manager', ['route' => true])) {
+    if (\Yii::$app->user->can('manager', ['route' => true]) || \Yii::$app->user->can('E_manager')) {
         $actionColumnTemplates[] = '{update}';
     }
 
-    if (\Yii::$app->user->can('manager', ['route' => true])) {
-        $actionColumnTemplates[] = '{delete}';
+    if (\Yii::$app->user->can('manager', ['route' => true]) || \Yii::$app->user->can('E_manager')) {
+        //$actionColumnTemplates[] = '{delete}';
     }
     if (isset($actionColumnTemplates)) {
         $actionColumnTemplate = implode(' ', $actionColumnTemplates);
@@ -49,8 +48,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php
 //             echo $this->render('_search', ['model' =>$searchModel]);
         ?>
-
-    
     <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
 
     <h1>
@@ -61,7 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </h1>
     <div class="clearfix crud-navigation">
     <?php
-        if(\Yii::$app->user->can('manager', ['route' => true])){
+        if(\Yii::$app->user->can('manager', ['route' => true]) || \Yii::$app->user->can('E_manager')){
     ?>
         <div class="pull-left">
             <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'), ['create'], ['class' => 'btn btn-success']) ?>
@@ -70,8 +67,6 @@ $this->params['breadcrumbs'][] = $this->title;
     }
     ?>
         <div class="pull-right">
-
-                        
             <?= \yii\bootstrap\ButtonDropdown::widget(
                     [
                         'id' => 'giiant-relations',
@@ -132,13 +127,36 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'parent_id',
             'title',
-            'body',
+            [
+                //'attribute'=>'targets',
+                'label'    => '教学目标',
+                'value'    => function($model){
+                    $data = $model->getJsonBody();
+                    if(isset($data['target'])){
+                        return $data['target'];
+                    }else{
+                        return $model->body;
+                    }
+                }
+            ],
+            [
+                'label'    => '教学过程',
+                'format'    => 'raw',
+                'value'     => function($model){
+                   $data = $model->getJsonBody();
+                   if(isset($data['process'])){
+                        return $data['process'];
+                   }else{
+                        return '';
+                   }
+                },
+            ],
+            
 			//'category_id',
             [
                 'class'     =>\common\grid\EnumColumn::className(),
                 'attribute' =>'category_id',
                 'format'        => 'raw',
-               
                 'enum'      => $categories
             ],
 			'level',
@@ -146,7 +164,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' =>'creater_id',
                 'format'    => 'raw',
                 'value'     =>function($model){
-                    return isset($model->user->username) ? $model->user->username : '';
+                    return Yii::$app->user->identity->getUserName($model->creater_id);
                 }
             ],
 			// 'access_domain',

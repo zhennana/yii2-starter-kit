@@ -7,7 +7,7 @@ use common\models\User;
 use backend\models\UserForm;
 use backend\models\search\UserSearch;
 use yii\helpers\ArrayHelper;
-use yii\web\Controller;
+use common\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -36,12 +36,13 @@ class UserController extends Controller
     {
         $searchModel = new UserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+ 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
+
     /**
      * Displays a single User model.
      * @param integer $id
@@ -63,13 +64,14 @@ class UserController extends Controller
     {
         $model = new UserForm();
         $model->setScenario('create');
+        //var_dump('<pre>',Yii::$app->request->post());exit;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
         }
 
         return $this->render('create', [
             'model' => $model,
-            'roles' => ArrayHelper::map(Yii::$app->authManager->getRoles(), 'name', 'name')
+            'roles' => ArrayHelper::map(Yii::$app->authManager->getRoles(), 'name', 'description')
         ]);
     }
 
@@ -85,10 +87,9 @@ class UserController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
         }
-
         return $this->render('update', [
             'model' => $model,
-            'roles' => ArrayHelper::map(Yii::$app->authManager->getRoles(), 'name', 'name')
+            'roles' => ArrayHelper::map(Yii::$app->authManager->getRoles(), 'name', 'description')
         ]);
     }
 
@@ -102,7 +103,6 @@ class UserController extends Controller
     {
         Yii::$app->authManager->revokeAll($id);
         $this->findModel($id)->delete();
-
         return $this->redirect(['index']);
     }
 

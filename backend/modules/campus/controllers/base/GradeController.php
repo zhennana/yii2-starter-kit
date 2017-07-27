@@ -5,20 +5,21 @@
 namespace backend\modules\campus\controllers\base;
 
 use backend\modules\campus\models\Grade;
-    use backend\modules\campus\models\search\GradeSearch;
+use backend\modules\campus\models\search\GradeSearch;
+use backend\modules\campus\models\UserToGrade;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
 use yii\filters\AccessControl;
 use dmstr\bootstrap\Tabs;
 
 /**
 * GradeController implements the CRUD actions for Grade model.
 */
-class GradeController extends Controller
+class GradeController extends \common\components\Controller
+
 {
-
-
 /**
 * @var boolean whether to enable CSRF validation for the actions in this controller.
 * CSRF validation is enabled only when both this property and [[Request::enableCsrfValidation]] are true.
@@ -61,17 +62,29 @@ public $enableCsrfValidation = false;
 */
 public function actionIndex()
 {
+
     $searchModel  = new GradeSearch;
     $dataProvider = $searchModel->search($_GET);
-
+    $schools[] = $this->schoolCurrent;
+    $schools = ArrayHelper::map($schools,'school_id','school_title');
+    $dataProvider->query->andwhere([
+        'school_id'=>$this->schoolIdCurrent
+    ]);
+    $dataProvider->sort = [
+       'defaultOrder'=>[
+            'updated_at'=>SORT_DESC,
+       ]
+    ];
 Tabs::clearLocalStorage();
 
 Url::remember();
 \Yii::$app->session['__crudReturnUrl'] = null;
 
 return $this->render('index', [
-'dataProvider' => $dataProvider,
-    'searchModel' => $searchModel,
+    'dataProvider' => $dataProvider,
+    'searchModel'  => $searchModel,
+    'schools'      => $schools,
+   // 'grades'       => $grades,
 ]);
 }
 
@@ -102,16 +115,22 @@ public function actionCreate()
 $model = new Grade;
 
 try {
-if ($model->load($_POST) && $model->save()) {
-return $this->redirect(['view', 'grade_id' => $model->grade_id]);
-} elseif (!\Yii::$app->request->isPost) {
-$model->load($_GET);
-}
-} catch (\Exception $e) {
-$msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
-$model->addError('_exception', $msg);
-}
-return $this->render('create', ['model' => $model]);
+    if ($model->load($_POST) && $model->save()) {
+            $userToGrade = new UserToGrade;
+            $userToGrade->user_id = $model->owner_id;
+            $userToGrade->grade_id = $model->grade_id;
+            $userToGrade->school_id = $model->school_id;
+            $userToGrade->grade_user_type = UserToGrade::GRADE_USER_TYPE_TEACHER;
+            $userToGrade->save();
+        return $this->redirect(['view', 'grade_id' => $model->grade_id]);
+    } elseif (!\Yii::$app->request->isPost) {
+        $model->load($_GET);
+    }
+    } catch (\Exception $e) {
+        $msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
+        $model->addError('_exception', $msg);
+    }
+    return $this->render('create', ['model' => $model]);
 }
 
 /**

@@ -3,9 +3,13 @@ namespace frontend\controllers\wedu\v1;
 
 use Yii;
 use yii\web\Response;
+use yii\helpers\ArrayHelper;
 use yii\data\ActiveDataProvider;
 use frontend\models\wedu\resources\ShareStream;
 use backend\modules\campus\models\UserToGrade;
+use yii\data\Pagination;
+use common\components\Qiniu\Auth;
+use common\components\Qiniu\Storage\BucketManager;
 
 class ShareStreamController extends \common\rest\Controller
 {
@@ -65,7 +69,7 @@ class ShareStreamController extends \common\rest\Controller
 
      /**
      * @SWG\Post(path="/share-stream/create",
-     *     tags={"400-分享"},
+     *     tags={"WEDU-Share-Stream-分享"},
      *     summary="发布分享",
      *     description="分享",
      *     produces={"application/json"},
@@ -139,7 +143,7 @@ class ShareStreamController extends \common\rest\Controller
 
     /**
      * @SWG\Get(path="/share-stream/index",
-     *     tags={"400-分享"},
+     *     tags={"WEDU-Share-Stream-分享"},
      *     summary="分享列表展示",
      *     description="分享",
      *     produces={"application/json"},
@@ -173,23 +177,69 @@ class ShareStreamController extends \common\rest\Controller
      * @return [type]             [description]
      */
     public function actionIndex($school_id = false ,$grade_id= false){
-        if(!$school_id){
+        if(!$school_id && !$grade_id){
             $this->serializer['errno']   = '422';
             $this->serializer['message'] = '找不到你所在的学校或者班级';
             return [];
         }
-        $models = new $this->modelClass;
-        $sql = '';
-        $sql .= "SELECT * FROM share_stream where ";
-        $sql .= " (find_in_set($school_id,school_id) ";
-        if($grade_id){
-             $sql .= " and find_in_set($grade_id,grade_id) ";
+        if(!isset(Yii::$app->user->identity->id)){
+            $this->serializer['errno']   = '422';
+            $this->serializer['message'] = '请登录';
+            return [];
         }
-       
-        $sql  .= ") or (school_id = 0 and grade_id = 0) ";
-        $sql  .= " or (school_id = $school_id and grade_id = 0) ";
-        // //var_dump($sql);exit;
-         $models = $models::findBySql($sql)->all();
-        return $models;
-    }   
+        $models = new $this->modelClass;
+        $modelQuery = $models::find()
+                ->from('share_stream as r')
+                ->select(['body','r.share_stream_id','r.author_id','r.created_at'])
+                ->JoinWith(['shareToGrade as s'])
+                ->where(['OR',
+                    ['s.school_id'=>$school_id,'s.grade_id'=>$grade_id],
+                    ['r.author_id'=> Yii::$app->user->identity->id]])
+                ->orderBy(['created_at'=>SORT_DESC]);
+        return new ActiveDataProvider([
+                    'query'=>$modelQuery,
+                    'pagination'=>[
+                        'pageSize'=>10
+                    ]
+            ]);
+    }
+
+    /**
+     * @SWG\Post(path="/share-stream/qiniu-delete",
+     *     tags={"WEDU-Share-Stream-分享"},
+     *     summary="删除图片",
+     *     description="删除图片",
+     *     produces={"application/json"},
+     *
+     * @SWG\Parameter(
+     *        in = "formData",
+     *        name = "key",
+     *        description = "图片key",
+     *        required = true,
+     *        default = "",
+     *        type = "string",
+     *     ),
+     *  @SWG\Response(
+     *         response = 200,
+     *         description = "成功返回 1,不成功返回错误信息"
+     *     ),
+     * )
+    **/
+    public function  actionQiniuDelete(){
+      $auth = new Auth(
+        \Yii::$app->params['qiniu']['wakooedu']['access_key'], 
+        \Yii::$app->params['qiniu']['wakooedu']['secret_key']
+      );
+      $bucketMgr = new BucketManager($auth);
+      $bucket    = \Yii::$app->params['qiniu']['wakooedu']['bucket'];
+      $err       = $bucketMgr->delete($bucket, $_POST['key']);
+      if($err !== null){
+        //var_dump($err);exit;
+            $this->serializer['errno'] = '400';
+            $this->serializer['message'] = $err->message();
+            return [];
+      }else{
+            return 1;
+      }
+    }
 }

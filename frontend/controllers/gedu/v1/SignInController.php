@@ -15,6 +15,7 @@ use yii\rest\OptionsAction;
 use frontend\models\edu\resources\LoginForm;
 use frontend\models\edu\resources\UserForm;
 use frontend\models\edu\resources\User;
+use frontend\models\edu\resources\UsersToUsers;
 
 use common\models\UserProfile;
 use common\models\UserToken;
@@ -91,7 +92,7 @@ class SignInController extends \common\components\ControllerFrontendApi
 
     /**
      * @SWG\Post(path="/sign-in/login",
-     *     tags={"100-SignIn-用户接口"},
+     *     tags={"GEDU-SignIn-用户接口"},
      *     summary="用户登录[已经自测]",
      *     description="用户登录：成功返回用户信息；失败返回具体原因",
      *     produces={"application/json"},
@@ -157,16 +158,41 @@ class SignInController extends \common\components\ControllerFrontendApi
             // 默认头像
             if(isset($proFileUser->avatar_base_url) && !empty($proFileUser->avatar_base_url))
             {
-                $attrUser['avatar'] = $proFileUser->avatar_base_url.$proFileUser->avatar_path;
+                $attrUser['avatar'] = $proFileUser->avatar_base_url.'/'.$proFileUser->avatar_path;
             }else{
                 $fansMpUser = isset($model->user->fansMp) ? $model->user->fansMp : '';
                 if($fansMpUser){
                     $attrUser['avatar'] = $fansMpUser->avatar;
                 }
             }
+
+            // 学校班级
+            $attrUser['grade_name'] = $attrUser['school_title'] =$attrUser['school_id'] ='';
+            if ($model->user->getCharacterDetailes()) {
+                $attrUser['grade_name'] = $model->user->getCharacterDetailes()['grade_label'];
+                $attrUser['school_title'] = $model->user->getCharacterDetailes()['school_label'];
+                $attrUser['school_id'] = $model->user->getCharacterDetailes()['school_id'];
+            }
+
+            // 家长关系
+            $parents = UsersToUsers::find()->where([
+                'user_right_id' => $model->user->id,
+                'status'        => UsersToUsers::UTOU_STATUS_OPEN,
+            ])->one();
+
+            if ($parents) {
+                $attrUser['type']    = UsersToUsers::UTOU_TYPE_PARENT;
+                $attrUser['level']   = '荣耀王者'.'的家长';
+                $attrUser['parents'] = UsersToUsers::getUserName($parents->user_left_id).'的家长';
+            }else{
+                $attrUser['type']    = UsersToUsers::UTOU_TYPE_STUDENT;
+                $attrUser['level']   = '荣耀王者';
+                $attrUser['parents'] = '';
+            }
+            
             return $attrUser;
         }else{
-            Yii::$app->response->statusCode = 422;
+            Yii::$app->response->statusCode = 200;
             $this->serializer['errno']      = 1;
             $this->serializer['message']    = $model->getErrors();
             return $this->serializer['message'];
@@ -176,7 +202,7 @@ class SignInController extends \common\components\ControllerFrontendApi
 
     /**
      * @SWG\Get(path="/sign-in/index",
-     *     tags={"100-SignIn-用户接口"},
+     *     tags={"GEDU-SignIn-用户接口"},
      *     summary="登陆请求验证已经登陆[已经自测]",
      *     description="验证是否已经登陆。已登录则返回用户信息",
      *     produces={"application/json"},
@@ -199,7 +225,7 @@ class SignInController extends \common\components\ControllerFrontendApi
     {
         \Yii::$app->language = 'zh-CN';
         if(\Yii::$app->user->isGuest){
-            Yii::$app->response->statusCode = 422;
+            Yii::$app->response->statusCode = 200;
             $this->serializer['errno']      = 1;
             $this->serializer['message']    = '登陆验证失败，请登录';
             return $this->serializer['message'];
@@ -218,7 +244,7 @@ class SignInController extends \common\components\ControllerFrontendApi
        // 默认头像
         if(isset($proFileUser->avatar_base_url) && !empty($proFileUser->avatar_base_url))
         {
-            $attrUser['avatar'] = $proFileUser->avatar_base_url.$proFileUser->avatar_path;
+            $attrUser['avatar'] = $proFileUser->avatar_base_url.'/'.$proFileUser->avatar_path;
         }else{
             $fansMpUser = isset($model->user->fansMp) ? $model->user->fansMp : '';
             if($fansMpUser){
@@ -230,7 +256,7 @@ class SignInController extends \common\components\ControllerFrontendApi
 
     /**
      * @SWG\Get(path="/sign-in/send-sms",
-     *     tags={"100-SignIn-用户接口"},
+     *     tags={"GEDU-SignIn-用户接口"},
      *     summary="发送验证码[已经自测]",
      *     description="发送验证码，成功返回验证码与用户信息",
      *     produces={"application/json"},
@@ -244,14 +270,14 @@ class SignInController extends \common\components\ControllerFrontendApi
      *     @SWG\Parameter(
      *        in = "query",
      *        name = "type",
-     *        description = "发送验证码类型：signup注册；repasswd重置密码。默认signup",
+     *        description = "验证码类型：signup注册；repasswd重置密码。默认signup",
      *        required = true,
      *        type = "string",
      *        enum = {"signup", "repasswd"}
      *     ),
      *     @SWG\Response(
      *         response = 200,
-     *         description = "验证码发送成功"
+     *         description = "发送成功，返回验证码和手机号",
      *     )
      * )
      *
@@ -264,27 +290,57 @@ class SignInController extends \common\components\ControllerFrontendApi
      */
     public function actionSendSms($phone_number, $type='signup')
     {
+        // var_dump($type);exit;
         \Yii::$app->language = 'zh-CN';
-        $user = User::find()->where(['phone_number'=>$phone_number])->one();
-        $type = ($type == 'signup') ? UserToken::TYPE_PHONE_SIGNUP : UserToken::TYPE_PHONE_REPASSWD;
 
+        if (!$phone_number) {
+            $this->serializer['errno']   = 1;
+            $this->serializer['message'] = '手机号不能为空';
+            return $this->serializer['message'];
+        }
+
+        $user = User::find()->where([
+            'phone_number' => $phone_number,
+        ])->one();
+        $type = ($type == 'signup') ? UserToken::TYPE_PHONE_SIGNUP : UserToken::TYPE_PHONE_REPASSWD;
+        
         if (!$user) {
-            $user = new User;
-            $user->phone_number = $phone_number;
-            $user->status       = User::STATUS_NOT_ACTIVE;
-            $user->setPassword(UserToken::randomCode(6));
-            if(!$user->save()) {
+            if ($type == UserToken::TYPE_PHONE_SIGNUP) {
+                // 创建未激活用户
+                $user = new User;
+                $user->phone_number = $phone_number;
+                $user->status       = User::STATUS_NOT_ACTIVE;
+                $user->setPassword(UserToken::randomCode(6));
+                if(!$user->save()) {
+                    $this->serializer['errno']   = 1;
+                    $this->serializer['message'] = $user->getErrors();
+                    return $this->serializer['message'];
+                }
+                $user->afterSignup();
+            }else{
+                // 用户不存在
                 $this->serializer['errno']   = 1;
-                $this->serializer['message'] = $user->getErrors();
+                $this->serializer['message'] = '该手机号码还未注册';
                 return $this->serializer['message'];
             }
-            $user->afterSignup();
+        }else{
+            if ($user->status == User::STATUS_NOT_ACTIVE && $type == UserToken::TYPE_PHONE_REPASSWD) {
+                // 用户账户未激活
+                $this->serializer['errno']   = 1;
+                $this->serializer['message'] = '该手机号码还未注册';
+                return $this->serializer['message'];
+            }elseif($user->status == User::STATUS_ACTIVE && $type == UserToken::TYPE_PHONE_SIGNUP){
+                // 用户已存在
+                $this->serializer['errno']   = 1;
+                $this->serializer['message'] = '该手机号码已经注册过了';
+                return $this->serializer['message'];
+            }
         }
 
         $token = UserToken::find()->where([
-            'user_id'=>$user->id
+            'user_id' => $user->id
         ])->andWhere([
-            'type'=>$type
+            'type' => $type
         ])->one();
 
         if ($token) {
@@ -311,7 +367,7 @@ class SignInController extends \common\components\ControllerFrontendApi
 
     /**
      * @SWG\Post(path="/sign-in/signup",
-     *     tags={"100-SignIn-用户接口"},
+     *     tags={"GEDU-SignIn-用户接口"},
      *     summary="用户注册[已经自测]",
      *     description="成功返回注册完信息，失败返回具体原因",
      *     produces={"application/json"},
@@ -388,7 +444,7 @@ class SignInController extends \common\components\ControllerFrontendApi
             }
         }
 
-        Yii::$app->response->statusCode = 422;
+        Yii::$app->response->statusCode = 200;
         $this->serializer['errno']      = 1;
         $this->serializer['message']    = $model->getErrors();
         return $this->serializer['message'];
@@ -396,8 +452,8 @@ class SignInController extends \common\components\ControllerFrontendApi
 
     /**
      * @SWG\POST(path="/sign-in/update-profile",
-     *     tags={"100-SignIn-用户接口"},
-     *     summary="更新用户附属信息(头像等)[已经自测]",
+     *     tags={"GEDU-SignIn-用户接口"},
+     *     summary="更新用户附属信息(头像等)",
      *     description="更新用户附属表信息 http://developer.qiniu.com/docs/v6/sdk/ios-sdk.html",
      *     produces={"application/json"},
      *     @SWG\Parameter(
@@ -436,8 +492,8 @@ class SignInController extends \common\components\ControllerFrontendApi
      */
     public function actionUpdateProfile()
     {
-        $avatar_base_url = 'http://7xrpkx.com1.z0.glb.clouddn.com/';
-        $avatar_base_url = 'http://7xsm8j.com1.z0.glb.clouddn.com/';
+        $avatar_base_url = Yii::$app->params['qiniu']['wakooedu']['domain'];
+        //var_dump($avatar_base_url);exit;
         $user_id         = Yii::$app->request->post('user_id');
         $data            = Yii::$app->request->post('json_data');
         $data            = json_decode($data, true);
@@ -448,21 +504,21 @@ class SignInController extends \common\components\ControllerFrontendApi
             $this->serializer['message'] = '该用户不存在';
             return $this->serializer['message'];
         }
-
         $model = UserProfile::findOne($user_id);
         if($model){ // 更新
             $key = $model->avatar_path;
             if($key != $data['key']){
                 $auth = new Auth(
-                    \Yii::$app->params['qiniu']['yajol-static']['access_key'], 
-                    \Yii::$app->params['qiniu']['yajol-static']['secret_key']
+                    \Yii::$app->params['qiniu']['wakooedu']['access_key'], 
+                    \Yii::$app->params['qiniu']['wakooedu']['secret_key']
                 );
                 $bucketMgr = new BucketManager($auth);
-                $bucket    = \Yii::$app->params['qiniu']['yajol-static']['bucket'];
+                $bucket    = \Yii::$app->params['qiniu']['wakooedu']['bucket'];
                 $key       = $model->avatar_path;
                 $err       = $bucketMgr->delete($bucket, $key);
 //var_dump($err); exit();
             }
+
             $model->avatar_base_url = $avatar_base_url;
             $model->avatar_path     = $data['key'];
             // $model->save(false);
@@ -475,18 +531,18 @@ class SignInController extends \common\components\ControllerFrontendApi
         }
 
         if (!$model->save(false)) {
-            $this->serializer['errno']   = 1;
+            $this->serializer['errno']   = 422;
             $this->serializer['message'] = $model->getErrors();
             return [];
         }
-        return $model->attributes;
+        return ['avatar_url'=>$model->attributes['avatar_base_url'].'/'.$model->attributes['avatar_path']];
     }
 
      
 
     /**
      * @SWG\Get(path="/sign-in/qiniu-token",
-     *     tags={"100-SignIn-用户接口"},
+     *     tags={"GEDU-SignIn-用户接口"},
      *     summary="获取七牛云Token[待开发]",
      *     description="返回七牛云上传Token",
      *     produces={"application/json"},
@@ -499,24 +555,42 @@ class SignInController extends \common\components\ControllerFrontendApi
      */
     public function actionQiniuToken()
     {
-        $auth = new Auth(\Yii::$app->params['qiniu']['yajol-static']['access_key'], \Yii::$app->params['qiniu']['yajol-static']['secret_key']);
+        $auth = new Auth(\Yii::$app->params['qiniu']['wakooedu']['access_key'], \Yii::$app->params['qiniu']['wakooedu']['secret_key']);
         $policy['returnBody'] = '{"name": $(fname),"size": $(fsize),"type": $(mimeType),"hash": $(etag),"key":$(key)}';
-        $token = $auth->uploadToken(\Yii::$app->params['qiniu']['yajol-static']['bucket'],null,3600,$policy);
+        $token = $auth->uploadToken(\Yii::$app->params['qiniu']['wakooedu']['bucket'],null,3600,$policy);
         Yii::$app->response->format = Response::FORMAT_JSON;
         
-        Yii::$app->response->data = [
+       return  Yii::$app->response->data = [
             'uptoken' => $token
-        ]; 
-        //echo '{"uptoken": "'.$token.'"}';
+        ];
     }
 
+
+    /**
+     * @SWG\Get(path="/sign-in/logout",
+     *     tags={"GEDU-SignIn-用户接口"},
+     *     summary="退出用户账户",
+     *     description="退出用户账户接口",
+     *     produces={"application/json"},
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "成功返回[]，失败返回提示信息"
+     *     )
+     * )
+     *
+     */
     /**
      * @return Response
      */
     public function actionLogout()
     {
-        Yii::$app->user->logout();
-        return $this->goHome();
+        if(Yii::$app->user->logout()){
+            return [];
+        }else{
+            $this->serializer['errno']   = 1;
+            $this->serializer['message'] = '退出失败，请重试';
+            return [];
+        };
     }
 
     public function actiolAuthKey()

@@ -22,7 +22,7 @@ class CourseSearch extends Course
     public function rules()
     {
         return [
-            [['course_id', 'school_id', 'grade_id', 'courseware_id', 'creater_id', 'start_time', 'end_time', 'status', 'created_at', 'updeated_at'], 'integer'],
+            [['course_id', 'school_id', 'teacher_id','grade_id', 'courseware_id', 'creater_id', 'start_time', 'end_time', 'status', 'created_at', 'updated_at'], 'integer'],
             [['title', 'intro', 'school_title','grade_name','courseware_title'], 'safe'],
         ];
     }
@@ -46,7 +46,7 @@ class CourseSearch extends Course
     public function search($params)
     {
         $query = Course::find();
-        $query->joinWith(['school','grade','courseware']);
+        //$query->joinWith(['school','grade','courseware']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -65,6 +65,10 @@ class CourseSearch extends Course
                 'grade_name' => [
                       'asc'  => ['grade.grade_name' => SORT_ASC],
                       'desc' => ['grade.grade_name' => SORT_DESC],
+                ],
+                'teacher_id' => [
+                      'asc'  => ['course.course_id' => SORT_ASC],
+                      'desc' => ['course.course_id' => SORT_DESC],
                 ],
                 'courseware_title' => [
                       'asc'  => ['courseware.title' => SORT_ASC],
@@ -98,9 +102,9 @@ class CourseSearch extends Course
                       'asc'  => ['course.created_at' => SORT_ASC],
                       'desc' => ['course.created_at' => SORT_DESC],
                 ],
-                'updeated_at' => [
-                      'asc'  => ['course.updeated_at' => SORT_ASC],
-                      'desc' => ['course.updeated_at' => SORT_DESC],
+                'updated_at' => [
+                      'asc'  => ['course.updated_at' => SORT_ASC],
+                      'desc' => ['course.updated_at' => SORT_DESC],
                 ],
             ]
         ]);
@@ -118,12 +122,13 @@ class CourseSearch extends Course
                     // 'course.school_id'     => $this->school_id,
                     // 'course.grade_id'      => $this->grade_id,
                     // 'course.courseware_id' => $this->courseware_id,
+                    'course.teacher_id'    => $this->teacher_id,
                     'course.creater_id'    => $this->creater_id,
                     'course.start_time'    => $this->start_time,
                     'course.end_time'      => $this->end_time,
                     'course.status'        => $this->status,
                     'course.created_at'    => $this->created_at,
-                    'course.updeated_at'   => $this->updeated_at,
+                    'course.updated_at'   => $this->updated_at,
                 ]);
 
         $query->andFilterWhere(['like', 'course.title', $this->title])

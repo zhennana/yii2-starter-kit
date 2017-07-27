@@ -8,11 +8,13 @@ use yii\rest\ActiveController;
 use yii\web\ForbiddenHttpException;
 use yii\web\HttpException;
 use yii\helpers\Url;
-
-use frontend\modules\api\v1\resources\Article;
+use common\wechat\JSSDK;
+use common\models\ArticleCategory;
 use frontend\models\edu\resources\Course;
 use frontend\models\edu\resources\UsersToUsers;
 use frontend\models\edu\resources\Courseware;
+use frontend\models\edu\resources\Contact;
+use frontend\models\edu\resources\ApplyToPlay;
 
 class ConfigController extends \common\rest\Controller
 {
@@ -72,7 +74,7 @@ class ConfigController extends \common\rest\Controller
 
     /**
      * @SWG\Get(path="/config/index",
-     *     tags={"800-Config-配置信息接口"},
+     *     tags={"GEDU-Config-配置信息接口"},
      *     summary="信息流列表",
      *     description="返回首页流",
      *     produces={"application/json"},
@@ -87,73 +89,45 @@ class ConfigController extends \common\rest\Controller
     public function actionIndex()
     {
          $model = new Courseware;
-         return $model->streamData();
-        /*
-        for ($i=1; $i < 4; $i++) {
-            $recommend_items[] = [
-                'coursee_id'     => (string)$i,
-                'type'   => 'image',
-                'title'       => '育综合性人才，建四化学校',
-                'target_url' => Yii::$app->request->hostInfo.Url::to(['api/courseware/view','id'=>1]),
-                'imgUrl'      => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/yajolyajol_activity_banner_01.png?imageView2/1/w/640/h/282',
-            ];
-        } 
-        for ($i=1; $i < 5; $i++) {
-            $recommend_items1[] = [
-                'coursee_id'     => (string)$i,
-                'type'   => 'video',
-                'title'       => '育综合性人才，建四化学校',
-                'target_url' => Yii::$app->request->hostInfo.Url::to(['api/courseware/view','id'=>1]),
-                'imgUrl'      => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/yajolyajol_activity_banner_01.png?imageView2/1/w/200/h/100',
-            ];
-        }
-
-
-        $data = [
-            [
-                'type'     => '3',
-                'name'     => '精品课程',
-                'target_url'=> '这里是更多的跳转',
-                'items'    => $recommend_items,
-            ],
-            [
-                'type'     => '4',
-                'name'     => '精选课程',
-                'target_url'=> '这里是更多的跳转',
-                'items'    => $recommend_items1,
-            ]];*/
-        
-        return $data;
+         $params = [
+            ['type' => 3, 'name' => '热门课程', 'sort' => [1,2,3]],
+            ['type' => 4, 'name' => '精品课程', 'sort' => [4,5,6,7]],
+            ['type' => 2, 'name' => '专题推荐', 'sort' => [8,9]],
+            ['type' => 4, 'name' => '相关推荐', 'sort' => [10,11,12,13]],
+            ['type' => 4, 'name' => '免费课程', 'sort' => [14,15,16,17]],
+         ];
+         return $model->streamData($params);
     }
 
     /**
      * @SWG\Get(path="/config/init",
-     *     tags={"800-Config-配置信息接口"},
+     *     tags={"GEDU-Config-配置信息接口"},
      *     summary="初始化",
-     *     description="返回更新版本信息",
+     *     description="返回配置参数",
      *     produces={"application/json"},
      *     @SWG\Parameter(
      *        in = "query",
-     *        name = "user_id",
-     *        description = "用户ID",
+     *        name = "client_type",
+     *        description = "客户端类型：1:Android； 2:IOS",
      *        required = false,
-     *        default = 0,
+     *        default = "Android",
+     *        type = "string",
+     *        enum = {"Android","IOS"}
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "client_version",
+     *        description = "客户端版本：1.0.3 ; Android/4.5",
+     *        required = false,
+     *        default = "1.0.3",
      *        type = "string"
      *     ),
      *     @SWG\Parameter(
      *        in = "query",
      *        name = "server_version",
-     *        description = "服务端版本（奇数测试版本，偶数为正式版本）",
+     *        description = "服务端版本：1.0.3 ",
      *        required = false,
-     *        default = "1.0.2",
-     *        type = "string"
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "query",
-     *        name = "client_version",
-     *        description = "客户端版本：1.0.2 ; Android/4.5",
-     *        required = false,
-     *        default = "1.0.2",
+     *        default = "1.0.3",
      *        type = "string"
      *     ),
      *     @SWG\Parameter(
@@ -166,115 +140,146 @@ class ConfigController extends \common\rest\Controller
      *     ),
      *     @SWG\Response(
      *         response = 200,
-     *         description = "forced_updating=1,强制更新"
+     *         description = "返回配置参数"
      *     ),
      * )
      *
     **/
     /**
-     * 线上版本 2016-08-15
-     * IOS 2.24
-     * 安卓：2.20
+     * 线上版本 2017-07-16
+     * IOS： 1.02
+     * 安卓：1.03
      *
      * 测试版本号
     */
-    public function actionInit($user_id=0, $server_version=0, $client_version=0, $time_stamp=0)
+    public function actionInit($client_type = '', $client_version=0, $server_version=0, $time_stamp=0)
     {
-        $info        = [];
-        $cache       = false;
-        $cache_stamp = strtotime('2017-08-15 21:00:00');
+        $info = [];
 
-        if($time_stamp == $cache_stamp){
-            $cache = true;
+        // 缓存配置
+        $info['sys_params'] = [
+            'cache_stamp' => strtotime('2010-08-15 21:00:00'),
+            'cache'       => false,
+
+        ];
+        if($time_stamp == $info['sys_params']['cache_stamp']){
+            $info['sys_params']['cache'] = false;
         }
 
-        $info = [
+        // 客户端配置
+        // 安卓上线配置
+        if ($client_type == 'Android') {
+            $info['client_params'] = [
 
-            // 时间戳
-            'cache_stamp' => $cache_stamp,
-            'cache'       => $cache,
-            /*
-            'do_business' => [
-                'active'  => 'open',    // close or open
-                'tips'    => '系统维护中。请您谅解，紧急联系方式：400-400-40000',
-                'call_up' => '400-400-40000',
-            ],
-            */
-            // 手动配置更新信息
-            'ios' => [
-                // APP store 审核
+                // 安卓客户端当前版本
+                'client_version' => $client_version,
 
-                // 更新提示：0 关闭 | 1 开启
-                'show_upgrade_status' => '更新提示：0 关闭 | 1 开启',
+                // 安卓客户端最新版本，发版后手动更新为最新版本
+                'uptodate_version' => '1.0.1',
 
-                // 更新版本号
-                'updated_version'   => '更新版本号：2.58.2', // 手动填写
+                // 字段初始化，不需配置，走更新逻辑
+                'show_status'     => '0',   // 更新提示
+                'forced_updating' => '0',   // 强制更新
 
-                // 强制更新(开启慎用)： 0 关闭 | 1 开启 
-                'forced_updating'   => '强制更新(开启慎用)： 0 关闭 | 1 开启',
-                
-                // 服务端版本号
-                'server_version'    => '服务端版本号:'.$server_version,
-
-                // 客户端版本号
-                'client_version'    => '客户端版本号:'.$client_version,
-                
-                // 服务端维护范围
-                'range_server_version' => ['服务端维护范围：1.1'],
-
-                /** ios上线配置 start **/
-                // 更新描述
-                'description' => "更新描述",
-
-                // 安装地址
-                'install_address' => '安装地址：https://itunes.apple.com/cn/app/',
-                'tip'             => '安装失败提示：更新失败，请去应用商店或官网直接下载安装',
-
-                // 客户端维护范围
-                'range_client_version' => [
-                    '客户端维护范围：2.58.2', // 9.1
-                ],
-                /** ios上线配置 end **/
-            ],
-            'android' => [
-                 // 更新提示：0 关闭 | 1 开启
-                'show_upgrade_status' => '更新提示：0 关闭 | 1 开启',
+                // 安卓更新描述，发版后手动更新
+                'description' => "\r\n修复已知bug\r\n",
 
                 // 安卓特有，CRM数据库字段支持
-                // 'version_code' => '',
-                 
-                // 更新版本号
-                'updated_version' => '更新版本号：2.52', // 2.44
+                // 'version_code' => '', 
 
-                // 强制更新(开启慎用)： 0 关闭 | 1 开启 
-                'forced_updating' => '强制更新(开启慎用)： 0 关闭 | 1 开启 ', 
+                // 安卓安装地址，发版后手动更新
+                'install_address' => '',
 
-                // 服务端版本号
-                'server_version' => '服务端版本号：'.$server_version,
+                // 安卓更新失败提示，发版后手动更新
+                'tip' => '更新失败，请去应用商店或官网直接下载安装',
 
-                // 客户端版本号
-                'client_version' => '客户端版本号：'.$client_version,
+                // 安卓客户端维护范围，在此范围内的版本不会强制更新
+                'range_client_version' => [
+                    '1.0.0',
+                    '1.0.1',
+                ],
+
+                // 安卓服务端版本号
+                // 'server_version' => $server_version,
                 
+                // 安卓服务端维护范围
+                /*
+                'range_server_version' => [
+                    '1.0.3'
+                ],
+                */
 
-                /** 安卓上线配置 start **/
-                'description' => "更新描述",
-
-                // svn 版本号： 2801 10-31 17:57
-                // 安装地址
-                'install_address' => '安装地址：http://7xsm8j.com2.z0.glb.qiniucdn.com',
-                'tip'             => '安装失败提示：更新失败，请去应用商店或官网直接下载安装',
-
-                /** 安卓上线配置 end **/
+            ];
+        // 安卓上线配置结束
+        
+        // IOS上线配置
+        }elseif($client_type == 'IOS'){
+            $info['client_params'] = [
+                // IOS客户端当前版本
+                'client_version' => $client_version,
                 
-            ],
-        ];
+                // IOS客户端最新版本，发版后手动更新为最新版本
+                'uptodate_version' => '1.0.3', 
+
+                // 字段初始化，不需配置，走更新逻辑
+                'show_status'     => '0',   // 更新提示
+                'forced_updating' => '0',   // 强制更新
+
+                // IOS更新描述，发版后手动更新
+                'description' => "更新内容：\r\n修复已知bug\r\n",
+
+                // IOS安装地址，发版后手动更新
+                'install_address' => '',
+
+                // IOS更新失败提示，发版后手动更新
+                'tip' => '更新失败，请去应用商店直接下载安装',
+
+                // IOS客户端维护范围，在此范围内的版本不会强制更新
+                'range_client_version' => [
+                    '1.0.3', 
+                ],
+
+                // IOS服务端版本号
+                // 'server_version' => $server_version,
+
+                // IOS服务端维护范围
+                /*
+                'range_server_version' => [
+                    '1.0.2'
+                ],
+                */
+            ];
+        }
+        // IOS上线配置结束
+        
+        // 更新提示、强制更新逻辑
+        if (isset($info['client_params']) && !empty($info['client_params'])) {
+            // 更新提示
+            // 当前客户端版本与最新发布版本[不同]，则提示更新；反之，则不提示更新；
+            if($client_version != $info['client_params']['uptodate_version']){
+                $info['client_params']['show_status'] = '1';
+
+                // 强制更新
+                // 当前客户端版本[不在]客户端维护范围内，则强制更新；反之，则不强制更新；
+                if(!in_array($client_version,$info['client_params']['range_client_version'])){
+                    $info['client_params']['forced_updating'] = '1';
+                }
+
+                // IOS手动配置开启或关闭更新提示
+                if ($client_type == 'IOS') {
+                    $info['client_params']['show_status']     = '0';
+                    $info['client_params']['forced_updating'] = '0';
+                }
+            }
+        }
+        
         return $info;
     }
 
 
     /**
      * @SWG\Get(path="/config/banner",
-     *     tags={"800-Config-配置信息接口"},
+     *     tags={"GEDU-Config-配置信息接口"},
      *     summary="Banner",
      *     description="返回Banner",
      *     produces={"application/json"},
@@ -293,8 +298,8 @@ class ConfigController extends \common\rest\Controller
     public function actionBanner()
     {
         $img=[
-            1 => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/573ed468312f3.jpg?imageView2/1/w/640/h/282',
-            2 => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/bannerone.jpg?imageView2/1/w/640/h/282'
+            1 => 'http://orh16je38.bkt.clouddn.com/banner.png',
+            2 => 'http://orh16je38.bkt.clouddn.com/banner.png'
         ];
         $title=[
             1 => '直击精品课程',
@@ -304,17 +309,17 @@ class ConfigController extends \common\rest\Controller
         //var_dump($data);exit();
         for ($i=1; $i < 3 ; $i++) {
             if($i%2==0){
-                $data[$i]['courseware_id']      = ''.$i;
-                $data[$i]['type']    = 'image';
-                $data[$i]['title'] = $title[$i];
-                $data[$i]['imgUrl']  = $img[$i];
-                $data[$i]['target_url']  = Yii::$app->request->hostInfo.Url::to(['api/courseware/view','id'=>1]);
+                $data[$i]['banner_id']  = ''.$i;
+                $data[$i]['title']      = $title[$i];
+                $data[$i]['imgUrl']     = $img[$i];
+                $data[$i]['type']       = 'URL';
+                $data[$i]['target_url'] = 'http://www.yajol.com/';
         }else{
-                $data[$i]['courseware_id']      = ''.$i;
-                $data[$i]['type']    = 'APP';
-                $data[$i]['title'] = $title[$i];
-                $data[$i]['imgUrl']  = $img[$i];
-                $data[$i]['target_url']  = Yii::$app->request->hostInfo.Url::to(['api/courseware/view','id'=>1]);
+                $data[$i]['banner_id']  = ''.$i;
+                $data[$i]['title']      = $title[$i];
+                $data[$i]['imgUrl']     = $img[$i];
+                $data[$i]['type']       = 'APP';
+                $data[$i]['target_url'] = Yii::$app->request->hostInfo.Url::to(['v1/courseware/view','courseware_id'=>1]);
         }
     }
         sort($data);
@@ -323,7 +328,7 @@ class ConfigController extends \common\rest\Controller
 
     /**
      * @SWG\Get(path="/config/button",
-     *     tags={"800-Config-配置信息接口"},
+     *     tags={"GEDU-Config-配置信息接口"},
      *     summary="按钮",
      *     description="返回首页按钮",
      *     produces={"application/json"},
@@ -336,83 +341,297 @@ class ConfigController extends \common\rest\Controller
     **/
     public function actionButton()
     {
-        $icon = [
-            1  => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/ShanSong.png?imageView2/1/w/86/h/86', 
-            2  => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/PiFa.png?imageView2/1/w/86/h/86',
-            3  => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/miaoshou.jpg?imageView2/1/w/86/h/86',
-            4  => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/Tel.png?imageView2/1/w/86/h/86',
-            5  => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/BianMin.png?imageView2/1/w/86/h/86',
-            6  => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/market.png?imageView2/1/w/86/h/86',
-            7  => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/shangjia.jpg?imageView2/1/w/86/h/86',
-            8  => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/chuyou.jpg?imageView2/1/w/86/h/86',
-            9  => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/Tel.png?imageView2/1/w/86/h/86',
-            10 => 'http://7xsm8j.com2.z0.glb.qiniucdn.com/ShanSong.png?imageView2/1/w/86/h/86', 
+        $icons = [
+            1=>'http://orh16je38.bkt.clouddn.com/university.png?imageView2/1/w/86/h/86', 
+            2=>'http://orh16je38.bkt.clouddn.com/open-book.png?imageView2/1/w/86/h/86',
+            3=>'http://orh16je38.bkt.clouddn.com/open-book-2.png?imageView2/1/w/86/h/86',
+            4=>'http://orh16je38.bkt.clouddn.com/globe.png?imageView2/1/w/86/h/86',
+            5=>'http://orh16je38.bkt.clouddn.com/diamond.png?imageView2/1/w/86/h/86',
+            6=>'http://orh16je38.bkt.clouddn.com/archive.png?imageView2/1/w/86/h/86',
+            7=>'http://orh16je38.bkt.clouddn.com/graduate.png?imageView2/1/w/86/h/86',
+            8=>'http://orh16je38.bkt.clouddn.com/speech-bubble-4.png?imageView2/1/w/86/h/86',
+            // 9=>'http://orh16je38.bkt.clouddn.com/brief-case-2.png?imageView2/1/w/86/h/86',
+            // 10=>'http://orh16je38.bkt.clouddn.com/mouse.png?imageView2/1/w/86/h/86', 
         ];
 
-        $title = [
-            1  => '走进光大',
-            2  => '小学部',
-            3  => '中学部',
-            4  => '国际版',
-            5  => '特长部',
-            6  => '教育教学',
-            7  => '海外游学',
-            8  => '招生专栏',
-            9  => '招贤纳士',
-            10 => '在线报名',
-        ];
+        $category = ArticleCategory::find()
+            ->where(['parent_id' => null,'status' => ArticleCategory::STATUS_ACTIVE])
+            ->andWhere(['NOT',['id' => 46]])
+            ->asArray()
+            ->all();
 
-        for ($i=1; $i < 9 ; $i++) {
-            $data[$i]['button_id']   = ''. $i;
-            $data[$i]['button_type'] = 'URL'; // 类型：url跳转，还是APP内部跳转
-            $data[$i]['button_icon'] = $icon[$i] ; // 
-
-            $data[$i]['button_name']   = $title[$i];
-            $data[$i]['button_target'] = 'http://www.yajol.com';
+        foreach ($category as $key => $value) {
+            $temp = [];
+            $temp['button_id']     = (string)($key+1);
+            $temp['button_type']   = 'APP';
+            $temp['button_icon']   = $icons[$key+1];
+            $temp['button_name']   = $value['title'];
+            $temp['category_id']   = $value['id'];
+            $temp['button_target'] = Yii::$app->request->hostInfo.Url::to(['v1/article/list','id'=>$value['id']]);
+            $data[] = $temp;
         }
-        sort($data);
+
+        // 在线报名
+        $apply = [];
+        $apply['button_id']     = '7';
+        $apply['button_type']   = 'FORM';
+        $apply['button_icon']   = $icons[7];
+        $apply['button_name']   = '在线报名';
+        $apply['category_id']   = '';
+        $apply['button_target'] = Yii::$app->request->hostInfo.Url::to(['v1/config/apply']);
+        array_push($data,$apply);
+
+        // 联系我们
+        $contact = [];
+        $contact['button_id']     = '8';
+        $contact['button_type']   = 'ARTICLE';
+        $contact['button_icon']   = $icons[8];
+        $contact['button_name']   = '联系我们';
+        $contact['category_id']   = '';
+        $contact['button_target'] = Yii::$app->request->hostInfo.Url::to(['v1/article/contact']);
+        array_push($data,$contact);
+
         return $data;
     }
 
     /**
-     * @SWG\Get(path="/config/my",
-     *     tags={"800-Config-配置信息接口"},
-     *     summary="我的页面",
-     *     description="我的页面",
+     * @SWG\Get(path="/config/share",
+     *     tags={"GEDU-Config-配置信息接口"},
+     *     summary="微信内嵌网页分享",
+     *     description="返回首页按钮",
      *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "AppID",
+     *        description = "AppID",
+     *        required = false,
+     *        default = 0,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "AppSecret",
+     *        description = "AppSecret",
+     *        required = false,
+     *        default = 0,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "url",
+     *        description = "要分享网页的url",
+     *        required = false,
+     *        default = 0,
+     *        type = "string"
+     *     ),
      *     @SWG\Response(
      *         response = 200,
-     *         description = "返回我的信息"
+     *         description = "返回签名"
      *     ),
      * )
      *
     **/
-
-    public function actionMy(){
-
-        if(Yii::$app->user->isGuest){
-            $this->serializer['errno']      = 422;
-            $this->serializer['message']    = '请您先登录';
+    public function actionShare($AppID = 'wx1b4d4c528735833c', $AppSecret = '8d6b54b92ede962c2b0a5d0c4b6679a7', $url = '')
+    {
+        
+        if ($url == '') {
+            $this->serializer['errno']   = 422;
+            $this->serializer['message'] = 'URL不能为空';
             return [];
         }
 
-        $model = UsersToUsers::find()->where(['user_right_id'=>Yii::$app->user->identity->id])->one();
-        if($model){
-          return [
-              'account'=>Yii::$app->user->identity->username,
-              'lavel'  => '',
-              'grade'  => $model->getGrade(),
-              'parents'=> UsersToUsers::getUserName($model->user_left_id).'的家长',
-           ];
+        if ($AppID == 'wx1b4d4c528735833c' && $AppSecret == '8d6b54b92ede962c2b0a5d0c4b6679a7') {
+            $sdk          = new JSSDK($AppID, $AppSecret);
+            $sign_package = $sdk->getSignPackage($url);
+
+            if (isset($sign_package->errcode) && isset($sign_package->errmsg)) {
+                $this->serializer['errno']   = $sign_package->errcode;
+                $this->serializer['message'] = $sign_package->errmsg;
+                return [];
+            }
+
+            return $sign_package;
         }else{
-            return [
-                'account' =>Yii::$app->user->identity->username,
-                'lavel'   => '',
-                'grade'   => Yii::$app->user->identity,
-                'parents' => '',
-            ];
+            $this->serializer['errno']   = 422;
+            $this->serializer['message'] = '参数错误：AppID或AppSecret';
+            return [];
         }
-    
-  
-      }
+    }
+
+    /**
+     * @SWG\Post(path="/config/feedback",
+     *     tags={"GEDU-Config-配置信息接口"},
+     *     summary="反馈意见",
+     *     description="error= 0 反馈意见成功",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "school_id",
+     *        description = "学校ID",
+     *        required = true,
+     *        type = "integer"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "body",
+     *        description = "反馈内容,max=255",
+     *        required = true,
+     *        default = "",
+     *        type = "string"
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "errorno= 0  成功  其他错误"
+     *     ),
+     * )
+     *
+    **/
+    public function actionFeedback()
+    {
+        if(Yii::$app->user->isGuest){
+            $this->serializer['errno']   = 422;
+            $this->serializer['message'] = '请您先登录';
+            return [];
+        }
+
+        if (isset($_POST['body']) && !empty($_POST['body']) && isset($_POST['school_id']) && !empty($_POST['school_id'])) {
+            $count = Contact::find()->where([
+                'school_id' => $_POST['school_id'],
+                'user_id'   => Yii::$app->user->identity->id,
+                'body'      => $_POST['body'],
+                // 'status'   => Contact::CONTACT_STATUS_APPROVED
+            ])->count();
+            if ($count > 0) {
+                $this->serializer['message'] = '该问题已经被记录过了';
+                return [];
+            }
+        }
+
+        $feedback = new Contact();
+        $feedback->setScenario(Contact::SCENARIO_FEEDBACK);
+        $_POST['user_id']      = Yii::$app->user->identity->id;
+        $_POST['username']     = Yii::$app->user->identity->username;
+        $_POST['phone_number'] = Yii::$app->user->identity->phone_number;
+        // var_dump($feedback->load($_POST,''));exit;
+        $feedback->load($_POST,'');
+        if(!$feedback->save()){
+            $this->serializer['errno']   = __LINE__;
+            $this->serializer['message'] = $feedback->getErrors();
+        }
+
+        return [];
+    }
+
+    /**
+     * @SWG\Post(path="/config/apply",
+     *     tags={"GEDU-Config-配置信息接口"},
+     *     summary="在线报名",
+     *     description="在线报名",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "username",
+     *        description = "报名人姓名",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "age",
+     *        description = "报名人年龄",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "gender",
+     *        description = "性别：1男，2女",
+     *        required = true,
+     *        type = "integer",
+     *        enum = {1,2}
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "guardian",
+     *        description = "监护人",
+     *        required = false,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "phone_number",
+     *        description = "报名人电话",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "email",
+     *        description = "邮箱",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "birth",
+     *        description = "出生年月",
+     *        required = false,
+     *        type = "integer"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "nation",
+     *        description = "民族",
+     *        required = false,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "body",
+     *        description = "个人简历",
+     *        required = false,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "address",
+     *        description = "详细地址",
+     *        required = false,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "province_id",
+     *        description = "省",
+     *        required = false,
+     *        type = "integer"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "school_id",
+     *        description = "校区",
+     *        required = false,
+     *        type = "integer"
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "errorno= 0  成功  其他错误"
+     *     ),
+     * )
+     *
+    **/
+    public function actionApply()
+    {
+        $params['ApplyToPlay'] = Yii::$app->request->post();
+        $model = new ApplyToPlay;
+        if ($model->load($params) && $model->validate()) {
+           if ($model->save()) {
+               return $model;
+           }
+        }
+        $this->serializer['errno']   = __LINE__;
+        $this->serializer['message'] = $model->getErrors();
+        return [];
+    }
+
 }

@@ -15,12 +15,27 @@ use common\models\User;
     * @var backend\modules\campus\models\Grade $model
     * @var yii\widgets\ActiveForm $form
     */
-    $schools = School::find()->where(['status'=>School::SCHOOL_STATUS_OPEN])->asArray()->all();
-    $schools = ArrayHelper::map($schools,'id','school_title');
+
+    $schools = [Yii::$app->user->identity->currentSchool];
+    $schools = ArrayHelper::map($schools,'school_id','school_title');
+
     $category_ids = GradeCategory::find()->where(['status'=>GradeCategory::CATEGORY_OPEN])->asArray()->all();
     $category_ids = ArrayHelper::map($category_ids,'grade_category_id','name');
-    $user = User::find()->where(['status'=>2])->asArray()->all();
-    $data_user = ArrayHelper::map($user,'id','username');
+
+    $user = Yii::$app->user->identity->getSchoolToUser(Yii::$app->user->identity->currentSchoolId , 20);
+    //var_dump('<pre>',$user);exit;
+    // getSchoolToUser
+    $data_user =  [];
+   foreach ($user as $key => $value) {
+       if(!empty($value['username'])){
+            $data_user[$value['id']] = $value['username'];
+            continue;
+       }
+       if(!empty($value['realname'])){
+            $data_user[$value['id']] = $value['realname'];
+       }
+   }
+   //var_dump($data_user);exit;
 ?>
 
 <div class="grade-form">
@@ -37,7 +52,9 @@ use common\models\User;
         <?php $this->beginBlock('main'); ?>
 
         <p>
-            
+            <?php 
+                $model->school_id =Yii::$app->user->identity->currentSchoolId
+            ?>
 <!-- attribute school_id -->
 			<?= $form->field($model, 'school_id')->dropDownlist($schools,['prompt'=>'--请选择--']) ?>
 
@@ -46,7 +63,7 @@ use common\models\User;
             <?= $form->field($model, 'grade_name')->textInput(['maxlength' => true]) ?>
 
 <!-- attribute grade_title -->
-			<?= $form->field($model, 'grade_title')->textInput() ?>
+		<!-- 	<? // $form->field($model, 'grade_title')->textInput() ?> -->
 
 <!-- attribute owner_id -->
             <?= $form->field($model, 'owner_id')->dropDownlist($data_user,['prompt'=>'--请选择--']) ?>

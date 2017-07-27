@@ -9,13 +9,14 @@ namespace backend\modules\campus\controllers\base;
     use yii\web\Controller;
     use yii\web\HttpException;
     use yii\helpers\Url;
+    use yii\helpers\ArrayHelper;
     use yii\filters\AccessControl;
     use dmstr\bootstrap\Tabs;
 
     /**
     * SchoolController implements the CRUD actions for School model.
     */
-    class SchoolController extends Controller
+    class SchoolController extends \common\components\Controller
     {
         /**
         * @var boolean whether to enable CSRF validation for the actions in this controller.
@@ -47,7 +48,6 @@ namespace backend\modules\campus\controllers\base;
                                 'actions' => ['update', 'create', 'delete'],
                                 'roles' => ['CampusSchoolEdit'],
                             ],
-                            
                         ],
                     ],
                 ];
@@ -61,7 +61,11 @@ namespace backend\modules\campus\controllers\base;
         {
             $searchModel  = new SchoolSearch;
             $dataProvider = $searchModel->search($_GET);
-
+            $schools = \Yii::$app->user->identity->schoolsInfo;
+            $schools = ArrayHelper::map($schools,'school_id','school_id');
+            $dataProvider->query->andWhere([
+                'school_id'=>array_keys($schools)
+                ]);
             Tabs::clearLocalStorage();
 
             Url::remember();
@@ -70,6 +74,7 @@ namespace backend\modules\campus\controllers\base;
             return $this->render('index', [
                 'dataProvider' => $dataProvider,
                 'searchModel' => $searchModel,
+                //'schools'      => $schools,
             ]);
         }
 

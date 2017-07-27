@@ -36,6 +36,7 @@ public function behaviors()
       return array_merge(
           parent::fields(),
           [
+
             'school_label'=>function(){
                 return isset($this->school->school_title)? $this->school->school_title : '';
             },
@@ -52,7 +53,7 @@ public function behaviors()
               return self::UserTitleTypelable($this->user_title_id_at_grade);
             },
             'user_label'=>function(){
-              return isset($this->user->username) ? $this->user->username : '';
+              return Yii::$app->user->identity->getUserName($this->user_id);
             },
             'updated_at'=>function(){
               return date('Y-m-d H:i:s',$this->updated_at);
@@ -74,7 +75,7 @@ public function behaviors()
       $info = ['error' => []];
       if(!isset($data) && empty($data) && !is_array($data['user_id']))
       {
-            return false;
+            return [];
       }
 
       foreach ($data['user_id'] as $key => $value) {
@@ -182,7 +183,7 @@ public function behaviors()
   }
   /**
    * 返回所有下拉框集合
-   */  
+   */
   public function DropDownGather(){
     $data = [];
     $data['status']           = $this->DropDownLabel(self::optsStatus());
@@ -191,5 +192,35 @@ public function behaviors()
     $data['user']             = $this->DropDownUser();
     $data['school']           = $this->DropDownSchool();
     return $data;
-  }    
+  } 
+  
+  public function getlist($type_id = false,$id =false){
+        if($type_id == 1){
+            $grade = Grade::find()->where(['status'=>Grade::GRADE_STATUS_OPEN, 'school_id'=>$id])->asArray()->all();
+      //var_dump( ArrayHelper::map($grade,'grade_id','grade_name'));exit;
+            return ArrayHelper::map($grade,'grade_id','grade_name');
+        }
+        if($type_id == 2){
+            $UserToGrade = UserToGrade::find()
+                      ->where([
+                        'grade_id'=>$id,
+                        'grade_user_type'=>20
+                        ])
+                      ->with('user')
+                      ->all();
+          $data = [];
+          foreach ($UserToGrade as $key => $value) {
+                $data[$value['user_id']] = $value['user']['username'];
+          }
+          return $data;
+        }
+        $school_id = Yii::$app->user->identity->getSchoolOrGrade();
+        $school = School::find()->where(['status'=>School::SCHOOL_STATUS_OPEN]);
+        if($school_id != 'all'){
+            $school->andwhere(['school_id'=>$school_id]);
+        }
+        $school = $school->asArray()->all();
+        
+        return ArrayHelper::map($school,'school_id','school_title');
+      }
 }

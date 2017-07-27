@@ -25,15 +25,15 @@ $this->params['breadcrumbs'][] = $this->title;
  */
 $actionColumnTemplates = [];
 
-if (\Yii::$app->user->can('manager', ['route' => true])) {
+if (\Yii::$app->user->can('manager', ['route' => true])  || \Yii::$app->user->can('E_manager', ['route' => true])) {
 	$actionColumnTemplates[] = '{view}';
 }
 
-if (\Yii::$app->user->can('manager', ['route' => true])) {
+if (\Yii::$app->user->can('manager', ['route' => true]) || \Yii::$app->user->can('E_manager', ['route' => true])) {
 	$actionColumnTemplates[] = '{update}';
 }
 
-if (\Yii::$app->user->can('manager', ['route' => true])) {
+if (\Yii::$app->user->can('manager', ['route' => true]) || \Yii::$app->user->can('E_manager', ['route' => true])) {
 	$actionColumnTemplates[] = '{delete}';
 }
 if (isset($actionColumnTemplates)) {
@@ -138,14 +138,18 @@ if (\Yii::$app->user->can('manager', ['route' => true])) {
 	            'attribute'=>'courseware_master_id',
 	            'format'    => 'raw',
 	            'value'=>function($model){
-                	return 'master_id:'.$model->courseware_master_id."<br />".$model->coursewareMaster->title;
+                    if (isset($model->coursewareMaster) && !empty($model->coursewareMaster)) {
+                	   return 'master_id:'.$model->courseware_master_id."<br />".$model->coursewareMaster->title;
+                    }
             	}
             ],
             [
                 'attribute'=>'courseware_id',
                 'format'    => 'raw',
                 'value'=>function($model){
-                    return 'courseware_id:'.$model->courseware_id."<br />".$model->courseware->title;
+                    if (isset($model->courseware) && !empty($model->courseware)) {
+                        return 'courseware_id:'.$model->courseware_id."<br />".$model->courseware->title;
+                    }
                 }
             ],
             'sort',

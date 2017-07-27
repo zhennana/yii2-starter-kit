@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\GridView;
-
+use backend\modules\campus\models\StudentRecord;
 /**
 * @var yii\web\View $this
 * @var yii\data\ActiveDataProvider $dataProvider
@@ -12,33 +12,35 @@ use yii\grid\GridView;
 
 $this->title = Yii::t('models', '学员档案管理');
 $this->params['breadcrumbs'][] = $this->title;
-
 /**
 * create action column template depending acces rights
 */
     $actionColumnTemplates = [];
 
-    if (\Yii::$app->user->can('manager')) { 
+     if (\Yii::$app->user->can('P_teacher', ['route' => true]) || \Yii::$app->user->can('E_manager') || Yii::$app->user->can('manager')) {
         $actionColumnTemplates[] = '{view}';
     }
 
-    if (\Yii::$app->user->can('manager')) {
+     if (\Yii::$app->user->can('P_teacher', ['route' => true]) || \Yii::$app->user->can('E_manager') || Yii::$app->user->can('manager')) {
         $actionColumnTemplates[] = '{update}';
     }
-
-    if (\Yii::$app->user->can('manager')) {
+    if (\Yii::$app->user->can('P_teacher', ['route' => true]) || \Yii::$app->user->can('E_manager') || Yii::$app->user->can('manager')) {
+        $actionColumnTemplates[] = '{export}';
+    }
+/*
+    if (\Yii::$app->user->can('P_teacher')) {
         $actionColumnTemplates[] = '{delete}';
     }
-    
+*/
     if (isset($actionColumnTemplates)) {
-        
+
         $actionColumnTemplate = implode(' ', $actionColumnTemplates);
         $actionColumnTemplateString = $actionColumnTemplate;
-    
+
     } else {
-    
+
         Yii::$app->view->params['pageButtons'] = Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'), ['create'], ['class' => 'btn btn-success']);
-        $actionColumnTemplateString = "{view} {update} {delete}";
+        $actionColumnTemplateString = "{view} {update} {delete} {export}";
     }
 ?>
 <div class="giiant-crud student-record-index">
@@ -56,7 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </h1>
     <div class="clearfix crud-navigation">
 <?php
-if(\Yii::$app->user->can('manager')){
+ if (\Yii::$app->user->can('P_teacher', ['route' => true]) || \Yii::$app->user->can('E_manager') || Yii::$app->user->can('manager')) {
 ?>
         <div class="pull-left">
             <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'), ['create'], ['class' => 'btn btn-success']) ?>
@@ -64,7 +66,7 @@ if(\Yii::$app->user->can('manager')){
 <?php
 }
 ?>
-        <div class="pull-right">              
+        <div class="pull-right">
             <?= \yii\bootstrap\ButtonDropdown::widget(
                 [
                     'id' => 'giiant-relations',
@@ -109,12 +111,22 @@ if(\Yii::$app->user->can('manager')){
                     $params[0] = \Yii::$app->controller->id ? \Yii::$app->controller->id . '/' . $action : $action;
                     return Url::toRoute($params);
                 },
+                'buttons' => [
+                    'export' => function($url, $model, $key){
+                        $options = [
+                            'title'      => Yii::t('yii', '导出Doc文档'),
+                            'aria-label' => Yii::t('yii', '导出Doc文档'),
+                            // 'target' => '_blank'
+                        ];
+                        return Html::a('<span class="glyphicon glyphicon-copy"></span>', $url, $options);
+                    }
+                ],
                 'contentOptions' => ['nowrap'=>'nowrap']
             ],
             [
                 'attribute'=>'user_id',
                 'value'=>function($model){
-                        return isset($model->user->username) ? $model->user->username : '';
+                        return Yii::$app->user->identity->getUserName($model->user_id);
                 }
             ],
             [
@@ -137,10 +149,33 @@ if(\Yii::$app->user->can('manager')){
                 }
             ],
             'title',
-            'status',
+             [
+                'class'=>\common\grid\EnumColumn::className(),
+                'attribute' =>'status',
+                'enum'      => StudentRecord::optsStatus(),
+            ],
+            [
+                'label'=>'上传档案个数',
+                'value'=>function($model){
+                        return $model->getStudentRecordValue()->count();
+                    }
+            ],
             'sort',
             'updated_at:datetime',
-            'created_at:datetime'
+            'created_at:datetime',
+            [
+                'label'=>'',
+                'format'    => 'raw',
+                'value'=>function($model){
+                    return Html::a('编写学员档案',['student-record-value/create-value',
+                        //'user_id'     => $model->user_id,
+                        //'school_id'   => $model->school_id,
+                        //'grade_id'    => $model->grade_id,
+                        'course_id'     => $model->course_id,
+                        'student_record_id'=> $model->student_record_id,
+                    ]);
+                }
+            ]
 
         ],
         ]); ?>

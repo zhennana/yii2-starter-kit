@@ -6,10 +6,17 @@ use yii\grid\GridView;
 use yii\widgets\DetailView;
 use yii\widgets\Pjax;
 use dmstr\bootstrap\Tabs;
+use kartik\mpdf\Pdf;
 
 $CoursewareToFileSearch = new \backend\modules\campus\models\search\CoursewareToFileSearch;
 $CoursewareToFileDataProvider = $CoursewareToFileSearch->search($_GET);
 $CoursewareToFileDataProvider->query->andwhere(['courseware_id'=>$model->courseware_id]);
+if(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager')){
+
+}else{
+    $CoursewareToFileDataProvider->query
+        ->andwhere(['status'=>\backend\modules\campus\models\CoursewareToFile::COURSEWARE_STATUS_OPEN]);
+}
 $CoursewareToFileDataProvider->query->orderby(['sort'=>SORT_DESC]);
 
 $CoursewareToCoursewareSearch  = new \backend\modules\campus\models\search\CoursewareToCoursewareSearch;
@@ -24,9 +31,9 @@ $CoursewareToCoursewareDataProvider->query->orderby(['sort'=>SORT_DESC]);
 $copyParams = $model->attributes;
 
 $this->title = Yii::t('backend', '课件详情');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Coursewares'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '课件管理'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => (string)$model->title, 'url' => ['view', 'courseware_id' => $model->courseware_id]];
-$this->params['breadcrumbs'][] = Yii::t('backend', 'View');
+$this->params['breadcrumbs'][] = Yii::t('backend', '课件详情');
 ?>
 <div class="giiant-crud courseware-view">
 
@@ -50,26 +57,28 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
     <div class="clearfix crud-navigation">
 
         <!-- menu buttons -->
-        <div class='pull-left'>
-            <?= Html::a(
-            '<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('backend', '修改'),
-            [ 'update', 'courseware_id' => $model->courseware_id],
-            ['class' => 'btn btn-info']) ?>
+        <?php if(Yii::$app->user->can('manager') || \Yii::$app->user->can('E_manager')){
+        ?>
+            <div class='pull-left'>
+                <?= Html::a(
+                '<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('backend', '修改'),
+                [ 'update', 'courseware_id' => $model->courseware_id],
+                ['class' => 'btn btn-info']) ?>
 
-            <?= Html::a(
-            '<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('backend', '克隆'),
-            ['create', 'courseware_id' => $model->courseware_id, 'Courseware'=>$copyParams],
-            ['class' => 'btn btn-success']) ?>
+                <?= Html::a(
+                '<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('backend', '克隆'),
+                ['create', 'courseware_id' => $model->courseware_id, 'Courseware'=>$copyParams],
+                ['class' => 'btn btn-success']) ?>
 
-            <?= Html::a(
-            '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'),
-            ['create'],
-            ['class' => 'btn btn-success']) ?>
-        </div>
-
+                <?= Html::a(
+                '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'),
+                ['create'],
+                ['class' => 'btn btn-success']) ?>
+            </div>
+        <?php  } ?>
         <div class="pull-right">
             <?= Html::a('<span class="glyphicon glyphicon-list"></span> '
-            . Yii::t('backend', 'Full list'), ['index'], ['class'=>'btn btn-default']) ?>
+            . Yii::t('backend', '返回列表'), ['index'], ['class'=>'btn btn-default']) ?>
         </div>
 
     </div>
@@ -91,13 +100,37 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
             'value'    =>isset($model->coursewareCategory->name) ? $model->coursewareCategory->name : ''
         ],
         'title',
+        [
+            //'attribute'=>'targets',
+            'label'    => '教学目标',
+            'value'    => function($model){
+                $data = $model->getJsonBody();
+                if(isset($data['target'])){
+                    return $data['target'];
+                }else{
+                    return $model->body;
+                }
+            }
+        ],
+        [
+            'label'    => '教学过程',
+            'format'    => 'raw',
+            'value'     => function($model){
+               $data = $model->getJsonBody();
+               if(isset($data['process'])){
+                    return $data['process'];
+               }else{
+                    return '';
+               }
+            },
+        ],
         'tags',
         'level',
         [
             'attribute'=>'creater_id',
-            'value'    =>isset($model->user->username) ? $model->user->username : ''
+            'value'    =>Yii::$app->user->identity->getUserName($model->creater_id)
         ],
-        'body:ntext',
+        //'body:ntext',
         'file_counts',
         'page_view',
 
@@ -107,35 +140,57 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
         ],
         'access_domain',
         'access_other',
-        
+
     ],
     ]); ?>
 
-    
     <hr/>
-
-    <?= Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('backend', 'Delete'), ['delete', 'courseware_id' => $model->courseware_id],
+<!-- 
+    <?/* Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('backend', 'Delete'), ['delete', 'courseware_id' => $model->courseware_id],
     [
     'class' => 'btn btn-danger',
     'data-confirm' => '' . Yii::t('backend', 'Are you sure to delete this item?') . '',
     'data-method' => 'post',
-    ]); ?>
+    ]); */ ?> -->
     <?php $this->endBlock(); ?>
     
 
     <?php $this->beginBlock('backend\modules\campus\models\CoursewareToFile');?>
     <div>
     <?php
-        $qiniu = '<div>'.common\widgets\Qiniu\UploadCourseware::widget([
-                'uptoken_url' => yii\helpers\Url::to(['token-cloud']),
-                'upload_url'  => yii\helpers\Url::to(['upload-cloud','courseware_id'=>$model->courseware_id]),
-                        //'delete_url'  => yii\helpers\Url::to(['delete-cloud'])
-            ]).'</div><br /> ';
+        $qiniu = '';
+        if(Yii::$app->user->can('manager') ||  \Yii::$app->user->can('E_manager')){
+            $qiniu = '<div>'.common\widgets\Qiniu\UploadCourseware::widget([
+                    'uptoken_url' => yii\helpers\Url::to(['token-cloud']),
+                    'upload_url'  => yii\helpers\Url::to(['upload-cloud','courseware_id'=>$model->courseware_id]),
+                            //'delete_url'  => yii\helpers\Url::to(['delete-cloud'])
+                ]).'</div><br /> ';
+    }
     ?>
     </div>
     <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main1', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
         <?php
-            
+            $actionColumnTemplates = [];
+        // if (\Yii::$app->user->can('P_teacher', ['route' => true])|| \Yii::$app->user->can('E_manager') || \Yii::$app->user->can('manager')) {
+        //         $actionColumnTemplates[] = '{view}';
+        //     }
+
+        if (\Yii::$app->user->can('E_manager') ||
+            \Yii::$app->user->can('manager')
+            ) {
+            $actionColumnTemplates[] = '{update}';
+        }
+        if (
+            \Yii::$app->user->can('E_manager') ||
+            \Yii::$app->user->can('manager')
+            ) {
+           // $actionColumnTemplates[] = '{delete}';
+        }
+        $actionColumnTemplateString = '';
+        if(isset($actionColumnTemplates)){
+            $actionColumnTemplate = implode(' ', $actionColumnTemplates);
+            $actionColumnTemplateString = $actionColumnTemplate;
+        }
             echo   '<div  class="table-responsive">'.$qiniu.\yii\grid\GridView::widget([
                 'layout'=>'{summary}{pager}<br/>{items}{pager}',
                 'dataProvider'=>$CoursewareToFileDataProvider,
@@ -144,9 +199,22 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
                      [
                         'class' => 'yii\grid\ActionColumn',
                         'controller' => 'courseware-to-file',
-                        'template' => '{update} {delete}'
+                        'template' => $actionColumnTemplateString,
+                        
+                        'urlCreator' => function($action, $model, $key, $index) {
+                    // using the column name as key, not mapping to 'id' like the standard generator
+                    // /*
+                        if($action == "update"){
+
+                            \Yii::$app->session['__crudReturnUrl']  = ['/campus/courseware/view','courseware_id'=>$model->courseware_id];
+                        }
+                        $params = is_array($key) ? $key : ['id' => (string) $key];
+                        $params[0] = 'courseware-to-file' . '/' . $action ;
+                       // var_dump($params);exit;
+                        return Url::toRoute($params);
+                },
                     ],
-                    
+                   
                     'courseware_id',
                     [
                         'class'     => \common\grid\EnumColumn::ClassName(),
@@ -161,12 +229,34 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
                         'label' => '文件',
                         'format' => 'raw',
                         'value' => function($model, $key, $index, $grid){
-                            $url = $model->fileStorageItem->url.$model->fileStorageItem->file_name;
+                            //'http://static.v1.wakooedu.com/o_1bil7rau811nngqouui1b6gqr69.mp4';
+                              $url = $model->fileStorageItem->url.$model->fileStorageItem->file_name;
+                              $message  = '点击查看';
                             if(strstr($model->fileStorageItem->type,'image')){
-                                return Html::a('<img width="50px" height="50px" class="img-thumbnail" src="'.$url.'?imageView2/1/w/50/h/50" />', $url.'?imageView2/1/w/500/h/500', ['title' => '访问','target' => '_blank']);
+                                return '<br>'.Html::a($message.'<img width="50px" height="50px" class="img-thumbnail" src="'.$url.'?imageView2/1/w/50/h/50" />',['picture','files'=>$model->fileStorageItem->file_name], ['title' => '访问','target' => '_blank']);
+                            }elseif(strstr($model->fileStorageItem->type,'pdf')){
+                                //return 
+                                // "<a href='/repositories/yii2-starter-kit/common/widgets/pdfi-view/web/viewer.html?file=http://static.v1.wakooedu.com/o_1behs9jf11fms1ge81mpsnm2v4t9.pdf'>云梯</a>";
+                                // return Html::a($model->fileStorageItem->file_name,$url,[
+                                //     'title'=>'访问',
+                                //     'target'=>'_blank'
+                                //     ]);
+                                 return Html::a($message.'<br>'.$model->fileStorageItem->file_name, ['courseware/pdf','file'=>$model->fileStorageItem->file_name], ['title' => '访问','target' => '_blank']);
+                            }elseif(strstr($model->fileStorageItem->type,'mp4')){
+                                return Html::a($message.'<br>'.$model->fileStorageItem->file_name, ['courseware/video','files'=>$model->fileStorageItem->file_name] ,[
+                                    'title'=>'访问',
+                                    'target'=>'_blank'
+                                    ]);
                             }else{
-                                return Html::a($model->fileStorageItem->type, $url, ['title' => '访问','target' => '_blank']);
+                                return $model->fileStorageItem->file_name;
                             }
+                        }
+                    ],
+                    [
+                        'attribute'=>'original',
+                        'label'    => '原文件名',
+                        'value'    =>function($model){
+                            return $model->fileStorageItem->original;
                         }
                     ],
                     [
@@ -262,6 +352,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
             'label'   => '<b class="">关联课件</b>',
             'content' => $this->blocks['backend\modules\campus\models\CoursewareToCourseware'],
             'active'  => false,
+            'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager')),
             ],
         ]
     ]);

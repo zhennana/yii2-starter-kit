@@ -3,6 +3,7 @@
 namespace backend\modules\campus\controllers;
 
 use backend\modules\campus\models\SignIn;
+use yii\helpers\Html;
 /**
 * This is the class for controller "SignInController".
 */
@@ -40,5 +41,17 @@ class SignInController extends \backend\modules\campus\controllers\base\SignInCo
 		}
 		\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 		return $info;
+	}
+	function actionAjaxForm($type_id,$id){
+		//var_dump($_GET);exit;
+		//var_dump($type_id,$id);exit;
+		$model = new SignIn;
+
+		$model = $model->getlist($type_id,$id);
+		$option = "请选择";
+		echo Html::tag('option',$option, ['value'=>'']);
+		foreach ($model as $key => $value) {
+		 	 echo Html::tag('option',Html::encode($value),array('value'=>$key));
+		}
 	}
 }

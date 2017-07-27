@@ -118,11 +118,12 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+    
         $model = ArticleCategory::find()
             ->select(['id','parent_id'])
             ->where([
               'or',
-              ['id'        => [3, 22]],
+              ['id'        => [23, 3, 22]],
               ['parent_id' => [9, 12]]
             ])
             ->andWhere([
@@ -136,6 +137,7 @@ class SiteController extends Controller
         $course_right = [];
         $dongtai      = [];
         $zuopin       = [];
+        $about        = [];
         foreach ($model as $key => $value) {
             if($value['parent_id'] == 9){
                 $course_left[]  = $value['id'];
@@ -148,23 +150,27 @@ class SiteController extends Controller
 
             }elseif($value['id'] == 3){
                 $dongtai[]      = $value['id'];
-
+            }elseif ($value['id'] == 23) {
+                $about[] = $value['id'];
             }
         }
 
         $ids = array_column($model, 'id');
-        // dump($ids);exit;
+         //dump($about);exit;
         $articles = Article::find()
         ->where(['category_id' => $ids])
+        ->with(['articleAttachments'])
+        ->published()
         ->orderBy(['updated_at' => SORT_DESC])
         ->asArray()
-        ->all(); 
+        ->all();
 
         $data = [
           'course_left'  => [],
           'course_right' => [],
           'dongtai'      => [],
-          'zuopin'       => []
+          'zuopin'       => [],
+          'about'        => []
         ];
 
         // dump($articles);exit;
@@ -182,6 +188,9 @@ class SiteController extends Controller
             }
             if (in_array($value['category_id'], $zuopin)) {
                 $data['zuopin'][] = $value;
+            }
+            if (in_array($value['category_id'], $about)) {
+                $data['about'][] = $value;
             }
         }
         //dump($data['course_left']);exit;
@@ -266,9 +275,9 @@ class SiteController extends Controller
     public function actionAjaxContact(){
         $model = new Contact;
         if (Yii::$app->request->isAjax) {
-           
+
            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-          
+
             if($model->load(Yii::$app->request->post()) && $model->save()){
                 return ['status' => true];
             }else{
@@ -338,4 +347,5 @@ class SiteController extends Controller
             return ['0' => '暂无校区'];
         }
     }
+    
 }

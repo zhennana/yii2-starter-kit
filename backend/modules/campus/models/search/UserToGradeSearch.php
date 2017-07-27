@@ -5,6 +5,7 @@ namespace backend\modules\campus\models\search;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use yii\helpers\ArrayHelper;
 use backend\modules\campus\models\UserToGrade;
 
 /**
@@ -52,7 +53,14 @@ class UserToGradeSearch extends UserToGrade
             'query' => $query,
             ]);
 
-            $this->load($params,'');
+            // if(Yii::$app->user->can('leader') || Yii::$app->user->can('director') ) {
+            //       $school_id = ArrayHelper::map(Yii::$app->user->identity->userToSchool,'school_id','school_id');
+            //       $query->andFilterWhere(['school_id'=>$school_id]);
+            // }elseif(Yii::$app->user->can('teacher')){
+            //        $grade_id = ArrayHelper::map(Yii::$app->user->identity->userToGrade,'grade_id','grade_id');
+            // $query->andFilterWhere(['grade_id'=>$grade_id]);
+   // }
+            $this->load($params);
 
             if (!$this->validate()) {
                   // uncomment the following line if you do not want to any records when validation fails

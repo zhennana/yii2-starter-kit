@@ -23,16 +23,16 @@ $this->params['breadcrumbs'][] = $this->title;
 */
     $actionColumnTemplates = [];
 
-    if (\Yii::$app->user->can('manager', ['route' => true])) {
+    if (\Yii::$app->user->can('P_director', ['route' => true]) || \Yii::$app->user->can('E_manager') || \Yii::$app->user->can('manager')) {
         $actionColumnTemplates[] = '{view}';
     }
 
-    if (\Yii::$app->user->can('manager', ['route' => true])) {
+    if (\Yii::$app->user->can('E_manager') || \Yii::$app->user->can('manager')) {
         $actionColumnTemplates[] = '{update}';
     }
 
-    if (\Yii::$app->user->can('manager', ['route' => true])) {
-        $actionColumnTemplates[] = '{delete}';
+    if (\Yii::$app->user->can('E_manager') || \Yii::$app->user->can('manager')) {
+        //$actionColumnTemplates[] = '{delete}';
     }
     if (isset($actionColumnTemplates)) {
     $actionColumnTemplate = implode(' ', $actionColumnTemplates);
@@ -50,7 +50,14 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
 
     
-    <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
+    <?php \yii\widgets\Pjax::begin([
+        'id'=>'pjax-main', 
+        'enableReplaceState'=> false, 
+        'linkSelector'=>'#pjax-main ul.pagination a, th a', 
+        'clientOptions' => 
+            [
+            'pjax:success'=>'function(){alert("yo")}']
+            ]) ?>
 
     <h1>
         <?= Yii::t('backend', '班级分类管理') ?>
@@ -60,7 +67,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </h1>
     <div class="clearfix crud-navigation">
 <?php
-if(\Yii::$app->user->can('manager', ['route' => true])){
+if(\Yii::$app->user->can('manager', ['route' => true]) || \Yii::$app->user->can('E_manager')){
 ?>
         <div class="pull-left">
             <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'), ['create'], ['class' => 'btn btn-success']) ?>
@@ -139,7 +146,7 @@ if(\Yii::$app->user->can('manager', ['route' => true])){
             [
                 'attribute' => 'creater_id',
                 'value'     => function($model){
-                    return GradeCategory::getUserName($model->creater_id);
+                    return Yii::$app->user->identity->getUserName($model->creater_id);
                 }
             ],
             [

@@ -19,16 +19,21 @@ $this->params['breadcrumbs'][] = $this->title;
 */
 $actionColumnTemplates = [];
 
-if (\Yii::$app->user->can('manager', ['route' => true])) {
+if (\Yii::$app->user->can('P_teacher', ['route' => true])|| \Yii::$app->user->can('E_manager') || \Yii::$app->user->can('manager')) {
     $actionColumnTemplates[] = '{view}';
 }
 
-if (\Yii::$app->user->can('manager', ['route' => true])) {
+if (\Yii::$app->user->can('P_director', ['route' => true]) || 
+    \Yii::$app->user->can('E_manager') ||
+    \Yii::$app->user->can('manager')
+    ) {
     $actionColumnTemplates[] = '{update}';
 }
-
-if (\Yii::$app->user->can('manager', ['route' => true])) {
-    $actionColumnTemplates[] = '{delete}';
+if (\Yii::$app->user->can('P_director', ['route' => true]) || 
+    \Yii::$app->user->can('E_manager') ||
+    \Yii::$app->user->can('manager')
+    ) {
+    //$actionColumnTemplates[] = '{delete}';
 }
 if (isset($actionColumnTemplates)) {
     $actionColumnTemplate = implode(' ', $actionColumnTemplates);
@@ -60,7 +65,10 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
     </h1>
     <div class="clearfix crud-navigation">
         <?php
-            if(\Yii::$app->user->can('manager', ['route' => true])){
+           if (\Yii::$app->user->can('P_director', ['route' => true]) || 
+                \Yii::$app->user->can('E_manager') ||
+                \Yii::$app->user->can('manager')
+                ) {
         ?>
         <div class="pull-left">
             <?= Html::a(
@@ -140,17 +148,26 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                 [
                     'attribute' => 'courseware_title',
                     'label'     => '课件',
+                     'format'    => 'raw',
                     'value'     => function($model){
-                        return isset($model->courseware->title) ?$model->courseware->title  : '';
+                        if($model->courseware->title){
+                            return Html::a($model->courseware->title,[
+                                        '/campus/courseware/view','courseware_id'=>$model->courseware_id
+                                ]);
+                        }else{
+                            return '';
+                        }
+                      //  return isset($model->courseware->title) ?$model->courseware->title  : '';
                     }
                 ],
     			'title',
     			'intro',
+
                 [
-                    'attribute' => 'creater_id',
-                    'label'     => '创建者ID',
+                    'attribute' => 'teacher_id',
+                    'label'     => '上课老师',
                     'value'     => function($model){
-                        return isset($model->user->username) ?$model->user->username : '';
+                        return Yii::$app->user->identity->getUserName($model->teacher_id);
                     }
                 ],
     			'start_time:datetime',
@@ -164,7 +181,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                         return $model->status;
                     },
                 ],
-    			'updeated_at:datetime',
+    			'updated_at:datetime',
                 'created_at:datetime'
             ],
         ]); ?>

@@ -4,8 +4,6 @@
  *
  * @package default
  */
-
-
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\GridView;
@@ -25,16 +23,16 @@ $this->params['breadcrumbs'][] = $this->title;
  */
 $actionColumnTemplates = [];
 
-//if (\Yii::$app->user->can('campus_courseware-category_view', ['route' => true])) {
+if (\Yii::$app->user->can('P_teacher', ['route' => true]) || Yii::$app->user->can('E_manager') || Yii::$app->user->can('manager')) {
 	$actionColumnTemplates[] = '{view}';
-//}
+}
 
-//if (\Yii::$app->user->can('campus_courseware-category_update', ['route' => true])) {
+if (\Yii::$app->user->can('manager', ['route' => true]) || Yii::$app->user->can('E_manager')) {
 	$actionColumnTemplates[] = '{update}';
-//}
+}
 
 //if (\Yii::$app->user->can('campus_courseware-category_delete', ['route' => true])) {
-	$actionColumnTemplates[] = '{delete}';
+	//$actionColumnTemplates[] = '{delete}';
 //}
 if (isset($actionColumnTemplates)) {
 	$actionColumnTemplate = implode(' ', $actionColumnTemplates);
@@ -63,13 +61,13 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
     </h1>
     <div class="clearfix crud-navigation">
 <?php
-//if (\Yii::$app->user->can('campus_courseware-category_create', ['route' => true])) {
+if (\Yii::$app->user->can('manager', ['route' => true]) || Yii::$app->user->can('E_manager')) {
 ?>
         <div class="pull-left">
             <?php echo Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'New'), ['create'], ['class' => 'btn btn-success']) ?>
         </div>
 <?php
-//}
+}
 ?>
         <div class="pull-right">
 
@@ -136,7 +134,6 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
 				'contentOptions' => ['nowrap'=>'nowrap']
 			],
 			'parent_id',
-			'creater_id',
 			'name',
 			'description',
 			[

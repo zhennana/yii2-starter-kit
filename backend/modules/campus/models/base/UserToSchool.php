@@ -23,15 +23,38 @@ use yii\behaviors\TimestampBehavior;
  */
 abstract class UserToSchool extends \yii\db\ActiveRecord
 {
-     /**
+
+    const SCHOOL_USER_TYPE_TEACHER  = 20; //老师
+    const SCHOOL_USER_TYPE_STUDENTS = 10; // 学生
+    const SCHOOL_USER_TYPE_DIRECTOR = 30; //主任
+    const SCHOOL_USER_TYPE_LEADER   = 40; //校长
+    const SCHOOL_USER_TYPE_WORKER   = 50; //职工
+
+    const SCHOOL_STATUS_ACTIVE  = 1; //正常
+    const SCHOOL_STATUS_CLOSE   = 0; //关闭
+    /**
      * @return \yii\db\Connection the database connection used by this AR class.
-     */
+    */
     public static function getDb()
     {
-        //return \Yii::$app->modules['campus']->get('campus');
         return Yii::$app->get('campus');
     }
 
+    public static function optsUserType(){
+        return [
+            self::SCHOOL_USER_TYPE_LEADER   => '校长',
+            self::SCHOOL_USER_TYPE_DIRECTOR => '主任',
+            self::SCHOOL_USER_TYPE_TEACHER  => '老师',
+            self::SCHOOL_USER_TYPE_STUDENTS => '学生',
+            self::SCHOOL_USER_TYPE_WORKER   => '职工',
+        ];
+    }
+    public static function optsUserStatus(){
+        return [
+            self::SCHOOL_STATUS_ACTIVE   => '正常',
+            self::SCHOOL_STATUS_CLOSE => '关闭',
+        ];
+    }
 
 
     /**
@@ -39,7 +62,8 @@ abstract class UserToSchool extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'users_to_school';
+       preg_match("/dbname=([^;]+)/i", self::getDb()->dsn, $matches);
+       return  $matches[1].'.users_to_school';
     }
 
 
@@ -63,8 +87,20 @@ abstract class UserToSchool extends \yii\db\ActiveRecord
         return [
             [['user_id', 'school_id'], 'required'],
             [['user_id', 'school_id', 'user_title_id_at_school', 'status', 'sort', 'school_user_type'], 'integer'],
-            [['user_id', 'school_id'], 'unique', 'targetAttribute' => ['user_id', 'school_id'], 'message' => 'The combination of 用户ID and 学校ID has already been taken.']
-        ];
+        /*    [
+                'school_user_type','integer','when'=>function($model,$attribute){
+                    $models = self::find()->where([
+                            'user_id'=>$model->user_id,
+                            'school_user_type'=>$model->school_user_type,
+                            'school_id'       => $model->school_id,
+                        ])->one();
+                    if($models && ($models->user_to_school_id != $model->user_to_school_id)){
+                        $model->addError($attribute,'用户在此学校已拥改职称,请去列表查看');
+                    }
+                }
+            ]*/
+        //     [['user_id', 'school_id'], 'unique', 'targetAttribute' => ['user_id', 'school_id'], 'message' => 'The combination of 用户ID and 学校ID has already been taken.']
+         ];
     }
 
     /**
@@ -73,15 +109,15 @@ abstract class UserToSchool extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'user_to_school_id' => Yii::t('common', 'User To School ID'),
-            'user_id' => Yii::t('common', '用户ID'),
-            'school_id' => Yii::t('common', '学校ID'),
+            'user_to_school_id' => Yii::t('common', 'ID'),
+            'user_id' => Yii::t('common', '用户'),
+            'school_id' => Yii::t('common', '学校'),
             'user_title_id_at_school' => Yii::t('common', '用户在学校的描述性展示Title，没有逻辑'),
-            'status' => Yii::t('common', '1：正常；0标记删除；2待审核；3已经转班; '),
+            'status' => Yii::t('common', '状态'),
             'sort' => Yii::t('common', '显示排序'),
-            'school_user_type' => Yii::t('common', '用户关系类型：用户类型：教师；学生；家长；'),
-            'updated_at' => Yii::t('common', 'Updated At'),
-            'created_at' => Yii::t('common', 'Created At'),
+            'school_user_type' => Yii::t('common', '用户关系'),
+            'updated_at' => Yii::t('common', '更新时间'),
+            'created_at' => Yii::t('common', '创建时间'),
         ];
     }
 
@@ -100,8 +136,12 @@ abstract class UserToSchool extends \yii\db\ActiveRecord
         ]);
     }
 
-
-    
+    public function getUser(){
+        return  $this->hasOne(\common\models\User::className(),['id'=>'user_id']);
+    }
+    public function getSchool(){
+        return  $this->hasOne(\backend\modules\campus\models\School::className(),['school_id'=>'school_id']);
+    }
     /**
      * @inheritdoc
      * @return \backend\modules\campus\models\query\UesrToSchool the active query used by this AR class.

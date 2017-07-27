@@ -81,12 +81,13 @@ class ArticleController extends Controller
         return $this->render('course',['model'=>$data]);
     }
 
+
     /**
      * [actionNews description]
      * @return [type] [description]
      */
     public function actionNews(){
-        $query = Article::find()->where(['category_id' => 3]);
+        $query = Article::find()->published()->where(['category_id' => 3]);
         $pages = new Pagination([
             'totalCount' => $query->count(),
             'pageSize'   => '10',
@@ -139,4 +140,27 @@ class ArticleController extends Controller
            // var_dump($data);exit;
          return $data;
     }*/
+    public function actionAbout(){
+        $model = Article::find()
+        ->published()
+        ->where(['category_id'=> 1])
+        ->one();
+        if (!$model) {
+            throw new NotFoundHttpException('找不到该页面');
+        }
+        //var_dump($model);exit;
+        return $this->render('@frontend/themes/edu/page/view',['model'=>$model]);
+    }
+
+    public function actionMerchants(){
+        $model = Article::find()
+        ->published()
+        ->where(['category_id'=> 6])
+        ->one();
+        if (!$model) {
+            throw new NotFoundHttpException('找不到该页面');
+        }
+        //var_dump($model);exit;
+        return $this->render('@frontend/themes/edu/page/view',['model'=>$model]);
+    }
 }

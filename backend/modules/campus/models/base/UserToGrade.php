@@ -6,6 +6,11 @@ namespace backend\modules\campus\models\base;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\helpers\ArrayHelper;
+use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
+use backend\modules\campus\models\CourseOrderItem;
+//use backend\modules\campus\models\SignIn;
 
 /**
  * This is the base-model class for table "users_to_grade".
@@ -26,13 +31,13 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
 {
     CONST USER_GRADE_STATUS_NORMAL  = 1 ; //正常；
     CONST USER_GRADE_STATUS_RETIRED = 4 ; //退休；
-    CONST USER_GRADE_STATUS_CHANGE  = 3 ; //转班；
+    CONST USER_GRADE_STATUS_CHANGE  = 3 ; //转班；  
     CONST USER_GRADE_STATUS_DELETE  = 0 ; // 删除；
     CONST USER_GRADE_STATUS_AUDIT   = 2 ; //审核；
 
     CONST GRADE_USER_TYPE_STUDENT   = 10 ; //学生
-    CONST GRADE_USER_TYOE_TEACHER   = 20 ; //老师
-    CONST GRADE_USER_TYOE_PARENTS   = 30 ; //家长
+    CONST GRADE_USER_TYPE_TEACHER   = 20 ; //老师
+    CONST GRADE_USER_TYPE_PARENTS   = 30 ; //家长
 
     public static function optsStatus(){
         return [
@@ -54,15 +59,15 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
     public static function optsUserType(){
         return [
             self::GRADE_USER_TYPE_STUDENT=>'学生',//,
-            self::GRADE_USER_TYOE_TEACHER=>'老师',//,
+            self::GRADE_USER_TYPE_TEACHER=>'老师',//,
         ];
     }
     //用户在班级的描述性展示Title，没有逻辑
     public static function optsUserTitleType(){
         return [
             self::GRADE_USER_TYPE_STUDENT=>'学生',//,
-            self::GRADE_USER_TYOE_TEACHER=>'老师',//,
-            self::GRADE_USER_TYOE_PARENTS=> '家长'
+            self::GRADE_USER_TYPE_TEACHER=>'老师',//,
+            self::GRADE_USER_TYPE_PARENTS=> '家长'
         ];
     }
 
@@ -122,8 +127,52 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
         return [
             [['user_id', 'school_id', 'grade_id'], 'required'],
             [['user_id', 'school_id', 'grade_id', 'user_title_id_at_grade', 'status', 'sort', 'grade_user_type'], 'integer'],
-            [['user_id'],'unique', 'targetAttribute' => ['user_id','school_id', 'grade_id', 'grade_user_type'], 'message' => '用户已经存在本班级']
+            // [['user_id'],'unique', 'targetAttribute' => ['user_id','school_id', 'grade_id', 'grade_user_type'], 'message' => '用户已经存在本班级'],
+            ['user_id','is_checkouts'],
+            ['user_id','is_course_count'],
         ];
+    }
+    //检测用户是否还有课程
+    public function is_course_count($attributes){
+        if($this->grade_user_type == self::GRADE_USER_TYPE_STUDENT){
+            $courseCount = CourseOrderItem::find()
+            ->select(['SUM(total_course + presented_course) as total_courses'])
+            ->where(['user_id'=>$this->user_id,'payment_status'=>CourseOrderItem::PAYMENT_STATUS_PAID])
+            ->asArray()->one();
+            $aboverCourse =\backend\modules\campus\models\SignIn::find()
+            ->where(['student_id'=>$this->user_id,'type_status'=>\backend\modules\campus\models\SignIn::TYPE_STATUS_MORMAL])
+            ->count('student_id');
+
+            if(($courseCount['total_courses'] < $aboverCourse) || ($courseCount['total_courses'] == $aboverCourse) ){
+                $message = Yii::$app->user->identity->getUserName($this->user_id) .'已欠费'.'请先去缴费才能分班';
+                return $this->addError($attributes,$message);
+            }
+        }
+
+
+    }
+    /**
+     * 检测用户在一个班只能拥有一种状态.
+     * @param  [type]  $attributes [description]
+     * @return boolean             [description]
+     */
+    public function is_checkouts($attributes){
+        //var_dump($this->user_id,$this->school_id,$this->grade_id);exit;
+        $model = self::find()->where([
+            'user_id'           => $this->user_id,
+            'school_id'         => $this->school_id,
+            'grade_id'          => $this->grade_id,
+            'grade_user_type'   => $this->grade_user_type,
+            //'status'            => $this->status
+            ]);
+        if (!$this->isNewRecord) {
+            $model->andWhere(['not', ['user_to_grade_id'=>$this->user_to_grade_id]]);
+        }
+        $model = $model->one();
+        if($model){
+            $message = Yii::$app->user->identity->getUserName($this->user_id).'已存在'.$model->school->school_title.$model->grade->grade_name.'请去修改/或者忽略';
+            return $this->addError($attributes,$message);
+        }
     }
 
     /**
@@ -171,6 +220,45 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
     }
     public function getSchool(){
         return $this->hasOne(\backend\modules\campus\models\School::className(),['school_id'=>'school_id']);
+    }
+    /**
+     * 获取用户全部总课程
+     * @return [type] [description]
+     */
+    public function getCourseOrder(){
+        return $this->hasOne(\backend\modules\campus\models\CourseOrderItem::className(),['user_id'=>'user_id']
+            );
+    }
+    /**
+     * 获取用户上的所有课程
+     * @return [type] [description]
+     */
+    public function getSignIn(){
+        return $this->hasOne(\backend\modules\campus\models\SignIn::className(),['student_id'=>'user_id']);
+    }
+    /**
+     * 获取班级下边的所有学生
+     * @param  [type] $grade_ids [description]
+     * @return [type]            [description]
+     */
+    public static function getStudents($user_id = NULL,$grade_ids = NULL){
+        //var_dump();exit;
+        if($grade_ids == NULL){
+            $grade_ids = Yii::$app->user->identity->getSchoolToGrade($user_id);
+            // dump($grade_ids);exit;
+            $grade_ids = ArrayHelper::map($grade_ids,'grade_id','grade_id');
+        }
+        //var_dump($grade_ids);exit;
+        $model = self::find()
+            ->select(['user_to_grade_id','school_id','grade_id','user_id'])
+            ->where([
+                'grade_id'=>$grade_ids,
+                'status'=>UserToGrade::USER_GRADE_STATUS_NORMAL,
+                'grade_user_type' => UserToGrade::GRADE_USER_TYPE_STUDENT,
+            ]);
+            return  new ActiveDataProvider([
+                'query'=>$model
+            ]);
     }
     /**
      * @inheritdoc

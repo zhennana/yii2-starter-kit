@@ -69,7 +69,7 @@ class CoursewareCategoryController extends \common\rest\Controller
 
     /**
      * @SWG\Get(path="/courseware-category/index",
-     *     tags={"500-CoursewareCategory-课件分类接口"},
+     *     tags={"GEDU-CoursewareCategory-课件分类接口"},
      *     summary="课件分类",
      *     description="返回课件分类信息",
      *     produces={"application/json"},
@@ -87,13 +87,8 @@ class CoursewareCategoryController extends \common\rest\Controller
     public function actionIndex()
     {
         $modelClass =  new $this->modelClass;
-        // $category = $modelClass::find()
-        //     ->andWhere(['status' => $modelClass::CATEGORY_STATUS_OPEN])
-        //    // ->asArray()
-        //     ->all();
-    return  $modelClass->categoryList();
+        return  $modelClass->categoryList();
 
-    exit;
     }
 
 

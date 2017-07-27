@@ -13,8 +13,8 @@ use dmstr\bootstrap\Tabs;
 */
 $copyParams = $model->attributes;
 
-$this->title = Yii::t('backend', '学员管理');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '学员管理'), 'url' => ['index']];
+$this->title = Yii::t('backend', '班级人员管理');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '班级人员管理'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => (string)$model->user_to_grade_id, 'url' => ['view', 'user_to_grade_id' => $model->user_to_grade_id]];
 $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
 ?>
@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
     <?php endif; ?>
 
     <h1>
-        <?= Yii::t('backend', '学员管理') ?>
+        <?= Yii::t('backend', '班级人员管理') ?>
         <small>
             <?= $model->user_to_grade_id ?>
         </small>
@@ -38,7 +38,9 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
 
 
     <div class="clearfix crud-navigation">
-
+    <?php
+       if (\Yii::$app->user->can('P_director', ['route' => true]) || \Yii::$app->user->can('E_manager') || Yii::$app->user->can('manager')) {
+    ?>
         <!-- menu buttons -->
         <div class='pull-left'>
             <?= Html::a(
@@ -47,7 +49,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
             ['class' => 'btn btn-info']) ?>
 
             <?= Html::a(
-            '<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('backend', '复制'),
+            '<span class="glyphicon glyphicon-copy"></span>' . Yii::t('backend', '复制'),
             ['create', 'user_to_grade_id' => $model->user_to_grade_id, 'UserToGrade'=>$copyParams],
             ['class' => 'btn btn-success']) ?>
 
@@ -55,8 +57,15 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
             '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'),
             ['create'],
             ['class' => 'btn btn-success']) ?>
-        </div>
 
+           <!--  <?/* Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('backend', '删除'), ['delete', 'user_to_grade_id' => $model->user_to_grade_id],
+                [
+                'class' => 'btn btn-danger',
+                'data-confirm' => '' . Yii::t('backend', '确定要删除该项目吗？') . '',
+                'data-method' => 'post',
+                ]);*/ ?> -->
+        </div>
+    <?php } ?>
         <div class="pull-right">
             <?= Html::a('<span class="glyphicon glyphicon-list"></span> '
             . Yii::t('backend', '返回列表'), ['index'], ['class'=>'btn btn-default']) ?>
@@ -74,7 +83,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
     'attributes' => [
         [
             'attribute' => 'user_id',
-            'value'     => isset($model->user->username) ? $model->user->username : '',
+            'value'     => Yii::$app->user->identity->getUserName($model->user_id),
         ],
         [
             'attribute' => 'school_id',
@@ -97,12 +106,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
     
     <hr/>
 
-    <?= Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('backend', '删除'), ['delete', 'user_to_grade_id' => $model->user_to_grade_id],
-    [
-    'class' => 'btn btn-danger',
-    'data-confirm' => '' . Yii::t('backend', '确定要删除该项目吗？') . '',
-    'data-method' => 'post',
-    ]); ?>
+
     <?php $this->endBlock(); ?>
 
 

@@ -8,8 +8,9 @@ use backend\modules\campus\models\School;
 use backend\modules\campus\models\Grade;
 use backend\modules\campus\models\GradeCategory;
 
-$school_ids = School::find()->where(['status'=>School::SCHOOL_STATUS_OPEN])->asArray()->all();
-$school_ids = ArrayHelper::map($school_ids,'id','school_title');
+/*
+$school_ids = [Yii::$app->user->identity->currentSchool];
+$school_ids = ArrayHelper::map($school_ids,'id','school_title');*/
 //var_dump($school_ids);exit;
 $group_category_ids = GradeCategory::find()->where(['status'=>GradeCategory::CATEGORY_OPEN])->asArray()->all();
 $group_category_ids = ArrayHelper::map($group_category_ids,'grade_category_id','name');
@@ -28,16 +29,16 @@ $this->params['breadcrumbs'][] = $this->title;
 */
 $actionColumnTemplates = [];
 
-    if (\Yii::$app->user->can('manager', ['route' => true])) {
+    if (\Yii::$app->user->can('P_director', ['route' => true]) || \Yii::$app->user->can('E_manager') || Yii::$app->user->can('manager')) {
         $actionColumnTemplates[] = '{view}';
     }
 
-    if (\Yii::$app->user->can('manager', ['route' => true])) {
+   if (\Yii::$app->user->can('P_director', ['route' => true]) || \Yii::$app->user->can('E_manager') || Yii::$app->user->can('manager')) {
         $actionColumnTemplates[] = '{update}';
     }
 
-    if (\Yii::$app->user->can('manager', ['route' => true])) {
-        $actionColumnTemplates[] = '{delete}';
+     if (\Yii::$app->user->can('P_director', ['route' => true]) || \Yii::$app->user->can('E_manager') || Yii::$app->user->can('manager')) {
+       // $actionColumnTemplates[] = '{delete}';
     }
     if (isset($actionColumnTemplates)) {
     $actionColumnTemplate = implode(' ', $actionColumnTemplates);
@@ -54,7 +55,6 @@ $actionColumnTemplates = [];
 //             echo $this->render('_search', ['model' =>$searchModel]);
         ?>
 
-    
     <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
 
     <h1>
@@ -65,7 +65,7 @@ $actionColumnTemplates = [];
     </h1>
     <div class="clearfix crud-navigation">
 <?php
-if(\Yii::$app->user->can('manager', ['route' => true])){
+ if (\Yii::$app->user->can('P_director', ['route' => true]) || \Yii::$app->user->can('E_manager') || Yii::$app->user->can('manager')) {
 ?>
         <div class="pull-left">
             <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'),
@@ -77,7 +77,7 @@ if(\Yii::$app->user->can('manager', ['route' => true])){
 ?>
         <div class="pull-right">
 
-                                                    
+
             <?= \yii\bootstrap\ButtonDropdown::widget([
                 'id'          => 'giiant-relations',
                 'encodeLabel' => false,
@@ -140,7 +140,7 @@ if(\Yii::$app->user->can('manager', ['route' => true])){
                     'class'     =>\common\grid\EnumColumn::className(),
                     'attribute' =>'school_id',
                     'format'    => 'raw',
-                    'enum'      => $school_ids,
+                    'enum'      => $schools,
                     'value'     => function($model){
                         return Html::a(
                             $model->school->school_title,
@@ -164,17 +164,18 @@ if(\Yii::$app->user->can('manager', ['route' => true])){
                 ],
                 //'group_category_id',
     			'grade_title',
+                'grade_name',
                 [
                     'attribute' => 'creater_id',
                     'value'     => function($model){
-                        return $model->getUserName($model->creater_id);
+                        return Yii::$app->user->identity->getUserName($model->creater_id);
                     }
                 ],
     			//'classroom_group_levels',
                 [
                     'attribute' => 'owner_id',
                     'value'     => function($model){
-                        return $model->getUserName($model->owner_id);
+                        return Yii::$app->user->identity->getUserName($model->owner_id);
                     }
                 ],
     			'sort',
@@ -188,9 +189,17 @@ if(\Yii::$app->user->can('manager', ['route' => true])){
                     },
                     'enum'      => Grade::optsStatus()
                 ],
+                [
+                    'class'     =>\common\grid\EnumColumn::className(),
+                    'enum'      => Grade::optsGraduate(),
+                    'attribute' =>'graduate',
+                    'format'    => 'raw',
+                    'value'     => function($model){
+                        return $model->graduate;
+                    },
+                ],
                 'updated_at:datetime',
-                'created_at:datetime'
-        			/*'graduate',*/
+                'created_at:datetime',
         			/*'time_of_graduation:datetime',*/
         			/*'time_of_enrollment:datetime',*/
         			/*'grade_name',*/

@@ -14,7 +14,7 @@ $config = [
             'itemTable' => '{{%rbac_auth_item}}',
             'itemChildTable' => '{{%rbac_auth_item_child}}',
             'assignmentTable' => '{{%rbac_auth_assignment}}',
-            'ruleTable' => '{{%rbac_auth_rule}}'
+            'ruleTable' => '{{%rbac_auth_rule}}',
         ],
 
         'cache' => [
@@ -90,7 +90,7 @@ $config = [
                         $logged_ip = !Yii::$app->getRequest()->getUserIP() ? '' : Yii::$app->getRequest()->getUserIP();
                         $user_id = isset(Yii::$app->user->identity->id) ? Yii::$app->user->identity->id : 0;
                         $url = !Yii::$app->request->isConsoleRequest ? Yii::$app->request->getUrl() : null;
-                        
+
                         return sprintf(
                             '[%s] [IP: %s] [user_id: %s] [%s]', 
                             Yii::$app->id, $logged_ip, $user_id, $url
@@ -227,22 +227,30 @@ $config = [
             require(Yii::getAlias('@storage/config/_urlManager.php'))
         )
     ],
+    //Yii::$app->params['image']['image_original_size'];
+    //Yii::$app->params['image']['image_shrinkage_size'];
     'params' => [
         'user_avatar'=>'http://static.v1.wakooedu.com/o_1bf6nmv571qb6rva18c1c4r1kjq9.png',
         'qiniu'=>[
             'wakooedu'=>[
-                'access_key'=>env('QINIU_ACCESS_KEY'),
-                'secret_key'=>env('QINIU_SECRET_KEY'),
-                'domain' => env('QINIU_DOMAIN'),
-                'bucket' => env('QINIU_BUCKET')
+                'access_key'    =>env('QINIU_ACCESS_KEY'),
+                'secret_key'    =>env('QINIU_SECRET_KEY'),
+                'domain'        => env('QINIU_DOMAIN'),
+                'bucket'        => env('QINIU_BUCKET'),
+                'zone_url'      => env('QINIU_ZONEURL')
             ]
+        ],
+        //裁剪图片大小参数
+        'image'=>[
+            'image_original_size'=>"?imageView2/3/w/600/h/600",
+            'image_shrinkage_size'=>"?imageView2/1/w/400/h/400",
         ],
         'adminEmail' => env('ADMIN_EMAIL'),
         'robotEmail' => env('ROBOT_EMAIL'),
         'availableLocales'=>[
         // For example, the ID en-US stands for the locale of "English and the United States".
             'en-US'=>'English (US)',
-            //'ru-RU'=>'Русский (РФ)',
+            // 'ru-RU'=>'Русский (РФ)',
             //'uk-UA'=>'Українська (Україна)',
             //'es-ES' => 'Español',
             //'es' => 'Español',
@@ -263,6 +271,38 @@ $config = [
             'KRW' => '韩圆',
             'PHP' => '菲律宾披索',
         */
+        'payment' => [
+            'gedu' => [
+                'alipay' => [
+                //应用ID,您的APPID。
+                'app_id' => "2017071107712808", // 光大
+
+                //商户私钥，您的原始格式RSA私钥
+                'merchant_private_key' => Yii::getAlias('@common').'/payment/alipay/cert/gedu_rsa_private_key.pem',
+
+                //异步通知地址
+                'notify_url' => 'http://'.$_SERVER['HTTP_HOST'].'/gedu_alipay_notify.php',
+
+                //同步跳转,尾部需要拼接主课件ID
+                // 'return_url' => 'http://'.$_SERVER['HTTP_HOST'].'/#/coursedetail/',
+
+                // 本地调试回调地址
+                'return_url' => 'http://192.168.5.119:8082/#/coursedetail/',
+
+                //编码格式
+                'charset' => "UTF-8",
+
+                //签名方式
+                'sign_type'=>"RSA",
+
+                //支付宝网关
+                'gatewayUrl' => "https://openapi.alipay.com/gateway.do",
+
+                //支付宝公钥,查看地址：https://openhome.alipay.com/platform/keyManage.htm 对应APPID下的支付宝公钥。
+                'alipay_public_key' => Yii::getAlias('@common').'/payment/alipay/cert/alipay_public_key.pem',
+                ],
+            ],
+        ],
 
     ], // component 结束
     
@@ -295,5 +335,4 @@ if (YII_ENV_DEV) {
         'port' => env('SMTP_PORT'),
     ];
 }
-
 return $config;

@@ -2,7 +2,7 @@
 $config = [
     'name'   => Yii::t('common', env('WEB_NAME')),
     'homeUrl'=> Yii::getAlias('@frontendUrl'),
-    'controllerNamespace' => 'frontend\controllers',
+    'controllerNamespace' => env('WEB_NAMESPACE'),
     'defaultRoute' => 'site/index',
     'bootstrap' => ['maintenance'],
     'modules' => [
@@ -81,7 +81,8 @@ $config = [
             'enableAutoLogin' => true,
             'as afterLogin' => 'common\behaviors\LoginTimestampBehavior'
         ]
-    ]
+    ],
+    'as globalAccess'=>require(__DIR__.'/access.php'),
 ];
 
 if (YII_ENV_DEV) {

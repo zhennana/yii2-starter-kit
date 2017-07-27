@@ -38,7 +38,9 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
 
 
     <div class="clearfix crud-navigation">
-
+    <?php
+        if (\Yii::$app->user->can('P_director', ['route' => true]) || \Yii::$app->user->can('E_manager') || Yii::$app->user->can('manager')) {
+    ?>
         <!-- menu buttons -->
         <div class='pull-left'>
             <?= Html::a(
@@ -61,7 +63,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
             <?= Html::a('<span class="glyphicon glyphicon-list"></span> '
             . Yii::t('backend', '返回列表'), ['index'], ['class'=>'btn btn-default']) ?>
         </div>
-
+        <?php } ?>
     </div>
 
     <hr />
@@ -80,7 +82,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
         'grade_title',
         [
             'attribute' => 'owner_id',
-            'value' => isset($model->owner_id) ? $model->getUserName($model->owner_id) : '',
+            'value' =>  Yii::$app->user->identity->getUserName($model->owner_id),
         ],
         //'classroom_group_levels',
         [
@@ -95,7 +97,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
         'time_of_graduation:datetime',
         [
             'attribute' => 'creater_id',
-            'value'     => isset($model->creater_id) ? $model->getUserName($model->creater_id) : '',
+            'value'     =>  Yii::$app->user->identity->getUserName($model->owner_id),
         ],
         'sort',
     ],
@@ -104,12 +106,12 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
     
     <hr/>
 
-    <?= Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('backend', '删除'), ['delete', 'grade_id' => $model->grade_id],
+  <!--   <? /*Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('backend', '删除'), ['delete', 'grade_id' => $model->grade_id],
     [
     'class' => 'btn btn-danger',
     'data-confirm' => '' . Yii::t('backend', '确定要删除该项目吗？') . '',
     'data-method' => 'post',
-    ]); ?>
+    ]);*/ ?> -->
     <?php $this->endBlock(); ?>
 
 

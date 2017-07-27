@@ -6,8 +6,6 @@ use yii\grid\GridView;
 use backend\modules\campus\models\School;
 use backend\modules\campus\models\Grade;
 use backend\modules\campus\models\UserToGrade;
-
-
 use yii\helpers\ArrayHelper;
 
 /**
@@ -16,26 +14,40 @@ use yii\helpers\ArrayHelper;
     * @var backend\modules\campus\models\search\UserToGradeSearch $searchModel
 */
 
-$this->title = Yii::t('backend', '学员管理');
+$this->title = Yii::t('backend', '班级人员管理');
 $this->params['breadcrumbs'][] = $this->title;
+ // $school = [];
+ // $grade  = [];
+ /*
+ $schoolOrGrade = Yii::$app->user->identity->schoolOrGrade;
+if(is_string($schoolOrGrade) && $schoolOrGrade == 'all'){
+    $school =   ArrayHelper::map(School::find()->asArray()->all(),'school_id','school_title');
+    //var_dump(UserToGrade::find()->asArray()->all());exit;
+    $grade  =  ArrayHelper::map(Grade::find()->asArray()->all(),'grade_id','grade_name');
+}elseif(is_array($schoolOrGrade)){
+    $school =   ArrayHelper::map(School::find()->where(['school_id'=>$schoolOrGrade])->AsArray()->all(),'school_id','school_title');
+    $grade  =  ArrayHelper::map(Grade::find()->where(['grade_id'=>$schoolOrGrade])->AsArray()->all(),'grade_id','grade_name');
+}
 
+*/
 
 /**
 * create action column template depending acces rights
 */
     $actionColumnTemplates = [];
 
-    if (\Yii::$app->user->can('manager', ['route' => true])) {
+     if (\Yii::$app->user->can('P_teacher', ['route' => true]) || \Yii::$app->user->can('E_manager') || Yii::$app->user->can('manager')) {
         $actionColumnTemplates[] = '{view}';
     }
 
-    if (\Yii::$app->user->can('manager', ['route' => true])) {
+     if (\Yii::$app->user->can('P_director', ['route' => true]) || \Yii::$app->user->can('E_manager') || Yii::$app->user->can('manager')) {
         $actionColumnTemplates[] = '{update}';
     }
 
-    if (\Yii::$app->user->can('manager', ['route' => true])) {
+  /*  if (\Yii::$app->user->can('P_director', ['route' => true])) {
         $actionColumnTemplates[] = '{delete}';
     }
+    */
     if (isset($actionColumnTemplates)) {
     $actionColumnTemplate = implode(' ', $actionColumnTemplates);
         $actionColumnTemplateString = $actionColumnTemplate;
@@ -55,23 +67,28 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
 
     <h1>
-        <?= Yii::t('backend', '学员管理') ?>
+        <?= Yii::t('backend', '班级人员管理') ?>
         <small>
             列表
         </small>
     </h1>
     <div class="clearfix crud-navigation">
     <?php
-        if(\Yii::$app->user->can('manager', ['route' => true])){
+        if (\Yii::$app->user->can('P_director', ['route' => true]) || \Yii::$app->user->can('E_manager') || Yii::$app->user->can('manager')) {
     ?>
         <div class="pull-left">
-            <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'), ['create'], ['class' => 'btn btn-success']) ?>
+            <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建班级老师'), ['create','grade_user_type'=>UserToGrade::GRADE_USER_TYPE_TEACHER], ['class' => 'btn btn-success']) ?>
+            <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建班级学员'), ['create','grade_user_type'=>UserToGrade::GRADE_USER_TYPE_STUDENT], 
+                ['class' => 'btn btn-success']) ?>
+            <?= Html::a(Yii::t('backend', '查看老师'), ['index','UserToGradeSearch[grade_user_type]'=>UserToGrade::GRADE_USER_TYPE_TEACHER], 
+                ['class' => 'btn btn-success']) ?>
+            <?= Html::a(Yii::t('backend', ' 查看学生'), ['index','UserToGradeSearch[grade_user_type]'=>UserToGrade::GRADE_USER_TYPE_STUDENT], 
+                ['class' => 'btn btn-success']) ?>
         </div>
     <?php } ?>
         <div class="pull-right">
 
-                        
-            <?= 
+            <?=
             \yii\bootstrap\ButtonDropdown::widget(
             [
                 'id' => 'giiant-relations',
@@ -97,6 +114,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="table-responsive">
         <?= GridView::widget([
+            'layout' => '{summary}{pager}{items}{pager}',
             'dataProvider' => $dataProvider,
             'pager' => [
                 'class' => yii\widgets\LinkPager::className(),
@@ -128,19 +146,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'contentOptions' => ['nowrap'=>'nowrap']
             ],
+                'user_to_grade_id',
     			[
                     'attribute' =>'user_id',
                     'value'     => function($model){
-                        if(isset($model->user->username)){
-                            return $model->user->username;
-                        }
-                        return '未知';
+                       return Yii::$app->user->identity->getUserName($model->user_id);
                     }
                 ],
     			[
                     'class'=>\common\grid\EnumColumn::className(),
                     'attribute' =>'school_id',
-                    'enum'      => ArrayHelper::map(School::find()->AsArray()->all(),'school_id','school_title'),
+                    'enum'      => $schools,
                     'value'     => function($model){
                         if(isset($model->school->school_title)){
                             return $model->school->school_title;
@@ -152,7 +168,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                     'class'=>\common\grid\EnumColumn::className(),
                     'attribute' =>'grade_id',
-                    'enum'      => ArrayHelper::map(Grade::find()->AsArray()->all(),'grade_id','grade_name'),
+                    'enum'      => $grades,
                     'value'     => function($model){
                         if(isset($model->grade->grade_name)){
                             return $model->grade->grade_name;
@@ -160,7 +176,16 @@ $this->params['breadcrumbs'][] = $this->title;
                         return '未知';
                     }
                 ],
-    			'user_title_id_at_grade',
+                [
+                    'class'     => \common\grid\EnumColumn::className(),
+                    'attribute' => 'user_title_id_at_grade',
+                    'enum'      => UserToGrade::optsUserTitleType(),
+                ],
+                [
+                    'class'     => \common\grid\EnumColumn::className(),
+                    'attribute' => 'grade_user_type',
+                    'enum'      => UserToGrade::optsUserType(),
+                ],
                 [
                     'class'=>\common\grid\EnumColumn::className(),
                     'attribute' =>'status',

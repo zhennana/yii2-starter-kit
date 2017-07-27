@@ -4,18 +4,20 @@
 
 namespace backend\modules\campus\controllers\base;
 
+use Yii;
 use backend\modules\campus\models\UserToGrade;
-    use backend\modules\campus\models\search\UserToGradeSearch;
+use backend\modules\campus\models\search\UserToGradeSearch;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
 use yii\filters\AccessControl;
 use dmstr\bootstrap\Tabs;
 
 /**
 * UserToGradeController implements the CRUD actions for UserToGrade model.
 */
-class UserToGradeController extends Controller
+class UserToGradeController extends \common\components\Controller
 {
 
 
@@ -63,7 +65,19 @@ public function actionIndex()
 {
     $searchModel  = new UserToGradeSearch;
     $dataProvider = $searchModel->search($_GET);
-
+    $schools[] = $this->schoolCurrent; //Yii::$app->user->identity->schoolsInfo;
+    $grades[] =  $this->gradeCurrent;//Yii::$app->user->identity->gradesInfo;
+    $schools = ArrayHelper::map($schools,'school_id','school_title');
+    $grades  = ArrayHelper::map($grades,'grade_id','grade_name');
+    $dataProvider->query->andWhere([
+            'school_id'=>array_keys($schools),
+            'grade_id' =>array_keys($grades)
+    ]);
+     $dataProvider->sort = [
+       'defaultOrder'=>[
+            'updated_at'=>SORT_DESC,
+       ]
+    ];
     Tabs::clearLocalStorage();
 
     Url::remember();
@@ -72,6 +86,8 @@ public function actionIndex()
     return $this->render('index', [
     'dataProvider' => $dataProvider,
         'searchModel' => $searchModel,
+        'grades'     =>  $grades,
+        'schools'    =>  $schools
     ]);
 }
 
@@ -101,6 +117,7 @@ public function actionCreate()
 {
     $model = new UserToGrade;
     if($model->load($_POST)){
+        //var_dump($_POST);exit;
         $info = $model->date_save($_POST['UserToGrade']);
         //dump(!empty($info['error']));exit;
         if(!empty($info['error'])){

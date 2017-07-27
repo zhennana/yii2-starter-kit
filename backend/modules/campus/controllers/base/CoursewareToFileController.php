@@ -13,7 +13,9 @@ namespace backend\modules\campus\controllers\base;
 
 use backend\modules\campus\models\CoursewareToFile;
 use backend\modules\campus\models\search\CoursewareToFileSearch;
-use yii\web\Controller;
+use common\components\Controller;
+use common\components\Qiniu\Auth;
+use common\components\Qiniu\Storage\BucketManager;
 use yii\web\HttpException;
 use yii\helpers\Url;
 use yii\filters\AccessControl;
@@ -135,9 +137,17 @@ class CoursewareToFileController extends Controller
 	 */
 	public function actionUpdate($id) {
 		$model = $this->findModel($id);
-
 		if ($model->load($_POST) && $model->save()) {
-			return $this->redirect(Url::previous());
+			if(isset(\Yii::$app->session['__crudReturnUrl']) && \Yii::$app->session['__crudReturnUrl'] != '/'){
+					Url::remember(null);
+					$url = \Yii::$app->session['__crudReturnUrl'];
+					\Yii::$app->session['__crudReturnUrl'] = null;
+
+					return $this->redirect($url);
+
+			}else{
+				return $this->redirect(Url::previous());
+			}
 		} else {
 			return $this->render('update', [
 					'model' => $model,
@@ -155,7 +165,19 @@ class CoursewareToFileController extends Controller
 	 */
 	public function actionDelete($id) {
 		try {
-			$this->findModel($id)->delete();
+			$model = $this->findModel($id);
+			if($model->fileStorageItem){
+				$keys = $model->fileStorageItem->file_name;
+				$model->fileStorageItem->delete();
+				$auth = new Auth(
+                        \Yii::$app->params['qiniu']['wakooedu']['access_key'], 
+                        \Yii::$app->params['qiniu']['wakooedu']['secret_key']
+                );
+                $bucketMgr = new BucketManager($auth);
+                $bucket    = \Yii::$app->params['qiniu']['wakooedu']['bucket'];
+                $err       = $bucketMgr->delete($bucket,$keys);
+			}
+			$model->delete();
 		} catch (\Exception $e) {
 			$msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
 			\Yii::$app->getSession()->addFlash('error', $msg);

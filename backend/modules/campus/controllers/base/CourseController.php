@@ -3,15 +3,16 @@
 // You should not change it manually as it will be overwritten on next build
 
 namespace backend\modules\campus\controllers\base;
-
+use Yii;
 use backend\modules\campus\models\Course;
-    use backend\modules\campus\models\search\CourseSearch;
-use yii\web\Controller;
+use backend\modules\campus\models\search\CourseSearch;
+use backend\modules\campus\models\WorkRecord;
+use common\components\Controller;
 use yii\web\HttpException;
 use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
 use yii\filters\AccessControl;
 use dmstr\bootstrap\Tabs;
-
 /**
 * CourseController implements the CRUD actions for Course model.
 */
@@ -49,7 +50,6 @@ public $enableCsrfValidation = false;
                         'actions' => ['update', 'create', 'delete'],
                         'roles' => ['CampusCourseEdit'],
                     ],
-    
                 ],
             ],
     ];
@@ -63,16 +63,24 @@ public function actionIndex()
 {
     $searchModel  = new CourseSearch;
     $dataProvider = $searchModel->search($_GET);
+        $schools = Yii::$app->user->identity->schoolsInfo;
+        $grades =  Yii::$app->user->identity->gradesInfo;
+        $schools = ArrayHelper::map($schools,'school_id','school_title');
+        $grades  = ArrayHelper::map($grades,'grade_id','grade_name');
+        $dataProvider->query->andWhere([
+                'grade_id'  => $this->gradeIdCurrent,
+            ]);
+    Tabs::clearLocalStorage();
 
-Tabs::clearLocalStorage();
+    Url::remember();
+    \Yii::$app->session['__crudReturnUrl'] = null;
 
-Url::remember();
-\Yii::$app->session['__crudReturnUrl'] = null;
-
-return $this->render('index', [
-'dataProvider' => $dataProvider,
-    'searchModel' => $searchModel,
-]);
+    return $this->render('index', [
+    'dataProvider' => $dataProvider,
+        'searchModel' => $searchModel,
+        'grades'       => $grades,
+        'schools'      => $schools,
+    ]);
 }
 
 /**
@@ -100,20 +108,54 @@ return $this->render('view', [
 public function actionCreate()
 {
     $model = new Course;
-
+    $schools = Yii::$app->user->identity->schoolsInfo;
+    $schools = ArrayHelper::map($schools,'school_id','school_title');
     try {
         if ($model->load($_POST) && $model->save()) {
+
+            //记录老师要上正课的记录
+            $start = date('Y-m-d').' 00:00:00';
+            $end   = date('Y-m-d')." 23:59:59";
+            $start = strtotime($start);
+            $end   = strtotime($end);
+            // var_dump($model->attributes);exit;
+            // var_dump(($model->start_time >= $start));exit;
+            if(($model->start_time >= $start) &&  ($model->start_time <= $end )
+                && ($model->status == Course::COURSE_STATUS_OPEN)
+                ){
+                $work_record = [
+                    'title'     =>'上正课',
+                    'user_id'   => $model->teacher_id,
+                    'type'      => WorkRecord::TYPE_TWO,
+                    'status'    => WorkRecord::STATUS_UNFINISHED,
+                    'school_id' => $model->school_id,
+                    'grade_id'  => $model->grade_id,
+                    'course_id' => $model->course_id,
+                ];
+                $workModel =  WorkRecord::find()
+                    ->where(['type'=>WorkRecord::TYPE_TWO , 'course_id'=> $model->course_id])
+                    ->one();
+                if($workModel == NULL){
+                    $workModel = new WorkRecord;
+                    $workModel->load($work_record,'');
+                    $workModel->save();
+                }
+            }
+            //exit;
             return $this->redirect(['view', 'course_id' => $model->course_id]);
-        
+
         } elseif (!\Yii::$app->request->isPost) {
             $model->load($_GET);
         }
-        
+
     } catch (\Exception $e) {
         $msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
         $model->addError('_exception', $msg);
     }
-        return $this->render('create', ['model' => $model]);
+        return $this->render('create', [
+            'model' => $model,
+            'schools'=>$schools
+            ]);
     }
 
 /**
@@ -124,15 +166,55 @@ public function actionCreate()
 */
 public function actionUpdate($course_id)
 {
-$model = $this->findModel($course_id);
+    $model = $this->findModel($course_id);
+    $schools = Yii::$app->user->identity->schoolsInfo;
+    $schools = ArrayHelper::map($schools,'school_id','school_title');
+    if ($model->load($_POST) && $model->save()) {
+          //修改老师上正课的记录
+            $start = date('Y-m-d').' 00:00:00';
+            $end   = date('Y-m-d')." 23:59:59";
+            $start = strtotime($start);
+            $end   = strtotime($end);
+            $workModel =  WorkRecord::find()
+                    ->where(['type'=>WorkRecord::TYPE_TWO , 'course_id'=> $model->course_id])
+                    ->asArray()
+                    ->one();
+            //var_dump($workModel);exit;
+            if(($model->start_time > $end) ||
+                ($model->status == Course::COURSE_STATUS_DELECT)||
+              //  !isset($model['teacher_id'])                      |
+                ($workModel['user_id'] != $model->teacher_id)
+                ){
+                     WorkRecord::deleteAll([
+                            'course_id'=> $model->course_id,
+                            //'user_id'  => $model->teacher_id,
+                            'type'     => WorkRecord::TYPE_TWO
+                        ]);
 
-if ($model->load($_POST) && $model->save()) {
-return $this->redirect(Url::previous());
-} else {
-return $this->render('update', [
-'model' => $model,
-]);
-}
+                if(($model->start_time >= $start) &&  ($model->start_time <= $end )
+                && ($model->status == Course::COURSE_STATUS_OPEN)
+                ){
+                $work_record = [
+                    'title'     =>'上正课',
+                    'user_id'   => $model->teacher_id,
+                    'type'      => WorkRecord::TYPE_TWO,
+                    'status'    => WorkRecord::STATUS_UNFINISHED,
+                    'school_id' => $model->school_id,
+                    'grade_id'  => $model->grade_id,
+                    'course_id' => $model->course_id,
+                ];
+                    $workModel = new WorkRecord;
+                    $workModel->load($work_record,'');
+                    $workModel->save();
+            }
+                }
+        return $this->redirect(Url::previous());
+    } else {
+        return $this->render('update', [
+            'model' => $model,
+            'schools'=>$schools
+            ]);
+    }
 }
 
 /**

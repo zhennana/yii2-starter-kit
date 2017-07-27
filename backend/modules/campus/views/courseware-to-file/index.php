@@ -25,16 +25,16 @@ $this->params['breadcrumbs'][] = $this->title;
  */
 $actionColumnTemplates = [];
 
-if (\Yii::$app->user->can('manager', ['route' => true])) {
-	$actionColumnTemplates[] = '{view}';
+if (\Yii::$app->user->can('manager', ['route' => true]) || Yii::$app->user->can('E_manager')) {
+	//$actionColumnTemplates[] = '{view}';
 }
 
-if (\Yii::$app->user->can('manager', ['route' => true])) {
-	$actionColumnTemplates[] = '{update}';
+if (\Yii::$app->user->can('manager', ['route' => true]) || Yii::$app->user->can('E_manager')) {
+	//$actionColumnTemplates[] = '{update}';
 }
 
-if (\Yii::$app->user->can('manager', ['route' => true])) {
-	$actionColumnTemplates[] = '{delete}';
+if (Yii::$app->user->can('E_manager') || \Yii::$app->user->can('manager', ['route' => true])) {
+	//$actionColumnTemplates[] = '{delete}';
 }
 if (isset($actionColumnTemplates)) {
 	$actionColumnTemplate = implode(' ', $actionColumnTemplates);
@@ -65,7 +65,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
 if (\Yii::$app->user->can('manager', ['route' => true])) {
 ?>
         <div class="pull-left">
-            <?php echo Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'New'), ['create'], ['class' => 'btn btn-success']) ?>
+           <!--  <?php /*echo Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'New'), ['create'], ['class' => 'btn btn-success'])*/ ?> -->
         </div>
 <?php
 }
@@ -114,7 +114,7 @@ if (\Yii::$app->user->can('manager', ['route' => true])) {
 		          [
                         'class' => 'yii\grid\ActionColumn',
                         'controller' => 'courseware-to-file',
-                        'template' => '{update} {delete}'
+                        'template' => $actionColumnTemplateString
                     ],
                     
                     'courseware_id',
@@ -146,7 +146,6 @@ if (\Yii::$app->user->can('manager', ['route' => true])) {
                         'value'    =>function($model){
                             if(isset($model->fileStorageItem->type)){
                                  return $model->fileStorageItem->type;
-                                
                             }
                             return '';
                         }
@@ -158,7 +157,7 @@ if (\Yii::$app->user->can('manager', ['route' => true])) {
                         'value'    =>function($model){
                             if(isset($model->fileStorageItem->page_view)){
                                  return $model->fileStorageItem->page_view;
-                                
+
                             }
                             return '';
                         }

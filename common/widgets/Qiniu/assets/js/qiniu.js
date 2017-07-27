@@ -3,8 +3,10 @@
 /*exported Qiniu */
 /*exported QiniuJsSDK */
 
+if(!zone_url){
+    var zone_url = "http://up-z1.qiniu.com";
+}
 function QiniuJsSDK() {
-
 
     this.detectIEVersion = function() {
         var v = 4,
@@ -318,7 +320,7 @@ function QiniuJsSDK() {
         };
 
         plupload.extend(option, op, {
-            url: 'http://up-z1.qiniu.com',
+            url: zone_url,
             multipart_params: {
                 token: ''
             }
@@ -375,7 +377,7 @@ function QiniuJsSDK() {
 
 
                 up.setOption({
-                    'url': 'http://up-z1.qiniu.com/',
+                    'url': zone_url+"/",
                     'multipart': true,
                     'chunk_size': undefined,
                     'multipart_params': multipart_params_obj
@@ -424,7 +426,7 @@ function QiniuJsSDK() {
                     }
                     speedCalInfo.startTime = new Date().getTime();
                     up.setOption({
-                        'url': 'http://up-z1.qiniu.com/mkblk/' + blockSize,
+                        'url': zone_url + "/mkblk/" + blockSize,
                         'multipart': false,
                         'chunk_size': chunk_size,
                         'required_features': "chunks",
@@ -461,7 +463,7 @@ function QiniuJsSDK() {
             chunk_size = chunk_size || (up.settings && up.settings.chunk_size);
             if (leftSize < chunk_size) {
                 up.setOption({
-                    'url': 'http://up-z1.qiniu.com/mkblk/' + leftSize
+                    'url': zone_url +'/mkblk/' + leftSize
                 });
             }
             localStorage.setItem(file.name, JSON.stringify({
@@ -618,7 +620,7 @@ function QiniuJsSDK() {
                         }
                     }
 
-                    var url = 'http://up-z1.qiniu.com/mkfile/' + file.size + key + x_vars_url;
+                    var url = zone_url+'/mkfile/' + file.size + key + x_vars_url;
                     var ajax = that.createAjax();
                     ajax.open('POST', url, true);
                     ajax.setRequestHeader('Content-Type', 'text/plain;charset=UTF-8');

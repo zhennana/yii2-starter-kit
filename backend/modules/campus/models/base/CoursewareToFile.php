@@ -89,7 +89,7 @@ abstract class CoursewareToFile extends \yii\db\ActiveRecord
     {
         return array_merge(parent::attributeHints(), [
             'courseware_to_file_id' => Yii::t('models', '课件附件关系自增ID'),
-            'file_storage_item_id' => Yii::t('models', '学校ID'),
+            'file_storage_item_id' => Yii::t('models', '文件ID'),
             'courseware_id' => Yii::t('models', '课件ID'),
             'status' => Yii::t('models', '1：正常；0标记删除；2待审核； '),
             'sort' => Yii::t('models', '默认与排序'),

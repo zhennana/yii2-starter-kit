@@ -201,7 +201,6 @@ class Serializer extends BaseSerializer
     {
         $fields = $this->request->get($this->fieldsParam);
         $expand = $this->request->get($this->expandParam);
-
         return [
             is_string($fields) ? preg_split('/\s*,\s*/', $fields, -1, PREG_SPLIT_NO_EMPTY) : [],
             is_string($expand) ? preg_split('/\s*,\s*/', $expand, -1, PREG_SPLIT_NO_EMPTY) : [],
