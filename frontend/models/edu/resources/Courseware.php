@@ -40,6 +40,18 @@ class Courseware extends BaseCourseware
         return ArrayHelper::merge(
             parent::fields(),
             [
+                'target' => function($model){
+                    if (json_decode($model->body)) {
+                        return json_decode($model->body)->target;
+                    }
+                    return $model->body;
+                },
+                'process' => function($model){
+                    if (json_decode($model->body)) {
+                        return json_decode($model->body)->process;
+                    }
+                    return $model->body;
+                },
                 'target_url'=>function($model){
                     return  \Yii::$app->request->hostInfo.Url::to(['gedu/v1/courseware/view','courseware_id'=>$model->courseware_id]);
                 },
@@ -55,7 +67,11 @@ class Courseware extends BaseCourseware
                         return 'http://orh16je38.bkt.clouddn.com/1024.png?imageView2/1/w/200/h/100';
                     }
                 },
-                'filetype'   => function($model){
+                'filetype' => function($model){
+                    $childOne = $this->childCoursewareOne();
+                    if (isset($childOne) && !empty($childOne)) {
+                        $model = $childOne;
+                    }
                     if (isset($model->toFile) && !empty($model->toFile)) {
                         foreach ($model->toFile as $key => $value) {
                             if ($value->status != 0) {
@@ -134,20 +150,11 @@ class Courseware extends BaseCourseware
     public function streamData($params)
     {
         $data = [];
-
         if (isset($params) && !empty($params)) {
             foreach ($params as $key => $value) {
-                $temp = [];
-                $temp['type'] = $value['type'];
-                $temp['name'] = $value['name'];
-                for ($i=0; $i < $value['type']; $i++) { 
-                    $temp['item'] = $this->getSortCourse($value['sort']);
-                }
-
-                if ($temp['type'] != count($temp['item'])) {
-                    $temp['item'] = [];
-                }
-                $data[] = $temp;
+                $data[$key]['type'] = $value['type'];
+                $data[$key]['name'] = $value['name'];
+                $data[$key]['items'] = $this->getSortCourse($value['type'],$value['sort']);
             }
         }
       return $data;
@@ -158,10 +165,9 @@ class Courseware extends BaseCourseware
      * @param  [type] $sort [description]
      * @return [type]       [description]
      */
-    public function getSortCourse($sort)
+    public function getSortCourse($type,$sort)
     {
         $data   = [];
-        $params = [];
 
         $model  = self::find()->where([
             'courseware_id' => $this->prentCourseware()
@@ -170,16 +176,17 @@ class Courseware extends BaseCourseware
         ])->orderBy('sort,updated_at DESC')->all();
 
         foreach ($model as $key => $value) {
-            // if (!isset($data[$key-1]->sort) || empty($data[$key-1]->sort)) {
-                $data[$key] = $value;
-            // }
+            if(!isset($data[$value->sort])){
+                $data[$value->sort] = $value;
+            }else{
+                continue;
+            }
+        }
+        if(count($data) < $type){
+            return [];
         }
 
-        foreach ($data as $k => $v) {
-            $params[] =  $data[$k];
-        }
-
-        return $params;
+        return array_values($data);
     }
 
     /**
@@ -190,6 +197,21 @@ class Courseware extends BaseCourseware
         $model = array_column($model, 'courseware_master_id');
 
         return $model;
+    }
+
+    /**
+     * [childCoursewareOne 获取一个子课件]
+     * @return [type] [description]
+     */
+    public function childCoursewareOne(){
+        $model = CoursewareToCourseware::find()
+            ->joinWith('courseware')
+            ->where(['courseware_master_id' => $this->courseware_id])
+            ->one();
+        if ($model) {
+            return $model->courseware;
+        }
+        return null;
     }
 
     /**

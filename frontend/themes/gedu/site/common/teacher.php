@@ -65,7 +65,7 @@ $imgsize="?imageView2/1/w/250/h/300";
         </div>
     </div>
 <!-- 教师风采图片-->
-   <div class="tab-content-fu">
+  <div class="tab-content-fu">
         <div class="teacher-wrap">
         <?php foreach($teachers as $key=>$value){
         ?>
@@ -79,7 +79,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                     </div>
                     <div class="panel-body text-center">
                         <h4 class="panel-header"><a href="http://7xsm8j.com2.z0.glb.qiniucdn.com/jinrong1.jpg"><?php echo $value['name']?></a></h4>
-                        <small><?php echo $value['description']?></small>
+                        <span><?php echo $value['description']?></span>
                     </div>
                     <div class="panel-thumbnails">
                         <hr>

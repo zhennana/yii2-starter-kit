@@ -100,29 +100,27 @@ use yii\helpers\Html;
         <div class="main-2">
             <?php echo $this->render('@frontend/themes/gedu/site/common/teacher.php',['data'=>$data]);?>
         </div>
-        <div class="main-3">
-            <div class="main-3-head-fu">
-               <div class="main-3-head">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 main-2-top">
-                            <h1 style="text-align:center"><span style="display:inline-block;width:392px;height:30px;"><img src="http://orh16je38.bkt.clouddn.com/campuse%20features1.png" width="100%"><span></h1>
-                            <h4>校园风采</h4>
-                            <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-line.png" width="100%">
-                        </div>
-                    </div>
-                </div>
-                <!--校园风采模块 -->
-                <?php 
-                    if(!is_mobile()){
-                        echo $this->render('@frontend/themes/gedu/site/common/elegant.php');
-                    }else{
-                        echo $this->render('@frontend/themes/gedu/site/common/mobile_elegant');
-                    } 
-                ?>  
+        <div class="main-2">
+                <div class="main-3-head-fu">
+                               <div class="main-3-head">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 main-2-top">
+                                            <h1 style="text-align:center"><span style="display:inline-block;width:392px;height:30px;"><img src="http://orh16je38.bkt.clouddn.com/campuse%20features1.png" width="100%"><span></h1>
+                                            <h4>校园风采</h4>
+                                            <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-line.png" width="100%">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--校园风采模块 -->
+                                <?php
+                                    if(!is_mobile()){
+                                        echo $this->render('@frontend/themes/gedu/site/common/elegant.php');
+                                    }else{
+                                        echo $this->render('@frontend/themes/gedu/site/common/mobile_elegant');
+                                    }
+                                ?>
+                            </div>
             </div>
-               
-        </div>
-
     </div>
 
     <script type="text/javascript">
@@ -158,96 +156,101 @@ use yii\helpers\Html;
                     });
          }
       })
+      $(function() {
+          $(window).bind('scroll', function() {
+              if($(window).scrollTop()>350){
+                $(".main-4-newsBox").css({
+                   "transform": "translate3d(0, 0, 0)",
+                   "-ms-transform": "translate3d(0, 0, 0)",
+                   "-o-transform": "translate3d(0, 0, 0)",
+                   "-webkit-transform": "translate3d(0, 0, 0)",
+                   "-moz-transform": "translate3d(0, 0, 0)",
+                   "opacity": 1
+                });
+                $(".main-4-videoBox").css({
+                   "transform": "translate3d(0, 0, 0)",
+                   "-ms-transform": "translate3d(0, 0, 0)",
+                   "-o-transform": "translate3d(0, 0, 0)",
+                   "-webkit-transform": "translate3d(0, 0, 0)",
+                   "-moz-transform": "translate3d(0, 0, 0)",
+                   "opacity": 1
+                });
+            };
+            if($(window).scrollTop()>1850){
+                $(".campus-top").css({
+                   "transform": "translate3d(0, 0, 0)",
+                   "-ms-transform": "translate3d(0, 0, 0)",
+                   "-o-transform": "translate3d(0, 0, 0)",
+                   "-webkit-transform": "translate3d(0, 0, 0)",
+                   "-moz-transform": "translate3d(0, 0, 0)",
+                   "opacity": 1
+                });
+                $(".campus-bottom").css({
+                   "transform": "translate3d(0, 0, 0)",
+                   "-ms-transform": "translate3d(0, 0, 0)",
+                   "-o-transform": "translate3d(0, 0, 0)",
+                   "-webkit-transform": "translate3d(0, 0, 0)",
+                   "-moz-transform": "translate3d(0, 0, 0)",
+                   "opacity": 1
+                });
+            };
+            if($(window).scrollTop()>650){
+                $(".teacher-img1:nth-child(1)").css({
+                   "transform": "translate3d(0, 0, 0)",
+                   "-ms-transform": "translate3d(0, 0, 0)",
+                   "-o-transform": "translate3d(0, 0, 0)",
+                   "-webkit-transform": "translate3d(0, 0, 0)",
+                   "-moz-transform": "translate3d(0, 0, 0)",
+                   "opacity": 1
+                });
+                $(".teacher-img1:nth-child(2)").css({
+                   "transform": "translate3d(0, 0, 0)",
+                   "-ms-transform": "translate3d(0, 0, 0)",
+                   "-o-transform": "translate3d(0, 0, 0)",
+                   "-webkit-transform": "translate3d(0, 0, 0)",
+                   "-moz-transform": "translate3d(0, 0, 0)",
+                   "opacity": 1
+                });
+                $(".teacher-img1:nth-child(3)").css({
+                   "transform": "translate3d(0, 0, 0)",
+                   "-ms-transform": "translate3d(0, 0, 0)",
+                   "-o-transform": "translate3d(0, 0, 0)",
+                   "-webkit-transform": "translate3d(0, 0, 0)",
+                   "-moz-transform": "translate3d(0, 0, 0)",
+                   "opacity": 1
+                });
+            };
+            if($(window).scrollTop()>1250){
+                $(".teacher-img1:nth-child(4)").css({
+                   "transform": "translate3d(0, 0, 0)",
+                   "-ms-transform": "translate3d(0, 0, 0)",
+                   "-o-transform": "translate3d(0, 0, 0)",
+                   "-webkit-transform": "translate3d(0, 0, 0)",
+                   "-moz-transform": "translate3d(0, 0, 0)",
+                   "opacity": 1
+                });
+                $(".teacher-img1:nth-child(5)").css({
+                   "transform": "translate3d(0, 0, 0)",
+                   "-ms-transform": "translate3d(0, 0, 0)",
+                   "-o-transform": "translate3d(0, 0, 0)",
+                   "-webkit-transform": "translate3d(0, 0, 0)",
+                   "-moz-transform": "translate3d(0, 0, 0)",
+                   "opacity": 1
+                });
+                $(".teacher-img1:nth-child(6)").css({
+                   "transform": "translate3d(0, 0, 0)",
+                   "-ms-transform": "translate3d(0, 0, 0)",
+                   "-o-transform": "translate3d(0, 0, 0)",
+                   "-webkit-transform": "translate3d(0, 0, 0)",
+                   "-moz-transform": "translate3d(0, 0, 0)",
+                   "opacity": 1
+                });
+            };
+          });
+      }());
      $(document).ready(function(){
          $(window).scroll(function(){
-             if($(window).scrollTop()>350){
-                 $(".main-4-newsBox").css({
-                    "transform": "translate3d(0, 0, 0)",
-                    "-ms-transform": "translate3d(0, 0, 0)",
-                    "-o-transform": "translate3d(0, 0, 0)",
-                    "-webkit-transform": "translate3d(0, 0, 0)",
-                    "-moz-transform": "translate3d(0, 0, 0)",
-                    "opacity": 1
-                 });
-                 $(".main-4-videoBox").css({
-                    "transform": "translate3d(0, 0, 0)",
-                    "-ms-transform": "translate3d(0, 0, 0)",
-                    "-o-transform": "translate3d(0, 0, 0)",
-                    "-webkit-transform": "translate3d(0, 0, 0)",
-                    "-moz-transform": "translate3d(0, 0, 0)",
-                    "opacity": 1
-                 });
-             };
-             if($(window).scrollTop()>1850){
-                 $(".campus-top").css({
-                    "transform": "translate3d(0, 0, 0)",
-                    "-ms-transform": "translate3d(0, 0, 0)",
-                    "-o-transform": "translate3d(0, 0, 0)",
-                    "-webkit-transform": "translate3d(0, 0, 0)",
-                    "-moz-transform": "translate3d(0, 0, 0)",
-                    "opacity": 1
-                 });
-                 $(".campus-bottom").css({
-                    "transform": "translate3d(0, 0, 0)",
-                    "-ms-transform": "translate3d(0, 0, 0)",
-                    "-o-transform": "translate3d(0, 0, 0)",
-                    "-webkit-transform": "translate3d(0, 0, 0)",
-                    "-moz-transform": "translate3d(0, 0, 0)",
-                    "opacity": 1
-                 });
-             };
-             if($(window).scrollTop()>650){
-                 $(".teacher-img1:nth-child(1)").css({
-                    "transform": "translate3d(0, 0, 0)",
-                    "-ms-transform": "translate3d(0, 0, 0)",
-                    "-o-transform": "translate3d(0, 0, 0)",
-                    "-webkit-transform": "translate3d(0, 0, 0)",
-                    "-moz-transform": "translate3d(0, 0, 0)",
-                    "opacity": 1
-                 });
-                 $(".teacher-img1:nth-child(2)").css({
-                    "transform": "translate3d(0, 0, 0)",
-                    "-ms-transform": "translate3d(0, 0, 0)",
-                    "-o-transform": "translate3d(0, 0, 0)",
-                    "-webkit-transform": "translate3d(0, 0, 0)",
-                    "-moz-transform": "translate3d(0, 0, 0)",
-                    "opacity": 1
-                 });
-                 $(".teacher-img1:nth-child(3)").css({
-                    "transform": "translate3d(0, 0, 0)",
-                    "-ms-transform": "translate3d(0, 0, 0)",
-                    "-o-transform": "translate3d(0, 0, 0)",
-                    "-webkit-transform": "translate3d(0, 0, 0)",
-                    "-moz-transform": "translate3d(0, 0, 0)",
-                    "opacity": 1
-                 });
-             };
-             if($(window).scrollTop()>1250){
-                 $(".teacher-img1:nth-child(4)").css({
-                    "transform": "translate3d(0, 0, 0)",
-                    "-ms-transform": "translate3d(0, 0, 0)",
-                    "-o-transform": "translate3d(0, 0, 0)",
-                    "-webkit-transform": "translate3d(0, 0, 0)",
-                    "-moz-transform": "translate3d(0, 0, 0)",
-                    "opacity": 1
-                 });
-                 $(".teacher-img1:nth-child(5)").css({
-                    "transform": "translate3d(0, 0, 0)",
-                    "-ms-transform": "translate3d(0, 0, 0)",
-                    "-o-transform": "translate3d(0, 0, 0)",
-                    "-webkit-transform": "translate3d(0, 0, 0)",
-                    "-moz-transform": "translate3d(0, 0, 0)",
-                    "opacity": 1
-                 });
-                 $(".teacher-img1:nth-child(6)").css({
-                    "transform": "translate3d(0, 0, 0)",
-                    "-ms-transform": "translate3d(0, 0, 0)",
-                    "-o-transform": "translate3d(0, 0, 0)",
-                    "-webkit-transform": "translate3d(0, 0, 0)",
-                    "-moz-transform": "translate3d(0, 0, 0)",
-                    "opacity": 1
-                 });
-             };
+
          });
      });
 </script>

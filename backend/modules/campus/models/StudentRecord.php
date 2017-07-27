@@ -34,7 +34,8 @@ class StudentRecord extends BaseStudentRecord
 				[
 				'school_id'	=>$data['school_id'],
 				'grade_id'	=> $data['grade_id'],
-				'user_id'	=> $value,
+                'user_id'   => $value,
+				'course_id'	=> $data['course_id'],
 				])->one();
 			if(!$model){
 				$model = new StudentRecord;

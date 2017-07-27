@@ -117,18 +117,19 @@ public function actionView($courseware_id)
 public function actionCreate()
 {
     $model = new Courseware;
-
+    //$model->setJsonBody();exit;
     try {
-
     if ($model->load($_POST)) {
-        if(!empty($model->target) && !empty($model->process)){
-            $body = ArrayHelper::merge(['target'=>$model->target],['process'=>$model->process]);
-            //var_dump($body);exit;
-            $model->body = json_encode($body,JSON_UNESCAPED_UNICODE);
+        //$model->data = [];
+        //var_dump($model->save());exit;
+        // if(!empty($model->target) && !empty($model->process)){
+        //     $body = ArrayHelper::merge(['target'=>$model->target],['process'=>$model->process]);
+        //     //var_dump($body);exit;
+        //     $model->body = json_encode($body,JSON_UNESCAPED_UNICODE);
             if($model->save()){
                 return $this->redirect(['view', 'courseware_id' => $model->courseware_id]);
             }
-        }
+        //}
     } elseif (!\Yii::$app->request->isPost) {
     $model->load($_GET);
     }
@@ -148,20 +149,27 @@ public function actionCreate()
 public function actionUpdate($courseware_id)
 {
     $model = $this->findModel($courseware_id);
-    if($model->body){
-        $data = json_decode($model->body,true);
-        $model->process = isset($data['process']) ? $data['process'] : '';
-        $model->target = isset($data['target']) ? $data['target'] : $model->body;
+    $model->getJsonBody();
+    if($model->target == NULL){
+        $model->target = $model->body;
     }
+    //var_dump($model->process);exit;
+    // if($model->body){
+    //     $data = json_decode($model->body,true);
+    //     $model->process = isset($data['process']) ? $data['process'] : '';
+    //     $model->target = isset($data['target']) ? $data['target'] : $model->body;
+    // }
+    $model->body = [];
     if ($model->load($_POST)) {
-        if(!empty($model->target) && !empty($model->process)){
-            $body = ArrayHelper::merge(['target'=>$model->target],['process'=>$model->process]);
-            //var_dump($body);exit;
-            $model->body = json_encode($body,JSON_UNESCAPED_UNICODE);
+        
+        // if(!empty($model->target) && !empty($model->process)){
+        //     $body = ArrayHelper::merge(['target'=>$model->target],['process'=>$model->process]);
+        //     //var_dump($body);exit;
+        //     $model->body = json_encode($body,JSON_UNESCAPED_UNICODE);
             if($model->save()){
                 //return $this->redirect(['view', 'courseware_id' => $model->courseware_id]);
                 return $this->redirect(Url::previous());
-            }
+            //}
         }
     } else {
     return $this->render('update', [

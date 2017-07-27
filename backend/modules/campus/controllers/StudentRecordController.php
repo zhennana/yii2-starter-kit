@@ -1,8 +1,11 @@
 <?php
 
 namespace backend\modules\campus\controllers;
+
 use backend\modules\campus\models\StudentRecord;
 use yii\helpers\Html;
+use yii\helpers\Url;
+use dmstr\bootstrap\Tabs;
 /**
 * This is the class for controller "StudentRecordController".
 */
@@ -20,6 +23,14 @@ class StudentRecordController extends \backend\modules\campus\controllers\base\S
 		foreach ($model as $key => $value) {
 		 	 echo Html::tag('option',Html::encode($value),array('value'=>$key));
 		}
+	}
+
+	public function actionExport($student_record_id)
+	{
+		$this->layout = false;
+		return $this->render('_export', [
+			'model' => $this->findModel($student_record_id),
+		]);
 	}
 	
 }
