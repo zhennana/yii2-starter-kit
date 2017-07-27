@@ -97,6 +97,7 @@ class CoursewareController extends \common\rest\Controller
             ->where(['status' => $modelClass::COURSEWARE_STATUS_VALID])
             ->andWhere(['category_id' => $category_id])
             ->andWhere(['courseware_id' => $modelClass->prentCourseware()])
+            ->orderBy(['sort' => SORT_DESC])
             ->all();
 
         return $model;
@@ -134,7 +135,7 @@ class CoursewareController extends \common\rest\Controller
                     // var_dump($model);exit;
         if($model){
             $data = $model->toArray();
-            $toCourseware = $model->getCoursewareToCourseware()->orderBy(['sort' => SORT_ASC])->all();
+            $toCourseware = $model->getCoursewareToCourseware()->orderBy(['sort' => SORT_DESC])->all();
             foreach ($toCourseware as $key => $value) {
                 if(isset($value->courseware)){
                     $data['items'][$key]         = $value->courseware->toArray();
@@ -231,6 +232,7 @@ class CoursewareController extends \common\rest\Controller
         ->limit($limit)
         ->all();
         */
+       ArrayHelper::multisort($data,'trend_counts',SORT_DESC);
        return $data;
     }
 
