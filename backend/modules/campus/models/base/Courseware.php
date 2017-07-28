@@ -101,7 +101,7 @@ abstract class Courseware extends \yii\db\ActiveRecord
             }],
             [['body','tags','process','target'], 'string'],
             ['parent_id','default','value' => 0],
-            ['creater_id','default','value'=>Yii::$app->user->identity->id],
+            ['creater_id','default','value' => Yii::$app->user->isGuest ? 0 : Yii::$app->user->identity->id],
             [['title','tags'], 'string', 'max' => 512],
             ['slug','safe']
         ];
