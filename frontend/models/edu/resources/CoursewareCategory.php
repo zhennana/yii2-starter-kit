@@ -48,11 +48,12 @@ class CoursewareCategory extends BaseCoursewareCategory
      */
     public function categoryList()
     {
-        $model = self::find()->where(['status'=>self::CATEGORY_STATUS_OPEN])->asArray()->all();
+        $model = self::find()->where(['status'=>self::CATEGORY_STATUS_OPEN,'parent_id' => 0])->asArray()->all();
         $data =  self::formatByApi($model);
         return $data;
     }
 
+    /*
     public static  function formatByApi($parame,$pid = 0,$level = 1){
         $data = [];
         $clid = [];
@@ -80,6 +81,19 @@ class CoursewareCategory extends BaseCoursewareCategory
                 $data[] = $value;
             }
 
+        }
+        return $data;
+    }
+    */
+    public static function formatByApi($params){
+        $data = [];
+        $child = [];
+        foreach ($params as $key => $value) {
+            $child = self::find()->where(['status'=>self::CATEGORY_STATUS_OPEN,'parent_id' => $value['category_id']])->asArray()->all();
+            $temp = $value;
+            $temp['imgUrl'] = 'http://orh16je38.bkt.clouddn.com/study-picture.png?imageView2/1/w/509/h/209';
+            $temp['child'] = $child;
+            $data[] = $temp;
         }
         return $data;
     }

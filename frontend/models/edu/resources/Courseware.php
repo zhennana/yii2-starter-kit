@@ -40,6 +40,18 @@ class Courseware extends BaseCourseware
         return ArrayHelper::merge(
             parent::fields(),
             [
+                'target' => function($model){
+                    if (json_decode($model->body)) {
+                        return json_decode($model->body)->target;
+                    }
+                    return $model->body;
+                },
+                'process' => function($model){
+                    if (json_decode($model->body)) {
+                        return json_decode($model->body)->process;
+                    }
+                    return $model->body;
+                },
                 'target_url'=>function($model){
                     return  \Yii::$app->request->hostInfo.Url::to(['gedu/v1/courseware/view','courseware_id'=>$model->courseware_id]);
                 },
