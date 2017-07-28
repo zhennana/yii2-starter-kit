@@ -319,6 +319,7 @@ class ConfigController extends \common\rest\Controller
                 $data[$i]['title']      = $title[$i];
                 $data[$i]['imgUrl']     = $img[$i];
                 $data[$i]['type']       = 'APP';
+                $data[$i]['entity_id']  = 46;
                 $data[$i]['target_url'] = Yii::$app->request->hostInfo.Url::to(['v1/courseware/view','courseware_id'=>46]);
         
     }
