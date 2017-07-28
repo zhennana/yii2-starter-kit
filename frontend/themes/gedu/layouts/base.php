@@ -389,6 +389,7 @@ if(Yii::$app->session->hasFlash('alert')):?>
         $('.navbar-brand').text('');
         $('.navbar-brand').append(img);
         $('.navbar-brand').addClass('col-xs-4');
+
     }
     if(navigator.userAgent.match(/mobile/i)) {
         $('.top_logo').remove();
@@ -397,6 +398,12 @@ if(Yii::$app->session->hasFlash('alert')):?>
         $('.navbar-brand').text('');
         $('.navbar-brand').append(img);
         $('.navbar-brand').addClass('col-xs-4');
+
+        $('.top').hide();
+        $('.footer').hide();
+        $('.gdu-content-wrap .col-md-3').hide();
+        $('.row .col-md-3').hide();
+        $('.box-header').hide();
 
         $('.nav .dropdown').click(function(){
             if($(this).hasClass('active')){
