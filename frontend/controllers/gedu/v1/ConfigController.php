@@ -308,19 +308,20 @@ class ConfigController extends \common\rest\Controller
         $data = [];
         //var_dump($data);exit();
         for ($i=1; $i < 3 ; $i++) {
-            if($i%2==0){
-                $data[$i]['banner_id']  = ''.$i;
-                $data[$i]['title']      = $title[$i];
-                $data[$i]['imgUrl']     = $img[$i];
-                $data[$i]['type']       = 'URL';
-                $data[$i]['target_url'] = 'http://www.yajol.com/';
-        }else{
+            
+                // $data[$i]['banner_id']  = ''.$i;
+                // $data[$i]['title']      = $title[$i];
+                // $data[$i]['imgUrl']     = $img[$i];
+                // $data[$i]['type']       = 'URL';
+                // $data[$i]['target_url'] = 'http://www.yajol.com/';
+        
                 $data[$i]['banner_id']  = ''.$i;
                 $data[$i]['title']      = $title[$i];
                 $data[$i]['imgUrl']     = $img[$i];
                 $data[$i]['type']       = 'APP';
-                $data[$i]['target_url'] = Yii::$app->request->hostInfo.Url::to(['v1/courseware/view','courseware_id'=>1]);
-        }
+                $data[$i]['entity_id']  = 46;
+                $data[$i]['target_url'] = Yii::$app->request->hostInfo.Url::to(['v1/courseware/view','courseware_id'=>46]);
+        
     }
         sort($data);
         return $data;

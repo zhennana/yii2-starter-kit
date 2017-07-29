@@ -229,6 +229,8 @@ class Courseware extends BaseCourseware
             'or',
             ['like','title',$keyword],
             ['like','title',$keyword],
+        ])->orderBy([
+            'sort' => SORT_DESC
         ])->all();
 
         if ($model) {
