@@ -30,7 +30,12 @@ abstract class Course extends \yii\db\ActiveRecord
     CONST COURSE_STATUS_OPEN   = 10;//正常
     CONST COURSE_STATUS_FINISH = 20; //结束
     CONST COURSE_STATUS_DELECT = 30;//关闭
-
+    public $category_id;        //课件的分类
+    public $start_date;         //开始日期
+    public $start_times;        //上课时间
+    public $end_times;          //结束时间
+    public $which_day;          //周几
+    public $course_schedule_id;//已有课程
     /**
      * @inheritdoc
      */
@@ -88,7 +93,7 @@ abstract class Course extends \yii\db\ActiveRecord
             ['creater_id','default','value'=>Yii::$app->user->identity->id],
             [['school_id', 'grade_id', 'courseware_id', 'creater_id','status'], 'integer'],
             [['start_time','end_time'], 'filter', 'filter' => 'strtotime', 'skipOnEmpty' => true],
-            [['title'], 'string', 'max' => 11],
+            [['title'], 'string', 'max' => 32],
             [['intro'], 'string', 'max' => 128],
             ['teacher_id','required','when'=>function($model,$attribute){
                     if($model->status == self::COURSE_STATUS_OPEN ){
@@ -232,6 +237,10 @@ abstract class Course extends \yii\db\ActiveRecord
      */
     public function getUsersToGrades(){
         return $this->hasMany(\backend\modules\campus\models\UserToGrade::className(),['grade_id'=>'grade_id']);
+    }
+//查询课程
+    public function getCourseSchedule(){
+        return $this->hasMany(\backend\modules\campus\models\CourseSchedule::className(),['course_id'=>'course_id']);
     }
     // /*****/
     // public function getUsersToGrades(){
