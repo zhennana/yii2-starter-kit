@@ -160,9 +160,10 @@ $model->which_day  = 1;
 
         <?php ActiveForm::end(); ?>
         <div class  = "col-lg-6">
-            <?= Html::submitButton(
+            <?= Html::a(
                 '<span class="glyphicon glyphicon-check"></span> ' .
                 Yii::t('backend', '提交排课'),
+                [''],
                 [
                     'id'    => 'commit',
                     'class' => 'btn btn-success'
@@ -296,7 +297,7 @@ $model->which_day  = 1;
             {
                 var message = response.message;
                  submit_data = response.NewRecord;
-                 console.log(submit_data);
+                 console.log(submit_data,message);
                 $('#schedule_record table').remove();
                 $('#message').empty();
                 if(response.is_commit == true){
@@ -307,6 +308,7 @@ $model->which_day  = 1;
                     $('#message').append(response.schedule_count +response.schedule_start_time) ;
                     createTable(message);
                 }else{
+                     var message = response.message;
                     $('#back').show();
                     $('#paicha').hide();
                     $('#message').append('本次排课有致命冲突无法排课,详情请查看下边表单');
