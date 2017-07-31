@@ -27,7 +27,7 @@ class CourseController extends \backend\modules\campus\controllers\base\CourseCo
 	}
 	//批量排课
 	public function actionCourseBatch(){
-		//var_dump(41);exit;
+
 		$model = new Course;
 		//var_Dump($model);exit;
 		$model->scenario = 'course_batch';
@@ -39,7 +39,7 @@ class CourseController extends \backend\modules\campus\controllers\base\CourseCo
 		//var_dump();exit;
     	$schools = ArrayHelper::map($schools,'school_id','school_title');
     	$category = ArrayHelper::map($category,'category_id','name');
-    	if($model->load($_POST)){
+    	if($model->load($_POST) && Yii::$app->request->isAjax){
     		//return $model->load($_POST);
     		//return $model->Datavalidations($_POST['Course']);
     		Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -54,13 +54,12 @@ class CourseController extends \backend\modules\campus\controllers\base\CourseCo
 	}
 //Datavalidations
 	public function actionCourseValidations(){
-
+		$model = new Course;
+		$model->scenario = 'course_batch';
+		//var_Dump($_POST);exit;
 		if($_POST){
 			Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-			//return $_POST;
-			$model = new Course;
 			return $model->Datavalidations($_POST['Course']);
-
 		}
 	}
 }
