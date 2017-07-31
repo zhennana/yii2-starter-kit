@@ -7,6 +7,7 @@ use frontend\models\base\SignIn as BaseSignIn;
 use yii\helpers\ArrayHelper;
 use frontend\models\wedu\resources\Course;
 use backend\modules\campus\models\WorkRecord;
+use common\components\APush\APush;
 /**
  * This is the model class for table "sign_in".
  */
@@ -111,7 +112,10 @@ public function behaviors()
     }
     //签到排课
     if(!empty($message)){
-        pushMessageToSingleBatch($message);
+      //var_dump($message);exit;
+        //群推
+        $APush = new APush;
+        $APush->pushMessageToSingleBatch($message);
     }
      return $data;
   }
