@@ -51,9 +51,8 @@ $model->which_day  = 1;
                 排课逻辑：
             </h4>
             <p>
-                老师排课时间冲突：如果老师在同一班级。可覆盖未上完的旧课程。否则不能排课<br>
-                班级排课时间冲突：直接覆盖未上完的课程。<br>
-                班级排课时间不冲突：如果排课是同一类型课程。直接覆盖未上完的课程。
+                老师排课时间冲突：直接覆盖与本老师有关的课程(包括其他班级的课程)<br>
+                班级排课时间冲突：直接覆盖未上完的课程<br>
             </p>
         </div>
         <div class="col-lg-3">
@@ -156,7 +155,7 @@ $model->which_day  = 1;
                     ]
             )->label('上课结束时间') ?>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-3">
             <?= $form->field($model, 'teacher_id')->widget(Select2::className(),
                 [
                     'data'          => $model->getlist(2,$model->grade_id),
@@ -166,7 +165,7 @@ $model->which_day  = 1;
                     ],
                 ]); ?>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-3">
             <div></div><br>
              <?= Html::submitButton(
             '<span class="glyphicon glyphicon-check"></span> ' .
@@ -177,9 +176,8 @@ $model->which_day  = 1;
             ]
         ); ?>
         </div>
-
-        <?php ActiveForm::end(); ?>
-        <div class  = "col-lg-6">
+        <div class  = "col-lg-12"></div>
+        <div class  = "col-lg-3">
             <?= Html::submitButton(
                 '<span class="glyphicon glyphicon-check"></span> ' .
                 Yii::t('backend', '提交排课'),
@@ -189,7 +187,9 @@ $model->which_day  = 1;
                     'class' => 'btn btn-success'
                 ]
             ); ?>
-        <div class  = "col-lg-12">
+        
+        </div>
+        <div class  = "col-lg-3">
             <?= Html::submitButton(
                 '<span class="glyphicon glyphicon-check"></span> ' .
                 Yii::t('backend', '返回'),
@@ -199,8 +199,7 @@ $model->which_day  = 1;
                 ]
             ); ?>
         </div>
-        </div>
-        
+         <?php ActiveForm::end(); ?>
     </div>
     <div id = "message"></div>
     <div id = "schedule_record"></div>
@@ -303,8 +302,8 @@ $model->which_day  = 1;
     var delete_record;
 //CourseValidations
     $(document).ready(function () {
-        $('#paicha').on('click', function () {
-            var form = $('#Course');
+        $('body').on('beforeSubmit','form#Course', function () {
+            var form = $('form');
             // return false if form still have some validation errors
             if (form.find('.has-error').length)
             {
@@ -352,18 +351,18 @@ $model->which_day  = 1;
          });
     });
    $($("#commit")[0]).on('click',function(event){
-        //event.stopPropagation();
-        //console.log('event',event);
-            $.ajax({
-                url    : '<?php echo  Url::to(['course-batch']) ?>',
-                type   : 'POST',
-                data   : {Course:submit_data,DeleteRecord:delete_record},
-                success: function (response)
-                {
-                   // alert(123223);
-                    console.log(response);
-                }
-            });
+         $('#commit').hide();
+         $('#back').hide();
+         $.ajax({
+            url    : '<?php echo  Url::to(['course-batch']) ?>',
+            type   : 'POST',
+            data   : {Course:submit_data,DeleteRecord:delete_record},
+            success: function (response)
+            {
+                alert('排课成功');
+               $('#back').show();
+            }
+        });
         return false;
     });
     $("#back").on('click',function(){
