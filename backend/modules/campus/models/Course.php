@@ -36,6 +36,15 @@ public function behaviors()
                   [
                     ['school_id','grade_id','category_id','start_date','which_day','start_times','end_times','teacher_id'],'required','on'=>'course_batch'
                   ],
+                  [
+                    'end_times','required','when'=>function($model,$attribute){
+                        if($model->end_times <= $model->start_times){
+                          var_Dump($model->end_times);exit;
+                            return $model->addError($attribute,'课程开始时间不能大于开始时间');
+                        }
+                    },'on'=>'course_batch'
+                  ],
+
              ]
         );
     }
@@ -134,7 +143,7 @@ public function behaviors()
         }
 //排课验证并返回正确数据
     public function Datavalidations($data){
-      $i = 0;$j=0;
+      //$i = 0;$j=0;
       $info = [
           'is_commit'      =>true,//是否提交
           'is_record'      => true,//默认新数据
@@ -171,7 +180,7 @@ public function behaviors()
                       if($teacher_model_schedule['grade_id'] == $data['grade_id'] ){
                           continue;
                       }
-                        $info['is_commit']    = false;//不可提交
+                        $info['is_commit'] = false;//不可提交
                         $info['message'][] = [
                                 'isConflict'=>true,
                                 'override'  =>false,
@@ -182,8 +191,8 @@ public function behaviors()
                 if($info['paike']['is_schedule'] == false){
                   $info['NewRecord'][] = $this->NewCourse($data,$coursewareModel,$key,$value['date']);
                   $info['message'][] = [
-                                'isConflict'=>true,
-                                'override'  =>false,
+                                'isConflict'=>false,
+                                'override'  =>true,
                                 'NewRecord'=>$this->Record($data,$value['date'],$coursewareModel,$key),
                                 'OldRecord'=>'',
                         ];
