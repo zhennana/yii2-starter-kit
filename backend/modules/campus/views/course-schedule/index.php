@@ -19,17 +19,17 @@ $this->params['breadcrumbs'][] = $this->title;
 */
 $actionColumnTemplates = [];
 
-if (\Yii::$app->user->can('campus_course-schedule_view', ['route' => true])) {
-    $actionColumnTemplates[] = '{view}';
-}
+// if (\Yii::$app->user->can('campus_course-schedule_view', ['route' => true])) {
+//     $actionColumnTemplates[] = '{view}';
+// }
 
-if (\Yii::$app->user->can('campus_course-schedule_update', ['route' => true])) {
-    $actionColumnTemplates[] = '{update}';
-}
+// if (\Yii::$app->user->can('campus_course-schedule_update', ['route' => true])) {
+//     $actionColumnTemplates[] = '{update}';
+// }
 
-if (\Yii::$app->user->can('campus_course-schedule_delete', ['route' => true])) {
-    $actionColumnTemplates[] = '{delete}';
-}
+// if (\Yii::$app->user->can('campus_course-schedule_delete', ['route' => true])) {
+//     $actionColumnTemplates[] = '{delete}';
+// }
 if (isset($actionColumnTemplates)) {
 $actionColumnTemplate = implode(' ', $actionColumnTemplates);
     $actionColumnTemplateString = $actionColumnTemplate;
@@ -56,10 +56,10 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
     </h1>
     <div class="clearfix crud-navigation">
 <?php
-if(\Yii::$app->user->can('campus_course-schedule_create', ['route' => true])){
+if(\Yii::$app->user->can('user', ['route' => true])){
 ?>
         <div class="pull-left">
-            <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'New'), ['create'], ['class' => 'btn btn-success']) ?>
+            <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'), ['course/course-batch'], ['class' => 'btn btn-success']) ?>
         </div>
 <?php
 }

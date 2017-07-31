@@ -42,6 +42,16 @@ $model->which_day  = 1;
         </div>
 
     <div class="box-body">
+        <div class="col-lg-12">
+            <h4>
+                排课逻辑：
+            </h4>
+            <p>
+            老师排课时间冲突,如果在同一班级.可覆盖重新排课。负责不能排课<br>
+            班级排课时间冲突直接覆盖未上完的课程。<br>
+            班级排课时间不冲突,但是如果排课是同一类型课程。也直接覆盖未上完的课程。
+            </p>
+        </div>
         <div class="col-lg-3">
                <?= $form->field($model, 'school_id')->widget(Select2::ClassName(),[
                     'data'          => $schools,
@@ -306,12 +316,14 @@ $model->which_day  = 1;
                     $('#paicha').hide();
                     $('#message').show();
                     $('#message').append(response.schedule_count +response.schedule_start_time) ;
+                    $('from').find('input','select').attr('disabled',true);
+                    //NotChoose();
                     createTable(message);
                 }else{
-                     var message = response.message;
+                    var message = response.message;
                     $('#back').show();
                     $('#paicha').hide();
-                    $('#message').append('本次排课有致命冲突无法排课,详情请查看下边表单');
+                    $('#message').append('本次排课有致命冲突无法排课,详情请查看下边表格');
                     createTable(message);
                 }
             },
@@ -330,7 +342,7 @@ $model->which_day  = 1;
                 data   : {Course:submit_data},
                 success: function (response)
                 {
-                 console.log(response);
+                 alert('排课成功请去查看');
                 }
             });
     });
@@ -343,4 +355,4 @@ $model->which_day  = 1;
         #commit,#back {
             display: none;
         }
-    </style>
+</style>
