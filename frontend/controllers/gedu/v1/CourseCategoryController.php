@@ -3,14 +3,14 @@ namespace frontend\controllers\gedu\v1;
 
 use Yii;
 use yii\web\Response;
-use frontend\models\edu\resources\CoursewareCategory;
 
-class CoursewareCategoryController extends \common\rest\Controller
+
+class CourseCategoryController extends \common\rest\Controller
 {
     /**
      * @var string
      */
-    public $modelClass = 'frontend\models\edu\resources\CoursewareCategory';
+    public $modelClass = 'frontend\models\edu\resources\CourseCategory';
 
     /**
      * @var array
@@ -66,31 +66,24 @@ class CoursewareCategoryController extends \common\rest\Controller
         return $behaviors;
     }
 
-
     /**
-     * @SWG\Get(path="/courseware-category/index",
-     *     tags={"GEDU-CoursewareCategory-课件分类接口【废弃】"},
-     *     summary="课件分类",
-     *     description="返回课件分类信息",
+     * @SWG\Get(path="/course-category/index",
+     *     tags={"GEDU-CourseCategory-课程分类接口"},
+     *     summary="课程分类",
+     *     description="返回课程分类信息",
      *     produces={"application/json"},
      *     @SWG\Response(
      *         response = 200,
-     *         description = "返回课件分类信息"
+     *         description = "返回课程分类列表"
      *     ),
      * )
      *
     **/
-    /**
-     * [actionIndex description]
-     * @return [type] [description]
-     */
     public function actionIndex()
     {
         $modelClass =  new $this->modelClass;
         return  $modelClass->categoryList();
-
     }
-
 
 
 }
