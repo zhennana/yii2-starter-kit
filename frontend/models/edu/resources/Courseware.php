@@ -143,7 +143,7 @@ class Courseware extends BaseCourseware
     }
     
     /**
-     * [streamData 首页流组装]
+     * [streamData 首页流组装【废弃】]
      * @param  [type] $params [description]
      * @return [type]       [description]
      */
@@ -161,7 +161,7 @@ class Courseware extends BaseCourseware
     }
 
     /**
-     * [getSortCourse 获取首页流课程数据]
+     * [getSortCourse 获取首页流课程数据【废弃】]
      * @param  [type] $sort [description]
      * @return [type]       [description]
      */

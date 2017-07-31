@@ -4,19 +4,18 @@ namespace frontend\controllers\gedu\v1;
 use Yii;
 use yii\web\Response;
 use yii\helpers\ArrayHelper;
-use frontend\models\edu\resources\CoursewareToFile;
 use frontend\models\edu\resources\Collect;
 
 
-class CoursewareController extends \common\rest\Controller
+class CourseController extends \common\rest\Controller
 {
     /**
      * @var string
      */
-    public $modelClass = 'frontend\models\edu\resources\Courseware';
+    public $modelClass = 'frontend\models\edu\resources\Course';
 
     /**
-     * @var arrayss
+     * @var array
      */
     public $serializer = [
         'class' => 'common\rest\Serializer',    // 返回格式数据化字段
@@ -70,21 +69,21 @@ class CoursewareController extends \common\rest\Controller
     }
 
     /**
-     * @SWG\Get(path="/courseware/list",
-     *     tags={"GEDU-Courseware-课件接口【废弃】"},
-     *     summary="课件列表",
-     *     description="根据课件分类返回课件列表",
+     * @SWG\Get(path="/course/list",
+     *     tags={"GEDU-Course-课程接口"},
+     *     summary="课程列表",
+     *     description="根据课程子分类ID返回主课程列表",
      *     produces={"application/json"},
      *     @SWG\Parameter(
      *        in = "query",
      *        name = "category_id",
-     *        description = "课件分类ID",
+     *        description = "课程子分类ID",
      *        required = true,
      *        type = "integer"
      *     ),
      *     @SWG\Response(
      *         response = 200,
-     *         description = "根据课件分类返回课件列表"
+     *         description = "根据程子分类ID返回主课程列表"
      *     )
      * )
      *
@@ -94,95 +93,65 @@ class CoursewareController extends \common\rest\Controller
         $modelClass = new $this->modelClass;
 
         $model = $modelClass::find()
-            ->where(['status' => $modelClass::COURSEWARE_STATUS_VALID])
+            ->where(['status' => $modelClass::COURSE_STATUS_OPEN])
             ->andWhere(['category_id' => $category_id])
-            ->andWhere(['courseware_id' => $modelClass->prentCourseware()])
-            ->orderBy(['sort' => SORT_DESC])
+            ->andWhere(['parent_id' => 0])
+            // ->orderBy(['sort' => SORT_DESC])
             ->all();
 
         return $model;
     }
 
     /**
-     * @SWG\Get(path="/courseware/view",
-     *     tags={"GEDU-Courseware-课件接口【废弃】"},
-     *     summary="课件内容",
-     *     description="返回课件内容和相关课件列表",
+     * @SWG\Get(path="/course/view",
+     *     tags={"GEDU-Course-课程接口"},
+     *     summary="课程详情",
+     *     description="根据主课程ID获取主课程及下属子课程相关数据",
      *     produces={"application/json"},
      *     @SWG\Parameter(
      *        in = "query",
-     *        name = "courseware_id",
-     *        description = "课件ID",
+     *        name = "course_id",
+     *        description = "主课程ID",
      *        required = true,
      *        type = "integer"
      *     ),
      *     @SWG\Response(
      *         response = 200,
-     *         description = "返回课件内容和相关课件列表"
+     *         description = "根据程子分类ID返回主课程列表"
      *     )
      * )
      *
     **/
-    public function actionView($courseware_id)
+    public function actionView($course_id)
     {
         $data = [];
         $modelClass = new $this->modelClass;
 
-        $model = $modelClass::find()
-            ->where(['courseware_id'=>$courseware_id])
-            ->andWhere(['status'=>$modelClass::COURSEWARE_STATUS_VALID])
-            ->one();
-                    // var_dump($model);exit;
-        if($model){
-            $data = $model->toArray();
-            $toCourseware = $model->getCoursewareToCourseware()->orderBy(['sort' => SORT_DESC])->all();
-            foreach ($toCourseware as $key => $value) {
-                if(isset($value->courseware)){
-                    $data['items'][$key]         = $value->courseware->toArray();
-                    $data['items'][$key]['sort'] = $value->sort;
-                }
-            }
-        }
+        // 查询主课程
+        $model = $modelClass::find()->where([
+            'course_id' => $course_id,
+            'parent_id' => 0,
+            'status'    => $modelClass::COURSE_STATUS_OPEN
+        ])->one();
 
-        return  $data;
-      //return $data;
-       // ->with(['coursewareToCourseware'=>function($model){
-       //     return $model->with(['courseware']);
-       // }])
-       //->asArray()
-            
-       // var_dump();exit;
-/*
-        // 父课件
-        $courseware = $modelClass::find()
-            ->where(['status' => $modelClass::COURSEWARE_STATUS_VALID])
-            ->andWhere(['courseware_id' => $courseware_id])
-            ->asArray()
-            ->one();
-        if (!$courseware) {
+        if (!$model) {
+            $this->serializer['errno']   = __LINE__;
+            $this->serializer['message'] = 'master course is not exist.';
             return [];
         }
-        $courseware['fileUrl'] = 'http://omsqlyn5t.bkt.clouddn.com/o_1bd0vghqqab37pr165sluc1sgq9.mp4';
-        /*$sub_courseware = $modelClass::find()
-            ->where(['status' => $modelClass::COURSEWARE_STATUS_VALID])
-            ->andWhere(['parent_id' => $courseware_id])
-            ->asArray()
-            ->all();
-       for ($i=0; $i < 5; $i++) { 
-            $data[$i] = $courseware;
-       }
-       $courseware['sub_courseware'] = $data;
-*/
-       return $model;
+
+        // 获取子课程相关数据，并格式化
+        $child_course = $model->getSubjectsByApi();
+
+        return $child_course;
 
     }
 
-
     /**
-     * @SWG\Get(path="/courseware/hot-words",
-     *     tags={"GEDU-Courseware-课件接口【废弃】"},
+     * @SWG\Get(path="/course/hot-words",
+     *     tags={"GEDU-Course-课程接口"},
      *     summary="热词",
-     *     description="返回课件搜索词",
+     *     description="返回课程搜索词",
      *     produces={"application/json"},
      *     @SWG\Parameter(
      *        in = "query",
@@ -237,10 +206,10 @@ class CoursewareController extends \common\rest\Controller
     }
 
     /**
-     * @SWG\Get(path="/courseware/search",
-     *     tags={"GEDU-Courseware-课件接口【废弃】"},
-     *     summary="搜索主课件",
-     *     description="返回主课件列表",
+     * @SWG\Get(path="/course/search",
+     *     tags={"GEDU-Course-课程接口"},
+     *     summary="搜索主课程",
+     *     description="返回主课程列表",
      *     produces={"application/json"},
      *     @SWG\Parameter(
      *        in = "query",
@@ -283,7 +252,7 @@ class CoursewareController extends \common\rest\Controller
         }
 
         $model = new $this->modelClass;
-        return $model->searchCourseware($keyword);
+        return $model->searchCourse($keyword);
 
         /*
         $modelClass = $this->modelClass;
@@ -301,17 +270,16 @@ class CoursewareController extends \common\rest\Controller
         */
     }
 
-
     /**
-     * @SWG\Post(path="/courseware/collect",
-     *     tags={"GEDU-Courseware-课件接口【废弃】"},
-     *     summary="收藏主课件",
+     * @SWG\Post(path="/course/collect",
+     *     tags={"GEDU-Course-课程接口"},
+     *     summary="收藏主课程",
      *     description="返回提示信息",
      *     produces={"application/json"},
      *     @SWG\Parameter(
      *        in = "formData",
-     *        name = "courseware_master_id",
-     *        description = "主课件 ID",
+     *        name = "course_master_id",
+     *        description = "主课程 ID",
      *        required = true,
      *        type = "integer"
      *     ),
@@ -345,8 +313,8 @@ class CoursewareController extends \common\rest\Controller
         }
 
         $model = Collect::find()->where([
-            'user_id'              => Yii::$app->user->identity->id,
-            'courseware_master_id' => Yii::$app->request->post('courseware_master_id')
+            'user_id'          => Yii::$app->user->identity->id,
+            'course_master_id' => Yii::$app->request->post('course_master_id')
         ])->one();
 
         // 创建
@@ -360,12 +328,12 @@ class CoursewareController extends \common\rest\Controller
             return [];
         }
 
-        // 更新，包括全部子课件
+        // 更新，包括全部子课程
         $count = Collect::updateAll([
             'status' => Yii::$app->request->post('status')
         ],[
-            'user_id'              => Yii::$app->user->identity->id,
-            'courseware_master_id' => Yii::$app->request->post('courseware_master_id')
+            'user_id'          => Yii::$app->user->identity->id,
+            'course_master_id' => Yii::$app->request->post('course_master_id')
         ]);
 
         if ($model->status != Yii::$app->request->post('status') && $count == 0) {
@@ -376,22 +344,22 @@ class CoursewareController extends \common\rest\Controller
     }
 
     /**
-     * @SWG\Post(path="/courseware/set-play-time",
-     *     tags={"GEDU-Courseware-课件接口【废弃】"},
-     *     summary="记录子课件视频播放时间",
+     * @SWG\Post(path="/course/set-play-time",
+     *     tags={"GEDU-Course-课程接口"},
+     *     summary="记录子课程视频播放时间",
      *     description="返回提示信息",
      *     produces={"application/json"},
      *     @SWG\Parameter(
      *        in = "formData",
-     *        name = "courseware_master_id",
-     *        description = "主课件 ID",
+     *        name = "course_master_id",
+     *        description = "主课程 ID",
      *        required = true,
      *        type = "integer"
      *     ),
      *     @SWG\Parameter(
      *        in = "formData",
-     *        name = "courseware_id",
-     *        description = "子课件 ID",
+     *        name = "course_id",
+     *        description = "子课程 ID",
      *        required = true,
      *        type = "integer"
      *     ),
@@ -425,15 +393,15 @@ class CoursewareController extends \common\rest\Controller
             return [];
         }
 
-        if (!isset($_POST['courseware_master_id']) || empty($_POST['courseware_master_id'])) {
+        if (!isset($_POST['course_master_id']) || empty($_POST['course_master_id'])) {
             $this->serializer['errno']   = __LINE__;
-            $this->serializer['message'] = 'courseware_master_id 不能为空';
+            $this->serializer['message'] = 'course_master_id 不能为空';
             return [];
         }
 
-        if (!isset($_POST['courseware_id']) || empty($_POST['courseware_id'])) {
+        if (!isset($_POST['course_id']) || empty($_POST['course_id'])) {
             $this->serializer['errno']   = __LINE__;
-            $this->serializer['message'] = 'courseware_id 不能为空';
+            $this->serializer['message'] = 'course_id 不能为空';
             return [];
         }
 
@@ -448,9 +416,9 @@ class CoursewareController extends \common\rest\Controller
         ]);
 
         $master = $query->andWhere([
-            'courseware_master_id' => $_POST['courseware_master_id'],
+            'course_master_id' => $_POST['course_master_id'],
             'status'               => Collect::STATUS_COLLECTED,
-            'courseware_id' => 0
+            'course_id' => 0
         ])->one();
         if (!$master) {
             $this->serializer['errno']   = __LINE__;
@@ -459,8 +427,8 @@ class CoursewareController extends \common\rest\Controller
         }
         $model = $query->where([
             'user_id'              => Yii::$app->user->identity->id,
-            'courseware_master_id' => $_POST['courseware_master_id'],
-            'courseware_id'        => $_POST['courseware_id'],
+            'course_master_id' => $_POST['course_master_id'],
+            'course_id'        => $_POST['course_id'],
         ])->one();
 
         // 创建
@@ -486,15 +454,15 @@ class CoursewareController extends \common\rest\Controller
     }
 
     /**
-     * @SWG\Get(path="/courseware/get-play-time",
-     *     tags={"GEDU-Courseware-课件接口【废弃】"},
-     *     summary="获取子课件视频播放时间记录",
-     *     description="返回子课件视频播放时间记录",
+     * @SWG\Get(path="/course/get-play-time",
+     *     tags={"GEDU-Course-课程接口"},
+     *     summary="获取子课程视频播放时间记录",
+     *     description="返回子课程视频播放时间记录",
      *     produces={"application/json"},
      *     @SWG\Parameter(
      *        in = "query",
-     *        name = "courseware_id",
-     *        description = "子课件 ID",
+     *        name = "course_id",
+     *        description = "子课程 ID",
      *        required = true,
      *        type = "integer"
      *     ),
@@ -505,7 +473,7 @@ class CoursewareController extends \common\rest\Controller
      * )
      *
      */
-    public function actionGetPlayTime($courseware_id = NULL)
+    public function actionGetPlayTime($course_id = NULL)
     {
         if(Yii::$app->user->isGuest){
             $this->serializer['errno']   = 422;
@@ -513,16 +481,16 @@ class CoursewareController extends \common\rest\Controller
             return [];
         }
 
-        if ($courseware_id == NULL) {
+        if ($course_id == NULL) {
             $this->serializer['errno']   = __LINE__;
-            $this->serializer['message'] = 'courseware_id 不能为空';
+            $this->serializer['message'] = 'course_id 不能为空';
             return [];
         }
 
         $model = Collect::find()->where([
-            'user_id'       => Yii::$app->user->identity->id,
-            'courseware_id' => $courseware_id,
-            'status'        => Collect::STATUS_COLLECTED
+            'user_id'   => Yii::$app->user->identity->id,
+            'course_id' => $course_id,
+            'status'    => Collect::STATUS_COLLECTED
         ])->one();
 
         if (!$model) {
