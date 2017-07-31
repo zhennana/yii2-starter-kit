@@ -459,7 +459,8 @@ public function behaviors()
       public function Courseware($category_id){
         $coursewareModel = Courseware::find()
               ->select(['courseware_id','title'])
-              ->where(['category_id'=>$category_id])
+              ->andwhere(['category_id'=>$category_id])
+              ->andwhere(['status'=>Courseware::COURSEWARE_STATUS_VALID])
               ->orderBy(['updated_at'=>SORT_ASC])
               ->asArray()
               ->all();
