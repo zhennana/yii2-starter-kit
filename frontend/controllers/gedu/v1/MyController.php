@@ -96,7 +96,7 @@ class MyController extends \common\rest\Controller
         }
 
         $model = [];
-        $modelClass = new Courseware;
+        $modelClass = new Course;
 
         /* 
         需要用user_id查询满足如下条件的课程
@@ -106,14 +106,14 @@ class MyController extends \common\rest\Controller
         */
         // 已收藏课程
         $collect_course = Collect::find()->where([
-            'user_id'       => Yii::$app->user->identity->id,
-            'status'        => Collect::STATUS_COLLECTED,
-            'courseware_id' => 0
+            'user_id'   => Yii::$app->user->identity->id,
+            'status'    => Collect::STATUS_COLLECTED,
+            'course_id' => 0
         ])->asArray()->all();
-        $courseware_id = ArrayHelper::getColumn($collect_course, 'courseware_master_id');
+        $course_id = ArrayHelper::getColumn($collect_course, 'course_master_id');
 
         $model = $modelClass::find()
-        ->where(['courseware_id' => $courseware_id])
+        ->where(['course_id' => $course_id])
             // 状态失效(下架)的课程仅展示
             // ->where(['status' => $modelClass::COURSEWARE_STATUS_VALID])
             // ->andWhere(['category_id' => 14])

@@ -79,7 +79,7 @@ class ArticleController extends \common\rest\Controller
      *        in = "query",
      *        name = "id",
      *        description = "button_id(文章父分类ID)",
-     *        required = false,
+     *        required = true,
      *        type = "string"
      *     ),
      *     @SWG\Response(
