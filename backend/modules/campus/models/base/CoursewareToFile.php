@@ -62,7 +62,14 @@ abstract class CoursewareToFile extends \yii\db\ActiveRecord
     {
         return [
             [['file_storage_item_id', 'courseware_id'], 'required'],
-            [['file_storage_item_id', 'courseware_id', 'status', 'sort'], 'integer']
+            [['file_storage_item_id', 'courseware_id', 'status', 'sort'], 'integer'],
+            ['sort','default','value' => function($model){
+                $count = self::find()->where([
+                    'courseware_id' => $this->courseware_id,
+                    'status'        => self::COURSEWARE_STATUS_OPEN,
+                ])->count();
+                return $count+1;
+            }]
         ];
     }
 
