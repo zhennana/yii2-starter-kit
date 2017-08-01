@@ -87,6 +87,7 @@ class CoursewareCategoryController extends \common\rest\Controller
      */
     public function actionIndex()
     {
+        return [];
         $modelClass =  new $this->modelClass;
         return  $modelClass->categoryList();
 

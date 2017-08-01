@@ -134,7 +134,7 @@ class Courseware extends BaseCourseware
 
 
     public function getCoursewareToCourseware(){
-        return $this->hasMany(\frontend\models\edu\resources\CoursewareToCourseware::className(),
+        return $this->hasMany(\frontend\models\gedu\resources\CoursewareToCourseware::className(),
             ['courseware_master_id'=>'courseware_id']);
     }
     public function formatByApi($model, $file)

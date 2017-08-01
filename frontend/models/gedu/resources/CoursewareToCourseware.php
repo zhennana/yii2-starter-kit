@@ -32,6 +32,6 @@ public function behaviors()
     }
 
   public function getCourseware(){
-        return $this->hasOne(\frontend\models\edu\resources\Courseware::className(),['courseware_id'=>'courseware_id']);
+        return $this->hasOne(\frontend\models\gedu\resources\Courseware::className(),['courseware_id'=>'courseware_id']);
   }
 }

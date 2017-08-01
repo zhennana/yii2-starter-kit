@@ -92,6 +92,7 @@ class CoursewareController extends \common\rest\Controller
     **/
     public function actionList($category_id)
     {
+        return [];
         $modelClass = new $this->modelClass;
 
         $model = $modelClass::find()
@@ -126,6 +127,7 @@ class CoursewareController extends \common\rest\Controller
     **/
     public function actionView($courseware_id)
     {
+        return [];
         $data = [];
         $modelClass = new $this->modelClass;
 
@@ -202,6 +204,7 @@ class CoursewareController extends \common\rest\Controller
      */
     public function actionHotWords($limit = 20)
     {
+        return [];
         $temp = [];
         $data = [];
 
@@ -277,6 +280,7 @@ class CoursewareController extends \common\rest\Controller
      */
     public function actionSearch($keyword = '', $schema = 'left', $limit = 20)
     {
+        return [];
         $keyword = trim($keyword);
 
         if (!$keyword) {
@@ -334,6 +338,7 @@ class CoursewareController extends \common\rest\Controller
      */
     public function actionCollect()
     {
+        return [];
         if(Yii::$app->user->isGuest){
             $this->serializer['errno']   = 422;
             $this->serializer['message'] = '请您先登录';
@@ -420,6 +425,7 @@ class CoursewareController extends \common\rest\Controller
      */
     public function actionSetPlayTime()
     {
+        return [];
         if(Yii::$app->user->isGuest){
             $this->serializer['errno']   = 422;
             $this->serializer['message'] = '请您先登录';
@@ -508,6 +514,7 @@ class CoursewareController extends \common\rest\Controller
      */
     public function actionGetPlayTime($courseware_id = NULL)
     {
+        return [];
         if(Yii::$app->user->isGuest){
             $this->serializer['errno']   = 422;
             $this->serializer['message'] = '请您先登录';
