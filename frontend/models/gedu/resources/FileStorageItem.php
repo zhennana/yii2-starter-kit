@@ -1,15 +1,15 @@
 <?php
 
-namespace frontend\models\edu\resources;
+namespace  frontend\models\gedu\resources;
 
 use Yii;
-use frontend\models\edu\ApplyToPlay as BaseApplyToPlay;
+use frontend\models\base\FileStorageItem as BaseFileStorageItem;
 use yii\helpers\ArrayHelper;
 
 /**
- * This is the model class for table "apply_to_play".
+ * This is the model class for table "file_storage_item".
  */
-class ApplyToPlay extends BaseApplyToPlay
+class FileStorageItem extends BaseFileStorageItem
 {
 
 public function behaviors()

@@ -2,20 +2,20 @@
 namespace frontend\controllers\gedu\v1;
 
 use Yii;
+
 use yii\web\Response;
-use yii\data\ActiveDataProvider;
-use yii\rest\ActiveController;
 use yii\web\ForbiddenHttpException;
 use yii\web\HttpException;
+use yii\data\ActiveDataProvider;
+use yii\rest\ActiveController;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 
-use frontend\modules\api\v1\resources\Article;
-use frontend\models\edu\resources\Course;
-use frontend\models\edu\resources\UsersToUsers;
-use frontend\models\edu\resources\Courseware;
-use frontend\models\edu\resources\Collect;
-use frontend\models\wedu\resources\Notice;
+use frontend\models\gedu\resources\Course;
+use frontend\models\gedu\resources\UsersToUsers;
+use frontend\models\gedu\resources\Courseware;
+use frontend\models\gedu\resources\Collect;
+use frontend\models\gedu\resources\Notice;
 
 class MyController extends \common\rest\Controller
 {

@@ -4,8 +4,9 @@ namespace frontend\controllers\gedu\v1;
 use Yii;
 use yii\web\Response;
 use yii\helpers\ArrayHelper;
-use frontend\models\edu\resources\CoursewareToFile;
-use frontend\models\edu\resources\Collect;
+
+use frontend\models\gedu\resources\CoursewareToFile;
+use frontend\models\gedu\resources\Collect;
 
 
 class CoursewareController extends \common\rest\Controller
@@ -13,7 +14,7 @@ class CoursewareController extends \common\rest\Controller
     /**
      * @var string
      */
-    public $modelClass = 'frontend\models\edu\resources\Courseware';
+    public $modelClass = 'frontend\models\gedu\resources\Courseware';
 
     /**
      * @var arrayss

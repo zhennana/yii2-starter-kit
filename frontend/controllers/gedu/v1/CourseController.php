@@ -4,7 +4,7 @@ namespace frontend\controllers\gedu\v1;
 use Yii;
 use yii\web\Response;
 use yii\helpers\ArrayHelper;
-use frontend\models\edu\resources\Collect;
+use frontend\models\gedu\resources\Collect;
 
 
 class CourseController extends \common\rest\Controller
@@ -12,7 +12,7 @@ class CourseController extends \common\rest\Controller
     /**
      * @var string
      */
-    public $modelClass = 'frontend\models\edu\resources\Course';
+    public $modelClass = 'frontend\models\gedu\resources\Course';
 
     /**
      * @var array
