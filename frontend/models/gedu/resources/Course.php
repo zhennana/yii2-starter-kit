@@ -1,11 +1,11 @@
 <?php
 
-namespace frontend\models\edu\resources;
+namespace frontend\models\gedu\resources;
 
 use Yii;
 use frontend\models\base\Course as BaseCourse;
-use frontend\models\edu\resources\Courseware;
-use frontend\models\edu\resources\FileStorageItem;
+use frontend\models\gedu\resources\Courseware;
+use frontend\models\gedu\resources\FileStorageItem;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 
@@ -50,6 +50,22 @@ public function behaviors()
         return ArrayHelper::merge(
             parent::fields(),
             [
+                'filetype' => function($model){
+                    $childOne = $this->childCourseOne();
+                    if (isset($childOne) && !empty($childOne)) {
+                        $model = $childOne;
+                    }
+                    if (isset($model->courseware->toFile) && !empty($model->courseware->toFile)) {
+                        foreach ($model->courseware->toFile as $key => $value) {
+                            if ($value->status != 0) {
+                                return $value->fileStorageItem->type;
+                            }
+                            continue;
+                        }
+                    }else{
+                        return 'image/jpeg';
+                    }
+                },
                 'target_url'=>function($model){
                     return  \Yii::$app->request->hostInfo.Url::to(['v1/course/view','course_id'=>$model->course_id]);
                 },
@@ -103,6 +119,37 @@ public function behaviors()
     }
 
     /**
+     * [courseListFormat 主课程列表API格式化]
+     * @param  [type] $category_id [description]
+     * @return [type]              [description]
+     */
+    public function courseListFormat($category_id)
+    {
+        $model = self::find()
+            ->where(['status' => self::COURSE_STATUS_OPEN])
+            ->andWhere(['category_id' => $category_id])
+            ->andWhere(['parent_id' => 0])
+            ->orderBy(['sort' => SORT_ASC])
+            ->all();
+
+        return $model;
+    }
+
+    /**
+     * [childCourseOne 获取第一个子课程]
+     * @return [type] [description]
+     */
+    public function childCourseOne()
+    {
+        $childOne = self::find()
+            ->where(['status' => self::COURSE_STATUS_OPEN])
+            ->andWhere(['parent_id' => $this->course_id])
+            ->orderBy(['sort' => SORT_ASC])
+            ->one();
+        return $childOne;
+    }
+
+    /**
      * [getSubjects 获取子课程相关数据，并格式化]
      * @return [type] [description]
      */
@@ -119,14 +166,16 @@ public function behaviors()
 
         foreach ($model as $key => $value) {
             $temp = $value->toArray();
-            $temp['type'] = '';
             $temp['courseware'] = [];
 
             if (isset($value->courseware) && !empty($value->courseware) && $value->courseware->status == Courseware::COURSEWARE_STATUS_VALID) {
                 $courseware = $value->courseware;
+                $body = json_decode($courseware->body);
                 $temp['courseware']['courseware_id'] = $courseware->courseware_id;
                 $temp['courseware']['cw_title']      = $courseware->title;
                 $temp['courseware']['cw_body']       = $courseware->body;
+                $temp['courseware']['cw_process']    = isset($body->process) ? $body->process : '';
+                $temp['courseware']['cw_target']     = isset($body->target) ? $body->target : '';
                 $temp['courseware']['cw_status']     = $courseware->status;
                 $temp['courseware']['cw_sort']       = $courseware->sort;
                 $temp['courseware']['files']         = [];
@@ -134,7 +183,6 @@ public function behaviors()
                 if (isset($courseware->toFile) && !empty($courseware->toFile)) {
                     $file  = [];
                     $files = [];
-                    $temp['type'] = isset($courseware->toFile[0]->fileStorageItem->type) ? $courseware->toFile[0]->fileStorageItem->type : '';
                     foreach ($courseware->toFile as $toFile) {
                         if (isset($toFile->fileStorageItem) && !empty($toFile->fileStorageItem) && $toFile->fileStorageItem->status == FileStorageItem::STORAGE_STATUS_OPEN) {
                             $file['file_id']     = $toFile->fileStorageItem->file_storage_item_id;

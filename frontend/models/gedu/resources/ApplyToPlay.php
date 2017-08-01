@@ -1,14 +1,15 @@
 <?php
 
-namespace frontend\models\edu\resources;
+namespace frontend\models\gedu\resources;
+
 use Yii;
-use \frontend\models\base\CoursewareToCourseware as BaseCoursewareToCourseware;
+use frontend\models\gedu\ApplyToPlay as BaseApplyToPlay;
 use yii\helpers\ArrayHelper;
 
 /**
- * This is the model class for table "courseware_to_courseware".
+ * This is the model class for table "apply_to_play".
  */
-class CoursewareToCourseware extends BaseCoursewareToCourseware
+class ApplyToPlay extends BaseApplyToPlay
 {
 
 public function behaviors()
@@ -30,8 +31,4 @@ public function behaviors()
              ]
         );
     }
-
-  public function getCourseware(){
-        return $this->hasOne(\frontend\models\edu\resources\Courseware::className(),['courseware_id'=>'courseware_id']);
-  }
 }

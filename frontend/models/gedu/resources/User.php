@@ -1,5 +1,5 @@
 <?php
-namespace frontend\models\edu\resources;
+namespace frontend\models\gedu\resources;
 
 use yii;
 use common\models\User as BaseUser;

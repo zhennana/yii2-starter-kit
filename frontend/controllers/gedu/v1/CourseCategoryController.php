@@ -10,7 +10,7 @@ class CourseCategoryController extends \common\rest\Controller
     /**
      * @var string
      */
-    public $modelClass = 'frontend\models\edu\resources\CourseCategory';
+    public $modelClass = 'frontend\models\gedu\resources\CourseCategory';
 
     /**
      * @var array

@@ -4,7 +4,7 @@ namespace frontend\controllers\gedu\v1;
 use Yii;
 use yii\web\Response;
 use yii\helpers\ArrayHelper;
-use frontend\models\edu\resources\Collect;
+use frontend\models\gedu\resources\Collect;
 
 
 class CourseController extends \common\rest\Controller
@@ -12,7 +12,7 @@ class CourseController extends \common\rest\Controller
     /**
      * @var string
      */
-    public $modelClass = 'frontend\models\edu\resources\Course';
+    public $modelClass = 'frontend\models\gedu\resources\Course';
 
     /**
      * @var array
@@ -91,15 +91,7 @@ class CourseController extends \common\rest\Controller
     public function actionList($category_id)
     {
         $modelClass = new $this->modelClass;
-
-        $model = $modelClass::find()
-            ->where(['status' => $modelClass::COURSE_STATUS_OPEN])
-            ->andWhere(['category_id' => $category_id])
-            ->andWhere(['parent_id' => 0])
-            // ->orderBy(['sort' => SORT_DESC])
-            ->all();
-
-        return $model;
+        return $modelClass->courseListFormat($category_id);
     }
 
     /**
@@ -141,9 +133,8 @@ class CourseController extends \common\rest\Controller
         }
 
         // 获取子课程相关数据，并格式化
-        $child_course = $model->getSubjectsByApi();
 
-        return $child_course;
+        return $model->getSubjectsByApi();
 
     }
 
@@ -174,7 +165,7 @@ class CourseController extends \common\rest\Controller
         $data = [];
 
         $keywords = [
-            'PHP','Android','牛津','英语','小学','计算机','IT','牛津英语','框架','后台开发','移动端','IOS','安卓','手机','工程师','出国','留学','哈佛','英语四级','php',
+            '爱乐奇','全脑','牛津','英语','小学','幼儿','胎教音乐','出国留学','English','脑部开发','学前','歌曲','儿童','阿尔法','单词','出国','留学','哈佛','英语四级','发音',
         ];
 
         if ($limit < 1) {

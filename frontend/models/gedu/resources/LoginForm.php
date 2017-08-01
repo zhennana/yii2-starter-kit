@@ -1,8 +1,8 @@
 <?php
-namespace frontend\models\edu\resources;
+namespace frontend\models\gedu\resources;
 
 use cheatsheet\Time;
-use common\models\User;
+use frontend\models\gedu\resources\User;
 use Yii;
 use yii\base\Model;
 

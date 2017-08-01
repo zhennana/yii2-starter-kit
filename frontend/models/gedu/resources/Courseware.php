@@ -1,14 +1,14 @@
 <?php
-namespace frontend\models\edu\resources;
+namespace frontend\models\gedu\resources;
 
 use yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use frontend\models\base\Courseware  as BaseCourseware;
-use frontend\models\edu\resources\CoursewareToCourseware;
-use frontend\models\edu\resources\CoursewareCategory;
-use frontend\models\edu\resources\Collect;
-use frontend\models\edu\resources\CourseOrderItem;
+use frontend\models\gedu\resources\CoursewareToCourseware;
+use frontend\models\gedu\resources\CoursewareCategory;
+use frontend\models\gedu\resources\Collect;
+use frontend\models\gedu\resources\CourseOrderItem;
 
 /**
  * 
