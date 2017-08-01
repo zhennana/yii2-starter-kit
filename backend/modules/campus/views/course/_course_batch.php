@@ -11,7 +11,9 @@ $this->title = Yii::t('backend', '排课');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '学校人员管理'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 //var_dump(time());exit;
-$model->school_id = 29;
+
+
+ $model->school_id = 29;
 $model->grade_id  = 22;
 $model->category_id = 3;
 $model->teacher_id = 1;
@@ -21,9 +23,11 @@ $model->end_times  = (1501237313+ 60*60);
 $model->which_day  = 1;
 ?>
 
+<!-- <div class="error-summary alert alert-error" style=""></div> -->
 <?php $form = ActiveForm::begin([
-        'id'                     => 'Course',
-    ]); ?>
+        'id'=> 'Course',
+       // 'action'=>'',
+]); ?>
 <div class="col-md-12">
 <!-- general form elements -->
     <div class="box box-primary box-solid">
@@ -47,9 +51,8 @@ $model->which_day  = 1;
                 排课逻辑：
             </h4>
             <p>
-                老师排课时间冲突：如果老师在同一班级。可覆盖未上完的旧课程。否则不能排课<br>
-                班级排课时间冲突：直接覆盖未上完的课程。<br>
-                班级排课时间不冲突：如果排课是同一类型课程。直接覆盖未上完的课程。
+                老师排课时间冲突：直接覆盖与本老师有关的课程(包括其他班级的课程)<br>
+                班级排课时间冲突：直接覆盖未上完的课程<br>
             </p>
         </div>
         <div class="col-lg-3">
@@ -152,7 +155,7 @@ $model->which_day  = 1;
                     ]
             )->label('上课结束时间') ?>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-3">
             <?= $form->field($model, 'teacher_id')->widget(Select2::className(),
                 [
                     'data'          => $model->getlist(2,$model->grade_id),
@@ -162,7 +165,7 @@ $model->which_day  = 1;
                     ],
                 ]); ?>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-3">
             <div></div><br>
              <?= Html::submitButton(
             '<span class="glyphicon glyphicon-check"></span> ' .
@@ -173,20 +176,20 @@ $model->which_day  = 1;
             ]
         ); ?>
         </div>
-
-        <?php ActiveForm::end(); ?>
-        <div class  = "col-lg-6">
-            <?= Html::a(
+        <div class  = "col-lg-12"></div>
+        <div class  = "col-lg-3">
+            <?= Html::submitButton(
                 '<span class="glyphicon glyphicon-check"></span> ' .
                 Yii::t('backend', '提交排课'),
-                [''],
+                //[''],
                 [
                     'id'    => 'commit',
                     'class' => 'btn btn-success'
                 ]
             ); ?>
+        
         </div>
-        <div class  = "col-lg-6">
+        <div class  = "col-lg-3">
             <?= Html::submitButton(
                 '<span class="glyphicon glyphicon-check"></span> ' .
                 Yii::t('backend', '返回'),
@@ -196,6 +199,7 @@ $model->which_day  = 1;
                 ]
             ); ?>
         </div>
+         <?php ActiveForm::end(); ?>
     </div>
     <div id = "message"></div>
     <div id = "schedule_record"></div>
@@ -295,10 +299,11 @@ $model->which_day  = 1;
         table.appendTo($('#schedule_record'));
     }
     var submit_data;
+    var delete_record;
 //CourseValidations
     $(document).ready(function () {
-        $('body').on('beforeSubmit', 'form#Course', function () {
-            var form = $(this);
+        $('body').on('beforeSubmit','form#Course', function () {
+            var form = $('form');
             // return false if form still have some validation errors
             if (form.find('.has-error').length)
             {
@@ -311,18 +316,22 @@ $model->which_day  = 1;
             data   : form.serialize(),
             success: function (response)
             {
+                console.log(response);
                 var message = response.message;
                  submit_data = response.NewRecord;
-                 console.log(submit_data,message);
+                 delete_record = response.DeleteRecord;
+                // console.log(submit_data,message);
                 $('#schedule_record table').remove();
                 $('#message').empty();
                 if(response.is_commit == true){
+                    //$('#paicha').attr('disabled',"true");
                     $('#schedule_record table').remove();
                     $('#commit').show();
                     $('#paicha').hide();
                     $('#message').show();
+                    $('#back').show();
                     $('#message').append(response.schedule_count +response.schedule_start_time) ;
-                    $('from').find('input','select').attr('disabled',true);
+                    //$('from').find('input','select').attr('disabled',true);
                     //NotChoose();
                     createTable(message);
                 }else{
@@ -341,17 +350,32 @@ $model->which_day  = 1;
             return false;
          });
     });
-    $("#commit").click(function(){
-            $.ajax({
-                url    : '<?php echo  Url::to(['course-batch']) ?>',
-                type   : 'POST',
-                data   : {Course:submit_data},
-                success: function (response)
-                {
-                 alert('排课成功请去查看');
-                }
-            });
+   $($("#commit")[0]).on('click',function(event){
+         $('#commit').hide();
+         $('#back').hide();
+         $.ajax({
+            url    : '<?php echo  Url::to(['course-batch']) ?>',
+            type   : 'POST',
+            data   : {Course:submit_data,DeleteRecord:delete_record},
+            success: function (response)
+            {
+                alert('排课成功');
+               $('#back').show();
+            }
+        });
+        return false;
     });
+    $("#back").on('click',function(){
+        $('#paicha').show();
+        $('#back').hide();
+        $('#commit').hide();
+        $('#schedule_record table').remove();
+        $('#message').empty();
+        return false;
+    }
+
+        );
+
 </script>
  <style>
         #schedule_record td {
