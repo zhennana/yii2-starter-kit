@@ -200,7 +200,7 @@ public function behaviors()
                           $newTime);
                   $info['message'][] = [
                         'isConflict'=>false,
-                        'override'  =>false,
+                        'override'  =>true,
                         'is_type'    => '正常',
                         'is_delect'  => false,
                         'isConflict' => true,
@@ -277,8 +277,8 @@ public function behaviors()
                         'OldRecord'  => $this->Record($grade_model_schedule)
                       ];
               $info['DeleteRecord'][$value['course_id']] = [
-                                  'course_id'  => $value['course_id'],
-                                  'course_schedule_id'=>$value['course_schedule_id'],
+                                  'course_id'  => $grade_model_schedule['course_id'],
+                                  'course_schedule_id'=>$grade_model_schedule['course_schedule_id'],
               ];
               $info['NewRecord'][] = $this->NewCourse(
                               $data,$courseware,
