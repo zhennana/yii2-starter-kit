@@ -21,7 +21,9 @@ abstract class CourseSchedule extends \yii\db\ActiveRecord
 {
 
 
-
+    CONST COURSE_STATUS_OPEN   = 10;//正常
+    CONST COURSE_STATUS_FINISH = 20; //结束
+    CONST COURSE_STATUS_DELECT = 30;//关闭
     /**
      * @inheritdoc
      */
@@ -29,7 +31,21 @@ abstract class CourseSchedule extends \yii\db\ActiveRecord
     {
         return 'course_schedule';
     }
+    public static function optsStatus(){
+        return [
+            self::COURSE_STATUS_OPEN   => '正常',
+            self::COURSE_STATUS_FINISH => '结束',
+            self::COURSE_STATUS_DELECT => '无效'
+        ];
+    }
 
+    public static function getStatusValueLabel($value){
+        $labels = self::optsStatus();
+        if(isset($labels[$value])){
+            return $labels[$value];
+        }
+        return $value;
+    }
 
     /**
      * @inheritdoc
@@ -55,9 +71,9 @@ abstract class CourseSchedule extends \yii\db\ActiveRecord
         return [
             'course_schedule_id' => Yii::t('common', 'Course Schedule ID'),
             'course_id' => Yii::t('common', '课程ID'),
-            'start_time' => Yii::t('common', '上课开始时间 TIME类型表示为“时：分：秒”，'),
-            'end_time' => Yii::t('common', '上课结束时间 TIME类型表示为“时：分：秒”，'),
-            'which_day' => Yii::t('common', '哪天上课 在插入数据时，也可以使用“YY-MM-DD”格式'),
+            'start_time' => Yii::t('common', '上课开始时间 '),
+            'end_time' => Yii::t('common', '上课结束时间'),
+            'which_day' => Yii::t('common', '上课日期'),
             'status' => Yii::t('common', '状态'),
         ];
     }
@@ -69,15 +85,17 @@ abstract class CourseSchedule extends \yii\db\ActiveRecord
     {
         return array_merge(parent::attributeHints(), [
             'course_id' => Yii::t('common', '课程ID'),
-            'start_time' => Yii::t('common', '上课开始时间 TIME类型表示为“时：分：秒”，'),
-            'end_time' => Yii::t('common', '上课结束时间 TIME类型表示为“时：分：秒”，'),
-            'which_day' => Yii::t('common', '哪天上课 在插入数据时，也可以使用“YY-MM-DD”格式'),
+            'start_time' => Yii::t('common', '上课开始时间'),
+            'end_time' => Yii::t('common', '上课结束时间'),
+            'which_day' => Yii::t('common', '上课日期'),
             'status' => Yii::t('common', '状态'),
         ]);
     }
 
 
-    
+    public function getCourse(){
+        return $this->hasOne(\backend\modules\campus\models\Course::className(),['course_id'=>'course_id']);
+    }
     /**
      * @inheritdoc
      * @return \backend\modules\campus\models\query\CourseSchedule the active query used by this AR class.

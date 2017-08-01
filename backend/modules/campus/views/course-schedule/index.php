@@ -3,11 +3,11 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\GridView;
-
+use \backend\modules\campus\models\CourseSchedule;
 /**
 * @var yii\web\View $this
 * @var yii\data\ActiveDataProvider $dataProvider
-    * @var backend\modules\campus\models\search\CourseScheduleSearch $searchModel
+    * @var backend\modules\campus\models\search\CourseSchedule $searchModel
 */
 
 $this->title = Yii::t('models', 'Course Schedules');
@@ -49,7 +49,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
     <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
 
     <h1>
-        <?= Yii::t('models', 'Course Schedules') ?>
+        <?= Yii::t('models', '课程排课') ?>
         <small>
             List
         </small>
@@ -66,7 +66,6 @@ if(\Yii::$app->user->can('user', ['route' => true])){
 ?>
         <div class="pull-right">
 
-                        
             <?= 
             \yii\bootstrap\ButtonDropdown::widget(
             [
@@ -101,8 +100,8 @@ if(\Yii::$app->user->can('user', ['route' => true])){
         'firstPageLabel' => Yii::t('backend', 'First'),
         'lastPageLabel' => Yii::t('backend', 'Last'),
         ],
-                    'filterModel' => $searchModel,
-                'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
+        'filterModel' => $searchModel,
+        'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
         'headerRowOptions' => ['class'=>'x'],
         'columns' => [
                 [
@@ -126,11 +125,26 @@ if(\Yii::$app->user->can('user', ['route' => true])){
             },
             'contentOptions' => ['nowrap'=>'nowrap']
         ],
-			'course_id',
+			//'course_id',
+            [
+                'attribute'=>'course_id',
+                'value'    =>function($model){
+                    return $model->course->title;
+                }
+            ],
+            'which_day',
 			'start_time',
 			'end_time',
-			'which_day',
-			'status',
+			//'status',
+            [
+                'class'     =>\common\grid\EnumColumn::className(),
+                'attribute' =>'status',
+                'format'        => 'raw',
+                'value'     => function($model){
+                    return $model->status;
+                },
+                'enum'      => CourseSchedule::optsStatus()
+            ],
         ],
         ]); ?>
     </div>
