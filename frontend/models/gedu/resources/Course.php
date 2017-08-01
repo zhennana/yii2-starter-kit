@@ -166,7 +166,6 @@ public function behaviors()
 
         foreach ($model as $key => $value) {
             $temp = $value->toArray();
-            $temp['type'] = '';
             $temp['courseware'] = [];
 
             if (isset($value->courseware) && !empty($value->courseware) && $value->courseware->status == Courseware::COURSEWARE_STATUS_VALID) {
