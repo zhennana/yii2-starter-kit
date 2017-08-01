@@ -88,7 +88,7 @@ class ConfigController extends \common\rest\Controller
 
     public function actionIndex()
     {
-         $model = new Courseware;
+         $model = new Course;
          $params = [
             ['type' => 3, 'name' => '热门课程', 'sort' => [1,2,3]],
             ['type' => 4, 'name' => '精品课程', 'sort' => [4,5,6,7]],
@@ -308,19 +308,20 @@ class ConfigController extends \common\rest\Controller
         $data = [];
         //var_dump($data);exit();
         for ($i=1; $i < 3 ; $i++) {
-            if($i%2==0){
-                $data[$i]['banner_id']  = ''.$i;
-                $data[$i]['title']      = $title[$i];
-                $data[$i]['imgUrl']     = $img[$i];
-                $data[$i]['type']       = 'URL';
-                $data[$i]['target_url'] = 'http://www.yajol.com/';
-        }else{
+            
+                // $data[$i]['banner_id']  = ''.$i;
+                // $data[$i]['title']      = $title[$i];
+                // $data[$i]['imgUrl']     = $img[$i];
+                // $data[$i]['type']       = 'URL';
+                // $data[$i]['target_url'] = 'http://www.yajol.com/';
+        
                 $data[$i]['banner_id']  = ''.$i;
                 $data[$i]['title']      = $title[$i];
                 $data[$i]['imgUrl']     = $img[$i];
                 $data[$i]['type']       = 'APP';
-                $data[$i]['target_url'] = Yii::$app->request->hostInfo.Url::to(['v1/courseware/view','courseware_id'=>1]);
-        }
+                $data[$i]['entity_id']  = 1;
+                $data[$i]['target_url'] = Yii::$app->request->hostInfo.Url::to(['v1/course/view','course_id'=>1]);
+        
     }
         sort($data);
         return $data;

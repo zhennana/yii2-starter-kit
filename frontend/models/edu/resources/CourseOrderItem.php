@@ -6,6 +6,7 @@ use Yii;
 use yii\helpers\ArrayHelper;
 use frontend\models\base\CourseOrderItem as BaseCourseOrderItem;
 use frontend\models\edu\resources\Courseware;
+use frontend\models\edu\resources\Course;
 use common\payment\alipay\buildermodel\AlipayTradeWapPayContentBuilder;
 use common\payment\alipay\AlipayTradeService;
 
@@ -30,7 +31,7 @@ public function behaviors()
         return ArrayHelper::merge(
              parent::rules(),
              [
-                  [['courseware_id','coupon_type',],'integer'],
+                  [['courseware_id','course_id','coupon_type',],'integer'],
                   [['payment_id'],'string'],
                   [['order_sn'], 'string', 'max' => 32],
                   [['order_sn'], 'unique'],
@@ -79,9 +80,9 @@ public function behaviors()
         ];
 
         // 验证课件ID
-        if (!isset($params['courseware_id']) || empty($params['courseware_id'])) {
+        if (!isset($params['course_id']) || empty($params['course_id'])) {
             $info['errno']   = __LINE__;
-            $info['message'] = 'Courseware ID Can Not Be Null!';
+            $info['message'] = 'Course ID Can Not Be Null!';
             return $info;
         }
 
@@ -108,20 +109,20 @@ public function behaviors()
 
         // 验证订单总价和总课程数，待完善
         if (isset($params['total_price']) && !empty($params['total_price'])) {
-            $courseware = Courseware::findOne($params['courseware_id']);
-            if ($courseware && $courseware->isMasterCourseware()) {
-                if ($courseware->present_price === null) {
+            $course = Course::findOne($params['course_id']);
+            if (!isset($course->parent_id) || empty($course->parent_id)) {
+                if ($course->present_price === null) {
                     $info['errno']   = __LINE__;
                     $info['message'] = 'Course Price Data Exception! Please Contact Administrator.';
                     return $info; 
                 }
 
                 // 未验证会员价等
-                $params['total_price']  = $courseware->present_price;
-                $params['total_course'] = $courseware->isMasterCourseware();
+                $params['total_price']  = $course->present_price;
+                $params['total_course'] = $course->course_counts;
             }else{
                 $info['errno']   = __LINE__;
-                $info['message'] = 'A (master)Courseware With ID '.$params['courseware_id'].' Does Not Exist!';
+                $info['message'] = 'A (master)Course With ID '.$params['course_id'].' Does Not Exist!';
                 return $info; 
             }
         }else{
@@ -244,9 +245,9 @@ public function behaviors()
         $alipay_config['return_url'] = $alipay_config['return_url'].$this->courseware_id;
 
         // 组装业务参数
-        if ($this->courseware) {
-            $body    = '【光大】'.$this->courseware->title.'(共'.$this->courseware->isMasterCourseware().'节课程)';
-            $subject = '【光大】'.$this->courseware->title;
+        if ($this->course) {
+            $body    = '【光大】'.$this->course->title.'(共'.$this->course->course_counts.'节课程)';
+            $subject = '【光大】'.$this->course->title;
         }
         $out_trade_no    = $this->order_sn;
         $total_amount    = $this->real_price;
