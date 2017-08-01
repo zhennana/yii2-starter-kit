@@ -272,11 +272,11 @@ public function behaviors()
                         'is_type'    => '这里是不同分类下的直接覆盖',
                         'is_delect'  => true,
                         'isConflict' => true,
-                        'override'   => false,
+                        'override'   => true,
                         'NewRecord'  => $this->Record($data,$time,$courseware),
                         'OldRecord'  => $this->Record($grade_model_schedule)
                       ];
-              $info['DeleteRecord'][$value['course_id']] = [
+              $info['DeleteRecord'][$grade_model_schedule['course_id']] = [
                                   'course_id'  => $grade_model_schedule['course_id'],
                                   'course_schedule_id'=>$grade_model_schedule['course_schedule_id'],
               ];
