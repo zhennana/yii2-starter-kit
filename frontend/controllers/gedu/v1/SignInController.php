@@ -12,10 +12,10 @@ use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\rest\OptionsAction;
 
-use frontend\models\edu\resources\LoginForm;
-use frontend\models\edu\resources\UserForm;
-use frontend\models\edu\resources\User;
-use frontend\models\edu\resources\UsersToUsers;
+use frontend\models\gedu\resources\LoginForm;
+use frontend\models\gedu\resources\UserForm;
+use frontend\models\gedu\resources\User;
+use frontend\models\gedu\resources\UsersToUsers;
 
 use common\models\UserProfile;
 use common\models\UserToken;
@@ -27,7 +27,7 @@ use cheatsheet\Time;
 
 class SignInController extends \common\components\ControllerFrontendApi
 {
-    public $modelClass = 'common\models\User';
+    public $modelClass = 'frontend\models\gedu\resources\User';
 
     /**
      * @var array

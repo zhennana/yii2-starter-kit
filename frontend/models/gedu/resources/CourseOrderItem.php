@@ -1,12 +1,12 @@
 <?php
 
-namespace frontend\models\edu\resources;
+namespace frontend\models\gedu\resources;
 
 use Yii;
 use yii\helpers\ArrayHelper;
 use frontend\models\base\CourseOrderItem as BaseCourseOrderItem;
-use frontend\models\edu\resources\Courseware;
-use frontend\models\edu\resources\Course;
+use frontend\models\gedu\resources\Courseware;
+use frontend\models\gedu\resources\Course;
 use common\payment\alipay\buildermodel\AlipayTradeWapPayContentBuilder;
 use common\payment\alipay\AlipayTradeService;
 

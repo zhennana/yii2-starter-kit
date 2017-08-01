@@ -1,11 +1,11 @@
 <?php
 
-namespace frontend\models\edu\resources;
+namespace frontend\models\gedu\resources;
 
 use Yii;
 use frontend\models\base\Course as BaseCourse;
-use frontend\models\edu\resources\Courseware;
-use frontend\models\edu\resources\FileStorageItem;
+use frontend\models\gedu\resources\Courseware;
+use frontend\models\gedu\resources\FileStorageItem;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 

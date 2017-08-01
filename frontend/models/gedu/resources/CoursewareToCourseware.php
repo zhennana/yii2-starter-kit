@@ -1,15 +1,14 @@
 <?php
 
-namespace  frontend\models\edu\resources;
-
+namespace frontend\models\gedu\resources;
 use Yii;
-use frontend\models\base\FileStorageItem as BaseFileStorageItem;
+use \frontend\models\base\CoursewareToCourseware as BaseCoursewareToCourseware;
 use yii\helpers\ArrayHelper;
 
 /**
- * This is the model class for table "file_storage_item".
+ * This is the model class for table "courseware_to_courseware".
  */
-class FileStorageItem extends BaseFileStorageItem
+class CoursewareToCourseware extends BaseCoursewareToCourseware
 {
 
 public function behaviors()
@@ -31,4 +30,8 @@ public function behaviors()
              ]
         );
     }
+
+  public function getCourseware(){
+        return $this->hasOne(\frontend\models\edu\resources\Courseware::className(),['courseware_id'=>'courseware_id']);
+  }
 }

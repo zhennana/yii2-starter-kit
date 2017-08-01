@@ -1,10 +1,10 @@
 <?php
-namespace frontend\models\edu\resources;
+namespace frontend\models\gedu\resources;
 
 use Yii;
 use yii\base\Model;
 
-use frontend\models\edu\resources\User;
+use frontend\models\gedu\resources\User;
 use common\models\UserToken;
 use common\models\PhoneValidator;
 
