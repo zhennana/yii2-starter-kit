@@ -4,11 +4,13 @@
 
 namespace backend\modules\campus\controllers\base;
 
+use Yii;
 use backend\modules\campus\models\CourseSchedule;
-    use backend\modules\campus\models\search\CourseScheduleSearch;
-use yii\web\Controller;
+use backend\modules\campus\models\search\CourseScheduleSearch;
+use common\components\Controller;
 use yii\web\HttpException;
 use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
 use yii\filters\AccessControl;
 use dmstr\bootstrap\Tabs;
 
@@ -63,16 +65,22 @@ public function actionIndex()
 {
     $searchModel  = new CourseScheduleSearch;
     $dataProvider = $searchModel->search($_GET);
+    $schools = Yii::$app->user->identity->schoolsInfo;
+        $grades =  Yii::$app->user->identity->gradesInfo;
+        $schools = ArrayHelper::map($schools,'school_id','school_title');
+        $grades  = ArrayHelper::map($grades,'grade_id','grade_name');
+        $dataProvider->query->andWhere([
+                'c.grade_id'  => $this->gradeIdCurrent,
+        ]);
+    Tabs::clearLocalStorage();
 
-Tabs::clearLocalStorage();
+    Url::remember();
+    \Yii::$app->session['__crudReturnUrl'] = null;
 
-Url::remember();
-\Yii::$app->session['__crudReturnUrl'] = null;
-
-return $this->render('index', [
-'dataProvider' => $dataProvider,
-    'searchModel' => $searchModel,
-]);
+    return $this->render('index', [
+    'dataProvider' => $dataProvider,
+        'searchModel' => $searchModel,
+    ]);
 }
 
 /**
