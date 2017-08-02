@@ -367,11 +367,11 @@ class ConfigController extends \common\rest\Controller
         foreach ($category as $key => $value) {
             $temp = [];
             $temp['button_id']     = (string)($key+1);
-            $temp['button_type']   = 'WEB';
+            $temp['button_type']   = 'APP';
             $temp['button_icon']   = $icons[$key+1];
             $temp['button_name']   = $value['title'];
             $temp['category_id']   = $value['id'];
-            $temp['button_target'] = Yii::$app->request->hostInfo.Url::to(['article/index','category_id'=>$value['id']]);
+            $temp['button_target'] = Yii::$app->request->hostInfo.Url::to(['v1/article/list','id'=>$value['id']]);
             $data[] = $temp;
         }
 
