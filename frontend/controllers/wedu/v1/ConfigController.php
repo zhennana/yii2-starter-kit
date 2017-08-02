@@ -9,9 +9,9 @@ use yii\web\ForbiddenHttpException;
 use yii\web\HttpException;
 use yii\helpers\Url;
 use frontend\modules\api\v1\resources\Article;
-use frontend\models\edu\resources\Course;
-use frontend\models\edu\resources\UsersToUsers;
-use frontend\models\edu\resources\Courseware;
+use frontend\models\wedu\resources\Course;
+//use frontend\models\edu\resources\UsersToUsers;
+use frontend\models\gedu\resources\Courseware;
 use frontend\models\wedu\resources\Notice;
 use frontend\models\wedu\resources\CourseOrderItem;
 use frontend\models\wedu\resources\StudentRecord;
@@ -86,12 +86,12 @@ class ConfigController extends \common\rest\Controller
     * )
     *
    */
-
+   
     public function actionIndex()
     {
-         $model = new Courseware;
-         return $model->streamData();
-        /*
+         //$model = new Courseware;
+         //return $model->streamData();
+        
         for ($i=1; $i < 4; $i++) {
             $recommend_items[] = [
                 'coursee_id'     => (string)$i,
@@ -124,8 +124,7 @@ class ConfigController extends \common\rest\Controller
                 'name'     => '精选课程',
                 'target_url'=> '这里是更多的跳转',
                 'items'    => $recommend_items1,
-            ]];*/
-        
+            ]];
         return $data;
     }
 
@@ -464,11 +463,12 @@ class ConfigController extends \common\rest\Controller
                             ->orderBy(['created_at'=>'SORT_SESC'])
                             ->asArray()
                             ->one();
-   //var_dump($notice->message(Notice::CATEGORY_ONE,$school_id,$grade_id));exit;
+//var_dump($student_record);exit;
+    //var_dump($notice->message(Notice::CATEGORY_ONE,$school_id,$grade_id));exit;
         $data['message']                   = array_merge($data['message'],$notice->message(Notice::CATEGORY_ONE,$school_id,$grade_id));
         $data['teacher_said']              = array_merge($data['teacher_said'],$notice->message(Notice::CATEGORY_TWO));
         $data['course_item_order']         = array_merge($data['course_item_order'],$course_order->statistical());
-        $data['above_course']['title']     = isset($student_record['course']['intro']) ? $student_record['course']['intro']: '';
+        $data['above_course']['title']     = isset($student_record['course']['title']) ? $student_record['course']['title']: '';
         $data['my_photos']                 = $my_photos->image_merge(3);
         return $data;
     }

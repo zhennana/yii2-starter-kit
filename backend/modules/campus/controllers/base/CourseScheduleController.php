@@ -72,6 +72,11 @@ public function actionIndex()
         $dataProvider->query->andWhere([
                 'c.grade_id'  => $this->gradeIdCurrent,
         ]);
+        $dataProvider->sort = [
+                   'defaultOrder'=>[
+                        'which_day'=>SORT_ASC,
+                   ]
+        ];
     Tabs::clearLocalStorage();
 
     Url::remember();
