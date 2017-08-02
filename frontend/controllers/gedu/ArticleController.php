@@ -9,7 +9,7 @@ use frontend\models\search\ArticleSearch;
 use yii\data\Pagination;
 
 class ArticleController extends Controller{
-	
+	public $enableCsrfValidation = false;
 	public function actionIndex($category_id=''){
 
 		/**
