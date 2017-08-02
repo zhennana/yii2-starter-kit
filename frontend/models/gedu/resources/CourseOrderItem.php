@@ -39,8 +39,8 @@ public function behaviors()
         );
     }
 
-    public function getCourseware(){
-        return $this->hasOne(Courseware::className(),['courseware_id'=>'courseware_id']);
+    public function getCourse(){
+        return $this->hasOne(Course::className(),['course_id'=>'course_id']);
     }
 
 
