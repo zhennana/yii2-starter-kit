@@ -103,28 +103,18 @@ class ArticleController extends \common\rest\Controller
             return [];
         }
         foreach ($child_cate as $key => $value) {
-            $items = [];
-            $model = $modelClass::find()->where([
-                'category_id' => $value['id'],
-                'status'      => $modelClass::STATUS_PUBLISHED
-            ])->asArray()->all();
+            $temp['category_id'] = $value['id'];
+            $temp['title']       = $value['title'];
+            $temp['url'] = Yii::$app->request->hostInfo;
 
-            $temp['child_cate_id'] = $value['id'];
-            $temp['title']         = $value['title'];
-            foreach ($model as $k => $v) {
-                $item['article_id']      = $v['id'];
-                $item['title']           = $v['title'];
-                $item['url']             = Yii::$app->request->hostInfo.Url::to(['article/view','id'=>$v['id']]);
-                $item['page_view']       = $v['page_view'];
-                $item['unique_visitors'] = $v['unique_visitors'];
-                $item['collect_number']  = $v['collect_number'];
-                $item['comment_number']  = $v['comment_number'];
-                $item['useless_number']  = $v['useless_number'];
-                $item['published_at']    = date('Y-m-d H:i:s',$v['published_at']);
-                $items[] = $item;
+            if ($value['id'] == 37) {
+                $temp['url'] .= Url::to(['site/sights','category_id'=>$value['id']]);
+            }elseif ($value['id'] == 38) {
+                $temp['url'] .= Url::to(['site/teacher','category_id'=>$value['id']]);
+            }else{
+                $temp['url'] .= Url::to(['article/index','category_id'=>$value['id']]);
             }
-            $temp['items'] = $items;
-            unset($items);
+
             $data[] = $temp;
         }
 
