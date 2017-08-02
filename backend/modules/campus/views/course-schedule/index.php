@@ -147,6 +147,13 @@ if(\Yii::$app->user->can('user', ['route' => true])){
                     return isset($model->course->grade->grade_name) ? $model->course->grade->grade_name : '';
                 }
             ],
+            [
+                'attribute'=>'teacher_id',
+                'label'    => '上课老师',
+                'value'    =>function($model){
+                    return Yii::$app->user->identity->getUserName($model->teacher_id);
+                }
+            ],
             'which_day',
 			'start_time',
 			'end_time',
