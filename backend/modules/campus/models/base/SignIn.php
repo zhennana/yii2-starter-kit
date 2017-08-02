@@ -60,7 +60,7 @@ abstract class SignIn extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['school_id', 'grade_id', 'course_id','type_status', 'student_id'], 'required'],
+            [['school_id','course_schedule_id','grade_id', 'course_id','type_status', 'student_id'], 'required'],
             ['teacher_id','default','value'=>isset(Yii::$app->user->identity->id) ? Yii::$app->user->identity->id : 0],
             [['school_id', 'grade_id', 'type_status','course_id', 'student_id', 'teacher_id', 'auditor_id', 'status'], 'integer'],
             ['describe','string','max' => '32'],

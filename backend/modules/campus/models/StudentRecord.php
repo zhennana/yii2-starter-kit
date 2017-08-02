@@ -32,7 +32,7 @@ class StudentRecord extends BaseStudentRecord
 		foreach ($data['user_id'] as $key => $value) {
 			$model = StudentRecord::find()->where(
 				[
-				'school_id'	=>$data['school_id'],
+				'school_id'	=> $data['school_id'],
 				'grade_id'	=> $data['grade_id'],
                 'user_id'   => $value,
 				'course_id'	=> $data['course_id'],
@@ -40,10 +40,10 @@ class StudentRecord extends BaseStudentRecord
 			if(!$model){
 				$model = new StudentRecord;
 			}
-			$model->user_id = $value;
+			$model->user_id   = $value;
 			$model->school_id = $data['school_id'];
 			$model->grade_id  = $data['grade_id'];
-			$model->course_id    = $data['course_id']; 	
+			$model->course_id = $data['course_id'];
 			$model->title     = $data['title'];
 			$model->sort      = $data['sort'];
 			if(!$model->save()){

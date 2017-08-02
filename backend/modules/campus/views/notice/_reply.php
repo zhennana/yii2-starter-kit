@@ -42,7 +42,7 @@ use common\models\User;
                 </div>
             </div>
            <!-- <div class="col-sm-6">
-                <textarea id="notice-message1" class="form-control" name="Notice[][message]" readonly="" rows="6"><?php echo $questions->message ?></textarea>
+                <textarea id="notice-message1" class="form-control" name="Notice[][message]" readonly="" rows="6"><?php //echo $questions->message ?></textarea>
                 <div class="help-block help-block-error "></div>
                 </div> -->
 <!-- attribute category -->

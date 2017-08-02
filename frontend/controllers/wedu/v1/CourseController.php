@@ -94,6 +94,7 @@ class CourseController extends \common\rest\Controller
 
         $studentRecord = StudentRecord::find()->where(['user_id'=>Yii::$app->user->identity->id,'status'=>StudentRecord::STUDEN_RECORD_STATUS_VALID
             ]);
+        //var_dump($studentRecord);exit;
         $pages = new Pagination(['totalCount' =>$studentRecord->count(), 'pageSize' => '12']);
         $studentRecord =  $studentRecord->offset($pages->offset)->limit($pages->limit)->all();
         if(!$studentRecord){
@@ -103,12 +104,11 @@ class CourseController extends \common\rest\Controller
         }
         foreach ($studentRecord as $key => $value) {
                 if($value->studentRecordValue){
-                    if($value->course){
                         if($value->course){
                             $data[$key] = $value->course->toArray(['course_id','title','created_at','courseware_id']);
+                            $data[$key]['course_schedule_id'] = isset($value->courseSchedule->course_schedule_id) ? $value->courseSchedule->course_schedule_id : '';
                             //$data[$key]['image_url'] = Yii::$app->params['user_avatar'];
                     }
-                }
             }
         }
 
@@ -145,6 +145,13 @@ class CourseController extends \common\rest\Controller
      *        required = true,
      *        type = "integer"
      *     ),
+     *  @SWG\Parameter(
+     *        in = "query",
+     *        name = "course_schedule_id",
+     *        description = "排课id",
+     *        required = true,
+     *        type = "integer"
+     *     ),
      *     @SWG\Response(
      *         response = 200,
      *         description = "已上过的课程"
@@ -152,7 +159,7 @@ class CourseController extends \common\rest\Controller
      * )
      *
     **/
-    public function actionDetails($course_id){
+    public function actionDetails($course_id,$course_schedule_id){
     	if(!isset(Yii::$app->user->identity->id)){
     		$this->serializer['errno'] 		= '300';
     		$this->serializer['message'] 	= '请先登录';
@@ -160,7 +167,11 @@ class CourseController extends \common\rest\Controller
     	}
     	$studentRecord = StudentRecord::find()
     		->select(['course_id','student_record_id'])
-	    	->where(['user_id'=>Yii::$app->user->identity->id,'course_id'=>$course_id])
+	    	->where([
+                'user_id'=>Yii::$app->user->identity->id,
+                'course_id'=>$course_id,
+                'course_schedule_id'=>$course_schedule_id
+                ])
 	    	->andWhere(['status'=>StudentRecord::STUDEN_RECORD_STATUS_VALID])
 	    	->with(['course'=>function($query){
                 $query->with(['courseware']);
@@ -175,22 +186,29 @@ class CourseController extends \common\rest\Controller
 	    	}])
 	    	->asArray()
 	    	->one();
-
+//var_dump($studentRecord);exit;
 	    $data = [];
         $data = [
+            'target'    => '',
             'expression'=>'',
             'process'   =>'',
             'image_url' =>[]
         ];
+        $body = '';
+        if($studentRecord['course']['courseware']['body']){
+            $body = json_decode($studentRecord['course']['courseware']['body'],true);
+        }
+
 	    $data['title'] = isset($studentRecord['course']['title']) ? $studentRecord['course']['title'] : '' ;
-	    $data['intro'] = isset($studentRecord['course']['courseware']['body']) ? $studentRecord['course']['courseware']['body'] : '';
-        
+
+        //这是教学目标
+	    $data['target'] =isset($body['target']) ? $body['target'] : $body ;
+        //教学过程
+        $data['process'] = isset($body['process']) ? $body['process'] : '';
         if(isset($studentRecord['studentRecordValue'])){
             $studentRecord['studentRecordValue'] = ArrayHelper::index($studentRecord['studentRecordValue'],'student_record_key_id');
             //孩子的表现
             $data['expression'] = isset($studentRecord['studentRecordValue'][1]['body']) ? $studentRecord['studentRecordValue'][1]['body']:'';
-            //教学过程
-            $data['process'] = isset($studentRecord['studentRecordValue'][5]['body']) ? $studentRecord['studentRecordValue'][5]['body']:'';
         //图片
             if(isset($studentRecord['studentRecordValue'][4]['studentRecordValueToFile'])){
                 $file = $studentRecord['studentRecordValue'][4]['studentRecordValueToFile'];
@@ -283,6 +301,13 @@ class CourseController extends \common\rest\Controller
      *        in = "formData",
      *        name = "course_id",
      *        description = "课程ID",
+     *        required = true,
+     *        type = "integer"
+     *     ),
+     *  @SWG\Parameter(
+     *        in = "formData",
+     *        name = "course_schedule_id",
+     *        description = "排课id",
      *        required = true,
      *        type = "integer"
      *     ),
