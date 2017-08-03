@@ -462,6 +462,12 @@ $avatar .= '?imageView2/3/w/215/h/215';
                             'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_teacher')),
                             'items'=>[
                                 [
+                                'label'=>Yii::t('backend', '课程分类管理'), 
+                                'url'=>['/campus/course-category/index'], 
+                                 'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_teacher')),
+                                'icon'=>'<i class="fa  fa-file-text"></i>'
+                                ],
+                                [
                                 'label'=>Yii::t('backend', '课程管理'), 
                                 'url'=>['/campus/course/index'], 
                                  'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_teacher')),
