@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 //var_dump(time());exit;
 
 
- $model->school_id = 29;
+$model->school_id = 29;
 $model->grade_id  = 22;
 $model->category_id = 3;
 $model->teacher_id = 1;
@@ -28,6 +28,8 @@ $model->which_day  = 1;
         'id'=> 'Course',
        // 'action'=>'',
 ]); ?>
+    <?php echo $form->errorSummary($model); ?>
+
 <div class="col-md-12">
 <!-- general form elements -->
     <div class="box box-primary box-solid">
@@ -155,6 +157,7 @@ $model->which_day  = 1;
                     ]
             )->label('上课结束时间') ?>
         </div>
+        <div class="col-lg-12"></div>
         <div class="col-lg-3">
             <?= $form->field($model, 'teacher_id')->widget(Select2::className(),
                 [

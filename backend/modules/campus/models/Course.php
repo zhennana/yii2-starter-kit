@@ -32,17 +32,17 @@ public function behaviors()
         return ArrayHelper::merge(
              parent::rules(),
              [
-                  [['start_time','end_time','intro'],'safe','on'=>'course_batch'],
+                  [['start_time','end_time','intro'],'safe','on'=>'course_view'],
                   [
-                    ['school_id','grade_id','category_id','start_date','which_day','start_times','end_times','teacher_id'],'required','on'=>'course_batch'
+                    ['school_id','grade_id','category_id','start_date','which_day','start_times','end_times','teacher_id'],'required','on'=>'course_view'
                   ],
                   [
                     'end_times','required','when'=>function($model,$attribute){
                         if($model->end_times <= $model->start_times){
-                          var_Dump($model->end_times);exit;
+                          //var_Dump($model->end_times);exit;
                             return $model->addError($attribute,'课程开始时间不能大于开始时间');
                         }
-                    },'on'=>'course_batch'
+                    },'on'=>'course_view'
                   ],
 
              ]
