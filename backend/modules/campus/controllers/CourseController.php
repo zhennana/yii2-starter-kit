@@ -30,7 +30,7 @@ class CourseController extends \backend\modules\campus\controllers\base\CourseCo
 
 		$model = new Course;
 		//var_Dump($model);exit;
-		$model->scenario = 'course_batch';
+		$model->scenario = 'course_view';
 		$category = CoursewareCategory::find()
 						 ->andwhere([
 							'status'=>10
@@ -55,7 +55,7 @@ class CourseController extends \backend\modules\campus\controllers\base\CourseCo
 //Datavalidations
 	public function actionCourseValidations(){
 		$model = new Course;
-		$model->scenario = 'course_batch';
+		$model->scenario = 'course_view';
 		//var_Dump($_POST);exit;
 		if($_POST){
 			Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
