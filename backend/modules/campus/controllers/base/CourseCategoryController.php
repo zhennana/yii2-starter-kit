@@ -73,7 +73,7 @@ class CourseCategoryController extends Controller
         $model = new CourseCategory();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->category_id]);
+            return $this->redirect(['view', 'category_id' => $model->category_id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
