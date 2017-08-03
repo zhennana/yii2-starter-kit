@@ -129,6 +129,14 @@ $actionColumnTemplates = [];
                                 'data-pjax'  => '0',
                             ];
                             return Html::a('<span class="glyphicon glyphicon-file"></span>', $url, $options);
+                        },
+                        'user_to_grade'=>function($url,$model,$key){
+                            $options = [
+                                'title'      => Yii::t('backend', '查看班级学生'),
+                                'aria-label' => Yii::t('backend', '查看班级学生'),
+                                //'data-pjax'  => '0',
+                            ];
+                            return Html::a('<span class=" fa fa-users"></span>', ['user-to-grade/index','UserToGradeSearch[grade_id]' =>$key],[$options]);
                         }
                     ],
                     'urlCreator' => function($action, $model, $key, $index) {
@@ -147,7 +155,7 @@ $actionColumnTemplates = [];
                     'value'     => function($model){
                         return Html::a(
                             $model->school->school_title,
-                            [ 
+                            [
                                 'school/view','id'=>$model->school_id
                             ]);
                     },
