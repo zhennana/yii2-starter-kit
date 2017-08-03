@@ -103,12 +103,14 @@ class CourseController extends \common\rest\Controller
             return [];
         }
         foreach ($studentRecord as $key => $value) {
+
                 if($value->studentRecordValue){
                         if($value->course){
                             $data[$key] = $value->course->toArray(['course_id','title','created_at','courseware_id']);
-                            $data[$key]['course_schedule_id'] = isset($value->courseSchedule->course_schedule_id) ? $value->courseSchedule->course_schedule_id : '';
+                            $data[$key]['course_schedule_id'] = isset($value->courseSchedule->course_schedule_id) ? (int)$value->courseSchedule->course_schedule_id : '';
                             //$data[$key]['image_url'] = Yii::$app->params['user_avatar'];
                     }
+                $data[$key]['student_record_id'] = $value['student_record_id'];
             }
         }
 
@@ -138,17 +140,11 @@ class CourseController extends \common\rest\Controller
      *     summary="每节课学生课程表现",
      *     description="课程列表",
      *     produces={"application/json"},
+     
      *  @SWG\Parameter(
      *        in = "query",
-     *        name = "course_id",
-     *        description = "课程id",
-     *        required = true,
-     *        type = "integer"
-     *     ),
-     *  @SWG\Parameter(
-     *        in = "query",
-     *        name = "course_schedule_id",
-     *        description = "排课id",
+     *        name = "student_record_id",
+     *        description = "学员档案id",
      *        required = true,
      *        type = "integer"
      *     ),
@@ -159,7 +155,7 @@ class CourseController extends \common\rest\Controller
      * )
      *
     **/
-    public function actionDetails($course_id,$course_schedule_id){
+    public function actionDetails($student_record_id){
     	if(!isset(Yii::$app->user->identity->id)){
     		$this->serializer['errno'] 		= '300';
     		$this->serializer['message'] 	= '请先登录';
@@ -169,8 +165,8 @@ class CourseController extends \common\rest\Controller
     		->select(['course_id','student_record_id'])
 	    	->where([
                 'user_id'=>Yii::$app->user->identity->id,
-                'course_id'=>$course_id,
-                'course_schedule_id'=>$course_schedule_id
+                //'course_id'=>$course_id,
+                'student_record_id'=>$student_record_id
                 ])
 	    	->andWhere(['status'=>StudentRecord::STUDEN_RECORD_STATUS_VALID])
 	    	->with(['course'=>function($query){
@@ -282,7 +278,7 @@ class CourseController extends \common\rest\Controller
     **/
     public function actionCourseSignInList($school_id,$grade_id){
         $model = new $this->modelClass;
-        return $model->userCourseSignInData($school_id,$grade_id);
+        return $model->F($school_id,$grade_id);
     }
     /**
      * @SWG\Post(path="/course/create-sign-in",

@@ -135,6 +135,17 @@ if (\Yii::$app->user->can('manager', ['route' => true]) || Yii::$app->user->can(
 			],
 			'parent_id',
 			'name',
+            [
+            'attribute'=>'name',
+            'format'   =>'raw',
+            'value'    =>function($model){
+                if($model->parent_id != 0){
+                     return Html::a($model->name,['courseware/index','CoursewareSearch[category_id]'=>$model->category_id]);
+                }else{
+                    return $model->name;
+                }
+            }
+            ],
 			'description',
 			[
 			'attribute'=>'banner_src',
