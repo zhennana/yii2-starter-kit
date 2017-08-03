@@ -129,8 +129,9 @@ if(\Yii::$app->user->can('user', ['route' => true])){
             [
                 'attribute'=>'title',
                 'label'    => '课程名',
+                'format'   =>'raw',
                 'value'    =>function($model){
-                    return $model->course->title;
+                    return Html::a($model->course->title,['courseware/view','courseware_id'=> $model->course->courseware_id]);
                 }
             ],
             [
