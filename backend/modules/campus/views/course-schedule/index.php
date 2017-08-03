@@ -59,7 +59,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
 if(\Yii::$app->user->can('user', ['route' => true])){
 ?>
         <div class="pull-left">
-            <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'), ['course/course-batch'], ['class' => 'btn btn-success']) ?>
+            <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '批量排课'), ['course/course-batch'], ['class' => 'btn btn-success']) ?>
         </div>
 <?php
 }
@@ -127,9 +127,31 @@ if(\Yii::$app->user->can('user', ['route' => true])){
         ],
 			//'course_id',
             [
-                'attribute'=>'course_id',
+                'attribute'=>'title',
+                'label'    => '课程名',
                 'value'    =>function($model){
                     return $model->course->title;
+                }
+            ],
+            [
+                'attribute'=>'school_id',
+                'label'    => '学校',
+                'value'    =>function($model){
+                    return isset($model->course->school->school_title) ? $model->course->school->school_title  : '';
+                }
+            ],
+            [
+                'attribute'=>'grade_id',
+                'label'    => '班级',
+                'value'    =>function($model){
+                    return isset($model->course->grade->grade_name) ? $model->course->grade->grade_name : '';
+                }
+            ],
+            [
+                'attribute'=>'teacher_id',
+                'label'    => '上课老师',
+                'value'    =>function($model){
+                    return Yii::$app->user->identity->getUserName($model->teacher_id);
                 }
             ],
             'which_day',
@@ -145,6 +167,32 @@ if(\Yii::$app->user->can('user', ['route' => true])){
                 },
                 'enum'      => CourseSchedule::optsStatus()
             ],
+            [
+                    'class'    =>'yii\grid\ActionColumn',
+                    'header'   =>'排课时间对调',
+                    'template' =>'{button}',
+                    'buttons'  =>[
+                        'button' => function($url,$model,$key){
+                            if($model->status !=20){
+                                return Html::a('时间排课',
+                                    ['time-switch',
+                                    'grade_id'  => $model->course->grade_id,
+                                    'school_id' => $model->course->school_id,
+                                    'course_schedule_id' => $model->course_schedule_id,
+                                    'course_id'          => $model->course_id,
+                                    ],
+                                    [
+                                    'class'=>'btn btn-danger audit',
+                                    'title'=>'排课时间对换',
+                                    ]);
+                            }else{
+                               return  Html::button('课程已结束', [
+                                    'class' => 'btn btn-default disabled',
+                                ]); 
+                            }
+                        }
+                    ]
+            ]
         ],
         ]); ?>
     </div>
@@ -153,5 +201,3 @@ if(\Yii::$app->user->can('user', ['route' => true])){
 
 
 <?php \yii\widgets\Pjax::end() ?>
-
-

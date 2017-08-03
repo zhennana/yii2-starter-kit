@@ -67,9 +67,15 @@ public function actionIndex()
         $grades =  Yii::$app->user->identity->gradesInfo;
         $schools = ArrayHelper::map($schools,'school_id','school_title');
         $grades  = ArrayHelper::map($grades,'grade_id','grade_name');
+        //$dataProvider->query->select(['']);
         $dataProvider->query->andWhere([
                 'grade_id'  => $this->gradeIdCurrent,
             ]);
+        $dataProvider->sort = [
+                   'defaultOrder'=>[
+                        'updated_at'=>SORT_DESC,
+                   ]
+        ];
     Tabs::clearLocalStorage();
 
     Url::remember();
