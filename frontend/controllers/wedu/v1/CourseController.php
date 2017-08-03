@@ -106,7 +106,7 @@ class CourseController extends \common\rest\Controller
                 if($value->studentRecordValue){
                         if($value->course){
                             $data[$key] = $value->course->toArray(['course_id','title','created_at','courseware_id']);
-                            $data[$key]['course_schedule_id'] = isset($value->courseSchedule->course_schedule_id) ? $value->courseSchedule->course_schedule_id : '';
+                            $data[$key]['course_schedule_id'] = isset($value->courseSchedule->course_schedule_id) ? (int)$value->courseSchedule->course_schedule_id : '';
                             //$data[$key]['image_url'] = Yii::$app->params['user_avatar'];
                     }
             }
@@ -282,7 +282,7 @@ class CourseController extends \common\rest\Controller
     **/
     public function actionCourseSignInList($school_id,$grade_id){
         $model = new $this->modelClass;
-        return $model->userCourseSignInData($school_id,$grade_id);
+        return $model->F($school_id,$grade_id);
     }
     /**
      * @SWG\Post(path="/course/create-sign-in",

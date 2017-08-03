@@ -79,9 +79,9 @@ public function behaviors()
     */
    public function serializations($model,$course){
         $data = [];
-        $data['course_id'] = $course->course_id;
+        $data['course_id'] = (int)$course->course_id;
         $data['title']     = $course->title;
-        $data['course_schedule_id']   = $course->course_schedule_id;
+        $data['course_schedule_id']   = (int)$course->course_schedule_id;
         //$data['title']     
        foreach ($model as $key => $value) {
           $data['user_list'][$key] = [
