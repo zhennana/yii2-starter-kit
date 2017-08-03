@@ -40,6 +40,9 @@ $actionColumnTemplates = [];
      if (\Yii::$app->user->can('P_director', ['route' => true]) || \Yii::$app->user->can('E_manager') || Yii::$app->user->can('manager')) {
        // $actionColumnTemplates[] = '{delete}';
     }
+    if (\Yii::$app->user->can('P_director', ['route' => true]) || \Yii::$app->user->can('E_manager') || Yii::$app->user->can('manager')) {
+        $actionColumnTemplates[] = '{user_to_grade}';
+    }
     if (isset($actionColumnTemplates)) {
     $actionColumnTemplate = implode(' ', $actionColumnTemplates);
         $actionColumnTemplateString = $actionColumnTemplate;
