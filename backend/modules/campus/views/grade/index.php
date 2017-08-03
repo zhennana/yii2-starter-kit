@@ -163,7 +163,7 @@ $actionColumnTemplates = [];
                     }
                 ],
                 //'group_category_id',
-    			'grade_title',
+    			//'grade_title',
                 'grade_name',
                 [
                     'attribute' => 'creater_id',
@@ -197,6 +197,13 @@ $actionColumnTemplates = [];
                     'value'     => function($model){
                         return $model->graduate;
                     },
+                ],
+                [
+                    'attribute'=>'grade_user_count',
+                    'label'    =>'班级人数',
+                    'value'    =>function($model){
+                        return $model->GetUserToGrade()->count();
+                    }
                 ],
                 'updated_at:datetime',
                 'created_at:datetime',

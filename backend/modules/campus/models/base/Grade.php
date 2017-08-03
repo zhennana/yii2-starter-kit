@@ -214,6 +214,9 @@ abstract class Grade extends \yii\db\ActiveRecord
         // }
         return $name;
     }
+   public function GetUserToGrade(){
+        return $this->hasMany(\backend\modules\campus\models\UserToGrade::ClassName(),['grade_id'=>'grade_id']);
+   }
 
     /**
      * @inheritdoc

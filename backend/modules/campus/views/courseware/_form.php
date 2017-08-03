@@ -98,6 +98,7 @@ $parent = \yii\helpers\ArrayHelper::map($parent, 'courseware_id', 'title');
                     'allowClear' => true
                 ],
             ]); ?>
+            <?= $form->field($model,'sort')->textInput()?>
 <!-- attribute items -->
 			<?php //echo $form->field($model, 'items')->textInput(); ?>
 
