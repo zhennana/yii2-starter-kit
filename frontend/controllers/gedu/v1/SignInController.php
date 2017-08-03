@@ -355,7 +355,7 @@ class SignInController extends \common\components\ControllerFrontendApi
             $code
         );
         $info = [
-            'token' => $code,
+            'message' => '验证码'.$code.'，如非本人操作，请忽略本条短信。',
             'phone' => $user->phone_number,
         ];
         if($token){
@@ -368,8 +368,8 @@ class SignInController extends \common\components\ControllerFrontendApi
     /**
      * @SWG\Post(path="/sign-in/signup",
      *     tags={"GEDU-SignIn-用户接口"},
-     *     summary="用户注册[已经自测]",
-     *     description="成功返回注册完信息，失败返回具体原因",
+     *     summary="用户注册及重置密码[已经自测]",
+     *     description="成功返回用户信息，失败返回具体原因",
      *     produces={"application/json"},
      *     @SWG\Parameter(
      *        in = "formData",
@@ -412,11 +412,11 @@ class SignInController extends \common\components\ControllerFrontendApi
      *     ),
      *     @SWG\Response(
      *         response = 200,
-     *         description = "注册成功，返回用户信息"
+     *         description = "成功，返回用户信息"
      *     ),
      *     @SWG\Response(
      *         response = 422,
-     *         description = "注册失败，返回具体原因"
+     *         description = "失败，返回具体原因"
      *     )
      * )
      *
