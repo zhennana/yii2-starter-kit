@@ -164,7 +164,7 @@ class CourseController extends \common\rest\Controller
     	$studentRecord = StudentRecord::find()
     		->select(['course_id','student_record_id'])
 	    	->where([
-                'user_id'=>Yii::$app->user->identity->id,
+                //'user_id'=>Yii::$app->user->identity->id,
                 //'course_id'=>$course_id,
                 'student_record_id'=>$student_record_id
                 ])
@@ -278,7 +278,7 @@ class CourseController extends \common\rest\Controller
     **/
     public function actionCourseSignInList($school_id,$grade_id){
         $model = new $this->modelClass;
-        return $model->F($school_id,$grade_id);
+        return $model->userCourseSignInData($school_id,$grade_id);
     }
     /**
      * @SWG\Post(path="/course/create-sign-in",
