@@ -31,7 +31,6 @@ $parents = \yii\helpers\ArrayHelper::map($parents, 'category_id', 'name');
         'errorSummaryCssClass'   => 'error-summary alert alert-error'
     ]); ?>
 
-    <?php echo $form->errorSummary($model); ?>
 
     <?= $form->field($model, 'parent_id')->widget(Select2::className(),[
         'data'    => $parents,

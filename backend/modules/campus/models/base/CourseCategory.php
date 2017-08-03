@@ -63,8 +63,10 @@ abstract class CourseCategory extends \yii\db\ActiveRecord
     {
         return [
             [['parent_id', 'creater_id', 'status'], 'integer'],
-            [['name', 'description', 'banner_src', 'creater_id', 'status'], 'required'],
-            [['name', 'slug', 'description', 'banner_src'], 'string', 'max' => 255]
+            [['name', 'description', 'banner_src', 'status'], 'required'],
+            [['name', 'slug', 'description', 'banner_src'], 'string', 'max' => 255],
+            ['creater_id', 'default', 'value' => Yii::$app->user->isGuest ? 0 : Yii::$app->user->identity->id],
+            ['parent_id','default','value' => 0],
         ];
     }
 
