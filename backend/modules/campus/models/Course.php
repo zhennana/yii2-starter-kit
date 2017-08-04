@@ -220,7 +220,7 @@ public function behaviors()
                           $newTime);
                 }
               }else{
-
+                // var_dump(11,$data)
                   $info['NewRecord'][] =$this->NewCourse(
                           $data,$coursewareModel[$key],
                           $newTime);
@@ -229,7 +229,7 @@ public function behaviors()
                         'override'  =>true,
                         'is_type'    => '这是正常的',
                         'is_delect'  => false,
-                        'isConflict' => true,
+                        //'isConflict' => true,
                         'NewRecord'  => $this->Record($data,$value['date'],$coursewareModel[$key]),
                         'OldRecord'  => '',
                   ];
@@ -263,6 +263,7 @@ public function behaviors()
                   'OldRecord'  => $this->Record($course_model_schedule)
                 ];
                 $info['is_skip'] = true;
+                return $info;
             }
         if($info['is_skip'] == false){
             $info['message'][] = [
