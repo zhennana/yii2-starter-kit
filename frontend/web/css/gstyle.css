@@ -1371,6 +1371,7 @@ transform: scale(1.2);
 @media (min-width: 768px){
 .top-logo-sma{display: none;}
 .navbar-right{float: left !important;}
+.container{width:100%;}
 }
 @media (min-width: 768px) and (max-width:980px){
 /*.top .top-logo{padding-left: 12%;}*/
@@ -1401,7 +1402,7 @@ transform: scale(1.2);
 @media (min-width: 992px) and (max-width:1199px){
 .footer-2-box1 .footer-2-text{display: none;}
 	.techer-content,.campuse-content{padding-right:0;}
-	.container{width:1000px;}
+	.container{width:100%;}
 
 }
 .navbar-default .navbar-brand{margin-left:20px;}
