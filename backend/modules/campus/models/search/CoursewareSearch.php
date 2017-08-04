@@ -18,7 +18,7 @@ class CoursewareSearch extends Courseware
 public function rules()
 {
 return [
-[['courseware_id', 'category_id','page_view','file_counts', 'level', 'creater_id', 'parent_id', 'access_domain', 'access_other', 'status', 'created_at', 'updated_at'], 'integer'],
+[['courseware_id', 'category_id','page_view','file_counts', 'level', 'creater_id', 'parent_id', 'access_domain', 'access_other','sort', 'status', 'created_at', 'updated_at'], 'integer'],
             [['title', 'body','tags'], 'safe'],
 ];
 }
@@ -59,6 +59,7 @@ $query->andFilterWhere([
             'courseware_id' => $this->courseware_id,
             'category_id' => $this->category_id,
             'level' => $this->level,
+            'sort' => $this->sort,
             'creater_id' => $this->creater_id,
             'parent_id' => $this->parent_id,
             'access_domain' => $this->access_domain,

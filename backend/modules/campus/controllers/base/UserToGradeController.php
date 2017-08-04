@@ -66,7 +66,7 @@ public function actionIndex()
     $searchModel  = new UserToGradeSearch;
     $dataProvider = $searchModel->search($_GET);
     $schools[] = $this->schoolCurrent; //Yii::$app->user->identity->schoolsInfo;
-    $grades[] =  $this->gradeCurrent;//Yii::$app->user->identity->gradesInfo;
+    $grades =  Yii::$app->user->identity->gradesInfo;
     $schools = ArrayHelper::map($schools,'school_id','school_title');
     $grades  = ArrayHelper::map($grades,'grade_id','grade_name');
     $dataProvider->query->andWhere([

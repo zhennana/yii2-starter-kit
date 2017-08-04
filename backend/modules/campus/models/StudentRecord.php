@@ -12,7 +12,7 @@ class StudentRecord extends BaseStudentRecord
 {
 
 	//检测老师是否已经上传的课程
-  public static function studentRecouedCount($course_id){
+  public static function studentRecouedCount($course_id,$course_schedule_id){
     $RecouedCount = self::find()
             ->from('student_record as s')
             ->JoinWith(['studentRecordValue as v'=>function($query){
@@ -20,7 +20,7 @@ class StudentRecord extends BaseStudentRecord
                   $query->andwhere(['v.status'=> StudentRecordValue::STUDENT_VALUE_STATUS_OPEN]);
                   $query->groupBy('v.student_record_id');
             }])
-            ->andwhere(['s.course_id'=>$course_id])
+            ->andwhere(['s.course_id'=>$course_id,'course_schedule_id'=>$course_schedule_id])
             ->count();
     return $RecouedCount;
   }
@@ -32,7 +32,7 @@ class StudentRecord extends BaseStudentRecord
 		foreach ($data['user_id'] as $key => $value) {
 			$model = StudentRecord::find()->where(
 				[
-				'school_id'	=>$data['school_id'],
+				'school_id'	=> $data['school_id'],
 				'grade_id'	=> $data['grade_id'],
                 'user_id'   => $value,
 				'course_id'	=> $data['course_id'],
@@ -40,10 +40,10 @@ class StudentRecord extends BaseStudentRecord
 			if(!$model){
 				$model = new StudentRecord;
 			}
-			$model->user_id = $value;
+			$model->user_id   = $value;
 			$model->school_id = $data['school_id'];
 			$model->grade_id  = $data['grade_id'];
-			$model->course_id    = $data['course_id']; 	
+			$model->course_id = $data['course_id'];
 			$model->title     = $data['title'];
 			$model->sort      = $data['sort'];
 			if(!$model->save()){

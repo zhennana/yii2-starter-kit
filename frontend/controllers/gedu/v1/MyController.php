@@ -2,20 +2,20 @@
 namespace frontend\controllers\gedu\v1;
 
 use Yii;
+
 use yii\web\Response;
-use yii\data\ActiveDataProvider;
-use yii\rest\ActiveController;
 use yii\web\ForbiddenHttpException;
 use yii\web\HttpException;
+use yii\data\ActiveDataProvider;
+use yii\rest\ActiveController;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 
-use frontend\modules\api\v1\resources\Article;
-use frontend\models\edu\resources\Course;
-use frontend\models\edu\resources\UsersToUsers;
-use frontend\models\edu\resources\Courseware;
-use frontend\models\edu\resources\Collect;
-use frontend\models\wedu\resources\Notice;
+use frontend\models\gedu\resources\Course;
+use frontend\models\gedu\resources\UsersToUsers;
+use frontend\models\gedu\resources\Courseware;
+use frontend\models\gedu\resources\Collect;
+use frontend\models\gedu\resources\Notice;
 
 class MyController extends \common\rest\Controller
 {
@@ -96,7 +96,7 @@ class MyController extends \common\rest\Controller
         }
 
         $model = [];
-        $modelClass = new Courseware;
+        $modelClass = new Course;
 
         /* 
         需要用user_id查询满足如下条件的课程
@@ -106,14 +106,14 @@ class MyController extends \common\rest\Controller
         */
         // 已收藏课程
         $collect_course = Collect::find()->where([
-            'user_id'       => Yii::$app->user->identity->id,
-            'status'        => Collect::STATUS_COLLECTED,
-            'courseware_id' => 0
+            'user_id'   => Yii::$app->user->identity->id,
+            'status'    => Collect::STATUS_COLLECTED,
+            'course_id' => 0
         ])->asArray()->all();
-        $courseware_id = ArrayHelper::getColumn($collect_course, 'courseware_master_id');
+        $course_id = ArrayHelper::getColumn($collect_course, 'course_master_id');
 
         $model = $modelClass::find()
-        ->where(['courseware_id' => $courseware_id])
+        ->where(['course_id' => $course_id])
             // 状态失效(下架)的课程仅展示
             // ->where(['status' => $modelClass::COURSEWARE_STATUS_VALID])
             // ->andWhere(['category_id' => 14])

@@ -428,7 +428,8 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
             <div class="col-sm-6 ourinfo">
                 <h4 class="text-left">联系方式</h4>
                 <p>北京魔趣教育科技有限公司</p>
-                <p>公司地址：河北省廊坊市三河市燕郊开发区</p>
+                <p>总公司地址：北京市通州经济开发区南区鑫隅四街1号-668</p>
+                <p>分公司地址：北京东燕郊开发区创意谷街773号瓦酷机器人创客空间</p>
                 <p>办公电话：400-608-0515</p>
                 <p>网址：www.wakooedu.com</p>
             </div>

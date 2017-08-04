@@ -69,7 +69,7 @@ abstract class WorkRecord extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'title', 'status'], 'required'],
-            [['user_id', 'auditer_id', 'type','status','school_id','grade_id','course_id'], 'integer'],
+            [['user_id', 'auditer_id', 'course_schedule_id','type','status','school_id','grade_id','course_id'], 'integer'],
             [['title'], 'string', 'max' => 225],
             [['body'], 'string', 'max' => 522]
         ];

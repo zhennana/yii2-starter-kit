@@ -4,8 +4,9 @@ namespace frontend\controllers\gedu\v1;
 use Yii;
 use yii\web\Response;
 use yii\helpers\ArrayHelper;
-use frontend\models\edu\resources\CoursewareToFile;
-use frontend\models\edu\resources\Collect;
+
+use frontend\models\gedu\resources\CoursewareToFile;
+use frontend\models\gedu\resources\Collect;
 
 
 class CoursewareController extends \common\rest\Controller
@@ -13,7 +14,7 @@ class CoursewareController extends \common\rest\Controller
     /**
      * @var string
      */
-    public $modelClass = 'frontend\models\edu\resources\Courseware';
+    public $modelClass = 'frontend\models\gedu\resources\Courseware';
 
     /**
      * @var arrayss
@@ -71,7 +72,7 @@ class CoursewareController extends \common\rest\Controller
 
     /**
      * @SWG\Get(path="/courseware/list",
-     *     tags={"GEDU-Courseware-课件接口"},
+     *     tags={"GEDU-Courseware-课件接口【废弃】"},
      *     summary="课件列表",
      *     description="根据课件分类返回课件列表",
      *     produces={"application/json"},
@@ -91,12 +92,14 @@ class CoursewareController extends \common\rest\Controller
     **/
     public function actionList($category_id)
     {
+        return [];
         $modelClass = new $this->modelClass;
 
         $model = $modelClass::find()
             ->where(['status' => $modelClass::COURSEWARE_STATUS_VALID])
             ->andWhere(['category_id' => $category_id])
             ->andWhere(['courseware_id' => $modelClass->prentCourseware()])
+            ->orderBy(['sort' => SORT_DESC])
             ->all();
 
         return $model;
@@ -104,7 +107,7 @@ class CoursewareController extends \common\rest\Controller
 
     /**
      * @SWG\Get(path="/courseware/view",
-     *     tags={"GEDU-Courseware-课件接口"},
+     *     tags={"GEDU-Courseware-课件接口【废弃】"},
      *     summary="课件内容",
      *     description="返回课件内容和相关课件列表",
      *     produces={"application/json"},
@@ -124,6 +127,7 @@ class CoursewareController extends \common\rest\Controller
     **/
     public function actionView($courseware_id)
     {
+        return [];
         $data = [];
         $modelClass = new $this->modelClass;
 
@@ -134,7 +138,7 @@ class CoursewareController extends \common\rest\Controller
                     // var_dump($model);exit;
         if($model){
             $data = $model->toArray();
-            $toCourseware = $model->getCoursewareToCourseware()->orderBy(['sort' => SORT_ASC])->all();
+            $toCourseware = $model->getCoursewareToCourseware()->orderBy(['sort' => SORT_DESC])->all();
             foreach ($toCourseware as $key => $value) {
                 if(isset($value->courseware)){
                     $data['items'][$key]         = $value->courseware->toArray();
@@ -179,7 +183,7 @@ class CoursewareController extends \common\rest\Controller
 
     /**
      * @SWG\Get(path="/courseware/hot-words",
-     *     tags={"GEDU-Courseware-课件接口"},
+     *     tags={"GEDU-Courseware-课件接口【废弃】"},
      *     summary="热词",
      *     description="返回课件搜索词",
      *     produces={"application/json"},
@@ -200,6 +204,7 @@ class CoursewareController extends \common\rest\Controller
      */
     public function actionHotWords($limit = 20)
     {
+        return [];
         $temp = [];
         $data = [];
 
@@ -231,12 +236,13 @@ class CoursewareController extends \common\rest\Controller
         ->limit($limit)
         ->all();
         */
+       ArrayHelper::multisort($data,'trend_counts',SORT_DESC);
        return $data;
     }
 
     /**
      * @SWG\Get(path="/courseware/search",
-     *     tags={"GEDU-Courseware-课件接口"},
+     *     tags={"GEDU-Courseware-课件接口【废弃】"},
      *     summary="搜索主课件",
      *     description="返回主课件列表",
      *     produces={"application/json"},
@@ -274,6 +280,7 @@ class CoursewareController extends \common\rest\Controller
      */
     public function actionSearch($keyword = '', $schema = 'left', $limit = 20)
     {
+        return [];
         $keyword = trim($keyword);
 
         if (!$keyword) {
@@ -302,7 +309,7 @@ class CoursewareController extends \common\rest\Controller
 
     /**
      * @SWG\Post(path="/courseware/collect",
-     *     tags={"GEDU-Courseware-课件接口"},
+     *     tags={"GEDU-Courseware-课件接口【废弃】"},
      *     summary="收藏主课件",
      *     description="返回提示信息",
      *     produces={"application/json"},
@@ -331,6 +338,7 @@ class CoursewareController extends \common\rest\Controller
      */
     public function actionCollect()
     {
+        return [];
         if(Yii::$app->user->isGuest){
             $this->serializer['errno']   = 422;
             $this->serializer['message'] = '请您先登录';
@@ -375,7 +383,7 @@ class CoursewareController extends \common\rest\Controller
 
     /**
      * @SWG\Post(path="/courseware/set-play-time",
-     *     tags={"GEDU-Courseware-课件接口"},
+     *     tags={"GEDU-Courseware-课件接口【废弃】"},
      *     summary="记录子课件视频播放时间",
      *     description="返回提示信息",
      *     produces={"application/json"},
@@ -417,6 +425,7 @@ class CoursewareController extends \common\rest\Controller
      */
     public function actionSetPlayTime()
     {
+        return [];
         if(Yii::$app->user->isGuest){
             $this->serializer['errno']   = 422;
             $this->serializer['message'] = '请您先登录';
@@ -485,7 +494,7 @@ class CoursewareController extends \common\rest\Controller
 
     /**
      * @SWG\Get(path="/courseware/get-play-time",
-     *     tags={"GEDU-Courseware-课件接口"},
+     *     tags={"GEDU-Courseware-课件接口【废弃】"},
      *     summary="获取子课件视频播放时间记录",
      *     description="返回子课件视频播放时间记录",
      *     produces={"application/json"},
@@ -505,6 +514,7 @@ class CoursewareController extends \common\rest\Controller
      */
     public function actionGetPlayTime($courseware_id = NULL)
     {
+        return [];
         if(Yii::$app->user->isGuest){
             $this->serializer['errno']   = 422;
             $this->serializer['message'] = '请您先登录';

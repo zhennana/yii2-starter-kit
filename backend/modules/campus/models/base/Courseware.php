@@ -87,7 +87,7 @@ abstract class Courseware extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['category_id', 'creater_id', 'access_domain', 'access_other', 'status','file_counts','page_view','parent_id'], 'integer'],
+            [['category_id', 'creater_id', 'access_domain', 'access_other', 'status','file_counts','page_view','parent_id','sort'], 'integer'],
             [['title'], 'required'],
             [['process','target'],'required'],
             //
@@ -101,7 +101,7 @@ abstract class Courseware extends \yii\db\ActiveRecord
             }],
             [['body','tags','process','target'], 'string'],
             ['parent_id','default','value' => 0],
-            ['creater_id','default','value'=>Yii::$app->user->identity->id],
+            ['creater_id','default','value' => Yii::$app->user->isGuest ? 0 : Yii::$app->user->identity->id],
             [['title','tags'], 'string', 'max' => 512],
             ['slug','safe']
         ];
@@ -133,6 +133,7 @@ abstract class Courseware extends \yii\db\ActiveRecord
             'page_view' => Yii::t('common', '预览数'),
             'status' => Yii::t('common', 'Status'),
             'tags' => Yii::t('common', '标签'),
+            'sort' => Yii::t('common', '排序'),
             'created_at' => Yii::t('common', 'Created At'),
             'updated_at' => Yii::t('common', 'Updated At'),
             'process'    => Yii::t('common', '教学过程'),
@@ -149,6 +150,7 @@ abstract class Courseware extends \yii\db\ActiveRecord
             'level' => Yii::t('common', '级别：100课件；200相册；300作品'),
             'tags' => Yii::t('common', '标签（半角逗号间隔，推荐使用）'),
             'title' => Yii::t('common', '标题'),
+            'sort' => Yii::t('common', '排序'),
             'body' => Yii::t('common', '描述json：教学目标'),
             'parent_id' => Yii::t('common', '父课件'),
             //'access_domain' => Yii::t('common', '权限：10仅自己可见；20老师；30同学；0所有人'),

@@ -46,11 +46,12 @@ class Courseware extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['category_id', 'level', 'creater_id', 'parent_id', 'access_domain', 'access_other', 'status', 'items', 'created_at', 'updated_at'], 'integer'],
+            [['category_id', 'level', 'creater_id', 'parent_id', 'access_domain', 'access_other', 'status', 'items', 'created_at', 'updated_at','sort'], 'integer'],
             [['slug', 'title'], 'required'],
             [['body'], 'string'],
             [['slug'], 'string', 'max' => 1024],
             [['title'], 'string', 'max' => 512],
+            ['sort','default','value'=>1],
         ];
     }
 
@@ -69,6 +70,7 @@ class Courseware extends \yii\db\ActiveRecord
             'body' => Yii::t('common', '描述json：教学目标'),
             'parent_id' => Yii::t('common', '父课件'),
             'access_domain' => Yii::t('common', '权限：10仅自己可见；20老师；30同学；0所有人'),
+            'sort'          => Yii::t('common', '排序'),
             'access_other' => Yii::t('common', '其他权限 1允许分享'),
             'status' => Yii::t('common', 'Status'),
             'items' => Yii::t('common', 'Items'),

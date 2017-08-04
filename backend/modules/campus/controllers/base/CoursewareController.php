@@ -159,7 +159,9 @@ public function actionUpdate($courseware_id)
     //     $model->process = isset($data['process']) ? $data['process'] : '';
     //     $model->target = isset($data['target']) ? $data['target'] : $model->body;
     // }
+    $model->body = [];
     if ($model->load($_POST)) {
+        
         // if(!empty($model->target) && !empty($model->process)){
         //     $body = ArrayHelper::merge(['target'=>$model->target],['process'=>$model->process]);
         //     //var_dump($body);exit;

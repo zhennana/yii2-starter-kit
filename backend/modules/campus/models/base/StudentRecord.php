@@ -80,7 +80,7 @@ abstract class StudentRecord extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'school_id', 'grade_id'], 'required'],
-            [['user_id', 'school_id', 'grade_id', 'status', 'sort','course_id'], 'integer'],
+            [['user_id', 'course_schedule_id','school_id', 'grade_id', 'status', 'sort','course_id'], 'integer'],
             [['title'], 'string', 'max' => 512]
         ];
     }
@@ -177,6 +177,11 @@ abstract class StudentRecord extends \yii\db\ActiveRecord
     public function getCourse(){
          return $this->hasOne(\backend\modules\campus\models\Course::className(),['course_id'=>'course_id']);
     }
+
+    public function getCourseSchedule(){
+        return $this->hasOne(\backend\modules\campus\models\CourseSchedule::className(),['course_schedule_id'=>'course_schedule_id']);
+    }
+
     public function getUser(){
         return $this->hasOne(\common\models\User::className(),['id'=>'user_id']);
     }

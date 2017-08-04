@@ -94,6 +94,9 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                 ]
             ]); ?>
         </div>
+         <div class="pull-left">
+            <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '批量排课'), ['course-batch'], ['class' => 'btn btn-success']) ?>
+        </div>
     </div>
 
     <hr />
@@ -160,7 +163,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                       //  return isset($model->courseware->title) ?$model->courseware->title  : '';
                     }
                 ],
-    			'title',
+    			//'title',
     			'intro',
 
                 [

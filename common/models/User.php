@@ -151,9 +151,15 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUserProfile()
+    public function getUserProfile($user_id = NULL)
     {
-        return $this->hasOne(UserProfile::className(), ['user_id' => 'id']);
+        $userProfile = $this->hasOne(UserProfile::className(), ['user_id' => 'id']);
+        if($user_id !== NULL){
+             $userProfile = [];
+             $userProfile =  UserProfile::find();
+            $userProfile =  $userProfile->andwhere(['user_id'=>$user_id])->one();
+        }
+        return $userProfile;
     }
     /**
      * 获取学校
@@ -583,4 +589,18 @@ class User extends ActiveRecord implements IdentityInterface
         // }
         return $name;
     }
+
+//获取用户的提送
+    // public function getUserClientid($user_id = NULL){
+    //     if($user_id == NULL){
+    //         $user_id = $this->user_id;
+    //     }
+    //     $userProfile =  $this->getUserProfile()->where('user_id'=>$user_id)->one();
+    //     return $userProfile;
+
+    // }
+// //获取用户最后登录手机类型
+//     public function getUserClientSourceType($user_id){
+
+//     }
 }

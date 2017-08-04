@@ -3,16 +3,18 @@ namespace frontend\controllers\gedu\v1;
 
 use Yii;
 use yii\web\Response;
+
 use common\payment\alipay\buildermodel\AlipayTradeWapPayContentBuilder;
 use common\payment\alipay\AlipayTradeService;
-use frontend\models\edu\resources\Courseware;
+
+use frontend\models\gedu\resources\Courseware;
 
 class CourseOrderItemController extends \common\rest\Controller
 {
     /**
      * @var string
      */
-    public $modelClass = 'frontend\models\edu\resources\CourseOrderItem';
+    public $modelClass = 'frontend\models\gedu\resources\CourseOrderItem';
 
     /**
      * @var array
@@ -70,14 +72,14 @@ class CourseOrderItemController extends \common\rest\Controller
 
     /**
      * @SWG\Post(path="/course-order-item/create",
-     *     tags={"GEDU-CourseOrderItem-课件订单接口"},
-     *     summary="课件订单创建",
+     *     tags={"GEDU-CourseOrderItem-课程订单接口"},
+     *     summary="课程订单创建",
      *     description="成功，返回支付宝from表单",
      *     produces={"application/json"},
      *     @SWG\Parameter(
      *        in = "formData",
-     *        name = "courseware_id",
-     *        description = "课件ID",
+     *        name = "course_id",
+     *        description = "课程ID",
      *        required = true,
      *        type = "integer",
      *        default = 1
@@ -210,7 +212,7 @@ class CourseOrderItemController extends \common\rest\Controller
 
     /**
      * @SWG\Post(path="/course-order-item/alipay",
-     *     tags={"GEDU-CourseOrderItem-课件订单接口"},
+     *     tags={"GEDU-CourseOrderItem-课程订单接口"},
      *     summary="支付宝支付接口",
      *     description="返回请求支付宝form表单",
      *     produces={"application/json"},
