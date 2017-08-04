@@ -190,7 +190,7 @@ abstract class Course extends \yii\db\ActiveRecord
             //     }
             // ]
             [['school_id','courseware_id','parent_id','category_id','course_counts','grade_id','start_time','end_time','teacher_id','status'],'integer','on' => self::SCENARIO_GEDU_COURSE],
-            [['category_id','original_price','present_price','vip_price','access_domain','status'],'required','on' => self::SCENARIO_GEDU_COURSE],
+            [['category_id','status'],'required','on' => self::SCENARIO_GEDU_COURSE],
             [['original_price','present_price','vip_price'],'number','on' => self::SCENARIO_GEDU_COURSE],
             [['banner_src','title'],'string','on' => self::SCENARIO_GEDU_COURSE],
             ['school_id','default','value' => 0,'on' => self::SCENARIO_GEDU_COURSE],
