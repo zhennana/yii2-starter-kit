@@ -173,6 +173,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         //'grade_id'    => $model->grade_id,
                         'course_id'     => $model->course_id,
                         'student_record_id'=> $model->student_record_id,
+                        'course_schedule_id'=>$model->course_schedule_id,
                     ]);
                 }
             ]
