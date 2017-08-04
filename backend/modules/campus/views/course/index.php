@@ -26,10 +26,10 @@ if (\Yii::$app->user->can('P_teacher', ['route' => true])|| \Yii::$app->user->ca
 if ((\Yii::$app->user->can('P_director', ['route' => true]) || 
     \Yii::$app->user->can('E_manager') ||
     \Yii::$app->user->can('manager')
-    ) && env('THEME') == 'edu') {
+    ) || env('THEME') == 'edu') {
     $actionColumnTemplates[] = '{update}';
 }
-if (env('THEME') == 'gedu') {
+if (env('THEME') == 'gedu' || \Yii::$app->user->can('manager')) {
  $actionColumnTemplates[] = '{update-course}';
 }
 if (\Yii::$app->user->can('P_director', ['route' => true]) || 
@@ -71,7 +71,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
             <?php if ((\Yii::$app->user->can('P_director', ['route' => true]) || 
                 \Yii::$app->user->can('E_manager') ||
                 \Yii::$app->user->can('manager')
-                ) && env('THEME') == 'edu') {
+                ) || env('THEME') == 'edu') {
             ?>
                 <?= Html::a(
                     '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '排课'),
@@ -82,7 +82,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
 
             <?php } ?>
 
-            <?php if (env('THEME') == 'gedu') {
+            <?php if (env('THEME') == 'gedu' || \Yii::$app->user->can('manager')) {
                 echo Html::a(
                 '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '新建课程'),
                 ['create-course'],
@@ -148,7 +148,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                                 'aria-label' => Yii::t('backend', '更新课程'),
                                 'data-pjax'  => '0',
                             ];
-                            return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, $options);
+                            return Html::a('<span class="glyphicon glyphicon-wrench"></span>', $url, $options);
                         },
                     ],
                     'urlCreator' => function($action, $model, $key, $index) {
