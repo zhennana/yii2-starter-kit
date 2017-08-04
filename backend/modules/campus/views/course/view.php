@@ -81,76 +81,154 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
 
     <?php $this->beginBlock('backend\modules\campus\models\Course'); ?>
 
-    <?= DetailView::widget([
-        'model'      => $model,
-        'attributes' => [
-            'course_id',
-            'parent_id',
-            [
-                'attribute' => 'parent_id',
-                'label' => '父课程',
-                'value' => function($model){
-                    return $model->parent_id;
-                }
+    <?php if (env('THEME') == 'gedu') {
+        echo DetailView::widget([
+            'model'      => $model,
+            'attributes' => [
+                'course_id',
+                'parent_id',
+                [
+                    'attribute' => 'parent_id',
+                    'label' => '父课程',
+                    'value' => function($model){
+                        return $model->parent_id;
+                    }
+                ],
+                [
+                    'attribute' => 'category_id',
+                    'value' => function($model){
+                        return isset($model->courseCategory->name) ? $model->courseCategory->name : '';
+                    }
+                ],
+                [
+                    'attribute' => 'school_id',
+                    'value'     => function($model){
+                        return isset($model->school->school_title) ? $model->school->school_title : '';
+                    }
+                ],
+                /*[
+                    'attribute' => 'grade_id',
+                    'value'     => function($model){
+                        return isset($model->grade->grade_name) ? $model->grade->grade_name : '';
+                    }
+                ],*/
+                'title',
+                'intro',
+                'banner_src',
+                [
+                    'attribute' => 'courseware_id',
+                    'value'     => function($model){
+                        return isset($model->courseware->title) ? $model->courseware->title : '';
+                    }
+                ],
+                'original_price',
+                'present_price',
+                'vip_price',
+                [
+                    'attribute' => 'access_domain',
+                    'value' => Course::getPriceValueLabel($model->access_domain),
+                ],
+                /*[
+                    'attribute' => 'teacher_id',
+                    'value'     => function($model){
+                        return Yii::$app->user->identity->getUserName($model->teacher_id);
+                    }
+                ],*/
+                [
+                    'attribute' => 'creater_id',
+                    'value' => function($model){
+                        return Yii::$app->user->identity->getUserName($model->creater_id);
+                    }
+                ],
+                /*'start_time:datetime',
+                'end_time:datetime',*/
+                [
+                    'attribute' => 'status',
+                    'value' => Course::getStatusValueLabel($model->status),
+                ],
+                'course_counts',
+                'sort',
+                'created_at:datetime',
+                'updated_at:datetime',
             ],
-            [
-                'attribute' => 'category_id',
-                'value' => function($model){
-                    return isset($model->courseCategory->name) ? $model->courseCategory->name : '';
-                }
+        ]);
+
+    } ?>
+
+    <?php  
+        if (env('THEME') == 'edu') {
+            echo DetailView::widget([
+            'model'      => $model,
+            'attributes' => [
+                'course_id',
+                // 'parent_id',
+                /*[
+                    'attribute' => 'parent_id',
+                    'label' => '父课程',
+                    'value' => function($model){
+                        return $model->parent_id;
+                    }
+                ],
+                [
+                    'attribute' => 'category_id',
+                    'value' => function($model){
+                        return isset($model->courseCategory->name) ? $model->courseCategory->name : '';
+                    }
+                ],*/
+                [
+                    'attribute' => 'school_id',
+                    'value'     => function($model){
+                        return isset($model->school->school_title) ? $model->school->school_title : '';
+                    }
+                ],
+                [
+                    'attribute' => 'grade_id',
+                    'value'     => function($model){
+                        return isset($model->grade->grade_name) ? $model->grade->grade_name : '';
+                    }
+                ],
+                'title',
+                'intro',
+                // 'banner_src',
+                [
+                    'attribute' => 'courseware_id',
+                    'value'     => function($model){
+                        return isset($model->courseware->title) ? $model->courseware->title : '';
+                    }
+                ],
+                // 'original_price',
+                // 'present_price',
+                // 'vip_price',
+                /*[
+                    'attribute' => 'access_domain',
+                    'value' => Course::getPriceValueLabel($model->access_domain),
+                ],*/
+                [
+                    'attribute' => 'teacher_id',
+                    'value'     => function($model){
+                        return Yii::$app->user->identity->getUserName($model->teacher_id);
+                    }
+                ],
+                [
+                    'attribute' => 'creater_id',
+                    'value' => function($model){
+                        return Yii::$app->user->identity->getUserName($model->creater_id);
+                    }
+                ],
+                'start_time:datetime',
+                'end_time:datetime',
+                [
+                    'attribute' => 'status',
+                    'value' => Course::getStatusValueLabel($model->status),
+                ],
+                // 'course_counts',
+                // 'sort',
+                'created_at:datetime',
+                'updated_at:datetime',
             ],
-            [
-                'attribute' => 'school_id',
-                'value'     => function($model){
-                    return isset($model->school->school_title) ? $model->school->school_title : '';
-                }
-            ],
-            [
-                'attribute' => 'grade_id',
-                'value'     => function($model){
-                    return isset($model->grade->grade_name) ? $model->grade->grade_name : '';
-                }
-            ],
-            'title',
-            'intro',
-            'banner_src',
-            [
-                'attribute' => 'courseware_id',
-                'value'     => function($model){
-                    return isset($model->courseware->title) ? $model->courseware->title : '';
-                }
-            ],
-            'original_price',
-            'present_price',
-            'vip_price',
-            [
-                'attribute' => 'access_domain',
-                'value' => Course::getPriceValueLabel($model->access_domain),
-            ],
-            [
-                'attribute' => 'teacher_id',
-                'value'     => function($model){
-                    return Yii::$app->user->identity->getUserName($model->teacher_id);
-                }
-            ],
-            [
-                'attribute' => 'creater_id',
-                'value' => function($model){
-                    return Yii::$app->user->identity->getUserName($model->creater_id);
-                }
-            ],
-            'start_time:datetime',
-            'end_time:datetime',
-            [
-                'attribute' => 'status',
-                'value' => Course::getStatusValueLabel($model->status),
-            ],
-            'course_counts',
-            'sort',
-            'created_at:datetime',
-            'updated_at:datetime',
-        ],
-    ]); ?>
+        ]);
+        }
+    ?>
 
     <hr/>
 
