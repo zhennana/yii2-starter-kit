@@ -473,7 +473,7 @@ use yii\helpers\Html;
           <div class="container-fluid">
             <div class="row">
                 <div class="col-xs-5 col-md-5 c-left"><div class="font1">公立：0欧元</div></div>
-                <div class="col-xs-2 col-md-2 c-center"><div class="font2">本科阶段学费</div></div>
+                <div class="col-xs-2 col-md-2 c-center"><div class="font2">本科段学费</div></div>
                 <div class="col-xs-5 col-md-5 c-right"><div class="font3">平均最低2万美金</div></div>
             </div>
             <div class="row">
