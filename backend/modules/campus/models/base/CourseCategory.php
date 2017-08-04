@@ -112,8 +112,8 @@ abstract class CourseCategory extends \yii\db\ActiveRecord
     public static function optsStatus()
     {
         return [
-            self::STATUS_NORMAL => Yii::t('azure', '正常'),
-            self::STATUS_CLOSED => Yii::t('azure', '关闭'),
+            self::STATUS_NORMAL => Yii::t('backend', '正常'),
+            self::STATUS_CLOSED => Yii::t('backend', '关闭'),
         ];
     }
 
