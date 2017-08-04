@@ -163,7 +163,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                       //  return isset($model->courseware->title) ?$model->courseware->title  : '';
                     }
                 ],
-    			'title',
+    			//'title',
     			'intro',
 
                 [

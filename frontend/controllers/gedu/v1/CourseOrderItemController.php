@@ -3,16 +3,18 @@ namespace frontend\controllers\gedu\v1;
 
 use Yii;
 use yii\web\Response;
+
 use common\payment\alipay\buildermodel\AlipayTradeWapPayContentBuilder;
 use common\payment\alipay\AlipayTradeService;
-use frontend\models\edu\resources\Courseware;
+
+use frontend\models\gedu\resources\Courseware;
 
 class CourseOrderItemController extends \common\rest\Controller
 {
     /**
      * @var string
      */
-    public $modelClass = 'frontend\models\edu\resources\CourseOrderItem';
+    public $modelClass = 'frontend\models\gedu\resources\CourseOrderItem';
 
     /**
      * @var array

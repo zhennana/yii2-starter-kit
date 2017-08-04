@@ -15,12 +15,15 @@ class CourseScheduleSearch extends CourseSchedule
 /**
 * @inheritdoc
 */
+public $school_id;
+public $grade_id;
+public $title;
 public function rules()
 {
-return [
-[['course_schedule_id', 'course_id', 'status'], 'integer'],
-            [['start_time', 'end_time', 'which_day'], 'safe'],
-];
+    return [
+    [['course_schedule_id', 'course_id', 'status'], 'integer'],
+    [['start_time', 'end_time', 'which_day','school_id','grade_id','title'], 'safe'],
+    ];
 }
 
 /**
@@ -42,7 +45,8 @@ return Model::scenarios();
 public function search($params)
 {
 $query = CourseSchedule::find();
-
+$query->from(['course_schedule as s']);
+$query->RightJoin('course as c', 'c.course_id = s.course_id');
 $dataProvider = new ActiveDataProvider([
 'query' => $query,
 ]);
@@ -56,14 +60,17 @@ return $dataProvider;
 }
 
 $query->andFilterWhere([
-            'course_schedule_id' => $this->course_schedule_id,
-            'course_id' => $this->course_id,
-            'start_time' => $this->start_time,
-            'end_time' => $this->end_time,
-            'which_day' => $this->which_day,
-            'status' => $this->status,
+            's.course_schedule_id' => $this->course_schedule_id,
+            's.course_id' => $this->course_id,
+            's.start_time' => $this->start_time,
+            's.end_time' => $this->end_time,
+            's.which_day' => $this->which_day,
+            's.status' => $this->status,
         ]);
-
+$query->andFilterWhere([
+        'like','c.title',$this->title
+    ]
+    );
 return $dataProvider;
 }
 }

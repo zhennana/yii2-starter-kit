@@ -181,6 +181,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'enum'      => Courseware::optsStatus()
             ],
+            'sort',
             'updated_at:datetime',
             'created_at:datetime',
 			/*'body:ntext',*/

@@ -1,6 +1,6 @@
 <?php
 
-namespace  frontend\models\edu;
+namespace  frontend\models\gedu;
 
 use Yii;
 use  frontend\models\base\ApplyToPlay as BaseApplyToPlay;

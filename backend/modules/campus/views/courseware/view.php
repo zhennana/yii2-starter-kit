@@ -241,24 +241,24 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '课件详情');
                                 //     'title'=>'访问',
                                 //     'target'=>'_blank'
                                 //     ]);
-                                 return Html::a($message.'<br>'.$model->fileStorageItem->file_name, ['courseware/pdf','file'=>$model->fileStorageItem->file_name], ['title' => '访问','target' => '_blank']);
+                                 return Html::a($message.'<br>'.$model->fileStorageItem->original, ['courseware/pdf','file'=>$model->fileStorageItem->file_name], ['title' => '访问','target' => '_blank']);
                             }elseif(strstr($model->fileStorageItem->type,'mp4')){
-                                return Html::a($message.'<br>'.$model->fileStorageItem->file_name, ['courseware/video','files'=>$model->fileStorageItem->file_name] ,[
+                                return Html::a($message.'<br>'.$model->fileStorageItem->original, ['courseware/video','files'=>$model->fileStorageItem->file_name] ,[
                                     'title'=>'访问',
                                     'target'=>'_blank'
                                     ]);
                             }else{
-                                return $model->fileStorageItem->file_name;
+                                return $model->fileStorageItem->original;
                             }
                         }
                     ],
-                    [
+                  /*  [
                         'attribute'=>'original',
                         'label'    => '原文件名',
                         'value'    =>function($model){
                             return $model->fileStorageItem->original;
                         }
-                    ],
+                    ],*/
                     [
                         'attribute'=>'type',
                         'label' => '类型',

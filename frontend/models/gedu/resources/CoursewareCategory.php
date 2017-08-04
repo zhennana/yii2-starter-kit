@@ -1,5 +1,5 @@
 <?php
-namespace frontend\models\edu\resources;
+namespace frontend\models\gedu\resources;
 
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;

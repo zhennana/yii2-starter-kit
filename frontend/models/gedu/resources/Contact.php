@@ -1,15 +1,15 @@
 <?php
 
-namespace frontend\models\edu\resources;
+namespace frontend\models\gedu\resources;
 
 use Yii;
-use frontend\models\edu\ApplyToPlay as BaseApplyToPlay;
+use frontend\models\base\Contact as BaseContact;
 use yii\helpers\ArrayHelper;
 
 /**
- * This is the model class for table "apply_to_play".
+ * This is the model class for table "Contact".
  */
-class ApplyToPlay extends BaseApplyToPlay
+class Contact extends BaseContact
 {
 
 public function behaviors()

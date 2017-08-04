@@ -63,8 +63,10 @@ abstract class CourseCategory extends \yii\db\ActiveRecord
     {
         return [
             [['parent_id', 'creater_id', 'status'], 'integer'],
-            [['name', 'description', 'banner_src', 'creater_id', 'status'], 'required'],
-            [['name', 'slug', 'description', 'banner_src'], 'string', 'max' => 255]
+            [['name', 'description', 'banner_src', 'status'], 'required'],
+            [['name', 'slug', 'description', 'banner_src'], 'string', 'max' => 255],
+            ['creater_id', 'default', 'value' => Yii::$app->user->isGuest ? 0 : Yii::$app->user->identity->id],
+            ['parent_id','default','value' => 0],
         ];
     }
 
@@ -74,16 +76,16 @@ abstract class CourseCategory extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'category_id' => 'Category ID',
-            'parent_id' => '父ID',
-            'name' => 'Name',
-            'slug' => 'Slug',
-            'description' => 'Description',
-            'banner_src' => 'Banner Src',
-            'creater_id' => 'Creater ID',
-            'updated_at' => 'Updated At',
-            'created_at' => 'Created At',
-            'status' => '状态；正常: 10 ; 关闭：20 ',
+            'category_id' => '分类ID',
+            'parent_id'   => '父分类ID',
+            'name'        => '名称',
+            'slug'        => 'Slug',
+            'description' => '描述',
+            'banner_src'  => 'Banner Src',
+            'creater_id'  => '创建者ID',
+            'updated_at'  => '更新时间',
+            'created_at'  => '创建时间',
+            'status'      => '状态',
         ];
     }
 
@@ -93,9 +95,26 @@ abstract class CourseCategory extends \yii\db\ActiveRecord
     public function attributeHints()
     {
         return array_merge(parent::attributeHints(), [
-            'parent_id' => '父ID',
-            'status' => '正常: 10 ; 关闭：20 ',
+            'parent_id' => '选择父分类',
+            'slug'      => '如果该字段留空，系统将自动生成一个slug',
+            // 'status'    => '正常: 10 ; 关闭：20 ',
         ]);
+    }
+
+    public static function getStatusValueLabel($value){
+        $labels = self::optsStatus();
+        if(isset($labels[$value])){
+            return $labels[$value];
+        }
+        return $value;
+    }
+
+    public static function optsStatus()
+    {
+        return [
+            self::STATUS_NORMAL => Yii::t('azure', '正常'),
+            self::STATUS_CLOSED => Yii::t('azure', '关闭'),
+        ];
     }
 
 

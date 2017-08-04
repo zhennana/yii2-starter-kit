@@ -1,5 +1,5 @@
 <?php
-namespace frontend\models\edu\resources;
+namespace frontend\models\gedu\resources;
 
 use yii\helpers\ArrayHelper;
 use frontend\models\base\CoursewareToFile as BaseCoursewareToFile;

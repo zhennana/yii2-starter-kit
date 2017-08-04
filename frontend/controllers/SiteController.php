@@ -347,5 +347,16 @@ class SiteController extends Controller
             return ['0' => '暂无校区'];
         }
     }
+
+    public function actionGerman(){
+        return $this->render('german');
+    }
+
+    /*
+    欧洲留学
+     */
+    public function actionEurope(){  
+        return $this->render('europe');
+    }
     
 }

@@ -32,17 +32,17 @@ public function behaviors()
         return ArrayHelper::merge(
              parent::rules(),
              [
-                  [['start_time','end_time','intro'],'safe','on'=>'course_batch'],
+                  [['start_time','end_time','intro'],'safe','on'=>'course_view'],
                   [
-                    ['school_id','grade_id','category_id','start_date','which_day','start_times','end_times','teacher_id'],'required','on'=>'course_batch'
+                    ['school_id','grade_id','category_id','start_date','which_day','start_times','end_times','teacher_id'],'required','on'=>'course_view'
                   ],
                   [
                     'end_times','required','when'=>function($model,$attribute){
                         if($model->end_times <= $model->start_times){
-                          var_Dump($model->end_times);exit;
+                          //var_Dump($model->end_times);exit;
                             return $model->addError($attribute,'课程开始时间不能大于开始时间');
                         }
-                    },'on'=>'course_batch'
+                    },'on'=>'course_view'
                   ],
 
              ]
@@ -99,7 +99,6 @@ public function behaviors()
 
         public function CourseBatch($data){
           //var_Dump($data['DeleteRecord']);exit;
-          
           foreach ($data['Course'] as $key => $value) {
                 $model = new $this;
                 $model->scenario = 'create_batch';
@@ -130,14 +129,18 @@ public function behaviors()
         }
 
       public function Datavalidations($data){
-          $info = [
+        //var_Dump($data);exit;
+           $info = [
             'is_commit' =>true,
+            'is_newCourse'=>true,
             'schedule_count' =>0,//本次将要排的课程数
             'schedule_start_time'=>'',//本次排课正式上课时间
             'message'=> [],  //
             'NewRecord'=>[], //要创建的新数据。
             'DeleteRecord'=>[],//要删除的数据
           ];
+          //
+          $newTime = 0;
           //本次将要排课的内容
           $coursewareModel = $this->Courseware($data['category_id']);
           if(empty($coursewareModel)){
@@ -145,154 +148,286 @@ public function behaviors()
           }
           $data['count'] = count($coursewareModel);
           $gradeModel =  Grade::find()->select(['grade_name'])->where(['grade_id'=>$data['grade_id']])->asArray()->one();
-          $data['grade_name'] = isset($gradeModel['grade_name']) ?$gradeModel['grade_name'] : '';
+          $data['grade_name']    = isset($gradeModel['grade_name']) ? $gradeModel['grade_name'] : '';
           $info['schedule_time'] = $this->TimeCalculate($data);
-
+          $info['paike']         = $this->is_checkout_course($data);
           foreach ($info['schedule_time'] as $key => $value) {
-              $shijian = 0;
-              if($info['NewRecord']){
-                  $shijian = count($info['NewRecord']);
-              }
-                //排课之间必须大于15分钟
-                $start_time = date('H:i',(strtotime($value['date'].$data['start_times'])-15*60));
-                $end_time   = date('H:i',(strtotime($value['date'].$data['end_times'])+15*60));
-                //检查老师在这个时间段是否有课
-                $teacher_query = [
-                      'teacher_id'=>$data['teacher_id'],
-                      'end_time'  =>$end_time,
-                      'start_time'=>$start_time,
-                      'which_day' =>$value['date'],
-                      'status'    =>10,
-                ];
-                $teacher_model_schedule =  $this->CourseSchedule($teacher_query);
-                if($teacher_model_schedule != NULL){
-                     if($teacher_model_schedule['grade_id'] != $data['grade_id']){
-                         //删除其他班级数据。
-                         $info['DeleteRecord'][] = [
-                             'course_id'=>$teacher_model_schedule['course_id'],
-                             'course_schedule_id'=>$teacher_model_schedule['course_schedule_id'],
-                         ];
-                         //老师冲突的新旧数据。
-                         $info['message'][]= [
-                               'isConflict'=>true,
-                               'override'  =>false,
-                               'NewRecord' => $this->Record($data,$value['date'],$coursewareModel,$key),
-                               'OldRecord' => $this->Record($teacher_model_schedule)
-                         ];
-                     }
-                }
-                //班级验证。
-                $grade_query = [
+              //如果上过课从新计算时间
+              $newTime = count($info['NewRecord']);
+              $newTime = isset($info['schedule_time'][$newTime]['date'])?$info['schedule_time'][$newTime]['date'] : 0;
+              $start_time = date('H:i',(strtotime($value['date'].$data['start_times'])-15*60));
+              $end_time   = date('H:i',(strtotime($value['date'].$data['end_times'])+15*60));
+              $teacher_query = [
+                    'teacher_id'=>$data['teacher_id'],
+                    'end_time'  =>$end_time,
+                    'start_time'=>$start_time,
+                    'which_day' =>$value['date'],
+                    'status'    =>10,
+              ];
+            //  $teacher_model_schedule =  $this->CourseSchedule($teacher_query,false);
+              //检测是否是新课程
+              $tearcher_message =$this->tearcherConflict(
+                              $teacher_query,
+                              $value['date'],
+                              $data,
+                              $coursewareModel[$key]);
+              $info['message'] = ArrayHelper::merge($info['message'],$tearcher_message['message']);
+              $info['DeleteRecord'] = ArrayHelper::merge($info['DeleteRecord'],$tearcher_message['DeleteRecord']);
+              //如果班级没排过课程，直接跳过班级验证,冲突验证。
+              if($tearcher_message['is_nueCourse']){
+                  $grade_query = [
                       'school_id' =>$data['school_id'],
                       'grade_id'  =>$data['grade_id'],
                       'end_time'  =>$end_time,
                       'start_time'=>$start_time,
                       'which_day' =>$value['date'],
                       'status'    =>10,
-                ]; 
-
-                $grade_model_schedule = $this->CourseSchedule($grade_query);
-
-                //班级时间冲突,检测是否是同一门课程.如果是过滤掉以上完的课程
-                if($grade_model_schedule != NULL){
-
-                    if($grade_model_schedule['courseware']['category_id'] == $data['category_id']){
-                              //检查本次排课是否已结束
-                              $OldRecord = [
-                                  'school_id' =>$data['school_id'],
-                                  'grade_id'  =>$data['grade_id'],
-                                  'courseware_id'=>$coursewareModel[$key]['courseware_id'],
-                                  'status'    =>20,
-                              ];
-                              $OldRecord = $this->CourseSchedule($OldRecord);
-                              if($OldRecord){
-                                  //这是已上完的课程.
-                                  $info['message'][]=[
-                                        'isConflict'=>true,
-                                        'override'  =>false,
-                                        'NewRecord' => $this->Record($data,$info['schedule_time'][$shijian]['date'],$coursewareModel,$key),
-                                        'OldRecord' => $this->Record($OldRecord),
-                                  ];
-                                  continue;
-                              }
-                    }
-                    //这是没有上过的课程.或者是不同类型的课程
-                    $info['message'][]=[
-                          'isConflict'=>true,
-                          'override'  =>true,
-                          'NewRecord' => $this->Record($data,$info['schedule_time'][$shijian]['date'],$coursewareModel,$key),
-                          'OldRecord' => $this->Record($grade_model_schedule),
-                    ];
-                    $info['DeleteRecord'][] = [
-                        'course_id'=>$grade_model_schedule['course_id'],
-                        'course_schedule_id'=>$grade_model_schedule['course_schedule_id'],
-                    ];
-                    $info['NewRecord'][] =$this->NewCourse(
-                          $data,$coursewareModel,$key,
-                          $info['schedule_time'][$shijian]['date']);
-                }else{
-
-                  //班级时间不冲突，检测课程是否冲突。
-                  $OldRecord = [
-                      'school_id' =>$data['school_id'],
-                      'grade_id'  =>$data['grade_id'],
-                      'courseware_id'=>$coursewareModel[$key]['courseware_id'],
-                      'status'    =>[10,20,30,0],
                   ];
-                  $OldRecord = $this->CourseSchedule($OldRecord);
-                  if($OldRecord){
-                    //检测课程是否已经上过
-                      if($OldRecord['status'] == 20){
-                          $info['message'][]=[
-                              'isConflict'=>true,
-                              'override'  =>false,
-                              'NewRecord' => $this->Record($data,$value['date'],$coursewareModel,$key),
-                              'OldRecord' => $this->Record($OldRecord),
-                          ];
-                          continue;
-                      }
-                    $info['message'][]=[
-                              'isConflict'=>true,
-                              'override'  =>true,
-                              'NewRecord' => $this->Record($data,$value['date'],$coursewareModel,$key),
-                              'OldRecord' => $this->Record($OldRecord),
-                    ];
-                    $info['DeleteRecord'][] =[
-                            'course_id'=>$OldRecord['course_id'],
-                            'course_schedule_id'=>$OldRecord['course_schedule_id'],
-                    ];
-                    $info['NewRecord'][] =$this->NewCourse(
-                          $data,$coursewareModel,$key,
-                          $info['schedule_time'][$shijian]['date']);
-                    continue;
-                  }
-                  //直接创建
+                  //班级冲突
+                  $grade_message = $this->gradeConflict(
+                                      $grade_query,
+                                      $newTime,
+                                      $data,
+                                      $coursewareModel[$key]
+                                      );
+                $info['message'] = ArrayHelper::merge($info['message'],$grade_message['message']);
+                $info['DeleteRecord'] = ArrayHelper::merge($info['DeleteRecord'],$grade_message['DeleteRecord']);
+                $info['NewRecord'] = ArrayHelper::merge($info['NewRecord'],$grade_message['NewRecord']);
+              }else{
+
                   $info['NewRecord'][] =$this->NewCourse(
-                          $data,$coursewareModel,$key,
-                          $info['schedule_time'][$shijian]['date']);
-                  $info['message'][]=[
+                          $data,$coursewareModel[$key],
+                          $newTime);
+                  $info['message'][] = [
                         'isConflict'=>false,
                         'override'  =>true,
-                        'NewRecord' => $this->Record($data,$value['date'],$coursewareModel,$key),
-                        'OldRecord' => '',
+                        'is_type'    => '正常',
+                        'is_delect'  => false,
+                        'isConflict' => true,
+                        'NewRecord'  => $this->Record($data,$value['date'],$coursewareModel[$key]),
+                        'OldRecord'  => '',
                   ];
-                }
-             }
+            }
+          }
           $info['schedule_count'] ='本次将要排课'. count($info['NewRecord']);
           $info['schedule_start_time']  ='正式开课开课时间是'. $info['NewRecord'][0]['CourseSchedule']['which_day'];
-      //var_dump($info['message']);
+          unset($info['paike']);
+       return $info;
+    }
+
+     //班级冲突
+    public function gradeConflict($grade_query,$time,$data,$courseware){
+          $info = [
+              'DeleteRecord'=>[],
+              'is_type'     =>'班级类型',
+              'message'     =>[],
+              'NewRecord'   =>[],
+          ];
+          //班级不可能同一时间多冲突。
+          $grade_model_schedule = $this->CourseSchedule($grade_query);
+          if($grade_model_schedule){
+             $course_id =  $grade_model_schedule['courseware']['category_id'];
+             //同一课程冲突
+             if($course_id == $data['category_id']){
+               //检测本次课程是否已经上过
+                 $OldRecord = [
+                        'school_id' =>$data['school_id'],
+                        'grade_id'  =>$data['grade_id'],
+                        'courseware_id'=>$courseware['courseware_id'],
+                        'status'    =>20,
+                  ];
+                   $OldRecord = $this->CourseSchedule($OldRecord);
+                  // var_Dump($OldRecord,$courseware['courseware_id']);exit;
+                  if($OldRecord){
+                     $info['message'][] =[
+                        'is_type'    => '班级已上过的课程，这条数据不覆盖',
+                        'is_Conflict'=>true,
+                        'override'   => false,
+                        'is_delect'  => false,
+                        'isConflict' => true,
+                        'NewRecord'  => $this->Record($data,$time,$courseware),
+                        'OldRecord'  => $this->Record($OldRecord)
+                    ];
+                  }else{
+                      $info['message'][] =[
+                        'is_type'    => '这是正常的',
+                        'is_delect'  => true,
+                        'isConflict' => true,
+                        'override'   => true,
+                        'NewRecord'  => $this->Record($data,$time,$courseware),
+                        'OldRecord'  => $this->Record($grade_model_schedule)
+                      ];
+                        $info['DeleteRecord'][$grade_model_schedule['course_id']] = [
+                                  'course_id'  => $grade_model_schedule['course_id'],
+                                  'course_schedule_id'=>$grade_model_schedule['course_schedule_id'],
+                      ];
+                        $info['NewRecord'][] = $this->NewCourse(
+                              $data,$courseware,
+                                $time);
+                  }
+             }else{
+
+              //如果不一样直接覆盖
+              $info['message'][] =[
+                        'is_type'    => '这里是不同分类下的直接覆盖',
+                        'is_delect'  => true,
+                        'isConflict' => true,
+                        'override'   => true,
+                        'NewRecord'  => $this->Record($data,$time,$courseware),
+                        'OldRecord'  => $this->Record($grade_model_schedule)
+                      ];
+              $info['DeleteRecord'][$grade_model_schedule['course_id']] = [
+                                  'course_id'  => $grade_model_schedule['course_id'],
+                                  'course_schedule_id'=>$grade_model_schedule['course_schedule_id'],
+              ];
+              $info['NewRecord'][] = $this->NewCourse(
+                              $data,$courseware,
+                                $time);
+             }
+          }else{
+            //如果时间不冲突检测要创建的这节课是否已经上过.上过就跳出。
+            $OldRecord = [
+                'school_id' =>$data['school_id'],
+                'grade_id'  =>$data['grade_id'],
+                'courseware_id'=>$courseware['courseware_id'],
+                'status'    =>[10,20,30,0],
+            ];
+            $OldRecord = $this->CourseSchedule($OldRecord);
+            if($OldRecord != NULL){
+                if($OldRecord['status'] == 20){
+                    $info['message'][]=[
+                        'is_type'   =>'这里是班级时间不冲突，检测课程是否存在',
+                        'isConflict'=>true,
+                        'override'  =>false,
+                        'NewRecord' => $this->Record($data,$time,$courseware),
+                        'OldRecord' => '',
+                    ];
+                    return $info;
+                }else{
+                      //这是直接覆盖之前的
+                      $info['message'][] =[
+                              'is_type'    => '这里是不同分类下的直接覆盖我笑了',
+                              'is_delect'  => true,
+                              'isConflict' => true,
+                              'override'   => false,
+                              'NewRecord'  => $this->Record($data,$time,$courseware),
+                              'OldRecord'  => $this->Record($OldRecord)
+                            ];
+                      $info['DeleteRecord'][$OldRecord['course_id']] = [
+                                        'course_id'  => $OldRecord['course_id'],
+                                        'course_schedule_id'=>$OldRecord['course_schedule_id'],
+                      ];
+                      $info['NewRecord'][] = $this->NewCourse(
+                                    $data,$courseware,
+                                      $time);
+                }
+            }else{
+                //这是直接覆盖之前的
+                $info['message'][] =[
+                        'is_type'    => '这里是正常的数据',
+                        'is_delect'  => true,
+                        'isConflict' => true,
+                        'override'   => false,
+                        'NewRecord'  => $this->Record($data,$time,$courseware),
+                        'OldRecord'  => $this->Record($OldRecord)
+                      ];
+                $info['DeleteRecord'][$OldRecord['course_id']] = [
+                                  'course_id'  => $OldRecord['course_id'],
+                                  'course_schedule_id'=>$OldRecord['course_schedule_id'],
+                ];
+                $info['NewRecord'][] = $this->NewCourse(
+                              $data,$courseware,
+                                $time);
+          }
+        }
           return $info;
-      }
+    }
+
+
+
+
+    //老师冲突,检测老师是否冲突。
+    public function tearcherConflict($teacher_query,$time,$data,$courseware){
+       $paike    = $this->is_checkout_course($data);
+       $info = [
+            'is_Conflict' => false,
+            'DeleteRecord'=>[],
+            'is_nueCourse'=>$paike['is_schedule'],
+            'is_type'    =>'老师类型',
+            //'is_delect'  =>false,//是否删除
+            //'isConflict' => false,//是否冲突
+            'message'    =>[],//数据类型
+            //'override'   =>false,
+       ];
+       $teacher_model_schedule = $this->CourseSchedule($teacher_query,false);
+       foreach ($teacher_model_schedule as $k => $v) {
+          $info['is_Conflict'] = true;
+          if($v['grade_id'] == $data['grade_id']){
+            //这里可以当做是班级冲突
+          }else{
+              $info['DeleteRecord'][] = [
+                    'course_id'=>$v['course_id'],
+                    'course_schedule_id'=>$v['course_schedule_id'],
+              ];
+              $info['message'][]= [
+                  'is_type' => '老师冲突类型',
+                  'is_delect'=> true,
+                  'isConflict'=>true,
+                  'override'  =>true,
+                  'NewRecord' => $this->Record($data,$time,$courseware),
+                  'OldRecord' => $this->Record($v)
+              ];
+            /*
+              $teacher_querys = [
+                  'grade_id'      => $v['grade_id'],
+                  'school_id'     => $v['school_id'],
+                  'courseware_id' => $courseware['courseware_id'],
+                  'status'        =>[10,30],
+              ];
+              $teacher_model_schedules = $this->CourseSchedule($teacher_querys);
+              if($teacher_model_schedules){
+                  $info['DeleteRecord'][$teacher_model_schedules['course_id']] = [
+                    'course_id'=>$teacher_model_schedules['course_id'],
+                    'course_schedule_id'=>$teacher_model_schedules['course_schedule_id'],
+                  ];
+                  //这里是不冲突的类型。但是 老师时间冲突同门卡类型的课程要删除
+                  $info['message'][]= [
+                     'is_type' => '老师冲突类型',
+                     'is_delect'=> true,
+                     'isConflict'=>true,
+                     'override'  =>true,
+                     'NewRecord' => '',
+                     'OldRecord' => $this->Record($teacher_model_schedules)
+                  ];
+              }*/
+
+
+            }
+          }
+        return $info;
+    }
+   
+    //课程冲突。
+    public function CouseConflict(){
+
+    }
+
+
+
+
+
+
     //新课程
-    public function Record($data,$date = false,$coursewareModel = false ,$key = false){
+    public function Record($data,$date = false,$coursewareModel = false){
         if($coursewareModel){
            return  [
                 'teacher_name' =>Yii::$app->user->identity->getUserName($data['teacher_id']),
                 'grade_name'    => $data['grade_name'],
-                'course'        =>isset($coursewareModel[$key]['title'])? $coursewareModel[$key]['title']: '',
+                'course'        =>isset($coursewareModel['title'])? $coursewareModel['title']: '',
                 'time'          =>$date .' '.$data['start_times'].'--'.$data['end_times'],
             ];
         }else{
+          //var_dump(11,$data);
             return  [
                'teacher_name'=> Yii::$app->user->identity->getUserName($data['teacher_id']),
                 'grade_name'    =>$data['grade']['grade_name'],
@@ -301,19 +436,16 @@ public function behaviors()
             ];
         }
     }
-    //比较课程是否已经上过课
-    public function compare_course(){
 
-    }
     //本次需要排课纪录
-    public function NewCourse($data,$coursewareModel,$key,$date = false, $course_schedule_id = false,$course_id = false,$status = false){
+    public function NewCourse($data,$coursewareModel,$date = false, $course_schedule_id = false,$course_id = false,$status = false){
           $info = [
               //'course_id' =>   $grade_model_schedule['course_id'],
               'school_id' =>   $data['school_id'],
               'teacher_id'=>   $data['teacher_id'],
               'grade_id'  =>   $data['grade_id'],
-              'title'     =>   $coursewareModel[$key]['title'],
-              'courseware_id'=>$coursewareModel[$key]['courseware_id'],
+              'title'     =>   $coursewareModel['title'],
+              'courseware_id'=>$coursewareModel['courseware_id'],
               'status'       => 10,
               'CourseSchedule'=>[
                   //'course_schedule_id'=>$data['course_schedule_id'],
@@ -322,7 +454,6 @@ public function behaviors()
                   'which_day'  =>$date,
                   'start_time'=> $data['start_times'],
                   'status'       => 10,
-                 
                   //'course_id'  => $grade_model_schedule['course_id'],
           ]];
           if($course_id){
@@ -339,8 +470,9 @@ public function behaviors()
           
           return $info;
     }
+    
 //检测排课是否存在,并且上过多少节课,剩余多少节课程
-      public function is_checkout_course($param,$courseware){
+      public function is_checkout_course($param){
           $info = [
               'is_schedule'=>false,//判断是否排过课程
               'complete'   =>[],//以上排过
@@ -478,19 +610,31 @@ public function behaviors()
           $d_time = strtotime('+'.$i .' day');
           $i++;
         }
+
         //算出符合排课要求的某天是周几
         $d_week = date('w',$d_time);
+
+// var_dump($d_week);exit;
         if($d_week == 0){
             $d_week = 7;
         }
-
-        //符合看看本周时间是否已经过期，如果过期直接从下星期开始
-        if($d_week < $data['which_day']){
-            $d_time -= ($d_week-$data['which_day'])*24*3600;
-        }
         if($d_week > $data['which_day']){
-            $d_time += ($d_week-$data['which_day'])*24*3600;
+            $d_time = $d_time + 1*7*3600*24;
         }
+        //var_dump(date('Y-m-d',$d_time));exit;
+         //$d_week = date('w',$d_time);
+        
+        //符合看看本周时间是否已经过期，如果过期直接从下星期开始
+        if($d_week > $data['which_day']){
+            $d_time = $d_time - (($d_week-$data['which_day'])*24*3600);
+        }
+        if($d_week < $data['which_day']){
+            $d_time = $d_time + (($data['which_day']- $d_week)*24*3600);
+        }
+        // $this->showOneWeek();
+        // exit;
+    //var_dump(date('Y-m-d',$d_time),$data['which_day'],$d_week);exit;
+
         //同一天时间检测时间段 是否已经过时。
         if($d_week == $data['which_day']){
             $time = time();
@@ -504,10 +648,12 @@ public function behaviors()
             $d_times = $d_time + $a*7*3600*24;
             $m[$a]['time'] = $d_times;
             $m[$a]['date'] = date('Y-m-d',$d_times);
+
         }
+
         return $m;
       }
-}
+  }
 
 
 ?>
