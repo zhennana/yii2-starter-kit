@@ -69,7 +69,7 @@ return [
             [
                 'controllers'=>['campus/course'],
                 'allow'=>true,
-                'actions'=>['course-batch','course-validations'],
+                'actions'=>['course-batch','course-validations','course-schedule-index'],
                 'roles'=>['manager','P_director','E_manager']
             ],
             //签到管理
