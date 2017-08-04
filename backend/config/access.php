@@ -63,13 +63,13 @@ return [
             [
                 'controllers'=>['campus/course'],
                 'allow'=>true,
-                'actions'=>['create','update'],
-                'roles'=>['manager','P_director']
+                'actions'=>['create','update','course-batch','course-validations'],
+                'roles'=>['manager','P_director','E_manager']
             ],
             [
-                'controllers'=>['campus/course'],
+                'controllers'=>['campus/course-schedule'],
                 'allow'=>true,
-                'actions'=>['course-batch','course-validations','course-schedule-index'],
+                'actions'=>['index'],
                 'roles'=>['manager','P_director','E_manager']
             ],
             //签到管理
