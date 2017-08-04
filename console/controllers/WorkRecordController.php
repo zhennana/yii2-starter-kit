@@ -8,6 +8,7 @@ use backend\modules\campus\models\WorkRecord;
 use backend\modules\campus\models\SignIn;
 use backend\modules\campus\models\StudentRecord;
 use backend\modules\campus\models\StudentRecordValue;
+use backend\modules\campus\models\CourseSchedule;
 
 /**
  * @author Eugene Terentev <eugene@terentev.net>
@@ -17,17 +18,21 @@ class WorkRecordController extends controller
 
   public function actionIndex(){
 
-    $start = date('Y-m-d').' 00:00:00';
-    $end   = date('Y-m-d')." 23:59:59";
-    $course = $this->teacherCouese($start,$end,Course::COURSE_STATUS_OPEN);
+    $start = '00:00:00';
+    $end   = '23:59:59';
+    $date  = date('Y-m-d');
+    //var_dump($date);exit;
+
+    $course = $this->teacherCouese($start,$end,$date,CourseSchedule::COURSE_STATUS_OPEN);
    //检测用是否有课
-    if(!empty($course)){
+   if(!empty($course)){
       foreach ($course as $key => $value) {
          $signRecoued =[
               'user_id'   => $value['teacher_id'],
               'course_id' => $value['course_id'],
               'grade_id'  => $value['grade_id'],
               'school_id' => $value['school_id'],
+              'course_schedule_id'=>$value['course_schedule_id'],
               'type'      => 2,
               'status'     => 20,
               'title'     => '上正课',
@@ -38,9 +43,9 @@ class WorkRecordController extends controller
 
 
     //查询昨天老师是否有课。如果有 检查是否已编辑学生档案。并入库。
-    $start = date("Y-m-d",strtotime("-1 day")).' 00:00:00';
-    $end   =date("Y-m-d",strtotime("-1 day"))." 23:59:59";
-    $courseYesterday = $this->teacherCouese($start,$end,Course::COURSE_STATUS_DELECT);
+    $date  = date("Y-m-d",strtotime("-1 day"));
+
+    $courseYesterday = $this->teacherCouese($start,$end,$date,CourseSchedule::COURSE_STATUS_DELECT);
     if(!empty($courseYesterday)){
         foreach ($courseYesterday as $key => $value) {
           //var_dump($value);
@@ -49,6 +54,7 @@ class WorkRecordController extends controller
               'grade_id'  => $value['grade_id'],
               'course_id' => $value['course_id'],
               'school_id' => $value['school_id'],
+              'course_schedule_id'=>$value['course_schedule_id'],
               'type'      => 1,
               'title'     => '上传学生档案',
             ];
@@ -56,7 +62,7 @@ class WorkRecordController extends controller
             $signCount = SignIn::singInCount($value['course_id'],true);
 
             //检测老师已编辑多少人。
-            $studentRecordCount  = StudentRecord::studentRecouedCount($value['course_id']);
+            $studentRecordCount  = StudentRecord::studentRecouedCount($value['course_id'],$value['course_schedule_id']);
             if($signCount ==  $studentRecordCount){
               $studentRecord['status'] = 10;
             }else{
@@ -76,17 +82,19 @@ class WorkRecordController extends controller
   /**
    * 查询老师今天是否有课
    **/
-  public function teacherCouese($start,$end,$status){
-    $start = strtotime($start);
-    $end    = strtotime($end);
-    $course =   Course::find();
-    if($status == Course::COURSE_STATUS_OPEN){
-      $course->andwhere(['status'=>$status]);
+  public function teacherCouese($start,$end,$date,$status){
+    $course =   Course::find()
+            ->select(['c.course_id','c.grade_id','c.school_id','s.course_schedule_id','s.teacher_id'])
+            ->from(['course as c'])
+            ->leftJoin('course_schedule as s','c.course_id = s.course_id')
+            ->where(['s.which_day'=>$date]);
+    if($status == CourseSchedule::COURSE_STATUS_OPEN){
+       $course->andwhere(['s.status'=>$status]);
     }else{
-      $course->andwhere(['NOT',['status'=>$status] ]);
+       $course->andwhere(['NOT',['s.status'=>$status] ]);
     }
 
-    $course =  $course->andWhere(['between','start_time',$start,$end])
+    $course =  $course->andWhere(['between','s.start_time',$start,$end])
             ->asArray()
             ->all();
   //$commandQuery = clone $course; echo $commandQuery->createCommand()->getRawSql();exit;
