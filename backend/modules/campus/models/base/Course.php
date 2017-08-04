@@ -119,7 +119,7 @@ abstract class Course extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['school_id', 'grade_id', 'title', 'intro', 'courseware_id', 'start_time', 'end_time', 'teacher_id','status'], 'required'],
+            [['grade_id', 'title', 'intro', 'start_time', 'end_time', 'teacher_id','status'], 'required'],
             ['creater_id','default','value'=>Yii::$app->user->isGuest ? 0 : Yii::$app->user->identity->id],
             [['school_id', 'grade_id', 'courseware_id', 'creater_id','status'], 'integer'],
             [['start_time','end_time'], 'filter', 'filter' => 'strtotime', 'skipOnEmpty' => true],
@@ -189,10 +189,12 @@ abstract class Course extends \yii\db\ActiveRecord
             //        var_dump($model);exit;
             //     }
             // ]
-            [['parent_id','category_id','course_counts','grade_id','start_time','end_time','teacher_id','status'],'integer','on' => self::SCENARIO_GEDU_COURSE],
-            [['courseware_id','category_id','original_price','present_price','vip_price','access_domain','status'],'required','on' => self::SCENARIO_GEDU_COURSE],
+            [['school_id','courseware_id','parent_id','category_id','course_counts','grade_id','start_time','end_time','teacher_id','status'],'integer','on' => self::SCENARIO_GEDU_COURSE],
+            [['category_id','original_price','present_price','vip_price','access_domain','status'],'required','on' => self::SCENARIO_GEDU_COURSE],
             [['original_price','present_price','vip_price'],'number','on' => self::SCENARIO_GEDU_COURSE],
             [['banner_src','title'],'string','on' => self::SCENARIO_GEDU_COURSE],
+            ['school_id','default','value' => 0,'on' => self::SCENARIO_GEDU_COURSE],
+            ['courseware_id','default','value' => 0,'on' => self::SCENARIO_GEDU_COURSE],
             ['parent_id','default','value' => 0,'on' => self::SCENARIO_GEDU_COURSE],
             ['grade_id','default','value' => 0,'on' => self::SCENARIO_GEDU_COURSE],
             ['start_time','default','value' => 0,'on' => self::SCENARIO_GEDU_COURSE],
@@ -200,7 +202,6 @@ abstract class Course extends \yii\db\ActiveRecord
             ['teacher_id','default','value' => 0,'on' => self::SCENARIO_GEDU_COURSE],
             ['course_counts','default','value' => function($model){
                 if (!isset($model->parent_id) || empty($model->parent_id)) {
-                    var_dump(self::find()->where(['parent_id' => $model->course_id])->count());exit;
                     return self::find()->where(['parent_id' => $model->course_id])->count();
                 }
                 return 0;
