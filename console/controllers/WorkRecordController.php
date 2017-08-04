@@ -100,14 +100,7 @@ class WorkRecordController extends controller
   //$commandQuery = clone $course; echo $commandQuery->createCommand()->getRawSql();exit;
     return $course;
   }
-// //查询老师需要上传学生档案的人数
-//   public function  signInCount($grade_id,$course_id){
-//     //var_dump($grade_id , $couser_id);exit;
-//         return SignIn::find()
-//           ->where(['grade_id'=>$grade_id,'course_id'=>$course_id,'type_status'=>SignIn::TYPE_STATUS_MORMAL])
-//           ->count('signin_id');
-//   }
-/***/
+
   public function  addWorkRecord($data,$da = false){
       $start = date('Y-m-d').' 00:00:00';
       $end   = date('Y-m-d')." 23:59:59";
