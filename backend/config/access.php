@@ -66,6 +66,12 @@ return [
                 'actions'=>['create','update'],
                 'roles'=>['manager','P_director']
             ],
+            [
+                'controllers'=>['campus/course'],
+                'allow'=>true,
+                'actions'=>['course-batch','course-validations'],
+                'roles'=>['manager','P_director','E_manager']
+            ],
             //签到管理
             [
                 'controllers'=>['campus/sign-in'],
