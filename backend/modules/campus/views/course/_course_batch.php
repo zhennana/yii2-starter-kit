@@ -28,6 +28,7 @@ $model->which_day  = 1;
         'id'=> 'Course',
        // 'action'=>'',
 ]); ?>
+
     <?php echo $form->errorSummary($model); ?>
 
 <div class="col-md-12">
@@ -158,6 +159,7 @@ $model->which_day  = 1;
             )->label('上课结束时间') ?>
         </div>
         <div class="col-lg-12"></div>
+
         <div class="col-lg-3">
             <?= $form->field($model, 'teacher_id')->widget(Select2::className(),
                 [
@@ -168,8 +170,9 @@ $model->which_day  = 1;
                     ],
                 ]); ?>
         </div>
-        <div class="col-lg-3">
-            <div></div><br>
+
+        <div class="col-lg-12">
+            <div class="col-lg-3">
              <?= Html::submitButton(
             '<span class="glyphicon glyphicon-check"></span> ' .
             Yii::t('backend', '查看排课'),
@@ -179,8 +182,8 @@ $model->which_day  = 1;
             ]
         ); ?>
         </div>
-        <div class  = "col-lg-12"></div>
-        <div class  = "col-lg-3">
+        <!-- <div class  = "col-lg-12"></div> -->
+        <div class = "col-lg-3">
             <?= Html::submitButton(
                 '<span class="glyphicon glyphicon-check"></span> ' .
                 Yii::t('backend', '提交排课'),
@@ -192,7 +195,7 @@ $model->which_day  = 1;
             ); ?>
         
         </div>
-        <div class  = "col-lg-3">
+        <div class = "col-lg-3">
             <?= Html::submitButton(
                 '<span class="glyphicon glyphicon-check"></span> ' .
                 Yii::t('backend', '返回'),
@@ -202,9 +205,10 @@ $model->which_day  = 1;
                 ]
             ); ?>
         </div>
+        </div>
          <?php ActiveForm::end(); ?>
     </div>
-    <div id = "message"></div>
+    <div id = "message" style="margin: 20px 20px"></div>
     <div id = "schedule_record"></div>
  </div>
     </div>
@@ -226,13 +230,14 @@ $model->which_day  = 1;
     function createTable(data) {
 
         function trans(b) {
+            if(b===undefined) return '--';
             return b ? "是" : "否";
         }
         // 创建表格
         var table = $("<table border=\"1\">");
         var tr1 = $("<tr></tr>");
         var tr1_td_new = $("<td colspan=\"4\">新排课</td>");
-        var tr1_td_old = $("<td colspan=\"4\">旧排课</td>");
+        var tr1_td_old = $("<td colspan=\"5\">旧排课</td>");
 
         tr1_td_new.appendTo(tr1);
         tr1_td_old.appendTo(tr1);
@@ -243,7 +248,7 @@ $model->which_day  = 1;
         var tr2 = $("<tr></tr>");
 
         var tr1_td_conflict = $("<td colspan=\"1\">是否冲突</td>");
-        var tr1_td_override = $("<td colspan=\"1\">是否可覆盖</td>");
+        var tr1_td_override = $("<td colspan=\"1\">其他</td>");
 
         $("<td colspan=\"1\">教师</td>").appendTo(tr2);
         $("<td colspan=\"1\">班级</td>").appendTo(tr2);
@@ -254,6 +259,7 @@ $model->which_day  = 1;
         $("<td colspan=\"1\">班级</td>").appendTo(tr2);
         $("<td colspan=\"1\">排课</td>").appendTo(tr2);
         $("<td colspan=\"1\">日期</td>").appendTo(tr2);
+        $("<td colspan=\"1\">是否以上课</td>").appendTo(tr2);
 
 
         tr1_td_conflict.appendTo(tr2);
@@ -278,24 +284,34 @@ $model->which_day  = 1;
             $("<td colspan=\"1\">" + (data[i].OldRecord.course ?data[i].OldRecord.course :'') + "</td>").appendTo(trs[i]);
             $("<td colspan=\"1\">" + (data[i].OldRecord.time 
                 ? data[i].OldRecord.time : '') + "</td>").appendTo(trs[i]);
+            // $("<td colspan=\"1\">" + (data[i].OldRecord.is_have_course 
+            //     ? trans(data[i].OldRecord.is_have_course) : '') + "</td>").appendTo(trs[i]);
+            var td_have_course = $("<td colspan=\"1\">" + trans(data[i].OldRecord.is_have_course) + "</td>");
 
-            var aa = $("<td colspan=\"1\">" + trans(data[i].isConflict) + "</td>");
-            if (data[i].isConflict) {
-                aa.css('color', 'red');
+            if (data[i].OldRecord.is_have_course) {
+                td_have_course.css('color', 'red');
             } else {
-                aa.css('color', 'green');
+                td_have_course.css('color', 'green');
             }
 
-            var bb = $("<td colspan=\"1\">" + trans(data[i].override) + "</td>");
+            var td_conflict = $("<td colspan=\"1\">" + trans(data[i].isConflict) + "</td>");
+            if (data[i].isConflict) {
+                td_conflict.css('color', 'red');
+            } else {
+                td_conflict.css('color', 'green');
+            }
+
+            var td_override = $("<td colspan=\"1\">" +'--' + "</td>");
 
             if (data[i].override) {
-                bb.css('color', 'red');
+                td_override.css('color', 'red');
             } else {
-                bb.css('color', 'green');
+                td_override.css('color', 'green');
             }
+            td_have_course.appendTo(trs[i]);
+            td_conflict.appendTo(trs[i]);
+            td_override.appendTo(trs[i]);
 
-            aa.appendTo(trs[i]);
-            bb.appendTo(trs[i]);
             trs[i].appendTo(table);
         }
         table.css('text-align', 'center').css('border-collapse', 'collapse');
@@ -333,8 +349,12 @@ $model->which_day  = 1;
                     $('#paicha').hide();
                     $('#message').show();
                     $('#back').show();
-                    $('#message').append(response.schedule_count +response.schedule_start_time) ;
+                    // $('#message').append(response.schedule_count +"<br>"+response.schedule_start_time+"<br>"+'<p style=color:red>'+response.select_schedule_count + "</p>") ;
                     //$('from').find('input','select').attr('disabled',true);
+                    // $('#message').append()
+                    $("<p>"+response.schedule_count+"</p>").appendTo($('#message'));
+                    $("<p>"+response.schedule_start_time+"</p>").appendTo($('#message'));
+                    $("<p>"+response.select_schedule_count+"</p>").css('color','red').appendTo($('#message'));
                     //NotChoose();
                     createTable(message);
                 }else{
@@ -388,4 +408,5 @@ $model->which_day  = 1;
         #commit,#back {
             display: none;
         }
+
 </style>
