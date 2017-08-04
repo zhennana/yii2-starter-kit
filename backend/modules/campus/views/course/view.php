@@ -42,20 +42,32 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
 
         <!-- menu buttons -->
         <div class='pull-left'>
-            <?= Html::a(
+            <?php 
+            /* 
+            echo Html::a(
             '<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('backend', '更新'),
             [ 'update', 'course_id' => $model->course_id],
-            ['class' => 'btn btn-info']) ?>
+            ['class' => 'btn btn-info']) 
+            */
+            ?>
 
-            <?= Html::a(
+            <?php 
+            /*
+            echo Html::a(
             '<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('backend', '复制'),
             ['create', 'course_id' => $model->course_id, 'Course'=>$copyParams],
-            ['class' => 'btn btn-success']) ?>
+            ['class' => 'btn btn-success']) 
+            */
+            ?>
 
-            <?= Html::a(
+            <?php
+            /* 
+            echo Html::a(
             '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '新建'),
             ['create'],
-            ['class' => 'btn btn-success']) ?>
+            ['class' => 'btn btn-success'])
+            */
+            ?>
         </div>
 
         <div class="pull-right">
@@ -72,6 +84,21 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
     <?= DetailView::widget([
         'model'      => $model,
         'attributes' => [
+            'course_id',
+            'parent_id',
+            [
+                'attribute' => 'parent_id',
+                'label' => '父课程',
+                'value' => function($model){
+                    return $model->parent_id;
+                }
+            ],
+            [
+                'attribute' => 'category_id',
+                'value' => function($model){
+                    return isset($model->courseCategory->name) ? $model->courseCategory->name : '';
+                }
+            ],
             [
                 'attribute' => 'school_id',
                 'value'     => function($model){
@@ -86,11 +113,19 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
             ],
             'title',
             'intro',
+            'banner_src',
             [
                 'attribute' => 'courseware_id',
                 'value'     => function($model){
                     return isset($model->courseware->title) ? $model->courseware->title : '';
                 }
+            ],
+            'original_price',
+            'present_price',
+            'vip_price',
+            [
+                'attribute' => 'access_domain',
+                'value' => Course::getPriceValueLabel($model->access_domain),
             ],
             [
                 'attribute' => 'teacher_id',
@@ -110,6 +145,8 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
                 'attribute' => 'status',
                 'value' => Course::getStatusValueLabel($model->status),
             ],
+            'course_counts',
+            'sort',
             'created_at:datetime',
             'updated_at:datetime',
         ],

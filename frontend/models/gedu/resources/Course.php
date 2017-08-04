@@ -14,9 +14,6 @@ use yii\helpers\Url;
  */
 class Course extends BaseCourse
 {
-    CONST FREE_COURSE     = 2;  // 免费课程
-    CONST VIP_FREE_COURSE = 1;  // 会员免费
-    CONST NORMAL_COURSE   = 0;  // 普通课程
 
 public function behaviors()
     {
