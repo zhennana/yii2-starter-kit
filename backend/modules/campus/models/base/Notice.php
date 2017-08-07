@@ -34,12 +34,16 @@ abstract class Notice extends \yii\db\ActiveRecord
     CONST STATUS_CHECK_LOOK = 10; //查看；
     CONST STATUS_CHECK_NOT_LOOK = 20; //未查看；
 
-    CONST CATEGORY_ONE     = 1; //消息通知；
-    CONST CATEGORY_TWO     = 2; //老师对学生说的话；
-    CONST CATEGORY_THREE   = 3;
+    CONST CATEGORY_ONE       = 1; //消息通知；
+    CONST CATEGORY_TWO       = 2; //老师对学生说的话；
+    CONST CATEGORY_THREE     = 3;
 
     CONST STATUS_SEND_SENT   = 10;    // 发送
     CONST STATUS_SEND_UNSENT = 20;    // 未发送
+
+    CONST TYPE_PUSH_SIGN_IN     = 3;//签到个推类型
+    CONST TYPE_PUSH_TEACHER     = 2;//老师个推类型
+    CONST TYPE_PUSH_SCHOOL      = 1;//学校个推类型
 
     // CONST STATUS_SENT  = 10; //正常
     // CONST STATUS_CLOSE = 20; //关闭
@@ -49,6 +53,15 @@ abstract class Notice extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'notice';
+    }
+
+    public static function optsType()
+    {
+        return [
+            self::TYPE_PUSH_SIGN_IN   => Yii::t('backend','签到个推'),
+            self::TYPE_PUSH_TEACHER => Yii::t('backend','教师个推'),
+            self::TYPE_PUSH_SCHOOL => Yii::t('backend','学校个推')
+        ];
     }
 
 
@@ -81,6 +94,7 @@ abstract class Notice extends \yii\db\ActiveRecord
             [['receiver_phone_numeber'], 'string', 'max' => 11],
             [['grade_id','title'],'required','on'=>['grade','student']],
             [['receiver_id','title'],'required','on'=>['teacher','student']],
+            [['type','is_a_push'],'integer'],
         ];
     }
 
@@ -165,7 +179,12 @@ abstract class Notice extends \yii\db\ActiveRecord
         }
         return $value;
     }
-    
+
+    public function getUser(){
+        return $this->hasOne(\common\models\User::className(),[
+            'id'=>'receiver_id'
+            ]);
+    }
     public static function getUserName($id)
     {
         $user = \common\models\User::findOne($id);

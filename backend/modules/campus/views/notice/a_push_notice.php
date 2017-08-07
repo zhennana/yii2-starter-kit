@@ -11,14 +11,10 @@ use backend\modules\campus\models\Notice;
 * @var yii\data\ActiveDataProvider $dataProvider
     * @var backend\modules\campus\models\NoticeSearch $searchModel
 */
-$title = '教师公告';
-if(isset($category) && $category != 1){
-     \Yii::$app->session['__crudReturnUrl'] = ['/campus/notice/family-school-notice'];
-    $title = '家校沟通';
-}
-    $this->title = Yii::t('backend', $title);
-    $this->params['breadcrumbs'][] = $this->title;
-    \Yii::$app->session['__crudReturnUrl'] = ['/campus/notice/teacher-notice'];
+
+$this->title = Yii::t('backend', '个推列表');
+$this->params['breadcrumbs'][] = $this->title;
+    \Yii::$app->session['__crudReturnUrl'] = ['/campus/notice/grade-notice'];
 
 /**
 * create action column template depending acces rights
@@ -26,18 +22,18 @@ if(isset($category) && $category != 1){
 $actionColumnTemplates = [];
 
 if (\Yii::$app->user->can('E_manager', ['route' => true]) || \Yii::$app->user->can('manager')
-|| \Yii::$app->user->can('P_director')) {
+|| \Yii::$app->user->can('P_teacher')) {
     //$actionColumnTemplates[] = '{view}';
 }
 
 if (\Yii::$app->user->can('E_manager', ['route' => true]) || \Yii::$app->user->can('manager')
-|| \Yii::$app->user->can('P_director')){
-    //$actionColumnTemplates[] = '{update}';
+|| \Yii::$app->user->can('P_teacher')) {
+   //$actionColumnTemplates[] = '{update}';
 }
 
 if (\Yii::$app->user->can('E_manager', ['route' => true]) || \Yii::$app->user->can('manager')
-|| \Yii::$app->user->can('P_director')){
-    $actionColumnTemplates[] = '{delete}';
+|| \Yii::$app->user->can('P_teacher')) {
+   $actionColumnTemplates[] = '{delete}';
 }
 if (isset($actionColumnTemplates)) {
 $actionColumnTemplate = implode(' ', $actionColumnTemplates);
@@ -58,22 +54,14 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
     <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
 
     <h1>
-        <?= Yii::t('backend', $title) ?>
+        <?= Yii::t('backend', '个推列表') ?>
         <small>
             列表
         </small>
     </h1>
     <div class="clearfix crud-navigation">
         <div class="pull-left">
-        <?php
-        if(isset($category) && $category == 2){
-            echo Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '家校沟通'), 
-                        ['family-school-notice-create'],
-                        ['class' => 'btn btn-success']);
-        }else{
-            echo Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建教师公告'), ['teacher-notice-create'], ['class' => 'btn btn-success']);
-        }
-        ?>
+           
         </div>
         <div class="pull-right">
             <?= \yii\bootstrap\ButtonDropdown::widget([
@@ -108,7 +96,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
             'tableOptions'     => ['class' => 'table table-striped table-bordered table-hover'],
             'headerRowOptions' => ['class'=>'x'],
             'columns'          => [
-                 [
+                [
                     'class'    => 'yii\grid\ActionColumn',
                     'template' => $actionColumnTemplateString,
                     'buttons'  => [
@@ -139,16 +127,8 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                     'format'    => 'raw',
                     'enum'      => $schools,
                 ],
-                [
-                    'class'     =>\common\grid\EnumColumn::className(),
-                    'attribute' =>'grade_id',
-                    'options'   => ['width' => '10%'],
-                    'format'    => 'raw',
-                    'enum'      => $grades,
-
-                ],
                 'title',
-               
+    
                 [
                     'attribute' => 'message',
                     'options'   => ['width' => '50%'],
@@ -164,24 +144,34 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                         return $model->getUserName($model->sender_id);
                     }
                 ],
-                [
-                    'attribute' => 'receiver_id',
-                    'options'   => ['width' => '10%'],
-                    'value'     => function($model){
-                        return $model->getUserName($model->receiver_id);
-                    }
-                ],
-                //'times',
                 // [
-                //     'class'     =>\common\grid\EnumColumn::className(),
-                //     'attribute' =>'status_send',
+                //     'attribute' => 'receiver_id',
                 //     'options'   => ['width' => '10%'],
-                //     'format'    => 'raw',
-                //     'enum'      => Notice::optsStatusSend(),
                 //     'value'     => function($model){
-                //         return $model->status_send;
-                //     },
+                //         return $model->getUserName($model->receiver_id);
+                //     }
                 // ],
+                [
+                    'class'     =>\common\grid\EnumColumn::className(),
+                    'attribute' =>'type',
+                    'options'   => ['width' => '10%'],
+                    'format'    => 'raw',
+                    'enum'      => Notice::optsType(),
+                    'value'     => function($model){
+                        return $model->type;
+                    },
+                ],
+                'times',
+                [
+                    'class'     =>\common\grid\EnumColumn::className(),
+                    'attribute' =>'status_send',
+                    'options'   => ['width' => '10%'],
+                    'format'    => 'raw',
+                    'enum'      => Notice::optsStatusSend(),
+                    'value'     => function($model){
+                        return $model->status_send;
+                    },
+                ],
                 'updated_at:datetime',
                 'created_at:datetime',
                 /*'is_sms',*/

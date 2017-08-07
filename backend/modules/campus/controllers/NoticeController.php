@@ -44,7 +44,8 @@ class NoticeController extends \backend\modules\campus\controllers\base\NoticeCo
 //VAR_DUMP(array_keys($schools));exit;
         $dataProvider->query->andWhere([
             'school_id'=> array_keys($schools),
-            'grade_id' => NULL,
+            'grade_id' => 0,
+            'type'     =>0,
             'category' => 1,
             'receiver_id'=> NULL,
             ]);
@@ -66,6 +67,11 @@ class NoticeController extends \backend\modules\campus\controllers\base\NoticeCo
         $schools = Yii::$app->user->identity->schoolsInfo;
         $schools = ArrayHelper::map($schools,'school_id','school_title');
         if($model->load($_POST)){
+            $_POST['Notice']['status_send']  = Notice::STATUS_SEND_SENT;
+            //检测是否推送,如果推送,发送状态改为未发送
+            if($_POST['Notice']['is_a_push'] == 1){
+                    $_POST['Notice']['status_send']  = Notice::STATUS_SEND_UNSENT;
+            }
             $info = $model->batch_save($_POST['Notice']);
             if(!empty($info)){
                 return $this->render('_school_notice_form',['model'=>$model,'schools'=>$schools,'info'=>$info]);
@@ -92,6 +98,7 @@ class NoticeController extends \backend\modules\campus\controllers\base\NoticeCo
             'school_id'=> array_keys($schools),
             'grade_id' => array_keys($grades),
             'category' => 1,
+            'type'     =>0,
             'receiver_id'=> NULL,
             ]);
         $dataProvider->sort = [
@@ -116,6 +123,7 @@ class NoticeController extends \backend\modules\campus\controllers\base\NoticeCo
         $schools = ArrayHelper::map($schools,'school_id','school_title');
 
         if($model->load($_POST)){
+            $_POST['Notice']['status_send']  = Notice::STATUS_SEND_SENT;
             $info = $model->batch_save($_POST['Notice']);
             if(!empty($info)){
                 return $this->render('_grade_notice_form',['model'=>$model,'schools'=>$schools,'info'=>$info]);
@@ -144,7 +152,8 @@ class NoticeController extends \backend\modules\campus\controllers\base\NoticeCo
         $dataProvider->query->andWhere([
             'school_id'=> array_keys($schools),
             'grade_id' => array_keys($grades),
-           // 'category' => 2,
+            'type'     =>0,
+            'category' => 2,
             ]);
         $dataProvider->query->andWhere([
             'NOT',
@@ -172,6 +181,7 @@ class NoticeController extends \backend\modules\campus\controllers\base\NoticeCo
         $schools = Yii::$app->user->identity->schoolsInfo;
         $schools = ArrayHelper::map($schools,'school_id','school_title');
         if($model->load($_POST)){
+            $_POST['Notice']['status_send']  = Notice::STATUS_SEND_SENT;
             $info = $model->batch_save($_POST['Notice']);
             if(!empty($info)){
                 return $this->render('_teacher_notice_form',
@@ -212,6 +222,7 @@ class NoticeController extends \backend\modules\campus\controllers\base\NoticeCo
             'school_id'=> array_keys($schools),
             //'grade_id' => array_keys($grades),
             'category' => 1,
+            'type'     =>0,
             ]);
         $dataProvider->query->andWhere([
             'NOT',
@@ -239,6 +250,11 @@ class NoticeController extends \backend\modules\campus\controllers\base\NoticeCo
         $schools = ArrayHelper::map($schools,'school_id','school_title');
 
         if($model->load($_POST)){
+             $_POST['Notice']['status_send']  = Notice::STATUS_SEND_SENT;
+            //检测是否推送,如果推送,发送状态改为未发送
+            if($_POST['Notice']['is_a_push'] == 1){
+                    $_POST['Notice']['status_send']  = Notice::STATUS_SEND_UNSENT;
+            }
             $info = $model->batch_save($_POST['Notice']);
             if(!empty($info)){
                 return $this->render('_teacher_notice_form',
@@ -282,6 +298,7 @@ class NoticeController extends \backend\modules\campus\controllers\base\NoticeCo
         $dataProvider = $searchModel->search($_GET);
         $dataProvider->query->andWhere([
                 'category'         =>3,
+                'type'     =>0,
                 'replay_notice_id' =>NULL
             ]);
         $dataProvider->sort = [
@@ -320,6 +337,41 @@ class NoticeController extends \backend\modules\campus\controllers\base\NoticeCo
                 'questions'=>$questions,
                 'answers'  =>$answers,
             ]);
+    }
+//个推公告
+    public function actionAPush(){
+        $searchModel  = new NoticeSearch;
+        $dataProvider = $searchModel->search($_GET);
+
+        $schools = Yii::$app->user->identity->schoolsInfo;
+        $schools = ArrayHelper::map($schools,'school_id','school_title');
+
+        $grades =  [];
+        /*Yii::$app->user->identity->getGrades(
+            Yii::$app->user->identity->id,
+            array_keys($schools)
+            );*/
+        $grades = ArrayHelper::map($grades,'grade_id','grade_name');
+
+        $dataProvider->query->andWhere([
+            'school_id'=> array_keys($schools),
+            'is_a_push'=>1,
+            ]);
+        $dataProvider->query->andWhere([
+            'NOT',
+            ['receiver_id' => NULL,'type'=>0],
+            ]);
+        $dataProvider->sort = [
+            'defaultOrder'=>[
+                'updated_at' => SORT_DESC
+            ]
+        ];
+        return $this->render('a_push_notice', [
+            'dataProvider' => $dataProvider,
+            'searchModel'  => $searchModel,
+            'schools'      => $schools,
+            'grades'       => $grades
+        ]);
     }
 
 }
