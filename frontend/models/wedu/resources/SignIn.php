@@ -40,7 +40,7 @@ public function behaviors()
        if(empty($params)){
            $data['error'][] = '数据不能为空';
         }
-        $i = 0;
+        $is_change_course = true;//更改课程状态
         foreach ($params['SignIn'] as $key => $value) {
             $model = new $this;
             $is_check = self::find()
@@ -72,11 +72,11 @@ public function behaviors()
                             'title'     => '',
                             'status'    => 1,
                         ]);
-                      if($i == 0){
+                      if($is_change_course == true){
+                        $is_change_course = false;
                         //更新课程状态
                         Course::updateAll(['status'=>Course::COURSE_STATUS_FINISH],'course_id='.$model->course_id);
                         CourseSchedule::updateAll(['status'=>CourseSchedule::COURSE_STATUS_FINISH],'course_schedule_id='.$model->course_schedule_id);
-                        $i++;
                       }
 
                     //发送推送消息
@@ -103,9 +103,9 @@ public function behaviors()
         if($data['message']){
             $WorkRecord = WorkRecord::find()->andwhere([
               'course_id'=>$params['course_id'],
-              'type'=>2,
+              'type'=>WorkRecord::TYPE_TWO,
               'grade_id'=>$params['grade_id'],
-              'status'=> 20])
+              'status'=> WorkRecord::STATUS_UNFINISHED])
             ->one();
             if($WorkRecord){
                $WorkRecord->status = 10;
@@ -114,10 +114,8 @@ public function behaviors()
         }
 
     }
-    //签到排课
+    //签到个推
     if(!empty($message)){
-      //var_dump($message);exit;
-        //群推
         $APush = new APush;
         $APush->pushMessageToSingleBatch($message);
     }
