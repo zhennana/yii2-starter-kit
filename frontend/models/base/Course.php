@@ -3,7 +3,7 @@
 namespace frontend\models\base;
 
 use Yii;
-use \backend\modules\campus\models\base\Course as BaseCourse;
+use \backend\modules\campus\models\Course as BaseCourse;
 use yii\helpers\ArrayHelper;
 
 /**

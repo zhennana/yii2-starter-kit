@@ -3,7 +3,9 @@
 namespace backend\modules\campus\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 use \backend\modules\campus\models\base\StudentRecord as BaseStudentRecord;
+use \backend\modules\campus\models\Course;
 
 /**
  * This is the model class for table "student_record".
@@ -65,4 +67,38 @@ class StudentRecord extends BaseStudentRecord
 		}
 		return $data;
 	}
+
+    public function recordFormat()
+    {
+        $body = '';
+        $data = [
+            'target'    =>'',
+            'expression'=>'',
+            'process'   =>'',
+        ];
+
+        $recordModel = Course::getStudentRecord($this->student_record_id);
+        if (!$recordModel) {
+            return $data;
+        }
+
+
+        if($recordModel['course']['courseware']['body']){
+            $body = json_decode($recordModel['course']['courseware']['body'],true);
+        }
+
+        $data['title'] = isset($recordModel['course']['title']) ? $recordModel['course']['title'] : '' ;
+
+        //这是教学目标
+        $data['target'] =isset($body['target']) ? $body['target'] : $body ;
+        $data['target'] =str_replace("\r\n", '', $data['target']);
+        //教学过程
+        $data['process'] = isset($body['process']) ? $body['process'] : '';
+        if(isset($recordModel['studentRecordValue'])){
+            $recordModel['studentRecordValue'] = ArrayHelper::index($recordModel['studentRecordValue'],'student_record_key_id');
+            //孩子的表现
+            $data['expression'] = isset($recordModel['studentRecordValue'][1]['body']) ? $recordModel['studentRecordValue'][1]['body']:'';
+        }
+        return $data;
+    }
 }

@@ -630,6 +630,44 @@ public function behaviors()
 
         return $m;
       }
+
+    /**
+     * [getStudentRecord 获取学生档案]
+     * @param  [type] $student_record_id [description]
+     * @return [type]                    [description]
+     */
+    public static function getStudentRecord($student_record_id)
+    {
+        $model = StudentRecord::find()
+            ->select(['course_id','student_record_id'])
+            ->where([
+                //'user_id'=>Yii::$app->user->identity->id,
+                //'course_id'=>$course_id,
+                'student_record_id' => $student_record_id
+            ])
+            ->andWhere(['status' => StudentRecord::STUDEN_RECORD_STATUS_VALID])
+            ->with(['course' => function($query){
+                $query->with(['courseware']);
+            },
+            'studentRecordValue' => function($query){
+                    $query->select([
+                        'student_record_key_id',
+                        'student_record_value_id',
+                        'student_record_id',
+                        'body'
+                    ]);
+                    $query->with(['studentRecordValueToFile' => function($query){
+                            $query->select(['student_record_value_id','file_storage_item_id']);
+                            $query->with('fileStorageItem');
+                    }]);
+            }])
+            ->asArray()
+            ->one();
+
+        return $model;
+    }
+
+
   }
 
 

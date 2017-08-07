@@ -3,7 +3,7 @@
 namespace frontend\models\base;
 
 use Yii;
-use \backend\modules\campus\models\base\SignIn as BaseSignIn;
+use \backend\modules\campus\models\SignIn as BaseSignIn;
 use yii\helpers\ArrayHelper;
 
 
