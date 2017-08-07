@@ -64,17 +64,17 @@ use common\models\User;
                     'placeholder' => '请选择',
                     'multiple'    => true,
                 ],
-                'pluginOptions' => [ 
+                'pluginOptions' => [
                     'allowClear' => true 
                 ]
             ]);
             ?>
 <!-- attribute status_send -->
-            <?= $form->field($model, 'status_send')->dropDownList($model->optsStatusSend()) ?>
+            <!-- <? // $form->field($model, 'status_send')->dropDownList($model->optsStatusSend()) ?> -->
 
+            <?= $form->field($model, 'is_a_push')->checkbox()->label('是否推送') ?>
         </p>
         <?php $this->endBlock(); ?>
-        
         <?= Tabs::widget([
             'encodeLabels' => false,
             'items'        => [[
