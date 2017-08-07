@@ -41,13 +41,14 @@ public function behaviors()
      */
    public function userCourseSignInData($school_id,$grade_id){
         $course = $this->course($school_id,$grade_id);
+        //var_dump($course);exit;
         //var_dump($course_id);exit;
         if(!isset($course->course_id)  && empty($course->course_id)  ){
             return [];
         }
 
         $user_ids = $this->SignInToUser($course->course_id);
-        //var_dump($user_ids);exit;
+// var_dump($user_ids);exit;
         $user_ids = ArrayHelper::map($user_ids,'student_id','student_id');
         $model = UserToGrade::find()->select([])
         ->with([
@@ -116,24 +117,33 @@ public function behaviors()
       $time = time();
       $which_day = date("Y-m-d",$time);
 
-      $start_time = date('H:i',$time-60*60);
-      $end_time   = date('H:i',$time+60*60*2);
-      return  self::find()
-            ->from(['course as c'])
-              ->select(['c.course_id','c.title','s.course_schedule_id'])
-              ->leftJoin('course_schedule as s', 's.course_id = c.course_id')
-              ->andwhere([
-                  'c.school_id'   => $school_id,
-                  'c.grade_id'    => $grade_id,
-                  's.teacher_id'  => $user_id,
-                  'which_day'     => $which_day,
-                  'c.status'      => self::COURSE_STATUS_OPEN,
-                  's.status'      => CourseSchedule::COURSE_STATUS_OPEN,
-                ])
-              ->andwhere(['between','s.start_time',$start_time,$end_time])
-
-              ->one();
-              //var_dump($a);exit;
+      // $start_time = date('H:i',$time-60*60);
+      // $end_time   = date('H:i',$time);
+      $start_time = $time-60*60;
+      $end_time   = $time+60*60*2;
+      //var_dump(strtotime("2017-08-07 23:12:00"));exit;
+     // 1502118720.000000
+        return  self::find()
+                ->from(['course as c'])
+                ->select([
+                  'c.course_id',
+                  'c.title',
+                  's.start_time',
+                  's.which_day',
+                  's.course_schedule_id',
+                  ])
+                ->leftJoin('course_schedule as s', 's.course_id = c.course_id')
+                ->andwhere([
+                    'c.school_id'   => $school_id,
+                    'c.grade_id'    => $grade_id,
+                    's.teacher_id'  => $user_id,
+                    's.which_day'     => $which_day,
+                    'c.status'      => self::COURSE_STATUS_OPEN,
+                    's.status'      => CourseSchedule::COURSE_STATUS_OPEN,
+                  ])
+                ->andwhere(['between',"UNIX_TIMESTAMP(concat(s.which_day,' ' ,s.start_time))",$start_time,$end_time])
+               // ->asArray()
+                ->one();
    }
    /**
     * 课程下边的所有用户id
