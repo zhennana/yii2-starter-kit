@@ -14,7 +14,7 @@ $imgsize="?imageView2/1/w/250/h/300";
       'img'=>'http://orh16je38.bkt.clouddn.com/libaocai1.jpg',
       'name'=>'李宝才',
       'description'=>'男，56岁，本科，哈尔滨师范大学，中学高级教师,光大小学教务主任。',
-      'background'=>'http://orh16je38.bkt.clouddn.com/11.jpg'
+      'background'=>'http://otdndy0jt.bkt.clouddn.com/zongxiao.png'
       ],
     '3'=>[
       'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/qijing1.JPG',
