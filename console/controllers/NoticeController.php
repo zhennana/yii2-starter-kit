@@ -90,18 +90,18 @@ class NoticeController extends controller
             $user_to_school = UserToSchool::find()->where(['school_id'=>$value->school_id , 'status'=>UserToSchool::SCHOOL_STATUS_ACTIVE])->asArray()->all();
             foreach ($user_to_school as $k => $v) {
                 $data[] = [
-                    'type'=>Notice::TYPR_PUSH_SCHOOL,
-                    'category'=>0,
-                    'grade_id'=> $value->grade_id,
-                    'school_id'   =>$v['school_id'],
-                    'receiver_id' =>$v['user_id'],
-                    'message'        =>$value->message,
-                    'message_hash'     => md5($value->message),
-                    'sender_id'   =>$value->sender_id,
+                    'type'        => Notice::TYPE_PUSH_SCHOOL,
+                    'category'    => 0,
+                    'grade_id'    => $value->grade_id,
+                    'school_id'   => $v['school_id'],
+                    'receiver_id' => $v['user_id'],
+                    'message'     => $value->message,
+                    'message_hash'=> md5($value->message),
+                    'sender_id'   => $value->sender_id,
                     'title'       =>'学校公告',
-                    'times'       =>0,
-                    'is_a_push'   =>1,
-                    'status_send' =>Notice::STATUS_SEND_UNSENT,
+                    'times'       => 0,
+                    'is_a_push'   => 1,
+                    'status_send' => Notice::STATUS_SEND_UNSENT,
                 ];
             }
           }
