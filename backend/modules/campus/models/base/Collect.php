@@ -46,8 +46,8 @@ abstract class Collect extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['courseware_master_id', 'status'], 'required'],
-            [['collect_id', 'user_id', 'courseware_master_id', 'courseware_id', 'play_back_time', 'page_view','status'], 'integer'],
+            [['course_master_id', 'status'], 'required'],
+            [['collect_id', 'user_id', 'course_master_id', 'course_id', 'play_back_time', 'page_view','status'], 'integer'],
             [['type'],'string','max' => 128],
             ['user_id', 'default', 'value' => Yii::$app->user->identity->id],
             ['page_view', 'default', 'value' => 0],
@@ -63,8 +63,8 @@ abstract class Collect extends \yii\db\ActiveRecord
         return [
             'collect_id' => 'Collect ID',
             'user_id' => 'User ID',
-            'courseware_master_id' => 'Courseware Master ID',
-            'courseware_id' => 'Courseware ID',
+            'course_master_id' => 'Courseware Master ID',
+            'course_id' => 'Courseware ID',
             'play_back_time' => 'Play Back Time',
             'page_view' => 'Page View',
             'type' => 'Type',

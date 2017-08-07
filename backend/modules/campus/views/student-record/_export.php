@@ -14,15 +14,18 @@ header("Pragma: no-cache");
 header("Expires: 0");
 
 ?>
-<table bgcolor="#FFFFFF" cellspacing="20" cellpadding="5" width="60%" align="center">
-    <tr><td><img src="http://www.wakooedu.com/img/top_logo.png"></td></tr>
+<div style="width: 60%;margin:0 auto;">
+    <div align="left">
+        <img src="http://www.wakooedu.com/img/top_logo.png">
+    </div>
 
-    <tr><td align="center">
-        <span style="color:#e61d4d;"><h1>学员档案</h1></span>
-    </td></tr>
+        <span style="color:#e61d4d;">
+            <h1 align="center">学员档案</h1>
+        </span>
 
-    <tr><td>
         <h2 align="center"><?= $recordTitle?></h2>
+        
+        <br>
 
         <h4><?= $studentName ?>的家长您好：</h4>
 
@@ -30,16 +33,14 @@ header("Expires: 0");
             以下是本次课程《<?=$course_title?>》知识点以及<?=$studentName?>上课的表现。
         </p>
 
-        <br><br>
-    </td></tr>
+        <br>
 
-    <?php foreach ($model->studentRecordValue as $key => $value) : ?>
+        <?php foreach ($model->studentRecordValue as $key => $value) : ?>
 
-    <tr><td>
-        <span style="color:#fcca10;">
-            <h2>
-            <?= isset($value->studentRecordKey->title) ? $value->studentRecordKey->title : ''; ?>
-            </h2>
+        <span>
+            <h3>
+            <?= numToWord($key+1).'、'.(isset($value->studentRecordKey->title) ? $value->studentRecordKey->title : ''); ?>
+            </h3>
         </span>
 
         <p style="text-indent:2em;">
@@ -60,7 +61,7 @@ header("Expires: 0");
                 }
             ?>
 
-            <br><br>
+            <br>
 
             <?php
                 if (isset($value->studentRecordValueToFile) && !empty($value->studentRecordValueToFile)) {
@@ -75,8 +76,51 @@ header("Expires: 0");
             ?>
             </small>
         </p>
-    </td></tr>
 
     <?php endforeach;?>
     
-</table>
+</div>
+<?php
+function numToWord($num) {
+    $chiNum = array('零', '一', '二', '三', '四', '五', '六', '七', '八', '九');
+    $chiUni = array('','十', '百', '千', '万', '亿', '十', '百', '千');
+      
+    $chiStr = '';
+      
+    $num_str = (string)$num;
+      
+    $count     = strlen($num_str);
+    $last_flag = true; //上一个 是否为0
+    $zero_flag = true; //是否第一个
+    $temp_num  = null; //临时数字
+      
+    $chiStr = '';//拼接结果
+    if ($count == 2) {//两位数
+        $temp_num = $num_str[0];
+        $chiStr = $temp_num == 1 ? $chiUni[1] : $chiNum[$temp_num].$chiUni[1];
+        $temp_num = $num_str[1];
+        $chiStr .= $temp_num == 0 ? '' : $chiNum[$temp_num]; 
+    }else if($count > 2){
+        $index = 0;
+        for ($i=$count-1; $i >= 0 ; $i--) { 
+            $temp_num = $num_str[$i];
+            if ($temp_num == 0) {
+                if (!$zero_flag && !$last_flag ) {
+                    $chiStr    = $chiNum[$temp_num]. $chiStr;
+                    $last_flag = true;
+                }
+            }else{
+                $chiStr = $chiNum[$temp_num].$chiUni[$index%9] .$chiStr;
+                  
+                $zero_flag = false;
+                $last_flag = false;
+            }
+            $index ++;
+        }
+    }else{
+        $chiStr = $chiNum[$num_str[0]]; 
+    }
+    return $chiStr;
+}
+
+?>

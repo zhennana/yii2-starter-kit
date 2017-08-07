@@ -20,6 +20,7 @@
   }
   .fifth{
     position: relative;
+    margin-top:10px;
   }
   .sixth{
     position: relative;
@@ -50,13 +51,6 @@
        width: 60%;
        height:50%;
        text-align:  justify;
-       display: -webkit-box;  
-       display: -moz-box;  
-       overflow: hidden; 
-       text-overflow: ellipsis;  
-       word-break: break-all;  
-       -webkit-box-orient: vertical;  
-       -webkit-line-clamp:5;
      }
 
    .text1{
@@ -131,19 +125,14 @@
     text-align: center;
    }
    .text6{
-    font-size: 15px;
+    font-size: 14px;
     position: absolute; 
-    top:23%;
-    width:50%;
+    top:25%;
+    width:60%;
     height:13%;
-    margin-left: 25%;
-    display: -webkit-box;  
-    display: -moz-box;  
-    overflow: hidden;  
-    text-overflow: ellipsis;  
-    word-break: break-all;  
-    -webkit-box-orient: vertical;  
-    -webkit-line-clamp:3;
+    margin-left: 19%;
+    left:0;
+    right:0;
    }
    .text7{
     font-size: 15px;
@@ -151,7 +140,7 @@
     top:47%;
     width:15%;
     height:30%;
-    margin-left: 22%;
+    margin-left: 16%;
     display: -webkit-box;  
     display: -moz-box;  
     overflow: hidden;  
@@ -166,7 +155,7 @@
     top:47%;
     width:15%;
     height:32%;
-    margin-left: 61%;
+    margin-left: 70%;
     display: -webkit-box;  
     display: -moz-box;  
     overflow: hidden;  
@@ -178,10 +167,10 @@
    .text9{
     font-size: 15px;
     position: absolute; 
-    top:83%;
+    top:85%;
     width:18%;
     height:15%;
-    margin-left: 30%;
+    margin-left: 24%;
     display: -webkit-box;  
     display: -moz-box;  
     overflow: hidden;  
@@ -193,10 +182,10 @@
    .text10{
     font-size: 15px;
     position: absolute; 
-    top:82.5%;
-    width:18%;
+    top:85%;
+    width:19%;
     height:15%;
-    margin-left: 50%;
+    margin-left: 60%;
     display: -webkit-box;  
     display: -moz-box;  
     overflow: hidden;  
@@ -231,7 +220,7 @@
     position: absolute; 
     top:36%;
     width:11%;
-    height:15%;
+    height:35%;
     margin-left: 57%;
     display: -webkit-box;  
     display: -moz-box;  
@@ -278,12 +267,13 @@
     /* -webkit-line-clamp:3; */
    }
     .text15{
-    font-size: 18px; 
+    font-size: 16px;
     width:100%;
-    height:10%;
+    height:12%;
     padding-top: 25px;
     padding-bottom: 15px;
     text-align:  justify;
+    line-height:1.5;
    }
    .text15 img{
     border-radius:70%;
@@ -310,8 +300,8 @@
          .text{
          top:35%;  
          font-size:12px;
-         width: 73%;
-         left:15%;        
+         width: 90%;
+         left:6%;
        }}
   @media screen and (max-width:1300px)  {  
          .text1{      
@@ -349,9 +339,9 @@
   @media screen and (max-width:1300px)  {  
          .text6{      
          font-size:12px;
-         top:20%; 
-         width: 80%;
-         margin-left: 5%;
+         top:23%;
+//         width: 80%;
+         margin-left: 20%;
        }}
   @media screen and (max-width:1450px)  {  
          .text6{      
@@ -366,31 +356,31 @@
   @media screen and (max-width:1300px)  {  
          .text7{
           height:34%;
-         top:45%;      
+         top:51%;
          font-size:12px;
-         margin-left: 4%;
-         width: 34%;
+         margin-left: 11%;
+         width: 26%;
        }}
   @media screen and (max-width:1300px)  {  
          .text8{
-         top:45%;      
+         top:50%;
          font-size:12px;
          margin-left: 63%;
-         width: 35%;
+         width: 26%;
        }}
   @media screen and (max-width:1300px)  {  
          .text9{
-         top:82%;    
+         top:87%;
          font-size:12px;
-         margin-left: 19%;
+         margin-left: 15%;
          width:29%;
          height:18%;
        }}
   @media screen and (max-width:1300px)  {  
          .text10{
-         top:82%;    
+         top:87%;
          font-size:12px;
-         margin-left: 50%;
+         margin-left: 54%;
          width:29%;
          height:18%;
        }}      
@@ -414,7 +404,28 @@
          padding-left:10px; 
          padding-right: 10px;     
        }}
- 
+  @media screen and (max-width:768px)  {
+         .text6{
+         width:100%;
+         padding:0 12%;
+         margin:0;
+       }
+       .text15{
+            font-size:14px;
+       }
+       .text11{
+        font-size:10px;
+        top:33%;
+        height:22%;
+       }
+       .text12{
+        top:29%;
+       }
+       .text13,.text14{
+        height:17%;
+       }
+       }
+
 
 </style>
 <div>
@@ -442,8 +453,9 @@
          <div class="fourth">
             <img src="http://otdndy0jt.bkt.clouddn.com/fourth1.png" class="img-responsive" >
          
-            <div class="text6"><div class="text5"> 丹麦、瑞典、荷兰、留学</div>
-            我中心是丹麦南方大学中国校方代表处，该校在丹麦排名第三，丹麦是欧洲申根签证国家，本科学制只需三年！在丹麦硕士毕业的项目学生可享政府给予的俩年工作签证，学生毕业后可在欧盟范围内找工作，找工作期间，政府每月给予项目学生2700元人民币的生活补助，此补助直到学生找到工作后为止。丹麦合法居留五年以上可获得丹麦移民身份。
+            <div class="text6">
+                <div class="text5"> 丹麦、瑞典、荷兰、留学</div>
+                <p>我中心是丹麦南方大学中国校方代表处，该校在丹麦排名第三，丹麦是欧洲申根签证国家，本科学制只需三年！在丹麦硕士毕业的项目学生可享受政府给予的俩年工作签证，学生毕业后可在欧盟范围内找工作，找工作期间，政府每月给予项目学生2700元人民币的生活补助，此补助直到学生找到工作后为止。丹麦合法居留五年以上可获得丹麦移民身份。</p>
             </div>
          
             <div class="text7"><div class="text5">匈牙利留学</div>
@@ -463,7 +475,7 @@
             </div>
          </div>
          <div class="fifth">
-            <img src="http://otdndy0jt.bkt.clouddn.com/fifth1.png" class="img-responsive" >
+            <img src="http://otdndy0jt.bkt.clouddn.com/fifth3.png" class="img-responsive" >
             <div class="text11">丹麦、瑞典、荷兰<br>留学总费用<br>每年8万人民币左右</div>
             <div class="text12">匈牙利<br>自费留学年均总费用<br>6万元人民币左右</div>
             <div class="text13">捷克<br>留学年均总费用<br>7万元人民币左右</div>

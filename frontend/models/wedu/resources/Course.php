@@ -5,6 +5,7 @@ namespace frontend\models\wedu\resources;
 use Yii;
 use frontend\models\base\Course as BaseCourse;
 use backend\modules\campus\models\UserToGrade;
+use backend\modules\campus\models\CourseSchedule;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -78,8 +79,9 @@ public function behaviors()
     */
    public function serializations($model,$course){
         $data = [];
-        $data['course_id'] = $course->course_id;
+        $data['course_id'] = (int)$course->course_id;
         $data['title']     = $course->title;
+        $data['course_schedule_id']   = (int)$course->course_schedule_id;
         //$data['title']     
        foreach ($model as $key => $value) {
           $data['user_list'][$key] = [
@@ -97,7 +99,6 @@ public function behaviors()
           $data['user_list'][$key]['surplus_course'] = (int)$data['user_list'][$key]['total_course'] - (int)$data['user_list'][$key]['above_course'];
 
        }
-        
        return $data;
    }
 
@@ -113,20 +114,26 @@ public function behaviors()
           return [];
       }
       $time = time();
-      $start_time = $time-60*60;
-      $end_time   = $time+60*60*2;
-      return self::find()->select(['course_id','title'])
-      ->andwhere([
-          'school_id'   => $school_id,
-          'grade_id'    =>    $grade_id,
-          'teacher_id'  => $user_id,
-          'status'      => self::COURSE_STATUS_OPEN
-        ])
-      ->orderBy(['start_time'=> SORT_DESC])
-      //->asArray()
-      ->andwhere(['between','start_time',$start_time,$end_time])
-      ->one();
+      $which_day = date("Y-m-d",$time);
 
+      $start_time = date('H:i',$time-60*60);
+      $end_time   = date('H:i',$time+60*60*2);
+      return  self::find()
+            ->from(['course as c'])
+              ->select(['c.course_id','c.title','s.course_schedule_id'])
+              ->leftJoin('course_schedule as s', 's.course_id = c.course_id')
+              ->andwhere([
+                  'c.school_id'   => $school_id,
+                  'c.grade_id'    => $grade_id,
+                  's.teacher_id'  => $user_id,
+                  'which_day'     => $which_day,
+                  'c.status'      => self::COURSE_STATUS_OPEN,
+                  's.status'      => CourseSchedule::COURSE_STATUS_OPEN,
+                ])
+              ->andwhere(['between','s.start_time',$start_time,$end_time])
+
+              ->one();
+              //var_dump($a);exit;
    }
    /**
     * 课程下边的所有用户id

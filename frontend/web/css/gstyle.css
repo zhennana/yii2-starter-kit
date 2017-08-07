@@ -505,7 +505,7 @@ h6{
 .teacher-content:hover{box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);-webkit-box-shadow:0 12px 30px rgba(0, 0, 0, 0.15);border:1px solid #eee;border-radius:5px;}
 .teacher-content h3{font-size:18px;color:#732c8e;font-family:'微软雅黑';}
 .teacher-image{margin-top:20px;box-sizing:border-box}
-.img-wrap{display:inline-block;width:135px;height:160px;background: rgba(114,60,142,.1);box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);-webkit-box-shadow:0 0 10px 0 rgba(0,0,0,0.2);padding:5px;}
+.img-wrap{display:inline-block;width:100%;background: rgba(114,60,142,.1);box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);-webkit-box-shadow:0 0 10px 0 rgba(0,0,0,0.2);padding:5px;}
 /*-- 方块展示 --*/
 
 .banner-bottom-left{
@@ -1281,6 +1281,12 @@ transform: scale(1.2);
   .blog-entry {
     margin-bottom: 30px;
   }
+ .teacher-image{
+	 padding:0;
+ }
+ .campuse-content{
+	 padding:0;
+ }
 }
 .blog-entry .blog-img {
   width: 100%;
@@ -1365,6 +1371,7 @@ transform: scale(1.2);
 @media (min-width: 768px){
 .top-logo-sma{display: none;}
 .navbar-right{float: left !important;}
+.container{width:100%;}
 }
 @media (min-width: 768px) and (max-width:980px){
 /*.top .top-logo{padding-left: 12%;}*/
@@ -1395,7 +1402,7 @@ transform: scale(1.2);
 @media (min-width: 992px) and (max-width:1199px){
 .footer-2-box1 .footer-2-text{display: none;}
 	.techer-content,.campuse-content{padding-right:0;}
-	.container{width:1000px;}
+	.container{width:100%;}
 
 }
 .navbar-default .navbar-brand{margin-left:20px;}

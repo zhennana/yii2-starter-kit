@@ -11,7 +11,7 @@ use frontend\models\search\ArticleSearch;
 use frontend\models\Contact;
 use common\models\ArticleCategory;
 use frontend\models\ContactForm;
-use frontend\models\edu\ApplyToPlay;
+use frontend\models\gedu\ApplyToPlay;
 /*
 use Superman2014\Aliyun\Sms\Sms\Request\V20160927 as Sms;
 use Superman2014\Aliyun\Core\Profile\DefaultProfile;

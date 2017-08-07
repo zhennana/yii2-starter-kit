@@ -2,19 +2,22 @@
 namespace frontend\controllers\gedu\v1;
 
 use Yii;
+
 use yii\web\Response;
-use yii\data\ActiveDataProvider;
-use yii\rest\ActiveController;
 use yii\web\ForbiddenHttpException;
 use yii\web\HttpException;
+use yii\data\ActiveDataProvider;
+use yii\rest\ActiveController;
 use yii\helpers\Url;
+
 use common\wechat\JSSDK;
 use common\models\ArticleCategory;
-use frontend\models\edu\resources\Course;
-use frontend\models\edu\resources\UsersToUsers;
-use frontend\models\edu\resources\Courseware;
-use frontend\models\edu\resources\Contact;
-use frontend\models\edu\resources\ApplyToPlay;
+
+use frontend\models\gedu\resources\Course;
+use frontend\models\gedu\resources\UsersToUsers;
+use frontend\models\gedu\resources\Courseware;
+use frontend\models\gedu\resources\Contact;
+use frontend\models\gedu\resources\ApplyToPlay;
 
 class ConfigController extends \common\rest\Controller
 {
@@ -88,7 +91,7 @@ class ConfigController extends \common\rest\Controller
 
     public function actionIndex()
     {
-         $model = new Courseware;
+         $model = new Course;
          $params = [
             ['type' => 3, 'name' => '热门课程', 'sort' => [1,2,3]],
             ['type' => 4, 'name' => '精品课程', 'sort' => [4,5,6,7]],
@@ -308,19 +311,20 @@ class ConfigController extends \common\rest\Controller
         $data = [];
         //var_dump($data);exit();
         for ($i=1; $i < 3 ; $i++) {
-            if($i%2==0){
-                $data[$i]['banner_id']  = ''.$i;
-                $data[$i]['title']      = $title[$i];
-                $data[$i]['imgUrl']     = $img[$i];
-                $data[$i]['type']       = 'URL';
-                $data[$i]['target_url'] = 'http://www.yajol.com/';
-        }else{
+            
+                // $data[$i]['banner_id']  = ''.$i;
+                // $data[$i]['title']      = $title[$i];
+                // $data[$i]['imgUrl']     = $img[$i];
+                // $data[$i]['type']       = 'URL';
+                // $data[$i]['target_url'] = 'http://www.yajol.com/';
+        
                 $data[$i]['banner_id']  = ''.$i;
                 $data[$i]['title']      = $title[$i];
                 $data[$i]['imgUrl']     = $img[$i];
                 $data[$i]['type']       = 'APP';
-                $data[$i]['target_url'] = Yii::$app->request->hostInfo.Url::to(['v1/courseware/view','courseware_id'=>1]);
-        }
+                $data[$i]['entity_id']  = 1;
+                $data[$i]['target_url'] = Yii::$app->request->hostInfo.Url::to(['v1/course/view','course_id'=>1]);
+        
     }
         sort($data);
         return $data;
@@ -374,21 +378,21 @@ class ConfigController extends \common\rest\Controller
         // 在线报名
         $apply = [];
         $apply['button_id']     = '7';
-        $apply['button_type']   = 'FORM';
+        $apply['button_type']   = 'WEB';
         $apply['button_icon']   = $icons[7];
         $apply['button_name']   = '在线报名';
         $apply['category_id']   = '';
-        $apply['button_target'] = Yii::$app->request->hostInfo.Url::to(['v1/config/apply']);
+        $apply['button_target'] = Yii::$app->request->hostInfo.Url::to(['site/apply-to-play']);
         array_push($data,$apply);
 
         // 联系我们
         $contact = [];
         $contact['button_id']     = '8';
-        $contact['button_type']   = 'ARTICLE';
+        $contact['button_type']   = 'WEB';
         $contact['button_icon']   = $icons[8];
         $contact['button_name']   = '联系我们';
         $contact['category_id']   = '';
-        $contact['button_target'] = Yii::$app->request->hostInfo.Url::to(['v1/article/contact']);
+        $contact['button_target'] = Yii::$app->request->hostInfo.Url::to(['site/contact']);
         array_push($data,$contact);
 
         return $data;

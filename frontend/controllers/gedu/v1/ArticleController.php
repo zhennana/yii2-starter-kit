@@ -79,7 +79,7 @@ class ArticleController extends \common\rest\Controller
      *        in = "query",
      *        name = "id",
      *        description = "button_id(文章父分类ID)",
-     *        required = false,
+     *        required = true,
      *        type = "string"
      *     ),
      *     @SWG\Response(
@@ -103,53 +103,21 @@ class ArticleController extends \common\rest\Controller
             return [];
         }
         foreach ($child_cate as $key => $value) {
-            $items = [];
-            $model = $modelClass::find()->where([
-                'category_id' => $value['id'],
-                'status'      => $modelClass::STATUS_PUBLISHED
-            ])->asArray()->all();
+            $temp['category_id'] = $value['id'];
+            $temp['title']       = $value['title'];
+            $temp['url'] = Yii::$app->request->hostInfo;
 
-            $temp['child_cate_id'] = $value['id'];
-            $temp['title']         = $value['title'];
-            foreach ($model as $k => $v) {
-                $item['article_id']      = $v['id'];
-                $item['title']           = $v['title'];
-                $item['body']            = $v['body'];
-                $item['page_view']       = $v['page_view'];
-                $item['unique_visitors'] = $v['unique_visitors'];
-                $item['collect_number']  = $v['collect_number'];
-                $item['comment_number']  = $v['comment_number'];
-                $item['useless_number']  = $v['useless_number'];
-                $item['published_at']    = date('Y-m-d H:i:s',$v['published_at']);
-                $items[] = $item;
+            if ($value['id'] == 37) {
+                $temp['url'] .= Url::to(['site/sights','category_id'=>$value['id']]);
+            }elseif ($value['id'] == 38) {
+                $temp['url'] .= Url::to(['site/teacher','category_id'=>$value['id']]);
+            }else{
+                $temp['url'] .= Url::to(['article/index','category_id'=>$value['id']]);
             }
-            $temp['items'] = $items;
-            unset($items);
+
             $data[] = $temp;
         }
 
-        return $data;
-    }
-
-    /**
-     * @SWG\Get(path="/article/contact",
-     *     tags={"GEDU-Article-文章接口"},
-     *     summary="联系我们",
-     *     description="返回联系我们信息",
-     *     produces={"application/json"},
-     *     @SWG\Response(
-     *         response = 200,
-     *         description = "返回联系我们信息"
-     *     ),
-     * )
-    **/
-    public function actionContact()
-    {
-        $data = [];
-
-        $data = [
-            'body' => '<p>学校地址：河北省三河市燕郊开发区燕灵路236号（三河二中西门路北）</p><p>邮编：065201</p><p>电话： 办公室： 0316-5997070 转6009</p><p>小学部办公室 转6003</p><p>中学部办公室 转6013</p><p>国际部办公室 转2599</p><p>招生办公室 转6688</p><p>董老师:13363653072, 杨老师:18034265209,马老师:18103165099</p><p>招生咨询时间：（周一至周日8:00-20:00）</p><p>网址：www.guangdaxuexiao.com</p>'
-        ];
         return $data;
     }
 
