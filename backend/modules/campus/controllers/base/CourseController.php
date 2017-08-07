@@ -121,7 +121,7 @@ public function actionCreate()
     $schools = ArrayHelper::map($schools,'school_id','school_title');
     try {
         if ($model->load($_POST) && $model->save()) {
-
+/*
             //记录老师要上正课的记录
             $start = date('Y-m-d').' 00:00:00';
             $end   = date('Y-m-d')." 23:59:59";
@@ -150,6 +150,7 @@ public function actionCreate()
                     $workModel->save();
                 }
             }
+            */
             //exit;
             return $this->redirect(['view', 'course_id' => $model->course_id]);
 
@@ -193,7 +194,7 @@ public function actionUpdate($course_id)
     $schools = Yii::$app->user->identity->schoolsInfo;
     $schools = ArrayHelper::map($schools,'school_id','school_title');
     if ($model->load($_POST) && $model->save()) {
-          //修改老师上正课的记录
+       /*   //修改老师上正课的记录
             $start = date('Y-m-d').' 00:00:00';
             $end   = date('Y-m-d')." 23:59:59";
             $start = strtotime($start);
@@ -231,6 +232,7 @@ public function actionUpdate($course_id)
                     $workModel->save();
             }
                 }
+                */
         return $this->redirect(Url::previous());
     } else {
 

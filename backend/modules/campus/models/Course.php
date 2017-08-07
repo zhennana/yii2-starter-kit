@@ -9,6 +9,7 @@ use backend\modules\campus\models\School;
 use backend\modules\campus\models\Grade;
 use backend\modules\campus\models\UserToGrade;
 use backend\modules\campus\models\CourseSchedule;
+use backend\modules\campus\models\WorkRecord;
 
 
 /**
@@ -122,6 +123,17 @@ public function behaviors()
                   }
                   if(isset($value['course_schedule_id'])){
                        CourseSchedule::deleteAll(['course_schedule_id'=>$value['course_schedule_id']]);
+                  }
+                  //删除老师的工作记录。
+                  if(isset($value['course_id']) && $value['course_schedule_id']){
+                      $work_record = WorkRecord::find()->where([
+                        'type'=>WorkRecord::TYPE_TWO,
+                        'course_schedule_id'=>$value['course_schedule_id'],
+                        'course_id'=>$value['course_id']
+                        ])->one();
+                      if($work_record){
+                          $work_record->delete();
+                      }
                   }
               }
           }
@@ -445,10 +457,8 @@ public function behaviors()
           if($date){
             $info['CourseSchedule']['which_day'] = $date;
           }
-          
           return $info;
     }
-    
 //检测排课是否存在,并且上过多少节课,剩余多少节课程
       public function is_checkout_course($param){
           $info = [
