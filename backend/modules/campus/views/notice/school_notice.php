@@ -133,7 +133,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                     'format'    => 'raw',
                     'enum'      => $schools,
                     'value'     => function($model){
-                        return $model->status_send;
+                        return $model->school_id;
                     },
                 ],
                 'title',
