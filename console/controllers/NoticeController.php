@@ -49,6 +49,7 @@ class NoticeController extends controller
             ];
             $APush = new APush;
             $rep = $APush->pushMessageToSingle($message);
+            var_dump($rep);
             if($rep['result'] == "ok"){
               $callback[] = $rep;
               $value->times++;
