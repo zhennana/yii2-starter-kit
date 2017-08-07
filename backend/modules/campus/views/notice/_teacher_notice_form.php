@@ -126,8 +126,12 @@ if($category == 1){
             ]);
             ?>
 <!-- attribute status_send -->
-            <?= $form->field($model, 'status_send')->dropDownList($model->optsStatusSend()) ?>
-
+            <!-- <? // $form->field($model, 'status_send')->dropDownList($model->optsStatusSend()) ?> -->
+            <?php
+                if($category == 1){
+            ?>
+            <?= $form->field($model,'is_a_push')->checkbox()->label('是否个推')?>
+            <?php }?>
         </p>
         <?php $this->endBlock(); ?>
         <?= Tabs::widget([

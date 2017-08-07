@@ -88,15 +88,15 @@ use common\models\User;
                 'pluginOptions' => [ 
                     'allowClear' => true 
                 ]
-               
+
             ]);
             ?>
 <!-- attribute status_send -->
-            <?= $form->field($model, 'status_send')->dropDownList($model->optsStatusSend()) ?>
+         <!--    <? // $form->field($model, 'status_send')->dropDownList($model->optsStatusSend()) ?> -->
 
         </p>
         <?php $this->endBlock(); ?>
-        
+
         <?= Tabs::widget([
             'encodeLabels' => false,
             'items'        => [[
