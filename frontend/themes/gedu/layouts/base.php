@@ -146,7 +146,7 @@ if(Yii::$app->session->hasFlash('alert')):?>
                         'items'=>[
                             [
                                 'label' => Yii::t('frontend', 'Manual'),
-                                'url' => ['/article/index', 'category_id'=>'25']
+                                'url' => ['/article/view', 'id'=>'50']
                             ],
                             // [
                             //     'label' => Yii::t('frontend', '幼小衔接班招生'),
@@ -155,7 +155,7 @@ if(Yii::$app->session->hasFlash('alert')):?>
                             // ],
                             [
                                 'label' => Yii::t('frontend', 'Primary'),
-                                'url' => ['/article/index', 'category_id'=>'26']
+                                'url' => ['/article/view', 'id'=>'51']
                             
                             ],
                             // [
@@ -165,19 +165,19 @@ if(Yii::$app->session->hasFlash('alert')):?>
                             // ],
                             [
                                 'label' => Yii::t('frontend', 'Middle'),
-                                'url' => ['/article/index', 'category_id'=>'27']
+                                'url' => ['/article/view', 'id'=>'53']
                             ],
                             [
                                 'label' => Yii::t('frontend', 'International'),
-                                'url' => ['/article/index', 'category_id'=>'28']
+                                'url' => ['/article/view', 'id'=>'54']
                             ],
                             [
                                 'label' => Yii::t('frontend', 'Korean'),
-                                'url' => ['/article/index', 'category_id'=>'39']
+                                'url' => ['/article/view', 'id'=>'59']
                             ],
                             [
                                 'label' => Yii::t('frontend', 'Special'),
-                                'url' => ['/article/index', 'category_id'=>'40']
+                                'url' => ['/article/view', 'id'=>'60']
                             ],
                             
                         ]
