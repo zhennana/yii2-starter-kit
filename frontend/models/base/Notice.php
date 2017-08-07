@@ -3,7 +3,7 @@
 namespace frontend\models\base;
 
 use Yii;
-use \backend\modules\campus\models\base\Notice as BaseNotice;
+use \backend\modules\campus\models\Notice as BaseNotice;
 use yii\helpers\ArrayHelper;
 
 /**

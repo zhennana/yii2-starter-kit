@@ -3,7 +3,7 @@
 namespace frontend\models\base;
 
 use Yii;
-use \backend\modules\campus\models\base\CoursewareToCourseware as BaseCoursewareToCourseware;
+use \backend\modules\campus\models\CoursewareToCourseware as BaseCoursewareToCourseware;
 use yii\helpers\ArrayHelper;
 
 /**

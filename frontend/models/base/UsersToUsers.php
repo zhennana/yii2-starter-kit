@@ -2,7 +2,7 @@
 namespace frontend\models\base;
 
 use Yii;
-use \backend\modules\campus\models\base\UsersToUsers as BaseUsersToUsers;
+use \backend\modules\campus\models\UsersToUsers as BaseUsersToUsers;
 use yii\helpers\ArrayHelper;
 
 /**

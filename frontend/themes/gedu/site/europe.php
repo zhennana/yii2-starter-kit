@@ -386,6 +386,14 @@
        }}      
   @media screen and (max-width:1450px)  {  
          .text11,.text12,.text13,.text14{      
+         font-size:16px;      
+       }}
+  @media screen and (max-width:1287px)  {  
+         .text11,.text12,.text13,.text14{      
+         font-size:14px;      
+       }}
+  @media screen and (max-width:1110px)  {  
+         .text11,.text12,.text13,.text14{      
          font-size:12px;      
        }}
   @media screen and (max-width:1200px)  {  
@@ -425,17 +433,31 @@
         height:17%;
        }
        }
-   @media screen and (max-width:1458px){
-       .text12{
-        top:35%;
+   @media screen and (max-width:872px){
+       .text13,.text14{
+        height:25%;
+        top:68%;
        }
    }
-   @media screen and (max-width:932px){
-       .text12{
+   @media screen and (max-width:674px){
+       .text13,.text14{
+        top:66%;
+       }
+   }
+   @media screen and (max-width:1000px){
+       .text11,.text12{
+        height:28%;
+        top:32%;
+       }
+   @media screen and (max-width:663px){
+       .text11,.text12{
         top:29%;
        }
-   }
-
+   @media screen and (max-width:674px){
+       .text13,.text14{
+        height:24%;
+       }
+   }  
 
 </style>
 <div>
@@ -486,10 +508,10 @@
          </div>
          <div class="fifth">
             <img src="http://otdndy0jt.bkt.clouddn.com/fifth3.png" class="img-responsive" >
-            <div class="text11">丹麦、瑞典、荷兰<br>留学生活费+学费 <br>每年8万人民币左右</div>
-            <div class="text12">匈牙利<br>自费留学生活费+学费 <br>每年6万元人民币左右</div>
-            <div class="text13">捷克<br>留学年均生活费+学费 <br>7万元人民币左右</div>
-            <div class="text14">波兰<br>留学年均生活费+学费 <br>6万元人民币左右</div>
+            <div class="text11">丹麦、瑞典、荷兰留学生活费+学费 每年8万人民币左右</div>
+            <div class="text12">匈牙利自费留学生活费+学费 每年6万元人民币左右</div>
+            <div class="text13">捷克留学年均生活费+学费 7万元人民币左右</div>
+            <div class="text14">波兰留学年均生活费+学费 6万元人民币左右</div>
          </div>
          <div class="sixth">
             <img src="http://otdndy0jt.bkt.clouddn.com/six.png" class="img-responsive" >

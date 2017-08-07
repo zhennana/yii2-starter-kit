@@ -3,7 +3,7 @@
 namespace frontend\models\base;
 
 use Yii;
-use \backend\modules\campus\models\base\StudentRecord as BaseStudentRecord;
+use \backend\modules\campus\models\StudentRecord as BaseStudentRecord;
 
 /**
  * This is the model class for table "student_record".

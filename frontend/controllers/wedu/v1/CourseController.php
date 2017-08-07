@@ -161,27 +161,8 @@ class CourseController extends \common\rest\Controller
     		$this->serializer['message'] 	= '请先登录';
     		return [];
     	}
-    	$studentRecord = StudentRecord::find()
-    		->select(['course_id','student_record_id'])
-	    	->where([
-                //'user_id'=>Yii::$app->user->identity->id,
-                //'course_id'=>$course_id,
-                'student_record_id'=>$student_record_id
-                ])
-	    	->andWhere(['status'=>StudentRecord::STUDEN_RECORD_STATUS_VALID])
-	    	->with(['course'=>function($query){
-                $query->with(['courseware']);
-            },
-            'studentRecordValue'=>function($query){
-                    $query->select(['student_record_key_id','student_record_value_id','student_record_id','body']);
-                    $query->with(['studentRecordValueToFile'=>function($query){
-
-                            $query->select(['student_record_value_id','file_storage_item_id']);
-	    					$query->with('fileStorageItem');
-	    			}]);
-	    	}])
-	    	->asArray()
-	    	->one();
+        $modelClass = $this->modelClass;
+    	$studentRecord = $modelClass::getStudentRecord($student_record_id);
 //var_dump($studentRecord);exit;
 	    $data = [];
         $data = [
