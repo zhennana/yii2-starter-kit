@@ -195,7 +195,7 @@
     /* -webkit-line-clamp:3; */
    }
    .text11{
-    font-size: 15px;
+    font-size: 18px;
     font-weight: bold;
     color:white;
     text-align: center;
@@ -213,7 +213,7 @@
     /* -webkit-line-clamp:3; */
    }
    .text12{
-    font-size: 15px;
+    font-size: 18px;
     font-weight: bold;
     color:white;
     text-align: center;
@@ -231,14 +231,14 @@
     /* -webkit-line-clamp:3; */
    }
    .text13{
-    font-size: 15px;
+    font-size: 18px;
     font-weight: bold;
     color:white;
     text-align: center;
     position: absolute; 
     top:72%;
     width:11%;
-    height:15%;
+    height:18%;
     margin-left: 23.5%;
     display: -webkit-box;  
     display: -moz-box;  
@@ -249,14 +249,14 @@
     /* -webkit-line-clamp:3; */
    }
    .text14{
-    font-size: 15px;
+    font-size: 18px;
     font-weight: bold;
     color:white;
     text-align: center;
     position: absolute; 
     top:72%;
     width:11%;
-    height:15%;
+    height:18%;
     margin-left: 65.5%;
     display: -webkit-box;  
     display: -moz-box;  
@@ -425,6 +425,11 @@
         height:17%;
        }
        }
+   @media screen and (max-width:1458px){
+       .text12{
+        top:35%;
+       }
+   }
    @media screen and (max-width:932px){
        .text12{
         top:29%;
@@ -436,7 +441,7 @@
 <div>
       <div class="body">
          <div class="head">
-            <img src="http://static.v1.guangdaxuexiao.com/23banner.jpg " class="img-responsive" height="555">
+            <img src="http://otdndy0jt.bkt.clouddn.com/liuxue.png " class="img-responsive" height="555">
          </div>
    
          <div class="second">        
@@ -475,7 +480,7 @@
             华沙大学、华沙理工大学等八所大学几十种英语授课专业！
             </div>
          
-            <div class="text10"><div class="text5">英美加澳</div>
+            <div class="text10"><div class="text5">英、美、加、澳</div>
             如果学生家庭条件允许，项目学生亦可选择英美加澳等传统留学国家。
             </div>
          </div>
