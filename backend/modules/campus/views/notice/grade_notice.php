@@ -166,16 +166,16 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                 //     }
                 // ],
                 //'times',
-                [
-                    'class'     =>\common\grid\EnumColumn::className(),
-                    'attribute' =>'status_send',
-                    'options'   => ['width' => '10%'],
-                    'format'    => 'raw',
-                    'enum'      => Notice::optsStatusSend(),
-                    'value'     => function($model){
-                        return $model->status_send;
-                    },
-                ],
+                // [
+                //     'class'     =>\common\grid\EnumColumn::className(),
+                //     'attribute' =>'status_send',
+                //     'options'   => ['width' => '10%'],
+                //     'format'    => 'raw',
+                //     'enum'      => Notice::optsStatusSend(),
+                //     'value'     => function($model){
+                //         return $model->status_send;
+                //     },
+                // ],
                 'updated_at:datetime',
                 'created_at:datetime',
                 /*'is_sms',*/

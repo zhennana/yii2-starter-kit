@@ -26,7 +26,8 @@ class APush {
     //             'body'  =>'',
     //            ],
     //          ]
-    // ];
+    //          ]
+    // ;
   public  function  pushMessageToSingleBatch($data)
     {
         //var_dump($this->a);exit;
@@ -168,9 +169,17 @@ class APush {
 
 
         //单推接口案例
-       public function pushMessageToSingle(){
+       public function pushMessageToSingle($data){
+
+            if($data['client_source_type'] == 10){
+                    //安卓 通知透传模板
+                    $template = $this->IGtNotificationTemplateDemo($data['message']);
+                }else{
+                    //ios  透传模板
+                    $template = $this->IGtTransmissionTemplateDemo($data['message']);
+            }
             $igt = new \IGeTui(HOST,APPKEY,MASTERSECRET);
-            $template = \IGtTransmissionTemplateDemo();
+            //$template = \IGtTransmissionTemplateDemo();
             $message = new \IGtSingleMessage();
 
             $message->set_isOffline(true);//是否离线
@@ -180,20 +189,21 @@ class APush {
             //接收方
             $target = new \IGtTarget();
             $target->set_appId(APPID);
-            $target->set_clientId(CID);
+            $target->set_clientId($data['cid']);
         //$target->set_alias(Alias);
 
 
             try {
                 $rep = $igt->pushMessageToSingle($message, $target);
-                var_dump($rep);
-                echo ("<br><br>");
+                return $rep;
+                // var_dump($rep);
+                // echo ("<br><br>");
 
             }catch(RequestException $e){
-                $requstId =$e->getRequestId();
-                $rep = $igt->pushMessageToSingle($message, $target,$requstId);
-                var_dump($rep);
-                echo ("<br><br>");
+               // $requstId =$e->getRequestId();
+              //  $rep = $igt->pushMessageToSingle($message, $target,$requstId);
+               // var_dump($rep);
+               // echo ("<br><br>");
             }
 
         }
