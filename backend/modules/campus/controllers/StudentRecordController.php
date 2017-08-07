@@ -27,7 +27,7 @@ class StudentRecordController extends \backend\modules\campus\controllers\base\S
 
 	public function actionExport($student_record_id)
 	{
-		$this->layout = false;
+		// $this->layout = false;
 		return $this->render('_export', [
 			'model' => $this->findModel($student_record_id),
 		]);

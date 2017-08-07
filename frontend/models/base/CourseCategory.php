@@ -3,7 +3,7 @@
 namespace frontend\models\base;
 
 use Yii;
-use \backend\modules\campus\models\base\CourseCategory as BaseCourseCategory;
+use \backend\modules\campus\models\CourseCategory as BaseCourseCategory;
 use yii\helpers\ArrayHelper;
 
 /**
