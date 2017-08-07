@@ -69,17 +69,19 @@ $school=[
                       <ul class="col-md-4  col-sm-4 col-xs-4 img">
                         <li>
                           <div class="port-7 effect-2">
-                            <div class="image-box" id="img-box">
+                            <div class="image-box" >
                               <img class="img-responsive" src="<?php echo $value['img'];?>" alt="Photo">
                             </div>
-                         <!--   <div class="text-desc">
-                              <h4><?php echo $value['name'];?></h4>
-                              <p><?php echo $value['school'];?></p>
-                            </div> -->
+                            <div class="modal-img">
+                                <!--   <h4><?php echo $value['name'];?></h4>
+                                <p><?php echo $value['school'];?></p> -->
+                               <img src="<?php echo $value['img'];?>" alt="Photo">
+//                               <span style="color:#fff" class="pre">上一张</span>
+//                               <span style="color:#fff" class="next">下一张</span>
+                            </div>
                           </div>
                         </li>
                       </ul>
-
                       <?php }?>
                     </div>
                   </div>
@@ -89,3 +91,12 @@ $school=[
       </div>
   </div>
 </div></div>
+<script>
+    $('.image-box').click(function(){
+        $(this).next().css({'visibility':'visible','opacity':1});
+      });
+     $('.modal-img').click(function(){
+         $(this).css({'visibility':'hidden','opacity':0});
+     })
+
+</script>
