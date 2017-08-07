@@ -471,15 +471,15 @@
             </div>
          
             <div class="text10"><div class="text5">其他</div>
-            如果学生家庭条件允许，项目学生亦可选择英美加澳新等传统留学国家。
+            如果学生家庭条件允许，项目学生亦可选择英美加澳等传统留学国家。
             </div>
          </div>
          <div class="fifth">
             <img src="http://otdndy0jt.bkt.clouddn.com/fifth3.png" class="img-responsive" >
-            <div class="text11">丹麦、瑞典、荷兰<br>留学总费用<br>每年8万人民币左右</div>
-            <div class="text12">匈牙利<br>自费留学年均总费用<br>6万元人民币左右</div>
-            <div class="text13">捷克<br>留学年均总费用<br>7万元人民币左右</div>
-            <div class="text14">波兰<br>留学年均总费用<br>6万元人民币左右</div>
+            <div class="text11">丹麦、瑞典、荷兰<br>留学生活费加学费<br>每年8万人民币左右</div>
+            <div class="text12">匈牙利<br>自费留学年均生活费加学费<br>6万元人民币左右</div>
+            <div class="text13">捷克<br>留学年均生活费加学费<br>7万元人民币左右</div>
+            <div class="text14">波兰<br>留学年均生活费加学费<br>6万元人民币左右</div>
          </div>
          <div class="sixth">
             <img src="http://otdndy0jt.bkt.clouddn.com/six.png" class="img-responsive" >
