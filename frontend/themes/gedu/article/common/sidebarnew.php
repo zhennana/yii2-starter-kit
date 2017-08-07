@@ -1,8 +1,10 @@
  
 <?php
 use yii\helpers\Html;
+use common\models\Article;
 
 $childNew=!empty($category['childs'])?$category['childs']:$category['child'];
+ // echo '<pre>';var_dump($childNew);exit;
 
 $cateParent=!empty($category['pare_name'])?$category['pare_name']:'光大学校';
 ?><!-- 左边侧边栏 -->
@@ -24,9 +26,17 @@ $cateParent=!empty($category['pare_name'])?$category['pare_name']:'光大学校'
                       echo Html::a($value['title'],['site/teacher','category_id'=>38]);
                      }else if($value['id']==37){
                       echo Html::a($value['title'],['site/sights','category_id'=>37]);
+                     }else if($value['parent_id']==24 || $value['parent_id']==1){
+                        $article=Article::find()->where(['category_id'=>$value['id']])->asArray()->one();
+                        if(isset($article)){
+                          echo Html::a($value['title'],['article/view','id'=>$article['id']]);
+                        }else{
+                          continue;
+                        }      
                      }else{
-                      echo Html::a($value['title'],['article/index','category_id'=>$value['id']]);
-                     } ?>
+                        echo Html::a($value['title'],['article/index','category_id'=>$value['id']]);
+                     }
+                      ?>
                      </span>
                 </li>
                 <?php }?>

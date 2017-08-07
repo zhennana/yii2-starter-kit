@@ -18,7 +18,7 @@ class NoticeSearch extends Notice
 public function rules()
 {
 return [
-[['notice_id', 'category', 'sender_id', 'receiver_id', 'is_sms', 'is_wechat_message', 'times', 'status_send', 'school_id','grade_id','status_check', 'created_at', 'updated_at'], 'integer'],
+[['notice_id', 'category', 'sender_id', 'receiver_id', 'is_sms', 'is_wechat_message', 'times', 'status_send', 'school_id','grade_id','status_check', 'created_at', 'updated_at','type'], 'integer'],
             [['title', 'message', 'message_hash', 'receiver_phone_numeber', 'receiver_name', 'wechat_message_id'], 'safe'],
 ];
 }
@@ -69,6 +69,7 @@ $query->andFilterWhere([
             'status_check' => $this->status_check,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'type'       =>$this->type,
         ]);
 
         $query->andFilterWhere(['like', 'title', $this->title])

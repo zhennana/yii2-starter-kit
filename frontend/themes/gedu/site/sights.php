@@ -24,19 +24,19 @@ $school=[
       'school'=>'光大学校教学楼'
       ],
     '5'=>[
-      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/guangdapeitao.jpg?imageView2/1/w/500/h/400',
-      'name'=>'教学楼',
+      'img'=>'http://static.v1.guangdaxuexiao.com/shiyanshi.jpg?imageView2/1/w/500/h/400',
+      'name'=>'实验室',
       'school'=>'光大学校教学楼'
       ],
     '6'=>[
-      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/guangdapei.jpg?imageView2/1/w/500/h/400',
-      'name'=>'教学楼',
-      'school'=>'光大学校教学楼'
+      'img'=>'http://static.v1.guangdaxuexiao.com/librayry.jpg?imageView2/1/w/500/h/400',
+      'name'=>'图书馆',
+      'school'=>'光大学校图书馆'
       ],
     '7'=>[
-      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/guagndasmal.jpg?imageView2/1/w/500/h/400',
-      'name'=>'教学楼',
-      'school'=>'光大学校教学楼'
+      'img'=>'http://static.v1.guangdaxuexiao.com/sushe.jpg?imageView2/1/w/500/h/400',
+      'name'=>'宿舍',
+      'school'=>'光大学校宿舍'
       ],
  ];
 ?>
@@ -66,19 +66,21 @@ $school=[
                   <div class="">
                     <div class="row teabor">
                     <?php foreach($school as $key =>$value){?>
-                      <ul class="col-md-4  col-sm-4 col-xs-4">
+                      <ul class="col-md-4  col-sm-4 col-xs-4 img">
                         <li>
                           <div class="port-7 effect-2">
-                            <div class="image-box">
+                            <div class="image-box" >
                               <img class="img-responsive" src="<?php echo $value['img'];?>" alt="Photo">
                             </div>
-                            <div class="text-desc">
-                              <h4><?php echo $value['name'];?></h4>
-                              <p><?php echo $value['school'];?></p>
+                            <div class="modal-img">
+                                <!--   <h4><?php echo $value['name'];?></h4>
+                                <p><?php echo $value['school'];?></p> -->
+                               <img src="<?php echo $value['img'];?>" alt="Photo">
+//                               <span style="color:#fff" class="pre">上一张</span>
+//                               <span style="color:#fff" class="next">下一张</span>
                             </div>
                           </div>
                         </li>
-                        
                       </ul>
                       <?php }?>
                     </div>
@@ -88,4 +90,13 @@ $school=[
         </div>
       </div>
   </div>
-</div>
+</div></div>
+<script>
+    $('.image-box').click(function(){
+        $(this).next().css({'visibility':'visible','opacity':1});
+      });
+     $('.modal-img').click(function(){
+         $(this).css({'visibility':'hidden','opacity':0});
+     })
+
+</script>

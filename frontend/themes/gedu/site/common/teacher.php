@@ -8,37 +8,37 @@ $imgsize="?imageView2/1/w/250/h/300";
       'img'=>'http://orh16je38.bkt.clouddn.com/jinrong1.jpg',
       'name'=>'靳荣',
       'description'=>'女，29岁，本科，河北师范大学（音乐教育），音乐。',
-      'background'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/main-3-1.png'
+      'background'=>'http://otdndy0jt.bkt.clouddn.com/zongxiao.png'
       ],
     '2'=>[
       'img'=>'http://orh16je38.bkt.clouddn.com/libaocai1.jpg',
       'name'=>'李宝才',
       'description'=>'男，56岁，本科，哈尔滨师范大学，中学高级教师,光大小学教务主任。',
-      'background'=>'http://orh16je38.bkt.clouddn.com/11.jpg'
+      'background'=>'http://otdndy0jt.bkt.clouddn.com/zongxiao.png'
       ],
     '3'=>[
       'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/qijing1.JPG',
       'name'=>'齐婧',
       'description'=>'女，26岁，本科，邢台学院（小学教育），数学。',
-      'background'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/main-3-1.png'
+      'background'=>'http://otdndy0jt.bkt.clouddn.com/zongxiao.png'
       ],
     '4'=>[
       'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/tianyadong1.jpg',
       'name'=>'田亚东',
       'description'=>'女，35岁，本科，河北师范大学（英语教育），英语。',
-      'background'=>'http://orh16je38.bkt.clouddn.com/11.jpg'
+      'background'=>'http://otdndy0jt.bkt.clouddn.com/zongxiao.png'
       ],
     '5'=>[
       'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/tianyuan1.jpg',
       'name'=>'田媛',
       'description'=>'女，26岁，本科，西华师范大学（汉语言文学）。',
-      'background'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/main-3-1.png'
+      'background'=>'http://otdndy0jt.bkt.clouddn.com/zongxiao.png'
       ],
     '6'=>[
       'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/yangmeijuan1.jpg',
       'name'=>'杨美娟',
       'description'=>'女，35岁，本科，朝阳师范学院（美术教育 ），美术。',
-      'background'=>'http://orh16je38.bkt.clouddn.com/11.jpg'
+      'background'=>'http://otdndy0jt.bkt.clouddn.com/zongxiao.png'
       ]
  ];
 ?>

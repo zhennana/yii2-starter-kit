@@ -259,7 +259,7 @@ $model->which_day  = 1;
         $("<td colspan=\"1\">班级</td>").appendTo(tr2);
         $("<td colspan=\"1\">排课</td>").appendTo(tr2);
         $("<td colspan=\"1\">日期</td>").appendTo(tr2);
-        $("<td colspan=\"1\">是否以上课</td>").appendTo(tr2);
+        $("<td colspan=\"1\">是否已上课</td>").appendTo(tr2);
 
 
         tr1_td_conflict.appendTo(tr2);
