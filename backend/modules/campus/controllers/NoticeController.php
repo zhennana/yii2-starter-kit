@@ -359,7 +359,11 @@ class NoticeController extends \backend\modules\campus\controllers\base\NoticeCo
             ]);
         $dataProvider->query->andWhere([
             'NOT',
-            ['receiver_id' => NULL,'type'=>0],
+            ['receiver_id' => NULL],
+            ]);
+         $dataProvider->query->andWhere([
+            'NOT',
+            ['type' => 0],
             ]);
         $dataProvider->sort = [
             'defaultOrder'=>[
