@@ -425,6 +425,11 @@
         height:17%;
        }
        }
+   @media screen and (max-width:932px){
+       .text12{
+        top:29%;
+       }
+   }
 
 
 </style>
@@ -470,7 +475,7 @@
             华沙大学、华沙理工大学等八所大学几十种英语授课专业！
             </div>
          
-            <div class="text10"><div class="text5">其他</div>
+            <div class="text10"><div class="text5">英美加澳</div>
             如果学生家庭条件允许，项目学生亦可选择英美加澳等传统留学国家。
             </div>
          </div>
