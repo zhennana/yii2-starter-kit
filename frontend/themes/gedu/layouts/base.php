@@ -107,11 +107,11 @@ if(Yii::$app->session->hasFlash('alert')):?>
                         'items'=>[
                             [
                                 'label' => Yii::t('frontend', 'Shool & Department'),
-                                'url' => ['/article/index', 'category_id'=>'9']
+                                'url' => ['/article/view', 'id'=>'55']
                             ],
                             [
                                 'label' => Yii::t('frontend', 'Concepts'),
-                                'url' => ['/article/index', 'category_id'=>'32'],
+                                'url' => ['/article/view', 'id'=>'58'],
                             ],
                             [
                                 'label' => Yii::t('frontend', 'Campus Mien'),
