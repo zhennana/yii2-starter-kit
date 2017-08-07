@@ -66,20 +66,20 @@ $school=[
                   <div class="">
                     <div class="row teabor">
                     <?php foreach($school as $key =>$value){?>
-                      <ul class="col-md-4  col-sm-4 col-xs-4">
+                      <ul class="col-md-4  col-sm-4 col-xs-4 img">
                         <li>
                           <div class="port-7 effect-2">
-                            <div class="image-box">
+                            <div class="image-box" id="img-box">
                               <img class="img-responsive" src="<?php echo $value['img'];?>" alt="Photo">
                             </div>
-                            <div class="text-desc">
+                         <!--   <div class="text-desc">
                               <h4><?php echo $value['name'];?></h4>
                               <p><?php echo $value['school'];?></p>
-                            </div>
+                            </div> -->
                           </div>
                         </li>
-                        
                       </ul>
+
                       <?php }?>
                     </div>
                   </div>
@@ -88,4 +88,4 @@ $school=[
         </div>
       </div>
   </div>
-</div>
+</div></div>
