@@ -24,19 +24,19 @@ $school=[
       'school'=>'光大学校教学楼'
       ],
     '5'=>[
-      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/guangdapeitao.jpg?imageView2/1/w/500/h/400',
-      'name'=>'教学楼',
+      'img'=>'http://static.v1.guangdaxuexiao.com/shiyanshi.jpg?imageView2/1/w/500/h/400',
+      'name'=>'实验室',
       'school'=>'光大学校教学楼'
       ],
     '6'=>[
-      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/guangdapei.jpg?imageView2/1/w/500/h/400',
-      'name'=>'教学楼',
-      'school'=>'光大学校教学楼'
+      'img'=>'http://static.v1.guangdaxuexiao.com/librayry.jpg?imageView2/1/w/500/h/400',
+      'name'=>'图书馆',
+      'school'=>'光大学校图书馆'
       ],
     '7'=>[
-      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/guagndasmal.jpg?imageView2/1/w/500/h/400',
-      'name'=>'教学楼',
-      'school'=>'光大学校教学楼'
+      'img'=>'http://static.v1.guangdaxuexiao.com/sushe.jpg?imageView2/1/w/500/h/400',
+      'name'=>'宿舍',
+      'school'=>'光大学校宿舍'
       ],
  ];
 ?>
