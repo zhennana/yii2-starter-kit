@@ -476,10 +476,10 @@
          </div>
          <div class="fifth">
             <img src="http://otdndy0jt.bkt.clouddn.com/fifth3.png" class="img-responsive" >
-            <div class="text11">丹麦、瑞典、荷兰<br>留学生活费加学费 <br>每年8万人民币左右</div>
-            <div class="text12">匈牙利<br>自费留学生活费加学费 <br>每年6万元人民币左右</div>
-            <div class="text13">捷克<br>留学年均生活费加学费 <br>7万元人民币左右</div>
-            <div class="text14">波兰<br>留学年均生活费加学费 <br>6万元人民币左右</div>
+            <div class="text11">丹麦、瑞典、荷兰<br>留学生活费+学费 <br>每年8万人民币左右</div>
+            <div class="text12">匈牙利<br>自费留学生活费+学费 <br>每年6万元人民币左右</div>
+            <div class="text13">捷克<br>留学年均生活费+学费 <br>7万元人民币左右</div>
+            <div class="text14">波兰<br>留学年均生活费+学费 <br>6万元人民币左右</div>
          </div>
          <div class="sixth">
             <img src="http://otdndy0jt.bkt.clouddn.com/six.png" class="img-responsive" >
