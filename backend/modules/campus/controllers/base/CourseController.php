@@ -69,13 +69,16 @@ public function actionIndex()
         $grades  = ArrayHelper::map($grades,'grade_id','grade_name');
         //$dataProvider->query->select(['']);
         $dataProvider->query->andWhere([
-                'grade_id'  => $this->gradeIdCurrent,
-            ]);
+            'or',
+            ['grade_id'  => $this->gradeIdCurrent],
+            ['grade_id'  => 0]
+        ]);
         $dataProvider->sort = [
                    'defaultOrder'=>[
                         'updated_at'=>SORT_DESC,
                    ]
         ];
+
     Tabs::clearLocalStorage();
 
     Url::remember();
@@ -164,6 +167,20 @@ public function actionCreate()
             ]);
     }
 
+    public function actionCreateCourse()
+    {
+        $model = new Course();
+        $model->setScenario(Course::SCENARIO_GEDU_COURSE);
+// dump($model->scenarios());exit;
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'course_id' => $model->course_id]);
+        } else {
+            return $this->render('gedu/create', [
+                'model' => $model,
+            ]);
+        }
+    }
+
 /**
 * Updates an existing Course model.
 * If update is successful, the browser will be redirected to the 'view' page.
@@ -216,12 +233,26 @@ public function actionUpdate($course_id)
                 }
         return $this->redirect(Url::previous());
     } else {
+
         return $this->render('update', [
             'model' => $model,
             'schools'=>$schools
             ]);
     }
 }
+
+    public function actionUpdateCourse($course_id)
+    {
+        $model = $this->findModel($course_id);
+        $model->setScenario(Course::SCENARIO_GEDU_COURSE);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'course_id' => $model->course_id]);
+        } else {
+            return $this->render('gedu/update', [
+                'model' => $model,
+            ]);
+        }
+    }
 
 /**
 * Deletes an existing Course model.

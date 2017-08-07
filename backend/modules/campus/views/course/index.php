@@ -23,11 +23,14 @@ if (\Yii::$app->user->can('P_teacher', ['route' => true])|| \Yii::$app->user->ca
     $actionColumnTemplates[] = '{view}';
 }
 
-if (\Yii::$app->user->can('P_director', ['route' => true]) || 
+if ((\Yii::$app->user->can('P_director', ['route' => true]) || 
     \Yii::$app->user->can('E_manager') ||
     \Yii::$app->user->can('manager')
-    ) {
+    ) || env('THEME') == 'edu') {
     $actionColumnTemplates[] = '{update}';
+}
+if (env('THEME') == 'gedu' || \Yii::$app->user->can('manager')) {
+ $actionColumnTemplates[] = '{update-course}';
 }
 if (\Yii::$app->user->can('P_director', ['route' => true]) || 
     \Yii::$app->user->can('E_manager') ||
@@ -40,7 +43,7 @@ if (isset($actionColumnTemplates)) {
     $actionColumnTemplateString = $actionColumnTemplate;
 } else {
 Yii::$app->view->params['pageButtons'] = Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'New'), ['create'], ['class' => 'btn btn-success']);
-    $actionColumnTemplateString = "{view} {update} {delete}";
+    $actionColumnTemplateString = "{view} {update} {delete} {update-course}";
 }
 $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTemplateString.'</div>';
 
@@ -64,20 +67,29 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
         </small>
     </h1>
     <div class="clearfix crud-navigation">
-        <?php
-           if (\Yii::$app->user->can('P_director', ['route' => true]) || 
+        <div class="pull-left">
+            <?php if ((\Yii::$app->user->can('P_director', ['route' => true]) || 
                 \Yii::$app->user->can('E_manager') ||
                 \Yii::$app->user->can('manager')
-                ) {
-        ?>
-        <div class="pull-left">
-            <?= Html::a(
-                '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '新建'),
-                ['create'],
-                ['class' => 'btn btn-success']
-            ) ?>
+                ) || env('THEME') == 'edu') {
+            ?>
+                <?= Html::a(
+                    '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '排课'),
+                    ['create'],
+                    ['class' => 'btn btn-success']
+                ) ?>
+                <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '批量排课'), ['course-batch'], ['class' => 'btn btn-success']) ?>
+
+            <?php } ?>
+
+            <?php if (env('THEME') == 'gedu' || \Yii::$app->user->can('manager')) {
+                echo Html::a(
+                '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '新建课程'),
+                ['create-course'],
+                ['class' => 'btn btn-success']);
+             
+            } ?>
         </div>
-        <?php } ?>
         <div class="pull-right">
 
             <?= \yii\bootstrap\ButtonDropdown::widget([
@@ -93,9 +105,6 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                     'class' => 'btn-default'
                 ]
             ]); ?>
-        </div>
-         <div class="pull-left">
-            <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '批量排课'), ['course-batch'], ['class' => 'btn btn-success']) ?>
         </div>
     </div>
 
@@ -124,7 +133,23 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                                 'data-pjax'  => '0',
                             ];
                             return Html::a('<span class="glyphicon glyphicon-file"></span>', $url, $options);
-                        }
+                        },
+                        'update' => function ($url, $model, $key) {
+                            $options = [
+                                'title'      => Yii::t('backend', '更新排课'),
+                                'aria-label' => Yii::t('backend', '更新排课'),
+                                'data-pjax'  => '0',
+                            ];
+                            return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, $options);
+                        },
+                        'update-course' => function ($url, $model, $key) {
+                            $options = [
+                                'title'      => Yii::t('backend', '更新课程'),
+                                'aria-label' => Yii::t('backend', '更新课程'),
+                                'data-pjax'  => '0',
+                            ];
+                            return Html::a('<span class="glyphicon glyphicon-wrench"></span>', $url, $options);
+                        },
                     ],
                     'urlCreator' => function($action, $model, $key, $index) {
                         // using the column name as key, not mapping to 'id' like the standard generator
@@ -153,7 +178,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                     'label'     => '课件',
                      'format'    => 'raw',
                     'value'     => function($model){
-                        if($model->courseware->title){
+                        if(isset($model->courseware->title)){
                             return Html::a($model->courseware->title,[
                                         '/campus/courseware/view','courseware_id'=>$model->courseware_id
                                 ]);
