@@ -6,8 +6,6 @@ $url = Yii::getAlias('@backendUrl/js/doc/');
 
 // 档案标题
 $course_title = isset($model->course->title) ? $model->course->title  : '';
-$title        = isset($model->title) ? $model->title  : '';
-
 
 // 模版路径
 $template_url = 'http://static.v1.wakooedu.com/template_001.docx';
@@ -17,7 +15,7 @@ $template_url = 'http://static.v1.wakooedu.com/template_001.docx';
 // 数据格式化
 $data = $model->recordFormat();
 $data['time']         = getTime($model->course_schedule_id);
-$data['record_title'] = '《'.$course_title.'》：'.$title;
+$data['record_title'] = '《'.$category_name.'》：'.$course_title;
 $data['student_name'] = Yii::$app->user->identity->getUserName($model->user_id);
 $data['filename']     = '【瓦酷-学员档案】['.$course_title.']_'.$data['student_name'].'_'.date("Y-m-d").'.docx';
 
