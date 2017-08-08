@@ -27,9 +27,15 @@ class StudentRecordController extends \backend\modules\campus\controllers\base\S
 
 	public function actionExport($student_record_id)
 	{
-		$this->layout = false;
+		// $this->layout = false;
+		$category_name = '';
+		$model = $this->findModel($student_record_id);
+		if ($model) {
+			$category_name = isset($model->course->courseware->coursewareCategory->name) ? $model->course->courseware->coursewareCategory->name : '';
+		}
 		return $this->render('_export', [
-			'model' => $this->findModel($student_record_id),
+			'model' => $model,
+			'category_name' => $category_name,
 		]);
 	}
 	

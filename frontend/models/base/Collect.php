@@ -3,7 +3,7 @@
 namespace frontend\models\base;
 
 use Yii;
-use \backend\modules\campus\models\base\Collect as BaseCollect;
+use \backend\modules\campus\models\Collect as BaseCollect;
 use yii\helpers\ArrayHelper;
 
 /**
