@@ -26,6 +26,9 @@ $actionColumnTemplates = [];
 // if (\Yii::$app->user->can('campus_course-schedule_update', ['route' => true])) {
 //     $actionColumnTemplates[] = '{update}';
 // }
+   if (Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_director')) {
+     $actionColumnTemplates[] = '{button}';
+    }
 
  if (\Yii::$app->user->can('manager', ['route' => true])) {
      $actionColumnTemplates[] = '{delete}';
@@ -56,7 +59,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
     </h1>
     <div class="clearfix crud-navigation">
 <?php
-if(\Yii::$app->user->can('user', ['route' => true])){
+if(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_director')){
 ?>
         <div class="pull-left">
             <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '批量排课'), ['course/course-batch'], ['class' => 'btn btn-success']) ?>
@@ -171,10 +174,10 @@ if(\Yii::$app->user->can('user', ['route' => true])){
             [
                     'class'    =>'yii\grid\ActionColumn',
                     'header'   =>'排课时间对调',
-                    'template' =>'{button}',
+                    'template' =>$actionColumnTemplateString,
                     'buttons'  =>[
                         'button' => function($url,$model,$key){
-                            if($model->status !=20){
+                            if($model->status !=20 ){
                                 return Html::a('时间排课',
                                     ['time-switch',
                                     'grade_id'  => $model->course->grade_id,
