@@ -70,7 +70,7 @@ class UserForm extends Model
                 )]
             ],
             [['gender','birth'],'safe'],
-         //  [['gender','birth'],'required','on'=>['']],
+            //[['gender','birth'],'required','on'=>['']],
             //['school_id', 'required', 'on'=>'create'],
         ];
     }
@@ -174,8 +174,9 @@ class UserForm extends Model
             if (!$model->save()) {
                 throw new Exception('Model not saved');
             }
+
             $profile = [
-                    'birth'=>$this->birth,
+                    'birth'=> strtotime($this->birth),
                     'gender'=>$this->gender,
             ];
             if ($isNewRecord) {

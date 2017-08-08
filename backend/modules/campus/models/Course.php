@@ -35,7 +35,7 @@ public function behaviors()
              [
                   [['start_time','end_time','intro'],'safe','on'=>'course_view'],
                   [
-                    ['school_id','grade_id','category_id','start_date','which_day','start_times','end_times','teacher_id'],'required','on'=>'course_view'
+                    ['school_id','grade_id','category_id','weeks','which_day','start_times','end_times','teacher_id'],'required','on'=>'course_view'
                   ],
                   [
                     'end_times','required','when'=>function($model,$attribute){
@@ -55,7 +55,7 @@ public function behaviors()
     $scenarios = parent::scenarios();
     //批量检测值
     $scenarios['course_view'] = [
-          'category_id','school_id','grade_id','teacher_id','start_date','which_day','start_times','end_times'];
+          'category_id','school_id','grade_id','teacher_id','weeks','which_day','start_times','end_times'];
     $scenarios['create_batch'] = [
           'school_id','grade_id','teacher_id','courseware_id','title','status'
     ];
@@ -161,7 +161,6 @@ public function behaviors()
           $data['count'] = count($coursewareModel);
           $gradeModel =  Grade::find()->select(['grade_name'])->where(['grade_id'=>$data['grade_id']])->asArray()->one();
           $data['grade_name']    = isset($gradeModel['grade_name']) ? $gradeModel['grade_name'] : '';
-          
           //计算本次排课的时间段
           $info['schedule_time'] = $this->TimeCalculate($data);
           //检测班级是否是新课程
@@ -591,10 +590,10 @@ public function behaviors()
          //符合课程的开始时间
         $d_time = strtotime(date('Y-m-d'));
         $i = 1;
-        $data['start_date']  = strtotime($data['start_date']);
+        $data['which_day']  = strtotime($data['which_day']);
 
         //根据当天时间算出符合排课要求的某天
-        while($d_time < $data['start_date']){
+        while($d_time < $data['which_day']){
           $d_time = strtotime('+'.$i .' day');
           $i++;
         }
@@ -606,25 +605,25 @@ public function behaviors()
         if($d_week == 0){
             $d_week = 7;
         }
-        if($d_week > $data['which_day']){
+        if($d_week > $data['weeks']){
             $d_time = $d_time + 1*7*3600*24;
         }
         //var_dump(date('Y-m-d',$d_time));exit;
          //$d_week = date('w',$d_time);
         
         //符合看看本周时间是否已经过期，如果过期直接从下星期开始
-        if($d_week > $data['which_day']){
-            $d_time = $d_time - (($d_week-$data['which_day'])*24*3600);
+        if($d_week > $data['weeks']){
+            $d_time = $d_time - (($d_week-$data['weeks'])*24*3600);
         }
-        if($d_week < $data['which_day']){
-            $d_time = $d_time + (($data['which_day']- $d_week)*24*3600);
+        if($d_week < $data['weeks']){
+            $d_time = $d_time + (($data['weeks']- $d_week)*24*3600);
         }
         // $this->showOneWeek();
         // exit;
     //var_dump(date('Y-m-d',$d_time),$data['which_day'],$d_week);exit;
 
         //同一天时间检测时间段 是否已经过时。
-        if($d_week == $data['which_day']){
+        if($d_week == $data['weeks']){
             $time = time();
             $start_times = strtotime(date('Y').'-'.date('m').'-'.date('d').' '. $data['start_times']);
             if($start_times < $time){

@@ -10,17 +10,14 @@ use trntv\yii\datetime\DateTimeWidget;
 $this->title = Yii::t('backend', '排课');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '学校人员管理'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-//var_dump(time());exit;
-
-
-$model->school_id = 29;
-$model->grade_id  = 22;
-$model->category_id = 3;
-$model->teacher_id = 1;
-$model->start_times = 1501237313;
-$model->start_date = time();
-$model->end_times  = (1501237313+ 60*60);
-$model->which_day  = 1;
+// $model->school_id  = 3;
+// $model->grade_id   = 25;
+// $model->category_id   = 1;
+$model->teacher_id = 30;
+$model->which_day  = time();
+// $model->weeks      = 1;
+$model->start_times = strtotime(date('Y-m-d')." 17:30");
+$model->end_times   = strtotime(date('Y-m-d')." 19:00");
 ?>
 
 <!-- <div class="error-summary alert alert-error" style=""></div> -->
@@ -29,7 +26,7 @@ $model->which_day  = 1;
        // 'action'=>'',
 ]); ?>
 
-    <?php echo $form->errorSummary($model); ?>
+    <!-- <?php // echo $form->errorSummary($model); ?> -->
 
 <div class="col-md-12">
 <!-- general form elements -->
@@ -110,7 +107,7 @@ $model->which_day  = 1;
         </div> 
         <div  class="col-lg-12"></div>
         <div class="col-lg-3">
-            <?= $form->field($model, 'start_date')->widget(
+            <?= $form->field($model, 'which_day')->widget(
                     DateTimeWidget::className(),
                     [
                         'locale'            => Yii::$app->language,
@@ -120,7 +117,7 @@ $model->which_day  = 1;
         </div>
 
         <div class="col-lg-3">
-            <?= $form->field($model, 'which_day')->widget(Select2::className(),
+            <?= $form->field($model, 'weeks')->widget(Select2::className(),
                 [
                     'data'          => [
                                 1=>'周一',
@@ -343,6 +340,7 @@ $model->which_day  = 1;
                 $('#schedule_record table').remove();
                 $('#message').empty();
                 if(response.is_commit == true){
+                     FormNotOption();
                     //$('#paicha').attr('disabled',"true");
                     $('#schedule_record table').remove();
                     $('#commit').show();
@@ -389,6 +387,7 @@ $model->which_day  = 1;
         return false;
     });
     $("#back").on('click',function(){
+        formOption();
         $('#paicha').show();
         $('#back').hide();
         $('#commit').hide();
@@ -398,6 +397,30 @@ $model->which_day  = 1;
     }
 
         );
+    //表单不可编辑
+    function FormNotOption(){
+        $('#course-school_id').attr('disabled','true');
+        $('#course-grade_id').attr('disabled','true');
+        $('#course-category_id').attr('disabled','true');
+        $('#course-which_day').attr('disabled','true');
+        $('#course-weeks').attr('disabled','true');
+        $('#course-start_times').attr('disabled','true');
+        $('#course-end_times').attr('disabled','true');
+        $('#course-teacher_id').attr('disabled','true');
+        return true;
+    }
+
+    function formOption(){
+        $('#course-school_id').removeAttr('disabled');
+        $('#course-grade_id').removeAttr('disabled');
+        $('#course-category_id').removeAttr('disabled');
+        $('#course-which_day').removeAttr('disabled');
+        $('#course-weeks').removeAttr('disabled');
+        $('#course-start_times').removeAttr('disabled');
+        $('#course-end_times').removeAttr('disabled');
+        $('#course-teacher_id').removeAttr('disabled');
+        return true;
+    }
 
 </script>
  <style>

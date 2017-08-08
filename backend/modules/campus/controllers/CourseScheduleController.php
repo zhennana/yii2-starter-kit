@@ -29,7 +29,6 @@ class CourseScheduleController extends \backend\modules\campus\controllers\base\
                     ->andwhere(['not',['c.status'=>20,'s.status'=>20]])
                     ->asArray()
                     ->all();
-            
            if($_POST){
             //var_Dump($_POST);exit;
                 if(isset($_POST['CourseSchedule'][0]) && isset($_POST['CourseSchedule'][1]) && !empty($_POST['CourseSchedule'][1]) && !empty($_POST[

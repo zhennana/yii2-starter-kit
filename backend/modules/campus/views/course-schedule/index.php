@@ -10,7 +10,7 @@ use \backend\modules\campus\models\CourseSchedule;
     * @var backend\modules\campus\models\search\CourseSchedule $searchModel
 */
 
-$this->title = Yii::t('models', 'Course Schedules');
+$this->title = Yii::t('models', '排课管理');
 $this->params['breadcrumbs'][] = $this->title;
 
 
@@ -27,9 +27,9 @@ $actionColumnTemplates = [];
 //     $actionColumnTemplates[] = '{update}';
 // }
 
-// if (\Yii::$app->user->can('campus_course-schedule_delete', ['route' => true])) {
-//     $actionColumnTemplates[] = '{delete}';
-// }
+ if (\Yii::$app->user->can('manager', ['route' => true])) {
+     $actionColumnTemplates[] = '{delete}';
+ }
 if (isset($actionColumnTemplates)) {
 $actionColumnTemplate = implode(' ', $actionColumnTemplates);
     $actionColumnTemplateString = $actionColumnTemplate;
