@@ -15,16 +15,15 @@ use common\components\APush\APush;
 class SignIn extends BaseSignIn
 {
 
-public function behaviors()
-    {
-        return ArrayHelper::merge(
-            parent::behaviors(),
-            [
-                # custom behaviors
-            ]
-        );
-    }
-
+    public function behaviors()
+        {
+            return ArrayHelper::merge(
+                parent::behaviors(),
+                [
+                    # custom behaviors
+                ]
+            );
+        }
     public function rules()
     {
         return ArrayHelper::merge(
@@ -60,7 +59,7 @@ public function behaviors()
                 if(!$model->save()){
                   $data['error'][$key] = $model->getErrors();
                 }else{
-                  $message = [];
+                  //$message = [];
                   // 添加学生档案
                   if($model->type_status == 10){
                       $this->addStudentRecord([
@@ -71,27 +70,13 @@ public function behaviors()
                             'course_schedule_id'=>$model->course_schedule_id,
                             'title'     => '',
                             'status'    => 1,
-                        ]);
+                      ]);
                       if($is_change_course == true){
                         $is_change_course = false;
                         //更新课程状态
                         Course::updateAll(['status'=>Course::COURSE_STATUS_FINISH],'course_id='.$model->course_id);
                         CourseSchedule::updateAll(['status'=>CourseSchedule::COURSE_STATUS_FINISH],'course_schedule_id='.$model->course_schedule_id);
                       }
-
-                    //发送推送消息
-                    $userProfile = Yii::$app->user->identity->getUserProfile($model->student_id);
-                    if(isset($userProfile->clientid) && isset($userProfile->client_source_type)){
-                        $message[] = [
-                              'client_source_type'=> $userProfile->client_source_type,
-                              'cid'               => $userProfile->clientid,
-                              'message'           => [
-                                      'title' =>'上课通知',
-                                      'body'  =>'您的孩子签到了:'.$model->course->title
-                              ]
-                        ];
-                    }
-
                   }
                   $data['message'][$key] = $model;
                 }
@@ -114,12 +99,7 @@ public function behaviors()
         }
 
     }
-    //签到个推
-    if(!empty($message)){
-        $APush = new APush;
-        $APush->pushMessageToSingleBatch($message);
-    }
-     return $data;
+    return $data;
   }
 
     /**
