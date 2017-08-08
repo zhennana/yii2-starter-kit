@@ -212,20 +212,19 @@ class ConfigController extends \common\rest\Controller
                 'forced_updating' => '0',   // 强制更新
 
                 // 安卓更新描述，发版后手动更新
-                'description' => "\r\n修复已知bug\r\n",
+                'description' => "1.修复已知问题\r\n 2.增加消息推送功能",
 
                 // 安卓特有，CRM数据库字段支持
                 // 'version_code' => '', 
 
                 // 安卓安装地址，发版后手动更新
-                'install_address' => 'http://static.v1.meilinyouxuan.com/app-release_103_android%201.0.3.apk',
+                'install_address' => 'http://static.v1.wakooedu.com/app-release-1.0.1.apk',
 
                 // 安卓更新失败提示，发版后手动更新
                 'tip' => '更新失败，请去应用商店或官网直接下载安装',
 
                 // 安卓客户端维护范围，在此范围内的版本不会强制更新
                 'range_client_version' => [
-                    '1.0.0',
                     '1.0.1',
                 ],
 
