@@ -137,14 +137,14 @@ $avatar .= '?imageView2/3/w/215/h/215';
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <img src="<?php echo $avatar; ?>" class="user-image">
-                                <span><?php echo Yii::$app->user->identity->username ?> <i class="caret"></i></span>
+                                <span><?php echo Yii::$app->user->identity->getUserName(Yii::$app->user->identity->id) ?> <i class="caret"></i></span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header light-blue">
                                     <img src="<?php echo $avatar; ?>" class="img-circle" alt="User Image" />
                                     <p>
-                                        <?php echo Yii::$app->user->identity->username ?>
+                                        <?php  echo Yii::$app->user->identity->getUserName(Yii::$app->user->identity->id)  ?>
                                         <small>
                                             <?php echo Yii::t('backend', 'Member since {0, date, short}', Yii::$app->user->identity->created_at) ?>
                                         </small>
