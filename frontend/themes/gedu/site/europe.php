@@ -463,7 +463,7 @@
 <div>
       <div class="body">
          <div class="head">
-            <img src="http://otdndy0jt.bkt.clouddn.com/liuxue.png " class="img-responsive" height="555">
+            <img src="http://otdndy0jt.bkt.clouddn.com/bannerouzhou.png" class="img-responsive" height="555">
          </div>
    
          <div class="second">        
