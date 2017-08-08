@@ -65,24 +65,36 @@ $school=[
                 <div class="demo">
                   <div class="">
                     <div class="row teabor">
-                    <?php foreach($school as $key =>$value){?>
-                      <ul class="col-md-4  col-sm-4 col-xs-4 img">
-                        <li>
+
+                      <ul><?php foreach($school as $key =>$value){?>
+                        <li class="col-md-4  col-sm-4 col-xs-4 img">
                           <div class="port-7 effect-2">
                             <div class="image-box" >
                               <img class="img-responsive" src="<?php echo $value['img'];?>" alt="Photo">
                             </div>
-                            <div class="modal-img">
-                                <!--   <h4><?php echo $value['name'];?></h4>
-                                <p><?php echo $value['school'];?></p> -->
-                               <img src="<?php echo $value['img'];?>" alt="Photo">
-//                               <span style="color:#fff" class="pre">上一张</span>
-//                               <span style="color:#fff" class="next">下一张</span>
-                            </div>
                           </div>
-                        </li>
+                        </li> <?php }?>
                       </ul>
-                      <?php }?>
+                       <div class="modal-img">
+                        <!--<h4><?php echo $value['name'];?></h4>
+                                                         <p><?php echo $value['school'];?></p>-->
+                             <span class="pre" style="position:absolute;color:#fff;font-size:30px;top:50%;left:10%;">
+                                <img src="http://otdndy0jt.bkt.clouddn.com/left.png">
+                             </span>
+                             <ul>
+                                <?php foreach($school as $key =>$value){?>
+                                 <li>
+                                     <img src="<?php echo $value['img'];?>" alt="Photo">
+                                 </li>
+                                 <?php }?>
+                             </ul>
+                             <span class="next" style="position:absolute;color:#fff;font-size:30px;top:50%;right:10%;">
+                                <img src="http://otdndy0jt.bkt.clouddn.com/right.png">
+                             </span>
+                             <span class="close" style="color:#fff;">
+                                <img src="http://otdndy0jt.bkt.clouddn.com/close1.png">
+                             </span>
+                     </div>
                     </div>
                   </div>
                 </div>
@@ -92,11 +104,35 @@ $school=[
   </div>
 </div></div>
 <script>
-    $('.image-box').click(function(){
-        $(this).next().css({'visibility':'visible','opacity':1});
+    $('.img').click(function(){
+        var num=$(this).index();
+        var all=$(".modal-img ul li").size()-1;
+        console.log(num);
+         $('.modal-img').css({'visibility':'visible','opacity':1});
+         $imgList=$(".modal-img ul li");
+          $imgList.removeClass().eq(num).addClass("cur");
+          $('.pre').click(function(){
+             if(num>0){
+                 $imgList.removeClass().eq(num-1).addClass("cur");
+                 num-=1;
+             }else{
+                $imgList.removeClass().eq(all).addClass("cur");
+                num=all;
+            }
+          })
+          $('.next').click(function(){
+           if(num<all){
+                $imgList.removeClass().eq(num+1).addClass("cur");
+                num+=1;
+            }else{
+               $imgList.removeClass().eq(0).addClass("cur");
+               num=0;
+           }
+          })
+
       });
-     $('.modal-img').click(function(){
-         $(this).css({'visibility':'hidden','opacity':0});
+     $('.close').click(function(){
+         $('.modal-img').css({'visibility':'hidden','opacity':0});
      })
 
 </script>
