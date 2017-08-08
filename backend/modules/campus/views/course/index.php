@@ -73,11 +73,11 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                 \Yii::$app->user->can('manager')
                 ) || env('THEME') == 'edu') {
             ?>
-                <?= Html::a(
+               <!--  <?/* Html::a(
                     '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '排课'),
                     ['create'],
                     ['class' => 'btn btn-success']
-                ) ?>
+                ) */?> -->
                 <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '批量排课'), ['course-batch'], ['class' => 'btn btn-success']) ?>
 
             <?php } ?>

@@ -1286,12 +1286,18 @@ transform: scale(1.2);
 	left:0;
 	width:100%;
 	height:100%;
-	background:rgba(0,0,0,.7);
+	background:rgba(0,0,0,.9);
 	-webkit-transition:all .5s ease-in-out;
 	-moz-transition:all .5s ease-in-out;
 	transition:all .5s ease-in-out;
 }
-.port-7 .modal-img img{
+.modal-img ul li{
+	display:none;
+}
+.modal-img ul li.cur{
+	display:block;
+}
+.modal-img ul li img{
 	position:absolute;
 	width:800px;
 	height:600px;
