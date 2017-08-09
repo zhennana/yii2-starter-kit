@@ -4,39 +4,44 @@ use yii\helpers\Html;
 
 $school=[
     '1'=>[
-      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/main-3-2.png?imageView2/1/w/500/h/400',
-      'name'=>'教学楼',
-      'school'=>'光大学校教学楼'
+      'img'=>'http://static.v1.guangdaxuexiao.com/1xiaoyuan.jpg',
+      'name'=>'快乐高效课堂',
+      'school'=>'温馨快乐校园建设的主阵地，全面提高学生思想道德、科学文化、身心健康全面发展。'
       ],
     '2'=>[
-      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/main-3-1.png?imageView2/1/w/500/h/400',
-      'name'=>'教学楼',
-      'school'=>'光大学校教学楼'
+      'img'=>'http://static.v1.guangdaxuexiao.com/2xiaoyuan.jpg',
+      'name'=>'陶冶性情的熔炉',
+      'school'=>'用音乐打开想象的闸门，聆听，最美丽的音乐；倾听，最唯美的境界。'
       ],
     '3'=>[
-      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/main-3-3.png?imageView2/1/w/500/h/400',
-      'name'=>'讲台',
-      'school'=>'光大学校讲台'
+      'img'=>'http://static.v1.guangdaxuexiao.com/3xiaoyuan.jpg',
+      'name'=>'探索 求知 明理',
+      'school'=>'在实验室里动手动脑，大胆探索，反复实验，培养孩子广泛的求知欲。'
       ],
     '4'=>[
-      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/jiaoxuelou.jpg?imageView2/1/w/500/h/400',
-      'name'=>'教学楼',
-      'school'=>'光大学校教学楼'
+      'img'=>'http://static.v1.guangdaxuexiao.com/4xiaoyuan.jpg',
+      'name'=>'网络让教育动起来',
+      'school'=>'网络连接世界，在多彩的电脑课程中，培养孩子的搜索能力、鉴别能力、沟通能力'
       ],
     '5'=>[
-      'img'=>'http://static.v1.guangdaxuexiao.com/shiyanshi.jpg?imageView2/1/w/500/h/400',
-      'name'=>'实验室',
-      'school'=>'光大学校教学楼'
+      'img'=>'http://static.v1.guangdaxuexiao.com/7xiaoyuan.jpg',
+      'name'=>'文明宿舍一条心',
+      'school'=>'温馨整洁的宿舍，是漫漫求学路上一个贴心而又温暖的港湾。'
       ],
     '6'=>[
-      'img'=>'http://static.v1.guangdaxuexiao.com/librayry.jpg?imageView2/1/w/500/h/400',
-      'name'=>'图书馆',
-      'school'=>'光大学校图书馆'
+      'img'=>'http://static.v1.guangdaxuexiao.com/9xiaoyuan.jpg',
+      'name'=>'中外交流',
+      'school'=>'在课堂上让感受中外文化思想的碰撞，推动教育全球化，文化多样化。'
       ],
     '7'=>[
-      'img'=>'http://static.v1.guangdaxuexiao.com/sushe.jpg?imageView2/1/w/500/h/400',
-      'name'=>'宿舍',
-      'school'=>'光大学校宿舍'
+      'img'=>'http://static.v1.guangdaxuexiao.com/10xiaoyuan.jpg',
+      'name'=>'生动活泼的乐园',
+      'school'=>'作为课堂的延伸，为学生提供展示才华和发展特长的舞台，更要让学生体验到学习生活的多姿多彩。'
+      ],
+      '8'=>[
+      'img'=>'http://static.v1.guangdaxuexiao.com/12xiaoyuan.jpg',
+      'name'=>'成长道路上的激励与赞赏',
+      'school'=>'孩子们不放弃一点机会，不停止一日努力，不抱有一丝幻想，成长的道路上你们一定能行！'
       ],
  ];
 ?>
@@ -66,30 +71,33 @@ $school=[
                   <div class="">
                     <div class="row teabor">
 
-                      <ul><?php foreach($school as $key =>$value){?>
+                      <ul><?php foreach($school as $key =>$value){
+                        $img=$value['img']."?imageView2/1/w/500/h/400";
+                        ?>
                         <li class="col-md-4  col-sm-4 col-xs-4 img">
                           <div class="port-7 effect-2">
                             <div class="image-box" >
-                              <img class="img-responsive" src="<?php echo $value['img'];?>" alt="Photo">
+                              <img class="img-responsive" src="<?php echo $img;?>" alt="Photo">
                             </div>
                           </div>
                         </li> <?php }?>
                       </ul>
                        <div class="modal-img">
-                        <!--<h4><?php echo $value['name'];?></h4>
-                                                         <p><?php echo $value['school'];?></p>-->
-                             <span class="pre" style="position:absolute;color:#fff;font-size:30px;top:50%;left:10%;">
-                                <img src="http://otdndy0jt.bkt.clouddn.com/left.png">
+                        <!--<h4><?php //echo $value['name'];?></h4>
+                                                         <p><?php //echo $value['school'];?></p>-->
+                             <span class="pre" style="position:absolute;color:#fff;font-size:30px;top:50%;left:5%;">
+                                <img style="width:64px;height:64px;" src="http://otdndy0jt.bkt.clouddn.com/left.png">
                              </span>
                              <ul>
-                                <?php foreach($school as $key =>$value){?>
+                                <?php foreach($school as $key =>$value){
+                                  ?>
                                  <li>
                                      <img src="<?php echo $value['img'];?>" alt="Photo">
                                  </li>
                                  <?php }?>
                              </ul>
-                             <span class="next" style="position:absolute;color:#fff;font-size:30px;top:50%;right:10%;">
-                                <img src="http://otdndy0jt.bkt.clouddn.com/right.png">
+                             <span class="next" style="position:absolute;color:#fff;font-size:30px;top:50%;right:5%;">
+                                <img style="width:64px;height:64px;" src="http://otdndy0jt.bkt.clouddn.com/right.png">
                              </span>
                              <span class="close" style="color:#fff;">
                                 <img src="http://otdndy0jt.bkt.clouddn.com/close1.png">

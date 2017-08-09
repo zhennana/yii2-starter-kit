@@ -121,6 +121,7 @@ try {
             $userToGrade->grade_id = $model->grade_id;
             $userToGrade->school_id = $model->school_id;
             $userToGrade->grade_user_type = UserToGrade::GRADE_USER_TYPE_TEACHER;
+            $userToGrade->user_title_id_at_grade = UserToGrade::GRADE_USER_TYPE_TEACHER;
             $userToGrade->save();
         return $this->redirect(['view', 'grade_id' => $model->grade_id]);
     } elseif (!\Yii::$app->request->isPost) {

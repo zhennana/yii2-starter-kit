@@ -137,14 +137,14 @@ $avatar .= '?imageView2/3/w/215/h/215';
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <img src="<?php echo $avatar; ?>" class="user-image">
-                                <span><?php echo Yii::$app->user->identity->username ?> <i class="caret"></i></span>
+                                <span><?php echo Yii::$app->user->identity->getUserName(Yii::$app->user->identity->id) ?> <i class="caret"></i></span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header light-blue">
                                     <img src="<?php echo $avatar; ?>" class="img-circle" alt="User Image" />
                                     <p>
-                                        <?php echo Yii::$app->user->identity->username ?>
+                                        <?php  echo Yii::$app->user->identity->getUserName(Yii::$app->user->identity->id)  ?>
                                         <small>
                                             <?php echo Yii::t('backend', 'Member since {0, date, short}', Yii::$app->user->identity->created_at) ?>
                                         </small>
@@ -468,7 +468,7 @@ $avatar .= '?imageView2/3/w/215/h/215';
                             'url' => '#',
                             'icon'=>'<i class="fa fa-mortar-board"></i>',
                             'options'=>['class'=>'treeview'],
-                            'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_teacher')),
+                            'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_director')),
                             'items'=>[
                                 [
                                 'label'=>Yii::t('backend', '课程分类管理'), 
@@ -495,13 +495,13 @@ $avatar .= '?imageView2/3/w/215/h/215';
                             'label'=>Yii::t('backend', '排课管理'),
                             'url' => '#',
                             'icon'=>'<i class="fa fa-edit"></i>',
-                              'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_director')),
+                              'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_teacher')),
                             'options'=>['class'=>'treeview'],
                             'items'=>[
                                 [
                                 'label'=>Yii::t('backend', '排课管理'), 
                                 'url'=>['/campus/course-schedule/index','type'=>2],
-                                'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager')|| Yii::$app->user->can('P_director')),
+                                'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager')|| Yii::$app->user->can('P_teacher')),
 
                                  'icon'=>'<i class="fa  fa-file-text"></i>'
                                 ],
@@ -549,7 +549,7 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                 [
                                     'label'=>Yii::t('backend', '个推列表'),
                                      'url'=>['/campus/notice/a-push'],
-                                     'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_teacher')),
+                                     'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_director')),
                                      'icon'=>'<i class=" fa  fa-volume-up"></i>'
                                 ],
                                 [
