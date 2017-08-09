@@ -3,8 +3,11 @@
 // You should not change it manually as it will be overwritten on next build
 
 namespace backend\modules\campus\models\base;
-use backend\modules\campus\models\UserToSchool;
+
 use Yii;
+use yii\helpers\ArrayHelper;
+use backend\modules\campus\models\UserToSchool;
+use common\models\User;
 
 /**
  * This is the base-model class for table "users_to_users".
@@ -26,6 +29,37 @@ abstract class UsersToUsers extends \yii\db\ActiveRecord
     CONST UTOU_TYPE_TEACHER   = 500;    // 教师
     CONST UTOU_TYPE_LOGISTICS = 600;    // 后勤
 
+    public static function getStatusLabel($value){
+        $lable = self::optsStatus();
+        if(isset($lable[$value])){
+            return $lable[$value];
+        }
+            return $value;
+    }
+
+    public static function optsStatus(){
+        return [
+            self::UTOU_STATUS_DELETE => '关闭',
+            self::UTOU_STATUS_OPEN   => '有效',
+        ];
+    }
+
+    public static function getTypeLabel($value){
+        $lable = self::optsType();
+        if(isset($lable[$value])){
+            return $lable[$value];
+        }
+            return $value;
+    }
+
+    public static function optsType(){
+        return [
+            self::UTOU_TYPE_STUDENT   => '学生',
+            self::UTOU_TYPE_PARENT    => '家长',
+            self::UTOU_TYPE_TEACHER   => '教师',
+            self::UTOU_TYPE_LOGISTICS => '后勤',
+        ];
+    }
 
     /**
      * @inheritdoc
@@ -47,7 +81,7 @@ abstract class UsersToUsers extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_left_id', 'user_right_id'], 'required'],
+            [['user_left_id', 'user_right_id','status','type'], 'required'],
             [['user_left_id', 'user_right_id', 'status', 'type'], 'integer']
         ];
     }
@@ -59,10 +93,10 @@ abstract class UsersToUsers extends \yii\db\ActiveRecord
     {
         return [
             'users_to_users_id' => Yii::t('backend', 'Users To Users ID'),
-            'user_left_id' => Yii::t('backend', '学生id'),
-            'user_right_id' => Yii::t('backend', '家长id'),
-            'status' => Yii::t('backend', '10 标记关闭 ；20 有效'),
-            'type' => Yii::t('backend', '100 学生；200 家长； 300； 教师 500； 后勤 600'),
+            'user_left_id'      => Yii::t('backend', '学生ID'),
+            'user_right_id'     => Yii::t('backend', '关联用户ID'),
+            'type'              => Yii::t('backend', '关系类型'),
+            'status'            => Yii::t('backend', '状态'),
         ];
     }
 
@@ -72,10 +106,10 @@ abstract class UsersToUsers extends \yii\db\ActiveRecord
     public function attributeHints()
     {
         return array_merge(parent::attributeHints(), [
-            'user_left_id' => Yii::t('backend', '学生id'),
-            'user_right_id' => Yii::t('backend', '家长id'),
-            'status' => Yii::t('backend', '10 标记关闭 ；20 有效'),
-            'type' => Yii::t('backend', '100 学生；200 家长； 300； 教师 500； 后勤 600'),
+            'user_left_id'  => Yii::t('backend', '学生ID'),
+            'user_right_id' => Yii::t('backend', '关联用户ID'),
+            'status'        => Yii::t('backend', '10 标记关闭 ；20 有效'),
+            'type'          => Yii::t('backend', '100 学生；200 家长； 300； 教师 500； 后勤 600'),
         ]);
     }
 
@@ -89,6 +123,61 @@ abstract class UsersToUsers extends \yii\db\ActiveRecord
      */
     public function getUserToGrade(){
         return $this->hasOne(backend\modules\campus\models\UserToGrade::className(),['user_id'=>'user_left_id']);
+    }
+
+    
+
+    /**
+     * [getStudentsId 获取学生ID]
+     * @return [type] [description]
+     */
+    public static function getStudentsId()
+    {
+        $ids = UserToSchool::find()
+            ->where([
+                'school_user_type' => UserToSchool::SCHOOL_USER_TYPE_STUDENTS,
+                'status' => UserToSchool::SCHOOL_STATUS_ACTIVE,
+            ])
+            ->asArray()->all();
+        return ArrayHelper::map($ids,'user_id','user_id');
+    }
+
+    /**
+     * [relevanceId 获取已的关联ID]
+     * @param  string $params [description]
+     * @return [type]         [description]
+     */
+    public static function relevanceId($params = 'user_right_id')
+    {
+        $ids = self::find()
+            ->where([
+                'type' => self::UTOU_TYPE_PARENT,
+                'status' => self::UTOU_STATUS_OPEN,
+            ])->asArray()->all();
+        // var_dump('<pre>',$ids);exit;
+        return ArrayHelper::map($ids,$params,$params);
+    }
+
+    /**
+     * [getFamilyGroup description]
+     * @param  [type] $user_id [description]
+     * @return [type]          [description]
+     */
+    public static function getRelevanceGroup($user_id,$type = self::UTOU_TYPE_PARENT)
+    {
+        $group = [];
+        $user = self::find()->select('user_left_id,user_right_id')
+            ->where(['OR',
+                ['user_left_id' => $user_id],
+                ['user_right_id' => $user_id]
+            ])
+            ->andWhere(['status' => self::UTOU_STATUS_OPEN,'type' => $type])
+            ->asArray()
+            ->one();
+        if ($user) {
+            $group = [$user['user_left_id'],$user['user_right_id']];
+        }
+        return $user;
     }
 
     /**
@@ -106,7 +195,7 @@ abstract class UsersToUsers extends \yii\db\ActiveRecord
 
     public static function getUserName($id)
     {
-        $user = \common\models\User::findOne($id);
+        $user = User::findOne($id);
         $name = '';
         if(isset($user->realname) && !empty($user->realname)){
             return $user->realname;
@@ -114,9 +203,9 @@ abstract class UsersToUsers extends \yii\db\ActiveRecord
         if(isset($user->username) && !empty($user->username)){
            return $user->username;
         }
-        // if(isset($user->phone_number) && !empty($user->phone_number)){
-        //     return $user->phone_number;
-        // }
+        if(isset($user->phone_number) && !empty($user->phone_number)){
+            return $user->phone_number;
+        }
         return $name;
     }
     

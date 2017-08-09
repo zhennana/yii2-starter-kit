@@ -371,6 +371,15 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                     //'badge'=> TimelineEvent::find()->today()->count(),
                                     //'badgeBgClass'=>'label-success',
                                 ],
+                                [
+                                    'label'=>Yii::t('backend', '账号关联管理'),
+                                    'icon'=>'<i class="fa fa-database"></i>',
+                                    'options'=>['class'=>'treeview'],
+                                    'url'=>['/campus/users-to-users/index'],
+                                    'visible'=>(Yii::$app->user->can('manager') || env('THEME') == 'gedu' ),
+                                    //'badge'=> TimelineEvent::find()->today()->count(),
+                                    //'badgeBgClass'=>'label-success',
+                                ],
                             ]
                         ],
 //代理
