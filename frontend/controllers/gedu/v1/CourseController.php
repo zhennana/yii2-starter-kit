@@ -304,14 +304,14 @@ class CourseController extends \common\rest\Controller
         }
 
         $model = Collect::find()->where([
-            'user_id'          => Yii::$app->user->identity->id,
+            'user_id'          => Yii::$app->user->identity->groupId(),
             'course_master_id' => Yii::$app->request->post('course_master_id')
         ])->one();
 
         // 创建
         if (!$model) {
             $model = new Collect;
-            $model->user_id = Yii::$app->user->identity->id;
+            $model->user_id = Yii::$app->user->identity->groupId();
             if (!$model->load(Yii::$app->request->post(),'') || !$model->save()) {
                 $this->serializer['errno']   = __LINE__;
                 $this->serializer['message'] = $model->getErrors();
@@ -323,7 +323,7 @@ class CourseController extends \common\rest\Controller
         $count = Collect::updateAll([
             'status' => Yii::$app->request->post('status')
         ],[
-            'user_id'          => Yii::$app->user->identity->id,
+            'user_id'          => Yii::$app->user->identity->groupId(),
             'course_master_id' => Yii::$app->request->post('course_master_id')
         ]);
 
@@ -403,7 +403,7 @@ class CourseController extends \common\rest\Controller
         }
 
         $query = Collect::find()->where([
-            'user_id' => Yii::$app->user->identity->id
+            'user_id' => Yii::$app->user->identity->groupId()
         ]);
 
         $master = $query->andWhere([
@@ -417,7 +417,7 @@ class CourseController extends \common\rest\Controller
             return [];
         }
         $model = $query->where([
-            'user_id'              => Yii::$app->user->identity->id,
+            'user_id'              => Yii::$app->user->identity->groupId(),
             'course_master_id' => $_POST['course_master_id'],
             'course_id'        => $_POST['course_id'],
         ])->one();
@@ -425,7 +425,7 @@ class CourseController extends \common\rest\Controller
         // 创建
         if (!$model) {
             $model = new Collect;
-            $model->user_id = Yii::$app->user->identity->id;
+            $model->user_id = Yii::$app->user->identity->groupId();
             $model->status  = $master->status;
             if (!$model->load($_POST,'') || !$model->save()) {
                 $this->serializer['errno']   = __LINE__;
@@ -479,7 +479,7 @@ class CourseController extends \common\rest\Controller
         }
 
         $model = Collect::find()->where([
-            'user_id'   => Yii::$app->user->identity->id,
+            'user_id'   => Yii::$app->user->identity->groupId(),
             'course_id' => $course_id,
             'status'    => Collect::STATUS_COLLECTED
         ])->one();

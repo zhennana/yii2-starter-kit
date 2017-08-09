@@ -12,6 +12,8 @@ use yii\helpers\Url;
 
 use common\wechat\JSSDK;
 use common\models\ArticleCategory;
+use common\models\WidgetCarousel;
+use common\models\WidgetCarouselItem;
 
 use frontend\models\gedu\resources\Course;
 use frontend\models\gedu\resources\UsersToUsers;
@@ -300,6 +302,35 @@ class ConfigController extends \common\rest\Controller
      */
     public function actionBanner()
     {
+        $data = [];
+        $widget_carousel_item = WidgetCarousel::find()
+            ->select(['*'])
+            ->where([
+                'key'    => 'app',
+                'widget_carousel.status' => WidgetCarousel::STATUS_ACTIVE
+            ])
+            ->rightJoin('widget_carousel_item','carousel_id = widget_carousel.id')
+            ->orderBy('order DESC')
+            ->asArray()
+            ->all();
+        if (isset($widget_carousel_item) && !empty($widget_carousel_item)) {
+            foreach ($widget_carousel_item as $key => $value) {
+                $temp['banner_id']  = $value['id'];
+                $temp['title']      = $value['caption'];
+                $temp['imgUrl']     = $value['base_url'].'/'.$value['path'];
+                $temp['type']       = 'WEB';
+                if (strpos($value['url'], 'v1')) {
+                    $temp['type']   = 'APP';
+                }
+                $temp['sort']       = $value['order'];
+                $temp['target_url'] = Yii::$app->homeUrl.$value['url'];
+                $data[] = $temp;
+            }
+        }
+
+        return $data;
+// var_dump();exit;
+/*
         $img=[
             1 => 'http://orh16je38.bkt.clouddn.com/banner.png',
             2 => 'http://orh16je38.bkt.clouddn.com/banner.png'
@@ -328,6 +359,7 @@ class ConfigController extends \common\rest\Controller
     }
         sort($data);
         return $data;
+*/
     }
 
     /**

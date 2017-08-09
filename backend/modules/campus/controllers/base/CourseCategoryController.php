@@ -5,7 +5,7 @@ namespace backend\modules\campus\controllers\base;
 use Yii;
 use backend\modules\campus\models\CourseCategory;
 use backend\modules\campus\models\search\CourseCategory as CourseCategorySearch;
-use yii\web\Controller;
+use common\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use dmstr\bootstrap\Tabs;
