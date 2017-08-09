@@ -28,9 +28,8 @@ foreach ($user_left_id as $key => $value) {
 }
 $user_left_id = ArrayHelper::map($data,'id','name');
 if ($model->isNewRecord) {
-    $relevance_id = UsersToUsers::relevanceId('user_left_id');
     foreach ($user_left_id as $key => $value) {
-        if (in_array($key,$relevance_id)) {
+        if (in_array($key,UsersToUsers::relevanceId('user_left_id'))) {
             unset($user_left_id[$key]);
         }
     }
