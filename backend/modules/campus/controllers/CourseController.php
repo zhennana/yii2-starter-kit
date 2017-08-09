@@ -19,7 +19,7 @@ class CourseController extends \backend\modules\campus\controllers\base\CourseCo
 	public function actionAjaxForm(){
 		$model = new Course;
 		$model = $model->getlist($_GET['type_id'],$_GET['id']);
-		echo Html::tag('option','请选择',['value'=> ""]);
+		//echo Html::tag('option','请选择',['value'=> ""]);
 		foreach ($model as $key => $value) {
 		 	 echo Html::tag('option',Html::encode($value),array('value'=>$key));
 		}

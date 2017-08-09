@@ -14,9 +14,9 @@ $this->params['breadcrumbs'][] = $this->title;
 // $model->grade_id   = 25;
 // $model->category_id   = 1;
 // $model->teacher_id = 30;
-$model->which_day  = time();
+ $model->which_day  = time();
  // $model->weeks      = 1;
-$model->start_times = strtotime(date('Y-m-d')." 17:30");
+ $model->start_times = strtotime(date('Y-m-d')." 17:30");
  $model->end_times   = strtotime(date('Y-m-d')." 19:00");
 ?>
 
@@ -418,6 +418,7 @@ $model->start_times = strtotime(date('Y-m-d')." 17:30");
     //表单不可编辑
     function FormNotOption(){
         $('#course-school_id').attr('disabled','true');
+        $('#course-courseware_id').attr('disabled','true');
         $('#course-grade_id').attr('disabled','true');
         $('#course-category_id').attr('disabled','true');
         $('#course-which_day').attr('disabled','true');
@@ -467,6 +468,7 @@ $model->start_times = strtotime(date('Y-m-d')." 17:30");
     function formOption(){
         $('#course-school_id').removeAttr('disabled');
         $('#course-grade_id').removeAttr('disabled');
+        $('#course-courseware_id').removeAttr('disabled');
         $('#course-category_id').removeAttr('disabled');
         $('#course-which_day').removeAttr('disabled');
         $('#course-weeks').removeAttr('disabled');
