@@ -104,7 +104,7 @@ public function behaviors()
                     $order = CourseOrderItem::find()->where([
                         'status'         => CourseOrderItem::STATUS_VALID,
                         'payment_status' => CourseOrderItem::PAYMENT_STATUS_PAID,
-                        'user_id'        => Yii::$app->user->identity->groupId(),
+                        'user_id'        => UsersToUsers::getRelevanceGroup(Yii::$app->user->identity->id),
                         'course_id'      => $model->course_id,
                     ])->count();
                     if ($order) {
