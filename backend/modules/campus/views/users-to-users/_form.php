@@ -27,6 +27,15 @@ foreach ($user_left_id as $key => $value) {
    $data[] = $value;
 }
 $user_left_id = ArrayHelper::map($data,'id','name');
+if ($model->isNewRecord) {
+    $relevance_id = UsersToUsers::relevanceId('user_left_id');
+    foreach ($user_left_id as $key => $value) {
+        if (in_array($key,$relevance_id)) {
+            unset($user_left_id[$key]);
+        }
+    }
+}
+
 ?>
 
 <div class="users-to-users-form">
@@ -43,6 +52,7 @@ $user_left_id = ArrayHelper::map($data,'id','name');
         ->widget(Select2::className(),
         [
             'data'          => $user_left_id,
+            'disabled'      => $model->isNewRecord ? false : true,
             'options'       => ['placeholder' => '请选择'],
             'pluginOptions' => [
                 'allowClear' => true,
@@ -55,6 +65,7 @@ $user_left_id = ArrayHelper::map($data,'id','name');
         ->widget(Select2::className(),
         [
             'data'          => $user_right_id,
+            'disabled'      => $model->isNewRecord ? false : true,
             'options'       => ['placeholder' => '请选择'],
             'pluginOptions' => [
                 'allowClear' => true,
@@ -71,6 +82,7 @@ $user_left_id = ArrayHelper::map($data,'id','name');
             'options'       => ['placeholder'=>'请选择'],
             'pluginOptions' => [
                 'allowClear' => true,
+
             ],
         ]);
     ?>

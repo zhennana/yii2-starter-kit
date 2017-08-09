@@ -125,10 +125,8 @@ abstract class UsersToUsers extends \yii\db\ActiveRecord
         return $this->hasOne(backend\modules\campus\models\UserToGrade::className(),['user_id'=>'user_left_id']);
     }
 
-    
-
     /**
-     * [getStudentsId 获取学生ID]
+     * [getStudentsId 获取全部学生ID]
      * @return [type] [description]
      */
     public static function getStudentsId()
@@ -136,7 +134,7 @@ abstract class UsersToUsers extends \yii\db\ActiveRecord
         $ids = UserToSchool::find()
             ->where([
                 'school_user_type' => UserToSchool::SCHOOL_USER_TYPE_STUDENTS,
-                'status' => UserToSchool::SCHOOL_STATUS_ACTIVE,
+                'status'           => UserToSchool::SCHOOL_STATUS_ACTIVE,
             ])
             ->asArray()->all();
         return ArrayHelper::map($ids,'user_id','user_id');
@@ -144,23 +142,24 @@ abstract class UsersToUsers extends \yii\db\ActiveRecord
 
     /**
      * [relevanceId 获取已的关联ID]
-     * @param  string $params [description]
+     * @param  string $params [user_left_id:学生ID；user_right_id:关联用户ID]
      * @return [type]         [description]
      */
     public static function relevanceId($params = 'user_right_id')
     {
         $ids = self::find()
             ->where([
-                'type' => self::UTOU_TYPE_PARENT,
+                'type'   => self::UTOU_TYPE_PARENT,
                 'status' => self::UTOU_STATUS_OPEN,
             ])->asArray()->all();
-        // var_dump('<pre>',$ids);exit;
+
         return ArrayHelper::map($ids,$params,$params);
     }
 
     /**
-     * [getFamilyGroup description]
-     * @param  [type] $user_id [description]
+     * [getRelevanceGroup 获取一组互相关联的学生ID和关联用户ID]
+     * @param  [type] $user_id [该组内任意用户ID]
+     * @param  [type] $type    [关系类型]
      * @return [type]          [description]
      */
     public static function getRelevanceGroup($user_id,$type = self::UTOU_TYPE_PARENT)
@@ -168,15 +167,15 @@ abstract class UsersToUsers extends \yii\db\ActiveRecord
         $group = [];
         $user = self::find()->select('user_left_id,user_right_id')
             ->where(['OR',
-                ['user_left_id' => $user_id],
+                ['user_left_id'  => $user_id],
                 ['user_right_id' => $user_id]
             ])
             ->andWhere(['status' => self::UTOU_STATUS_OPEN,'type' => $type])
             ->asArray()
             ->one();
-        if ($user) {
-            $group = [$user['user_left_id'],$user['user_right_id']];
-        }
+        // if ($user) {
+        //     $group = [$user['user_left_id'],$user['user_right_id']];
+        // }
         return $user;
     }
 

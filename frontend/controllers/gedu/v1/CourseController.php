@@ -408,8 +408,8 @@ class CourseController extends \common\rest\Controller
 
         $master = $query->andWhere([
             'course_master_id' => $_POST['course_master_id'],
-            'status'               => Collect::STATUS_COLLECTED,
-            'course_id' => 0
+            'status'           => Collect::STATUS_COLLECTED,
+            'course_id'        => 0
         ])->one();
         if (!$master) {
             $this->serializer['errno']   = __LINE__;
@@ -417,7 +417,7 @@ class CourseController extends \common\rest\Controller
             return [];
         }
         $model = $query->where([
-            'user_id'              => Yii::$app->user->identity->groupId(),
+            'user_id'          => Yii::$app->user->identity->groupId(),
             'course_master_id' => $_POST['course_master_id'],
             'course_id'        => $_POST['course_id'],
         ])->one();

@@ -254,7 +254,7 @@ class MyController extends \common\rest\Controller
         
         $model = Notice::find()->where([
             'notice_id'    => $notice_id,
-            'receiver_id'  => Yii::$app->user->identity->groupId(),
+            // 'receiver_id'  => Yii::$app->user->identity->groupId(),
         ])->one();
 
         if ($model) {

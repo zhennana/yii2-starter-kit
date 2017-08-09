@@ -44,7 +44,7 @@ class UsersToUsers extends BaseUsersToUsers
         $query = User::find();
         $query->where(['status' => User::STATUS_ACTIVE]);
         $query->andWhere(['NOT',['id' => self::getStudentsId()]]);
-        if ($this->isNewRecord || $this->status == self::UTOU_STATUS_DELETE) {
+        if ($this->isNewRecord) {
             $query->andWhere(['NOT',['id' => self::relevanceId()]]);
         }
         $user = $query->asArray()->all();
