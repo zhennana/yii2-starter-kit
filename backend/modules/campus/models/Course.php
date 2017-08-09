@@ -9,6 +9,7 @@ use backend\modules\campus\models\School;
 use backend\modules\campus\models\Grade;
 use backend\modules\campus\models\UserToGrade;
 use backend\modules\campus\models\CourseSchedule;
+use backend\modules\campus\models\Courseware;
 use backend\modules\campus\models\WorkRecord;
 
 
@@ -17,7 +18,6 @@ use backend\modules\campus\models\WorkRecord;
  */
 class Course extends BaseCourse
 {
-
 public function behaviors()
     {
         return ArrayHelper::merge(
@@ -62,7 +62,14 @@ public function behaviors()
     //var_dump($scenarios);exit;
     return $scenarios;
   }
+  /**
+   * *
+   * @param  boolean $type_id [description]
+   * @param  boolean $id      [description]
+   * @return [type]           [description]
+   */
   public function getlist($type_id = false,$id =false){
+        $data = [];
         if($type_id == 1){
             $grade = Grade::find()->where(['status'=>Grade::GRADE_STATUS_OPEN, 'school_id'=>$id])->asArray()->all();
             //var_dump($grade);exit;
@@ -76,7 +83,6 @@ public function behaviors()
                           ])
                         ->with('user')
                         ->all();
-            $data = [];
             foreach ($UserToGrade as $key => $value) {
                 if($value['user']['username']){
                   $data[$value['user_id']] = $value['user']['username'];
@@ -87,8 +93,19 @@ public function behaviors()
                 }
             }
         }
-          return $data;
+        if($type_id == 3){
+            $courseware = Courseware::find()
+                            ->select(['courseware_id','title'])
+                            ->where([
+                              'category_id'=>$id,
+                              'status'=>Courseware::COURSEWARE_STATUS_VALID])
+                            ->orderBy(['sort'=>SORT_ASC])
+                            ->asArray()
+                            ->all();
+            return ArrayHelper::map($courseware,'courseware_id','title');
         }
+        return $data;
+  }
         /*
         $school_id = Yii::$app->user->identity->getSchoolOrGrade();
         $school = School::find()->where(['status'=>School::SCHOOL_STATUS_OPEN]);
@@ -154,7 +171,8 @@ public function behaviors()
           //
           $newTime = 0;
           //本次将要排课的内容
-          $coursewareModel = $this->Courseware($data['category_id']);
+          $coursewareModel = $this->Courseware($data);
+          //var_dump($coursewareModel);exit;
           if(empty($coursewareModel)){
             return [];
           }
@@ -514,10 +532,20 @@ public function behaviors()
       }
 
 //根据分类获取课件
-      public function Courseware($category_id){
+      public function Courseware($data=[]){
+        $query = [];
+        if(isset($data['category_id']) && !empty($data['category_id'])){
+            $query['category_id'] = $data['category_id'];
+        }
+        if(isset($data['courseware_id']) && !empty($data['courseware_id'])){
+            $query['courseware_id'] = $data['courseware_id'];
+        }
+        if(empty($query)){
+           return [];
+        }
         $coursewareModel = Courseware::find()
               ->select(['courseware_id','title'])
-              ->andwhere(['category_id'=>$category_id])
+              ->andwhere($query)
               ->andwhere(['status'=>Courseware::COURSEWARE_STATUS_VALID])
               ->orderBy(['sort'=>SORT_ASC])
               ->asArray()
