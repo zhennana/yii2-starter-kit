@@ -61,9 +61,11 @@ class UserSearch extends User
             'logged_at' => $this->logged_at
         ]);
         if(isset($params['UserSearch']['item_name']) && !empty($params['UserSearch']['item_name'])){
+
             $params['UserSearch']['id'] = Yii::$app->authManager->getUserIdsByRole($params['UserSearch']['item_name']);
-            $query->andFilterWhere([
-                'id'        => $params['UserSearch']['id'],
+            //var_dump($params['UserSearch']['id']);exit;
+            $query->andWhere([
+                'id' => $params['UserSearch']['id'],
             ]);
         }
 
