@@ -11,6 +11,7 @@ use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;
 use backend\modules\campus\models\UserToGrade;
 use backend\modules\campus\models\UserToSchool;
+use backend\modules\campus\models\UsersToUsers;
 use backend\modules\campus\models\Grade;
 use backend\modules\campus\models\School;
 
@@ -588,6 +589,15 @@ class User extends ActiveRecord implements IdentityInterface
         //     return $user->phone_number;
         // }
         return $name;
+    }
+
+    public function groupId()
+    {
+      $user_id = $this->id;
+      if (in_array($user_id, UsersToUsers::getRelevanceGroup(Yii::$app->user->identity->id))) {
+          $user_id = UsersToUsers::getRelevanceGroup(Yii::$app->user->identity->id)['user_left_id'];
+      }
+      return $user_id;
     }
 
 //获取用户的提送

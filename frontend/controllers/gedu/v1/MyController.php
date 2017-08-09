@@ -107,7 +107,7 @@ class MyController extends \common\rest\Controller
         */
         // 已收藏课程
         $collect_course = Collect::find()->where([
-            'user_id'   => Yii::$app->user->identity->id,
+            'user_id'   => UsersToUsers::getRelevanceGroup(Yii::$app->user->identity->id),
             'status'    => Collect::STATUS_COLLECTED,
             'course_id' => 0
         ])->asArray()->all();
@@ -146,7 +146,8 @@ class MyController extends \common\rest\Controller
             $this->serializer['message'] = '请您先登录';
             return [];
         }
-        $user = User::findOne(Yii::$app->user->identity->id);
+
+        $user = User::findOne(Yii::$app->user->identity->groupId());
         $character_detailes = $user->getCharacterDetailes();
 
         $data  = [];
@@ -159,7 +160,7 @@ class MyController extends \common\rest\Controller
                     'or',
 
                     // 家校沟通
-                    ['receiver_id' => Yii::$app->user->identity->id],
+                    ['receiver_id' => Yii::$app->user->identity->groupId()],
                     [
                         // 学校公告
                         'school_id'   => $character_detailes['school_id'],
@@ -250,10 +251,10 @@ class MyController extends \common\rest\Controller
             $this->serializer['message'] = '状态参数错误';
             return [];
         }
-
+        
         $model = Notice::find()->where([
             'notice_id'    => $notice_id,
-            'receiver_id'  => Yii::$app->user->identity->id,
+            'receiver_id'  => Yii::$app->user->identity->groupId(),
         ])->one();
 
         if ($model) {

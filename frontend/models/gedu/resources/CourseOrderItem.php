@@ -52,7 +52,7 @@ public function behaviors()
     public function processCourseOrder($params)
     {
         $info = [];
-        $params['user_id']  = Yii::$app->user->identity->id;
+        $params['user_id']  = Yii::$app->user->identity->groupId();
         $params['order_sn'] = $this->builderNumber();
 
         // 订单数据验证
@@ -210,7 +210,7 @@ public function behaviors()
 
         // 首单减免
         $order_count = self::find()->where([
-            'user_id' => Yii::$app->user->identity->id,
+            'user_id' => Yii::$app->user->identity->groupId(),
             'status'  => self::STATUS_VALID,
         ])->count();
         if ($order_count == 0) {
