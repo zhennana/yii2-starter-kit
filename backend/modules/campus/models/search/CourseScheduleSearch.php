@@ -46,7 +46,7 @@ public function search($params)
 {
 $query = CourseSchedule::find();
 $query->from(['course_schedule as s']);
-$query->RightJoin('course as c', 'c.course_id = s.course_id');
+$query->LeftJoin('course as c', 'c.course_id = s.course_id');
 $dataProvider = new ActiveDataProvider([
 'query' => $query,
 ]);
@@ -61,11 +61,12 @@ return $dataProvider;
 
 $query->andFilterWhere([
             's.course_schedule_id' => $this->course_schedule_id,
-            's.course_id' => $this->course_id,
+            's.course_id'  => $this->course_id,
             's.start_time' => $this->start_time,
-            's.end_time' => $this->end_time,
-            's.which_day' => $this->which_day,
-            's.status' => $this->status,
+            's.end_time'   => $this->end_time,
+            's.which_day'  => $this->which_day,
+            's.status'     => $this->status,
+            // 'c.status'     =>
         ]);
 $query->andFilterWhere([
         'like','c.title',$this->title

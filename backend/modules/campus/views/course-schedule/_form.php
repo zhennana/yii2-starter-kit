@@ -28,7 +28,7 @@ use yii\helpers\StringHelper;
         <?php $this->beginBlock('main'); ?>
 
         <p>
-            
+
 
 <!-- attribute course_id -->
 			<?= $form->field($model, 'course_id')->textInput() ?>

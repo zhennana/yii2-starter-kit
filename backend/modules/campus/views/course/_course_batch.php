@@ -10,12 +10,12 @@ use trntv\yii\datetime\DateTimeWidget;
 $this->title = Yii::t('backend', '排课');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '学校人员管理'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-$model->school_id  = 3;
-$model->grade_id   = 25;
-$model->category_id   = 1;
-$model->teacher_id = 30;
+// $model->school_id  = 3;
+// $model->grade_id   = 25;
+// $model->category_id   = 1;
+// $model->teacher_id = 30;
 $model->which_day  = time();
- $model->weeks      = 1;
+ // $model->weeks      = 1;
 $model->start_times = strtotime(date('Y-m-d')." 17:30");
  $model->end_times   = strtotime(date('Y-m-d')." 19:00");
 ?>
@@ -93,17 +93,23 @@ $model->start_times = strtotime(date('Y-m-d')." 17:30");
                     'pluginOptions' => [
                         'allowClear' => true,
                     ],
+                    'pluginEvents' => [
+                        "change" => "function() {
+                            handleChange(3,this.value,'#course-courseware_id');
+
+                        }",
+                    ]
             ])->label('课件分类'); ?>
         </div>
         <div class="col-lg-3">
-            <?= $form->field($model, 'course_schedule_id')->widget(Select2::className(),
+            <?= $form->field($model, 'courseware_id')->widget(Select2::className(),
                 [
                     'data'          => [],
-                    'options'       => ['placeholder' => '请选择'],
+                    'options'       => ['placeholder' => '请选择','multiple'=>true],
                     'pluginOptions' => [
                         'allowClear' => true,
                     ],
-            ])->label('已排过的课程'); ?>
+            ])->label('选择课程'); ?>
         </div> 
         <div  class="col-lg-12"></div>
         <div class="col-lg-3">
