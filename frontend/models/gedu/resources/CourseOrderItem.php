@@ -242,7 +242,7 @@ public function behaviors()
 
 
         // 拼接同步跳转URL的参数
-        $alipay_config['return_url'] = $alipay_config['return_url'].$this->courseware_id;
+        // $alipay_config['return_url'] = $alipay_config['return_url'].$this->courseware_id;
 
         // 组装业务参数
         if ($this->course) {
