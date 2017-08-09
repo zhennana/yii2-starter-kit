@@ -191,8 +191,9 @@ class UserForm extends Model
 //查询用户自身权限
         $p_roles = [];
         $e_roles = []; 
-        if(Yii::$app->user->can('E_manager')){
+        if(Yii::$app->user->can('E_manager') || Yii::$app->user->can('manager') ){
             $e_roles =  $auth ->getChildRoles('E_administrator');
+           //$p_roles =  
         }
 //主任
         if(Yii::$app->user->can('P_director')){
@@ -208,13 +209,16 @@ class UserForm extends Model
             $p_roles = $auth->getChildRoles('P_manager');
         }
 //代理超级管理员
-        if(Yii::$app->user->can('P_administrator') || Yii::$app->user->can('manager')){
+        if(Yii::$app->user->can('P_administrator') || Yii::$app->user->can('manager')
+            || Yii::$app->user->can('E_manager')
+            ){
             $p_roles = $auth->getChildRoles('P_administrator');
         }
         $roles = ArrayHelper::merge($e_roles,$p_roles);
             foreach ($roles as $rule) {
-                $auth->revoke($rule,$model->id);
+                 $auth->revoke($rule,$model->id);
             }
+             //var_dump($a);exit;
             $user = $auth->getRolesByUser(Yii::$app->user->identity->id); 
             if ($this->roles && is_array($this->roles)) {
                 foreach ($this->roles as $role) {
