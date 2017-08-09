@@ -23,11 +23,11 @@ $actionColumnTemplates = [];
 //     $actionColumnTemplates[] = '{view}';
 // }
 
-// if (\Yii::$app->user->can('campus_course-schedule_update', ['route' => true])) {
-//     $actionColumnTemplates[] = '{update}';
-// }
+if (Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_director')) {
+    //$actionColumnTemplates[] = '{update}';
+}
    if (Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_director')) {
-     $actionColumnTemplates[] = '{button}';
+     $actionColumnTemplates['button'] = '{button}';
     }
 
  if (\Yii::$app->user->can('manager', ['route' => true])) {
@@ -41,6 +41,9 @@ Yii::$app->view->params['pageButtons'] = Html::a('<span class="glyphicon glyphic
     $actionColumnTemplateString = "{view} {update} {delete}";
 }
 $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTemplateString.'</div>';
+
+
+// var_dump($actionColumnTemplateString);exit;
 ?>
 <div class="giiant-crud course-schedule-index">
 
@@ -111,15 +114,30 @@ if(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::
             'class' => 'yii\grid\ActionColumn',
             'template' => $actionColumnTemplateString,
             'buttons' => [
-                'view' => function ($url, $model, $key) {
+               /* 'update' => function ($url, $model, $key) {
                     $options = [
                         'title' => Yii::t('yii', 'View'),
                         'aria-label' => Yii::t('yii', 'View'),
                         'data-pjax' => '0',
                     ];
-                    return Html::a('<span class="glyphicon glyphicon-file"></span>', $url, $options);
+                    if($model->status == 20){
+                        return  '';
+                    }
+                    return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, $options);
+                },*/
+                'delete' => function ($url, $model, $key) {
+                    $options = [
+                        'title' => Yii::t('yii', 'View'),
+                        'aria-label' => Yii::t('yii', 'View'),
+                        'data-pjax' => '0',
+                    ];
+                    if($model->status == 20){
+                        return  '';
+                    }
+                    return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, $options);
                 }
             ],
+            
             'urlCreator' => function($action, $model, $key, $index) {
                 // using the column name as key, not mapping to 'id' like the standard generator
                 $params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
@@ -174,7 +192,7 @@ if(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::
             [
                     'class'    =>'yii\grid\ActionColumn',
                     'header'   =>'排课时间对调',
-                    'template' =>$actionColumnTemplateString,
+                    'template' =>isset($actionColumnTemplates['button'])? $actionColumnTemplates['button'] : '',
                     'buttons'  =>[
                         'button' => function($url,$model,$key){
                             if($model->status !=20 ){

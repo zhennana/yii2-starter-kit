@@ -115,15 +115,15 @@ public function actionCreate()
 $model = new CourseSchedule;
 
 try {
-if ($model->load($_POST) && $model->save()) {
-return $this->redirect(['view', 'course_schedule_id' => $model->course_schedule_id]);
-} elseif (!\Yii::$app->request->isPost) {
-$model->load($_GET);
-}
-} catch (\Exception $e) {
-$msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
-$model->addError('_exception', $msg);
-}
+    if ($model->load($_POST) && $model->save()) {
+    return $this->redirect(['view', 'course_schedule_id' => $model->course_schedule_id]);
+    } elseif (!\Yii::$app->request->isPost) {
+    $model->load($_GET);
+    }
+    } catch (\Exception $e) {
+        $msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
+        $model->addError('_exception', $msg);
+    }
 return $this->render('create', ['model' => $model]);
 }
 
@@ -138,11 +138,11 @@ public function actionUpdate($course_schedule_id)
 $model = $this->findModel($course_schedule_id);
 
 if ($model->load($_POST) && $model->save()) {
-return $this->redirect(Url::previous());
+    return $this->redirect(Url::previous());
 } else {
-return $this->render('update', [
-'model' => $model,
-]);
+    return $this->render('update', [
+        'model' => $model,
+    ]);
 }
 }
 
