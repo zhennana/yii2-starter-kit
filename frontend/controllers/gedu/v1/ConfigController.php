@@ -321,8 +321,8 @@ class ConfigController extends \common\rest\Controller
                 $temp['imgUrl']     = $value['base_url'].$value['path'];
                 $temp['type']       = 'WEB';
                 $temp['target_url'] = \Yii::$app->request->hostInfo.Url::to(['article/view','id'=>$value['url']]);
-                if (strip_tags($value['caption']) == 'APP') {
-                    $temp['type']   = 'APP';
+                if (strcasecmp(strip_tags($value['caption']),'APP') == 0) {
+                    $temp['type']       = 'APP';
                     $temp['target_url'] = \Yii::$app->request->hostInfo.Url::to(['v1/course/view','course_id'=>$value['url']]);
                 }
                 $temp['sort']       = $value['order'];
