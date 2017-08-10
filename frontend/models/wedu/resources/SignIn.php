@@ -38,6 +38,7 @@ class SignIn extends BaseSignIn
        $data = [];
        if(empty($params) || !isset($params['SignIn'])){
            $data['error'][] = '数据不能为空';
+           return $data;
         }
         $is_change_course = true;//更改课程状态
         foreach ($params['SignIn'] as $key => $value) {
