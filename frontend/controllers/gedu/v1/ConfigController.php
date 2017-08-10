@@ -9,6 +9,7 @@ use yii\web\HttpException;
 use yii\data\ActiveDataProvider;
 use yii\rest\ActiveController;
 use yii\helpers\Url;
+use yii\helpers\Html;
 
 use common\wechat\JSSDK;
 use common\models\ArticleCategory;
@@ -316,14 +317,15 @@ class ConfigController extends \common\rest\Controller
         if (isset($widget_carousel_item) && !empty($widget_carousel_item)) {
             foreach ($widget_carousel_item as $key => $value) {
                 $temp['banner_id']  = $value['id'];
-                $temp['title']      = $value['caption'];
-                $temp['imgUrl']     = $value['base_url'].'/'.$value['path'];
+                // $temp['title']      = strip_tags($value['caption']);
+                $temp['imgUrl']     = $value['base_url'].$value['path'];
                 $temp['type']       = 'WEB';
-                if (strpos($value['url'], 'v1')) {
-                    $temp['type']   = 'APP';
+                $temp['target_url'] = \Yii::$app->request->hostInfo.Url::to(['article/view','id'=>$value['url']]);
+                if (strcasecmp(strip_tags($value['caption']),'APP') == 0) {
+                    $temp['type']       = 'APP';
+                    $temp['target_url'] = \Yii::$app->request->hostInfo.Url::to(['v1/course/view','course_id'=>$value['url']]);
                 }
                 $temp['sort']       = $value['order'];
-                $temp['target_url'] = Yii::$app->homeUrl.$value['url'];
                 $data[] = $temp;
             }
         }
