@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'author_id',
                 'value' => function ($model) {
-                    return $model->author->username;
+                    return isset($model->author->username) ? $model->author->username : '';
                 }
             ],
             [

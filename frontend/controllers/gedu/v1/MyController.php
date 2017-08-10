@@ -14,6 +14,7 @@ use yii\helpers\ArrayHelper;
 use frontend\models\gedu\resources\Course;
 use frontend\models\gedu\resources\UsersToUsers;
 use frontend\models\gedu\resources\Courseware;
+use frontend\models\gedu\resources\CourseOrderItem;
 use frontend\models\gedu\resources\Collect;
 use frontend\models\gedu\resources\Notice;
 use frontend\models\gedu\resources\User;
@@ -101,7 +102,7 @@ class MyController extends \common\rest\Controller
 
         /* 
         需要用user_id查询满足如下条件的课程
-                已购买
+                已购买    √
                 已收藏    √
                 已上完   
         */
@@ -111,8 +112,17 @@ class MyController extends \common\rest\Controller
             'status'    => Collect::STATUS_COLLECTED,
             'course_id' => 0
         ])->asArray()->all();
-        $course_id = ArrayHelper::getColumn($collect_course, 'course_master_id');
+        $collect_course_id = ArrayHelper::getColumn($collect_course, 'course_master_id');
 
+        // 已购买课程
+        $order = CourseOrderItem::find()->where([
+            'status'         => CourseOrderItem::STATUS_VALID,
+            'payment_status' => CourseOrderItem::PAYMENT_STATUS_PAID,
+            'user_id'        => UsersToUsers::getRelevanceGroup(Yii::$app->user->identity->id),
+        ])->asArray()->all();
+        $purchase_course_id = ArrayHelper::getColumn($order, 'course_id');
+
+        $course_id = ArrayHelper::merge($collect_course_id,$purchase_course_id);
         $model = $modelClass::find()
         ->where(['course_id' => $course_id])
             // 状态失效(下架)的课程仅展示
