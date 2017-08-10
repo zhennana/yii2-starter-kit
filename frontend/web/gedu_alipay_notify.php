@@ -40,7 +40,7 @@ $config = \yii\helpers\ArrayHelper::merge(
 (new yii\web\Application($config));
 
 use common\payment\alipay\AlipayTradeService;
-use frontend\models\edu\resources\CourseOrderItem;
+use frontend\models\gedu\resources\CourseOrderItem;
 
 
 $alipay_config = Yii::$app->params['payment']['gedu']['alipay'];
