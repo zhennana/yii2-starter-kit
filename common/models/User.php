@@ -593,11 +593,14 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function groupId()
     {
-      $user_id = $this->id;
-      if (in_array($user_id, UsersToUsers::getRelevanceGroup(Yii::$app->user->identity->id))) {
-          $user_id = UsersToUsers::getRelevanceGroup(Yii::$app->user->identity->id)['user_left_id'];
-      }
-      return $user_id;
+        $user_id = $this->id;
+        $relevance_group = UsersToUsers::getRelevanceGroup(Yii::$app->user->identity->id);
+          if (isset($relevance_group) && !empty($relevance_group)) {
+              if (in_array($user_id, $relevance_group)) {
+                  $user_id = $relevance_group['user_left_id'];
+              }
+          }
+        return $user_id;
     }
 
 //获取用户的提送
