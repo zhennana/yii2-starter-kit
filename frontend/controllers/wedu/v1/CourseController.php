@@ -331,7 +331,7 @@ class CourseController extends \common\rest\Controller
         $model = new SignIn;
         if($_POST){
             $info =  $model->batch_add($_POST);
-            if(empty($info['error']) && isset($info['error'])){
+            if(isset($info['error']) && !empty($info['error'])){
                 $this->serializer['errno']      = '300';
                 $this->serializer['message']    = $info['error'];
                 return [];
