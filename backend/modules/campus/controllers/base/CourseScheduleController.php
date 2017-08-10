@@ -85,6 +85,7 @@ public function actionIndex()
     return $this->render('index', [
     'dataProvider' => $dataProvider,
         'searchModel' => $searchModel,
+        'grade_id'    => $this->gradeIdCurrent,
     ]);
 }
 
@@ -155,7 +156,11 @@ if ($model->load($_POST) && $model->save()) {
 public function actionDelete($course_schedule_id)
 {
 try {
-$this->findModel($course_schedule_id)->delete();
+    $model = $this->findModel($course_schedule_id);
+    if(isset($model->course)){
+        $model->course->delete();
+    }
+    $model->delete();
 } catch (\Exception $e) {
 $msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
 \Yii::$app->getSession()->addFlash('error', $msg);
