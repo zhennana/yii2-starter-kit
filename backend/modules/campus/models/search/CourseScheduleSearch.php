@@ -21,7 +21,7 @@ public $title;
 public function rules()
 {
     return [
-    [['course_schedule_id', 'course_id', 'status'], 'integer'],
+    [['course_schedule_id', 'teacher_id','course_id', 'status'], 'integer'],
     [['start_time', 'end_time', 'which_day','school_id','grade_id','title'], 'safe'],
     ];
 }
@@ -66,6 +66,7 @@ $query->andFilterWhere([
             's.end_time'   => $this->end_time,
             's.which_day'  => $this->which_day,
             's.status'     => $this->status,
+            's.teacher_id' => $this->teacher_id,
             // 'c.status'     =>
         ]);
 $query->andFilterWhere([

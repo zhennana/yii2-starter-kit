@@ -81,16 +81,12 @@ public function behaviors()
                           'grade_id'=>$id,
                           'grade_user_type'=>20
                           ])
-                        ->with('user')
+                        ->andwhere(['status'=>UserToGrade::USER_GRADE_STATUS_NORMAL])
+                        //->with('user')
                         ->all();
+                     //   var_Dump($UserToGrade);
             foreach ($UserToGrade as $key => $value) {
-                if($value['user']['username']){
-                  $data[$value['user_id']] = $value['user']['username'];
-                  continue;
-                }
-                if($value['user']['realname']){
-                  $data[$value['user_id']] = $value['user']['realname'];
-                }
+                  $data[$value['user_id']] = Yii::$app->user->identity->getUserName($value['user_id']);
             }
         }
         if($type_id == 3){
