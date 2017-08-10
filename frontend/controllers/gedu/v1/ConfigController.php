@@ -506,7 +506,7 @@ class ConfigController extends \common\rest\Controller
      *        in = "formData",
      *        name = "school_id",
      *        description = "学校ID",
-     *        required = true,
+     *        required = false,
      *        type = "integer"
      *     ),
      *     @SWG\Parameter(
