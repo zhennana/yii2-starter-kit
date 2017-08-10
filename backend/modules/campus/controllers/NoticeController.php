@@ -44,7 +44,7 @@ class NoticeController extends \backend\modules\campus\controllers\base\NoticeCo
 //VAR_DUMP(array_keys($schools));exit;
         $dataProvider->query->andWhere([
             'school_id'=> array_keys($schools),
-            'grade_id' => 0,
+            'grade_id' => null,
             'type'     =>0,
             'category' => 1,
             'receiver_id'=> NULL,
