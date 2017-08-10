@@ -4,15 +4,18 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\GridView;
 use \backend\modules\campus\models\CourseSchedule;
+use \backend\modules\campus\models\Course;
 /**
 * @var yii\web\View $this
 * @var yii\data\ActiveDataProvider $dataProvider
     * @var backend\modules\campus\models\search\CourseSchedule $searchModel
 */
-
+$course  =  new Course;
 $this->title = Yii::t('models', '排课管理');
 $this->params['breadcrumbs'][] = $this->title;
-
+// var_dump($grade_id);exit;
+ $teacher_ids = $course->getlist(2,$grade_id);
+ // var_dump($teacher_ids);exit
 
 /**
 * create action column template depending acces rights
@@ -169,12 +172,23 @@ if(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::
                     return isset($model->course->grade->grade_name) ? $model->course->grade->grade_name : '';
                 }
             ],
+            // [
+            //     'attribute'=>'teacher_id',
+            //     'label'    => '上课老师',
+            //     'value'    =>function($model){
+            //         return Yii::$app->user->identity->getUserName($model->teacher_id);
+            //     }
+            // ],
             [
-                'attribute'=>'teacher_id',
+                'class'     =>\common\grid\EnumColumn::className(),
+                'attribute' =>'teacher_id',
                 'label'    => '上课老师',
-                'value'    =>function($model){
+
+                'format'        => 'raw',
+                'value'     => function($model){
                     return Yii::$app->user->identity->getUserName($model->teacher_id);
-                }
+                },
+                'enum'      => $teacher_ids
             ],
             'which_day',
 			'start_time',
