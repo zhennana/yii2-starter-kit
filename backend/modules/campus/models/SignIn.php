@@ -60,7 +60,6 @@ public function behaviors()
                 'body'  =>'您的孩子上课了：'.$this->course->title
                       ]
                 ];
-            }
             $notice =[
                 'type'=>Notice::TYPE_PUSH_SIGN_IN,
                 'category'=>0,
@@ -85,6 +84,7 @@ public function behaviors()
             $notice_model->load($notice,'');
             $notice_model->save();
           }
+        }
       }
     public function getlist($type_id,$id =false){
         if($type_id == 1){
@@ -98,11 +98,11 @@ public function behaviors()
         }
 
         if($type_id == 3){
-            $course = Course::find()->where(['grade_id'=>$id,'status'=>Course::COURSE_STATUS_FINISH])->asArray()->all();
+            $course = Course::find()->where(['grade_id'=>$id])->asArray()->all();
             return ArrayHelper::map($course,'course_id','title');
         }
         if(($type_id == 4) || ($type_id == 5)){
-            $gradeUser = UserToGrade::find()->where(['grade_id' => $id]);
+            $gradeUser = UserToGrade::find()->where(['grade_id' => $id,'status'=>UserToGrade::USER_GRADE_STATUS_NORMAL]);
             if($type_id == 4){
                 $gradeUser->andWhere(['grade_user_type'=> UserToGrade::GRADE_USER_TYPE_STUDENT]);
             }else{

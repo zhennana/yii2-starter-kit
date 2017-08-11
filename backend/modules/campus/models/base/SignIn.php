@@ -28,7 +28,9 @@ abstract class SignIn extends \yii\db\ActiveRecord
     const STATUS_UNREAD = 0;    // 未查看
     const STATUS_READ   = 10;   // 已查看
     const TYPE_STATUS_MORMAL = 10; //正常
-    const TYPE_STATUS_ABSENTEEISM = 20; //缺勤
+    const TYPE_STATUS_ABSENTEEISM  = 20; //缺勤
+    //repair
+    const TYPE_STATUS_REPAIR_CLASS = 30; //补课
     /**
      * @inheritdoc
      */
@@ -130,8 +132,9 @@ abstract class SignIn extends \yii\db\ActiveRecord
     public static function optsTypeStatus()
     {
         return [
-            self::TYPE_STATUS_MORMAL   => Yii::t('common', '正常'),
-            self::TYPE_STATUS_ABSENTEEISM => Yii::t('common', '缺勤'),
+            self::TYPE_STATUS_MORMAL        => Yii::t('common', '正常'),
+            self::TYPE_STATUS_ABSENTEEISM   => Yii::t('common', '缺勤'),
+            self::TYPE_STATUS_REPAIR_CLASS  => Yii::t('common','补课')
         ];
     }
     public static function optsSignInStatus()

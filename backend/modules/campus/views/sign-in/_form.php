@@ -75,12 +75,12 @@ use common\models\User;
                         'allowClear'=> true,
                     ],
                     'pluginEvents'=>[
-                        // "change" => "function() { 
+                        // "change" => "function() {
                         //      handleChange(4,this.value,'#signin-student_id');
                         // }",
                     ]
                 ]); ?>
-
+            <?= $form->field($model,'course_schedule_id')->label('排课id') ?>
 <!-- attribute student_id -->
 			<?= $form->field($model, 'student_id')->widget(Select2::className(),[
                 'data' =>[],

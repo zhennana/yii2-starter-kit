@@ -22,7 +22,7 @@ if (isset($actionColumnTemplates)) {
         ['create'],
         ['class' => 'btn btn-success']
     );
-    $actionColumnTemplateString = "{view} {update} {delete}";
+    $actionColumnTemplateString = "{view} {update}{buke}";
 }
 $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTemplateString.'</div>';
 
@@ -106,6 +106,14 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                             $options = [
                                 'title'      => Yii::t('yii', '查看'),
                                 'aria-label' => Yii::t('yii', '查看'),
+                                'data-pjax'  => '0',
+                            ];
+                            return Html::a('<span class="glyphicon glyphicon-file"></span>', $url, $options);
+                        },
+                        'buke'=>function($url,$model,$key){
+                              $options = [
+                                'title'      => Yii::t('yii', '补课'),
+                                'aria-label' => Yii::t('yii', '补课'),
                                 'data-pjax'  => '0',
                             ];
                             return Html::a('<span class="glyphicon glyphicon-file"></span>', $url, $options);

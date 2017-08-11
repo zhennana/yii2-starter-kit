@@ -34,7 +34,6 @@ public function actionIndex()
 {
     $searchModel  = new SignInSearch;
     $dataProvider = $searchModel->search($_GET);
-
     $dataProvider->query->andWhere([
             'sign_in.school_id' => $this->schoolIdCurrent,
             'sign_in.grade_id'  => $this->gradeIdCurrent
@@ -81,7 +80,8 @@ return $this->render('view', [
 public function actionCreate()
 {
 $model = new SignIn;
-
+// var_dump($_POST);exit;
+// var_dump($model->load($_POST),$model->save());exit;
 try {
 if ($model->load($_POST) && $model->save()) {
 return $this->redirect(['view', 'signin_id' => $model->signin_id]);
