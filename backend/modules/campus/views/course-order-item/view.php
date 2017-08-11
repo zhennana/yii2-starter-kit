@@ -51,11 +51,15 @@ $this->params['breadcrumbs'][] = Yii::t('cruds', '查看');
             '<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('cruds', '复制'),
             ['create', 'course_order_item_id' => $model->course_order_item_id, 'CourseOrderItem'=>$copyParams],
             ['class' => 'btn btn-success']) */?>
+            <?php 
+            if ((\Yii::$app->user->can('P_financial', ['route' => true]) || \Yii::$app->user->can('E_manager') || \Yii::$app->user->can('manager')) && (env('THEME') == 'edu' || \Yii::$app->user->can('manager'))) { ?>
 
             <?= Html::a(
             '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('cruds', '创建'),
             ['create'],
             ['class' => 'btn btn-success']) ?>
+            
+            <?php } ?>
         </div>
 
         <div class="pull-right">
