@@ -69,11 +69,13 @@ public function actionIndex()
     //$grades = Yii::$app->user->identity->gradesInfo;
     $schools = ArrayHelper::map($schools,'school_id','school_title');
     //$grades  = ArrayHelper::map($grades,'grade_id','grade_name');
-    $dataProvider->query->andWhere(
-                [
-                 'school_id'=>array_keys($schools)
-                ]
-        );
+    if (env('THEME') == 'edu') {
+        $dataProvider->query->andWhere(
+                    [
+                     'school_id'=>array_keys($schools)
+                    ]
+            );
+    }
     Tabs::clearLocalStorage();
 
     Url::remember();

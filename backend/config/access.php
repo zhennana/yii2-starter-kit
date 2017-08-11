@@ -53,11 +53,16 @@ return [
                 'roles' => ['administrator'],
                 'actions'=>['index']
             ],
+            [
+                'controllers'=>['campus/course-category'],
+                'allow'=>true,
+                'roles'=>['manager','P_teacher']
+            ],
             //排课管理
             [
                 'controllers'=>['campus/course'],
                 'allow'=>true,
-                'actions'=>['index','view','ajax-form'],
+                'actions'=>['index','view','ajax-form','update-course','create-course'],
                 'roles'=>['manager','P_teacher']
             ],
             [
@@ -76,7 +81,7 @@ return [
             [
                 'controllers'=>['campus/sign-in'],
                 'allow'=>true,
-                'actions'=>['create','update','index','view','ajax-form'],
+                'actions'=>['create','update','index','view','ajax-form','audit'],
                 'roles'=>['manager','P_director']
             ],
             //课程体系管理

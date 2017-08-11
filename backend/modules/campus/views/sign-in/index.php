@@ -46,10 +46,12 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
     </h1>
     <div class="clearfix crud-navigation">
         <div class="pull-left">
+            <?php if (\Yii::$app->user->can('manager')) { ?>
             <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('models', '创建'),
                 ['create'],
                 ['class' => 'btn btn-success']
             ) ?>
+            <?php } ?>
         </div>
         <div class="pull-right">
             <?= Html::button('<span class="badge bg-red"></span><i class="fa fa-edit"></i> 签到审核',
@@ -234,7 +236,7 @@ $(document).on('click', '.audit', function (){
             datatype:"json",
             data:data,
             success:function(response){
-                console.log(response);
+                // console.log(response);
                 if(response.code == 200){
                     alert("操作完成！\r\n审核成功"+response.count+"个签到记录。");
                     window.location.reload();
