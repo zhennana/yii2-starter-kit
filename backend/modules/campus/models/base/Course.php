@@ -37,10 +37,10 @@ abstract class Course extends \yii\db\ActiveRecord
     CONST COURSE_STATUS_DELECT = 30;//关闭
 
     // public $category_id;        //课件的分类
-    public $start_date;         //开始日期
+    public $which_day;         //开始日期
     public $start_times;        //上课时间
     public $end_times;          //结束时间
-    public $which_day;          //周几
+    public $weeks;          //周几
     public $course_schedule_id;//已有课程
     /**
      * @inheritdoc

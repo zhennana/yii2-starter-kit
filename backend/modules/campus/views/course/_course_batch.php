@@ -10,17 +10,14 @@ use trntv\yii\datetime\DateTimeWidget;
 $this->title = Yii::t('backend', '排课');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '学校人员管理'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-//var_dump(time());exit;
-
-
-$model->school_id = 29;
-$model->grade_id  = 22;
-$model->category_id = 3;
-$model->teacher_id = 1;
-$model->start_times = 1501237313;
-$model->start_date = time();
-$model->end_times  = (1501237313+ 60*60);
-$model->which_day  = 1;
+// $model->school_id  = 3;
+// $model->grade_id   = 25;
+// $model->category_id   = 1;
+// $model->teacher_id = 30;
+ $model->which_day  = time();
+ // $model->weeks      = 1;
+ $model->start_times = strtotime(date('Y-m-d')." 17:30");
+ $model->end_times   = strtotime(date('Y-m-d')." 19:00");
 ?>
 
 <!-- <div class="error-summary alert alert-error" style=""></div> -->
@@ -29,7 +26,7 @@ $model->which_day  = 1;
        // 'action'=>'',
 ]); ?>
 
-    <?php echo $form->errorSummary($model); ?>
+    <!-- <?php // echo $form->errorSummary($model); ?> -->
 
 <div class="col-md-12">
 <!-- general form elements -->
@@ -96,21 +93,27 @@ $model->which_day  = 1;
                     'pluginOptions' => [
                         'allowClear' => true,
                     ],
+                    'pluginEvents' => [
+                        "change" => "function() {
+                            handleChange(3,this.value,'#course-courseware_id');
+
+                        }",
+                    ]
             ])->label('课件分类'); ?>
         </div>
         <div class="col-lg-3">
-            <?= $form->field($model, 'course_schedule_id')->widget(Select2::className(),
+            <?= $form->field($model, 'courseware_id')->widget(Select2::className(),
                 [
                     'data'          => [],
-                    'options'       => ['placeholder' => '请选择'],
+                    'options'       => ['placeholder' => '请选择','multiple'=>true],
                     'pluginOptions' => [
                         'allowClear' => true,
                     ],
-            ])->label('已排过的课程'); ?>
+            ])->label('选择课程'); ?>
         </div> 
         <div  class="col-lg-12"></div>
         <div class="col-lg-3">
-            <?= $form->field($model, 'start_date')->widget(
+            <?= $form->field($model, 'which_day')->widget(
                     DateTimeWidget::className(),
                     [
                         'locale'            => Yii::$app->language,
@@ -120,7 +123,7 @@ $model->which_day  = 1;
         </div>
 
         <div class="col-lg-3">
-            <?= $form->field($model, 'which_day')->widget(Select2::className(),
+            <?= $form->field($model, 'weeks')->widget(Select2::className(),
                 [
                     'data'          => [
                                 1=>'周一',
@@ -155,6 +158,11 @@ $model->which_day  = 1;
                         'locale'            => Yii::$app->language,
                         'momentDatetimeFormat' => 'HH:mm',
                         'phpDatetimeFormat' => 'HH:mm',
+                        'clientEvents'=>[
+                            'blur'=>"function(){
+                               console.log(1231233213132);
+                            }"
+                        ]
                     ]
             )->label('上课结束时间') ?>
         </div>
@@ -328,6 +336,13 @@ $model->which_day  = 1;
             {
                 return false;
             }
+            if($("#error").length > 0){
+                return false;
+            }
+// console.log($("#error_end").length);
+            // if(form.find('#error_end')){
+            //     return false;
+            // }
             // submit form
             $.ajax({
             url    : '<?php echo  Url::to(['course-validations']) ?>',
@@ -343,6 +358,7 @@ $model->which_day  = 1;
                 $('#schedule_record table').remove();
                 $('#message').empty();
                 if(response.is_commit == true){
+                     FormNotOption();
                     //$('#paicha').attr('disabled',"true");
                     $('#schedule_record table').remove();
                     $('#commit').show();
@@ -389,6 +405,7 @@ $model->which_day  = 1;
         return false;
     });
     $("#back").on('click',function(){
+        formOption();
         $('#paicha').show();
         $('#back').hide();
         $('#commit').hide();
@@ -398,6 +415,68 @@ $model->which_day  = 1;
     }
 
         );
+    //表单不可编辑
+    function FormNotOption(){
+        $('#course-school_id').attr('disabled','true');
+        $('#course-courseware_id').attr('disabled','true');
+        $('#course-grade_id').attr('disabled','true');
+        $('#course-category_id').attr('disabled','true');
+        $('#course-which_day').attr('disabled','true');
+        $('#course-weeks').attr('disabled','true');
+        $('#course-start_times').attr('disabled','true');
+        $('#course-end_times').attr('disabled','true');
+        $('#course-teacher_id').attr('disabled','true');
+        return true;
+    }
+    //开始时间与结束时间对比
+   // var defaultHandler = $('#course-end_times');
+   // removeAttr
+    // $('#course-end_times').removeAttr('onblur');
+    $('#course-end_times').on('blur',function(){
+        $('#error').remove();
+        var start_time = $('#course-start_times').val();
+        var end_time   = $('#course-end_times').val();
+        if(end_time){
+        if(end_time < start_time){
+            //$(".field-course-end_times").addClass("has-error").removeClass("has-success")
+           // $('.field-course-end_times .help-block').append('1111');
+           var string = "<div id= 'error' style = color:red>结束时间不能小于开始时间</div>";
+            $(".field-course-end_times").append(string);
+        }
+    }
+      ///  alert(123);
+        return false;
+    });
+
+    $('#course-start_times').on('blur',function(){
+        console.log(22);
+        $('#error').remove();
+        var start_time = $('#course-start_times').val();
+        var end_time   = $('#course-end_times').val();
+        if(start_time){
+           if(end_time < start_time){
+               //  $(".field-course-end_times").addClass("has-error").removeClass("has-success")
+               // $('.field-course-end_times .help-block').append('1111');
+               var string = "<div id= 'error' style = color:red>开始时间不能大于结束时间</div>";
+                $(".field-course-start_times").append(string);
+            }
+    }
+      ///  alert(123);
+        return false;
+    });
+
+    function formOption(){
+        $('#course-school_id').removeAttr('disabled');
+        $('#course-grade_id').removeAttr('disabled');
+        $('#course-courseware_id').removeAttr('disabled');
+        $('#course-category_id').removeAttr('disabled');
+        $('#course-which_day').removeAttr('disabled');
+        $('#course-weeks').removeAttr('disabled');
+        $('#course-start_times').removeAttr('disabled');
+        $('#course-end_times').removeAttr('disabled');
+        $('#course-teacher_id').removeAttr('disabled');
+        return true;
+    }
 
 </script>
  <style>

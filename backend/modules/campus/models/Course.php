@@ -9,6 +9,7 @@ use backend\modules\campus\models\School;
 use backend\modules\campus\models\Grade;
 use backend\modules\campus\models\UserToGrade;
 use backend\modules\campus\models\CourseSchedule;
+use backend\modules\campus\models\Courseware;
 use backend\modules\campus\models\WorkRecord;
 
 
@@ -17,7 +18,6 @@ use backend\modules\campus\models\WorkRecord;
  */
 class Course extends BaseCourse
 {
-
 public function behaviors()
     {
         return ArrayHelper::merge(
@@ -35,7 +35,7 @@ public function behaviors()
              [
                   [['start_time','end_time','intro'],'safe','on'=>'course_view'],
                   [
-                    ['school_id','grade_id','category_id','start_date','which_day','start_times','end_times','teacher_id'],'required','on'=>'course_view'
+                    ['school_id','grade_id','category_id','weeks','which_day','start_times','end_times','teacher_id'],'required','on'=>'course_view'
                   ],
                   [
                     'end_times','required','when'=>function($model,$attribute){
@@ -55,14 +55,21 @@ public function behaviors()
     $scenarios = parent::scenarios();
     //批量检测值
     $scenarios['course_view'] = [
-          'category_id','school_id','grade_id','teacher_id','start_date','which_day','start_times','end_times'];
+          'category_id','school_id','grade_id','teacher_id','weeks','which_day','start_times','end_times'];
     $scenarios['create_batch'] = [
           'school_id','grade_id','teacher_id','courseware_id','title','status'
     ];
     //var_dump($scenarios);exit;
     return $scenarios;
   }
+  /**
+   * *
+   * @param  boolean $type_id [description]
+   * @param  boolean $id      [description]
+   * @return [type]           [description]
+   */
   public function getlist($type_id = false,$id =false){
+        $data = [];
         if($type_id == 1){
             $grade = Grade::find()->where(['status'=>Grade::GRADE_STATUS_OPEN, 'school_id'=>$id])->asArray()->all();
             //var_dump($grade);exit;
@@ -76,7 +83,6 @@ public function behaviors()
                           ])
                         ->with('user')
                         ->all();
-            $data = [];
             foreach ($UserToGrade as $key => $value) {
                 if($value['user']['username']){
                   $data[$value['user_id']] = $value['user']['username'];
@@ -87,8 +93,19 @@ public function behaviors()
                 }
             }
         }
-          return $data;
+        if($type_id == 3){
+            $courseware = Courseware::find()
+                            ->select(['courseware_id','title'])
+                            ->where([
+                              'category_id'=>$id,
+                              'status'=>Courseware::COURSEWARE_STATUS_VALID])
+                            ->orderBy(['sort'=>SORT_ASC])
+                            ->asArray()
+                            ->all();
+            return ArrayHelper::map($courseware,'courseware_id','title');
         }
+        return $data;
+  }
         /*
         $school_id = Yii::$app->user->identity->getSchoolOrGrade();
         $school = School::find()->where(['status'=>School::SCHOOL_STATUS_OPEN]);
@@ -154,14 +171,14 @@ public function behaviors()
           //
           $newTime = 0;
           //本次将要排课的内容
-          $coursewareModel = $this->Courseware($data['category_id']);
+          $coursewareModel = $this->Courseware($data);
+          //var_dump($coursewareModel);exit;
           if(empty($coursewareModel)){
             return [];
           }
           $data['count'] = count($coursewareModel);
           $gradeModel =  Grade::find()->select(['grade_name'])->where(['grade_id'=>$data['grade_id']])->asArray()->one();
           $data['grade_name']    = isset($gradeModel['grade_name']) ? $gradeModel['grade_name'] : '';
-          
           //计算本次排课的时间段
           $info['schedule_time'] = $this->TimeCalculate($data);
           //检测班级是否是新课程
@@ -515,10 +532,20 @@ public function behaviors()
       }
 
 //根据分类获取课件
-      public function Courseware($category_id){
+      public function Courseware($data=[]){
+        $query = [];
+        if(isset($data['category_id']) && !empty($data['category_id'])){
+            $query['category_id'] = $data['category_id'];
+        }
+        if(isset($data['courseware_id']) && !empty($data['courseware_id'])){
+            $query['courseware_id'] = $data['courseware_id'];
+        }
+        if(empty($query)){
+           return [];
+        }
         $coursewareModel = Courseware::find()
               ->select(['courseware_id','title'])
-              ->andwhere(['category_id'=>$category_id])
+              ->andwhere($query)
               ->andwhere(['status'=>Courseware::COURSEWARE_STATUS_VALID])
               ->orderBy(['sort'=>SORT_ASC])
               ->asArray()
@@ -591,10 +618,10 @@ public function behaviors()
          //符合课程的开始时间
         $d_time = strtotime(date('Y-m-d'));
         $i = 1;
-        $data['start_date']  = strtotime($data['start_date']);
+        $data['which_day']  = strtotime($data['which_day']);
 
         //根据当天时间算出符合排课要求的某天
-        while($d_time < $data['start_date']){
+        while($d_time < $data['which_day']){
           $d_time = strtotime('+'.$i .' day');
           $i++;
         }
@@ -606,25 +633,25 @@ public function behaviors()
         if($d_week == 0){
             $d_week = 7;
         }
-        if($d_week > $data['which_day']){
+        if($d_week > $data['weeks']){
             $d_time = $d_time + 1*7*3600*24;
         }
         //var_dump(date('Y-m-d',$d_time));exit;
          //$d_week = date('w',$d_time);
         
         //符合看看本周时间是否已经过期，如果过期直接从下星期开始
-        if($d_week > $data['which_day']){
-            $d_time = $d_time - (($d_week-$data['which_day'])*24*3600);
+        if($d_week > $data['weeks']){
+            $d_time = $d_time - (($d_week-$data['weeks'])*24*3600);
         }
-        if($d_week < $data['which_day']){
-            $d_time = $d_time + (($data['which_day']- $d_week)*24*3600);
+        if($d_week < $data['weeks']){
+            $d_time = $d_time + (($data['weeks']- $d_week)*24*3600);
         }
         // $this->showOneWeek();
         // exit;
     //var_dump(date('Y-m-d',$d_time),$data['which_day'],$d_week);exit;
 
         //同一天时间检测时间段 是否已经过时。
-        if($d_week == $data['which_day']){
+        if($d_week == $data['weeks']){
             $time = time();
             $start_times = strtotime(date('Y').'-'.date('m').'-'.date('d').' '. $data['start_times']);
             if($start_times < $time){
@@ -641,6 +668,44 @@ public function behaviors()
 
         return $m;
       }
+
+    /**
+     * [getStudentRecord 获取学生档案]
+     * @param  [type] $student_record_id [description]
+     * @return [type]                    [description]
+     */
+    public static function getStudentRecord($student_record_id)
+    {
+        $model = StudentRecord::find()
+            ->select(['course_id','student_record_id'])
+            ->where([
+                //'user_id'=>Yii::$app->user->identity->id,
+                //'course_id'=>$course_id,
+                'student_record_id' => $student_record_id
+            ])
+            ->andWhere(['status' => StudentRecord::STUDEN_RECORD_STATUS_VALID])
+            ->with(['course' => function($query){
+                $query->with(['courseware']);
+            },
+            'studentRecordValue' => function($query){
+                    $query->select([
+                        'student_record_key_id',
+                        'student_record_value_id',
+                        'student_record_id',
+                        'body'
+                    ]);
+                    $query->with(['studentRecordValueToFile' => function($query){
+                            $query->select(['student_record_value_id','file_storage_item_id']);
+                            $query->with('fileStorageItem');
+                    }]);
+            }])
+            ->asArray()
+            ->one();
+
+        return $model;
+    }
+
+
   }
 
 

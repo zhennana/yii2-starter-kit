@@ -16,6 +16,7 @@ use frontend\models\gedu\resources\UsersToUsers;
 use frontend\models\gedu\resources\Courseware;
 use frontend\models\gedu\resources\Collect;
 use frontend\models\gedu\resources\Notice;
+use frontend\models\gedu\resources\User;
 
 class MyController extends \common\rest\Controller
 {
@@ -106,7 +107,7 @@ class MyController extends \common\rest\Controller
         */
         // 已收藏课程
         $collect_course = Collect::find()->where([
-            'user_id'   => Yii::$app->user->identity->id,
+            'user_id'   => UsersToUsers::getRelevanceGroup(Yii::$app->user->identity->id),
             'status'    => Collect::STATUS_COLLECTED,
             'course_id' => 0
         ])->asArray()->all();
@@ -146,17 +147,62 @@ class MyController extends \common\rest\Controller
             return [];
         }
 
+        $user = User::findOne(Yii::$app->user->identity->groupId());
+        $character_detailes = $user->getCharacterDetailes();
+
         $data  = [];
-        $model = Notice::find()->where([
-            'receiver_id' => Yii::$app->user->identity->id,
-            'status_send' => Notice::STATUS_SEND_SENT
-        ])->asArray()->all();
+        $model = NULL;
+
+        if (isset($character_detailes) && !empty($character_detailes) && $character_detailes['user_type'] == 1) {
+            $model = Notice::find()
+                ->where(['status_send' => Notice::STATUS_SEND_SENT])
+                ->andWhere([
+                    'or',
+
+                    // 家校沟通
+                    ['receiver_id' => Yii::$app->user->identity->groupId()],
+                    [
+                        // 学校公告
+                        'school_id'   => $character_detailes['school_id'],
+                        'grade_id'    => NULL,
+                        'receiver_id' => NULL
+                    ],
+                    [
+                        // 班级公告
+                        'school_id'   => $character_detailes['school_id'],
+                        'grade_id'    => $character_detailes['grade_id'],
+                        'receiver_id' => NULL
+                    ],
+                ])->asArray()->all();
+        }
 
         if ($model) {
             foreach ($model as $key => $value) {
-                $value['sender_name']   = Notice::getUserName($value['sender_id']);
-                $value['receiver_name'] = Notice::getUserName($value['receiver_id']);
-                $data[] = $value;
+                $temp['category'] = '';
+
+                if ($value['grade_id'] == NULL && $value['receiver_id'] == NULL) {
+                    $temp['category']     = '学校公告';
+                }elseif ($value['receiver_id'] == NULL) {
+                    $temp['category']     = '班级公告';
+                }else{
+                    $temp['category']     = '家校沟通';
+                }
+
+                $temp['notice_id']     = $value['notice_id'];
+                $temp['school_id']     = $value['school_id'];
+                $temp['grade_id']      = $value['grade_id'];
+                $temp['type']          = $value['type'];
+                $temp['title']         = $value['title'];
+                $temp['message']       = $value['message'];
+                $temp['sender_id']     = $value['sender_id'];
+                $temp['sender_name']   = Notice::getUserName($value['sender_id']);
+                $temp['receiver_id']   = $value['receiver_id'];
+                $temp['receiver_name'] = Notice::getUserName($value['receiver_id']);
+                $temp['status_send']   = $value['status_send'];
+                $temp['status_check']  = $value['status_check'];
+                $temp['created_at']    = date('Y-m-d H:i:s', $value['created_at']);
+                $temp['updated_at']    = date('Y-m-d H:i:s', $value['updated_at']);
+                $data[] = $temp;
             }
         }
 
@@ -205,10 +251,10 @@ class MyController extends \common\rest\Controller
             $this->serializer['message'] = '状态参数错误';
             return [];
         }
-
+        
         $model = Notice::find()->where([
             'notice_id'    => $notice_id,
-            'receiver_id'  => Yii::$app->user->identity->id,
+            // 'receiver_id'  => Yii::$app->user->identity->groupId(),
         ])->one();
 
         if ($model) {

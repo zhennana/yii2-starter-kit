@@ -71,7 +71,7 @@ public function behaviors()
                         return 0;
                     }
                     $time = Collect::find()->where([
-                        'user_id'   => Yii::$app->user->identity->id,
+                        'user_id'   => Yii::$app->user->identity->groupId(),
                         'course_id' => $model->course_id,
                         'status'    => Collect::STATUS_COLLECTED
                     ])->one();
@@ -85,7 +85,7 @@ public function behaviors()
                         return 0;
                     }
                     $collect = Collect::find()->where([
-                        'user_id' => Yii::$app->user->identity->id
+                        'user_id' => Yii::$app->user->identity->groupId()
                     ])->andWhere([
                         'course_master_id' => $model->course_id
                     ])->orWhere([
@@ -100,11 +100,12 @@ public function behaviors()
                     if (Yii::$app->user->isGuest) {
                         return 0;
                     }
+
                     $order = CourseOrderItem::find()->where([
                         'status'         => CourseOrderItem::STATUS_VALID,
                         'payment_status' => CourseOrderItem::PAYMENT_STATUS_PAID,
-                        'user_id'        => Yii::$app->user->identity->id,
-                        'course_id'  => $model->course_id,
+                        'user_id'        => UsersToUsers::getRelevanceGroup(Yii::$app->user->identity->id),
+                        'course_id'      => $model->course_id,
                     ])->count();
                     if ($order) {
                         return 1;

@@ -10,7 +10,7 @@ use \backend\modules\campus\models\CourseSchedule;
     * @var backend\modules\campus\models\search\CourseSchedule $searchModel
 */
 
-$this->title = Yii::t('models', 'Course Schedules');
+$this->title = Yii::t('models', '排课管理');
 $this->params['breadcrumbs'][] = $this->title;
 
 
@@ -23,13 +23,16 @@ $actionColumnTemplates = [];
 //     $actionColumnTemplates[] = '{view}';
 // }
 
-// if (\Yii::$app->user->can('campus_course-schedule_update', ['route' => true])) {
-//     $actionColumnTemplates[] = '{update}';
-// }
+if (Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_director')) {
+    //$actionColumnTemplates[] = '{update}';
+}
+   if (Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_director')) {
+     $actionColumnTemplates['button'] = '{button}';
+    }
 
-// if (\Yii::$app->user->can('campus_course-schedule_delete', ['route' => true])) {
-//     $actionColumnTemplates[] = '{delete}';
-// }
+ if (\Yii::$app->user->can('manager', ['route' => true])) {
+     $actionColumnTemplates[] = '{delete}';
+ }
 if (isset($actionColumnTemplates)) {
 $actionColumnTemplate = implode(' ', $actionColumnTemplates);
     $actionColumnTemplateString = $actionColumnTemplate;
@@ -38,6 +41,9 @@ Yii::$app->view->params['pageButtons'] = Html::a('<span class="glyphicon glyphic
     $actionColumnTemplateString = "{view} {update} {delete}";
 }
 $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTemplateString.'</div>';
+
+
+// var_dump($actionColumnTemplateString);exit;
 ?>
 <div class="giiant-crud course-schedule-index">
 
@@ -56,7 +62,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
     </h1>
     <div class="clearfix crud-navigation">
 <?php
-if(\Yii::$app->user->can('user', ['route' => true])){
+if(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_director')){
 ?>
         <div class="pull-left">
             <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '批量排课'), ['course/course-batch'], ['class' => 'btn btn-success']) ?>
@@ -108,15 +114,30 @@ if(\Yii::$app->user->can('user', ['route' => true])){
             'class' => 'yii\grid\ActionColumn',
             'template' => $actionColumnTemplateString,
             'buttons' => [
-                'view' => function ($url, $model, $key) {
+               /* 'update' => function ($url, $model, $key) {
                     $options = [
                         'title' => Yii::t('yii', 'View'),
                         'aria-label' => Yii::t('yii', 'View'),
                         'data-pjax' => '0',
                     ];
-                    return Html::a('<span class="glyphicon glyphicon-file"></span>', $url, $options);
+                    if($model->status == 20){
+                        return  '';
+                    }
+                    return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, $options);
+                },*/
+                'delete' => function ($url, $model, $key) {
+                    $options = [
+                        'title' => Yii::t('yii', 'View'),
+                        'aria-label' => Yii::t('yii', 'View'),
+                        'data-pjax' => '0',
+                    ];
+                    if($model->status == 20){
+                        return  '';
+                    }
+                    return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, $options);
                 }
             ],
+            
             'urlCreator' => function($action, $model, $key, $index) {
                 // using the column name as key, not mapping to 'id' like the standard generator
                 $params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
@@ -171,10 +192,10 @@ if(\Yii::$app->user->can('user', ['route' => true])){
             [
                     'class'    =>'yii\grid\ActionColumn',
                     'header'   =>'排课时间对调',
-                    'template' =>'{button}',
+                    'template' =>isset($actionColumnTemplates['button'])? $actionColumnTemplates['button'] : '',
                     'buttons'  =>[
                         'button' => function($url,$model,$key){
-                            if($model->status !=20){
+                            if($model->status !=20 ){
                                 return Html::a('时间排课',
                                     ['time-switch',
                                     'grade_id'  => $model->course->grade_id,

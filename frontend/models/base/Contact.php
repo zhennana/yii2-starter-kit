@@ -3,7 +3,7 @@
 namespace frontend\models\base;
 
 use Yii;
-use backend\modules\campus\models\base\Contact as BaseContact;
+use backend\modules\campus\models\Contact as BaseContact;
 use yii\helpers\ArrayHelper;
 
 /**

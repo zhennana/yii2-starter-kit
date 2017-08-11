@@ -52,7 +52,7 @@ public function behaviors()
     public function processCourseOrder($params)
     {
         $info = [];
-        $params['user_id']  = Yii::$app->user->identity->id;
+        $params['user_id']  = Yii::$app->user->identity->groupId();
         $params['order_sn'] = $this->builderNumber();
 
         // 订单数据验证
@@ -210,7 +210,7 @@ public function behaviors()
 
         // 首单减免
         $order_count = self::find()->where([
-            'user_id' => Yii::$app->user->identity->id,
+            'user_id' => Yii::$app->user->identity->groupId(),
             'status'  => self::STATUS_VALID,
         ])->count();
         if ($order_count == 0) {
@@ -242,7 +242,7 @@ public function behaviors()
 
 
         // 拼接同步跳转URL的参数
-        $alipay_config['return_url'] = $alipay_config['return_url'].$this->courseware_id;
+        // $alipay_config['return_url'] = $alipay_config['return_url'].$this->courseware_id;
 
         // 组装业务参数
         if ($this->course) {

@@ -27,12 +27,12 @@ use common\models\User;
     // getSchoolToUser
     $data_user =  [];
    foreach ($user as $key => $value) {
-       if(!empty($value['username'])){
-            $data_user[$value['id']] = $value['username'];
-            continue;
-       }
        if(!empty($value['realname'])){
             $data_user[$value['id']] = $value['realname'];
+            continue;
+       }
+       if(!empty($value['username'])){
+            $data_user[$value['id']] = $value['username'];
        }
    }
    //var_dump($data_user);exit;

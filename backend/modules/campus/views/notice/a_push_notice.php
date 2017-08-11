@@ -144,13 +144,13 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                         return $model->getUserName($model->sender_id);
                     }
                 ],
-                // [
-                //     'attribute' => 'receiver_id',
-                //     'options'   => ['width' => '10%'],
-                //     'value'     => function($model){
-                //         return $model->getUserName($model->receiver_id);
-                //     }
-                // ],
+                [
+                    'attribute' => 'receiver_id',
+                    'options'   => ['width' => '10%'],
+                    'value'     => function($model){
+                        return $model->getUserName($model->receiver_id);
+                    }
+                ],
                 [
                     'class'     =>\common\grid\EnumColumn::className(),
                     'attribute' =>'type',

@@ -70,7 +70,7 @@ return [
                 'controllers'=>['campus/course-schedule'],
                 'allow'=>true,
                 'actions'=>['index'],
-                'roles'=>['manager','P_director','E_manager']
+                'roles'=>['manager','P_teacher','E_manager']
             ],
             //签到管理
             [

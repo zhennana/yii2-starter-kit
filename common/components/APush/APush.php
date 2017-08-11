@@ -8,10 +8,10 @@ require_once(dirname(__FILE__) . '/' . 'igetui/IGt.APNPayload.php');
 require_once(dirname(__FILE__) . '/' . 'igetui/template/IGt.BaseTemplate.php');
 require_once(dirname(__FILE__) . '/' . 'IGt.Batch.php');
 require_once(dirname(__FILE__) . '/' . 'igetui/utils/AppConditions.php');
-define('APPKEY','hYOy23eiKz9u06uZtORulA');
-define('APPID','SVYMzezW6HAOOvmGY4k7x1');
-define('MASTERSECRET','OkQcEOFAgn6ZwU3IwDT6M3');
-define('HOST','http://sdk.open.api.igexin.com/apiex.htm');
+define('APPKEY',env('GETUI_APP_KEY'));
+define('APPID',env('GETUI_APP_ID'));
+define('MASTERSECRET',env('GETUI_MASTERSECRET'));
+define('HOST',env('GETUI_HOST'));
 //var_dump(\Yii::$app->user->identity->id);exit;
 class APush {
     // 批量单推

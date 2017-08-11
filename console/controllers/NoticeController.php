@@ -30,7 +30,9 @@ class NoticeController extends controller
      $model = Notice::find()->where([
                     'is_a_push'=>1,
                     'status_send'=>Notice::STATUS_SEND_UNSENT,
-      ])->andwhere(['not',['type'=>NULL]])->all();
+      ])
+     ->andwhere(['not',['type'=>NULL]])
+     ->all();
      $callback = [];
      foreach ($model as $key => $value) {
         $cid =  isset($value->user->userProfile->clientid) ? $value->user->userProfile->clientid : NULL;
@@ -45,17 +47,15 @@ class NoticeController extends controller
                       'body'  =>$value->message,
                   ]
             ];
-           
-             $APush = new APush;
-             $rep = $APush->pushMessageToSingle($message);
+            $APush = new APush;
+            $rep = $APush->pushMessageToSingle($message);
+            var_dump($cid,$rep);
             if($rep['result'] == "ok"){
               $callback[] = $rep;
               $value->times++;
               $value->status_send = 10;
               $value->save();
             }
-
-
         }
      }
      echo '共推送'.count($callback).'次';
@@ -66,6 +66,7 @@ class NoticeController extends controller
       $data  = [];
       $model = Notice::find()->where([
                   'is_a_push'=>1,
+                  'type'     =>0,
                   'status_send'=>Notice::STATUS_SEND_UNSENT,
         ])->all();
       foreach ($model as $key => $value) {
