@@ -200,6 +200,7 @@ public function behaviors()
             $data[] = $temp;
         }
 
+        ArrayHelper::multisort($data,'sort',SORT_DESC);
         return $data;
     }
 
