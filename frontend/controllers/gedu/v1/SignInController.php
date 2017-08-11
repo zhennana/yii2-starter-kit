@@ -163,6 +163,8 @@ class SignInController extends \common\components\ControllerFrontendApi
                 $fansMpUser = isset($model->user->fansMp) ? $model->user->fansMp : '';
                 if($fansMpUser){
                     $attrUser['avatar'] = $fansMpUser->avatar;
+                }else{
+                    $attrUser['avatar'] = 'http://orh16je38.bkt.clouddn.com/o_1bn7gmjh51nu51dn1k0kimul5n9.jpg';
                 }
             }
 
@@ -249,6 +251,8 @@ class SignInController extends \common\components\ControllerFrontendApi
             $fansMpUser = isset($model->user->fansMp) ? $model->user->fansMp : '';
             if($fansMpUser){
                 $attrUser['avatar'] = $fansMpUser->avatar;
+            }else{
+                $attrUser['avatar'] = 'http://orh16je38.bkt.clouddn.com/o_1bn7gmjh51nu51dn1k0kimul5n9.jpg';
             }
         }
         return $attrUser;
