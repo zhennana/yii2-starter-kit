@@ -47,10 +47,10 @@ $this->params['breadcrumbs'][] = Yii::t('cruds', '查看');
             [ 'update', 'course_order_item_id' => $model->course_order_item_id],
             ['class' => 'btn btn-info']) ?>
 
-            <?= Html::a(
+            <?php /* echo Html::a(
             '<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('cruds', '复制'),
             ['create', 'course_order_item_id' => $model->course_order_item_id, 'CourseOrderItem'=>$copyParams],
-            ['class' => 'btn btn-success']) ?>
+            ['class' => 'btn btn-success']) */?>
 
             <?= Html::a(
             '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('cruds', '创建'),
@@ -74,6 +74,19 @@ $this->params['breadcrumbs'][] = Yii::t('cruds', '查看');
         'model'      => $model,
         'attributes' => [
             'course_order_item_id',
+            [
+                'attribute' => 'payment_id',
+                'value'     => function($model){
+                    return isset($model->payment_id) ? $model->payment_id : '';
+                }
+            ],
+            [
+                'attribute' => 'order_sn',
+                'value'     => function($model){
+                    return isset($model->order_sn) ? $model->order_sn : '';
+                }
+            ],
+            'course_id',
             'parent_id',
             [
                 'attribute' =>'school_id',
@@ -111,6 +124,7 @@ $this->params['breadcrumbs'][] = Yii::t('cruds', '查看');
             'presented_course',
             'total_price',
             'coupon_price',
+            'coupon_type',
             'real_price',
             [
                 'attribute' => 'status',

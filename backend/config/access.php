@@ -162,6 +162,13 @@ return [
                 //'actions'=>['index','user-to-school-form'],
                 'roles'=>['P_director']
             ],
+            //查看账号关联管理
+            [
+                'controllers'=>['campus/users-to-users'],
+                'allow'=>true,
+                //'actions'=>['index','user-to-school-form'],
+                'roles'=>['P_director']
+            ],
             //上传图片
             [
                 'controllers'=>['campus/courseware-category'],

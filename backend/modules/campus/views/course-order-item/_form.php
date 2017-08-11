@@ -35,6 +35,20 @@ use backend\modules\campus\models\CourseOrderItem;
         <?php $this->beginBlock('main'); ?>
 
         <p>
+<!-- attribute payment_id -->
+            <?php if ($model->isNewRecord || \Yii::$app->user->can('manager')) {
+                echo $form->field($model, 'payment_id')->textInput();
+            }else{
+                echo $form->field($model, 'payment_id')->textInput(['maxlength' => true, 'readonly' => true]);
+            } ?>
+
+<!-- attribute order_sn -->
+            <?php if ($model->isNewRecord || \Yii::$app->user->can('manager')) {
+                echo $form->field($model, 'order_sn')->textInput();
+            }else{
+                echo $form->field($model, 'order_sn')->textInput(['maxlength' => true, 'readonly' => true]);
+            } ?>
+
 <!-- attribute school_id -->
 			<?= $form->field($model, 'school_id')->widget(Select2::ClassName(),[
                     'data'          =>$schools ,

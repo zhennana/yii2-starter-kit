@@ -130,7 +130,7 @@ abstract class CourseOrderItem extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['parent_id', 'school_id', 'grade_id', 'user_id', 'introducer_id', 'payment', 'presented_course', 'status', 'payment_status', 'total_course'], 'integer'],
+            [['parent_id', 'school_id', 'grade_id', 'user_id', 'introducer_id', 'payment', 'presented_course', 'status', 'payment_status', 'total_course','course_id','coupon_type'], 'integer'],
             [['user_id', 'total_price','total_course'], 'required'],
             ['payment_status','default','value'=>300],
             ['payment','default','value'=>200],
@@ -146,7 +146,10 @@ abstract class CourseOrderItem extends \yii\db\ActiveRecord
                 }
             ],
             [['total_price',  'coupon_price'], 'number'],
-            ['real_price','safe']
+            ['real_price','safe'],
+            [['payment_id','order_sn'],'string'],
+            [['order_sn'], 'string', 'max' => 32],
+            [['order_sn'], 'unique'],
         ];
     }
 
@@ -157,6 +160,9 @@ abstract class CourseOrderItem extends \yii\db\ActiveRecord
     {
         return [
             'course_order_item_id' => Yii::t('backend', '课程订单ID'),
+            'payment_id'           => Yii::t('backend', '交易流水号'),
+            'order_sn'             => Yii::t('backend', '订单号'),
+            'course_id'            => Yii::t('backend', '课程ID'),
             'parent_id'            => Yii::t('backend', '父订单ID'),
             'school_id'            => Yii::t('backend', '学校'),
             'grade_id'             => Yii::t('backend', '班级'),
@@ -169,6 +175,7 @@ abstract class CourseOrderItem extends \yii\db\ActiveRecord
             'total_price'          => Yii::t('backend', '总价'),
             'real_price'           => Yii::t('backend', '实际付款'),
             'coupon_price'         => Yii::t('backend', '优惠金额'),
+            'coupon_type'          => Yii::t('backend', '优惠类型'),
             'total_course'         => Yii::t('backend', '课程总数'),
             'created_at'           => Yii::t('backend', '创建时间'),
             'updated_at'           => Yii::t('backend', '更新时间'),
@@ -181,6 +188,8 @@ abstract class CourseOrderItem extends \yii\db\ActiveRecord
     public function attributeHints()
     {
         return array_merge(parent::attributeHints(), [
+            'payment_id'       => Yii::t('backend', '创建后不可修改'),
+            'order_sn'         => Yii::t('backend', '创建后不可修改'),
             'parent_id'        => Yii::t('backend', '父订单id'),
             'introducer_id'    => Yii::t('backend', '介绍人'),
             'payment'          => Yii::t('backend', '支付方式'),

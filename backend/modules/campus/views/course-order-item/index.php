@@ -56,7 +56,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
     <div class="clearfix crud-navigation">
 
         <?php 
-            if (\Yii::$app->user->can('P_financial', ['route' => true]) || \Yii::$app->user->can('E_manager') || \Yii::$app->user->can('manager')) { ?>
+            if ((\Yii::$app->user->can('P_financial', ['route' => true]) || \Yii::$app->user->can('E_manager') || \Yii::$app->user->can('manager')) && (env('THEME') == 'edu' || \Yii::$app->user->can('manager'))) { ?>
             <div class="pull-left">
                 <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('cruds', '创建'), ['create'], ['class' => 'btn btn-success']) ?>
             </div>
@@ -117,15 +117,33 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                     },
                     'contentOptions' => ['nowrap'=>'nowrap']
                 ],
-    			 'course_order_item_id',
+                [
+                    'attribute' => 'course_order_item_id',
+                    'options'   => ['width' => '6%'],
+                ],
                 [
                     'class'     =>\common\grid\EnumColumn::className(),
                     'enum'      => $schools,
                     'attribute' =>'school_id',
                     'format'    => 'raw',
+                    'options'   => ['width' => '10%'],
                     // 'value'     => function($model){
                     //     return $model->payment;
                    // },
+                ],
+                [
+                    'attribute' => 'payment_id',
+                    'options'   => ['width' => '10%'],
+                    'value' => function($model){
+                        return isset($model->payment_id) ? $model->payment_id : '';
+                    }
+                ],
+                [
+                    'attribute' => 'order_sn',
+                    'options'   => ['width' => '10%'],
+                    'value' => function($model){
+                        return isset($model->order_sn) ? $model->order_sn : '';
+                    }
                 ],
                 // [
                 //     'attribute' =>'grade_id',
@@ -146,8 +164,8 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                 //     }
                 // ],
                
-                'total_course',
-    			'presented_course',
+                // 'total_course',
+    			// 'presented_course',
                 'total_price',
                 'coupon_price',
                 'real_price',
