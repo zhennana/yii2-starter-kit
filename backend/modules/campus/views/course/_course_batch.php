@@ -160,7 +160,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'phpDatetimeFormat' => 'HH:mm',
                         'clientEvents'=>[
                             'blur'=>"function(){
-                               console.log(1231233213132);
+                               //console.log(1231233213132);
                             }"
                         ]
                     ]
