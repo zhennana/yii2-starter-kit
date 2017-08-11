@@ -138,6 +138,7 @@ abstract class CourseOrderItem extends \yii\db\ActiveRecord
                 $this->real_price = ($this->total_price-$this->coupon_price);
                 return $this->real_price;
             }],
+             ['presented_course','default','value'=>0],
             [
                 'total_price','required','when'=>function($model,$attribute){
                         if($model->total_price < $model->coupon_price){
