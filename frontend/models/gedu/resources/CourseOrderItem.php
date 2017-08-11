@@ -35,6 +35,7 @@ public function behaviors()
                   [['payment_id'],'string'],
                   [['order_sn'], 'string', 'max' => 32],
                   [['order_sn'], 'unique'],
+                  [['order_sn'], 'required'],
              ]
         );
     }
