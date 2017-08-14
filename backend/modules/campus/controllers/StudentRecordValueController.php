@@ -33,7 +33,7 @@ class StudentRecordValueController extends \backend\modules\campus\controllers\b
                 if($signCount == $studentRecordCount){
                     WorkRecord::updateAll([
                             'status'=>10
-                        ],'type in (1,4)  and  course_id = '.$_GET['course_id'] .'course_schedule_id = '.$_GET['course_schedule_id']);
+                        ],'type in (1,4)  and  course_id = '.$_GET['course_id'] .' and course_schedule_id = '.$_GET['course_schedule_id']);
                 }
                 return $this->redirect(['student-record/index']);
                 }
