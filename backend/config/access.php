@@ -81,7 +81,7 @@ return [
             [
                 'controllers'=>['campus/sign-in'],
                 'allow'=>true,
-                'actions'=>['create','update','index','view','ajax-form','audit','buke'],
+                'actions'=>['create','update','index','view','ajax-form','audit','buke','ajax-buke'],
                 'roles'=>['manager','P_director']
             ],
             //课程体系管理
