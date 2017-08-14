@@ -45,13 +45,12 @@ class SignInController extends \backend\modules\campus\controllers\base\SignInCo
 		return $info;
 	}
 	function actionAjaxForm($type_id,$id){
-		//var_dump($_GET);exit;
-		//var_dump($type_id,$id);exit;
 		$model = new SignIn;
-
 		$model = $model->getlist($type_id,$id);
 		$option = "请选择";
-		echo Html::tag('option',$option, ['value'=>'']);
+		if($type_id != 4 ){
+			echo Html::tag('option',$option, ['value'=>'']);
+		}
 		foreach ($model as $key => $value) {
 		 	 echo Html::tag('option',Html::encode($value),array('value'=>$key));
 		}
@@ -60,7 +59,24 @@ class SignInController extends \backend\modules\campus\controllers\base\SignInCo
 	public function  actionBuke($signin_id){
 		$model = $this->findModel($signin_id);
 		if($_POST){
-			return 123;
+			//var_dump('<pre>',$_POST);exit;
+			if(empty($_POST['SignIn']['buke_teacher_id'])){
+				$model->addError('buke_teacher_id','教师不能为空');
+			}
+			if(empty($_POST['SignIn']['buke_course_schedule_id'])){
+				$model->addError('buke_course_schedule_id','课程不能为空');
+			}
+			//var_dump($model->getErrors());exit;
+			if(!empty($model->getErrors())){
+				return $this->render('_buke', [
+					'model' => $model,
+					]);
+			}
+			$model->type_status = 30;
+			if($model->save()){
+				$this->redirect(['index']);
+			};
+
 		}
 		return $this->render('_buke', [
 				'model' => $model,
@@ -77,6 +93,7 @@ class SignInController extends \backend\modules\campus\controllers\base\SignInCo
 		$data = [
 			'courseware_id'=>$courseware_id,
 			'grade_id'	   =>$grade_id,
+			'status'	   =>Course::COURSE_STATUS_FINISH,
 		];
 		$dataProvider =$model->CourseSchedule($data,true,false);
 		//var_dump($dataProvider);exit;
@@ -92,6 +109,5 @@ class SignInController extends \backend\modules\campus\controllers\base\SignInCo
 			return $data;
 		}
 		return true;
-
 	}
 }

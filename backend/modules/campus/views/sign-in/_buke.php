@@ -18,7 +18,15 @@ use common\models\User;
 * @var backend\modules\campus\models\SignIn $model
 * @var yii\widgets\ActiveForm $form
 */
-
+//$model->grade_id = NULL;
+$grade = $model->getlist(2,$model->school_id);
+if(isset($grade[$model->grade_id])){
+    unset($grade[$model->grade_id]);
+}
+// var_dump($model->getlist(2,$model->school_id));exit;
+$this->title = Yii::t('models', '补课签到');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('models', '签到列表'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="sign-in-form">
@@ -48,10 +56,10 @@ use common\models\User;
                         'allowClear'=> false,
                     ],
                 ]); ?>
-            <?= $form->field($model,'signin_id') ?>
+            <?= Html::activeHiddenInput($model,'signin_id',['value'=>$model->signin_id]) ?>
             <?= $form->field($model, 'grade_id')->widget(Select2::className(),
                 [
-                    'data'=>$model->getlist(2,$model->school_id),
+                    'data'=>$grade,
                     'options'=>['placeholder'=>'请选择'],
                     'pluginOptions'=>[
                         'allowClear'=> true,
@@ -80,26 +88,29 @@ use common\models\User;
             <div class="form-group field-signin-course_title">
                 <label class="control-label col-sm-3" for="signin-course_title">课程名</label>
                 <div class="col-sm-6">
-                <input type="text" id="signin-course_title" class="form-control" name="SignIn[course_title]">
+                <input type="text" id="signin-course_title" class="form-control" name="SignIn[course_title]"  disabled  = 'disabled'>
                 </div>
             </div>
-            <div class="form-group field-signin-teacher_id">
-                <label class="control-label col-sm-3" for="signin-teacher_id">课程名</label>
+            <input id = 'teacher_id' type="hidden"  name="SignIn[buke_teacher_id]" value = '' >
+            <input id = 'course_schedule_id' type="hidden"  name="SignIn[buke_course_schedule_id]" value = '' >
+            <!-- //教师 -->
+            <div class="form-group field-signin-teacher_title">
+                <label class="control-label col-sm-3" for="signin-teacher_id">教师</label>
                 <div class="col-sm-6">
-                <input type="text" id="signin-teacher_id" class="form-control" name="SignIn[signin_title]">
+                    <input type="text" id="signin-teacher_title" class="form-control" name="SignIn[teacher_title]" disabled = true>
                 </div>
-            </div>
+            </ div>
+
            <!--   <? //= $form->field($model,'course_id')->label('课程')?> -->
              <!-- <? // = $form->field($model,'course_schedule_id')->label('排课id') ?> -->
 
-            <?= $form->field($model, 'teacher_id')->widget(Select2::className(),[
-                    'data' =>[],
-                    'options'=>['placeholder'=>'请选择'],]
-            ) ?>
-            <input type="" name="" value = "<?php echo $model->signin_id ?>">
-            <input type=""  name="" value = '' >
+           <!--  <? //$form->field($model, 'teacher_id')->widget(Select2::className(),[
+                    // 'data' =>[],
+                    // 'options'=>['placeholder'=>'请选择'],]
+            ) ?> -->
         </p>
-
+          <?php echo $form->field($model,'is_a_push')->checkbox()->label('是否推送消息')
+            ?>
         <?php $this->endBlock(); ?>
 
         <?= Tabs::widget([
@@ -119,7 +130,7 @@ use common\models\User;
 
         <?= Html::submitButton(
             '<span class="glyphicon glyphicon-check"></span> ' .
-            ($model->isNewRecord ? Yii::t('models', '创建') : Yii::t('models', '更新')),
+            ($model->isNewRecord ? Yii::t('models', '创建') : Yii::t('models', '确定')),
             [
                 'id'    => 'save-' . $model->formName(),
                 'class' => 'btn btn-success'
@@ -140,7 +151,23 @@ use common\models\User;
             "data":{courseware_id:courseware_id,grade_id:id},
             'type':"GET",
             'success':function(data){
-                console.log(data);
+                $('#teacher_id').val('');
+                $('#course_schedule_id').val('');
+                $('#signin-course_title').val('');
+                $('#signin-teacher_title').val('');
+                if(data.course_schedule_id){
+                    $('#course_schedule_id').val(data.course_schedule_id);
+                }
+                if(data.course_title){
+                    $('#signin-course_title').val(data.course_title);
+                }
+                if(data.teacher_id){
+                    //console.log(data.teacher_id);
+                    $('#teacher_id').val(data.teacher_id);
+                }
+                if(data.teacher_name){
+                    $('#signin-teacher_title').val(data.teacher_name);
+                }
             }
         }) 
     }

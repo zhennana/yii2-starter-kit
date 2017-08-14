@@ -63,15 +63,6 @@ class SignIn extends BaseSignIn
                   //$message = [];
                   // 添加学生档案
                   if($model->type_status == 10){
-                      $this->addStudentRecord([
-                            'user_id'   => $model->student_id,
-                            'school_id' => $model->school_id,
-                            'grade_id'  => $model->grade_id,
-                            'course_id' => $model->course_id,
-                            'course_schedule_id'=>$model->course_schedule_id,
-                            'title'     => '',
-                            'status'    => 1,
-                      ]);
                       if($is_change_course == true){
                         $is_change_course = false;
                         //更新课程状态
@@ -128,20 +119,6 @@ class SignIn extends BaseSignIn
         }
         sort($data);
         return $data;
-    }
-    /**
-     * 
-     * @param [type] $data [description]
-     */
-    public function addStudentRecord($data){
-        $studentRecord  = \backend\modules\campus\models\StudentRecord::find()->where($data)->one();
-        if(!$studentRecord){
-            $studentRecord = new \backend\modules\campus\models\StudentRecord;
-            $studentRecord->load($data,'');
-            $studentRecord->save();
-           // var_dump($studentRecord->getErrors());exit;
-        }
-        return true;
     }
     /**
      * *
