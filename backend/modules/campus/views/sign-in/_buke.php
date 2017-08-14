@@ -107,7 +107,7 @@ $this->params['breadcrumbs'][] = $this->title;
            <!--  <? //$form->field($model, 'teacher_id')->widget(Select2::className(),[
                     // 'data' =>[],
                     // 'options'=>['placeholder'=>'请选择'],]
-            ) ?> -->
+            //   ) ?> -->
         </p>
           <?php echo $form->field($model,'is_a_push')->checkbox()->label('是否推送消息');
             ?>
