@@ -34,7 +34,6 @@ public function actionIndex()
 {
     $searchModel  = new SignInSearch;
     $dataProvider = $searchModel->search($_GET);
-
     $dataProvider->query->andWhere([
             'sign_in.school_id' => $this->schoolIdCurrent,
             'sign_in.grade_id'  => $this->gradeIdCurrent
@@ -80,19 +79,31 @@ return $this->render('view', [
 */
 public function actionCreate()
 {
-$model = new SignIn;
-
-try {
-if ($model->load($_POST) && $model->save()) {
-return $this->redirect(['view', 'signin_id' => $model->signin_id]);
-} elseif (!\Yii::$app->request->isPost) {
-$model->load($_GET);
-}
-} catch (\Exception $e) {
-$msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
-$model->addError('_exception', $msg);
-}
-return $this->render('create', ['model' => $model]);
+    $model  = new SignIn;
+    $grades = $this->gradeCurrent;
+    $schools = $this->schoolCurrent;
+ // var_dump('<pre>',$schools,$grades);exit;
+     //var_dump($_POST);exit;
+    // var_dump($model->load($_POST),$model->save());exit;
+    try {
+        if ($model->load($_POST)) {
+            $data = $model->batch_add($_POST['SignIn']);
+            return $this->render('create', [
+                'model'     => $model,
+                'data'      =>$data,
+                'grades'    =>$grades,
+                'schools'   => $schools,
+                ]);
+        // return $this->redirect(['index']);
+        } elseif (!\Yii::$app->request->isPost) {
+            $model->load($_GET);
+        }
+    } catch (\Exception $e) {
+        $msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
+        $model->addError('_exception', $msg);
+    }
+    return $this->render('create', ['model' => $model,'grades'    =>$grades,
+                'schools'   => $schools,]);
 }
 
 /**
@@ -103,15 +114,18 @@ return $this->render('create', ['model' => $model]);
 */
 public function actionUpdate($signin_id)
 {
-$model = $this->findModel($signin_id);
-
-if ($model->load($_POST) && $model->save()) {
-return $this->redirect(Url::previous());
-} else {
-return $this->render('update', [
-'model' => $model,
-]);
-}
+    $model = $this->findModel($signin_id);
+    $grades = $this->gradeCurrent;
+    $schools = $this->schoolCurrent;
+    if ($model->load($_POST) && $model->save()) {
+        return $this->redirect(Url::previous());
+    } else {
+        return $this->render('update', [
+                    'model' => $model,
+                    'grades'=>$grades,
+                    'schools'   => $schools,
+                    ]);
+        }
 }
 
 /**

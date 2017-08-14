@@ -18,7 +18,7 @@ class StudentRecordSearch extends StudentRecord
 public function rules()
 {
 return [
-[['student_record_id', 'user_id', 'course_id','school_id', 'grade_id', 'status', 'sort', 'updated_at', 'created_at'], 'integer'],
+[['student_record_id', 'user_id', 'course_id','school_id', 'grade_id', 'status', 'sort', 'updated_at', 'created_at','teacher_id'], 'integer'],
             [['title'], 'safe'],
 ];
 }
@@ -61,6 +61,7 @@ $query->andFilterWhere([
             'course_id'=>$this->course_id,
             'school_id' => $this->school_id,
             'grade_id' => $this->grade_id,
+            'teacher_id'=> $this->teacher_id,
             'status' => $this->status,
             'sort' => $this->sort,
             'updated_at' => $this->updated_at,

@@ -22,7 +22,7 @@ if (isset($actionColumnTemplates)) {
         ['create'],
         ['class' => 'btn btn-success']
     );
-    $actionColumnTemplateString = "{view} {update} {delete}";
+    $actionColumnTemplateString = "{view} {update}{buke}";
 }
 $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTemplateString.'</div>';
 
@@ -46,7 +46,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
     </h1>
     <div class="clearfix crud-navigation">
         <div class="pull-left">
-            <?php if (\Yii::$app->user->can('manager')) { ?>
+            <?php if (\Yii::$app->user->can('manager') || \Yii::$app->user->can('E_manager') || \Yii::$app->user->can('P_director')) { ?>
             <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('models', '创建'),
                 ['create'],
                 ['class' => 'btn btn-success']
@@ -111,7 +111,21 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                                 'data-pjax'  => '0',
                             ];
                             return Html::a('<span class="glyphicon glyphicon-file"></span>', $url, $options);
+                        },
+                        'buke'=>function($url,$model,$key){
+                              $options = [
+                                'title'      => Yii::t('yii', '补课签到'),
+                                'aria-label' => Yii::t('yii', '补课签到'),
+                                'data-pjax'  => '0',
+                            ];
+                            if($model->type_status == 20){
+                                return Html::a(' '.'<span class="fa fa-check-square-o"></span>', $url, $options);
+
+                            }
                         }
+                        // 'update'=>function($url,$model,$key){
+
+                        // }
                     ],
                     'urlCreator' => function($action, $model, $key, $index) {
                         // using the column name as key, not mapping to 'id' like the standard generator
