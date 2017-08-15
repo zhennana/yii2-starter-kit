@@ -161,7 +161,8 @@ abstract class SignIn extends \yii\db\ActiveRecord
     public static function singInCount($course_id,$params = NULL){
         $modelQuery =  self::find()->where(['course_id'=>$course_id]);
         if($params != NULL){
-            $modelQuery = $modelQuery->andWhere(['type_status'=>self::TYPE_STATUS_MORMAL]);
+            $modelQuery = $modelQuery->andWhere(['type_status'=>[
+                self::TYPE_STATUS_MORMAL,self::TYPE_STATUS_REPAIR_CLASS]]);
         }
         return $modelQuery->count();
     }
