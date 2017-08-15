@@ -33,7 +33,7 @@ if (Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii:
      $actionColumnTemplates['button'] = '{button}';
     }
 
- if (\Yii::$app->user->can('manager', ['route' => true])) {
+ if (\Yii::$app->user->can('manager', ['route' => true]) || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_director')) {
      $actionColumnTemplates[] = '{delete}';
  }
 if (isset($actionColumnTemplates)) {
@@ -130,9 +130,12 @@ if(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::
                 },*/
                 'delete' => function ($url, $model, $key) {
                     $options = [
-                        'title' => Yii::t('yii', 'View'),
-                        'aria-label' => Yii::t('yii', 'View'),
+                        'title' => Yii::t('yii', '删除课程'),
+                        'aria-label' => Yii::t('yii', '删除课程'),
                         'data-pjax' => '0',
+                       // 'class' => 'btn btn-danger',
+                        'data-confirm' => '' . Yii::t('backend', '您确定删除这节课?') . '',
+                        'data-method' => 'post',
                     ];
                     if($model->status == 20){
                         return  '';

@@ -34,6 +34,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
+        'data'  => isset($data) ? $data : NULL,
+        'grades'=>$grades,
+        'schools'   => $schools,
     ]); ?>
 
 </div>

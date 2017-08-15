@@ -550,7 +550,13 @@ public function behaviors()
       }
 
 //检测班级是否已经排课
-      public function CourseSchedule($data,$type = true){
+      /**
+       * *
+       * @param [type]  $data          [description]
+       * @param boolean $type          [description] true取一条数据,false取多条数据
+       * @param boolean $is_associated [description] true 关联查询。false 不关联查询
+       */
+      public function CourseSchedule($data,$type = true,$is_associated=true){
 
        // if($true != 123 ){
        //    var_dump($data);exit;
@@ -558,9 +564,12 @@ public function behaviors()
           $model = self::find()->from(['course as c'])->select([
                 'c.title','c.teacher_id','c.course_id','s.status','c.course_id',
                 'c.grade_id','c.school_id','s.course_schedule_id','c.courseware_id','s.start_time','s.end_time','s.which_day'
-            ])->LeftJoin('course_schedule as s' ,'c.course_id = s.course_id')
-                  ->with(['school','grade','courseware']);
+            ])->LeftJoin('course_schedule as s' ,'c.course_id = s.course_id');
 
+          //->with(['school','grade','courseware']);
+        if($is_associated === true){
+            $model->with(['school','grade','courseware']);
+        }
         if(isset($data['teacher_id']) && !empty($data['teacher_id'])){
             $model->andwhere(['c.teacher_id'=>$data['teacher_id']]);
         }

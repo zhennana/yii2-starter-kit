@@ -79,10 +79,10 @@ Yii::$app->user->can('manager')
             'grade_id'  =>    $this->gradeIdCurrent
         ]);
     }else{
-        $courseIds  = Course::getAboveCourse($user_id,$this->schoolIdCurrent,$this->gradeIdCurrent,Course::COURSE_STATUS_FINISH);
+        // $courseIds  = Course::getAboveCourse($user_id,$this->schoolIdCurrent,$this->gradeIdCurrent,Course::COURSE_STATUS_FINISH);
         //var_dump($courseIds);exit;
         $dataProvider->query->andWhere([
-                'course_id'=>ArrayHelper::map($courseIds,'course_id','course_id')
+                'teacher_id'=> Yii::$app->user->identity->id
         ]);
     }
 
