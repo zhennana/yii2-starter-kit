@@ -55,7 +55,7 @@ public function behaviors()
       return SignIn::find()
                 ->where([
                     'student_id'  =>Yii::$app->user->identity->id,
-                    'type_status' =>SignIn::TYPE_STATUS_MORMAL,
+                    'type_status' =>[SignIn::TYPE_STATUS_MORMAL,SignIn::TYPE_STATUS_REPAIR_CLASS],
                     ])
                 ->count();
     }
