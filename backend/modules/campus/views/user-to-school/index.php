@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'user_to_school_id',
             [
-                'attribute' =>'user_id',
+                'attribute' =>'user_label',
                 'label'     => '真实姓名',
                 'format'    => 'raw',
                 'value'     => function($model){

@@ -162,13 +162,15 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                     }
                 ],
                 [
-                    'attribute' => 'student_id',
+                    'attribute' => 'student_name',
+                    'label'     => '签到学生',
                     'value'     => function($model){
                         return SignIn::getUserName($model->student_id);
                     }
                 ],
                 [
-                    'attribute' => 'teacher_id',
+                    'attribute' => 'teacher_name',
+                    'label'     => '签到老师',
                     'value'     => function($model){
                         return SignIn::getUserName($model->teacher_id);
                     }

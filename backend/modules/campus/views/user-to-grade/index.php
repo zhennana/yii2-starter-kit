@@ -148,7 +148,8 @@ if(is_string($schoolOrGrade) && $schoolOrGrade == 'all'){
             ],
                 'user_to_grade_id',
     			[
-                    'attribute' =>'user_id',
+                    'attribute' =>'user_label',
+                    'label'     =>'用户',
                     'value'     => function($model){
                        return Yii::$app->user->identity->getUserName($model->user_id);
                     }

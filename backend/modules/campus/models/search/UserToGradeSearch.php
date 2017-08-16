@@ -52,14 +52,16 @@ class UserToGradeSearch extends UserToGrade
             $dataProvider = new ActiveDataProvider([
             'query' => $query,
             ]);
-
-            // if(Yii::$app->user->can('leader') || Yii::$app->user->can('director') ) {
-            //       $school_id = ArrayHelper::map(Yii::$app->user->identity->userToSchool,'school_id','school_id');
-            //       $query->andFilterWhere(['school_id'=>$school_id]);
-            // }elseif(Yii::$app->user->can('teacher')){
-            //        $grade_id = ArrayHelper::map(Yii::$app->user->identity->userToGrade,'grade_id','grade_id');
-            // $query->andFilterWhere(['grade_id'=>$grade_id]);
-   // }
+            $userquery = '';
+            $user_id   = [];
+            if(isset($params['UserToGradeSearch']['user_label']) && 
+            !empty($params['UserToGradeSearch']['user_label']))
+            {
+                $userquery = $params['UserToGradeSearch']['user_label'];
+                $user_id = Yii::$app->user->identity->getUserIds($userquery);
+                //$params['StudentRecordSearch']['student_name'] = NULL;
+            }
+            $user_id = ArrayHelper::map($user_id,'id','id');
             $this->load($params);
 
             if (!$this->validate()) {
@@ -70,7 +72,7 @@ class UserToGradeSearch extends UserToGrade
 
             $query->andFilterWhere([
                   'user_to_grade_id' => $this->user_to_grade_id,
-                  'user_id' => $this->user_id,
+                  'user_id' => $user_id,
                   'school_id' => $this->school_id,
                   'grade_id' => $this->grade_id,
                   'user_title_id_at_grade' => $this->user_title_id_at_grade,

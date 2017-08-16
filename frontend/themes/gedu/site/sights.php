@@ -4,14 +4,14 @@ use yii\helpers\Html;
 
 $school=[
     '1'=>[
-      'img'=>'http://static.v1.guangdaxuexiao.com/1xiaoyuan.jpg',
+      'img'=>'http://otdndy0jt.bkt.clouddn.com/tihuan1.png',
       'name'=>'快乐高效课堂',
       'school'=>'温馨快乐校园建设的主阵地，全面提高学生思想道德、科学文化、身心健康全面发展。'
       ],
     '2'=>[
-      'img'=>'http://static.v1.guangdaxuexiao.com/2xiaoyuan.jpg',
-      'name'=>'陶冶性情的熔炉',
-      'school'=>'用音乐打开想象的闸门，聆听，最美丽的音乐；倾听，最唯美的境界。'
+      'img'=>'http://otdndy0jt.bkt.clouddn.com/wudao.png',
+      'name'=>'跳动的精灵',
+      'school'=>'在舞蹈的殿堂里，他们舒展沉睡的羽翼，释放天性，自由的飞舞，用心与美来感受爱的真谛。'
       ],
     '3'=>[
       'img'=>'http://static.v1.guangdaxuexiao.com/3xiaoyuan.jpg',
@@ -24,9 +24,9 @@ $school=[
       'school'=>'网络连接世界，在多彩的电脑课程中，培养孩子的搜索能力、鉴别能力、沟通能力'
       ],
     '5'=>[
-      'img'=>'http://static.v1.guangdaxuexiao.com/7xiaoyuan.jpg',
-      'name'=>'文明宿舍一条心',
-      'school'=>'温馨整洁的宿舍，是漫漫求学路上一个贴心而又温暖的港湾。'
+      'img'=>'http://otdndy0jt.bkt.clouddn.com/xiaoyuan.png',
+      'name'=>'快乐的元旦',
+      'school'=>'微笑的脸蛋甜蜜灿烂，愿每个孩子的明天无限美丽，无限迷人，去获取你光明的未来。'
       ],
     '6'=>[
       'img'=>'http://static.v1.guangdaxuexiao.com/9xiaoyuan.jpg',
