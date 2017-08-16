@@ -126,13 +126,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 'contentOptions' => ['nowrap'=>'nowrap']
             ],
             [
-                'attribute'=>'user_id',
+                'attribute'=>'student_name',
+                'label'    =>'学生',
                 'value'=>function($model){
                         return Yii::$app->user->identity->getUserName($model->user_id);
                 }
             ],
             [
-                'attribute'=>'teacher_id',
+                'attribute'=>'teacher_name',
                 'label'    =>'上课老师',
                 'value'=>function($model){
                         return Yii::$app->user->identity->getUserName($model->teacher_id);
@@ -151,7 +152,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
-                'attribute'=>'course_id',
+                'attribute'=>'course_title',
                 'label'    => '课程标题',
                 'value'=>function($model){
                     return isset($model->course->title) ? $model->course->title  : '';
