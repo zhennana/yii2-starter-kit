@@ -18,7 +18,7 @@ if(!Yii::$app->user->isGuest){
 }else{
     $avatar = $this->assetManager->getAssetUrl($bundle, 'img/anonymous.jpg');
 }
-
+$userName = Yii::$app->user->identity->getUserName(Yii::$app->user->identity->id);
 $avatar .= '?imageView2/3/w/215/h/215';
 ?>
 <?php $this->beginContent('@backend/views/layouts/base.php'); ?>
@@ -137,14 +137,14 @@ $avatar .= '?imageView2/3/w/215/h/215';
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <img src="<?php echo $avatar; ?>" class="user-image">
-                                <span><?php echo Yii::$app->user->identity->getUserName(Yii::$app->user->identity->id) ?> <i class="caret"></i></span>
+                                <span><?php echo $userName ?> <i class="caret"></i></span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header light-blue">
                                     <img src="<?php echo $avatar; ?>" class="img-circle" alt="User Image" />
                                     <p>
-                                        <?php  echo Yii::$app->user->identity->getUserName(Yii::$app->user->identity->id)  ?>
+                                        <?php echo  $userName  ?>
                                         <small>
                                             <?php echo Yii::t('backend', 'Member since {0, date, short}', Yii::$app->user->identity->created_at) ?>
                                         </small>
@@ -180,7 +180,7 @@ $avatar .= '?imageView2/3/w/215/h/215';
                         <img src="<?php echo $avatar; ?>" class="img-circle" />
                     </div>
                     <div class="pull-left info">
-                        <p><?php echo Yii::t('backend', 'Hello, {username}', ['username'=>Yii::$app->user->identity->getPublicIdentity()]) ?></p>
+                        <p><?php echo Yii::t('backend', 'Hello, {username}', ['username'=>$userName]) ?></p>
                         <a href="<?php echo Url::to(['/sign-in/profile']) ?>">
                             <i class="fa fa-circle text-success"></i>
                             <?php echo Yii::$app->formatter->asDatetime(time()) ?>
@@ -375,7 +375,7 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                     'label'=>Yii::t('backend', '账号关联管理'),
                                     'icon'=>'<i class="fa fa-database"></i>',
                                     'options'=>['class'=>'treeview'],
-                                    'url'=>['/campus/users-to-users/index'],
+                                    'url'=>['/campus/users-to-users/index','type'=>'100'],
                                     'visible'=>(Yii::$app->user->can('manager') || env('THEME') == 'gedu' ),
                                     //'badge'=> TimelineEvent::find()->today()->count(),
                                     //'badgeBgClass'=>'label-success',
@@ -582,6 +582,15 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                     'url'=>['/campus/user-to-school/index','type'=>'200'],
                                     'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_director')),
 
+                                    //'badge'=> TimelineEvent::find()->today()->count(),
+                                    //'badgeBgClass'=>'label-success',
+                                ],
+                                [
+                                    'label'=>Yii::t('backend', '账号关联管理'),
+                                    'icon'=>'<i class="fa fa-database"></i>',
+                                    'options'=>['class'=>'treeview'],
+                                    'url'=>['/campus/users-to-users/index','type'=>'200'],
+                                    'visible'=>(Yii::$app->user->can('manager') || env('THEME') == 'gedu'),
                                     //'badge'=> TimelineEvent::find()->today()->count(),
                                     //'badgeBgClass'=>'label-success',
                                 ],

@@ -173,6 +173,11 @@ abstract class UsersToUsers extends \yii\db\ActiveRecord
             ->andWhere(['status' => self::UTOU_STATUS_OPEN,'type' => $type])
             ->asArray()
             ->one();
+        if (!$user) {
+            $user['user_left_id'] = Yii::$app->user->identity->id;
+            $user['user_right_id'] = 0;
+        }
+        // var_dump($user);exit;
         // if ($user) {
         //     $group = [$user['user_left_id'],$user['user_right_id']];
         // }

@@ -76,7 +76,7 @@ abstract class Contact extends \yii\db\ActiveRecord
             [['auditor_id', 'status', 'school_id', 'user_id'], 'integer'],
             ['username', 'string', 'max' => 32],
             ['phone_number','string', 'max' => 11],
-            ['school_id','required' ,'on' => self::SCENARIO_FEEDBACK],
+            // ['school_id','required' ,'on' => self::SCENARIO_FEEDBACK],
             ['status','default','value'=>Contact::CONTACT_STATUS_NOT_AUDIT],
             ['verifyCode','required','on'=>'AjaxContact'],
             ['verifyCode','captcha','captchaAction'=>'/site/contact_captcha' ,'on'=>'AjaxContact'],
@@ -91,7 +91,8 @@ abstract class Contact extends \yii\db\ActiveRecord
     public  function scenarios(){
         $scenarios = parent::scenarios();
         $scenarios[self::SCENARIO_FEEDBACK] = [
-            'school_id','user_id','username','phone_number','body','status'
+            // 'school_id',
+            'user_id','username','phone_number','body','status'
         ];
         // $scenarios[self::SCENARIO_CONTACTUS] = [];
         return $scenarios;

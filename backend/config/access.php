@@ -53,17 +53,22 @@ return [
                 'roles' => ['administrator'],
                 'actions'=>['index']
             ],
+            [
+                'controllers'=>['campus/course-category'],
+                'allow'=>true,
+                'roles'=>['manager','P_teacher']
+            ],
             //排课管理
             [
                 'controllers'=>['campus/course'],
                 'allow'=>true,
-                'actions'=>['index','view','ajax-form'],
+                'actions'=>['index','view','ajax-form','update-course','create-course'],
                 'roles'=>['manager','P_teacher']
             ],
             [
-                'controllers'=>['campus/course'],
+                'controllers'=>['campus/course','campus/course-schedule'],
                 'allow'=>true,
-                'actions'=>['create','update','course-batch','course-validations'],
+                'actions'=>['create','update','course-batch','course-validations','time-switch'],
                 'roles'=>['manager','P_director','E_manager']
             ],
             [
@@ -76,7 +81,7 @@ return [
             [
                 'controllers'=>['campus/sign-in'],
                 'allow'=>true,
-                'actions'=>['create','update','index','view','ajax-form'],
+                'actions'=>['create','update','index','view','ajax-form','audit'],
                 'roles'=>['manager','P_director']
             ],
             //课程体系管理
@@ -138,14 +143,14 @@ return [
             [
                 'controllers'=>['campus/notice','campus/share-stream'],
                 'allow'=>true,
-                'actions'=>['index','ajax-form','school-notice','school-notice-create','teacher-notice','teacher-notice-create','create','update','view'],
+                'actions'=>['delete','index','ajax-form','school-notice','school-notice-create','teacher-notice','teacher-notice-create','create','update','view','a-push'],
                 'roles'=>['P_director']
             ],
             //查看班级通知,家校沟通
             [
                 'controllers'=>['campus/notice','campus/student-record-value'],
                 'allow'=>true,
-                'actions'=>['grade-notice','ajax-form','family-school-notice','family-school-notice-create','create-value','grade-notice-create','remove'],
+                'actions'=>['delete','grade-notice','ajax-form','family-school-notice','family-school-notice-create','create-value','grade-notice-create','remove'],
                 'roles'=>['P_teacher']
             ],
             //查看预约信息
@@ -158,6 +163,13 @@ return [
             //查看学校人员管理
             [
                 'controllers'=>['campus/user-to-school'],
+                'allow'=>true,
+                //'actions'=>['index','user-to-school-form'],
+                'roles'=>['P_director']
+            ],
+            //查看账号关联管理
+            [
+                'controllers'=>['campus/users-to-users'],
                 'allow'=>true,
                 //'actions'=>['index','user-to-school-form'],
                 'roles'=>['P_director']

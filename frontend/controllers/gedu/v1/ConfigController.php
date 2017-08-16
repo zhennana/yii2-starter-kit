@@ -9,6 +9,7 @@ use yii\web\HttpException;
 use yii\data\ActiveDataProvider;
 use yii\rest\ActiveController;
 use yii\helpers\Url;
+use yii\helpers\Html;
 
 use common\wechat\JSSDK;
 use common\models\ArticleCategory;
@@ -180,7 +181,7 @@ class ConfigController extends \common\rest\Controller
                 'client_version' => $client_version,
 
                 // 安卓客户端最新版本，发版后手动更新为最新版本
-                'uptodate_version' => '1.0.1',
+                'uptodate_version' => '1.0.0',
 
                 // 字段初始化，不需配置，走更新逻辑
                 'show_status'     => '0',   // 更新提示
@@ -201,7 +202,6 @@ class ConfigController extends \common\rest\Controller
                 // 安卓客户端维护范围，在此范围内的版本不会强制更新
                 'range_client_version' => [
                     '1.0.0',
-                    '1.0.1',
                 ],
 
                 // 安卓服务端版本号
@@ -316,14 +316,15 @@ class ConfigController extends \common\rest\Controller
         if (isset($widget_carousel_item) && !empty($widget_carousel_item)) {
             foreach ($widget_carousel_item as $key => $value) {
                 $temp['banner_id']  = $value['id'];
-                $temp['title']      = $value['caption'];
-                $temp['imgUrl']     = $value['base_url'].'/'.$value['path'];
+                // $temp['title']      = strip_tags($value['caption']);
+                $temp['imgUrl']     = $value['base_url'].$value['path'];
                 $temp['type']       = 'WEB';
-                if (strpos($value['url'], 'v1')) {
-                    $temp['type']   = 'APP';
+                $temp['target_url'] = \Yii::$app->request->hostInfo.Url::to(['article/view','id'=>$value['url']]);
+                if (strcasecmp(strip_tags($value['caption']),'APP') == 0) {
+                    $temp['type']       = 'APP';
+                    $temp['target_url'] = \Yii::$app->request->hostInfo.Url::to(['v1/course/view','course_id'=>$value['url']]);
                 }
                 $temp['sort']       = $value['order'];
-                $temp['target_url'] = Yii::$app->homeUrl.$value['url'];
                 $data[] = $temp;
             }
         }
@@ -504,7 +505,7 @@ class ConfigController extends \common\rest\Controller
      *        in = "formData",
      *        name = "school_id",
      *        description = "学校ID",
-     *        required = true,
+     *        required = false,
      *        type = "integer"
      *     ),
      *     @SWG\Parameter(

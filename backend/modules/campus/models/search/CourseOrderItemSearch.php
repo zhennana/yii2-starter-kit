@@ -20,6 +20,7 @@ public function rules()
 return [
 [['course_order_item_id', 'parent_id', 'school_id', 'grade_id', 'user_id', 'introducer_id', 'payment', 'presented_course', 'status', 'payment_status', 'total_course', 'created_at', 'updated_at'], 'integer'],
             [['total_price', 'real_price', 'coupon_price'], 'number'],
+            [['payment_id','order_sn'],'string'],
 ];
 }
 
@@ -57,6 +58,8 @@ return $dataProvider;
 
 $query->andFilterWhere([
             'course_order_item_id' => $this->course_order_item_id,
+            'payment_id' => $this->payment_id,
+            'order_sn' => $this->order_sn,
             'parent_id' => $this->parent_id,
             'school_id' => $this->school_id,
             'grade_id' => $this->grade_id,
