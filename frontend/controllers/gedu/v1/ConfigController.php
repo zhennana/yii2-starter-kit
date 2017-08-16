@@ -194,7 +194,7 @@ class ConfigController extends \common\rest\Controller
                 // 'version_code' => '', 
 
                 // 安卓安装地址，发版后手动更新
-                'install_address' => '',
+                'install_address' => 'http://static.v1.guangdaxuexiao.com/app-release-1.0.0.apk',
 
                 // 安卓更新失败提示，发版后手动更新
                 'tip' => '更新失败，请去应用商店或官网直接下载安装',
