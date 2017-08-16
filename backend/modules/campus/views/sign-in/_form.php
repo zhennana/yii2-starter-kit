@@ -18,9 +18,15 @@ use common\models\User;
 * @var backend\modules\campus\models\SignIn $model
 * @var yii\widgets\ActiveForm $form
 */
+// var_dump($model->isNewRecord);exit;
+// var_dump(ArrayHelper::map([$schools],'school_id','school_title'));exit;
+if(!$model->isNewRecord){
+    $is_editor = true;
+}else{
+    $is_editor = false;
+}
 
 ?>
-
 <div class="sign-in-form">
 
     <?php $form = ActiveForm::begin([
@@ -38,8 +44,9 @@ use common\models\User;
 <!-- attribute school_id -->
 			<?= $form->field($model, 'school_id')->widget(Select2::className(),
                 [
-                    'data'=>$model->getlist(1),
+                    'data'=>ArrayHelper::map([$schools],'school_id','school_title'),
                     'options'=>['placeholder'=>'请选择'],
+                    'disabled'=>$is_editor,
                     'pluginOptions'=>[
                         'allowClear'=> true,
                     ],
@@ -52,50 +59,70 @@ use common\models\User;
 
             <?= $form->field($model, 'grade_id')->widget(Select2::className(),
                 [
-                    'data'=>$model->getlist(2,$model->school_id),
+                    'data'=>ArrayHelper::map([$grades],'grade_id','grade_name'),
                     'options'=>['placeholder'=>'请选择'],
+                    'disabled'=>$is_editor,
+
                     'pluginOptions'=>[
                         'allowClear'=> true,
                     ],
                     'pluginEvents'=>[
-                        "change" => "function() { 
+                        "change" => "function() {
                             handleChange(3,this.value,'#signin-course_id');
                             handleChange(4,this.value,'#signin-student_id');
                             handleChange(5,this.value,'#signin-teacher_id');
                          }",
                     ]
                 ]); ?>
-
 <!-- attribute course_id -->
 			<?= $form->field($model, 'course_id')->widget(Select2::className(),
                 [
                     'data'=>$model->getlist(3,$model->grade_id),
                     'options'=>['placeholder'=>'请选择'],
+                    'disabled'=>$is_editor,
                     'pluginOptions'=>[
                         'allowClear'=> true,
                     ],
                     'pluginEvents'=>[
-                        // "change" => "function() { 
-                        //      handleChange(4,this.value,'#signin-student_id');
-                        // }",
+                         "change" => "function() {
+                              //handleChange(6,this.value,'#signin-course_schedule_id');
+                        }",
                     ]
                 ]); ?>
-
-<!-- attribute student_id -->
-			<?= $form->field($model, 'student_id')->widget(Select2::className(),[
-                'data' =>[],
-                'options'=>['placeholder'=>'请选择'],
-            ]) ?>
-
-<!-- attribute teacher_id -->
-			<?= $form->field($model, 'teacher_id')->widget(Select2::className(),[
+            <!-- <? //= //$form->field($model,'course_schedule_id')->label('排课id') ?> -->
+            <?php
+            if($model->isNewRecord){
+// <!-- attribute student_id -->
+    			echo $form->field($model, 'student_id')->widget(Select2::className(),[
                     'data' =>[],
+                    'options'=>['placeholder'=>'请选择','multiple'=>true],
+                ]);
+                // <!-- attribute teacher_id -->
+                echo  $form->field($model, 'teacher_id')->widget(Select2::className(),[
+                    'data' =>[],
+                    'disabled'=>$is_editor,
                     'options'=>['placeholder'=>'请选择'],]
-            ) ?>
+            ) ;
+            }else{
+                echo $form->field($model, 'student_id')->widget(Select2::className(),[
+                    'data' =>[$model->student_id => Yii::$app->user->identity->getUserName($model->student_id)],
+                    'disabled'=>$is_editor,
+                    'options'=>['placeholder'=>'请选择','multiple'=>false],
+                ]);
+               echo  $form->field($model, 'teacher_id')->widget(Select2::className(),[
+                'data' =>[$model->teacher_id => Yii::$app->user->identity->getUserName($model->teacher_id)],
+                'disabled'=>$is_editor,
+                'options'=>['placeholder'=>'请选择'],]
+            ) ;
+            }
+            ?>
+
+
 
 <!-- attribute auditor_id -->
 			<?php
                 if ($model->isNewRecord) {
+
                     // echo $form->field($model, 'auditor_id')->widget(Select2::className(),[
                     //     'data' => ArrayHelper::map(User::find()
                     //         ->where([
@@ -134,11 +161,12 @@ use common\models\User;
                         'options'=>['placeholder'=>'请选择'],
                 ]);
             ?>
+            <?php echo $form->field($model,'is_a_push')->checkbox()->label('是否推送消息')
+            ?>
 
         </p>
 
         <?php $this->endBlock(); ?>
-        
         <?= Tabs::widget([
             'encodeLabels' => false,
             'items'        => [ 
@@ -151,9 +179,17 @@ use common\models\User;
         ]); ?>
 
         <hr/>
-
-        <?php echo $form->errorSummary($model); ?>
-
+        <?php
+            if(isset($data['message'])){
+                echo '<p>本次一共签到'.count($data['message']).'人</p>';
+            }
+        ?>
+        <?php if(!isset($data['error'])){
+              echo $form->errorSummary($model);
+              //var_dump($model->isNewRecord);exit;
+            }else{
+              echo $form->errorSummary($data['error']) ;
+        } ?>
         <?= Html::submitButton(
             '<span class="glyphicon glyphicon-check"></span> ' .
             ($model->isNewRecord ? Yii::t('models', '创建') : Yii::t('models', '更新')),

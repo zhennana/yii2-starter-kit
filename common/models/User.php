@@ -590,6 +590,19 @@ class User extends ActiveRecord implements IdentityInterface
         // }
         return $name;
     }
+//根据用户名查找id.
+    public function getUserIds($username){
+      // var_Dump($username);exit;
+       return  static::find()
+            ->select(['id','username','realname'])
+            ->active()
+            ->andWhere([
+                  'or',
+                  ['like','username',$username],
+                  ['like','realname',$username],
+                  ['like','phone_number',$username]])
+            ->all();
+    }
 
     public function groupId()
     {

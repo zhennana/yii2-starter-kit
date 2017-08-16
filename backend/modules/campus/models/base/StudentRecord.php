@@ -80,7 +80,7 @@ abstract class StudentRecord extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'school_id', 'grade_id'], 'required'],
-            [['user_id', 'course_schedule_id','school_id', 'grade_id', 'status', 'sort','course_id'], 'integer'],
+            [['user_id', 'course_schedule_id','school_id', 'grade_id', 'status', 'sort','course_id','new_course_schedule_id','teacher_id'], 'integer'],
             [['title'], 'string', 'max' => 512]
         ];
     }

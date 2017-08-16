@@ -19,7 +19,11 @@ $schools = ArrayHelper::map($schools,'school_id','school_title');
 
 $grades  = [Yii::$app->user->identity->currentGrade];
 $grades = ArrayHelper::map($grades,'grade_id','grade_name');
-
+if(!$model->isNewRecord){
+    $is_editor = true;
+}else{
+    $is_editor = false;
+}
 ?>
 
 
@@ -42,6 +46,8 @@ $grades = ArrayHelper::map($grades,'grade_id','grade_name');
             <?= $form->field($model, 'school_id')->widget(Select2::className(),
                 [
                     'data'=>$schools,
+                    'disabled'=>$is_editor,
+
                    // 'options'=>['placeholder'=>'请选择'],
                     'pluginOptions'=>[
                         'allowClear'=> true,
@@ -57,6 +63,7 @@ $grades = ArrayHelper::map($grades,'grade_id','grade_name');
                 [
                     'data'=>$grades,
                     'options'=>['placeholder'=>'请选择'],
+                    'disabled'=>$is_editor,
                     'pluginOptions'=>[
                         'allowClear'=> true,
                     ],
@@ -70,6 +77,8 @@ $grades = ArrayHelper::map($grades,'grade_id','grade_name');
              <?= $form->field($model, 'course_id')->widget(Select2::className(),
                 [
                     'data'=>$model->getlist(3,$model->grade_id),
+                    'disabled'=>$is_editor,
+
                     'options'=>['placeholder'=>'请选择'],
                     'pluginOptions'=>[
                         'allowClear'=> true,
@@ -105,6 +114,8 @@ $grades = ArrayHelper::map($grades,'grade_id','grade_name');
                         [
                             'data'=>$model->getlist(4,$model->course_id),
                             'options'=>['placeholder'=>'请选择'],
+                            'disabled'=>$is_editor,
+
                             'pluginOptions'=>[
                                 //'allowClear'=> true,
                             ],
@@ -134,7 +145,7 @@ $grades = ArrayHelper::map($grades,'grade_id','grade_name');
 			<?= $form->field($model, 'sort')->textInput() ?>
         </p>
         <?php $this->endBlock(); ?>
-        
+
         <?=Tabs::widget([
                     'encodeLabels' => false,
                     'items' => [ 
