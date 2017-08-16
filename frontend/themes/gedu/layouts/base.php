@@ -414,11 +414,11 @@ if(Yii::$app->session->hasFlash('alert')):?>
         $('.field-applytoplay-body').css('width','91.667%');
         $('.field-applytoplay-body .span3').addClass('col-xs-9');
 
-//        $('.top').hide();
-//        $('.footer').hide();
-//        $('.gdu-content-wrap .col-md-3').hide();
-//        $('.row .col-md-3').hide();
-//        $('.box-header').hide();
+        $('.top').hide();
+        $('.footer').hide();
+        $('.gdu-content-wrap .col-md-3').hide();
+        $('.row .col-md-3').hide();
+        $('.box-header').hide();
 
         $('.nav .dropdown').click(function(){
             if($(this).hasClass('active')){
