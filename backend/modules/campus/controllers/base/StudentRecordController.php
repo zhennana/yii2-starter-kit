@@ -75,14 +75,14 @@ public function actionIndex()
 Yii::$app->user->can('manager')
         ){
         $dataProvider->query->andWhere([
-            'school_id' =>    $this->schoolIdCurrent,
-            'grade_id'  =>    $this->gradeIdCurrent
+            's.school_id' =>    $this->schoolIdCurrent,
+            's.grade_id'  =>    $this->gradeIdCurrent
         ]);
     }else{
         // $courseIds  = Course::getAboveCourse($user_id,$this->schoolIdCurrent,$this->gradeIdCurrent,Course::COURSE_STATUS_FINISH);
         //var_dump($courseIds);exit;
         $dataProvider->query->andWhere([
-                'teacher_id'=> Yii::$app->user->identity->id
+                's.teacher_id'=> Yii::$app->user->identity->id
         ]);
     }
 

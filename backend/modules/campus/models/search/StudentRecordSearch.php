@@ -4,6 +4,7 @@ namespace backend\modules\campus\models\search;
 
 use Yii;
 use yii\base\Model;
+use yii\helpers\ArrayHelper;
 use yii\data\ActiveDataProvider;
 use backend\modules\campus\models\StudentRecord;
 
@@ -15,11 +16,14 @@ class StudentRecordSearch extends StudentRecord
 /**
 * @inheritdoc
 */
+public $student_name;
+public $teacher_name;
+public $course_title;
 public function rules()
 {
 return [
 [['student_record_id', 'user_id', 'course_id','school_id', 'grade_id', 'status', 'sort', 'updated_at', 'created_at','teacher_id'], 'integer'],
-            [['title'], 'safe'],
+            [['title','student_name','teacher_name','course_title'], 'safe'],
 ];
 }
 
@@ -41,35 +45,55 @@ return Model::scenarios();
 */
 public function search($params)
 {
-$query = StudentRecord::find();
+        $query = StudentRecord::find()
+        ->from(['student_record as s'])
+        ->joinWith('course as c');
+        $dataProvider = new ActiveDataProvider(['query' => $query]);
+        $userquery = [];
+        $teacher_id = [];
+        $student_id = [];
 
-$dataProvider = new ActiveDataProvider([
-'query' => $query,
-]);
+        if(isset($params['StudentRecordSearch']['teacher_name']) && 
+            !empty($params['StudentRecordSearch']['teacher_name']))
+        {
+          $userquery = $params['StudentRecordSearch']['teacher_name'];
+          $teacher_id = Yii::$app->user->identity->getUserIds($userquery);
+          //$params['StudentRecordSearch']['student_name'] = NULL;
+        }
 
-$this->load($params);
+        if(isset($params['StudentRecordSearch']['student_name']) && 
+            !empty($params['StudentRecordSearch']['student_name']))
+        {
+            $userquery = $params['StudentRecordSearch']['student_name'];
+            $student_id = Yii::$app->user->identity->getUserIds($userquery);
+            //$params['StudentRecordSearch']['student_name'] = NULL;
+        }
+        $student_id = ArrayHelper::map($student_id,'id','id');
+        $teacher_id = ArrayHelper::map($teacher_id,'id','id');
+        $this->load($params);
 
-if (!$this->validate()) {
-// uncomment the following line if you do not want to any records when validation fails
-// $query->where('0=1');
-return $dataProvider;
-}
+        if (!$this->validate()) {
+        // uncomment the following line if you do not want to any records when validation fails
+        // $query->where('0=1');
+        return $dataProvider;
+        }
 
-$query->andFilterWhere([
-            'student_record_id' => $this->student_record_id,
-            'user_id' => $this->user_id,
-            'course_id'=>$this->course_id,
-            'school_id' => $this->school_id,
-            'grade_id' => $this->grade_id,
-            'teacher_id'=> $this->teacher_id,
-            'status' => $this->status,
-            'sort' => $this->sort,
-            'updated_at' => $this->updated_at,
-            'created_at' => $this->created_at,
-        ]);
+        $query->andFilterWhere([
+                    's.student_record_id' => $this->student_record_id,
+                    's.user_id' => $student_id,
+                    's.course_id'=>$this->course_id,
+                    's.school_id' => $this->school_id,
+                    's.grade_id' => $this->grade_id,
+                    's.teacher_id'=> $teacher_id,
+                    's.status' => $this->status,
+                    's.sort' => $this->sort,
+                    's.updated_at' => $this->updated_at,
+                    's.created_at' => $this->created_at,
+                ]);
 
-        $query->andFilterWhere(['like', 'title', $this->title]);
+                $query->andFilterWhere(['like', 's.title', $this->title]);
+                $query->andFilterWhere(['like', 'c.title', $this->course_title]);
 
-return $dataProvider;
-}
+        return $dataProvider;
+    }
 }
