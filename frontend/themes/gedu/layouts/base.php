@@ -86,7 +86,7 @@ if(Yii::$app->session->hasFlash('alert')):?>
             <div class="top-tel">
                 <div class="top-tel-logo"><img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/top-tel-logo.png"></div>
                 <div class="top-tel-text"><span style="font-weight: bold;font-family:'微软雅黑'">服务热线</span></div>
-                <div class="top-tel-tel"> 0316-<span>5899988</span></div>
+                <div class="top-tel-tel"> 0316-5899988</div>
             </div>
          </div>
         <div class="clear"></div>

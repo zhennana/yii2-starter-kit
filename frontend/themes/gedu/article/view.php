@@ -28,8 +28,8 @@ use yii\helpers\Html;
                       <li class="activeli"><?php echo $model->title;?></li>
                     </ol>
                 </div>
-                <div class="box-body">
-                  <h3 style="text-align:center;font-family:'微软雅黑'"><?php echo $model->title;?></h3>
+                <div class="box-body acticle-body">
+                  <h3 class="acticle-title" style=""><?php echo $model->title;?></h3>
                   <?php echo $model->body;?>
                 </div>
         </div>
