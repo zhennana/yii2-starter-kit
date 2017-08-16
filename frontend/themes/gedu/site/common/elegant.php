@@ -7,7 +7,7 @@ use yii\helpers\Html;
         <li class="banner-bottom-left-grid iusto">
             <div class="port-4 effect-1">
                 <div style="overflow:hidden;">
-                  <img src="http://static.v1.guangdaxuexiao.com/1xiaoyuan.jpg?imageView2/1/w/300/h/300" alt=" " class="img-responsive" />
+                  <img src="http://otdndy0jt.bkt.clouddn.com/tihuan1.png?imageView2/1/w/300/h/300" alt=" " class="img-responsive" />
                 </div>
                 <div class="text-desc">
                     <h3 class="img-introduct">快乐高效课堂</h3>
@@ -19,11 +19,11 @@ use yii\helpers\Html;
         <li class="banner-bottom-left-grid iusto">
             <div class="port-4 effect-1">
                 <div style="overflow:hidden">
-                    <img src="http://static.v1.guangdaxuexiao.com/2xiaoyuan.jpg?imageView2/1/w/300/h/300" alt=" " class="img-responsive" />
+                    <img src="http://otdndy0jt.bkt.clouddn.com/wudao.png?imageView2/1/w/300/h/300" alt=" " class="img-responsive" />
                 </div>
                 <div class="text-desc">
-                   <h3 class="img-introduct">陶冶性情的熔炉</h3>
-                    <p>用音乐打开想象的闸门，聆听，最美丽的音乐；倾听，最唯美的境界。</p>
+                   <h3 class="img-introduct">跳动的精灵</h3>
+                    <p>在舞蹈的殿堂里，他们舒展沉睡的羽翼，释放天性，自由的飞舞，用心与美来感受爱的真谛。</p>
                     <?php echo Html::a('了解更多',['site/sights','category_id'=>37],['class'=>'btn'])?>
                 </div>
             </div>
@@ -58,11 +58,11 @@ use yii\helpers\Html;
         <li class="banner-bottom-left-grid iusto">
             <div class="port-4 effect-1">
                <div style="overflow:hidden">
-                   <img src="http://static.v1.guangdaxuexiao.com/7xiaoyuan.jpg?imageView2/1/w/300/h/300" alt=" " class="img-responsive" />
+                   <img src="http://otdndy0jt.bkt.clouddn.com/xiaoyuan.png?imageView2/1/w/300/h/300" alt=" " class="img-responsive" />
                                     </div>
                 <div class="text-desc">
-                    <h3 class="img-introduct">文明宿舍一条心</h3>
-                    <p>温馨整洁的宿舍，是漫漫求学路上一个贴心而又温暖的港湾。</p>
+                    <h3 class="img-introduct">快乐的元旦</h3>
+                    <p>微笑的脸蛋甜蜜灿烂，愿每个孩子的明天无限美丽，无限迷人，去获取你光明的未来。</p>
                     <?php echo Html::a('了解更多',['site/sights','category_id'=>37],['class'=>'btn'])?>
                 </div>
             </div>

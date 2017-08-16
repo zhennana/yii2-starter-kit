@@ -1,6 +1,15 @@
+@font-face {
+	font-family: 'yahei';  /*给自定义字体命名*/
+	src: url('http://otdndy0jt.bkt.clouddn.com/weiruanvistayahei.ttf');
+	src: url('http://otdndy0jt.bkt.clouddn.com/weiruanvistayahei.eot') format('eot'),
+	url('http://otdndy0jt.bkt.clouddn.com/weiruanvistayahei.woff') format('woff'),
+	url('http://otdndy0jt.bkt.clouddn.com/weiruanvistayahei.ttf') format('truetype'),
+	url('http://otdndy0jt.bkt.clouddn.com/weiruanvistayahei.svg') format('svg');
+}
 html,
 body {
 	height: 100%;
+	font-family: '微软雅黑';
 }
 li{
 	list-style: none;
@@ -23,7 +32,7 @@ a:hover{
 }
 h6{
 	font-weight: 600;
-	font-family: Arial;
+	font-family: '微软雅黑';
 }
 .geu-sidebar2 li{
 	margin-top:10px;
@@ -345,7 +354,7 @@ h6{
 }
 。footer-2-text1{float: left;}
 .footer-2 h3{font-size: 32px; color: #333;}
-.footer-2 p{font-size: 14px; color: #333;font-size: 12px;}
+.footer-2 p{font-size: 14px; color: #333;}
 .footer-2-icon{float: left; padding:2%;}
 .dinahua{margin-left:22%;}
 .weixin-img{margin-left:15%;}
@@ -728,8 +737,8 @@ h6{
   	margin-left: 5px;
   }
   .geu-content .box-body p{
-  	line-height: 25px;
-	font-family: '微软雅黑';
+  	line-height: 27px;
+	/*font-family: '微软雅黑';*/
   }
 .demo .teabor .teacherdetail{
 	margin-top: 20px;
@@ -1590,5 +1599,24 @@ transform: scale(1.2);
 }.user-profile-form .form-group{
 	clear:both;
 }
+ .acticle-title{
+	 text-align:center;
+	 font-family:'微软雅黑';
+	 font-weight:bold;
+	 margin-bottom:30px;
+ }
+ .acticle-body .duan{margin-top:30px;}
+ .acticle-body .tu{width:600px;}
+ .acticle-body .tuzi{margin-top:10px;}
 
+    /*针对移动端样式调整*/
+@media (max-width:500px) {
+	.acticle-title{font-size:20px;margin:10px 0;}
+	.gdu-content{margin:0;}
+	.geu-content{margin-bottom:0;box-shadow: none;}
+	.container{padding:0}
+	.acticle-body .duan{margin-top:10px;}
+	.acticle-body .tu{width:100%;}
+	.acticle-body .tuzi{margin-top:0px;}
+}
 	
