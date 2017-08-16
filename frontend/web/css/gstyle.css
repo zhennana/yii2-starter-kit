@@ -513,7 +513,7 @@ h6{
 	box-sizing: border-box;margin:10px 0;border:1px solid transparent;}
 .teacher-content:hover{box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);-webkit-box-shadow:0 12px 30px rgba(0, 0, 0, 0.15);border:1px solid #eee;border-radius:5px;}
 .teacher-content h3{font-size:18px;color:#732c8e;font-family:'微软雅黑';}
-.teacher-image{margin-top:20px;box-sizing:border-box}
+.teacher-image{box-sizing:border-box}
 .img-wrap{display:inline-block;width:100%;background: rgba(114,60,142,.1);box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);-webkit-box-shadow:0 0 10px 0 rgba(0,0,0,0.2);padding:5px;}
 /*-- 方块展示 --*/
 
@@ -832,7 +832,7 @@ h6{
 }
 .text-four .span3{
 	float:left;
-	width:93%;
+	/*width:93%;*/
 	border:1px solid #ddd;
 }
 .form-group{
@@ -1606,17 +1606,54 @@ transform: scale(1.2);
 	 margin-bottom:30px;
  }
  .acticle-body .duan{margin-top:30px;}
- .acticle-body .tu{width:600px;}
- .acticle-body .tuzi{margin-top:10px;}
-
-    /*针对移动端样式调整*/
+ .acticle-body .duan1{margin:15px 0;}
+ .acticle-body .duan2{margin:15px 20px 0;}
+ .acticle-body .title{background:rgba(114,60,142,.2);margin-top:45px;padding:5px;margin-bottom:15px;}
+ .acticle-body .tu{width:600px;height:350px;}
+ .acticle-body .tuzi{margin-top:10px;margin-bottom:15px;}
+.next img, .pre img{width:64px;height:64px;}
+.close1{float:right;font-size:21px;display:inline-block;margin-right:16px;}
+.field-applytoplay-username,
+.field-applytoplay-gender,
+.field-applytoplay-age,.field-applytoplay-nation,
+.field-applytoplay-guardian,
+.field-applytoplay-phone_number,
+.field-applytoplay-email,
+.field-applytoplay-address{
+	width:91.667%;
+	display:inline-block;
+}
+.applystar{
+	padding-right:0;
+	display:inline-block;
+}
+.span12.field-box{
+	width:100%;
+	padding-left:15px;
+	display:inline-block;
+}
+.jianjie{padding-left:15px;width:2.03%;display:inline-block;}
+/*.span12 .control-label{width:25%;}*/
+/*.span12 .control-label:last-child{width:6.25%;}*/
+.field-applytoplay-body{display:inline-block;}
+.span12 .span4{width:75%;}
+/*针对移动端样式调整*/
 @media (max-width:500px) {
 	.acticle-title{font-size:20px;margin:10px 0;}
-	.gdu-content{margin:0;}
+	.gdu-content{margin:0;padding:0;}
 	.geu-content{margin-bottom:0;box-shadow: none;}
 	.container{padding:0}
+	.acticle-body{padding:0 10px;}
 	.acticle-body .duan{margin-top:10px;}
-	.acticle-body .tu{width:100%;}
+	.acticle-body .title{margin-top:30px;}
+	.acticle-body .tu{width:100%;height:auto;}
 	.acticle-body .tuzi{margin-top:0px;}
+	.box-body ul li{padding:5px;}
+	.modal-img ul li img{width:100%;height:auto;}
+	.next img, .pre img, .close1 img{width:32px;height:32px;}
+	.teacher-content{height:130px;padding:0;}
+	.todo-list>li:hover .tools{display:none;}
+	/*.jianjie{width:8.33%}*/
+	.form-group{margin:0;}
 }
 	
