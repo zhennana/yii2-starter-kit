@@ -1,12 +1,17 @@
 # Env
 /.env
 
-# composer
+# Composer
 /vendor
+vendor*
 /auth.json
 composer.phar
-## remove in production!
-composer.lock
+
+# JS
+node_modules
+spa/npm-debug.log
+spa/yarn-error.log
+
 
 # IDE
 .idea
@@ -14,6 +19,7 @@ nbproject
 .buildpath
 .project
 .settings
+.phptidy-cache
 
 # windows thumbnail cache
 Thumbs.db
@@ -30,3 +36,6 @@ phpunit.phar
 
 # Tests
 tests/codeception/*/_support/_generated/*
+
+
+SignInApi.php
