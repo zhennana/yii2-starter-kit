@@ -130,26 +130,14 @@ class SignInSearch extends SignInModel
                   'sign_in.teacher_id' => $teacher_id,
                   'sign_in.auditor_id' => $this->auditor_id,
                   'sign_in.status'     => $this->status,
+                  'sign_in.type_status'=> $this->type_status,
                   'sign_in.updated_at' => $this->updated_at,
                   'sign_in.created_at' => $this->created_at,
             ]);
             $query->andFilterWhere(['like', 'school.school_title', $this->school_title])
                   ->andFilterWhere(['like', 'grade.grade_name', $this->grade_name])
+                  ->andFilterWhere(['like', 'sign_in.describe', $this->describe])
                   ->andFilterWhere(['like', 'course.title', $this->course_title]);
-                  // ->andFilterWhere([
-                  //             'or',
-                  //             ['like','user.username',$this->student_name],
-                  //            // ['like','user.nickname',$this->user_name],
-                  //             ['like','user.realname',$this->student_name],
-                  //             ['like','user.phone_number',$this->student_name]
-                  //             ])
-                  // ->andFilterWhere([
-                  //             'or',
-                  //             ['like','user.username',$this->teacher_name],
-                  //            // ['like','user.nickname',$this->user_name],
-                  //             ['like','user.realname',$this->teacher_name],
-                  //             ['like','user.phone_number',$this->teacher_name]
-                  //             ]);
             return $dataProvider;
       }
 }

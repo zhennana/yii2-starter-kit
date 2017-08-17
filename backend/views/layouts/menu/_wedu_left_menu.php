@@ -128,10 +128,6 @@ use yii\helpers\Url;
                         'icon'=>'<i class="fa fa-angle-double-right"></i>',
                         'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') ),
                     ],
-                    /*
-                    ['label'=>Yii::t('backend', '课件管理'), 'url'=>['/campus/courseware/index'], 'icon'=>'<i class="fa  fa-file-text"></i>'
-                    ],
-                    */
                 ]
             ],
             [
@@ -274,7 +270,7 @@ use yii\helpers\Url;
                     ],
                 ],
             ],
-            [
+          /*  [
                 'label'=>Yii::t('backend', '课程管理'),
                 'url' => '#',
                 'icon'=>'<i class="fa fa-mortar-board"></i>',
@@ -294,7 +290,7 @@ use yii\helpers\Url;
                     'icon'=>'<i class="fa  fa-file-text"></i>'
                     ], 
                 ]
-            ],
+            ],*/
             [
                 'label'=>Yii::t('backend', '排课管理'),
                 'url' => '#',
