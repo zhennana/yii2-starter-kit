@@ -20,6 +20,15 @@ if(Yii::$app->session->hasFlash('alert')):?>
 <?php endif; ?>
 
 <?php echo $this->render('@frontend/themes/gedu/layouts/common/_alert'); ?>
+<script>
+    if(navigator.userAgent.match(/mobile/i)) {
+            $('.top').hide();
+            $('.footer').hide();
+            $('.gdu-content-wrap .col-md-3').hide();
+            $('.row .col-md-3').hide();
+            $('.box-header').hide();
+        }
+</script>
 <style>
 
     .navbar-right li a{
@@ -398,6 +407,12 @@ if(Yii::$app->session->hasFlash('alert')):?>
         $('.navbar-brand').text('');
         $('.navbar-brand').append(img);
         $('.navbar-brand').addClass('col-xs-4');
+
+        $('.jianjiebox').addClass('col-md-4');
+        $('.jianjiebox .applystar').addClass('col-xs-1');
+        $('.field-applytoplay-body .control-label').addClass('col-xs-3');
+        $('.field-applytoplay-body').css('width','91.667%');
+        $('.field-applytoplay-body .span3').addClass('col-xs-9');
 
         $('.top').hide();
         $('.footer').hide();
