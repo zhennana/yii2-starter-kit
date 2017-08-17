@@ -59,12 +59,14 @@ use yii\helpers\Url;
 
                      'icon'=>'<i class=" fa  fa-file-text"></i>'
                     ],
+                    /*
                     ['label'=>Yii::t('backend', '课件关系'),
                      'url'=>['/campus/courseware-to-courseware/index'], 
                     'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') ),
 
                      'icon'=>'<i class=" fa  fa-file-text"></i>'
                     ],
+                    */
                     ['label'=>Yii::t('backend', '附件管理'),
                     'url'=>['/campus/file-storage-item/index'],
                     'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') ),
@@ -235,25 +237,27 @@ use yii\helpers\Url;
                         'icon'=>'<i class="fa fa-angle-double-right"></i>',
                         'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_teacher')),
                     ],
+                    /*
                     [
                         'label'=>Yii::t('backend', '学员档案管理'),
                         'url'=>['/campus/student-record/index'],
                         'icon'=>'<i class="fa fa-angle-double-right"></i>',
                         'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_teacher')),
                     ],
+                    */
                     [
                         'label'=>Yii::t('backend', '课程订单管理'),
                         'url'=>['/campus/course-order-item/index','type'=>2], 'icon'=>'<i class=" fa  fa-file-text"></i>',
                          'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_financial') || Yii::$app->user->can('P_financial')),
                     ],
-
+                    /*
                     [
                         'label'=>Yii::t('backend', '教师工作记录'), 
                         'url'=>['/campus/work-record/index'],
                         'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_teacher')),
                         'icon'=>'<i class="fa  fa-file-text"></i>'
                     ],
-
+                    */
                 ],
             ],
 
@@ -291,7 +295,8 @@ use yii\helpers\Url;
                     'url'=>['/campus/course/index'], 
                      'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_teacher')),
                     'icon'=>'<i class="fa  fa-file-text"></i>'
-                    ], 
+                    ],
+                    /*
                     [
                     'label'=>Yii::t('backend', '签到管理'), 
                     'url'=>['/campus/sign-in/index'],
@@ -299,8 +304,10 @@ use yii\helpers\Url;
 
                      'icon'=>'<i class=" fa  fa-file-text"></i>'
                     ],
+                    */
                 ]
             ],
+            /*
             [
                 'label'=>Yii::t('backend', '排课管理'),
                 'url' => '#',
@@ -317,6 +324,7 @@ use yii\helpers\Url;
                     ],
                 ],
             ],
+            */
             [
                 'label'=>Yii::t('backend', '通知公告管理'),
                 'url' => '#',
@@ -334,14 +342,14 @@ use yii\helpers\Url;
 
                         'icon'=>'<i class=" fa  fa-volume-up"></i>'
                     ],
-
+                    /*
                     [
                         'label'=>Yii::t('backend', '教师公告'), 
                         'url'=>['/campus/notice/teacher-notice'],
                         'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_director')),
                         'icon'=>'<i class=" fa  fa-volume-up"></i>'
                     ],
-
+                    */
                     [
                         'label'=>Yii::t('backend', '班级公告'),
                         'url'=>['/campus/notice/grade-notice'], 
@@ -356,6 +364,7 @@ use yii\helpers\Url;
                          'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_teacher')),
                          'icon'=>'<i class=" fa  fa-volume-up"></i>'
                     ],
+                    /*
                     [
                         'label'=>Yii::t('backend', '个推列表'),
                          'url'=>['/campus/notice/a-push'],
@@ -369,6 +378,7 @@ use yii\helpers\Url;
 
                         'icon'=>'<i class=" fa  fa-volume-up"></i>'
                     ],
+                    */
                     [
                         'label'=>Yii::t('backend', '预约信息'), 
                         'url'=>['/campus/apply-to-play/index','type'=>2], 
