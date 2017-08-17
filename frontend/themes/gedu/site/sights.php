@@ -71,7 +71,7 @@ $school=[
                   <div class="">
                     <div class="row teabor">
 
-                      <ul><?php foreach($school as $key =>$value){
+                      <ul style="overflow:hidden;padding:0;"><?php foreach($school as $key =>$value){
                         $img=$value['img']."?imageView2/1/w/500/h/400";
                         ?>
                         <li class="col-md-4  col-sm-4 col-xs-4 img">
@@ -85,21 +85,21 @@ $school=[
                        <div class="modal-img">
                         <!--<h4><?php //echo $value['name'];?></h4>
                                                          <p><?php //echo $value['school'];?></p>-->
-                             <span class="pre" style="position:absolute;color:#fff;font-size:30px;top:50%;left:5%;">
-                                <img style="width:64px;height:64px;" src="http://otdndy0jt.bkt.clouddn.com/left.png">
+                             <span class="pre" style="position:absolute;color:#fff;font-size:30px;top:50%;left:5%;z-index:2;">
+                                <img src="http://otdndy0jt.bkt.clouddn.com/left.png">
                              </span>
                              <ul>
                                 <?php foreach($school as $key =>$value){
                                   ?>
                                  <li>
-                                     <img src="<?php echo $value['img'];?>" alt="Photo">
+                                     <img class="img-responsive" src="<?php echo $value['img'];?>" alt="Photo">
                                  </li>
                                  <?php }?>
                              </ul>
                              <span class="next" style="position:absolute;color:#fff;font-size:30px;top:50%;right:5%;">
-                                <img style="width:64px;height:64px;" src="http://otdndy0jt.bkt.clouddn.com/right.png">
+                                <img src="http://otdndy0jt.bkt.clouddn.com/right.png">
                              </span>
-                             <span class="close" style="color:#fff;">
+                             <span class="close1" style="color:#fff;">
                                 <img src="http://otdndy0jt.bkt.clouddn.com/close1.png">
                              </span>
                      </div>
@@ -139,7 +139,7 @@ $school=[
           })
 
       });
-     $('.close').click(function(){
+     $('.close1').click(function(){
          $('.modal-img').css({'visibility':'hidden','opacity':0});
      })
 

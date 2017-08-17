@@ -94,12 +94,12 @@ use yii\captcha\Captcha;
         </div>
         <div class="row btn-line">
         <!-- 简介-->
-          <div class="col-xs-12">
+         <!-- <div class=" jianjiebox col-xs-12">
            <div class="input-group text-four">
-            <span class="applystar" style="padding-left:30px;padding-top:17px;"><i ></i></span><?php  echo $form->field($model, 'body')->textarea(['rows'=>3,'class' => 'span3']);?>
+            <span class="applystar jianjie"><i></i></span><?php  echo $form->field($model, 'body')->textarea(['rows'=>3,'class' => 'span3']);?>
           </div>
-          </div>
-          <div class="col-xs-12">
+          </div>-->
+          <div class="col-xs-12" style="padding-right:0;">
               <div class="input-group text-four">
                 <span class="applystar" style="padding-left:15px;font-size:12px;">（备注：带<i class="fa fa-fw fa-star text-red"></i>为必填项）</span>
               </div>
