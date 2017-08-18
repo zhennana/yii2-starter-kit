@@ -42,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter' => ArrayHelper::map(ArticleCategory::find()->all(), 'id', 'title')
             ],
             [
-                'attribute' => 'created_by',
+                'attribute' => 'author_id',
                 'value' => function ($model) {
                     return $model->author->username;
                 }

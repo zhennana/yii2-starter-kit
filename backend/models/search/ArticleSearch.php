@@ -18,7 +18,7 @@ class ArticleSearch extends Article
     public function rules()
     {
         return [
-            [['id', 'category_id', 'created_by', 'updated_by', 'status', 'published_at', 'created_at', 'updated_at'], 'integer'],
+            [['id', 'category_id', 'author_id', 'updated_id', 'status', 'published_at', 'created_at', 'updated_at'], 'integer'],
             [['slug', 'title', 'body'], 'safe'],
         ];
     }
@@ -51,9 +51,9 @@ class ArticleSearch extends Article
         $query->andFilterWhere([
             'id' => $this->id,
             'slug' => $this->slug,
-            'created_by' => $this->created_by,
+            'created_id' => $this->created_id,
             'category_id' => $this->category_id,
-            'updated_by' => $this->updated_by,
+            'author_id' => $this->author_id,
             'status' => $this->status,
             'published_at' => $this->published_at,
             'created_at' => $this->created_at,

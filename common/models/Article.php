@@ -136,8 +136,8 @@ class Article extends ActiveRecord
             'category_id' => Yii::t('common', 'Category'),
             'status' => Yii::t('common', 'Published'),
             'published_at' => Yii::t('common', 'Published At'),
-            'created_by' => Yii::t('common', 'Author'),
-            'updated_by' => Yii::t('common', 'Updater'),
+           'author_id' => Yii::t('common', 'Author'),
+           'updated_id' => Yii::t('common', 'Updater'),
             'created_at' => Yii::t('common', 'Created At'),
             'updated_at' => Yii::t('common', 'Updated At')
         ];
@@ -148,7 +148,7 @@ class Article extends ActiveRecord
      */
     public function getAuthor()
     {
-        return $this->hasOne(User::className(), ['id' => 'created_by']);
+        return $this->hasOne(User::className(), ['id' => 'author_id']);
     }
 
     /**
