@@ -34,6 +34,7 @@ $config = [
             'as afterLogin' => 'common\behaviors\LoginTimestampBehavior'
         ],
     ],
+
     'modules'=>[
         'i18n' => [
             'class' => 'backend\modules\i18n\Module',
