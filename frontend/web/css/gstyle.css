@@ -1659,5 +1659,6 @@ transform: scale(1.2);
 	.todo-list>li:hover .tools{display:none;}
 	/*.jianjie{width:8.33%}*/
 	.form-group{margin:0;}
+	.top,.footer,.gdu-content-wrap .col-md-3,.row .col-md-3,.box-header{display:none;}
 }
 	
