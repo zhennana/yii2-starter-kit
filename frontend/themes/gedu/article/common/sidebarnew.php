@@ -8,7 +8,7 @@ $childNew=!empty($category['childs'])?$category['childs']:$category['child'];
 
 $cateParent=!empty($category['pare_name'])?$category['pare_name']:'光大学校';
 ?><!-- 左边侧边栏 -->
-    <div class="col-md-3" style="box-sizing: border-box;padding:0">
+    <div class="left-bar col-md-3" style="box-sizing: border-box;padding:0">
       
       <div class="" >
         <div class="gbox school-g">
