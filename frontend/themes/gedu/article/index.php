@@ -42,7 +42,7 @@ $banner=array(
     ?>
     <!-- 文章内容部分 -->
     <div class="content-wrap col-md-9" style="padding-right:0; box-sizing:border-box;">
-    <div class="box box-widget geu-content">
+    <div class="box box-widget geu-content geu-content1">
             <div class="box-header with-border box-header with-border ">
                 <ol class="breadcrumb" style="margin-bottom: -10px">
                   <li><span class=""><i class="fa fa-map-marker margin-r-5 text-purple"></i>当前位置: </span>&nbsp<?php echo Html::a('首页',['site/index'])?></li>
