@@ -74,7 +74,6 @@ $banner=array(
                                  ['class'=>'','data-method'=>'open',]);
                              ?>
                          </h4>
-                         <!--<p class="course-content">《结构与力》是设计和技术系列活动中非常重要而又有趣的活动，活动中具体研究一些生活中的桥梁、塔等常见结构，孩子们先通过设计然后动手搭建。活动中具体研究一些生活中的桥梁、塔等常见结构，孩子们先通过设计然后动手</p>-->
                          <p class="course-content">
                             <?php echo Html::a(
                                     substr_auto(strip_tags($value['body']),200),
