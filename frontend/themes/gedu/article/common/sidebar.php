@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 
 ?><!-- 左边侧边栏 -->
-    <div class="col-md-3" style="box-sizing: border-box;padding:0">
+    <div class="left-bar col-md-3" style="box-sizing: border-box;padding:0">
        <div style="background:#f1f1f1">
                     <span style="display:inline-block;"><img width='100%' src="http://orh16je38.bkt.clouddn.com/Sidebar1.jpg?imageView2/1/w/357/h/179"></span>
                     <span style="display:inline-block;padding:5px 0;"><img width='100%' src="http://orh16je38.bkt.clouddn.com/Sidebar2.jpg?imageView2/1/w/357/h/179"></span>
@@ -35,9 +35,9 @@ use yii\helpers\Html;
 
     </div>
     <style type="text/css">
-      .box-body{
-        padding:2px 0;
-      }
+//      .box-body{
+//        padding:2px 0;
+//      }
       .box-body2{
 //        padding:10px;
       }
