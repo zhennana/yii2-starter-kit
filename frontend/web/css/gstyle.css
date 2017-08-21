@@ -1679,5 +1679,7 @@ transform: scale(1.2);
 	.course-img{padding:15px 5px 0;}
 	.course-info{padding:0;}
 	.geu-content .box-body p{line-height:20px;font-size:12px;}
+	.box-body, .geu-content{padding:0;}
+	.todo-list>li{margin-bottom:5px;}
 }
 	
