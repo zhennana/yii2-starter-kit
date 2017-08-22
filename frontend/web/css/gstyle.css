@@ -1610,22 +1610,21 @@ transform: scale(1.2);
  .course-title{text-align: left;padding:5px 10px;}
  /*.course-title:hover{background-color: rgba(114,60,142,.5);color:#fff;}*/
  .course-title a{color:#333;}
- .course-content{color:#777;margin-top:10px;}
+ .course-content{text-indent:2rem;color:#777;margin-top:10px;}
  .course-info{margin:20px 0;}
 .course-img{margin:40px 0 0;padding:0 10px;}
 .todo-list>li{border:1px solid #d6b4e2;border-radius:0;padding:15px 10px;margin-bottom:15px;cursor:pointer;}
  .todo-list>li:hover{box-shadow:0px 5px 7px #d6b4e2; }
- /*.todo-list>li:hover .course-title{background-color: rgba(114,60,142,.5);color:#fff;}*/
  .todo-list>li .text{display:inline;}
  .todo-list>li .label{display:none;}
- .acticle-body .duan{margin-top:30px;}
- .acticle-body .duan1{margin:15px 0;}
+ .acticle-body .duan{margin-top:30px;text-indent: 2rem;}
+ .acticle-body .duan1{margin:15px 0;text-indent: 2rem}
  .acticle-body .duan2{margin:15px 20px 0;}
  .acticle-body .title{background:rgba(114,60,142,.2);margin-top:45px;padding:5px;margin-bottom:15px;font-weight:bold;font-size:15px;}
  .acticle-body .title1{margin-top:10px;}
  .acticle-body .tu{width:600px;height:auto;}
  .acticle-body .tuzi{margin-top:10px;margin-bottom:15px;}
-.next img, .pre img{width:64px;height:64px;}
+.next1 img, .pre img{width:64px;height:64px;}
 .close1{float:right;font-size:21px;display:inline-block;margin-right:16px;}
 .close1 img{width:64px;height:64px;}
 .field-applytoplay-username,
@@ -1666,7 +1665,7 @@ transform: scale(1.2);
 	.acticle-body .tuzi{margin-top:0px;}
 	.box-body ul li{padding:5px;}
 	.modal-img ul li img{width:100%;height:auto;}
-	.next img, .pre img, .close1 img{width:32px;height:32px;}
+	.next1 img, .pre img, .close1 img{width:32px;height:32px;}
 	.teacher-content{height:130px;padding:0;}
 	.todo-list>li:hover .tools{display:none;}
 	/*.jianjie{width:8.33%}*/
@@ -1675,7 +1674,7 @@ transform: scale(1.2);
 	.course-title{text-align: left;padding:0;}
 	.course-title:hover{background-color: #fff;color:#333;}
 	.course-title a{font-size:15px;}
-	.course-content{height:40px;margin-top:5px;line-height:18px;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;}
+	.course-content{text-indent:2rem;height:40px;margin-top:5px;line-height:18px;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;}
 	.course-img, .course-info{margin:10px 0;}
 	.course-img{padding:15px 5px 0;}
 	.course-info{padding:0;}
