@@ -96,7 +96,7 @@ $school=[
                                  </li>
                                  <?php }?>
                              </ul>
-                             <span class="next" style="position:absolute;color:#fff;font-size:30px;top:50%;right:5%;">
+                             <span class="next1" style="position:absolute;color:#fff;font-size:30px;top:50%;right:5%;">
                                 <img src="http://static.v1.guangdaxuexiao.com/right%20%285%29.png">
                              </span>
                              <span class="close1" style="color:#fff;">
@@ -128,7 +128,7 @@ $school=[
                 num=all;
             }
           })
-          $('.next').click(function(){
+          $('.next1').click(function(){
            if(num<all){
                 $imgList.removeClass().eq(num+1).addClass("cur");
                 num+=1;
