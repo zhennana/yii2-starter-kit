@@ -463,18 +463,18 @@
 <div>
       <div class="body">
          <div class="head">
-            <img src="http://otdndy0jt.bkt.clouddn.com/bannerouzhou.png" class="img-responsive" height="555">
+            <img src="http://static.v1.guangdaxuexiao.com/bannerouzhou.png" class="img-responsive" height="555">
          </div>
    
          <div class="second">        
-             <img src="http://otdndy0jt.bkt.clouddn.com/second.png" width="100%" height="auto" class="img-responsive" alt="Responsive image">
+             <img src="http://static.v1.guangdaxuexiao.com/second.png" width="100%" height="auto" class="img-responsive" alt="Responsive image">
                 <div class="text">
                    三河市光大学校是三河市范围内首家也是唯一一家被剑桥大学下属的剑桥考试委员会正式授权为A-level国际课程中心的学校，授权中心号是CN348。<br>
                    A-level：英国高中课程（General Certificate of Education Advanced Level）简称 A-level课程，他是英国的普通中等教育证书考试高级水平课程，是英国的全民课程体系，也是英国学生的大学入学考试课程，就像我国的高考一样， A-level课程证书被几乎所有英语授课的大学作为招收新生的入学标准。
                 </div>    
          </div>
          <div class="third">       
-             <img src="http://otdndy0jt.bkt.clouddn.com/tese3.png" class="img-responsive" alt="Responsive image">    
+             <img src="http://static.v1.guangdaxuexiao.com/tese3.png" class="img-responsive" alt="Responsive image">
              <div class="text1">对接欧洲国家直升合作大学，符合习主席“一带一路”人才战略培养。</div>                 
              <div class="text2">匈牙利公派全额奖学金项目（生活费+学费+国际往返机票）对接，真正做到“国际教育项目走进普通家庭”。</div>
              <div class="text3">提供多种海外资源，帮助学校树立国际形象；欧洲多国家使馆及大学挂牌、授权基地学校！</div>
@@ -483,7 +483,7 @@
          </div>
 
          <div class="fourth">
-            <img src="http://otdndy0jt.bkt.clouddn.com/fourth1.png" class="img-responsive" >
+            <img src="http://static.v1.guangdaxuexiao.com/fourth1.png" class="img-responsive" >
          
             <div class="text6">
                 <div class="text5"> 丹麦、瑞典、荷兰、留学</div>
@@ -507,36 +507,36 @@
             </div>
          </div>
          <div class="fifth">
-            <img src="http://otdndy0jt.bkt.clouddn.com/fifth3.png" class="img-responsive" >
+            <img src="http://static.v1.guangdaxuexiao.com/fifth3.png" class="img-responsive" >
             <div class="text11">丹麦、瑞典、荷兰留学生活费+学费 每年8万人民币左右</div>
             <div class="text12">匈牙利自费留学生活费+学费 每年6万元人民币左右</div>
             <div class="text13">捷克留学年均生活费+学费 7万元人民币左右</div>
             <div class="text14">波兰留学年均生活费+学费 6万元人民币左右</div>
          </div>
          <div class="sixth">
-            <img src="http://otdndy0jt.bkt.clouddn.com/six.png" class="img-responsive" >
+            <img src="http://static.v1.guangdaxuexiao.com/six.png" class="img-responsive" >
             <div class="sixth-1">
             <div class="text15">
-                 <img src="http://otdndy0jt.bkt.clouddn.com/dian1.png" >&nbsp;&nbsp;&nbsp;匈利亚（匈利亚文：Magyarország）是一个位于欧洲中部的内陆国家，与奥地利、斯洛伐克、罗马尼亚、塞尔维亚等国接壤，全国总人口一千万，首都为布达佩斯。该国为26个申根国家之一（这26个国家没有边境所有居民自由往来，所以欧洲国家虽然不大，但是拼在一起就是世界第三大“国家”。）<br>
-              <img src="http://otdndy0jt.bkt.clouddn.com/dian1.png" >&nbsp;&nbsp;&nbsp;匈牙利地处北半球温带区内，是温带大陆性气候、温带海洋性气候和地中海气候的交汇点，其中受大陆性影响的气候较大，属大陆性温带落叶阔叶林气候。全年平均气候为10.8℃。<br>
-              <img src="http://otdndy0jt.bkt.clouddn.com/dian1.png" >&nbsp;&nbsp;&nbsp;图片为匈牙利首都布达佩斯，蓝色的多瑙河横穿布达佩斯市区，把整个城市分为布达和佩斯俩个部分。
+                 <img src="http://static.v1.guangdaxuexiao.com/dian1.png" >&nbsp;&nbsp;&nbsp;匈利亚（匈利亚文：Magyarország）是一个位于欧洲中部的内陆国家，与奥地利、斯洛伐克、罗马尼亚、塞尔维亚等国接壤，全国总人口一千万，首都为布达佩斯。该国为26个申根国家之一（这26个国家没有边境所有居民自由往来，所以欧洲国家虽然不大，但是拼在一起就是世界第三大“国家”。）<br>
+              <img src="http://static.v1.guangdaxuexiao.com/dian1.png" >&nbsp;&nbsp;&nbsp;匈牙利地处北半球温带区内，是温带大陆性气候、温带海洋性气候和地中海气候的交汇点，其中受大陆性影响的气候较大，属大陆性温带落叶阔叶林气候。全年平均气候为10.8℃。<br>
+              <img src="http://static.v1.guangdaxuexiao.com/dian1.png" >&nbsp;&nbsp;&nbsp;图片为匈牙利首都布达佩斯，蓝色的多瑙河横穿布达佩斯市区，把整个城市分为布达和佩斯俩个部分。
             </div>
-              <img src="http://otdndy0jt.bkt.clouddn.com/xiongliya.png" class="img-responsive" >
+              <img src="http://static.v1.guangdaxuexiao.com/xiongliya.png" class="img-responsive" >
             </div>
          </div>  
          
          <div class="seventh">
-             <img src="http://otdndy0jt.bkt.clouddn.com/seven.png" class="img-responsive" >
+             <img src="http://static.v1.guangdaxuexiao.com/seven.png" class="img-responsive" >
                <div class="seventh-1">
                 <div class="text15">
-                   <img src="http://otdndy0jt.bkt.clouddn.com/dian1.png" >&nbsp;&nbsp;&nbsp;捷克在地理上恰好介于柏林与维也纳这2个德语国家的首都中间，首都布拉格是世界上第一个整个城市被列为世界文化遗产的城市。布拉格建筑给人整体上的观感是建筑顶部变化特别丰富，并且色彩极为绚丽夺目（红瓦黄墙），因而拥有“千塔之城”、“金色城市”等美称，号称欧洲最美丽的城市之一。据说第二次世界大战时因为布拉格的美让希特勒也感到震撼，这个人类的刽子手终于不忍心轰炸布拉格。如果传说成立，说明一个城市能让希特勒这种魔鬼心动，那这座城市的美丽绝对盖世无穷。
+                   <img src="http://static.v1.guangdaxuexiao.com/dian1.png" >&nbsp;&nbsp;&nbsp;捷克在地理上恰好介于柏林与维也纳这2个德语国家的首都中间，首都布拉格是世界上第一个整个城市被列为世界文化遗产的城市。布拉格建筑给人整体上的观感是建筑顶部变化特别丰富，并且色彩极为绚丽夺目（红瓦黄墙），因而拥有“千塔之城”、“金色城市”等美称，号称欧洲最美丽的城市之一。据说第二次世界大战时因为布拉格的美让希特勒也感到震撼，这个人类的刽子手终于不忍心轰炸布拉格。如果传说成立，说明一个城市能让希特勒这种魔鬼心动，那这座城市的美丽绝对盖世无穷。
                    
                 </div>
-                 <img src="http://otdndy0jt.bkt.clouddn.com/jieke.png" class="img-responsive" >
+                 <img src="http://static.v1.guangdaxuexiao.com/jieke.png" class="img-responsive" >
               </div>
          </div>
          <div class="eighth">
-                      <img src="http://otdndy0jt.bkt.clouddn.com/foot.png" class="img-responsive" >
+                      <img src="http://static.v1.guangdaxuexiao.com/foot.png" class="img-responsive" >
                    </div>   
      </div>
 </div>

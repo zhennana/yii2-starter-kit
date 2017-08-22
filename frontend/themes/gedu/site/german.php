@@ -403,7 +403,7 @@ use yii\helpers\Html;
   <style type="text/css">  
  </style>
  <div>              
-         <img src="http://otdndy0jt.bkt.clouddn.com/banne1.png" class="img-responsive" >
+         <img src="http://static.v1.guangdaxuexiao.com/banne1.png" class="img-responsive" >
        
    
      <div class="main">
@@ -414,7 +414,7 @@ use yii\helpers\Html;
                  <div class="left1">                    
                      <div class="box">
                         <div class="img1">
-                           <img src="http://otdndy0jt.bkt.clouddn.com/chip.png" width="80%">
+                           <img src="http://static.v1.guangdaxuexiao.com/chip.png" width="80%">
                            
                         </div>                   
                           <p>世界范围内<br>发放奖学金</p>
@@ -424,7 +424,7 @@ use yii\helpers\Html;
                  <div class="left1">
                      <div class="box">
                         <div class="img1">
-                            <img src="http://otdndy0jt.bkt.clouddn.com/money-bag.png" width="80%">
+                            <img src="http://static.v1.guangdaxuexiao.com/money-bag.png" width="80%">
                             
                         </div>
                         <p>教育经费是<br>国防部的3倍</p>
@@ -434,7 +434,7 @@ use yii\helpers\Html;
                  <div class="left1">
                      <div class="box">
                            <div class="img1">
-                               <img src="http://otdndy0jt.bkt.clouddn.com/bank.png" width="80%">
+                               <img src="http://static.v1.guangdaxuexiao.com/bank.png" width="80%">
                                
                              </div>
                           <p>德国大学<br>学费全免</p> 
@@ -444,7 +444,7 @@ use yii\helpers\Html;
                  <div class="left1">
                      <div class="box">
                          <div class="img1"> 
-                              <img src="http://otdndy0jt.bkt.clouddn.com/friends-list.png" width="80%"> 
+                              <img src="http://static.v1.guangdaxuexiao.com/friends-list.png" width="80%">
                               
                          </div>
                          <p>教育界<br>人才荟萃</p> 
@@ -454,7 +454,7 @@ use yii\helpers\Html;
                  <div class="left1">
                       <div class="box">
                           <div class="img1">
-                              <img src="http://otdndy0jt.bkt.clouddn.com/chuizi.png" width="80%"> 
+                              <img src="http://static.v1.guangdaxuexiao.com/chuizi.png" width="80%">
                                  
                           </div>
                           <p>设施发达<br>气氛浓郁</p>
@@ -464,9 +464,9 @@ use yii\helpers\Html;
         </div>
         <div class="main-6">
          <div class="container-fluid"> 
-            <img src="http://otdndy0jt.bkt.clouddn.com/youshi1.png"  width="100%">
-            <img src="http://otdndy0jt.bkt.clouddn.com/youshi2.png"  width="100%">
-            <img src="http://otdndy0jt.bkt.clouddn.com/youshi3.png"  width="100%">
+            <img src="http://static.v1.guangdaxuexiao.com/youshi1.png"  width="100%">
+            <img src="http://static.v1.guangdaxuexiao.com/youshi2.png"  width="100%">
+            <img src="http://static.v1.guangdaxuexiao.com/youshi3.png"  width="100%">
          </div>
         </div>
         <div class="main-8">
@@ -501,7 +501,7 @@ use yii\helpers\Html;
        <div class="main-10">
            <div class="container-fluid">
               <div class="row col-xs-12" style="padding:0;">
-                  <img src="http://otdndy0jt.bkt.clouddn.com/tianchuang.png" width="100%" height="auto" class="img-responsive img-bg" alt="Responsive image">
+                  <img src="http://static.v1.guangdaxuexiao.com/tianchuang.png" width="100%" height="auto" class="img-responsive img-bg" alt="Responsive image">
 
                  <div class="ask-que1 col-xs-12">
                      <div class="col-xs-6" style="position:relative">
@@ -549,7 +549,7 @@ use yii\helpers\Html;
        <div class="main-10">
            <div class="container-fluid">
               <div class="row" style="position:relative;">
-                  <img src="http://otdndy0jt.bkt.clouddn.com/yuke.png" width="100%" height="auto" class="img-responsive" alt="Responsive image">
+                  <img src="http://static.v1.guangdaxuexiao.com/yuke.png" width="100%" height="auto" class="img-responsive" alt="Responsive image">
                     <p class="text8">
                       由于德国基础教育体制是13年制，与我国12年制基础教育体系不同，因此中国大陆地区高中毕业生进入德国高校
                              攻读本科之前，必须完成德语登记考核和德国针对非欧洲生源设计的本科预备课程，通过相应测评考核后即可进入德国高校攻读本科课程，同时可享与欧洲生源同等的留学政策待遇。

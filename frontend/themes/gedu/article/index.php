@@ -76,7 +76,7 @@ $banner=array(
                          </h4>
                          <p class="course-content">
                             <?php echo Html::a(
-                                    substr_auto(strip_tags($value['body']),200),
+                                    substr_auto(strip_tags($value['body']),190),
                                      ['article/view','id'=>$value['id']],
                                      ['class'=>'','data-method'=>'open',]);
                                  ?>
