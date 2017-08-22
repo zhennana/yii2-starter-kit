@@ -4,12 +4,12 @@ use yii\helpers\Html;
 
 $school=[
     '1'=>[
-      'img'=>'http://otdndy0jt.bkt.clouddn.com/tihuan1.png',
+      'img'=>'http://static.v1.guangdaxuexiao.com/tihuan1.jpg',
       'name'=>'快乐高效课堂',
       'school'=>'温馨快乐校园建设的主阵地，全面提高学生思想道德、科学文化、身心健康全面发展。'
       ],
     '2'=>[
-      'img'=>'http://otdndy0jt.bkt.clouddn.com/wudao.png',
+      'img'=>'http://static.v1.guangdaxuexiao.com/wudao.jpg',
       'name'=>'跳动的精灵',
       'school'=>'在舞蹈的殿堂里，他们舒展沉睡的羽翼，释放天性，自由的飞舞，用心与美来感受爱的真谛。'
       ],
@@ -24,7 +24,7 @@ $school=[
       'school'=>'网络连接世界，在多彩的电脑课程中，培养孩子的搜索能力、鉴别能力、沟通能力'
       ],
     '5'=>[
-      'img'=>'http://otdndy0jt.bkt.clouddn.com/xiaoyuan.png',
+      'img'=>'http://static.v1.guangdaxuexiao.com/xiaoyuan.jpg',
       'name'=>'快乐的元旦',
       'school'=>'微笑的脸蛋甜蜜灿烂，愿每个孩子的明天无限美丽，无限迷人，去获取你光明的未来。'
       ],
@@ -86,7 +86,7 @@ $school=[
                         <!--<h4><?php //echo $value['name'];?></h4>
                                                          <p><?php //echo $value['school'];?></p>-->
                              <span class="pre" style="position:absolute;color:#fff;font-size:30px;top:50%;left:5%;z-index:2;">
-                                <img src="http://otdndy0jt.bkt.clouddn.com/left.png">
+                                <img src="http://static.v1.guangdaxuexiao.com/Left%20%281%29.png">
                              </span>
                              <ul>
                                 <?php foreach($school as $key =>$value){
@@ -97,10 +97,10 @@ $school=[
                                  <?php }?>
                              </ul>
                              <span class="next" style="position:absolute;color:#fff;font-size:30px;top:50%;right:5%;">
-                                <img src="http://otdndy0jt.bkt.clouddn.com/right.png">
+                                <img src="http://static.v1.guangdaxuexiao.com/right%20%285%29.png">
                              </span>
                              <span class="close1" style="color:#fff;">
-                                <img src="http://otdndy0jt.bkt.clouddn.com/close1.png">
+                                <img src="http://static.v1.guangdaxuexiao.com/close.png">
                              </span>
                      </div>
                     </div>
