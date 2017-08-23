@@ -108,7 +108,14 @@ class ActivationCodeController extends Controller
         $model = new ActivationCode;
         $model->scenario = 'batch_create';
 
-        if ($model->batchCreate(Yii::$app->request->post())) {
+        if ($model->load(Yii::$app->request->post())) {
+            $info = $model->batchCreate();
+            if (!empty($info)) {
+                return $this->render('batch-create', [
+                    'model' => $model,
+                    'info' => $info,
+                ]);
+            }
             return $this->redirect(['index']);
         } else {
             return $this->render('batch-create', [

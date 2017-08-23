@@ -43,8 +43,8 @@ abstract class ActivationCode extends \yii\db\ActiveRecord
 
     const SCENARIO_BATCH_CREATE = 'batch_create';    // 批量创建
 
-    const MAX_QUANTITY = 1;    // 批量最小数量
-    const MIN_QUANTITY = 99;    // 批量最大数量
+    const MAX_QUANTITY = 99;    // 批量最大数量
+    const MIN_QUANTITY = 1;    // 批量最小数量
 
     public $quantity;   // 数量
 
@@ -150,16 +150,17 @@ abstract class ActivationCode extends \yii\db\ActiveRecord
                     return $this->addError($attribute,'总金额不能小于优惠价格');
                 }
             }],
-            ['quantity','integer','min' => self::MIN_QUANTITY,'max' => self::MAX_QUANTITY]
+            ['quantity','integer','min' => self::MIN_QUANTITY,'max' => self::MAX_QUANTITY, 'on' => self::SCENARIO_BATCH_CREATE],
+            ['quantity','required','on' => self::SCENARIO_BATCH_CREATE],
         ];
     }
 
-    public function scenarios()
-    {
-        $scenarios = parent::scenarios();
-        $scenarios[self::SCENARIO_BATCH_CREATE] = ['quantity'];
-        return $scenarios;
-    }
+    // public function scenarios()
+    // {
+    //     $scenarios = parent::scenarios();
+    //     $scenarios[self::SCENARIO_BATCH_CREATE] = ['quantity','school_id','status','payment','total_price','expired_at'];
+    //     return $scenarios;
+    // }
 
     /**
      * @inheritdoc
