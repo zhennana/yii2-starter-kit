@@ -44,31 +44,26 @@ public function behaviors()
 
     /**
      *  [batchCreate 批量创建]
-     *  @param  [type] $params [description]
      *  @return [type]         [description]
      */
-    public function batchCreate($params)
+    public function batchCreate()
     {
-        if (isset($params['ActivationCode']) && !empty($params['ActivationCode'])) {
-
-            $count = (int)$params['ActivationCode']['quantity'];
-            if ($count > self::MAX_QUANTITY) {
-                $count = self::MAX_QUANTITY;
-            }elseif($count < self::MIN_QUANTITY){
-                $count = self::MIN_QUANTITY;
-            }
-
-            for ($i=1; $i < $count; $i++) { 
-                $model = new self;
-                $model->load($params);
-                $model->activation_code = self::randomStr(6);
-                if (!$model->save()) {
-                    var_dump($model->getErrors());exit;
-                    // continue;
-                }
-            }
-            return true;
+        $count = (int)$this->quantity;
+        if ($count > self::MAX_QUANTITY) {
+            $count = self::MAX_QUANTITY;
+        }elseif($count < self::MIN_QUANTITY){
+            $count = self::MIN_QUANTITY;
         }
-        return false;
+        $info = [];
+        for ($i=1; $i < $count; $i++) { 
+            $model = new self;
+            $model->load($this->attributes,'');
+            $model->activation_code = self::randomStr(6);
+            if (!$model->save()) {
+                $info = $model;
+                break;
+            }
+        }
+        return $info;
     }
 }

@@ -21,6 +21,7 @@ if($model->isNewRecord){
 
 $schools = School::find()->where(['status'=>School::SCHOOL_STATUS_OPEN])->asArray()->all();
 $schools = ArrayHelper::map($schools, 'id', 'school_title');
+
 ?>
 
 <div class="activation-code-form">
@@ -37,7 +38,7 @@ $schools = ArrayHelper::map($schools, 'id', 'school_title');
 
         <p>
 
-    <?= $form->errorSummary($model); ?>
+    <?= !empty($info) ? $form->errorSummary($info) : $form->errorSummary($model); ?>
 
     <?php echo $form->field($model, 'quantity')->textInput(['maxlength' => true]) ?>
 
@@ -65,7 +66,7 @@ $schools = ArrayHelper::map($schools, 'id', 'school_title');
             'allowClear' => true,
         ],
     ]); ?>
-    
+
     <?php echo $form->field($model, 'total_price')->textInput(['maxlength' => true]) ?>
 
     <?php echo $form->field($model, 'coupon_type')->widget(Select2::className(),[
@@ -88,6 +89,7 @@ $schools = ArrayHelper::map($schools, 'id', 'school_title');
                     ])
             ?>
     </p>
+
     <?php $this->endBlock(); ?>
     <?= Tabs::widget([
             'encodeLabels' => false,
