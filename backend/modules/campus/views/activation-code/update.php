@@ -6,9 +6,9 @@ use yii\helpers\Html;
 /* @var $model backend\modules\campus\models\ActivationCode */
 
 $this->title = Yii::t('backend', 'Update {modelClass}: ', [
-    'modelClass' => 'Activation Code',
+    'modelClass' => '激活码',
 ]) . ' ' . $model->activation_code_id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Activation Codes'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '激活码'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->activation_code_id, 'url' => ['view', 'id' => $model->activation_code_id]];
 $this->params['breadcrumbs'][] = Yii::t('backend', 'Update');
 ?>
