@@ -13,6 +13,9 @@ $banner=array(
 );
 //var_dump($banner);
 ?>
+<style>
+    .course-img{}
+</style>
 <div style="margin-left:-15px;margin-right:-15px;">
     <?php if($category['parent']['id']==1){ ?>
         <img width='100%' src="<?php echo $banner[1]?>">
@@ -56,18 +59,35 @@ $banner=array(
               <ul class="todo-list ui-sortable">
               <?php foreach($modelArticle as $key=>$value){?>
               	<li class="coperli">
-                  <span class="handle ui-sortable-handle">
-                    <i class="fa fa-ellipsis-v"></i>
-                    <i class="fa fa-ellipsis-v"></i>
-                  </span>
-                  <span class="text">
-                  	
-                  	<?php echo Html::a(
-                       $value['title'],
-                        ['article/view','id'=>$value['id']],
-                        ['class'=>'','data-method'=>'open',]);
-                    ?>
-                  </span>
+              	<?php
+
+                    $imageUrl = getImgs($value['body']);
+                    $imageUrl = isset($imageUrl[0]) ? $imageUrl[0] : 'http://orh16je38.bkt.clouddn.com/%E9%85%8D%E5%A5%97%E6%9C%8D%E5%8A%A1%E6%95%88%E6%9E%9C%E5%9B%BE1.png';
+                    $imageUrl .='?imageView2/3/w/400/h/400';
+                 ?>
+                     <div  class="course-img col-xs-4 col-md-3"><img src="<?= $imageUrl ?>" alt="描述信息" style="width: 100%;"></div>
+                     <div class="course-info col-xs-8 col-md-9" style="margin-top:20px;">
+                         <h4 class="course-title">
+                             <?php echo Html::a(
+                                $value['title'],
+                                 ['article/view','id'=>$value['id']],
+                                 ['class'=>'','data-method'=>'open',]);
+                             ?>
+                         </h4>
+                         <!--<p class="course-content">《结构与力》是设计和技术系列活动中非常重要而又有趣的活动，活动中具体研究一些生活中的桥梁、塔等常见结构，孩子们先通过设计然后动手搭建。活动中具体研究一些生活中的桥梁、塔等常见结构，孩子们先通过设计然后动手</p>-->
+                         <p class="course-content">
+                            <?php echo Html::a(
+                                    substr_auto(strip_tags($value['body']),200),
+                                     ['article/view','id'=>$value['id']],
+                                     ['class'=>'','data-method'=>'open',]);
+                                 ?>
+                         </p>
+                     </div>
+                  <!--<span class="handle ui-sortable-handle">
+                         <i class="fa fa-ellipsis-v"></i>
+                         <i class="fa fa-ellipsis-v"></i>
+                       </span>
+
                   <small class="label"><i class="fa fa-clock-o"></i> <?php echo Yii::$app->formatter->asRelativeTime($value['created_at']);?></small>
                   <div class="tools">
                    <?php echo Html::a(
@@ -75,7 +95,7 @@ $banner=array(
                         ['article/view','id'=>$value['id']],
                         ['class'=>'','data-method'=>'open',]);
                     ?>
-                  </div>
+                  </div>-->
                 </li>
               <?php }?>
                 <?php
