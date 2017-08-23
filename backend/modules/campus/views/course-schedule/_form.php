@@ -4,7 +4,8 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use \dmstr\bootstrap\Tabs;
 use yii\helpers\StringHelper;
-
+use \kartik\select2\Select2;
+use \backend\modules\campus\models\CourseSchedule;
 /**
 * @var yii\web\View $this
 * @var backend\modules\campus\models\CourseSchedule $model
@@ -31,19 +32,24 @@ use yii\helpers\StringHelper;
 
 
 <!-- attribute course_id -->
-			<?= $form->field($model, 'course_id')->textInput() ?>
+			<?= $form->field($model, 'course_id')->textInput(['readonly'=>'readonly' ]) ?>
 
 <!-- attribute start_time -->
-			<?= $form->field($model, 'start_time')->textInput() ?>
+			<?= $form->field($model, 'start_time')->textInput(['readonly'=>'readonly' ]) ?>
 
 <!-- attribute end_time -->
-			<?= $form->field($model, 'end_time')->textInput() ?>
+			<?= $form->field($model, 'end_time')->textInput(['readonly'=>'readonly' ]) ?>
 
 <!-- attribute which_day -->
-			<?= $form->field($model, 'which_day')->textInput() ?>
-
-<!-- attribute status -->
-			<?= $form->field($model, 'status')->textInput() ?>
+			<?= $form->field($model, 'which_day')->textInput(['readonly'=>'readonly' ]) ?>
+            <?= $form->field($model, 'status')->widget(Select2::className(),
+                [
+                    'data'          => CourseSchedule::optsStatus(),
+                    'options'       => ['placeholder' => '请选择' ],
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                    ],
+                ]); ?>
         </p>
         <?php $this->endBlock(); ?>
         
