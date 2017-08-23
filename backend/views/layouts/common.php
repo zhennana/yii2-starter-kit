@@ -173,6 +173,9 @@ if(env('THEME') == 'edu'){
 if(env('THEME') == 'gedu'){
     $leftMenu = require(__DIR__.'/menu/_gedu_left_menu.php');
 }
+if(env('THEME') == 'shuo'){
+    $leftMenu = require(__DIR__.'/menu/_sedu_left_menu.php');
+}
 $leftMenu = ArrayHelper::merge($leftMenu,$defaultMenu);
 $userName = Yii::$app->user->identity->getUserName(Yii::$app->user->identity->id);
 $avatar .= '?imageView2/3/w/215/h/215';
