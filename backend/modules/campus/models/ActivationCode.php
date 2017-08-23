@@ -63,8 +63,8 @@ public function behaviors()
                 $model->load($params);
                 $model->activation_code = self::randomStr(6);
                 if (!$model->save()) {
-                    var_dump($model->getErrors());
-                    continue;
+                    var_dump($model->getErrors());exit;
+                    // continue;
                 }
             }
             return true;
