@@ -16,8 +16,8 @@ if($model->isNewRecord){
     $model->activation_code = $model->randomStr(6);
 }
 
-$users = User::find()->active()->asArray()->all();
-$users = ArrayHelper::map($users,'id','username');
+// $users = User::find()->active()->asArray()->all();
+// $users = ArrayHelper::map($users,'id','username');
 
 $schools = School::find()->where(['status'=>School::SCHOOL_STATUS_OPEN])->asArray()->all();
 $schools = ArrayHelper::map($schools, 'id', 'school_title');
@@ -39,7 +39,7 @@ $schools = ArrayHelper::map($schools, 'id', 'school_title');
 
     <?= $form->errorSummary($model); ?>
 
-    <?= $form->field($model, 'activation_code')->textInput(['maxlength' => true,'readonly'=>'readonly']) ?>
+    <?php echo $form->field($model, 'quantity')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'school_id')->widget(Select2::className(),[
                 'data'    => $schools,
@@ -49,23 +49,6 @@ $schools = ArrayHelper::map($schools, 'id', 'school_title');
                 ],
             ]); ?>
 
-    <?= $form->field($model, 'user_id')->widget(Select2::className(),[
-                'data'    => $users,
-                'options' => ['placeholder' => '请选择'],
-                'pluginOptions' => [ 
-                    'allowClear' => true
-                ],
-            ]); ?>
-
-    <?= $form->field($model, 'payment')->widget(Select2::className(),[
-        'data'          => ActivationCode::optsPayment(),
-        'hideSearch'    => true,
-        'options'       => ['placeholder' => '请选择'],
-        'pluginOptions' => [ 
-            'allowClear' => true,
-        ],
-    ]); ?>
-
     <?= $form->field($model, 'status')->widget(Select2::className(),[
         'data'          => ActivationCode::optsStatus(),
         'hideSearch'    => true,
@@ -74,10 +57,18 @@ $schools = ArrayHelper::map($schools, 'id', 'school_title');
             'allowClear' => true,
         ],
     ]); ?>
-
+    <?= $form->field($model, 'payment')->widget(Select2::className(),[
+        'data'          => ActivationCode::optsPayment(),
+        'hideSearch'    => true,
+        'options'       => ['placeholder' => '请选择'],
+        'pluginOptions' => [ 
+            'allowClear' => true,
+        ],
+    ]); ?>
+    
     <?php echo $form->field($model, 'total_price')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'coupon_type')->widget(Select2::className(),[
+    <?php echo $form->field($model, 'coupon_type')->widget(Select2::className(),[
         'data'          => ActivationCode::optsCoupon(),
         'options'       => ['placeholder' => '请选择'],
         'hideSearch'    => true,
@@ -87,7 +78,6 @@ $schools = ArrayHelper::map($schools, 'id', 'school_title');
     ]); ?>
     <?php echo $form->field($model, 'coupon_price')->textInput(['maxlength' => true]) ?>
     <?php echo $form->field($model, 'real_price')->textInput(['maxlength' => true]) ?>
-
     <?php echo $form->field($model, 'expired_at')
                 ->widget(
                     DateTimeWidget::className(),
@@ -97,13 +87,12 @@ $schools = ArrayHelper::map($schools, 'id', 'school_title');
                         'momentDatetimeFormat' => 'YYYY-MM-DD HH:mm',
                     ])
             ?>
-
     </p>
     <?php $this->endBlock(); ?>
     <?= Tabs::widget([
             'encodeLabels' => false,
             'items'        => [[
-                'label'   => Yii::t('backend', '激活码'),
+                'label'   => Yii::t('backend', '激活码批量创建'),
                 'content' => $this->blocks['main'],
                 'active'  => true,
             ],]
@@ -113,7 +102,7 @@ $schools = ArrayHelper::map($schools, 'id', 'school_title');
 
         <?= Html::submitButton(
             '<span class="glyphicon glyphicon-check"></span> ' .
-            ($model->isNewRecord ? Yii::t('backend', '创建') : Yii::t('backend', '更新')),
+            Yii::t('backend', '创建'),
             [
                 'id'    => 'save-' . $model->formName(),
                 'class' => 'btn btn-success'

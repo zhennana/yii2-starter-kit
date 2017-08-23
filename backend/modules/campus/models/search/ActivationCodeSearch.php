@@ -18,7 +18,7 @@ class ActivationCodeSearch extends ActivationCode
     public function rules()
     {
         return [
-            [['activation_code_id', 'courseware_id', 'course_order_item_id', 'school_id', 'grade_id', 'user_id', 'introducer_id', 'payment', 'status', 'coupon_type', 'expired_at', 'created_at', 'updated_at'], 'integer'],
+            [['activation_code_id', 'course_order_item_id', 'school_id', 'grade_id', 'user_id', 'introducer_id', 'payment', 'status', 'coupon_type', 'expired_at', 'created_at', 'updated_at'], 'integer'],
             [['activation_code'], 'safe'],
             [['total_price', 'real_price', 'coupon_price'], 'number'],
         ];
@@ -54,7 +54,6 @@ class ActivationCodeSearch extends ActivationCode
 
         $query->andFilterWhere([
             'activation_code_id' => $this->activation_code_id,
-            'courseware_id' => $this->courseware_id,
             'course_order_item_id' => $this->course_order_item_id,
             'school_id' => $this->school_id,
             'grade_id' => $this->grade_id,

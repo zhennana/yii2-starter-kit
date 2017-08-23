@@ -19,8 +19,6 @@ use yii\bootstrap\ActiveForm;
 
     <?php echo $form->field($model, 'activation_code') ?>
 
-    <?php echo $form->field($model, 'courseware_id') ?>
-
     <?php echo $form->field($model, 'course_order_item_id') ?>
 
     <?php echo $form->field($model, 'school_id') ?>
