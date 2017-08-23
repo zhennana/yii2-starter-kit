@@ -146,8 +146,8 @@ abstract class ActivationCode extends \yii\db\ActiveRecord
                 return $this->real_price;
             }],
             ['total_price','required','when'=>function($model,$attribute){
-                if($model->total_price < $model->coupon_price){
-                    return $this->addError($attribute,'总金额不能小于优惠价格');
+                if($model->total_price <= $model->coupon_price){
+                    return $this->addError($attribute,'总金额必须大于优惠价格');
                 }
             }],
             ['quantity','integer','min' => self::MIN_QUANTITY,'max' => self::MAX_QUANTITY, 'on' => self::SCENARIO_BATCH_CREATE],
@@ -201,7 +201,7 @@ abstract class ActivationCode extends \yii\db\ActiveRecord
             // 'status' => Yii::t('models', '10未激活，20已经激活'),
             // 'total_price' => Yii::t('models', '总价'),
             // 'real_price' => Yii::t('models', '实际付款'),
-            'coupon_price' => Yii::t('models', '不得超过实际付款'),
+            'coupon_price' => Yii::t('models', '不能超过实际付款'),
             // 'coupon_type' => Yii::t('models', '2首单减免,3随机减免'),
             'expired_at' => Yii::t('models', '过期后无法使用'),
             'quantity' => Yii::t('models', '创建数量，最大99'),
