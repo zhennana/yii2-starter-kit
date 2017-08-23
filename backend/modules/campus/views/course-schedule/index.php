@@ -270,7 +270,7 @@ $(".select-on-check-all").on('click',function(){
 
 // 批量审核
 $(document).on('click', '.audit', function (){
-    if (confirm('确定结束已勾选的'+$(".select-on-check-one:checked").length+'个结束？审核操作将不可被撤销！')) {
+    if (confirm('确定已勾选的'+$(".select-on-check-one:checked").length+'节课？')) {
         var ids = $("#grid").yiiGridView("getSelectedRows");
         console.log(ids);
         var data = {"ids":ids};
