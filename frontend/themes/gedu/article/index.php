@@ -42,7 +42,7 @@ $banner=array(
     ?>
     <!-- 文章内容部分 -->
     <div class="content-wrap col-md-9" style="padding-right:0; box-sizing:border-box;">
-    <div class="box box-widget geu-content">
+    <div class="box box-widget geu-content geu-content1">
             <div class="box-header with-border box-header with-border ">
                 <ol class="breadcrumb" style="margin-bottom: -10px">
                   <li><span class=""><i class="fa fa-map-marker margin-r-5 text-purple"></i>当前位置: </span>&nbsp<?php echo Html::a('首页',['site/index'])?></li>
@@ -74,10 +74,9 @@ $banner=array(
                                  ['class'=>'','data-method'=>'open',]);
                              ?>
                          </h4>
-                         <!--<p class="course-content">《结构与力》是设计和技术系列活动中非常重要而又有趣的活动，活动中具体研究一些生活中的桥梁、塔等常见结构，孩子们先通过设计然后动手搭建。活动中具体研究一些生活中的桥梁、塔等常见结构，孩子们先通过设计然后动手</p>-->
                          <p class="course-content">
                             <?php echo Html::a(
-                                    substr_auto(strip_tags($value['body']),200),
+                                    substr_auto(strip_tags($value['body']),190),
                                      ['article/view','id'=>$value['id']],
                                      ['class'=>'','data-method'=>'open',]);
                                  ?>

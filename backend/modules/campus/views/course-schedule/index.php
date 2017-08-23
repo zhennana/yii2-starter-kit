@@ -25,9 +25,12 @@ $actionColumnTemplates = [];
 // if (\Yii::$app->user->can('campus_course-schedule_view', ['route' => true])) {
 //     $actionColumnTemplates[] = '{view}';
 // }
-
+$visible = false;
 if (Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_director')) {
-    //$actionColumnTemplates[] = '{update}';
+    $visible = true;
+}
+if (Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_director')) {
+    $actionColumnTemplates[] = '{update}';
 }
    if (Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_director')) {
      $actionColumnTemplates['button'] = '{button}';
@@ -74,28 +77,13 @@ if(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::
 }
 ?>
         <div class="pull-right">
-
-            <?= 
-            \yii\bootstrap\ButtonDropdown::widget(
-            [
-            'id' => 'giiant-relations',
-            'encodeLabel' => false,
-            'label' => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('backend', 'Relations'),
-            'dropdown' => [
-            'options' => [
-            'class' => 'dropdown-menu-right'
-            ],
-            'encodeLabels' => false,
-            'items' => [
-
-]
-            ],
-            'options' => [
-            'class' => 'btn-default'
-            ]
-            ]
-            );
-            ?>
+        <?= Html::button('<span class="badge bg-red"></span><i class="fa fa-edit"></i> 批量结束课程',
+                [
+                    'title'    => '批量结束课程',
+                    'class'    => 'btn btn-app opt audit',
+                    'disabled' => 'disabled'
+                ]
+        ); ?>
         </div>
     </div>
 
@@ -104,6 +92,11 @@ if(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::
     <div class="table-responsive">
         <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'options'      => [
+                'class' => 'grid-view',
+                'style' => 'overflow:auto',
+                'id'    => 'grid',
+        ],
         'pager' => [
         'class' => yii\widgets\LinkPager::className(),
         'firstPageLabel' => Yii::t('backend', 'First'),
@@ -117,17 +110,14 @@ if(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::
             'class' => 'yii\grid\ActionColumn',
             'template' => $actionColumnTemplateString,
             'buttons' => [
-               /* 'update' => function ($url, $model, $key) {
+                'update' => function ($url, $model, $key) {
                     $options = [
                         'title' => Yii::t('yii', 'View'),
                         'aria-label' => Yii::t('yii', 'View'),
                         'data-pjax' => '0',
                     ];
-                    if($model->status == 20){
-                        return  '';
-                    }
                     return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, $options);
-                },*/
+                },
                 'delete' => function ($url, $model, $key) {
                     $options = [
                         'title' => Yii::t('yii', '删除课程'),
@@ -143,7 +133,6 @@ if(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::
                     return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, $options);
                 }
             ],
-            
             'urlCreator' => function($action, $model, $key, $index) {
                 // using the column name as key, not mapping to 'id' like the standard generator
                 $params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
@@ -153,6 +142,20 @@ if(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::
             'contentOptions' => ['nowrap'=>'nowrap']
         ],
 			//'course_id',
+            [
+            'class'           => 'yii\grid\CheckboxColumn',
+            'name'            => 'id',
+            'headerOptions'   =>[
+            ],
+            'visible'         =>$visible,
+            'contentOptions' =>[],
+            'checkboxOptions' => function($model, $key, $index, $column){
+                if($model->status !=  Course::COURSE_STATUS_OPEN){
+                    return ['disabled'=>'disabled'];
+                }
+                return ['class'=>'select-on-check-one'];
+            },
+            ],
             [
                 'attribute'=>'title',
                 'label'    => '课程名',
@@ -186,7 +189,6 @@ if(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::
                 'class'     =>\common\grid\EnumColumn::className(),
                 'attribute' =>'teacher_id',
                 'label'    => '上课老师',
-
                 'format'        => 'raw',
                 'value'     => function($model){
                     return Yii::$app->user->identity->getUserName($model->teacher_id);
@@ -237,6 +239,59 @@ if(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::
     </div>
 
 </div>
-
-
 <?php \yii\widgets\Pjax::end() ?>
+<script>
+// 手动选择多选框
+$(".select-on-check-one").each(function(){
+    if($(".select-on-check-one:checked").length < 1){
+            $(".opt").attr("disabled", true);
+        }
+    $(".select-on-check-one").on('click',function(){
+        if($(".select-on-check-one:checked").length < 1){
+            $(".opt").attr("disabled", true);
+            $(".badge").text('');
+        }else{
+            $(".opt").attr("disabled", false);
+            $(".badge").text($(".select-on-check-one:checked").length);
+        }
+    });
+});
+
+// 全选多选框
+$(".select-on-check-all").on('click',function(){
+    if($(".select-on-check-all:checked").length < 1){
+        $(".opt").attr("disabled", true);
+        $(".badge").text('');
+    }else{
+        $(".opt").attr("disabled", false);
+        $(".badge").text($(".select-on-check-one").length);
+    }
+});
+
+// 批量审核
+$(document).on('click', '.audit', function (){
+    if (confirm('确定已勾选的'+$(".select-on-check-one:checked").length+'节课？')) {
+        var ids = $("#grid").yiiGridView("getSelectedRows");
+        console.log(ids);
+        var data = {"ids":ids};
+        $.ajax({
+            url:"<?php echo Url::to(['batch-closed']) ?>",
+            type:"post",
+            datatype:"json",
+            data:data,
+            success:function(response){
+                // console.log(response);
+                if(response.code == 200){
+                    alert("操作完成！\r\n一共关闭"+response.success_count+"节课");
+                    window.location.reload();
+                }else if(response.code == 400){
+                    alert("操作完成！\r\n一共关闭"+response.success_count+"节课！"+'关闭失败'+response.fail_count);
+                    window.location.reload();
+                }else{
+                    alert("操作失败！\r\n\r\n请确认至少勾选一个签到记录！");
+                }
+            }
+        });
+    };
+});
+</script>
