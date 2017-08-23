@@ -84,13 +84,13 @@ class CourseScheduleController extends \backend\modules\campus\controllers\base\
 
             }
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        if(!isset($data['error'])){
+        if(empty($data['error'])){
             $info['code']    = 200;
-            $info['success'] = count($data['message']);
+            $info['success_count'] = count($data['message']);
         }else{
             $info['code']    = 400;
-            $info['fail']    = count($data['message']);
-            $info['success'] = count($data['error']);
+            $info['fail_count']    = count($data['error']);
+            $info['success_count'] = count($data['message']);
         }
         return $info;
         }

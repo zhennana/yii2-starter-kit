@@ -282,10 +282,10 @@ $(document).on('click', '.audit', function (){
             success:function(response){
                 // console.log(response);
                 if(response.code == 200){
-                    alert("操作完成！\r\n审核成功"+response.count+"个签到记录。");
+                    alert("操作完成！\r\n一共关闭"+response.success_count+"节课");
                     window.location.reload();
                 }else if(response.code == 400){
-
+                    alert("操作完成！\r\n一共关闭"+response.success_count+"节课！"+'关闭失败'+response.fail_count);
                     window.location.reload();
                 }else{
                     alert("操作失败！\r\n\r\n请确认至少勾选一个签到记录！");
