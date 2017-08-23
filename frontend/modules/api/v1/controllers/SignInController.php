@@ -786,6 +786,80 @@ class SignInController extends \common\components\ControllerFrontendApi
         //echo '{"uptoken": "'.$token.'"}';
     }
 
+    /**
+     * @SWG\Get(path="/sign-in/activation-code",
+     *     tags={"100-SignIn-用户接口"},
+     *     summary="激活码激活",
+     *     description="提交用户ID与激活码做验证",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "user_id",
+     *        description = "用户ID，注意提交谁的激活谁的",
+     *        default = "123456",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "code",
+     *        description = "激活码",
+     *        required = true,
+     *        default = "123456",
+     *        type = "string"
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "返回激活信息"
+     *     )
+     * )
+     *
+     */
+    public function actionActivationCode($user_id, $code)
+    {
+        // 查询激活码，状态未使用
+        // 创建订单，返回course_order_item_id，存入表activation_code对应字段
+        // errorno = 1 已经使用
+        
+        return [
+            'errorno' => '0',
+            'message' => Yii::t(
+                'frontend', 
+               // 'Your account has been successfully activated.'
+               '成功激活'
+            )
+        ];
+
+    }
+
+    /**
+     * @SWG\Get(path="/sign-in/order",
+     *     tags={"100-SignIn-用户接口"},
+     *     summary="用户有效订单",
+     *     description="返回当前登录用户的有效订单",
+     *     produces={"application/json"},
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "返回订单信息"
+     *     )
+     * )
+     */
+    public function actionOrder()
+    {
+        //返回当前登录用户的有效订单，需要的字段，不需要的不显示
+        // 用户id、价格、到期时间
+        
+        $message['errorno'] = 0;
+        $message['message'] = '';
+        $message['order'] = [
+            'course_order_item_id' => '1',
+            'user_id' => '1',
+            'total_price' => 99.00,
+            'expired_at' => '1500433538',
+        ];
+        return $message;
+
+    }
 
     /**
      * @return Response
