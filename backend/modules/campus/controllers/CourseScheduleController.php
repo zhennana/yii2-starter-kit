@@ -58,4 +58,41 @@ class CourseScheduleController extends \backend\modules\campus\controllers\base\
         }
         return $this->render('_time_switch',['original_model'=>$original_model,'new_model'=>$new_model,'course_model'=>$course_model]);
     }
+    //批量关闭课程
+    public function actionBatchClosed(){
+        $info   = [];
+        $info['code'] = 0;
+        $ids = isset($_POST['ids']) ? $_POST['ids']:NULL;
+        $data = [
+            'message'=>[],
+            'error'  =>[],
+        ];
+        if(!empty($ids) && is_array($ids)){
+
+            foreach ($ids as $key => $course_schedule_id) {
+                $model = CourseSchedule::findOne($course_schedule_id);
+
+                if($model){
+                    $model->status = CourseSchedule::COURSE_STATUS_FINISH;
+                   if($model->save()){
+                        $data['message'][] = $model;
+                        Course::updateAll(['status'=>Course::COURSE_STATUS_FINISH],'course_id = '.$model->course_id);
+                   }else{
+                        $data['error'][] = $model->getErrors();
+                   }
+                }
+
+            }
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        if(!isset($data['error'])){
+            $info['code']    = 200;
+            $info['success'] = count($data['message']);
+        }else{
+            $info['code']    = 400;
+            $info['fail']    = count($data['message']);
+            $info['success'] = count($data['error']);
+        }
+        return $info;
+        }
+    }
 }
