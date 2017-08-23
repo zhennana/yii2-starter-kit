@@ -38,7 +38,13 @@ $schools = ArrayHelper::map($schools, 'id', 'school_title');
 
         <p>
 
-    <?= !empty($info) ? $form->errorSummary($info) : $form->errorSummary($model); ?>
+    <?php
+        if (isset($info) && !empty($info)) {
+            echo $form->errorSummary($info);
+        }else{
+            echo $form->errorSummary($model);
+        }
+    ?>
 
     <?php echo $form->field($model, 'quantity')->textInput(['maxlength' => true]) ?>
 
