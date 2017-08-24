@@ -518,14 +518,14 @@ class ConfigController extends \common\rest\Controller
             }
             if($value->type == 2){
                 $data['working_state'][1]['title']  = $value['title'];
-              if(!isset($data['working_state'][1]['status']) || $data['working_state'][0]['status'] == 10){
+              if(!isset($data['working_state'][1]['status']) || $data['working_state'][1]['status'] == 10){
                         $data['working_state'][1]['status'] = $value->status;
 
                 }
             }
             if($value->type == 4){
                 $data['working_state'][2]['title']  = $value['title'];
-                 if(!isset($data['working_state'][2]['status']) || $data['working_state'][0]['status'] == 10){
+                 if(!isset($data['working_state'][2]['status']) || $data['working_state'][2]['status'] == 10){
                         $data['working_state'][2]['status'] = $value->status;
 
                 }
