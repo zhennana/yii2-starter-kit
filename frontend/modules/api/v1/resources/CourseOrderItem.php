@@ -47,6 +47,7 @@ class CourseOrderItem extends BaseCourseOrderItem
 
         $model->order_sn       = $this->builderNumber();
         $model->school_id      = $codeModel->school_id;
+        $model->grade_id       = $codeModel->grade_id;
         $model->user_id        = $params['user_id'];
         $model->introducer_id  = $codeModel->introducer_id;
         $model->payment        = $codeModel->payment;
@@ -57,6 +58,7 @@ class CourseOrderItem extends BaseCourseOrderItem
         $model->coupon_price   = $codeModel->coupon_price;
         $model->coupon_type    = $codeModel->coupon_type;
         $model->total_course   = 0;
+        $model->expired_at     = $codeModel->expired_at;
         if (!$model->save()) {
             $info['errorno'] = __LINE__;
             $info['message'] = $model->getErrors();
