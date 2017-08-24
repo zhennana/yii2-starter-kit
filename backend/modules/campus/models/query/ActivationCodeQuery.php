@@ -2,6 +2,8 @@
 
 namespace backend\modules\campus\models\query;
 
+use backend\modules\campus\models\ActivationCode;
+
 /**
  * This is the ActiveQuery class for [[\backend\modules\campus\models\ActivationCode]].
  *
@@ -31,5 +33,23 @@ class ActivationCodeQuery extends \yii\db\ActiveQuery
     public function one($db = null)
     {
         return parent::one($db);
+    }
+
+    /**
+     * @return $this
+     */
+    public function notActive()
+    {
+        $this->andWhere(['status' => ActivationCode::STATUS_INACTIVATED]);
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function notExpired()
+    {
+        $this->andWhere(['>','expired_at',time()]);
+        return $this;
     }
 }

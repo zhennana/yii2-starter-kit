@@ -7,9 +7,9 @@ use yii\helpers\Html;
 /* @var $model backend\modules\campus\models\ActivationCode */
 
 $this->title = Yii::t('backend', 'Create {modelClass}', [
-    'modelClass' => 'Activation Code',
+    'modelClass' => '激活码',
 ]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Activation Codes'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '激活码'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="activation-code-create">

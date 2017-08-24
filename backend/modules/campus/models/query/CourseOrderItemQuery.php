@@ -32,4 +32,13 @@ class CourseOrderItemQuery extends \yii\db\ActiveQuery
     {
         return parent::one($db);
     }
+
+    /**
+     * @return $this
+     */
+    public function notExpired()
+    {
+        $this->andWhere(['>','expired_at',time()]);
+        return $this;
+    }
 }

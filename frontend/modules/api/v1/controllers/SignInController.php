@@ -33,6 +33,8 @@ use common\components\Qiniu\Storage\BucketManager;
 use cheatsheet\Time;
 
 use common\components\aliyunMNS\SendSMSMessage;
+use frontend\modules\api\v1\resources\ActivationCode;
+use frontend\modules\api\v1\resources\CourseOrderItem;
 
 class SignInController extends \common\components\ControllerFrontendApi
 {
@@ -153,7 +155,6 @@ class SignInController extends \common\components\ControllerFrontendApi
                     $attrUser['avatar'] = $fansMpUser->avatar;
                 }
             }
-
             return array_merge($attrUser,$account);
         }else{
             Yii::$app->response->statusCode = 422;
@@ -787,13 +788,13 @@ class SignInController extends \common\components\ControllerFrontendApi
     }
 
     /**
-     * @SWG\Get(path="/sign-in/activation-code",
+     * @SWG\Post(path="/sign-in/activation-code",
      *     tags={"100-SignIn-用户接口"},
      *     summary="激活码激活",
      *     description="提交用户ID与激活码做验证",
      *     produces={"application/json"},
      *     @SWG\Parameter(
-     *        in = "query",
+     *        in = "formData",
      *        name = "user_id",
      *        description = "用户ID，注意提交谁的激活谁的",
      *        default = "123456",
@@ -801,8 +802,8 @@ class SignInController extends \common\components\ControllerFrontendApi
      *        type = "string"
      *     ),
      *     @SWG\Parameter(
-     *        in = "query",
-     *        name = "code",
+     *        in = "formData",
+     *        name = "activation_code",
      *        description = "激活码",
      *        required = true,
      *        default = "123456",
@@ -815,12 +816,63 @@ class SignInController extends \common\components\ControllerFrontendApi
      * )
      *
      */
-    public function actionActivationCode($user_id, $code)
+    public function actionActivationCode()
     {
         // 查询激活码，状态未使用
         // 创建订单，返回course_order_item_id，存入表activation_code对应字段
         // errorno = 1 已经使用
-        
+        $info = [
+            'errorno' => '0',
+            'message' => '',
+        ];
+        $post = Yii::$app->request->post();
+
+        if (!isset($post['user_id']) && empty($post['user_id'])) {
+            $info['errorno'] = __LINE__;
+            $info['message'] = Yii::t('frontend','请输入user id');
+            return $info;
+        }
+        if (!isset($post['activation_code']) && empty($post['activation_code'])) {
+            $info['errorno'] = __LINE__;
+            $info['message'] = Yii::t('frontend','请输入激活码');
+            return $info;
+        }
+        // 校验用户
+        $user = User::find()->where(['id' => $post['user_id']])->active()->one();
+        if (!$user) {
+            $info['errorno'] = __LINE__;
+            $info['message'] = Yii::t('frontend','该用户不存在');
+            return $info;
+        }
+
+        // 校验激活码
+        $codeModel = new ActivationCode;
+        $codeModel->load($post,'');
+        $codeModel = $codeModel->checkCode();
+
+        if (!$codeModel) {
+            $info['errorno'] = __LINE__;
+            $info['message'] = Yii::t('frontend','无效的激活码');
+            return $info;
+        }
+
+        // 创建订单
+        $order = new CourseOrderItem;
+        $order = $order->createActivationOrder($codeModel,$post);
+        if ($order['errorno'] != '0' && $order['model'] == null) {
+            $info['errorno'] = $order['errorno'];
+            $info['message'] = $order['message'];
+            return $info;
+        }
+
+        // 更新激活码
+        $codeModel = $codeModel->updateCode($order['model']);
+        if (!$codeModel) {
+            $info['errorno'] = __LINE__;
+            $info['message'] = Yii::t('frontend','数据异常');
+            return $info;
+        }
+
         return [
             'errorno' => '0',
             'message' => Yii::t(
@@ -848,14 +900,33 @@ class SignInController extends \common\components\ControllerFrontendApi
     {
         //返回当前登录用户的有效订单，需要的字段，不需要的不显示
         // 用户id、价格、到期时间
+        if (Yii::$app->user->isGuest) {
+            $message['errorno'] = __LINE__;
+            $message['message'] = Yii::t('frontend','请登录');
+            return $message;
+        }
+        $order = CourseOrderItem::find()
+            ->where([
+                'user_id'        => Yii::$app->user->identity->id,
+                'status'         => CourseOrderItem::STATUS_VALID,
+                'payment_status' => CourseOrderItem::PAYMENT_STATUS_PAID,
+            ])
+            ->notExpired()
+            ->one();
         
+        if (!$order) {
+            $message['errorno'] = __LINE__;
+            $message['message'] = Yii::t('frontend','暂无订单');
+            return $message;
+        }
+
         $message['errorno'] = 0;
-        $message['message'] = '';
+        $message['message'] = Yii::t('frontend','查询成功');;
         $message['order'] = [
-            'course_order_item_id' => '1',
-            'user_id' => '1',
-            'total_price' => 99.00,
-            'expired_at' => '1500433538',
+            'course_order_item_id' => $order->course_order_item_id,
+            'user_id' => $order->user_id,
+            'total_price' => $order->total_price,
+            'expired_at' => $order->expired_at,
         ];
         return $message;
 
