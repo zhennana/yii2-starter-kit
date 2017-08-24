@@ -43,7 +43,7 @@ abstract class ActivationCode extends \yii\db\ActiveRecord
 
     const SCENARIO_BATCH_CREATE = 'batch_create';    // 批量创建
 
-    const MAX_QUANTITY = 99;    // 批量最大数量
+    const MAX_QUANTITY = 100;    // 批量最大数量
     const MIN_QUANTITY = 1;    // 批量最小数量
 
     public $quantity;   // 数量
@@ -199,12 +199,12 @@ abstract class ActivationCode extends \yii\db\ActiveRecord
             // 'introducer_id' => Yii::t('models', '创建者'),
             // 'payment' => Yii::t('models', '100 在线支付； 110 支付宝 支付 ； 111 微信支付；  200 货到付款'),
             // 'status' => Yii::t('models', '10未激活，20已经激活'),
-            // 'total_price' => Yii::t('models', '总价'),
-            // 'real_price' => Yii::t('models', '实际付款'),
+            'total_price' => Yii::t('models', '每个激活码的价格'),
+            'real_price' => Yii::t('models', '每个激活码减免优惠后的价格'),
             'coupon_price' => Yii::t('models', '不能超过实际付款'),
             // 'coupon_type' => Yii::t('models', '2首单减免,3随机减免'),
             'expired_at' => Yii::t('models', '过期后无法使用'),
-            'quantity' => Yii::t('models', '创建数量，最大99'),
+            'quantity' => Yii::t('models', '创建数量，每次最多100个'),
         ]);
     }
 

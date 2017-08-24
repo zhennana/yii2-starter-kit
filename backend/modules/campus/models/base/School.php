@@ -93,6 +93,7 @@ abstract class School extends \yii\db\ActiveRecord
         return [
             [['parent_id', 'school_id', 'province_id', 'city_id', 'region_id', 'created_id', 'status', 'sort'], 'integer'],
             ['parent_id','default','value'=>'0'],
+            ['school_id','default','value'=>0],
             ['created_id','default','value'=>Yii::$app->user->identity->id],
             [[ 'school_title', 'province_id', 'city_id', 'region_id', 'created_id'], 'required'],
             [['longitude', 'latitude'], 'number'],
