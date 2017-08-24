@@ -21,8 +21,14 @@ if($model->isNewRecord){
 
 $schools = School::find()->where(['status'=>School::SCHOOL_STATUS_OPEN])->asArray()->all();
 $schools = ArrayHelper::map($schools, 'id', 'school_title');
-
+$this->title = Yii::t('backend', '批量创建 {modelClass}', [
+    'modelClass' => '激活码',
+]);
+$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '激活码'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
+
+
 
 <div class="activation-code-form">
 
@@ -100,7 +106,7 @@ $schools = ArrayHelper::map($schools, 'id', 'school_title');
     <?= Tabs::widget([
             'encodeLabels' => false,
             'items'        => [[
-                'label'   => Yii::t('backend', '激活码批量创建'),
+                'label'   => Yii::t('backend', '批量创建激活码'),
                 'content' => $this->blocks['main'],
                 'active'  => true,
             ],]

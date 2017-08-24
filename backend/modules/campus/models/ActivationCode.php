@@ -59,6 +59,7 @@ public function behaviors()
             $model = new self;
             $model->load($this->attributes,'');
             $model->activation_code = self::randomStr(6);
+            $model->introducer_id = Yii::$app->user->isGuest ? 0 : Yii::$app->user->identity->id;
             if (!$model->save()) {
                 $info = $model;
                 break;
