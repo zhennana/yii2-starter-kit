@@ -31,10 +31,10 @@ class ActivationCode extends BaseActivationCode
         );
     }
 
-    public function checkCode()
+    public static function checkCode($activation_code)
     {
         $model = self::find()
-            ->where(['activation_code' => $this->activation_code])
+            ->where(['activation_code' => $activation_code])
             ->notActive()
             ->notExpired()
             ->one();
@@ -45,8 +45,11 @@ class ActivationCode extends BaseActivationCode
     {
         if ($orderModel) {
             $this->course_order_item_id = $orderModel->course_order_item_id;
+            $this->user_id              = $orderModel->user_id;
             $this->status               = self::STATUS_ACTIVATED;
+            $this->expired_at           = date('Y-m-d H:m:s',$this->expired_at);
             $this->save();
+
             return $this;
         }
         return false;

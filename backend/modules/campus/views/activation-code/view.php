@@ -14,7 +14,11 @@ $copyParams = $model->attributes;
 ?>
 <div class="activation-code-view">
 
-    <p>
+    <p><?php
+           if (\Yii::$app->user->can('E_manager') ||
+                \Yii::$app->user->can('manager')
+                ) {
+        ?>
         <?= Html::a(
                 '<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('backend', '修改'),
                 [ 'update', 'activation_code_id' => $model->activation_code_id],
@@ -29,6 +33,7 @@ $copyParams = $model->attributes;
                 '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'),
                 ['create'],
                 ['class' => 'btn btn-success']) ?>
+        <?php } ?>
     </p>
 
     <?php echo DetailView::widget([

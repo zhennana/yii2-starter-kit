@@ -846,9 +846,7 @@ class SignInController extends \common\components\ControllerFrontendApi
         }
 
         // 校验激活码
-        $codeModel = new ActivationCode;
-        $codeModel->load($post,'');
-        $codeModel = $codeModel->checkCode();
+        $codeModel = ActivationCode::checkCode($post['activation_code']);
 
         if (!$codeModel) {
             $info['errorno'] = __LINE__;
@@ -864,9 +862,9 @@ class SignInController extends \common\components\ControllerFrontendApi
             $info['message'] = $order['message'];
             return $info;
         }
-
         // 更新激活码
         $codeModel = $codeModel->updateCode($order['model']);
+
         if (!$codeModel) {
             $info['errorno'] = __LINE__;
             $info['message'] = Yii::t('frontend','数据异常');
