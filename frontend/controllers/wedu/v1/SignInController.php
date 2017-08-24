@@ -148,8 +148,6 @@ class SignInController extends \common\components\ControllerFrontendApi
                 $this->serializer['message'] = '未找到您所在的学校班级，请联系管理员';
                 return [];
             }
-            
-            
             $attrUser = $model->user->attributes;
             $attrUser['user_id'] = $attrUser['id'];
             unset($attrUser['id']);
@@ -165,10 +163,11 @@ class SignInController extends \common\components\ControllerFrontendApi
             //user_type= 2 是 老师；user_type = 1 是家长; 老师用户都存在默认展示老师
             $attrUser['user_role'] = $model->user->getCharacterDetailes();
 
-            $proFileUser = $model->user->getUserProfile();
+            $proFileUser = $model->user->userProfile;
             // 默认头像
             if(isset($proFileUser->avatar_base_url) && !empty($proFileUser->avatar_base_url))
             {
+
                 $attrUser['avatar'] = $proFileUser->avatar_base_url.'/'.$proFileUser->avatar_path;
             }else{
                 $fansMpUser = isset($model->user->fansMp) ? $model->user->fansMp : '';
