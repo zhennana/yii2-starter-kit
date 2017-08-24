@@ -511,7 +511,7 @@ h6{
 .teacher-content{height:240px;padding:15px;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
-	box-sizing: border-box;margin:10px 0;border:1px solid transparent;}
+	box-sizing: border-box;margin:10px 0;border:1px solid #eee;}
 .teacher-content:hover{box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);-webkit-box-shadow:0 12px 30px rgba(0, 0, 0, 0.15);border:1px solid #eee;border-radius:5px;}
 .teacher-content h3{font-size:18px;color:#732c8e;font-family:'微软雅黑';}
 .teacher-image{box-sizing:border-box}
@@ -1666,7 +1666,7 @@ transform: scale(1.2);
 	.box-body ul li{padding:5px;}
 	.modal-img ul li img{width:100%;height:auto;}
 	.next1 img, .pre img, .close1 img{width:32px;height:32px;}
-	.teacher-content{height:130px;padding:0;}
+	.teacher-content{height:170px;padding:0;}
 	.todo-list>li:hover .tools{display:none;}
 	/*.jianjie{width:8.33%}*/
 	.form-group{margin:0;}
@@ -1683,4 +1683,12 @@ transform: scale(1.2);
 	.todo-list>li{margin-bottom:5px;}
 	.todo-list>li:hover{box-shadow: none;}
 }
-	
+@media (max-width:400px) {
+	.teacher-content{padding:0;height:130px;}
+}
+@media (min-width:768px) and ( max-width:992px) {
+	.teacher-content{padding-top:15px;height:200px;}
+}
+@media (min-width:500px) and ( max-width:768px) {
+	.teacher-content{padding-top:15px;height:260px;}
+}
