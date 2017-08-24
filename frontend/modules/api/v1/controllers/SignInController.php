@@ -155,7 +155,6 @@ class SignInController extends \common\components\ControllerFrontendApi
                     $attrUser['avatar'] = $fansMpUser->avatar;
                 }
             }
-
             return array_merge($attrUser,$account);
         }else{
             Yii::$app->response->statusCode = 422;
@@ -901,14 +900,33 @@ class SignInController extends \common\components\ControllerFrontendApi
     {
         //返回当前登录用户的有效订单，需要的字段，不需要的不显示
         // 用户id、价格、到期时间
+        if (Yii::$app->user->isGuest) {
+            $message['errorno'] = __LINE__;
+            $message['message'] = Yii::t('frontend','请登录');
+            return $message;
+        }
+        $order = CourseOrderItem::find()
+            ->where([
+                'user_id'        => Yii::$app->user->identity->id,
+                'status'         => CourseOrderItem::STATUS_VALID,
+                'payment_status' => CourseOrderItem::PAYMENT_STATUS_PAID,
+            ])
+            ->notExpired()
+            ->one();
         
+        if (!$order) {
+            $message['errorno'] = __LINE__;
+            $message['message'] = Yii::t('frontend','暂无订单');
+            return $message;
+        }
+
         $message['errorno'] = 0;
-        $message['message'] = '';
+        $message['message'] = Yii::t('frontend','查询成功');;
         $message['order'] = [
-            'course_order_item_id' => '1',
-            'user_id' => '1',
-            'total_price' => 99.00,
-            'expired_at' => '1500433538',
+            'course_order_item_id' => $order->course_order_item_id,
+            'user_id' => $order->user_id,
+            'total_price' => $order->total_price,
+            'expired_at' => $order->expired_at,
         ];
         return $message;
 
