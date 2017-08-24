@@ -493,8 +493,9 @@ class CourseController extends \common\rest\Controller
             $this->serializer['message']    = '请先登录';
             return [];
         }
+        $grade_id = Yii::$app->request->get('grade_id');
         $user_id = Yii::$app->user->identity->id;
-        return UserToGrade::getStudents($user_id);
+        return UserToGrade::getStudents($user_id,$grade_id);
     }
 
     /**

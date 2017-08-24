@@ -1,7 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\LinkPager;
-//  echo'<pre>';var_dump($category['parent']);
+
 $cateParent=!empty($category['pare_name'])?$category['pare_name']:'光大学校';
 $banner=array(
 24=>"http://orh16je38.bkt.clouddn.com/Admissions%20.jpg?imageView2/1/w/1920/h/400",//招生专栏
@@ -87,7 +87,7 @@ $banner=array(
                          <i class="fa fa-ellipsis-v"></i>
                        </span>
 
-                  <small class="label"><i class="fa fa-clock-o"></i> <?php echo Yii::$app->formatter->asRelativeTime($value['created_at']);?></small>
+                  <small class="label"><i class="fa fa-clock-o"></i> <?php //echo Yii::$app->formatter->asRelativeTime($value['created_at']);?></small>
                   <div class="tools">
                    <?php echo Html::a(
                        "详情" ,
