@@ -96,7 +96,6 @@ class SignInController extends \backend\modules\campus\controllers\base\SignInCo
 			'status'	   =>Course::COURSE_STATUS_FINISH,
 		];
 		$dataProvider =$model->CourseSchedule($data,true,false);
-		//var_dump($dataProvider);exit;
 		if($dataProvider){
 			$data = [
 				'teacher_id'   		=>$dataProvider['teacher_id'],

@@ -22,8 +22,8 @@ public $course_title;
 public function rules()
 {
 return [
-[['student_record_id', 'user_id', 'course_id','school_id', 'grade_id', 'status', 'sort', 'updated_at', 'created_at','teacher_id'], 'integer'],
-            [['title','student_name','teacher_name','course_title'], 'safe'],
+[['student_record_id', 'user_id', 'course_id', 'status', 'sort', 'updated_at', 'created_at','teacher_id'], 'integer'],
+[['title','student_name','teacher_name','course_title'], 'safe'],
 ];
 }
 
@@ -58,6 +58,10 @@ public function search($params)
         {
           $userquery = $params['StudentRecordSearch']['teacher_name'];
           $teacher_id = Yii::$app->user->identity->getUserIds($userquery);
+          $student_id = ArrayHelper::map($student_id,'id','id');
+          $query->andWhere([
+                    's.student_id'=> $student_id,
+                ]);
           //$params['StudentRecordSearch']['student_name'] = NULL;
         }
 
@@ -67,9 +71,12 @@ public function search($params)
             $userquery = $params['StudentRecordSearch']['student_name'];
             $student_id = Yii::$app->user->identity->getUserIds($userquery);
             //$params['StudentRecordSearch']['student_name'] = NULL;
+            $teacher_id = ArrayHelper::map($teacher_id,'id','id');
+            $query->andWhere([
+                    's.teacher_id'=> $teacher_id,
+                ]);
         }
-        $student_id = ArrayHelper::map($student_id,'id','id');
-        $teacher_id = ArrayHelper::map($teacher_id,'id','id');
+        
         $this->load($params);
 
         if (!$this->validate()) {
@@ -81,10 +88,9 @@ public function search($params)
         $query->andFilterWhere([
                     's.student_record_id' => $this->student_record_id,
                     's.user_id' => $student_id,
-                    's.course_id'=>$this->course_id,
-                    's.school_id' => $this->school_id,
+                    //'s.course_id'=>$this->course_id,
+                    //'s.school_id' => $this->school_id,
                     's.grade_id' => $this->grade_id,
-                    's.teacher_id'=> $teacher_id,
                     's.status' => $this->status,
                     's.sort' => $this->sort,
                     's.updated_at' => $this->updated_at,

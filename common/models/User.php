@@ -292,7 +292,8 @@ class User extends ActiveRecord implements IdentityInterface
             if(Yii::$app->user->can('manager') || Yii::$app->user->can('P_director') || Yii::$app->user->can('E_financial') || Yii::$app->user->can('P_financial')){
             }else{
                 $query->andWhere('t.user_id = :user_id',[':user_id'=>$user_id])
-                ->andwhere('g.status = :status',[':status'=>Grade::GRADE_STATUS_OPEN]);
+                ->andwhere('g.status = :status',[':status'=>Grade::GRADE_STATUS_OPEN])
+                ->andwhere('t.status = :status',[':status'=>UserToGrade::USER_GRADE_STATUS_NORMAL]);
             }
                  $query->andwhere(['g.school_id'=>$schools_id])
                 ->orderBy('t.sort ASC , t.updated_at DESC')
@@ -300,7 +301,6 @@ class User extends ActiveRecord implements IdentityInterface
                 ->groupBy(['g.grade_id']);
             $command = $query->createCommand(Yii::$app->get('campus'));
             $this->gradesInfo = $command->queryAll();
-
         return $this->gradesInfo;
     }
 
@@ -591,17 +591,35 @@ class User extends ActiveRecord implements IdentityInterface
         return $name;
     }
 //根据用户名查找id.
-    public function getUserIds($username){
-      // var_Dump($username);exit;
-       return  static::find()
-            ->select(['id','username','realname'])
-            ->active()
-            ->andWhere([
-                  'or',
-                  ['like','username',$username],
-                  ['like','realname',$username],
-                  ['like','phone_number',$username]])
-            ->all();
+    public function getUserIds($userquery){
+      $model = self::find()->active();
+      if(is_array($userquery)){
+        if(isset($userquery['username']) && !empty($userquery['username'])){
+            $model->andWhere([
+                'or',
+                ['like','username',$userquery['username']],
+                ['like','realname',$userquery['username']],
+              ]);
+        }
+        if(isset($userquery['phone_number']) && !empty($userquery['phone_number'])){
+            $model->andWhere([
+                'or',
+                ['like','phone_number',$userquery['phone_number']],
+
+              ]);
+        }
+        return $model->all();
+      }
+      if(is_string($userquery)){
+        return  $model->andWhere([
+                'or',
+                ['like','username',$userquery],
+                ['like','realname',$userquery],
+              // ['like','phone_number',$userquery],
+
+        ])->all();
+      }
+      return [];
     }
 
     public function groupId()
