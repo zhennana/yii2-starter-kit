@@ -24,8 +24,8 @@ class GradeSearch extends Grade
     public function rules()
     {
     return [
-            [['grade_id', 'school_id', 'grade_title', 'owner_id', 'creater_id', 'updated_at', 'created_at', 'sort', 'status', 'graduate', 'time_of_graduation', 'time_of_enrollment','group_category_id'], 'integer'],
-            [['grade_name','owner_label','creater_label','school_title','group_category_name'], 'safe'],
+            [['grade_id', 'school_id', 'grade_title', 'creater_id', 'updated_at', 'created_at', 'sort', 'status', 'graduate', 'time_of_graduation', 'time_of_enrollment','group_category_id'], 'integer'],
+            [['grade_name','owner_id','owner_label','creater_label','school_title','group_category_name'], 'safe'],
     ];
 }
 
@@ -48,22 +48,21 @@ return Model::scenarios();
 public function search($params)
 {
     $query = Grade::find();
-    /*
-    if(Yii::$app->user->can('manager')){
-
-    }elseif(Yii::$app->user->can('leader') || Yii::$app->user->can('director') ) {
-            $school_id = ArrayHelper::map(Yii::$app->user->identity->userToSchool,'school_id','school_id');
-            $query->andWhere(['school_id'=>$school_id]);
-    }elseif(Yii::$app->user->can('teacher')){
-             $grade_id = ArrayHelper::map(Yii::$app->user->identity->userToGrade,'grade_id','grade_id');
-            $query->andWhere(['grade_id'=>$grade_id]);
-    }
-    */
     $dataProvider = new ActiveDataProvider([
         'query' => $query,
     ]);
 
+    $owner_id  = [];
     $this->load($params);
+    if(!empty($this->owner_id))
+    {
+      $userquery = $this->owner_id;
+      $owner_id = Yii::$app->user->identity->getUserIds($userquery);
+      $owner_id = ArrayHelper::map($owner_id,'id','id');
+      $query->andWhere([
+                'owner_id'      => $owner_id,
+        ]);
+    }
 
     if (!$this->validate()) {
         // uncomment the following line if you do not want to any records when validation fails
@@ -77,7 +76,6 @@ public function search($params)
                 'group_category_id'=>$this->group_category_id,
                 //'classroom_group_levels' => $this->classroom_group_levels,
                 'grade_title'   => $this->grade_title,
-                'owner_id'      => $this->owner_id,
                 'creater_id'    => $this->creater_id,
                 'updated_at'    => $this->updated_at,
                 'created_at'    => $this->created_at,

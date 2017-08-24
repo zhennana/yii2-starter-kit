@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
             ],
             [
-                'attribute' =>'手机号',
+                'attribute' =>'phone_number',
                 'label'     => '手机号',
                 'format'    => 'raw',
                 'value'     => function($model){

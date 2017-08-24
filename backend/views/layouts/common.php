@@ -256,6 +256,7 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                 后台
                             </a>
                         </li>
+                        <?php if(Yii::$app->user->can('manager')){?>
                         <li id="timeline-notifications" class="notifications-menu">
                             <a href="<?php echo Url::to(['/timeline-event/index']) ?>">
                                 <i class="fa fa-bell"></i>
@@ -292,6 +293,7 @@ $avatar .= '?imageView2/3/w/215/h/215';
                                 </li>
                             </ul>
                         </li>
+                        <?php } ?>
                         <!-- User Account: style can be found in dropdown.less -->
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">

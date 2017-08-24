@@ -151,7 +151,6 @@ $this->params['breadcrumbs'][] = $this->title;
                    }
                 },
             ],
-            
 			//'category_id',
             [
                 'class'     =>\common\grid\EnumColumn::className(),
@@ -160,13 +159,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'enum'      => $categories
             ],
 			'level',
-			[
+		/*	[
                 'attribute' =>'creater_id',
                 'format'    => 'raw',
                 'value'     =>function($model){
                     return Yii::$app->user->identity->getUserName($model->creater_id);
                 }
-            ],
+            ],*/
 			// 'access_domain',
 			// 'access_other',
 			'file_counts',

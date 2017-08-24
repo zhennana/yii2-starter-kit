@@ -22,7 +22,7 @@ public function rules()
 {
     return [
     [['course_schedule_id', 'teacher_id','course_id', 'status'], 'integer'],
-    [['start_time', 'end_time', 'which_day','school_id','grade_id','title'], 'safe'],
+    [['start_time', 'end_time', 'which_day','title'], 'safe'],
     ];
 }
 

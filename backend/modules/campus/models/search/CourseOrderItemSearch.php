@@ -4,6 +4,7 @@ namespace backend\modules\campus\models\search;
 
 use Yii;
 use yii\base\Model;
+use yii\helpers\ArrayHelper;
 use yii\data\ActiveDataProvider;
 use backend\modules\campus\models\CourseOrderItem;
 
@@ -18,9 +19,9 @@ class CourseOrderItemSearch extends CourseOrderItem
 public function rules()
 {
 return [
-[['course_order_item_id', 'parent_id', 'school_id', 'grade_id', 'user_id', 'introducer_id', 'payment', 'presented_course', 'status', 'payment_status', 'total_course', 'created_at', 'updated_at'], 'integer'],
+[['course_order_item_id', 'parent_id', 'school_id', 'grade_id', 'introducer_id', 'payment', 'presented_course', 'status', 'payment_status', 'total_course', 'created_at', 'updated_at'], 'integer'],
             [['total_price', 'real_price', 'coupon_price'], 'number'],
-            [['payment_id','order_sn'],'string'],
+            [['payment_id','order_sn','user_id'],'string'],
 ];
 }
 
@@ -44,26 +45,33 @@ public function search($params)
 {
 $query = CourseOrderItem::find();
 
-$dataProvider = new ActiveDataProvider([
-'query' => $query,
-]);
+      $dataProvider = new ActiveDataProvider([
+      'query' => $query,
+      ]);
 
-$this->load($params);
+      $this->load($params);
+      if(!empty($this->user_id)){
+            $userquery = $this->user_id;
+            $user_id = Yii::$app->user->identity->getUserIds($userquery);
+            $user_id = ArrayHelper::map($user_id,'id','id');
+            $query->andWhere([
+                'user_id' => $user_id,
+        ]);
+      }
+      if (!$this->validate()) {
+      // uncomment the following line if you do not want to any records when validation fails
+      // $query->where('0=1');
+      return $dataProvider;
+      }
 
-if (!$this->validate()) {
-// uncomment the following line if you do not want to any records when validation fails
-// $query->where('0=1');
-return $dataProvider;
-}
-
-$query->andFilterWhere([
+      $query->andFilterWhere([
             'course_order_item_id' => $this->course_order_item_id,
             'payment_id' => $this->payment_id,
             'order_sn' => $this->order_sn,
             'parent_id' => $this->parent_id,
             'school_id' => $this->school_id,
             'grade_id' => $this->grade_id,
-            'user_id' => $this->user_id,
+            // 'user_id' => $this->user_id,
             'introducer_id' => $this->introducer_id,
             'payment' => $this->payment,
             'presented_course' => $this->presented_course,

@@ -17,10 +17,11 @@ class UserToSchoolSearch extends UserToSchool
      * @inheritdoc
      */
     public $user_label;
+    public $phone_number;
     public function rules()
     {
         return [
-            [['user_to_school_id', 'user_id', 'school_id', 'user_title_id_at_school', 'status', 'sort', 'school_user_type', 'updated_at', 'created_at'], 'integer'],
+            [['user_to_school_id', 'user_id', 'school_id', 'user_title_id_at_school', 'status', 'sort', 'school_user_type', 'updated_at','phone_number', 'created_at'], 'integer'],
             ['user_label','safe'],
         ];
     }
@@ -50,14 +51,23 @@ class UserToSchoolSearch extends UserToSchool
         ]);
         $userquery = '';
         $user_id   = [];
-        if(isset($params['UserToSchoolSearch']['user_label']) && 
-        !empty($params['UserToSchoolSearch']['user_label']))
+        if((isset($params['UserToSchoolSearch']['user_label']) && 
+        !empty($params['UserToSchoolSearch']['user_label']) ))
         {
-            $userquery = $params['UserToSchoolSearch']['user_label'];
-            $user_id = Yii::$app->user->identity->getUserIds($userquery);
-            //$params['StudentRecordSearch']['student_name'] = NULL;
+            $userquery['username'] = $params['UserToSchoolSearch']['user_label'];
         }
-        $user_id = ArrayHelper::map($user_id,'id','id');
+        if((isset($params['UserToSchoolSearch']['phone_number']) && 
+        !empty($params['UserToSchoolSearch']['phone_number']) ))
+        {
+            $userquery['username'] = $params['UserToSchoolSearch']['phone_number'];
+        }
+        if(!empty($userquery)){
+            $user_id = Yii::$app->user->identity->getUserIds($userquery);
+            $user_id = ArrayHelper::map($user_id,'id','id');
+            $query->andwhere([
+                'user_id' => $user_id,
+            ]);
+        }
 
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
@@ -65,7 +75,6 @@ class UserToSchoolSearch extends UserToSchool
 
         $query->andFilterWhere([
             'user_to_school_id' => $this->user_to_school_id,
-            'user_id' => $user_id,
             'school_id' => $this->school_id,
             'user_title_id_at_school' => $this->user_title_id_at_school,
             'status' => $this->status,
