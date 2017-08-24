@@ -7,7 +7,7 @@ use yii\helpers\Html;
         <li class="banner-bottom-left-grid iusto">
             <div class="port-4 effect-1">
                 <div style="overflow:hidden;">
-                  <img src="http://otdndy0jt.bkt.clouddn.com/tihuan1.png?imageView2/1/w/300/h/300" alt=" " class="img-responsive" />
+                  <img src="http://static.v1.guangdaxuexiao.com/tihuan1.jpg?imageView2/1/w/300/h/300" alt=" " class="img-responsive" />
                 </div>
                 <div class="text-desc">
                     <h3 class="img-introduct">快乐高效课堂</h3>
@@ -19,7 +19,7 @@ use yii\helpers\Html;
         <li class="banner-bottom-left-grid iusto">
             <div class="port-4 effect-1">
                 <div style="overflow:hidden">
-                    <img src="http://otdndy0jt.bkt.clouddn.com/wudao.png?imageView2/1/w/300/h/300" alt=" " class="img-responsive" />
+                    <img src="http://static.v1.guangdaxuexiao.com/wudao.jpg?imageView2/1/w/300/h/300" alt=" " class="img-responsive" />
                 </div>
                 <div class="text-desc">
                    <h3 class="img-introduct">跳动的精灵</h3>
@@ -58,7 +58,7 @@ use yii\helpers\Html;
         <li class="banner-bottom-left-grid iusto">
             <div class="port-4 effect-1">
                <div style="overflow:hidden">
-                   <img src="http://otdndy0jt.bkt.clouddn.com/xiaoyuan.png?imageView2/1/w/300/h/300" alt=" " class="img-responsive" />
+                   <img src="http://static.v1.guangdaxuexiao.com/xiaoyuan.jpg?imageView2/1/w/300/h/300" alt=" " class="img-responsive" />
                                     </div>
                 <div class="text-desc">
                     <h3 class="img-introduct">快乐的元旦</h3>

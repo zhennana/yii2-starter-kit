@@ -94,20 +94,20 @@ $imgsize="?imageView2/1/w/250/h/300";
                   <div class="">
                     <div class="row teabor">
                         <div class="teacher-content">
-                            <div class="col-xs-3 teacher-image">
+                            <div class="col-xs-3 col-sm-2 col-md-3 teacher-image">
                                 <span class="img-wrap"><img style="width:100%;height:100%;" src="http://orh16je38.bkt.clouddn.com/libaochai.jpg"></span>
                             </div>
-                            <div class="col-xs-9 teacher-introduce">
+                            <div class="col-xs-9 col-sm-10 col-md-9 teacher-introduce">
                                 <h3>李宝才</h3>
                                 <p>男，56岁，本科，哈尔滨师范大学，中学高级教师,光大小学教务主任。</p>
                             </div>
                         </div>
 
                         <div class="teacher-content">
-                            <div class="col-xs-3 teacher-image">
+                            <div class="col-xs-3 col-sm-2 col-md-3 teacher-image">
                                 <span class="img-wrap"><img style="width:100%;height:100%;" src="http://orh16je38.bkt.clouddn.com/jinrong.jpg"></span>
                             </div>
-                            <div class="col-xs-9 teacher-introduce">
+                            <div class="col-xs-9 col-sm-10 col-md-9 teacher-introduce">
                                 <h3>靳荣</h3>
                                 <p>女，29岁，本科，河北师范大学（音乐教育），音乐。</p>
                             </div>
@@ -116,20 +116,20 @@ $imgsize="?imageView2/1/w/250/h/300";
                         </div>
 
                         <div class="teacher-content">
-                            <div class="col-xs-3 teacher-image">
+                            <div class="col-xs-3 col-sm-2 col-md-3 teacher-image">
                                 <span class="img-wrap"><img style="width:100%;height:100%;" src="http://orh16je38.bkt.clouddn.com/liuyanan.jpg"></span>
                             </div>
-                            <div class="col-xs-9 teacher-introduce">
+                            <div class="col-xs-9 col-sm-10 col-md-9 teacher-introduce">
                                 <h3>刘亚南</h3>
                                 <p>女，27岁，本科，河北师范大学（汉语言文学），语文。</p>
                             </div>
                         </div>
 
                         <div class="teacher-content">
-                             <div class="col-xs-3 teacher-image">
+                             <div class="col-xs-3 col-sm-2 col-md-3 teacher-image">
                                 <span class="img-wrap"><img style="width:100%;height:100%;" src="http://orh16je38.bkt.clouddn.com/tianjiadong.jpg"></span>
                             </div>
-                            <div class="col-xs-9 teacher-introduce">
+                            <div class="col-xs-9 col-sm-10 col-md-9 teacher-introduce">
                                 <h3>田亚东</h3>
                                 <p>女，35岁，本科，河北师范大学（英语教育），英语。</p>
                             </div>
@@ -138,21 +138,21 @@ $imgsize="?imageView2/1/w/250/h/300";
                         </div>
 
                         <div class="teacher-content">
-                            <div class="col-xs-3 teacher-image">
+                            <div class="col-xs-3 col-sm-2 col-md-3 teacher-image">
                                 <span class="img-wrap"><img style="width:100%;height:100%;" src="http://orh16je38.bkt.clouddn.com/tianyuan.jpg
 "></span>
                             </div>
-                            <div class="col-xs-9 teacher-introduce">
+                            <div class="col-xs-9 col-sm-10 col-md-9 teacher-introduce">
                                 <h3>田媛</h3>
                                 <p>女，26岁，本科，西华师范大学（汉语言文学）。</p>
                             </div>
                         </div>
 
                         <div class="teacher-content">
-                            <div class="col-xs-3 teacher-image">
+                            <div class="col-xs-3 col-sm-2 col-md-3 teacher-image">
                                     <span class="img-wrap"><img style="width:100%;height:100%;" src="http://orh16je38.bkt.clouddn.com/tianmeijuan.jpg"></span>
                               </div>
-                              <div class="col-xs-9 teacher-introduce">
+                              <div class="col-xs-9 col-sm-10 col-md-9 teacher-introduce">
                                 <h3>杨美娟</h3>
                                 <p>女，35岁，本科，朝阳师范学院（美术教育 ），美术。</p>
                             </div>

@@ -913,10 +913,11 @@ class SignInController extends \common\components\ControllerFrontendApi
             ])
             ->notExpired()
             ->one();
-        
+
         if (!$order) {
-            $message['errorno'] = __LINE__;
+            $message['errorno'] = 0;
             $message['message'] = Yii::t('frontend','暂无订单');
+            $message['order']   = [];
             return $message;
         }
 
