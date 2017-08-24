@@ -176,12 +176,12 @@ $actionColumnTemplates = [];
                 //'group_category_id',
     			//'grade_title',
                 'grade_name',
-                [
+               /* [
                     'attribute' => 'creater_id',
                     'value'     => function($model){
                         return Yii::$app->user->identity->getUserName($model->creater_id);
                     }
-                ],
+                ],*/
     			//'classroom_group_levels',
                 [
                     'attribute' => 'owner_id',
@@ -189,7 +189,7 @@ $actionColumnTemplates = [];
                         return Yii::$app->user->identity->getUserName($model->owner_id);
                     }
                 ],
-    			'sort',
+    			//'sort',
     			//'status',
                 [
                     'class'     =>\common\grid\EnumColumn::className(),
