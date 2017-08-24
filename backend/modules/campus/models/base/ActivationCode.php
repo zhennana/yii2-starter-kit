@@ -139,7 +139,7 @@ abstract class ActivationCode extends \yii\db\ActiveRecord
             [['total_price', 'real_price', 'coupon_price'], 'number'],
             [['activation_code'], 'string', 'max' => 32],
             ['introducer_id','default','value' => Yii::$app->user->isGuest ? 0 : Yii::$app->user->identity->id],
-            ['expired_at', 'filter', 'filter' => 'strtotime'],
+            ['expired_at', 'filter', 'filter' => 'strtotime', 'skipOnEmpty' => true],
             ['user_id', 'default', 'value' => 0],
             ['real_price','default','value'=>function(){
                 $this->real_price = ($this->total_price-$this->coupon_price);
