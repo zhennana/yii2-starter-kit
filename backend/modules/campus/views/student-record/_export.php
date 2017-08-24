@@ -8,8 +8,8 @@ $url = Yii::getAlias('@backendUrl/js/doc/');
 $course_title = isset($model->course->title) ? $model->course->title  : '';
 
 // 模版路径
-$template_url = 'http://static.v1.wakooedu.com/template_001.docx';
-// $template_url = $url.'template/template_001.docx';
+// $template_url = 'http://static.v1.wakooedu.com/template_001.docx';
+$template_url = 'http://static.v1.wakooedu.com/template_20170823.docx';
 
 
 // 数据格式化

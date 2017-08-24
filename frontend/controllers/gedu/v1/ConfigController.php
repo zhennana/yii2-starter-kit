@@ -303,6 +303,7 @@ class ConfigController extends \common\rest\Controller
     public function actionBanner()
     {
         $data = [];
+        $size = '?imageView2/1/w/375/h/160';
         $widget_carousel_item = WidgetCarousel::find()
             ->select(['*'])
             ->where([
@@ -317,7 +318,7 @@ class ConfigController extends \common\rest\Controller
             foreach ($widget_carousel_item as $key => $value) {
                 $temp['banner_id']  = $value['id'];
                 // $temp['title']      = strip_tags($value['caption']);
-                $temp['imgUrl']     = $value['base_url'].$value['path'];
+                $temp['imgUrl']     = $value['base_url'].$value['path'].$size;
                 $temp['type']       = 'WEB';
                 $temp['target_url'] = \Yii::$app->request->hostInfo.Url::to(['article/view','id'=>$value['url']]);
                 if (strcasecmp(strip_tags($value['caption']),'APP') == 0) {

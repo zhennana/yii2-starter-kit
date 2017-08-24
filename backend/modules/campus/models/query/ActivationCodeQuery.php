@@ -2,12 +2,14 @@
 
 namespace backend\modules\campus\models\query;
 
+use backend\modules\campus\models\ActivationCode;
+
 /**
- * This is the ActiveQuery class for [[\backend\modules\campus\models\CourseOrderItem]].
+ * This is the ActiveQuery class for [[\backend\modules\campus\models\ActivationCode]].
  *
- * @see \backend\modules\campus\models\CourseOrderItem
+ * @see \backend\modules\campus\models\ActivationCode
  */
-class CourseOrderItemQuery extends \yii\db\ActiveQuery
+class ActivationCodeQuery extends \yii\db\ActiveQuery
 {
     /*public function active()
     {
@@ -17,7 +19,7 @@ class CourseOrderItemQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return \backend\modules\campus\models\CourseOrderItem[]|array
+     * @return \backend\modules\campus\models\ActivationCode[]|array
      */
     public function all($db = null)
     {
@@ -26,11 +28,20 @@ class CourseOrderItemQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return \backend\modules\campus\models\CourseOrderItem|array|null
+     * @return \backend\modules\campus\models\ActivationCode|array|null
      */
     public function one($db = null)
     {
         return parent::one($db);
+    }
+
+    /**
+     * @return $this
+     */
+    public function notActive()
+    {
+        $this->andWhere(['status' => ActivationCode::STATUS_INACTIVATED]);
+        return $this;
     }
 
     /**
