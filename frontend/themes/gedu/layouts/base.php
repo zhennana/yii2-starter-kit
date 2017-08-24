@@ -146,7 +146,7 @@ if(Yii::$app->session->hasFlash('alert')):?>
                         'items'=>[
                             [
                                 'label' => Yii::t('frontend', 'Manual'),
-                                'url' => ['/article/index', 'category_id'=>'50']
+                                'url' => ['/article/view', 'id'=>'50']
                             ],
                             // [
                             //     'label' => Yii::t('frontend', '幼小衔接班招生'),
