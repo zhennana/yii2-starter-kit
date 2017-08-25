@@ -5,7 +5,7 @@ namespace backend\modules\campus\controllers;
 use Yii;
 use backend\modules\campus\models\ActivationCode;
 use backend\modules\campus\models\search\ActivationCodeSearch;
-use yii\web\Controller;
+use common\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -34,7 +34,9 @@ class ActivationCodeController extends Controller
     {
         $searchModel = new ActivationCodeSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        $dataProvider->query->andWhere([
+            'school_id'=>$this->schoolIdCurrent
+        ]);
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

@@ -55,7 +55,7 @@ public function behaviors()
             $count = self::MIN_QUANTITY;
         }
         $info = [];
-        for ($i=1; $i < $count; $i++) { 
+        for ($i=0; $i < $count; $i++) { 
             $model = new self;
             $model->load($this->attributes,'');
             $model->activation_code = self::randomStr(6);

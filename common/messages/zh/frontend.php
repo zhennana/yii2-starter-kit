@@ -58,7 +58,7 @@ return [
     'Signup' => '注册',
 
     'About' => '走进光大',
-    'Shool & Department' => '学校概况',
+    'School & Department' => '学校概况',
     'Concepts' => '办学理念',
     'Campus Mien' => '校园风采',
 
