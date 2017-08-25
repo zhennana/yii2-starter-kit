@@ -118,9 +118,6 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-     ///   phpinfo();
-    $session = Yii::$app->session;
-    var_dump($session); exit();
         $model = ArticleCategory::find()
             ->select(['id','parent_id'])
             ->where([
