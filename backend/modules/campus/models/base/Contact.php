@@ -72,7 +72,7 @@ abstract class Contact extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['username','phone_number', 'body'], 'required'],
+            [['phone_number', 'body'], 'required'],
             [['auditor_id', 'status', 'school_id', 'user_id'], 'integer'],
             ['username', 'string', 'max' => 32],
             ['phone_number','string', 'max' => 11],
