@@ -69,7 +69,7 @@ public function actionIndex()
     $grades  = ArrayHelper::map($grades,'grade_id','grade_name');
 // var_dump(array_keys($grades));exit;
     $dataProvider->query->andWhere([
-            'school_id'=>array_keys($schools)
+            'school_id'=>array_keys($schools),
             'grade_id' =>array_keys($grades)
     ]);
 
