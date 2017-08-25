@@ -25,13 +25,13 @@ $this->title = Yii::t('frontend', 'Login');
                             <?php echo $form->field($model, 'identity') ?>
                             <?php echo $form->field($model, 'password')->passwordInput() ?>
                             <?php echo $form->field($model, 'rememberMe')->checkbox() ?>
-                            <div class="form-group" style="color:#999;">
-                               <div class="display:block;">
+                            <!--<div class="form-group" style="color:#999;">
+                               /*<div class="display:block;">
                                     <?php echo Yii::t('frontend', 'If you forgot your password you can reset it <a href="{link}">here</a>', [
                                                                    'link'=>yii\helpers\Url::to(['sign-in/request-password-reset'])
                                                                ]) ?>
-                               </div>
-                            </div>
+                               </div>*/
+                            </div>-->
                             <div class="form-group">
                                 <?php echo Html::submitButton(Yii::t('frontend', 'Login'), ['class' => 'btn btn-primary btn-submit', 'name' => 'login-button']) ?>
                             </div>

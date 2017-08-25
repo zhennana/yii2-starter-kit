@@ -106,7 +106,7 @@ if(Yii::$app->session->hasFlash('alert')):?>
                     ['label' => Yii::t('frontend', 'About'),
                         'items'=>[
                             [
-                                'label' => Yii::t('frontend', 'Shool & Department'),
+                                'label' => Yii::t('frontend', 'School & Department'),
                                 'url' => ['/article/view', 'id'=>'55']
                             ],
                             [
