@@ -19,12 +19,12 @@ class SchoolSearch extends School
       public function rules()
       {
             return [
-                        [['id', 'parent_id', 'school_id', 'province_id', 'city_id', 'region_id', 'created_at', 'updated_at', 'created_id', 'status', 'sort'], 'integer'],
-                        [['language', 'school_title', 'school_short_title', 'school_slogan', 'school_logo_path', 'school_backgroud_path', 'address'], 'safe'],
-                        [['longitude', 'latitude'], 'number'],
+
+              [['id', 'parent_id', 'school_id', 'created_at', 'updated_at', 'created_id', 'status', 'sort'], 'integer'],
+            [['language', 'school_title', 'school_short_title', 'school_slogan', 'school_logo_path', 'school_backgroud_path', 'address','province_id', 'city_id', 'region_id'], 'safe'],
+            [['longitude', 'latitude'], 'number'],
             ];
       }
-
       /**
       * @inheritdoc
       */
@@ -44,6 +44,7 @@ class SchoolSearch extends School
       public function search($params)
       {
             $query = School::find();
+            $query->JoinWith(['city','province','region']);
             $dataProvider = new ActiveDataProvider([
             'query' => $query,
             // 'pagination'=>[
@@ -52,7 +53,6 @@ class SchoolSearch extends School
             ]);
 
             $this->load($params);
-
             if (!$this->validate()) {
             // uncomment the following line if you do not want to any records when validation fails
             // $query->where('0=1');
@@ -65,9 +65,9 @@ class SchoolSearch extends School
                         'school_id' => $this->school_id,
                         'longitude' => $this->longitude,
                         'latitude' => $this->latitude,
-                        'province_id' => $this->province_id,
-                        'city_id' => $this->city_id,
-                        'region_id' => $this->region_id,
+                        // 'province_id' => $this->province_id,
+                        // 'city_id' => $this->city_id,
+                        // 'region_id' => $this->region_id,
                         'created_at' => $this->created_at,
                         'updated_at' => $this->updated_at,
                         'created_id' => $this->created_id,
@@ -81,8 +81,9 @@ class SchoolSearch extends School
                         ->andFilterWhere(['like', 'school_slogan', $this->school_slogan])
                         ->andFilterWhere(['like', 'school_logo_path', $this->school_logo_path])
                         ->andFilterWhere(['like', 'school_backgroud_path', $this->school_backgroud_path])
-                        ->andFilterWhere(['like', 'address', $this->address]);
-
+                        ->andFilterWhere(['like', 'city_name', $this->city_id])
+                        ->andFilterWhere(['like', 'province_name', $this->province_id])
+                        ->andFilterWhere(['like', 'region_name', $this->region_id]);
             return $dataProvider;
       }
 }

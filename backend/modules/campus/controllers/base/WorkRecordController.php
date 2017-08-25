@@ -67,14 +67,17 @@ public function actionIndex()
     $grades[] =  $this->gradeCurrent;//Yii::$app->user->identity->gradesInfo;
     $schools = ArrayHelper::map($schools,'school_id','school_title');
     $grades  = ArrayHelper::map($grades,'grade_id','grade_name');
+// var_dump(array_keys($grades));exit;
     $dataProvider->query->andWhere([
             'school_id'=>array_keys($schools),
             'grade_id' =>array_keys($grades)
     ]);
-    if(!Yii::$app->user->can('P_director') || !Yii::$app->user->can('manager') || !Yii::$app->user->can('E_manager')){
-    $dataProvider->query->andWhere([
-        'user_id'=>Yii::$app->user->identity->id,
-    ]);
+
+    if(Yii::$app->user->can('P_director') || Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager')){
+    }else{
+        $dataProvider->query->andWhere([
+            'user_id'=>Yii::$app->user->identity->id,
+        ]);
     }
      $dataProvider->sort = [
        'defaultOrder'=>[
@@ -85,9 +88,9 @@ public function actionIndex()
 
     Url::remember();
     \Yii::$app->session['__crudReturnUrl'] = null;
-
+// var_dump('<pre>',$dataProvider);exit;
     return $this->render('index', [
-    'dataProvider' => $dataProvider,
+        'dataProvider' => $dataProvider,
         'searchModel' => $searchModel,
         'grades'     =>  $grades,
         'schools'    =>  $schools

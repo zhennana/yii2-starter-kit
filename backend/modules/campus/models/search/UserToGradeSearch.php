@@ -54,7 +54,7 @@ class UserToGradeSearch extends UserToGrade
             ]);
             $userquery = '';
             $user_id   = [];
-            if(isset($params['UserToGradeSearch']['user_label']) && 
+            if(isset($params['UserToGradeSearch']['user_label']) &&
             !empty($params['UserToGradeSearch']['user_label']))
             {
                 $userquery = $params['UserToGradeSearch']['user_label'];
