@@ -531,12 +531,13 @@ class ConfigController extends \common\rest\Controller
             $this->serializer['message'] = '请您先登录';
             return [];
         }
+        $params = $_POST;
 
-        if (isset($_POST['body']) && !empty($_POST['body']) && isset($_POST['school_id']) && !empty($_POST['school_id'])) {
+        if (isset($params['body']) && !empty($params['body'])) {
             $count = Contact::find()->where([
-                'school_id' => $_POST['school_id'],
+                'school_id' => isset($params['school_id']) ? $params['school_id'] : 0,
                 'user_id'   => Yii::$app->user->identity->id,
-                'body'      => $_POST['body'],
+                'body'      => $params['body'],
                 // 'status'   => Contact::CONTACT_STATUS_APPROVED
             ])->count();
             if ($count > 0) {
@@ -547,11 +548,11 @@ class ConfigController extends \common\rest\Controller
 
         $feedback = new Contact();
         $feedback->setScenario(Contact::SCENARIO_FEEDBACK);
-        $_POST['user_id']      = Yii::$app->user->identity->id;
-        $_POST['username']     = Yii::$app->user->identity->username;
-        $_POST['phone_number'] = Yii::$app->user->identity->phone_number;
-        // var_dump($feedback->load($_POST,''));exit;
-        $feedback->load($_POST,'');
+        $params['user_id']      = Yii::$app->user->identity->id;
+        $params['username']     = Yii::$app->user->identity->getUserName(Yii::$app->user->identity->id);
+        $params['phone_number'] = Yii::$app->user->identity->phone_number;
+
+        $feedback->load($params,'');
         if(!$feedback->save()){
             $this->serializer['errno']   = __LINE__;
             $this->serializer['message'] = $feedback->getErrors();

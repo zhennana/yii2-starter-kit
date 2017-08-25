@@ -91,7 +91,7 @@ abstract class Contact extends \yii\db\ActiveRecord
     public  function scenarios(){
         $scenarios = parent::scenarios();
         $scenarios[self::SCENARIO_FEEDBACK] = [
-            // 'school_id',
+            'school_id',
             'user_id','username','phone_number','body','status'
         ];
         // $scenarios[self::SCENARIO_CONTACTUS] = [];
