@@ -45,8 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p><?php
-           if (\Yii::$app->user->can('P_director', ['route' => true]) || 
-                \Yii::$app->user->can('E_manager') ||
+           if (\Yii::$app->user->can('E_manager') ||
                 \Yii::$app->user->can('manager')
                 ) {
         ?>
