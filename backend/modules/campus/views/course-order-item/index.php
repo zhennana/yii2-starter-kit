@@ -154,7 +154,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                 [
                     'attribute' =>'user_id',
                     'value'     => function($model){
-                        return Yii::$app->user->identity->getUserName($model->user_id);
+                        return '[UID-'.$model->user_id.']'.Yii::$app->user->identity->getUserName($model->user_id);
                     }
                 ],
                 // [

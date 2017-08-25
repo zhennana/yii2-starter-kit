@@ -204,7 +204,7 @@ abstract class ActivationCode extends \yii\db\ActiveRecord
             'coupon_price' => Yii::t('models', '不能超过实际付款'),
             // 'coupon_type' => Yii::t('models', '2首单减免,3随机减免'),
             'expired_at' => Yii::t('models', '过期后无法使用'),
-            'quantity' => Yii::t('models', '创建数量，每次最多100个'),
+            'quantity' => Yii::t('models', '创建数量，每次最多{count}个',['count' => self::MAX_QUANTITY]),
         ]);
     }
 
