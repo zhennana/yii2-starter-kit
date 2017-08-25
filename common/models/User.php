@@ -293,7 +293,7 @@ class User extends ActiveRecord implements IdentityInterface
             }else{
                 $query->andWhere('t.user_id = :user_id',[':user_id'=>$user_id])
                 ->andwhere('g.status = :status',[':status'=>Grade::GRADE_STATUS_OPEN])
-                ->andwhere('t.status = :status',[':status'=>UserToGrade::USER_GRADE_STATUS_NORMAL]);
+                ->andwhere(['t.status'=>UserToGrade::USER_GRADE_STATUS_NORMAL]);
             }
                  $query->andwhere(['g.school_id'=>$schools_id])
                 ->orderBy('t.sort ASC , t.updated_at DESC')
@@ -602,12 +602,12 @@ class User extends ActiveRecord implements IdentityInterface
               ]);
         }
         if(isset($userquery['phone_number']) && !empty($userquery['phone_number'])){
-            $model->andWhere([
-                'or',
-                ['like','phone_number',$userquery['phone_number']],
 
+            $model->andWhere([
+                'like','phone_number',$userquery['phone_number'],
               ]);
         }
+
         return $model->all();
       }
       if(is_string($userquery)){
