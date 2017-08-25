@@ -179,7 +179,7 @@ use yii\helpers\Url;
                     ],
                     [
                         'label'=>Yii::t('backend', '激活码'),
-                        'icon'=>'<i class="fa fa-database"></i>',
+                        'icon'=>'<i class="fa fa-key"></i>',
                         'options'=>['class'=>'treeview'],
                         'url'=>['/campus/activation-code/index','type'=>'100'],
                         'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager')),
@@ -403,7 +403,7 @@ use yii\helpers\Url;
                     ],
                     [
                         'label'=>Yii::t('backend', '激活码'),
-                        'icon'=>'<i class="fa fa-database"></i>',
+                        'icon'=>'<i class="fa fa-key"></i>',
                         'options'=>['class'=>'treeview'],
                         'url'=>['/campus/activation-code/index','type'=>'200'],
                         'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_financial') || Yii::$app->user->can('P_financial')),
