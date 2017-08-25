@@ -145,7 +145,10 @@ if(\Yii::$app->user->can('campus_work-record_create', ['route' => true])){
             //     'label'     =>'班级33',
             //     'enum'      => WorkRecord::optsStatus(),
             // ],
-			'title',
+			[
+            'attribute'=>'title',
+            'label'=>'上课内容'
+            ],
             [
                 'class'=>\common\grid\EnumColumn::className(),
                 'attribute' =>'status',
