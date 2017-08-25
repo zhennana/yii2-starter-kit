@@ -62,7 +62,7 @@ $banner=array(
               	<?php
 
                     $imageUrl = getImgs($value['body']);
-                    $imageUrl = isset($imageUrl[0]) ? $imageUrl[0] : 'http://orh16je38.bkt.clouddn.com/%E9%85%8D%E5%A5%97%E6%9C%8D%E5%8A%A1%E6%95%88%E6%9E%9C%E5%9B%BE1.png';
+                    $imageUrl = isset($imageUrl[0]) ? $imageUrl[0] : 'http://static.v1.guangdaxuexiao.com/guangda.png';
                     $imageUrl .='?imageView2/3/w/400/h/400';
                  ?>
                      <div  class="course-img col-xs-4 col-md-3"><img src="<?= $imageUrl ?>" alt="描述信息" style="width: 100%;"></div>
