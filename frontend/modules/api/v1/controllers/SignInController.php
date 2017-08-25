@@ -111,6 +111,13 @@ class SignInController extends \common\components\ControllerFrontendApi
      *        default = 1,
      *        enum = {0,1}
      *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "LoginForm[udid]",
+     *        description = "设备唯一 32字符以内长度，选填，填写后一个账户只能同时在线一个客户端",
+     *        required = false,
+     *        type = "string"
+     *     ),
      *     @SWG\Response(
      *         response = 200,
      *         description = "success,cookie值PHPSESSID与_identity加入请求头，返回用户个人信息"
