@@ -93,9 +93,9 @@ abstract class StudentRecord extends \yii\db\ActiveRecord
         return [
             'student_record_id' => Yii::t('common', '自增ID'),
             'user_id'           => Yii::t('common', '用户ID'),
-            'school_id'         => Yii::t('common', '学校ID'),
-            'grade_id'          => Yii::t('common', '班级ID'),
-            'course_id'         => Yii::t('common', '课程ID'),
+            'school_id'         => Yii::t('common', '学校'),
+            'grade_id'          => Yii::t('common', '班级'),
+            'course_id'         => Yii::t('common', '课程'),
             'title'             => Yii::t('common', '标题'),
             'status'            => Yii::t('common', '状态'),
             'sort'              => Yii::t('common', '排序'),
