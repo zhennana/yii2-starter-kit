@@ -130,6 +130,7 @@ use yii\helpers\Url;
                     ],
                 ]
             ],
+            /*
             [
                 'label'=>Yii::t('backend', '通知公告管理'),
                 'url' => '#',
@@ -152,6 +153,7 @@ use yii\helpers\Url;
                     ],
                 ],
             ],
+            */
             [
                 'label'=>Yii::t('backend', '用户管理'),
                 'url' => '#',
@@ -241,25 +243,27 @@ use yii\helpers\Url;
                         'icon'=>'<i class="fa fa-angle-double-right"></i>',
                         'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_teacher')),
                     ],
+                    /*
                     [
                         'label'=>Yii::t('backend', '学员档案管理'),
                         'url'=>['/campus/student-record/index'],
                         'icon'=>'<i class="fa fa-angle-double-right"></i>',
                         'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_teacher')),
                     ],
+                    */
                     [
                         'label'=>Yii::t('backend', '课程订单管理'),
                         'url'=>['/campus/course-order-item/index','type'=>2], 'icon'=>'<i class=" fa  fa-file-text"></i>',
                          'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_financial') || Yii::$app->user->can('P_financial')),
                     ],
-
+                    /*
                     [
                         'label'=>Yii::t('backend', '教师工作记录'), 
                         'url'=>['/campus/work-record/index'],
                         'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_teacher')),
                         'icon'=>'<i class="fa  fa-file-text"></i>'
                     ],
-
+                    */
                 ],
             ],
 
@@ -299,7 +303,7 @@ use yii\helpers\Url;
                     'icon'=>'<i class="fa  fa-file-text"></i>'
                     ], 
                 ]
-            ],*/
+            ],
             [
                 'label'=>Yii::t('backend', '排课管理'),
                 'url' => '#',
@@ -323,6 +327,7 @@ use yii\helpers\Url;
                     ],
                 ],
             ],
+            
             [
                 'label'=>Yii::t('backend', '通知公告管理'),
                 'url' => '#',
@@ -384,6 +389,7 @@ use yii\helpers\Url;
                     ],
                 ],
             ],
+            */
             [
                 'label'=>Yii::t('backend', '校园人员管理'),
                 'url' => '#',
