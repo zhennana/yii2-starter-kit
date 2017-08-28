@@ -70,30 +70,6 @@ if(\Yii::$app->user->can('manager', ['route' => true]) || \Yii::$app->user->can(
 <?php
 }
 ?>
-        <div class="pull-right">
-
-                        
-            <?= 
-            \yii\bootstrap\ButtonDropdown::widget(
-            [
-                'id' => 'giiant-relations',
-                'encodeLabel' => false,
-                'label' => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('common', '相关管理'),
-                'dropdown' => [
-                    'options' => [
-                    'class' => 'dropdown-menu-right'
-                        ],
-                    'encodeLabels' => false,
-                    'items' => [
-
-                    ]
-                ],
-                'options' => [
-                    'class' => 'btn-default'
-                ]
-            ]
-            );
-            ?>
         </div>
     </div>
 

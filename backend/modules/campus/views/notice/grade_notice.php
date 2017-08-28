@@ -70,21 +70,6 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
             <?php echo Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建班级公告'), ['grade-notice-create'], ['class' => 'btn btn-success']) ?>
         </div>
         <div class="pull-right">
-            <?= \yii\bootstrap\ButtonDropdown::widget([
-                'id'          => 'giiant-relations',
-                'encodeLabel' => false,
-                'label'       => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('backend', 'Relations'),
-                'dropdown'    => [
-                    'options' => [
-                        'class' => 'dropdown-menu-right'
-                    ],
-                    'encodeLabels' => false,
-                    'items'        => []
-                ],
-                'options' => [
-                    'class' => 'btn-default'
-                ]
-            ]); ?>
         </div>
     </div>
 

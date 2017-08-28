@@ -29,4 +29,21 @@ class TimelineEventController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
+    //默认控制器
+    public function actionDefault(){
+        if(Yii::$app->user->can('manager') ||
+            Yii::$app->user->can('E_manager')
+            ){
+            return $this->redirect(['/timeline-event/index']);
+        }else if(Yii::$app->user->can('P_manager')){
+            return $this->redirect(['campus/school/index','type'=>1]);
+        }else if(Yii::$app->user->can('P_financial')  || Yii::$app->user->can('E_financial')
+        ){
+            return $this->redirect([
+                    'campus/course-order-item/index','type'=>2
+                ]);
+        }else{
+            return $this->redirect(['campus/user-to-grade/index']);
+        }
+    }
 }
