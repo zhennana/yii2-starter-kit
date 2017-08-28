@@ -326,7 +326,9 @@ $avatar .= '?imageView2/3/w/215/h/215';
                             </ul>
                         </li>
                         <li>
+                        <?php if(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager')) { ?>
                             <?php echo Html::a('<i class="fa fa-cogs"></i>', ['/site/settings'])?>
+                        <?php } ?>
                         </li>
                     </ul>
                 </div>
