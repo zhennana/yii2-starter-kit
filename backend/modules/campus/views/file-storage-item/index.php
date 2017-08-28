@@ -64,27 +64,6 @@ if(\Yii::$app->user->can('campus_file-storage-item_create', ['route' => true])){
 <?php
 }
 ?>
-        <div class="pull-right">
-
-                        
-            <?= \yii\bootstrap\ButtonDropdown::widget(
-                    [
-                        'id' => 'giiant-relations',
-                        'encodeLabel' => false,
-                        'label' => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('backend', 'Relations'),
-                        'dropdown' => [
-                            'options' => [
-                                'class' => 'dropdown-menu-right'
-                            ],
-                            'encodeLabels' => false,
-                            'items' => []
-                        ],
-                        'options' => [
-                            'class' => 'btn-default'
-                        ]
-                    ]);
-        ?>
-        </div>
     </div>
 
     <hr />

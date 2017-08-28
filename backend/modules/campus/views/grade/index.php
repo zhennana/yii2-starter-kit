@@ -80,8 +80,8 @@ $actionColumnTemplates = [];
 ?>
         <div class="pull-right">
 
-
-            <?= \yii\bootstrap\ButtonDropdown::widget([
+<!-- 
+            <?/* \yii\bootstrap\ButtonDropdown::widget([
                 'id'          => 'giiant-relations',
                 'encodeLabel' => false,
                 'label'       => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('backend', '相关管理'),
@@ -100,7 +100,7 @@ $actionColumnTemplates = [];
                 'options' => [
                     'class' => 'btn-default'
                 ]
-            ]); ?>
+            ]);*/ ?> -->
         </div>
     </div>
 

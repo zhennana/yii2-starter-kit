@@ -73,7 +73,7 @@ if (\Yii::$app->user->can('manager', ['route' => true])) {
         <div class="pull-right">
 
 
-            <?php echo
+<!--             <?php /* echo
 \yii\bootstrap\ButtonDropdown::widget(
 	[
 		'id' => 'giiant-relations',
@@ -92,8 +92,8 @@ if (\Yii::$app->user->can('manager', ['route' => true])) {
 			'class' => 'btn-default'
 		]
 	]
-);
-?>
+);*/
+?> -->
         </div>
     </div>
 
@@ -131,11 +131,16 @@ if (\Yii::$app->user->can('manager', ['route' => true])) {
                         'label' => '文件',
                         'format' => 'raw',
                         'value' => function($model, $key, $index, $grid){
-                            $url = $model->fileStorageItem->url.$model->fileStorageItem->file_name;
-                            if(strstr($model->fileStorageItem->type,'image')){
+                            $url = '';
+                            $type = '';
+                            if($model->fileStorageItem){
+                                $url = $model->fileStorageItem->url.$model->fileStorageItem->file_name;
+                                $type = $model->fileStorageItem->type;
+                            }
+                            if($type && strstr($type,'image')){
                                 return Html::a('<img width="50px" height="50px" class="img-thumbnail" src="'.$url.'?imageView2/1/w/50/h/50" />', $url.'?imageView2/1/w/500/h/500', ['title' => '访问','target' => '_blank']);
                             }else{
-                                return Html::a($model->fileStorageItem->type, $url, ['title' => '访问','target' => '_blank']);
+                                return Html::a($type, $url, ['title' => '访问','target' => '_blank']);
                             }
                         }
                     ],
