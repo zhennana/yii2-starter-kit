@@ -101,7 +101,7 @@ class ItemController extends \yii\rest\ActiveController
      *
      */
     public function actionIndex(){
-
+        
         $all = CoursewareCategory::find()->all();
         $info = [];
         foreach ($all as $key => $value) {
