@@ -207,7 +207,7 @@ return [
                 'controllers'=>['timeline-event'],
                 'allow'=>true,
                 'actions'=>['default'],
-                'roles'=>['E_manager','manager','P_teacher']
+                'roles'=>['P_financial','E_financial','E_manager','manager','P_teacher']
             ]
         ]
     ];

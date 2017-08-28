@@ -37,6 +37,11 @@ class TimelineEventController extends Controller
             return $this->redirect(['/timeline-event/index']);
         }else if(Yii::$app->user->can('P_manager')){
             return $this->redirect(['campus/school/index','type'=>1]);
+        }else if(Yii::$app->user->can('P_financial')  || Yii::$app->user->can('E_financial')
+        ){
+            return $this->redirect([
+                    'campus/course-order-item/index','type'=>2
+                ]);
         }else{
             return $this->redirect(['campus/user-to-grade/index']);
         }
