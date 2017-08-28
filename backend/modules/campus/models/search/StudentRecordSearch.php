@@ -58,9 +58,9 @@ public function search($params)
         {
           $userquery = $params['StudentRecordSearch']['teacher_name'];
           $teacher_id = Yii::$app->user->identity->getUserIds($userquery);
-          $student_id = ArrayHelper::map($student_id,'id','id');
+          $teacher_id = ArrayHelper::map($teacher_id,'id','id');
           $query->andWhere([
-                    's.student_id'=> $student_id,
+                    's.teacher_id'=> $teacher_id,
                 ]);
           //$params['StudentRecordSearch']['student_name'] = NULL;
         }
@@ -71,12 +71,12 @@ public function search($params)
             $userquery = $params['StudentRecordSearch']['student_name'];
             $student_id = Yii::$app->user->identity->getUserIds($userquery);
             //$params['StudentRecordSearch']['student_name'] = NULL;
-            $teacher_id = ArrayHelper::map($teacher_id,'id','id');
+            $student_id = ArrayHelper::map($student_id,'id','id');
             $query->andWhere([
-                    's.teacher_id'=> $teacher_id,
+                    's.user_id'=> $student_id,
                 ]);
         }
-        
+
         $this->load($params);
 
         if (!$this->validate()) {
