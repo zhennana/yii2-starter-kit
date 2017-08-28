@@ -306,11 +306,12 @@ class ConfigController extends \common\rest\Controller
         $size = '?imageView2/1/w/375/h/160';
         $widget_carousel_item = WidgetCarousel::find()
             ->select(['*'])
+            ->rightJoin('widget_carousel_item','carousel_id = widget_carousel.id')
             ->where([
                 'key'    => 'app',
-                'widget_carousel.status' => WidgetCarousel::STATUS_ACTIVE
+                'widget_carousel.status' => WidgetCarousel::STATUS_ACTIVE,
+                'widget_carousel_item.status' => WidgetCarouselItem::STATUS_ACTIVE
             ])
-            ->rightJoin('widget_carousel_item','carousel_id = widget_carousel.id')
             ->orderBy('order DESC')
             ->asArray()
             ->all();
