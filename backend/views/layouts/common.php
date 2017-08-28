@@ -184,7 +184,7 @@ $avatar .= '?imageView2/3/w/215/h/215';
     <div class="wrapper">
         <!-- header logo: style can be found in header.less -->
         <header class="main-header">
-            <a href="<?php echo Yii::getAlias('@frontendUrl') ?>" class="logo">
+            <a href="<?php echo Yii::getAlias('@backendUrl') ?>" class="logo">
                 <!-- Add the class icon to your logo image or logo icon to add the margining -->
                 <?php echo Yii::$app->name ?>
             </a>
@@ -245,12 +245,13 @@ $avatar .= '?imageView2/3/w/215/h/215';
              
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
-                    
-                    	<li id="timeline-notifications" class="notifications-menu">
+                    <?php if (env('THEME') != 'shuo') { ?>
+                        <li id="timeline-notifications" class="notifications-menu">
                             <a href="<?php echo Yii::getAlias('@frontendUrl') ?>">
                                 前台
                             </a>
                         </li>
+                    <?php } ?>
                         <li id="timeline-notifications" class="notifications-menu">
                             <a href="<?php echo Yii::getAlias('@backendUrl') ?>">
                                 后台
