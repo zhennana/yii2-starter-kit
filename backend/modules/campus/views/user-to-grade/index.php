@@ -87,26 +87,6 @@ if(is_string($schoolOrGrade) && $schoolOrGrade == 'all'){
         </div>
     <?php } ?>
         <div class="pull-right">
-
-            <?=
-            \yii\bootstrap\ButtonDropdown::widget(
-            [
-                'id' => 'giiant-relations',
-                'encodeLabel' => false,
-                'label' => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('backend', '相关管理'),
-                'dropdown' => [
-                    'options' => [
-                            'class' => 'dropdown-menu-right'
-                        ],
-                    'encodeLabels' => false,
-                    'items' => [
-
-                    ]
-                ],
-                'options' => [
-                    'class' => 'btn-default'
-                ]
-            ]);?>
         </div>
     </div>
 
