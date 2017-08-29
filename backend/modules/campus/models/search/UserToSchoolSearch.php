@@ -49,7 +49,7 @@ class UserToSchoolSearch extends UserToSchool
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-        $userquery = '';
+        $userquery = [];
         $user_id   = [];
         if((isset($params['UserToSchoolSearch']['user_label']) && 
         !empty($params['UserToSchoolSearch']['user_label']) ))
@@ -59,7 +59,7 @@ class UserToSchoolSearch extends UserToSchool
         if((isset($params['UserToSchoolSearch']['phone_number']) && 
         !empty($params['UserToSchoolSearch']['phone_number']) ))
         {
-            $userquery['username'] = $params['UserToSchoolSearch']['phone_number'];
+            $userquery['phone_number'] = $params['UserToSchoolSearch']['phone_number'];
         }
         if(!empty($userquery)){
             $user_id = Yii::$app->user->identity->getUserIds($userquery);

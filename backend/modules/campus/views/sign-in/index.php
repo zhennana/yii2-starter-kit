@@ -194,6 +194,8 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                     'enum'      => SignIn::optsSignInStatus(),
                     'filter'    => SignIn::optsSignInStatus(),
                 ],
+                'updated_at:datetime',
+                'created_at:datetime'
             ],
         ]); ?>
     </div>

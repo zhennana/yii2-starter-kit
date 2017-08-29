@@ -104,7 +104,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label'     => '用户',
                 'value' => function($model){
                     if ($model->user_id) {
-                        return Yii::$app->user->identity->getUserName($model->user_id);
+                        return '[UID-'.$model->user_id.']'.Yii::$app->user->identity->getUserName($model->user_id);
                     }
                     return '未设置';
                 }

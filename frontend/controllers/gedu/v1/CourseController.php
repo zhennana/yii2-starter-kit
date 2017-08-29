@@ -149,7 +149,7 @@ class CourseController extends \common\rest\Controller
      *        name = "limit",
      *        description = "个数",
      *        required = false,
-     *        default = 20,
+     *        default = 10,
      *        type = "string"
      *     ),
      *     @SWG\Response(
@@ -165,14 +165,14 @@ class CourseController extends \common\rest\Controller
         $data = [];
 
         $keywords = [
-            '爱乐奇','全脑','牛津','英语','小学','幼儿','胎教音乐','出国留学','English','脑部开发','学前','歌曲','儿童','阿尔法','单词','出国','留学','哈佛','英语四级','发音',
+            '爱乐奇','全脑','英语','学前','歌曲','儿童','阿尔法','单词','出国','发音',
         ];
 
         if ($limit < 1) {
             $limit = 1;
         }
-        if ($limit > 20) {
-            $limit = 20;
+        if ($limit > 10) {
+            $limit = 10;
         }
 
         for ($i=0; $i < $limit; $i++) {

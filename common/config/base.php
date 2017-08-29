@@ -16,7 +16,22 @@ $config = [
             'assignmentTable' => '{{%rbac_auth_assignment}}',
             'ruleTable' => '{{%rbac_auth_rule}}',
         ],
+        /**
+        CREATE TABLE session (
+            id CHAR(40) NOT NULL PRIMARY KEY,
+            expire INTEGER,
+            data BLOB
+        )
+         */
+        'session' => [
+            'class' => 'yii\web\DbSession',
+            // Set the following if you want to use DB component other than
+            // default 'db'.
+            // 'db' => 'mydb',
 
+            // To override default session table, set the following
+            // 'sessionTable' => 'my_session',
+        ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
             'cachePath' => '@common/runtime/cache'
