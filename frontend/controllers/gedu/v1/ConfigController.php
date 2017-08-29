@@ -303,7 +303,7 @@ class ConfigController extends \common\rest\Controller
     public function actionBanner()
     {
         $data = [];
-        $size = '?imageView2/1/w/375/h/160';
+        $size = '?imageView2/1/w/1000/h/800';
         $widget_carousel_item = WidgetCarousel::find()
             ->select(['*'])
             ->rightJoin('widget_carousel_item','carousel_id = widget_carousel.id')
