@@ -95,7 +95,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                     <div class="row teabor">
                         <div class="teacher-content">
                             <div class="col-xs-3 col-sm-2 col-md-3 teacher-image">
-                                <span class="img-wrap"><img style="width:100%;height:100%;" src="http://orh16je38.bkt.clouddn.com/libaochai.jpg"></span>
+                                <span class="img-wrap"><img style="width:100%;height:100%;" src="http://static.v1.guangdaxuexiao.com/libaochai3.jpg"></span>
                             </div>
                             <div class="col-xs-9 col-sm-10 col-md-9 teacher-introduce">
                                 <h3>李宝才</h3>
@@ -105,7 +105,7 @@ $imgsize="?imageView2/1/w/250/h/300";
 
                         <div class="teacher-content">
                             <div class="col-xs-3 col-sm-2 col-md-3 teacher-image">
-                                <span class="img-wrap"><img style="width:100%;height:100%;" src="http://orh16je38.bkt.clouddn.com/jinrong.jpg"></span>
+                                <span class="img-wrap"><img style="width:100%;height:100%;" src="http://static.v1.guangdaxuexiao.com/jinrong3.jpg"></span>
                             </div>
                             <div class="col-xs-9 col-sm-10 col-md-9 teacher-introduce">
                                 <h3>靳荣</h3>
@@ -117,7 +117,7 @@ $imgsize="?imageView2/1/w/250/h/300";
 
                         <div class="teacher-content">
                             <div class="col-xs-3 col-sm-2 col-md-3 teacher-image">
-                                <span class="img-wrap"><img style="width:100%;height:100%;" src="http://orh16je38.bkt.clouddn.com/liuyanan.jpg"></span>
+                                <span class="img-wrap"><img style="width:100%;height:100%;" src="http://static.v1.guangdaxuexiao.com/liuyanan3.jpg"></span>
                             </div>
                             <div class="col-xs-9 col-sm-10 col-md-9 teacher-introduce">
                                 <h3>刘亚南</h3>
@@ -127,7 +127,7 @@ $imgsize="?imageView2/1/w/250/h/300";
 
                         <div class="teacher-content">
                              <div class="col-xs-3 col-sm-2 col-md-3 teacher-image">
-                                <span class="img-wrap"><img style="width:100%;height:100%;" src="http://orh16je38.bkt.clouddn.com/tianjiadong.jpg"></span>
+                                <span class="img-wrap"><img style="width:100%;height:100%;" src="http://static.v1.guangdaxuexiao.com/tianjiadong3.jpg"></span>
                             </div>
                             <div class="col-xs-9 col-sm-10 col-md-9 teacher-introduce">
                                 <h3>田亚东</h3>
@@ -139,7 +139,7 @@ $imgsize="?imageView2/1/w/250/h/300";
 
                         <div class="teacher-content">
                             <div class="col-xs-3 col-sm-2 col-md-3 teacher-image">
-                                <span class="img-wrap"><img style="width:100%;height:100%;" src="http://orh16je38.bkt.clouddn.com/tianyuan.jpg
+                                <span class="img-wrap"><img style="width:100%;height:100%;" src="http://static.v1.guangdaxuexiao.com/tianyuan3.jpg
 "></span>
                             </div>
                             <div class="col-xs-9 col-sm-10 col-md-9 teacher-introduce">
@@ -150,7 +150,7 @@ $imgsize="?imageView2/1/w/250/h/300";
 
                         <div class="teacher-content">
                             <div class="col-xs-3 col-sm-2 col-md-3 teacher-image">
-                                    <span class="img-wrap"><img style="width:100%;height:100%;" src="http://orh16je38.bkt.clouddn.com/tianmeijuan.jpg"></span>
+                                    <span class="img-wrap"><img style="width:100%;height:100%;" src="http://static.v1.guangdaxuexiao.com/tianmeijuan3.jpg"></span>
                               </div>
                               <div class="col-xs-9 col-sm-10 col-md-9 teacher-introduce">
                                 <h3>杨美娟</h3>

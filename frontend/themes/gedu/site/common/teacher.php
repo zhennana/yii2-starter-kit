@@ -5,37 +5,37 @@ $imgsize="?imageView2/1/w/250/h/300";
  $teachers=[
 
     '1'=>[
-      'img'=>'http://orh16je38.bkt.clouddn.com/jinrong1.jpg',
+      'img'=>'http://static.v1.guangdaxuexiao.com/jinrong1.jpg',
       'name'=>'靳荣',
       'description'=>'女，29岁，本科，河北师范大学（音乐教育），音乐。',
       'background'=>'http://static.v1.guangdaxuexiao.com/zongxiao.png'
       ],
     '2'=>[
-      'img'=>'http://orh16je38.bkt.clouddn.com/libaocai1.jpg',
+      'img'=>'http://static.v1.guangdaxuexiao.com/libaocai.jpg',
       'name'=>'李宝才',
       'description'=>'男，56岁，本科，哈尔滨师范大学，中学高级教师,光大小学教务主任。',
       'background'=>'http://static.v1.guangdaxuexiao.com/zongxiao.png'
       ],
     '3'=>[
-      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/qijing1.JPG',
+      'img'=>'http://static.v1.guangdaxuexiao.com/qijing1.JPG',
       'name'=>'齐婧',
       'description'=>'女，26岁，本科，邢台学院（小学教育），数学。',
       'background'=>'http://static.v1.guangdaxuexiao.com/zongxiao.png'
       ],
     '4'=>[
-      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/tianyadong1.jpg',
+      'img'=>'http://static.v1.guangdaxuexiao.com/tianyadong1.jpg',
       'name'=>'田亚东',
       'description'=>'女，35岁，本科，河北师范大学（英语教育），英语。',
       'background'=>'http://static.v1.guangdaxuexiao.com/zongxiao.png'
       ],
     '5'=>[
-      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/tianyuan1.jpg',
+      'img'=>'http://static.v1.guangdaxuexiao.com/tianyuan1.jpg',
       'name'=>'田媛',
       'description'=>'女，26岁，本科，西华师范大学（汉语言文学）。',
       'background'=>'http://static.v1.guangdaxuexiao.com/zongxiao.png'
       ],
     '6'=>[
-      'img'=>'http://7xsm8j.com2.z0.glb.qiniucdn.com/yangmeijuan1.jpg',
+      'img'=>'http://static.v1.guangdaxuexiao.com/yangmeijuan1.jpg',
       'name'=>'杨美娟',
       'description'=>'女，35岁，本科，朝阳师范学院（美术教育 ），美术。',
       'background'=>'http://static.v1.guangdaxuexiao.com/zongxiao.png'
@@ -47,7 +47,7 @@ $imgsize="?imageView2/1/w/250/h/300";
         <div class="row row-teacher">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 main-2-top">
                 <div class="main-2-top-child">
-                    <h1 style="text-align:center"><span style="display:inline-block;width:334px;height:30px;"><img src="http://orh16je38.bkt.clouddn.com/teacher%20style1.png" width="100%"><span></h1>
+                    <h1 style="text-align:center"><span style="display:inline-block;width:334px;height:30px;"><img src="http://static.v1.guangdaxuexiao.com/teacher%20style1.png" width="100%"><span></h1>
                     <h4>教师风采</h4>
                     <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-line.png" width="100%">
                 </div>
@@ -90,7 +90,7 @@ $imgsize="?imageView2/1/w/250/h/300";
                                     $href= yii\helpers\Url::to(['site/teacher','category_id'=>'38']);
                                     $html='';
                                     $html.='<li><a href="'.$href.'">';
-                                    $html.='<img class="img-responsive" src="http://7xsm8j.com2.z0.glb.qiniucdn.com/teachsearch.png">';
+                                    $html.='<img class="img-responsive" src="http://static.v1.guangdaxuexiao.com/teachsearch.png">';
                                     $html.='</a></li>';
                                     echo $html;
                                     ?>
