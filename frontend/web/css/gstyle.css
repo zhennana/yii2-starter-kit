@@ -1652,8 +1652,9 @@ transform: scale(1.2);
 /*.span12 .control-label:last-child{width:6.25%;}*/
 .field-applytoplay-body{display:inline-block;}
 .span12 .span4{width:75%;}
-
+.tuoutu{margin-left:-15px;margin-right:-15px;}
 /*针对移动端样式调整*/
+
 @media (max-width:500px) {
 	.acticle-title{font-size:20px;margin:10px 0;}
 	.gdu-content{margin:0;padding:0;}
@@ -1683,6 +1684,7 @@ transform: scale(1.2);
 	.box-body, .geu-content1{padding:0;}
 	.todo-list>li{margin-bottom:5px;}
 	.todo-list>li:hover{box-shadow: none;}
+	.tuoutu{margin:0;}
 }
 @media (max-width:400px) {
 	.teacher-content{padding:0;height:130px;}
