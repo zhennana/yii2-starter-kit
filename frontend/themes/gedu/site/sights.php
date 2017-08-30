@@ -45,7 +45,7 @@ $school=[
       ],
  ];
 ?>
-<div style="margin-left:-15px;margin-right:-15px;">
+<div class="tuoutu">
     <img width='100%' src="http://orh16je38.bkt.clouddn.com/everbright.jpg?imageView2/1/w/1920/h/400">
 </div>
 <div class="gdu-content">
@@ -74,7 +74,7 @@ $school=[
                       <ul style="overflow:hidden;padding:0;"><?php foreach($school as $key =>$value){
                         $img=$value['img']."?imageView2/1/w/500/h/400";
                         ?>
-                        <li class="col-md-4  col-sm-4 col-xs-4 img">
+                        <li class="col-md-4  col-sm-4 col-xs-4 img" style="cursor:pointer;">
                           <div class="port-7 effect-2">
                             <div class="image-box" >
                               <img class="img-responsive" src="<?php echo $img;?>" alt="Photo">
@@ -85,7 +85,7 @@ $school=[
                        <div class="modal-img">
                         <!--<h4><?php //echo $value['name'];?></h4>
                                                          <p><?php //echo $value['school'];?></p>-->
-                             <span class="pre" style="position:absolute;color:#fff;font-size:30px;top:50%;left:5%;z-index:2;">
+                             <span class="pre" style="position:absolute;color:#fff;font-size:30px;top:50%;left:5%;z-index:2;cursor:pointer;">
                                 <img src="http://static.v1.guangdaxuexiao.com/Left%20%281%29.png">
                              </span>
                              <ul>
@@ -96,10 +96,10 @@ $school=[
                                  </li>
                                  <?php }?>
                              </ul>
-                             <span class="next1" style="position:absolute;color:#fff;font-size:30px;top:50%;right:5%;">
+                             <span class="next1" style="position:absolute;color:#fff;font-size:30px;top:50%;right:5%;cursor:pointer;">
                                 <img src="http://static.v1.guangdaxuexiao.com/right%20%285%29.png">
                              </span>
-                             <span class="close1" style="color:#fff;">
+                             <span class="close1" style="color:#fff;cursor:pointer;">
                                 <img src="http://static.v1.guangdaxuexiao.com/close.png">
                              </span>
                      </div>
