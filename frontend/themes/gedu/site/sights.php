@@ -142,5 +142,42 @@ $school=[
      $('.close1').click(function(){
          $('.modal-img').css({'visibility':'hidden','opacity':0});
      })
+    if(navigator.userAgent.indexOf("Safari") > -1){
+        $(document).on('touchstart', '.img', function(e){
+            e.preventdefault();
+            var num=$(this).index();
+            var all=$(".modal-img ul li").size()-1;
+            console.log(num);
+             $('.modal-img').css({'visibility':'visible','opacity':1});
+             $imgList=$(".modal-img ul li");
+             $imgList.removeClass().eq(num).addClass("cur");
 
+             $(document).on('touchstart', '.pre', function(e) {
+                e.preventdefault();
+                 if(num>0){
+                    $imgList.removeClass().eq(num-1).addClass("cur");
+                    num-=1;
+                 }else{
+                    $imgList.removeClass().eq(all).addClass("cur");
+                    num=all;
+                 }
+             });
+
+             $(document).on('touchstart', '.next1', function(e) {
+                e.preventdefault();
+                 if(num<all){
+                     $imgList.removeClass().eq(num+1).addClass("cur");
+                     num+=1;
+                 }else{
+                    $imgList.removeClass().eq(0).addClass("cur");
+                    num=0;
+                }
+             });
+
+             $(document).on('touchstart', '.close1', function(e) {
+                e.preventdefault();
+                  $('.modal-img').css({'visibility':'hidden','opacity':0});
+             });
+        })
+    }
 </script>
