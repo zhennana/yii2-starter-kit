@@ -16,7 +16,7 @@ $banner=array(
 <style>
     .course-img{}
 </style>
-<div style="margin-left:-15px;margin-right:-15px;">
+<div class="tuoutu">
     <?php if($category['parent']['id']==1){ ?>
         <img width='100%' src="<?php echo $banner[1]?>">
     <?php }else if($category['parent']['id']==24){ ?>
