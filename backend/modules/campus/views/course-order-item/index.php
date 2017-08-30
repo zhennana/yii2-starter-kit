@@ -63,22 +63,6 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
         <?php } ?>
 
         <div class="pull-right">
-
-            <?= \yii\bootstrap\ButtonDropdown::widget([
-                'id'          => 'giiant-relations',
-                'encodeLabel' => false,
-                'label'       => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('cruds', 'Relations'),
-                'dropdown'    => [
-                    'options' => [
-                        'class' => 'dropdown-menu-right'
-                    ],
-                    'encodeLabels' => false,
-                    'items'        => []
-                ],
-                'options' => [
-                    'class' => 'btn-default'
-                ]
-            ]); ?>
         </div>
     </div>
 

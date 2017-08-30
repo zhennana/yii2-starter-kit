@@ -202,5 +202,12 @@ return [
                 'actions'=>['update'],
                 'roles'=>['E_manager','manager','P_director']
             ],
+            //默认控制器
+            [
+                'controllers'=>['timeline-event'],
+                'allow'=>true,
+                'actions'=>['default'],
+                'roles'=>['P_financial','E_financial','E_manager','manager','P_teacher']
+            ]
         ]
     ];

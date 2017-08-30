@@ -79,7 +79,7 @@ if (\Yii::$app->user->can('manager', ['route' => true]) || \Yii::$app->user->can
 }
 ?>
         <div class="pull-right">
-            <?= 
+          <!--   <? /*
             \yii\bootstrap\ButtonDropdown::widget(
             [
             'id' => 'giiant-relations',
@@ -105,8 +105,8 @@ if (\Yii::$app->user->can('manager', ['route' => true]) || \Yii::$app->user->can
             'class' => 'btn-default'
             ]
             ]
-            );
-            ?>
+            );*/
+            ?> -->
         </div>
     </div>
 
