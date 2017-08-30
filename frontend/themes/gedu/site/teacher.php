@@ -68,7 +68,7 @@ $imgsize="?imageView2/1/w/250/h/300";
       ],
  ];
 ?>
-<div style="margin-left:-15px;margin-right:-15px;">
+<div class="tuoutu">
     <img width='100%' src="http://orh16je38.bkt.clouddn.com/everbright.jpg?imageView2/1/w/1920/h/400">
 </div>
 <div class="gdu-content">
