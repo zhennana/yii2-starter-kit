@@ -113,7 +113,6 @@ $school=[
 </div></div>
 <script>
     $(document).on('click','.img',function(e){
-        e.preventDefault()();
         var num=$(this).index();
         var all=$(".modal-img ul li").size()-1;
         console.log(num);
@@ -122,7 +121,6 @@ $school=[
          $imgList=$(".modal-img ul li");
           $imgList.removeClass().eq(num).addClass("cur");
           $(document).on('click','.pre',function(){
-              e.preventDefault()();
              if(num>0){
                  $imgList.removeClass().eq(num-1).addClass("cur");
                  num-=1;
@@ -132,7 +130,6 @@ $school=[
             }
           })
           $(document).on('click','.next1',function(){
-           e.preventDefault()();
            if(num<all){
                 $imgList.removeClass().eq(num+1).addClass("cur");
                 num+=1;
