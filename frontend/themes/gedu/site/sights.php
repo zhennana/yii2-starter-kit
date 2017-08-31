@@ -71,7 +71,7 @@ $school=[
                   <div class="">
                     <div class="row teabor">
 
-                      <ul style="overflow:hidden;padding:0;"><?php foreach($school as $key =>$value){
+                      <ul class="xiaotu" style="overflow:hidden;padding:0;"><?php foreach($school as $key =>$value){
                         $img=$value['img']."?imageView2/1/w/500/h/400";
                         ?>
                         <li class="col-md-4  col-sm-4 col-xs-4 img">
@@ -112,14 +112,17 @@ $school=[
   </div>
 </div></div>
 <script>
-    $(document).on('click','.img',function(){
+    $(document).on('click','.img',function(e){
+        e.preventDefault()();
         var num=$(this).index();
         var all=$(".modal-img ul li").size()-1;
         console.log(num);
+        $('.xiaotu').css({'display':'none'});
          $('.modal-img').css({'visibility':'visible','opacity':1});
          $imgList=$(".modal-img ul li");
           $imgList.removeClass().eq(num).addClass("cur");
           $(document).on('click','.pre',function(){
+              e.preventDefault()();
              if(num>0){
                  $imgList.removeClass().eq(num-1).addClass("cur");
                  num-=1;
@@ -129,6 +132,7 @@ $school=[
             }
           })
           $(document).on('click','.next1',function(){
+           e.preventDefault()();
            if(num<all){
                 $imgList.removeClass().eq(num+1).addClass("cur");
                 num+=1;
@@ -141,46 +145,6 @@ $school=[
       });
      $(document).on('click','.close1',function(){
          $('.modal-img').css({'visibility':'hidden','opacity':0});
-     })
-    if(navigator.userAgent.indexOf("iPhone") > -1){
-           console.log('苹果手机');
-        $(document).on('click touchstart', '.img', function(){
-//            e.preventDefault();
-            var num=$(this).index();
-            var all=$(".modal-img ul li").size()-1;
-            console.log('苹果'+num);
-             $('.modal-img').css({'visibility':'visible','opacity':1});
-             $imgList=$(".modal-img ul li");
-             $imgList.removeClass().eq(num).addClass("cur");
-
-             $(document).on('click touchstart', '.pre', function() {
-                console.log('苹果上一张');
-                 if(num>0){
-                    $imgList.removeClass().eq(num-1).addClass("cur");
-                    num-=1;
-                 }else{
-                    $imgList.removeClass().eq(all).addClass("cur");
-                    num=all;
-                 }
-             });
-
-             $(document).on('click touchstart', '.next1', function() {
-//                e.preventdefault();
-                 console.log('苹果下一张');
-                 if(num<all){
-                     $imgList.removeClass().eq(num+1).addClass("cur");
-                     num+=1;
-                 }else{
-                    $imgList.removeClass().eq(0).addClass("cur");
-                    num=0;
-                }
-             });
-
-             $(document).on('click touchstart', '.close1', function(e) {
-//                e.preventdefault();
-                    console.log('苹果关闭');
-                  $('.modal-img').css({'visibility':'hidden','opacity':0});
-             });
-        })
-    }
+         $('.xiaotu').css({'display':'block'});
+     });
 </script>
