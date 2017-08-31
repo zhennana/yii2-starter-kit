@@ -112,14 +112,14 @@ $school=[
   </div>
 </div></div>
 <script>
-    $('.img').click(function(){
+    $(document).on('click','.img',function(){
         var num=$(this).index();
         var all=$(".modal-img ul li").size()-1;
         console.log(num);
          $('.modal-img').css({'visibility':'visible','opacity':1});
          $imgList=$(".modal-img ul li");
           $imgList.removeClass().eq(num).addClass("cur");
-          $('.pre').click(function(){
+          $(document).on('click','.pre',function(){
              if(num>0){
                  $imgList.removeClass().eq(num-1).addClass("cur");
                  num-=1;
@@ -128,7 +128,7 @@ $school=[
                 num=all;
             }
           })
-          $('.next1').click(function(){
+          $(document).on('click','.next1',function(){
            if(num<all){
                 $imgList.removeClass().eq(num+1).addClass("cur");
                 num+=1;
@@ -139,7 +139,7 @@ $school=[
           })
 
       });
-     $('.close1').click(function(){
+     $(document).on('click','.close1',function(){
          $('.modal-img').css({'visibility':'hidden','opacity':0});
      })
     if(navigator.userAgent.indexOf("iPhone") > -1){

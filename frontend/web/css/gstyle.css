@@ -1653,7 +1653,7 @@ transform: scale(1.2);
 .field-applytoplay-body{display:inline-block;}
 .span12 .span4{width:75%;}
 .tuoutu{margin-left:-15px;margin-right:-15px;}
-/*.img, .close1, .next1, .pre{cursor:pointer;}*/
+.img, .close1, .next1, .pre{cursor:pointer;}
 /*针对移动端样式调整*/
 
 @media (max-width:500px) {
