@@ -183,7 +183,7 @@ class SignInController extends \common\components\ControllerFrontendApi
             }
             $row['session_id'] = Yii::$app->session->id;
             $row['udid_new'] = $udid_new;
-            $row['udid_old'] = isset($session_data['udid']) ? $session_data['udid'] : '';
+            // $row['udid_old'] = isset($session_data['udid']) ? $session_data['udid'] : '';
 
             return array_merge($attrUser,$account,$row);
         }else{
@@ -227,7 +227,8 @@ class SignInController extends \common\components\ControllerFrontendApi
         if(\Yii::$app->user->isGuest){
             Yii::$app->response->statusCode = 422;
             return [
-                'message' => ['未登录，登陆验证失败']
+                'errorno' => 1,
+                'message' => '未登录，登陆验证失败',
             ];
         }
 
@@ -257,7 +258,11 @@ class SignInController extends \common\components\ControllerFrontendApi
         //return  array_merge($attrUser,$account);
         $attrUser['session_id'] = Yii::$app->session->id;
         $attrUser['udid'] = $udid;
-        return $attrUser;
+        return [
+            'errorno' => 0,
+            'message' => '已经登录',
+            'data' => $attrUser,
+        ];
     }
 
     /**
