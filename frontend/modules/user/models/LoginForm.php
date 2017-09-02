@@ -96,7 +96,7 @@ class LoginForm extends Model
     public function updateSession($user_id, $udid = ''){
 //Yii::$app->session->destroySession('v56sq6gd40kv41fp6k6nevdv60');
         // 更新最新的udid
-        if(!empty($udid)){
+        if(empty($udid)){
             return null;  
         }
         $res = Yii::$app->session->db->createCommand()
@@ -108,7 +108,7 @@ class LoginForm extends Model
             ],
             "id =  '". Yii::$app->session->id . "'"
         )->execute();
-//var_dump(Yii::$app->session->id); exit();
+// var_dump($res, Yii::$app->session->id); exit();
         // 
         // Yii::$app->user->logout();
         
