@@ -67,7 +67,7 @@ $this->params['breadcrumbs'][] = $this->title;
     }
     ?>
         <div class="pull-right">
-            <?= \yii\bootstrap\ButtonDropdown::widget(
+          <!--   <? /* \yii\bootstrap\ButtonDropdown::widget(
                     [
                         'id' => 'giiant-relations',
                         'encodeLabel' => false,
@@ -85,8 +85,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         'class' => 'btn-default'
                     ]
             ]
-            );
-            ?>
+            );*/
+            ?> -->
         </div>
     </div>
 

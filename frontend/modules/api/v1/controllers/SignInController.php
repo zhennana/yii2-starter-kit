@@ -806,6 +806,8 @@ class SignInController extends \common\components\ControllerFrontendApi
      */
     public function actionQiniuToken()
     {
+        return '未配置七牛云秘钥';
+        /*
         $auth = new Auth(
             \Yii::$app->params['qiniu']['static-v1']['access_key'], 
             \Yii::$app->params['qiniu']['static-v1']['secret_key']
@@ -828,6 +830,7 @@ class SignInController extends \common\components\ControllerFrontendApi
             'bucket' => \Yii::$app->params['qiniu']['static-v1']['bucket'],
         ]; 
         //echo '{"uptoken": "'.$token.'"}';
+        */
     }
 
     /**

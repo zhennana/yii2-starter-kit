@@ -30,7 +30,7 @@ use yii\helpers\Html;
                                 $html.='</a>';
                                 echo $html;
                             ?>
-                            <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-1-line.png">
+                            <img src="http://static.v1.guangdaxuexiao.com/main-1-line.png">
                             <h4><?php echo Html::a('小学部',['article/index','category_id'=>41],['class'=>'headcolor','data-method'=>'open',]);?>
                             <h6>Primary School Department</h6></h4>
                         </div>
@@ -46,7 +46,7 @@ use yii\helpers\Html;
                                 $html.='</a>';
                                 echo $html;
                             ?>
-                            <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-1-line.png">
+                            <img src="http://static.v1.guangdaxuexiao.com/main-1-line.png">
                         
                             <h4><?php echo Html::a('中学部',['article/index','category_id'=>42],['class'=>'headcolor','data-method'=>'open',]);?>
                             <h6>Daltonian</h6>
@@ -63,7 +63,7 @@ use yii\helpers\Html;
                                 $html.='</a>';
                                 echo $html;
                             ?>
-                            <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-1-line.png">
+                            <img src="http://static.v1.guangdaxuexiao.com/main-1-line.png">
                             
                             <h4><?php echo Html::a('国际部',['article/index','category_id'=>43],['class'=>'headcolor','data-method'=>'open',]);?>
                             <h6>Oversea sales</h6>
@@ -80,7 +80,7 @@ use yii\helpers\Html;
                                 $html.='</a>';
                                 echo $html;
                             ?>
-                            <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-1-line.png">
+                            <img src="http://static.v1.guangdaxuexiao.com/main-1-line.png">
                             
                             <h4><?php echo Html::a('特长部',['article/index','category_id'=>44],['class'=>'headcolor','data-method'=>'open',]);?>
                             <h6>Specialty department</h6>
@@ -105,7 +105,7 @@ use yii\helpers\Html;
                                <div class="main-3-head">
                                     <div class="row">
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 main-2-top">
-                                            <h1 style="text-align:center"><span style="display:inline-block;width:392px;height:30px;"><img src="http://orh16je38.bkt.clouddn.com/campuse%20features1.png" width="100%"><span></h1>
+                                            <h1 style="text-align:center"><span style="display:inline-block;width:392px;height:30px;"><img src="http://static.v1.guangdaxuexiao.com/campuse%20features1.png" width="100%"><span></h1>
                                             <h4>校园风采</h4>
                                             <img src="http://7xsm8j.com2.z0.glb.qiniucdn.com/main-line.png" width="100%">
                                         </div>

@@ -45,7 +45,7 @@ $school=[
       ],
  ];
 ?>
-<div style="margin-left:-15px;margin-right:-15px;">
+<div class="tuoutu">
     <img width='100%' src="http://orh16je38.bkt.clouddn.com/everbright.jpg?imageView2/1/w/1920/h/400">
 </div>
 <div class="gdu-content">
@@ -71,7 +71,7 @@ $school=[
                   <div class="">
                     <div class="row teabor">
 
-                      <ul style="overflow:hidden;padding:0;"><?php foreach($school as $key =>$value){
+                      <ul class="xiaotu" style="overflow:hidden;padding:0;"><?php foreach($school as $key =>$value){
                         $img=$value['img']."?imageView2/1/w/500/h/400";
                         ?>
                         <li class="col-md-4  col-sm-4 col-xs-4 img">
@@ -112,14 +112,15 @@ $school=[
   </div>
 </div></div>
 <script>
-    $('.img').click(function(){
+    $(document).on('click','.img',function(e){
         var num=$(this).index();
         var all=$(".modal-img ul li").size()-1;
         console.log(num);
+        $('.xiaotu').css({'display':'none'});
          $('.modal-img').css({'visibility':'visible','opacity':1});
          $imgList=$(".modal-img ul li");
           $imgList.removeClass().eq(num).addClass("cur");
-          $('.pre').click(function(){
+          $(document).on('click','.pre',function(){
              if(num>0){
                  $imgList.removeClass().eq(num-1).addClass("cur");
                  num-=1;
@@ -128,7 +129,7 @@ $school=[
                 num=all;
             }
           })
-          $('.next1').click(function(){
+          $(document).on('click','.next1',function(){
            if(num<all){
                 $imgList.removeClass().eq(num+1).addClass("cur");
                 num+=1;
@@ -139,8 +140,8 @@ $school=[
           })
 
       });
-     $('.close1').click(function(){
+     $(document).on('click','.close1',function(){
          $('.modal-img').css({'visibility':'hidden','opacity':0});
-     })
-
+         $('.xiaotu').css({'display':'block'});
+     });
 </script>
