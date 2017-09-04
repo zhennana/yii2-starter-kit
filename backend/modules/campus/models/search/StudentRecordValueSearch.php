@@ -18,7 +18,8 @@ class StudentRecordValueSearch extends StudentRecordValue
 public function rules()
 {
 return [
-[['student_record_value_id', 'student_record_key_id', 'student_record_id', 'status', 'sort', 'updated_at', 'created_at'], 'integer'],
+[['student_record_value_id', 'student_record_key_id', 'user_id', 'school_id', 'grade_id', 'student_record_id', 'status', 'sort', 'updated_at', 'created_at','exam_type'], 'integer'],
+[['total_score', 'score'],'number'],
             [['body'], 'safe'],
 ];
 }
@@ -58,11 +59,17 @@ return $dataProvider;
 $query->andFilterWhere([
             'student_record_value_id' => $this->student_record_value_id,
             'student_record_key_id' => $this->student_record_key_id,
+            'user_id' => $this->user_id,
+            'school_id' => $this->school_id,
+            'grade_id' => $this->grade_id,
             'student_record_id' => $this->student_record_id,
+            'total_score' => $this->total_score,
+            'score' => $this->score,
             'status' => $this->status,
             'sort' => $this->sort,
             'updated_at' => $this->updated_at,
             'created_at' => $this->created_at,
+            'exam_type' => $this->exam_type,
         ]);
 
         $query->andFilterWhere(['like', 'body', $this->body]);

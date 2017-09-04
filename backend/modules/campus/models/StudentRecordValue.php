@@ -6,7 +6,9 @@ use Yii;
 use \backend\modules\campus\models\base\StudentRecordValue as BaseStudentRecordValue;
 use yii\helpers\ArrayHelper;
 use \backend\modules\campus\models\FileStorageItem;
+use \backend\modules\campus\models\Grade;
 use \backend\modules\campus\models\StudentRecordValueToFile;
+use \backend\modules\campus\models\UserToGrade;
 
 /**
  * This is the model class for table "student_record_value".
@@ -132,4 +134,21 @@ class StudentRecordValue extends BaseStudentRecordValue
       }
       return [];
   }
+
+    public function getList($params)
+    {
+        if ($params['type'] == 'school_id') {
+            $grades = Grade::find()
+                ->where(['school_id' => $params['value'], 'status' => Grade::GRADE_STATUS_OPEN])
+                ->all();
+            return $grades;
+        }elseif($params['type'] == 'grade_id'){
+            $users = UserToGrade::find()->with('user')->where([
+                'grade_id' => $params['value'],
+                'status' => [UserToGrade::USER_GRADE_STATUS_NORMAL,UserToGrade::USER_GRADE_STATUS_CHANGE],
+                'grade_user_type' => UserToGrade::GRADE_USER_TYPE_STUDENT
+            ])->all();
+            return $users;
+        }
+    }
 }

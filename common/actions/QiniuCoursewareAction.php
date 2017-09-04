@@ -28,6 +28,8 @@ class QiniuCoursewareAction extends Action
             $this->createToken();
         } elseif($this->type == 'upload') {
             $this->upload();
+        }elseif($this->type == 'upload-score'){
+            $this->uploadScore();
         } elseif ($this->type == 'privacy') {
             $this->privacy();
         } elseif ($this->type == 'timeline') {
@@ -60,6 +62,52 @@ class QiniuCoursewareAction extends Action
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
 //var_dump(Yii::$app->request->post());exit;
+        $type      = Yii::$app->request->post('type');
+        $url       = Yii::$app->params['qiniu'][$this->bucket]['domain'].'/';
+        $file_name = Yii::$app->request->post('url');
+        $size      = Yii::$app->request->post('size');
+        $user_id   =  Yii::$app->user->identity->id;
+        $files = new FileStorageItem();
+        $files->school_id        = '0';
+        $files->grade_id         = '0';
+        $files->file_category_id = 3;
+        $files->user_id          = $user_id;
+        $files->type             = $type;
+        $files->size             = $size;
+        $files->url              = $url;
+        $files->file_name        = $file_name;
+        $files->status           = 1;//1;
+        $files->original         = Yii::$app->request->post('file_name');
+
+        $files->upload_ip        =  Yii::$app->request->getUserIP();
+        $files->component        = 'wakooedu';
+//var_dump($files->save(),$files->getErrors());exit;
+       if($files->save()){
+           $courseware_file = new CoursewareToFile();
+           $courseware_file->file_storage_item_id = $files->file_storage_item_id;
+           $courseware_file->courseware_id        = $_GET['courseware_id'];
+           $courseware_file->status               = 1;
+           if($courseware_file->save()){
+                return  Yii::$app->response->data = [
+                        'status' => $files->file_storage_item_id,
+                        'note' => '成功'
+                ]; 
+           }else{
+                return   Yii::$app->response->data = [
+                        'status' =>86,
+                        'note' =>'失败'
+                ]; 
+           }
+        }else{
+            var_dump($files->getErrors());exit;
+        }
+        return false;
+    }
+
+    protected function uploadScore()
+    {
+         Yii::$app->response->format = Response::FORMAT_JSON;
+var_dump(Yii::$app->request->post());exit;
         $type      = Yii::$app->request->post('type');
         $url       = Yii::$app->params['qiniu'][$this->bucket]['domain'].'/';
         $file_name = Yii::$app->request->post('url');

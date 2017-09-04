@@ -6,6 +6,7 @@ use yii\grid\GridView;
 use yii\widgets\DetailView;
 use yii\widgets\Pjax;
 use dmstr\bootstrap\Tabs;
+use backend\modules\campus\models\StudentRecordKey;
 
 /**
 * @var yii\web\View $this
@@ -13,8 +14,8 @@ use dmstr\bootstrap\Tabs;
 */
 $copyParams = $model->attributes;
 
-$this->title = Yii::t('backend', 'Student Record Key');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Student Record Keys'), 'url' => ['index']];
+$this->title = Yii::t('backend', '科目标题');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '科目标题'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => (string)$model->title, 'url' => ['view', 'student_record_key_id' => $model->student_record_key_id]];
 $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
 ?>
@@ -30,7 +31,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
     <?php endif; ?>
 
     <h1>
-        <?= Yii::t('backend', 'Student Record Key') ?>
+        <?= Yii::t('backend', '科目标题') ?>
         <small>
             <?= $model->title ?>
         </small>
@@ -41,25 +42,25 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
 
         <!-- menu buttons -->
         <div class='pull-left'>
-            <?= Html::a(
-            '<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('backend', 'Edit'),
+            <?=  Html::a(
+            '<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('backend', '更新'),
             [ 'update', 'student_record_key_id' => $model->student_record_key_id],
-            ['class' => 'btn btn-info']) ?>
+            ['class' => 'btn btn-info'])  ?>
 
-            <?= Html::a(
-            '<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('backend', 'Copy'),
+            <?=  Html::a(
+            '<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('backend', '复制'),
             ['create', 'student_record_key_id' => $model->student_record_key_id, 'StudentRecordKey'=>$copyParams],
-            ['class' => 'btn btn-success']) ?>
+            ['class' => 'btn btn-success'])  ?>
 
             <?= Html::a(
-            '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'New'),
+            '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'),
             ['create'],
             ['class' => 'btn btn-success']) ?>
         </div>
 
         <div class="pull-right">
             <?= Html::a('<span class="glyphicon glyphicon-list"></span> '
-            . Yii::t('backend', 'Full list'), ['index'], ['class'=>'btn btn-default']) ?>
+            . Yii::t('backend', '返回列表'), ['index'], ['class'=>'btn btn-default']) ?>
         </div>
 
     </div>
@@ -72,23 +73,38 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
     <?= DetailView::widget([
     'model' => $model,
     'attributes' => [
-            'school_id',
-        'grade_id',
-        'status',
-        'sort',
         'title',
+        [
+            'attribute' => 'school_id',
+            'value' => function($model){
+                return isset($model->school) ? $model->school->school_title : '全局标题';
+            }
+        ],
+        [
+            'attribute' => 'grade_id',
+            'value' => function($model){
+                return isset($model->grade) ? $model->grade->grade_name : '全局标题';
+            }
+        ],
+        [
+            'attribute' => 'status',
+            'value' => function($model){
+                return StudentRecordKey::getStatusLabel($model->status);
+            }
+        ],
+        'sort',
     ],
     ]); ?>
 
     
     <hr/>
 
-    <?= Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('backend', 'Delete'), ['delete', 'student_record_key_id' => $model->student_record_key_id],
+    <!--<?php /* Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('backend', 'Delete'), ['delete', 'student_record_key_id' => $model->student_record_key_id],
     [
     'class' => 'btn btn-danger',
     'data-confirm' => '' . Yii::t('backend', 'Are you sure to delete this item?') . '',
     'data-method' => 'post',
-    ]); ?>
+    ]); */ ?>-->
     <?php $this->endBlock(); ?>
 
 

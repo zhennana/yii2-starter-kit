@@ -14,7 +14,12 @@ $requestUpdateUrl = Url::to(['student-record-key/ajax-student-key']);
 * @var backend\modules\campus\models\StudentRecordKey $model
 * @var yii\widgets\ActiveForm $form
 */
-
+$tab_label ='';
+if (env('THEME') == 'gedu') {
+    $tab_label = Yii::t('backend', '创建科目标题');
+}else{
+    $tab_label = Yii::t('backend', '创建档案标题');
+}
 ?>
 
 <div class="student-record-key-form">
@@ -22,7 +27,7 @@ $requestUpdateUrl = Url::to(['student-record-key/ajax-student-key']);
     <?php $form = ActiveForm::begin([
     'id' => 'StudentRecordKey',
     'layout' => 'horizontal',
-    'action' => [$requestUpdateUrl],
+    // 'action' => [$requestUpdateUrl],
     'enableClientValidation' => true,
     'errorSummaryCssClass' => 'error-summary alert alert-error'
     ]
@@ -80,7 +85,7 @@ $requestUpdateUrl = Url::to(['student-record-key/ajax-student-key']);
                     'encodeLabels' => false,
                     'items' => [ 
                         [
-                        'label'   => Yii::t('backend', '创建档案标题'),
+                        'label'   => $tab_label,
                         'content' => $this->blocks['main'],
                         'active'  => true,
                         ],
@@ -107,6 +112,7 @@ $requestUpdateUrl = Url::to(['student-record-key/ajax-student-key']);
     </div>
 
 </div>
+<?php if (env('THEME') == 'wedu') { ?>
 
 <script>
     function handleChange(type_id,id,form){
@@ -154,3 +160,4 @@ $('form#StudentRecordKey').on('beforeSubmit', function(e) {
     e.preventDefault();
 });
 </script>
+<?php } ?>
