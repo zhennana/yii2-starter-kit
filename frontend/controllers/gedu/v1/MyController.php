@@ -18,6 +18,7 @@ use frontend\models\gedu\resources\CourseOrderItem;
 use frontend\models\gedu\resources\Collect;
 use frontend\models\gedu\resources\Notice;
 use frontend\models\gedu\resources\User;
+use frontend\models\gedu\resources\StudentRecordValue;
 
 class MyController extends \common\rest\Controller
 {
@@ -302,10 +303,20 @@ class MyController extends \common\rest\Controller
             $this->serializer['message'] = '请您先登录';
             return [];
         }
-
-        $data   = [];
-        $temp   = [];
-
+        $user_id = isset(Yii::$app->user->identity->id) ? Yii::$app->user->identity->id  : NULL;
+        //学生家长共有id.
+        $user = UsersToUsers::getRelevanceGroup($user_id);
+        $score_list = StudentRecordValue::find()
+             ->andwhere(['user_id'=>$user])
+             ->orderBy(['updated_at'=>SORT_DESC])
+             ->groupBy('grade_id')
+             ->all();
+        $data = [];
+        foreach ($score_list as $key => $value) {
+            $data[] = $value->toArray(['grade_name','grade_id','target_url']);
+        }
+      return $data;
+      /*
         $grade_name = [
             1 => '燕郊在线商学院一年级',
             2 => '飞翔的小鸟',
@@ -319,7 +330,7 @@ class MyController extends \common\rest\Controller
         ];
 
 
-        for ($i=1; $i < 4; $i++) { 
+        for ($i=1; $i < 4; $i++) {
             $time = rand(1999,2018);
             $temp = [
                 'grade_id'           => $i,
@@ -332,45 +343,67 @@ class MyController extends \common\rest\Controller
             ];
             $data[] = $temp;
         }
-
-        return $data;
+        return $data;*/
     }
 
     /**
      * @SWG\Get(path="/my/score",
      *     tags={"GEDU-My-我的页面接口"},
-     *     summary="我的成绩-返回成绩",
+     *     summary="我的成绩/或者详情",
      *     description="返回我的课程对应成绩",
      *     produces={"application/json"},
      *     @SWG\Parameter(
      *        in = "query",
+     *        name = "user_id",
+     *        description = "年级/班级ID",
+     *        required = false,
+     *        type = "string",
+     *        default = "1",
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "query",
      *        name = "grade_id",
      *        description = "年级/班级ID",
-     *        required = true,
+     *        required = false,
      *        type = "string",
      *        default = "1",
      *     ),
      *     @SWG\Response(
      *         response = 200,
-     *         description = "无需填写，直接返回数据"
+     *         description = "不传grade_id,获取成绩班级列表；传grade_id,获取成绩详情"
      *     ),
      * )
      *
     **/
-    public function actionScore($grade_id)
+    public function actionScore()
     {
         if(Yii::$app->user->isGuest){
             $this->serializer['errno']   = 422;
             $this->serializer['message'] = '请您先登录';
             return [];
         }
-
-        if (!$grade_id) {
-            $this->serializer['errno']   = 422;
-            $this->serializer['message'] = '缺少参数grade_id';
-            return [];
+        $user_id = Yii::$app->request->get('user_id');
+        $grade_id = Yii::$app->request->get('grade_id');
+        if(!$user_id){
+            $user_id = isset(Yii::$app->user->identity->id) ? Yii::$app->user->identity->id  : NULL;
         }
-
+        $user = UsersToUsers::getRelevanceGroup($user_id);
+        $score = StudentRecordValue::find()
+             ->andwhere(['user_id'=>$user]);
+        if($grade_id){
+            $fields = ['score','grade_id','full_mark','course_title','images_url'];
+            $score = $score->andWhere(['grade_id'=>$grade_id]);
+        }else{
+            $fields = ['grade_name','grade_id','target_url'];
+            $score = $score->groupBy('grade_id');
+        }
+        $score = $score->orderBy(['updated_at'=>SORT_DESC])->all();
+        $data = [];
+        foreach ($score as $key => $value) {
+            $data[] = $value->toArray($fields);
+        }
+      return $data;
+      /*
         $data  = $temp   = [];
         $files = $params = [];
 
@@ -408,7 +441,7 @@ class MyController extends \common\rest\Controller
             $data[] = $temp;
         }
 
-        return $data;
+        return $data;*/
     }
 
 
