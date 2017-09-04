@@ -3,12 +3,17 @@
 namespace backend\modules\campus\controllers;
 use backend\modules\campus\models\StudentRecordKey;
 use backend\modules\campus\models\StudentRecord;
+use backend\modules\campus\models\search\StudentRecordValueSearch;
 use backend\modules\campus\models\StudentRecordValue;
 use backend\modules\campus\models\StudentRecordValueToFile;
 use common\components\Qiniu\Auth;
 use common\components\Qiniu\Storage\BucketManager;
 use backend\modules\campus\models\WorkRecord;
 use backend\modules\campus\models\SignIn;
+use yii\helpers\Url;
+use yii\filters\AccessControl;
+use dmstr\bootstrap\Tabs;
+
 
 /**
 * This is the class for controller "StudentRecordValueController".
@@ -84,4 +89,27 @@ class StudentRecordValueController extends \backend\modules\campus\controllers\b
             return false;
         }
     }
+//学校创建学校查询
+    public function actionCreate(){
+        $model = new  StudentRecordValue;
+        $model->scenario = 'score';
+        $keys = StudentRecordKey::find()->where(['status'=>StudentRecordKey::STUDENT_KEY_STATUS_OPEN])->all();
+        return $this->render('_form',['model'=>$model,'keys'=>$keys]);
+    }
+
+        public function actionIndex()
+        {
+            $searchModel  = new StudentRecordValueSearch;
+            $dataProvider = $searchModel->search($_GET);
+
+            Tabs::clearLocalStorage();
+
+            Url::remember();
+            \Yii::$app->session['__crudReturnUrl'] = null;
+
+            return $this->render('index', [
+            'dataProvider' => $dataProvider,
+                'searchModel' => $searchModel,
+            ]);
+        }
 }

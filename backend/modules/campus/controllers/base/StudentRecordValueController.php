@@ -64,15 +64,15 @@ public function actionIndex()
     $searchModel  = new StudentRecordValueSearch;
     $dataProvider = $searchModel->search($_GET);
 
-Tabs::clearLocalStorage();
+    Tabs::clearLocalStorage();
 
-Url::remember();
-\Yii::$app->session['__crudReturnUrl'] = null;
+    Url::remember();
+    \Yii::$app->session['__crudReturnUrl'] = null;
 
-return $this->render('index', [
-'dataProvider' => $dataProvider,
-    'searchModel' => $searchModel,
-]);
+    return $this->render('index', [
+    'dataProvider' => $dataProvider,
+        'searchModel' => $searchModel,
+    ]);
 }
 
 /**
