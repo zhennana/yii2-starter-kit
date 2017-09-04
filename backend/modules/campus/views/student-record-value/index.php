@@ -19,15 +19,15 @@ $this->params['breadcrumbs'][] = $this->title;
 */
 $actionColumnTemplates = [];
 
-if (\Yii::$app->user->can('campus_student-record-value_view', ['route' => true])) {
+if (\Yii::$app->user->can('margin', ['route' => true])) {
     $actionColumnTemplates[] = '{view}';
 }
 
-if (\Yii::$app->user->can('campus_student-record-value_update', ['route' => true])) {
+if (\Yii::$app->user->can('margin', ['route' => true])) {
     $actionColumnTemplates[] = '{update}';
 }
 
-if (\Yii::$app->user->can('campus_student-record-value_delete', ['route' => true])) {
+if (\Yii::$app->user->can('margin', ['route' => true])) {
     $actionColumnTemplates[] = '{delete}';
 }
 if (isset($actionColumnTemplates)) {
@@ -56,18 +56,14 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
     </h1>
     <div class="clearfix crud-navigation">
 <?php
-if(\Yii::$app->user->can('campus_student-record-value_create', ['route' => true])){
+if(\Yii::$app->user->can('manager', ['route' => true])){
 ?>
         <div class="pull-left">
             <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'New'), ['create'], ['class' => 'btn btn-success']) ?>
         </div>
-<?php
-}
-?>
+        <?php } ?>
         <div class="pull-right">
-
-                                                    
-            <?= 
+            <?=
             \yii\bootstrap\ButtonDropdown::widget(
             [
             'id' => 'giiant-relations',
@@ -79,18 +75,16 @@ if(\Yii::$app->user->can('campus_student-record-value_create', ['route' => true]
             ],
             'encodeLabels' => false,
             'items' => [
-            [
-                'url' => ['student-record-value-to-file/index'],
-                'label' => '<i class="glyphicon glyphicon-arrow-right"></i> ' . Yii::t('backend', 'Student Record Value To File'),
+                [
+                    'url' => ['student-record-value-to-file/index'],
+                    'label' => '<i class="glyphicon glyphicon-arrow-right"></i> ' . Yii::t('backend', 'Student Record Value To File'),
+                    ],
+                ]
             ],
-                    
-]
-            ],
-            'options' => [
-            'class' => 'btn-default'
-            ]
-            ]
-            );
+                'options' => [
+                'class' => 'btn-default'
+                ]
+            ]);
             ?>
         </div>
     </div>
@@ -131,8 +125,10 @@ if(\Yii::$app->user->can('campus_student-record-value_create', ['route' => true]
             'contentOptions' => ['nowrap'=>'nowrap']
         ],
 			'student_record_key_id',
-			'student_record_id',
-			'body',
+            'user_id',
+            'school_id',
+            'grade_id',
+            'total_score',
 			'status',
 			'sort',
         ],
