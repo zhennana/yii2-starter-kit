@@ -16,6 +16,7 @@ use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\rest\OptionsAction;
 use yii\widgets\ActiveForm;
+use yii\filters\VerbFilter;
 
 use frontend\modules\user\models\LoginForm;
 use frontend\modules\user\models\PasswordResetRequestForm;
@@ -35,6 +36,7 @@ use cheatsheet\Time;
 use common\components\aliyunMNS\SendSMSMessage;
 use frontend\modules\api\v1\resources\ActivationCode;
 use frontend\modules\api\v1\resources\CourseOrderItem;
+
 
 class SignInController extends \common\components\ControllerFrontendApi
 {
@@ -56,21 +58,21 @@ class SignInController extends \common\components\ControllerFrontendApi
             parent::behaviors(),
             [
                 'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                    'allow' => true,
-                    'matchCallback' => function ($rule, $action) {
-                        return true;
-                        // var_dump($this->module->id . '_' . $this->id . '_' . $action->id); exit();
-                        return \Yii::$app->user->can(
-                            $this->module->id . '_' . $this->id . '_' . $action->id, 
-                            ['route' => true]
-                        );
-                    },
-                    ]
-                ]
-                ]
+                    'class' => AccessControl::className(),
+                    'only' => ['login', 'logout', 'signup'],
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'actions' => ['login', 'signup'],
+                            'roles' => ['?'],
+                        ],
+                        [
+                            'allow' => true,
+                            'actions' => ['logout'],
+                            'roles' => ['@'],
+                        ],
+                    ],
+                ],
             ]
         );
     }
@@ -93,6 +95,7 @@ class SignInController extends \common\components\ControllerFrontendApi
      *        name = "LoginForm[identity]",
      *        description = "手机号、邮箱、登录名",
      *        required = true,
+     *        default = "13910408910",
      *        type = "string"
      *     ),
      *     @SWG\Parameter(
@@ -100,6 +103,7 @@ class SignInController extends \common\components\ControllerFrontendApi
      *        name = "LoginForm[password]",
      *        description = "密码",
      *        required = true,
+     *        default = "",
      *        type = "string"
      *     ),
      *     @SWG\Parameter(
@@ -114,13 +118,15 @@ class SignInController extends \common\components\ControllerFrontendApi
      *     @SWG\Parameter(
      *        in = "formData",
      *        name = "LoginForm[udid]",
-     *        description = "设备唯一 32字符以内长度，选填，填写后一个账户只能同时在线一个客户端",
+     *        description = "选填设备号，一个账户只能同时在线一个客户端; 测试方法：打开两个不同的浏览器谷歌、火狐模拟两个客户端，分别填入不同的udid。最新登录会把之前的踢下线。
+     * ",
      *        required = false,
+     *        default = "adfad-asdfsd-234-adsf",
      *        type = "string"
      *     ),
      *     @SWG\Response(
      *         response = 200,
-     *         description = "success,cookie值PHPSESSID与_identity加入请求头，返回用户个人信息"
+     *         description = "success,cookie 值 PHPSESSID 与 _identity 加入请求头，返回用户个人信息"
      *     ),
      *     @SWG\Response(
      *         response = 422,
@@ -139,10 +145,23 @@ class SignInController extends \common\components\ControllerFrontendApi
         // Accept-Language  zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3
         \Yii::$app->language = 'zh-CN';
         $model = new LoginForm();
+//$this->updateSession(Yii::$app->user->id,$this->udid);
+        $udid_new = '';
+        if(isset($_POST['LoginForm']['udid'])){
+            $udid_new = addslashes($_POST['LoginForm']['udid']);
+            \Yii::$app->session->set('user.udid',$udid_new);
+        }
         $model->load($_POST);
+// var_dump($udid_new,session_id()); exit(); 
         // Yii::$app->response->format = Response::FORMAT_JSON;
 
         if($model->login()){
+// var_dump(Yii::$app->user->id,$udid_new); exit();
+            
+            // $session_data = $model->oneChecker($udid_new); // 单一设备登录执行
+
+            $model->updateSession(Yii::$app->user->id,$udid_new);   // 登录第一次更新设备号
+
             $attrUser = $model->user->attributes;
             if(isset($attrUser['password_hash'])){
                 unset($attrUser['password_hash']);
@@ -162,7 +181,11 @@ class SignInController extends \common\components\ControllerFrontendApi
                     $attrUser['avatar'] = $fansMpUser->avatar;
                 }
             }
-            return array_merge($attrUser,$account);
+            $row['session_id'] = Yii::$app->session->id;
+            $row['udid_new'] = $udid_new;
+            // $row['udid_old'] = isset($session_data['udid']) ? $session_data['udid'] : '';
+
+            return array_merge($attrUser,$account,$row);
         }else{
             Yii::$app->response->statusCode = 422;
             $info = $model->getErrors();
@@ -183,7 +206,7 @@ class SignInController extends \common\components\ControllerFrontendApi
      * @SWG\Get(path="/sign-in/index",
      *     tags={"100-SignIn-用户接口"},
      *     summary="登陆请求验证已经登陆[已经自测]",
-     *     description="删除cookie，请求验证是否已经登陆。登陆过返回用户信息",
+     *     description="清除cookie session 来验证是否登录；打开两个浏览器，输入不同的两个udid，请求这个接口来验证是否登录",
      *     produces={"application/json"},
      *     @SWG\Response(
      *         response = 200,
@@ -194,11 +217,18 @@ class SignInController extends \common\components\ControllerFrontendApi
      */
     public function actionIndex()
     {
-        
+        $udid = \Yii::$app->session->get('user.udid');
+        if(empty($udid)){
+            Yii::$app->user->logout();
+        }else{
+            $model = new LoginForm();
+            $model->updateSession(Yii::$app->user->id);   // 登录第一次更新设备号
+        }
         if(\Yii::$app->user->isGuest){
             Yii::$app->response->statusCode = 422;
             return [
-                'message' => ['未登录，登陆验证失败']
+                'errorno' => 1,
+                'message' => '未登录，登陆验证失败',
             ];
         }
 
@@ -226,7 +256,13 @@ class SignInController extends \common\components\ControllerFrontendApi
         }
         //$user['roles']=\Yii::$app->authManager->getRolesByUser(\Yii::$app->user->id);
         //return  array_merge($attrUser,$account);
-        return $attrUser;
+        $attrUser['session_id'] = Yii::$app->session->id;
+        $attrUser['udid'] = $udid;
+        return [
+            'errorno' => 0,
+            'message' => '已经登录',
+            'data' => $attrUser,
+        ];
     }
 
     /**
