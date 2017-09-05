@@ -74,6 +74,12 @@ class SiteController extends \frontend\controllers\SiteController
     */
     public function actionTeacher($category_id=""){
        $category=[];
+       $category['child'] = [];
+        $category['parent'] = [];
+        $category['self'] = [];
+        $category['self']['title'] = '';
+        $category['pare_id'] = [];
+        $category['parent']['id'] = [];
         if($category_id){
             $category['childs']=ArticleCategory::find()->where(['parent_id'=>$category_id])->asArray()->all();
 
@@ -115,6 +121,11 @@ class SiteController extends \frontend\controllers\SiteController
         
         $category=[];
         $category['child'] = [];
+        $category['parent'] = [];
+        $category['self'] = [];
+        $category['self']['title'] = '';
+        $category['pare_id'] = [];
+        $category['parent']['id'] = [];
         if($category_id){
             $category['childs']=ArticleCategory::find()->where(['parent_id'=>$category_id])->asArray()->all();
 

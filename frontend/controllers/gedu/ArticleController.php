@@ -22,6 +22,11 @@ class ArticleController extends Controller{
 		
 		$category=[];
 		$category['child'] = [];
+		$category['parent'] = [];
+		$category['self'] = [];
+		$category['self']['title'] = '';
+		$category['pare_id'] = [];
+		$category['parent']['id'] = [];
 		if($category_id){
 			/*
 			查找是否已category_id为父类的所有二级分类
@@ -77,6 +82,9 @@ class ArticleController extends Controller{
 	public function actionView($id=''){
 
 		$article=Article::find()->where(['id'=>$id])->one();
+		if(!$article){
+			throw new \yii\web\NotFoundHttpException(Yii::t('frontend','页面未找到'));
+		}
 		$categoryModel=$article->category;
 		$category['self']=$categoryModel->title;
 		//查找是否有父级分类,如果该类就是一级分类
@@ -94,9 +102,6 @@ class ArticleController extends Controller{
 			$category['pare_id']=$categoryModel->id;
 		}
 
-		if(!$article){
-			throw new NotFoundHttpException(Yii::t('frontend','页面未找到'));
-		}
 		$viewFile="view";
 		return $this->render($viewFile,[
 			'model'=>$article,
