@@ -73,8 +73,15 @@ abstract class StudentRecordValue extends \yii\db\ActiveRecord
         return [
             [['student_record_key_id', 'student_record_id'], 'required'],
             [['student_record_key_id', 'student_record_id', 'status', 'sort'], 'integer'],
-            [['body'], 'string', 'max' => 1024]
+            [['body'], 'string', 'max' => 1024],
+            [['user_id','school_id','grade_id','score','total_score'],'required','on'=>'course'],
         ];
+    }
+
+    public function scenarios(){
+        $scenario = parent::scenarios();
+        $scenario['course'] = ['user_id','grade_id','student_record_id','grade_id','score','total_score','status','sort'];
+        return $scenario;
     }
 
     /**

@@ -59,6 +59,7 @@ class User extends ActiveRecord implements IdentityInterface
     public $currentGrade  = []; //当前班级
     public $currentSchoolId = 0; //当前学校班级id
     public $currentGradeId  = 0; //当前班级id
+    public $udid;
     /**
      * @inheritdoc
      */
@@ -475,6 +476,10 @@ class User extends ActiveRecord implements IdentityInterface
     public function getId()
     {
         return $this->getPrimaryKey();
+    }
+
+    public function getUdid(){
+      return $this->udid;
     }
 
     /**
