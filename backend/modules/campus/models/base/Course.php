@@ -119,7 +119,7 @@ abstract class Course extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['grade_id', 'title', 'intro', 'start_time', 'end_time', 'teacher_id','status'], 'required'],
+            [['grade_id', 'title', 'intro', 'start_time', 'end_time', 'teacher_id','status','sort'], 'required'],
             ['creater_id','default','value'=>Yii::$app->user->isGuest ? 0 : Yii::$app->user->identity->id],
             [['school_id', 'grade_id', 'courseware_id', 'creater_id','status'], 'integer'],
             [['start_time','end_time'], 'filter', 'filter' => 'strtotime', 'skipOnEmpty' => true],
