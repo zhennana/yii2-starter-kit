@@ -73,13 +73,10 @@ class SiteController extends \frontend\controllers\SiteController
     *教师风采
     */
     public function actionTeacher($category_id=""){
+        if ($category_id == '') {
+            throw new \yii\web\NotFoundHttpException(Yii::t('frontend','页面未找到'));
+        }
        $category=[];
-       $category['child'] = [];
-        $category['parent'] = [];
-        $category['self'] = [];
-        $category['self']['title'] = '';
-        $category['pare_id'] = [];
-        $category['parent']['id'] = [];
         if($category_id){
             $category['childs']=ArticleCategory::find()->where(['parent_id'=>$category_id])->asArray()->all();
 
@@ -118,14 +115,10 @@ class SiteController extends \frontend\controllers\SiteController
     *校园风光
     */
     public function actionSights($category_id=""){
-        
+        if ($category_id == '') {
+            throw new \yii\web\NotFoundHttpException(Yii::t('frontend','页面未找到'));
+        }
         $category=[];
-        $category['child'] = [];
-        $category['parent'] = [];
-        $category['self'] = [];
-        $category['self']['title'] = '';
-        $category['pare_id'] = [];
-        $category['parent']['id'] = [];
         if($category_id){
             $category['childs']=ArticleCategory::find()->where(['parent_id'=>$category_id])->asArray()->all();
 
