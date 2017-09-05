@@ -14,6 +14,7 @@ use common\components\Qiniu\Auth;
 use common\components\Qiniu\Storage\BucketManager;
 use yii\web\Response;
 use backend\modules\campus\models\FileStorageItem;
+use backend\modules\campus\models\StudentRecordValueToFile;
 use backend\modules\campus\models\CoursewareToFile;
 
 
@@ -107,33 +108,26 @@ class QiniuCoursewareAction extends Action
     protected function uploadScore()
     {
          Yii::$app->response->format = Response::FORMAT_JSON;
-var_dump(Yii::$app->request->post());exit;
-        $type      = Yii::$app->request->post('type');
-        $url       = Yii::$app->params['qiniu'][$this->bucket]['domain'].'/';
-        $file_name = Yii::$app->request->post('url');
-        $size      = Yii::$app->request->post('size');
-        $user_id   =  Yii::$app->user->identity->id;
+
         $files = new FileStorageItem();
         $files->school_id        = '0';
         $files->grade_id         = '0';
         $files->file_category_id = 3;
-        $files->user_id          = $user_id;
-        $files->type             = $type;
-        $files->size             = $size;
-        $files->url              = $url;
-        $files->file_name        = $file_name;
-        $files->status           = 1;//1;
+        $files->user_id          = Yii::$app->user->isGuest ? 0 : Yii::$app->user->identity->id;
+        $files->type             = Yii::$app->request->post('type');
+        $files->size             = Yii::$app->request->post('size');
+        $files->url              = Yii::$app->params['qiniu'][$this->bucket]['domain'].'/';
+        $files->file_name        = Yii::$app->request->post('url');
+        $files->status           = FileStorageItem::STORAGE_STATUS_OPEN;//1;
         $files->original         = Yii::$app->request->post('file_name');
+        $files->upload_ip        = Yii::$app->request->getUserIP();
+        $files->component        = 'score';
 
-        $files->upload_ip        =  Yii::$app->request->getUserIP();
-        $files->component        = 'wakooedu';
-//var_dump($files->save(),$files->getErrors());exit;
        if($files->save()){
-           $courseware_file = new CoursewareToFile();
-           $courseware_file->file_storage_item_id = $files->file_storage_item_id;
-           $courseware_file->courseware_id        = $_GET['courseware_id'];
-           $courseware_file->status               = 1;
-           if($courseware_file->save()){
+           $value_to_file = new StudentRecordValueToFile();
+           $value_to_file->file_storage_item_id = $files->file_storage_item_id;
+           $value_to_file->student_record_value_id = $_GET['student_record_value_id'];
+           if($value_to_file->save()){
                 return  Yii::$app->response->data = [
                         'status' => $files->file_storage_item_id,
                         'note' => '成功'
