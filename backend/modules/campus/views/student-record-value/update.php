@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'Edit');
     </h1>
 
     <div class="crud-navigation">
-        <?= Html::a('<span class="glyphicon glyphicon-file"></span> ' . Yii::t('backend', 'View'), ['view', 'student_record_value_id' => $model->student_record_value_id], ['class' => 'btn btn-default']) ?>
+        <?= Html::a('<span class="glyphicon glyphicon-file"></span> ' . Yii::t('backend', '查看'), ['view', 'student_record_value_id' => $model->student_record_value_id], ['class' => 'btn btn-default']) ?>
     </div>
 
     <hr />

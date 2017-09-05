@@ -95,14 +95,14 @@ abstract class StudentRecordValue extends \yii\db\ActiveRecord
             [['student_record_key_id'], 'required'],
             [['student_record_key_id', 'student_record_id', 'status', 'sort'], 'integer'],
             [['body'], 'string', 'max' => 1024],
-            [['user_id','school_id','grade_id','score','total_score','exam_type'],'required','on'=>'score'],
+            [['user_id','school_id','grade_id','score','total_score','exam_type','student_record_key_id'],'required','on'=>'score'],
             [['total_score','score'],'number','on'=>'score'],
         ];
     }
 
     public function scenarios(){
         $scenario = parent::scenarios();
-        $scenario['score'] = ['user_id','school_id','grade_id','student_record_id','score','total_score','status','sort','exam_type'];
+        $scenario['score'] = ['student_record_key_id','user_id','school_id','grade_id','student_record_id','score','total_score','status','sort','exam_type'];
         return $scenario;
     }
 
@@ -113,10 +113,10 @@ abstract class StudentRecordValue extends \yii\db\ActiveRecord
     {
         return [
             'student_record_value_id' => Yii::t('backend', '自增ID'),
-            'student_record_key_id' => Yii::t('backend', '标题ID'),
-            'user_id' => Yii::t('backend', '用户 ID'),
-            'school_id' => Yii::t('backend', '学校 ID'),
-            'grade_id' => Yii::t('backend', '班级 ID'),
+            'student_record_key_id' => Yii::t('backend', '科目标题'),
+            'user_id' => Yii::t('backend', '用户'),
+            'school_id' => Yii::t('backend', '学校'),
+            'grade_id' => Yii::t('backend', '班级'),
             'student_record_id' => Yii::t('backend', '学员档案ID'),
             'total_score' => Yii::t('backend', '总分'),
             'score' => Yii::t('backend', '得分'),
@@ -136,10 +136,14 @@ abstract class StudentRecordValue extends \yii\db\ActiveRecord
     {
         return array_merge(parent::attributeHints(), [
             'student_record_value_id' => Yii::t('backend', '自增ID'),
-            'student_record_key_id' => Yii::t('backend', '标题ID'),
+            // 'student_record_key_id' => Yii::t('backend', '标题ID'),
             'student_record_id' => Yii::t('backend', '学员档案ID'),
+            'grade_id' => Yii::t('backend', '请先选择学校'),
+            'user_id' => Yii::t('backend', '请先选择班级'),
             'body' => Yii::t('backend', '学员档案条目描述'),
-            'status' => Yii::t('backend', '1：正常；0标记删除；2待审核；'),
+            'total_score' => Yii::t('backend', '科目满分'),
+            'score' => Yii::t('backend', '科目得分'),
+            'status' => Yii::t('backend', '状态'),
             'sort' => Yii::t('backend', '默认与排序'),
         ]);
     }

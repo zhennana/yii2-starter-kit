@@ -21,8 +21,23 @@ $keys = ArrayHelper::map($keys,'student_record_key_id','title');
 $schools = Yii::$app->user->identity->schoolsInfo;
 $schools = ArrayHelper::map($schools,'school_id','school_title');
 
-// $grades =  Yii::$app->user->identity->gradesInfo;
-// $grades  = ArrayHelper::map($grades,'grade_id','grade_name');
+$grades = $data_user = [];
+if (!$model->isNewRecord) {
+    $grades =  Yii::$app->user->identity->gradesInfo;
+    $grades  = ArrayHelper::map($grades,'grade_id','grade_name');
+
+    $user = Yii::$app->user->identity->getGradeToUser($model->grade_id,10);
+    foreach ($user as $key => $value) {
+       if(!empty($value['realname'])){
+            $data_user[$value['id']] = $value['realname'];
+            continue;
+       }
+       if(!empty($value['username'])){
+            $data_user[$value['id']] = $value['username'];
+       }
+   }
+}
+
 ?>
 
 <div class="student-record-value-form">
@@ -45,7 +60,7 @@ $schools = ArrayHelper::map($schools,'school_id','school_title');
             <?= $form->field($model, 'student_record_key_id')->widget(Select2::className(), [
                 'data'=>$keys,
                 // 'hideSearch' => true,
-                // 'options'       => ['placeholder' => Yii::t('backend','请选择')],
+                'options'       => ['placeholder' => Yii::t('backend','请选择')],
                 'pluginOptions' => [
                     'allowClear' => true,
                 ],
@@ -65,7 +80,7 @@ $schools = ArrayHelper::map($schools,'school_id','school_title');
             ]) ?>
 
             <?= $form->field($model, 'grade_id')->widget(Select2::className(),[
-                // 'data' => $grades,
+                'data' => $grades,
                 'options'       => ['placeholder' => Yii::t('backend','请选择')],
                 'pluginOptions' => [
                     'allowClear' => true
@@ -78,7 +93,7 @@ $schools = ArrayHelper::map($schools,'school_id','school_title');
             ]) ?>
 
             <?= $form->field($model, 'user_id')->widget(Select2::className(),[
-                // 'data' => $grades,
+                'data' => $data_user,
                 'options'       => ['placeholder' => Yii::t('backend','请选择')],
                 'pluginOptions' => [
                     'allowClear' => true

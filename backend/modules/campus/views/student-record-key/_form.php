@@ -71,6 +71,7 @@ if (env('THEME') == 'gedu') {
                 Select2::className(),
                 [
                 'data'=>StudentRecordKey::optsStatus(),
+                'hideSearch' => true,
                 ])->label('状态'); ?>
 
 <!-- attribute sort -->
