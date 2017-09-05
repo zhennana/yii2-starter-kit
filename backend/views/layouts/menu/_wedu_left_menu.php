@@ -251,13 +251,6 @@ use yii\helpers\Url;
                         'icon'=>'<i class="fa  fa-file-text"></i>'
                     ],
 
-                    [
-                        'label'=>Yii::t('backend', '学生成绩管理'),
-                        'url'=>['/campus/student-record-value/score'],
-                        'icon'=>'<i class="fa fa-angle-double-right"></i>',
-                        'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_teacher')),
-                    ],
-
                 ],
             ],
 

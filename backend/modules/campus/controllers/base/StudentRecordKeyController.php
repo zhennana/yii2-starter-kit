@@ -6,9 +6,10 @@ namespace backend\modules\campus\controllers\base;
 
 use backend\modules\campus\models\StudentRecordKey;
 use backend\modules\campus\models\search\StudentRecordKeySearch;
-use yii\web\Controller;
+use common\components\Controller;
 use yii\web\HttpException;
 use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
 use yii\filters\AccessControl;
 use dmstr\bootstrap\Tabs;
 use Yii;
@@ -64,7 +65,10 @@ public function actionIndex()
 {
     $searchModel  = new StudentRecordKeySearch;
     $dataProvider = $searchModel->search($_GET);
-
+        $schools = Yii::$app->user->identity->schoolsInfo;
+        $grades =  Yii::$app->user->identity->gradesInfo;
+        $schools = ArrayHelper::map($schools,'school_id','school_title');
+        $grades  = ArrayHelper::map($grades,'grade_id','grade_name');
 Tabs::clearLocalStorage();
 
 Url::remember();
@@ -73,6 +77,8 @@ Url::remember();
 return $this->render('index', [
 'dataProvider' => $dataProvider,
     'searchModel' => $searchModel,
+    'grades'       => $grades,
+        'schools'      => $schools,
 ]);
 }
 
@@ -101,7 +107,9 @@ return $this->render('view', [
 public function actionCreate()
 {
 $model = new StudentRecordKey;
-
+if (env('THEME') == 'gedu') {
+   $model->setScenario('score');
+}
 try {
 if ($model->load($_POST) && $model->save()) {
 
@@ -125,7 +133,9 @@ return $this->render('create', ['model' => $model]);
 public function actionUpdate($student_record_key_id)
 {
 $model = $this->findModel($student_record_key_id);
-
+if (env('THEME') == 'gedu') {
+   $model->setScenario('score');
+}
 if ($model->load($_POST) && $model->save()) {
 return $this->redirect(Url::previous());
 } else {

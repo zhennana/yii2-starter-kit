@@ -27,15 +27,26 @@ use yii\helpers\ArrayHelper;
 abstract class StudentRecordKey extends \yii\db\ActiveRecord
 {
 
-    const STUDENT_KEY_STATUS_OPEN = 1;
     const STUDENT_KEY_STATUS_DELECT = 0;
+    const STUDENT_KEY_STATUS_OPEN = 1;
+    const STUDENT_KEY_STATUS_AUDIT = 2;
 
     public static function optsStatus(){
         return [
             self::STUDENT_KEY_STATUS_OPEN =>'正常',
             self::STUDENT_KEY_STATUS_DELECT =>'关闭',
+            self::STUDENT_KEY_STATUS_AUDIT =>'待审核',
         ];
 
+    }
+
+    public static function getStatusLabel($value)
+    {
+        $label = self::optsStatus();
+        if (isset($label[$value])) {
+            return $label[$value];
+        }
+        return $value;
     }
     /**
      * @inheritdoc
@@ -71,8 +82,15 @@ abstract class StudentRecordKey extends \yii\db\ActiveRecord
         return [
             [['school_id', 'grade_id', 'status', 'sort'], 'integer'],
             [['title'], 'required'],
-            [['title'], 'string', 'max' => 512]
+            [['title'], 'string', 'max' => 512],
+            [['school_id','grade_id'],'default','value' => 0,'on' => 'score'],
         ];
+    }
+
+    public function scenarios(){
+        $scenario = parent::scenarios();
+        $scenario['score'] = ['school_id','grade_id','title','status'];
+        return $scenario;
     }
 
     /**
@@ -82,13 +100,13 @@ abstract class StudentRecordKey extends \yii\db\ActiveRecord
     {
         return [
             'student_record_key_id' => Yii::t('backend', '自增ID'),
-            'school_id' => Yii::t('backend', 'School ID'),
-            'grade_id' => Yii::t('backend', 'Grade ID'),
+            'school_id' => Yii::t('backend', '学校 ID'),
+            'grade_id' => Yii::t('backend', '班级 ID'),
             'title' => Yii::t('backend', '标题'),
-            'status' => Yii::t('backend', '1：正常；0标记删除；2待审核；'),
+            'status' => Yii::t('backend', '状态'),
             'sort' => Yii::t('backend', '默认与排序'),
-            'updated_at' => Yii::t('backend', 'Updated At'),
-            'created_at' => Yii::t('backend', 'Created At'),
+            'updated_at' => Yii::t('backend', '更新时间'),
+            'created_at' => Yii::t('backend', '创建时间'),
         ];
     }
 
@@ -115,6 +133,16 @@ abstract class StudentRecordKey extends \yii\db\ActiveRecord
         $school = \backend\modules\campus\models\School::find()->where(['status'=>School::SCHOOL_STATUS_OPEN])->asArray()->all();
         return ArrayHelper::map($school,'school_id','school_title');
       }
+
+    public function getSchool()
+    {
+        return $this->hasOne(\backend\modules\campus\models\School::className(),['school_id' => 'school_id']);
+    }
+
+    public function getGrade()
+    {
+        return $this->hasOne(\backend\modules\campus\models\Grade::className(),['grade_id' => 'grade_id']);
+    }
     /**
      * @inheritdoc
      * @return \backend\modules\campus\models\query\StudentRecordKeyQuery the active query used by this AR class.
