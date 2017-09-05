@@ -8,13 +8,13 @@ use yii\helpers\Html;
 */
 
 $this->title = Yii::t('backend', 'Create');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '创建学生档案'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => (env('THEME') == 'gedu') ? Yii::t('backend', '创建成绩') : Yii::t('backend', '创建学生档案'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="giiant-crud student-record-value-create">
 
     <h1>
-        <?= Yii::t('backend', '创建学生档案') ?>
+        <?= (env('THEME') == 'gedu') ? Yii::t('backend', '创建成绩') : Yii::t('backend', '创建学生档案') ?>
         <small>
                       <!--   <? //= $model->student_record_value_id ?> -->
         </small>
@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="clearfix crud-navigation">
         <div class="pull-left">
             <?=             Html::a(
-            Yii::t('backend', 'Cancel'),
+            Yii::t('backend', '取消'),
             \yii\helpers\Url::previous(),
             ['class' => 'btn btn-default']) ?>
         </div>

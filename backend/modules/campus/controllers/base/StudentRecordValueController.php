@@ -5,6 +5,7 @@
 namespace backend\modules\campus\controllers\base;
 
 use backend\modules\campus\models\StudentRecordValue;
+use backend\modules\campus\models\StudentRecordKey;
 use backend\modules\campus\models\search\StudentRecordValueSearch;
 use common\components\Controller;
 use yii\web\HttpException;
@@ -100,6 +101,10 @@ return $this->render('view', [
 public function actionCreate()
 {
 $model = new StudentRecordValue;
+if (env('THEME') == 'gedu') {
+    $model->scenario = 'score';
+    // $keys = StudentRecordKey::find()->where(['status'=>StudentRecordKey::STUDENT_KEY_STATUS_OPEN])->all();
+}
 
 try {
 if ($model->load($_POST) && $model->save()) {
@@ -123,7 +128,9 @@ return $this->render('create', ['model' => $model]);
 public function actionUpdate($student_record_value_id)
 {
 $model = $this->findModel($student_record_value_id);
-
+if (env('THEME') == 'gedu') {
+    $model->scenario = 'score';
+}
 if ($model->load($_POST) && $model->save()) {
 return $this->redirect(Url::previous());
 } else {
