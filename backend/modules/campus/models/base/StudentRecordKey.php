@@ -89,7 +89,7 @@ abstract class StudentRecordKey extends \yii\db\ActiveRecord
 
     public function scenarios(){
         $scenario = parent::scenarios();
-        $scenario['score'] = ['school_id','grade_id','title'];
+        $scenario['score'] = ['school_id','grade_id','title','status'];
         return $scenario;
     }
 
