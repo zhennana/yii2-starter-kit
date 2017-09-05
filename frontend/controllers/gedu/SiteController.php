@@ -114,6 +114,7 @@ class SiteController extends \frontend\controllers\SiteController
     public function actionSights($category_id=""){
         
         $category=[];
+        $category['child'] = [];
         if($category_id){
             $category['childs']=ArticleCategory::find()->where(['parent_id'=>$category_id])->asArray()->all();
 

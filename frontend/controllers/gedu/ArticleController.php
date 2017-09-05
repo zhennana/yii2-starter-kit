@@ -21,6 +21,7 @@ class ArticleController extends Controller{
 		$articleQuery=Article::find()->where(['status'=>Article::STATUS_PUBLISHED]);
 		
 		$category=[];
+		$category['child'] = [];
 		if($category_id){
 			/*
 			查找是否已category_id为父类的所有二级分类
