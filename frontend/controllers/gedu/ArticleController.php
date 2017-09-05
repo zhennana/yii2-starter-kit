@@ -11,7 +11,9 @@ use yii\data\Pagination;
 class ArticleController extends Controller{
 	public $enableCsrfValidation = false;
 	public function actionIndex($category_id=''){
-
+		if ($category_id == '') {
+            throw new \yii\web\NotFoundHttpException(Yii::t('frontend','页面未找到'));
+        }
 		/**
 		1，首先，判断是否传入的care gory，如果没传入，默认全查，如果传入，执行下面
 		2，判断传入的categoryid是否事一级分类；如果事一级分类，查找分类下的所有分类；
@@ -21,12 +23,6 @@ class ArticleController extends Controller{
 		$articleQuery=Article::find()->where(['status'=>Article::STATUS_PUBLISHED]);
 		
 		$category=[];
-		$category['child'] = [];
-		$category['parent'] = [];
-		$category['self'] = [];
-		$category['self']['title'] = '';
-		$category['pare_id'] = [];
-		$category['parent']['id'] = [];
 		if($category_id){
 			/*
 			查找是否已category_id为父类的所有二级分类
