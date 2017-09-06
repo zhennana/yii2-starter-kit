@@ -37,7 +37,7 @@ class StudentRecordValue extends BaseStudentRecordValue
       return ArrayHelper::merge(
           parent::fields(),
           [
-            'grade_name'=>function($mdoel){
+            'grade_name'=>function($model){
                 return isset($model->grade->grade_name) ? $model->grade->grade_name  : NULL;
             },
             'course_title'=>function($model){
