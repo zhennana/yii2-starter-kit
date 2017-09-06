@@ -9,7 +9,7 @@ use frontend\models\search\ArticleSearch;
 use yii\data\Pagination;
 
 class ArticleController extends Controller{
-	public $enableCsrfValidation = false;
+	public $enableCsrfValidation = true;
 	public function actionIndex($category_id=''){
 		if ($category_id == '') {
             throw new \yii\web\NotFoundHttpException(Yii::t('frontend','页面未找到'));
