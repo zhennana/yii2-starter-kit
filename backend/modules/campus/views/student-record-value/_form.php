@@ -34,6 +34,10 @@ if (!$model->isNewRecord) {
        }
        if(!empty($value['username'])){
             $data_user[$value['id']] = $value['username'];
+            continue;
+       }
+       if(!empty($value['phone_number'])){
+            $data_user[$value['id']] = $value['phone_number'];
        }
    }
 }
