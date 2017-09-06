@@ -144,7 +144,7 @@ class StudentRecordValueController extends \backend\modules\campus\controllers\b
 
         }elseif($_GET['type'] == 'grade_id'){
             foreach ($list as $key => $value) {
-                $html .= Html::tag('option',Html::encode($value->user->username),array('value'=>$value->user->id));
+                $html .= Html::tag('option',Html::encode($value),array('value'=>$key));
             }
         }
         return $html;
