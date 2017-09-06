@@ -355,7 +355,7 @@ class MyController extends \common\rest\Controller
      *     @SWG\Parameter(
      *        in = "query",
      *        name = "user_id",
-     *        description = "年级/班级ID",
+     *        description = "用户id",
      *        required = false,
      *        type = "string",
      *        default = "1",
