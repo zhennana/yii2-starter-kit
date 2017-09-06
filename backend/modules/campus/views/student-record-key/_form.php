@@ -22,6 +22,20 @@ if (env('THEME') == 'gedu') {
 }
 ?>
 
+<script type="text/javascript">
+     function handleChange(type_id,id,form){
+        $.ajax({
+            "url":"<?php echo Url::to(['student-record-key/ajax-form']) ?>",
+            "data":{type_id:type_id,id:id},
+            'type':"GET",
+            'success':function(data){
+               console.log(data);
+                 $(form).html(data);
+            }
+        })
+    }
+</script>
+
 <div class="student-record-key-form">
 
     <?php $form = ActiveForm::begin([
@@ -116,20 +130,7 @@ if (env('THEME') == 'gedu') {
 <?php if (env('THEME') == 'wedu') { ?>
 
 <script>
-    function handleChange(type_id,id,form){
-           //console.log('type_id:'+type_id);
-            //console.log('id:'+id);
-        $.ajax({
-            //index.php?r=campus/student-record/ajax-form&type_id="+type_id+"&id="+id
-            "url":"<?php echo Url::to(['student-record-key/ajax-form']) ?>",
-            "data":{type_id:type_id,id:id},
-            'type':"GET",
-            'success':function(data){
-                 $(form).html(data);
-               //console.log(data);
-            }
-        })
-    }
+   
 
     function refresh(){
         parent.location.reload();

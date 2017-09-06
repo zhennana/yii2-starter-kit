@@ -49,8 +49,8 @@ abstract class StudentRecordValue extends \yii\db\ActiveRecord
     public static function optsExamType()
     {
         return [
-            self::EXAM_TYPE_MIDTERM => '期中考试',
-            self::EXAM_TYPE_FINALEXAM => '期末考试',
+            self::EXAM_TYPE_MIDTERM => '期中',
+            self::EXAM_TYPE_FINALEXAM => '期末',
             self::EXAM_TYPE_OTHER => '其他',
         ];
     }
@@ -125,7 +125,7 @@ abstract class StudentRecordValue extends \yii\db\ActiveRecord
             'sort' => Yii::t('backend', '默认与排序'),
             'updated_at' => Yii::t('backend', '更新时间'),
             'created_at' => Yii::t('backend', '创建时间'),
-            'exam_type' => Yii::t('backend', '分数类型'),
+            'exam_type' => Yii::t('backend', '成绩类型'),
         ];
     }
 
