@@ -39,6 +39,8 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
     CONST GRADE_USER_TYPE_TEACHER   = 20 ; //老师
     CONST GRADE_USER_TYPE_PARENTS   = 30 ; //家长
 
+    public $is_verification = true;
+
     public static function optsStatus(){
         return [
             self::USER_GRADE_STATUS_NORMAL  =>  '正常',
@@ -134,21 +136,25 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
     }
     //检测用户是否还有课程
     public function is_course_count($attributes){
-        if($this->grade_user_type == self::GRADE_USER_TYPE_STUDENT){
-            $courseCount = CourseOrderItem::find()
-            ->select(['SUM(total_course + presented_course) as total_courses'])
-            ->where(['user_id'=>$this->user_id,'payment_status'=>CourseOrderItem::PAYMENT_STATUS_PAID])
-            ->asArray()->one();
-            $aboverCourse =\backend\modules\campus\models\SignIn::find()
-            ->where(['student_id'=>$this->user_id,'type_status'=>\backend\modules\campus\models\SignIn::TYPE_STATUS_MORMAL])
-            ->count('student_id');
-
-            if(($courseCount['total_courses'] < $aboverCourse) || ($courseCount['total_courses'] == $aboverCourse) ){
-                $message = Yii::$app->user->identity->getUserName($this->user_id) .'已欠费'.'请先去缴费才能分班';
-                return $this->addError($attributes,$message);
-            }
+       if(env('THEME') == 'gedu'){
+           $this->is_verification = false;//跳过学生欠费验证验证
         }
+        if($this->is_verification === true){
+            if($this->grade_user_type == self::GRADE_USER_TYPE_STUDENT){
+                $courseCount = CourseOrderItem::find()
+                ->select(['SUM(total_course + presented_course) as total_courses'])
+                ->where(['user_id'=>$this->user_id,'payment_status'=>CourseOrderItem::PAYMENT_STATUS_PAID])
+                ->asArray()->one();
+                $aboverCourse =\backend\modules\campus\models\SignIn::find()
+                ->where(['student_id'=>$this->user_id,'type_status'=>\backend\modules\campus\models\SignIn::TYPE_STATUS_MORMAL])
+                ->count('student_id');
 
+                if(($courseCount['total_courses'] < $aboverCourse) || ($courseCount['total_courses'] == $aboverCourse) ){
+                    $message = Yii::$app->user->identity->getUserName($this->user_id) .'已欠费'.'请先去缴费才能分班';
+                    return $this->addError($attributes,$message);
+                }
+        }
+    }
 
     }
     /**
