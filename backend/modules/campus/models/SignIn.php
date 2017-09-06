@@ -108,7 +108,7 @@ class SignIn extends BaseSignIn
                     'cid'               => $userProfile->clientid,
                     'message'           => [
                     'title' =>'上课通知',
-                    'body'  =>'您的孩子上课了：'.$this->course->title
+                    'body'  =>'家长您好！您的孩子在瓦酷机器人已开始上课啦！'
                           ]
                     ];
                 $notice =[
