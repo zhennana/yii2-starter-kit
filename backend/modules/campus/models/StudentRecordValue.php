@@ -143,12 +143,22 @@ class StudentRecordValue extends BaseStudentRecordValue
                 ->all();
             return $grades;
         }elseif($params['type'] == 'grade_id'){
-            $users = UserToGrade::find()->with('user')->where([
-                'grade_id' => $params['value'],
-                'status' => [UserToGrade::USER_GRADE_STATUS_NORMAL,UserToGrade::USER_GRADE_STATUS_CHANGE],
-                'grade_user_type' => UserToGrade::GRADE_USER_TYPE_STUDENT
-            ])->all();
-            return $users;
+            $users = Yii::$app->user->identity->getGradeToUser($params['value'],10);
+            $data_user = [];
+            foreach ($users as $key => $value) {
+                if(!empty($value['realname'])){
+                    $data_user[$value['id']] = $value['realname'];
+                    continue;
+                }
+                if(!empty($value['username'])){
+                    $data_user[$value['id']] = $value['username'];
+                    continue;
+                }
+                if(!empty($value['phone_number'])){
+                    $data_user[$value['id']] = $value['phone_number'];
+                }
+            }
+            return $data_user;
         }
     }
 }

@@ -58,7 +58,7 @@ class StudentRecordValue extends BaseStudentRecordValue
                 return $image;
             },
             'target_url'=>function($model){
-                return Yii::$app->request->hostInfo.Url::to(['gedu/v1/my/score','grade_id' => $model->grade_id]);
+                return Yii::$app->request->hostInfo.Url::to(['v1/my/score','grade_id' => $model->grade_id]);
             }
 
           ]
