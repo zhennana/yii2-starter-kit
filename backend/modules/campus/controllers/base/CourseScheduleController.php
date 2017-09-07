@@ -117,6 +117,7 @@ $model = new CourseSchedule;
 
 try {
     if ($model->load($_POST) && $model->save()) {
+        Course::updateAll(['status'=>$model->status],'course_id = '.$model->course_id);
     return $this->redirect(['view', 'course_schedule_id' => $model->course_schedule_id]);
     } elseif (!\Yii::$app->request->isPost) {
     $model->load($_GET);

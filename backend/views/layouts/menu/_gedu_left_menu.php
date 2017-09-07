@@ -384,13 +384,14 @@ use yii\helpers\Url;
                          'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_teacher')),
                          'icon'=>'<i class=" fa  fa-volume-up"></i>'
                     ],
-                    /*
+
                     [
                         'label'=>Yii::t('backend', '个推列表'),
                          'url'=>['/campus/notice/a-push'],
                          'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_director')),
                          'icon'=>'<i class=" fa  fa-volume-up"></i>'
                     ],
+                    /*
                     [
                         'label'=>Yii::t('backend', '发布分享消息'), 
                         'url'=>['/campus/share-stream/index'], 
