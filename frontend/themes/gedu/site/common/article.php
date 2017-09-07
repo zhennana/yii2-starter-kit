@@ -89,7 +89,7 @@ use yii\helpers\Html;
     $('.main-4-videoBox').click(function(){
         $(".move-box1").show();
         $('video').trigger('play');
-        $('video').enterFullScreen();
+//        $('video').enterFullScreen();
     });
 
    $("#video_close").click(function(){

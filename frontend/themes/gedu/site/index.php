@@ -126,6 +126,7 @@ use yii\helpers\Html;
     <script type="text/javascript">
       $(function(){
         var oV=document.getElementById('yjzxVideo');
+        var oVmask=$('.main-4-videoBox');
         var oVbtn=$('.videoBtn');
         var oVbox=$('.videoBox');
         var oVbg=$('.videoBg');
@@ -138,7 +139,8 @@ use yii\helpers\Html;
 
      
          if(!(navigator.userAgent.indexOf("Safari") > -1 && navigator.userAgent.indexOf("Chrome") == -1)){
-            oVbox.on('click',function(){
+//            oVbox.on('click',function(){
+             oVmask.on('click',function(){
               oV.play();
               oVbg.css({'display':'none','background':'none'});
             });
