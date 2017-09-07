@@ -242,7 +242,6 @@ class SignInController extends \common\components\ControllerFrontendApi
         //$account  = Yii::$app->user->identity->getAccount();
 
         $proFileUser = Yii::$app->user->identity->userProfile;
-
        // 默认头像
         if(isset($proFileUser->avatar_base_url) && !empty($proFileUser->avatar_base_url))
         {
@@ -255,6 +254,8 @@ class SignInController extends \common\components\ControllerFrontendApi
                 $attrUser['avatar'] = 'http://orh16je38.bkt.clouddn.com/o_1bn7gmjh51nu51dn1k0kimul5n9.jpg';
             }
         }
+        $attrUser['clientid'] = $proFileUser->clientid;
+        $attrUser['client_source_type'] = $proFileUser->client_source_type;
         return $attrUser;
     }
 
