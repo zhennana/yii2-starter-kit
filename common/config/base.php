@@ -292,6 +292,7 @@ $config = [
             'KRW' => '韩圆',
             'PHP' => '菲律宾披索',
         */
+       /*
         'payment' => [
             'gedu' => [
                 'alipay' => [
@@ -325,7 +326,7 @@ $config = [
                 ],
             ],
         ],
-
+        */
     ], // component 结束
     
     // Yii::$app->params['something']

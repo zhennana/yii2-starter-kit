@@ -10,7 +10,7 @@ use \common\components\APush\APush;
 /**
  * @author Eugene Terentev <eugene@terentev.net>
  */
-class NoticeController extends controller
+class NoticeController extends Controller
 {
 
 
