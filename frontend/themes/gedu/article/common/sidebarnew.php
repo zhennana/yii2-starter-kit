@@ -2,9 +2,8 @@
 <?php
 use yii\helpers\Html;
 use common\models\Article;
-
 $childNew=!empty($category['childs'])?$category['childs']:$category['child'];
-  // echo '<pre>';var_dump($childNew);exit;
+// dump($category);exit;
 
 $cateParent=!empty($category['pare_name'])?$category['pare_name']:'光大学校';
 ?><!-- 左边侧边栏 -->

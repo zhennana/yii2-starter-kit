@@ -245,6 +245,26 @@ use yii\helpers\Url;
                         'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_teacher')),
                     ],
                     */
+                   [
+                        'label'=>Yii::t('backend', '学生成绩'),
+                        'url'=>'#',
+                        'icon'=>'<i class="fa fa-angle-double-right"></i>',
+                        'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_teacher')),
+                        'items' => [
+                            [
+                                'url'=>['/campus/student-record-key/index'],
+                                'label' => Yii::t('backend','科目标题'),
+                                'icon'=>'<i class="fa fa-angle-double-right"></i>',
+                                'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_teacher')),
+                            ],
+                            [
+                                'url'=>['/campus/student-record-value/index'],
+                                'label' => Yii::t('backend','成绩管理'),
+                                'icon'=>'<i class="fa fa-angle-double-right"></i>',
+                                'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_teacher')),
+                            ],
+                        ],
+                    ],
                     [
                         'label'=>Yii::t('backend', '课程订单管理'),
                         'url'=>['/campus/course-order-item/index','type'=>2], 'icon'=>'<i class=" fa  fa-file-text"></i>',
@@ -364,13 +384,14 @@ use yii\helpers\Url;
                          'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_teacher')),
                          'icon'=>'<i class=" fa  fa-volume-up"></i>'
                     ],
-                    /*
+
                     [
                         'label'=>Yii::t('backend', '个推列表'),
                          'url'=>['/campus/notice/a-push'],
                          'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_director')),
                          'icon'=>'<i class=" fa  fa-volume-up"></i>'
                     ],
+                    /*
                     [
                         'label'=>Yii::t('backend', '发布分享消息'), 
                         'url'=>['/campus/share-stream/index'], 

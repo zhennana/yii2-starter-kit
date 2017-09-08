@@ -25,6 +25,12 @@ $config = [
          */
         'session' => [
             'class' => 'yii\web\DbSession',
+            'writeCallback' => function($session){
+                return [
+                    'user_id' => Yii::$app->user->id,
+                    'created_at' => date('Y-m-d H:i:s', time()),
+                ];
+            }
             // Set the following if you want to use DB component other than
             // default 'db'.
             // 'db' => 'mydb',

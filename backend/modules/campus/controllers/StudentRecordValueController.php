@@ -3,18 +3,47 @@
 namespace backend\modules\campus\controllers;
 use backend\modules\campus\models\StudentRecordKey;
 use backend\modules\campus\models\StudentRecord;
+use backend\modules\campus\models\search\StudentRecordValueSearch;
 use backend\modules\campus\models\StudentRecordValue;
 use backend\modules\campus\models\StudentRecordValueToFile;
 use common\components\Qiniu\Auth;
 use common\components\Qiniu\Storage\BucketManager;
 use backend\modules\campus\models\WorkRecord;
 use backend\modules\campus\models\SignIn;
+use yii\helpers\Url;
+use yii\filters\AccessControl;
+use dmstr\bootstrap\Tabs;
+use yii\helpers\Html;
+
 
 /**
 * This is the class for controller "StudentRecordValueController".
 */
 class StudentRecordValueController extends \backend\modules\campus\controllers\base\StudentRecordValueController
 {
+    public function actions()
+    {
+        return [
+            // 七牛云
+            'token-cloud' => [//得到上传token
+                'class' => 'common\actions\QiniuCoursewareAction',
+                'type' => 'token'
+            ],
+            'upload-cloud' => [//上传
+                'class' => 'common\actions\QiniuCoursewareAction',
+                'type' => 'upload-score',
+            ],
+            'delete-cloud'=>[
+                'class' =>'common\actions\QiniuCoursewareAction',
+                'type'=>'delete',
+             ],
+            'privacy' => [//是否公开delete
+                'class' => 'common\actions\QiniuCoursewareAction',
+                'type' => 'privacy'
+            ],
+        ];
+    }
+    
     /**
      * 创建学生档案
      * @return [type] [description]
@@ -83,5 +112,41 @@ class StudentRecordValueController extends \backend\modules\campus\controllers\b
         }else{
             return false;
         }
+    }
+
+        public function actionIndex()
+        {
+            $searchModel  = new StudentRecordValueSearch;
+            $dataProvider = $searchModel->search($_GET);
+
+            Tabs::clearLocalStorage();
+
+            Url::remember();
+            \Yii::$app->session['__crudReturnUrl'] = null;
+
+            return $this->render('index', [
+            'dataProvider' => $dataProvider,
+                'searchModel' => $searchModel,
+            ]);
+        }
+
+    public function actionAjaxForm()
+    {
+        $html = '';
+        $model = new StudentRecordValue;
+        $list = $model->getList($_GET);
+        $html .= Html::tag('option',Html::encode('请选择'),array('value'=>''));
+
+        if ($_GET['type'] == 'school_id') {
+            foreach ($list as $key => $value) {
+                $html .= Html::tag('option',Html::encode($value->grade_name),array('value'=>$value->grade_id));
+            }
+
+        }elseif($_GET['type'] == 'grade_id'){
+            foreach ($list as $key => $value) {
+                $html .= Html::tag('option',Html::encode($value),array('value'=>$key));
+            }
+        }
+        return $html;
     }
 }

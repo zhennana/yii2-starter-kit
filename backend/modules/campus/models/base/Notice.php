@@ -41,9 +41,12 @@ abstract class Notice extends \yii\db\ActiveRecord
     CONST STATUS_SEND_SENT   = 10;    // 发送
     CONST STATUS_SEND_UNSENT = 20;    // 未发送
 
-    CONST TYPE_PUSH_SIGN_IN     = 3;//签到个推类型
-    CONST TYPE_PUSH_TEACHER     = 2;//老师个推类型
-    CONST TYPE_PUSH_SCHOOL      = 1;//学校个推类型
+    CONST TYPE_PUSH_SIGN_IN     = 3; //签到
+    CONST TYPE_PUSH_TEACHER     = 2; //教师公告
+    CONST TYPE_PUSH_SCHOOL      = 1; //学校公告
+    CONST TYPE_PUSH_STUDENT     = 4; //家校沟通;
+    CONST TYPE_PUSH_GRADE       = 6; //班级公告;
+    CONST TYPE_PUSH_PERSONAL    = 5; //个人;
 
     // CONST STATUS_SENT  = 10; //正常
     // CONST STATUS_CLOSE = 20; //关闭
@@ -58,9 +61,12 @@ abstract class Notice extends \yii\db\ActiveRecord
     public static function optsType()
     {
         return [
-            self::TYPE_PUSH_SIGN_IN   => Yii::t('backend','签到个推'),
-            self::TYPE_PUSH_TEACHER => Yii::t('backend','教师个推'),
-            self::TYPE_PUSH_SCHOOL => Yii::t('backend','学校个推')
+            self::TYPE_PUSH_SIGN_IN   => Yii::t('backend','签到'),
+            self::TYPE_PUSH_TEACHER => Yii::t('backend','教师公告'),
+            self::TYPE_PUSH_SCHOOL => Yii::t('backend','学校公告'),
+            self::TYPE_PUSH_STUDENT => Yii::t('backend','家校沟通'),
+            self::TYPE_PUSH_GRADE => Yii::t('backend','班级公告'),
+            self::TYPE_PUSH_PERSONAL => Yii::t('backend','个人'),
         ];
     }
 
@@ -118,6 +124,8 @@ abstract class Notice extends \yii\db\ActiveRecord
             'message'                => Yii::t('backend', '消息内容'),
             'school_id'              => Yii::t('backend', '学校'),
             'grade_id'               => Yii::t('backend', '班级'),
+            'type'               => Yii::t('backend', '推送来源'),
+
             //'message'                => Yii::t('backend', '消息内容'),
             'message_hash'           => Yii::t('backend', 'Message Hash'),
             'sender_id'              => Yii::t('backend', '发送者ID'),

@@ -162,6 +162,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                 [
                     'attribute' => 'school_title',
                     'label'     => '学校',
+                    'options' => ['width' => '10%'],
                     'value'     => function($model){
                         return isset($model->school->school_title) ? $model->school->school_title : '';
                     }
@@ -169,6 +170,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                 [
                     'attribute' => 'grade_name',
                     'label'     => '班级',
+                    'options' => ['width' => '8%'],
                     'value'     => function($model){
                         return isset($model->grade->grade_name) ? $model->grade->grade_name  : '';
                     }
