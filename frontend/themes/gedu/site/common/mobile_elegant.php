@@ -5,11 +5,11 @@ use yii\helpers\Html
     <div class="row ">
         <div class="col-md-3 col-sm-6 col-padding animate-box" >
             <div class="blog-entry">
-                <a href="#" class="blog-img" align="center"><img src="http://static.v1.guangdaxuexiao.com/tihuan1.jpg?imageView2/1/w/300/h/300" class="img-responsive" ></a>
+                <a href="#" class="blog-img" align="center"><img src="http://static.v1.guangdaxuexiao.com/honor1.jpg?imageView2/1/w/300/h/300" class="img-responsive" ></a>
                 <div class="desc">
-                    <h3><a href="#">快乐高效课堂</a></h3>
+                    <h3><a href="#">七彩校园</a></h3>
                     
-                    <p>温馨快乐校园建设的主阵地，全面提高学生思想道德、科学文化、身心健康全面发展。</p>
+                    <p>“七彩校园”2017中国校园艺术节全国总决选金奖。</p>
                     
                     <?php echo Html::a('了解更多',['site/sights','category_id'=>37],['class'=>'lead'])?>
                 </div>
