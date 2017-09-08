@@ -52,9 +52,14 @@ public function behaviors()
    */
     public function message($category,$school_id = NULL,$grade_id = NULL){
       $model = self::find()->select('message')
-                ->where([
+                ->andWhere([
                     'category'=>$category,
                   ]);
+        $school_ids = Yii::$app->user->identity->userToSchool;
+        $grade_ids  = Yii::$app->user->identity->usersToGrades;
+        $school_id = ArrayHelper::map($school_ids,'school_id','school_id');
+         // var_dump($school_id);exit;
+        $grade_id = ArrayHelper::map($grade_ids,'grade_id','grade_id');
       if($category == 2){
             $model->andWhere([
                 'receiver_id'=>Yii::$app->user->identity->id
@@ -66,7 +71,7 @@ public function behaviors()
                 [
                 'school_id'  => $school_id, 
                 'grade_id'=> NULL ,
-                'receiver_id' => Yii::$app->user->identity->id
+                'receiver_id' => NULL
                 ],
                 ['school_id'  => $school_id , 'grade_id' => $grade_id ,'receiver_id' => NULL],
             ]);

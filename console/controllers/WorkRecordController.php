@@ -13,7 +13,7 @@ use backend\modules\campus\models\CourseSchedule;
 /**
  * @author Eugene Terentev <eugene@terentev.net>
  */
-class WorkRecordController extends controller
+class WorkRecordController extends Controller
 {
 
   public function actionIndex(){

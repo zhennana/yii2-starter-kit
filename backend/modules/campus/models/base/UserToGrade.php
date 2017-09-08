@@ -9,7 +9,7 @@ use yii\behaviors\TimestampBehavior;
 use yii\helpers\ArrayHelper;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
-use backend\modules\campus\models\CourseOrderItem;
+// use backend\modules\campus\models\CourseOrderItem;
 //use backend\modules\campus\models\SignIn;
 
 /**
