@@ -55,6 +55,11 @@ public function behaviors()
                 ->where([
                     'category'=>$category,
                   ]);
+        $school_ids = Yii::$app->user->identity->userToSchool;
+        $grade_ids  = Yii::$app->user->identity->usersToGrades;
+        $school_id = ArrayHelper::map($school_ids,'school_id','school_id');
+         // var_dump($school_id);exit;
+        $grade_id = ArrayHelper::map($grade_ids,'grade_id','grade_id');
       if($category == 2){
             $model->andWhere([
                 'receiver_id'=>Yii::$app->user->identity->id
