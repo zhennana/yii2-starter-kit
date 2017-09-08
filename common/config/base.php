@@ -325,8 +325,8 @@ $config = [
                 'alipay_public_key' => Yii::getAlias('@common').'/payment/alipay/cert/alipay_public_key.pem',
                 ],
             ],
-        ],
-        */
+        ],*/
+
     ], // component 结束
     
     // Yii::$app->params['something']
