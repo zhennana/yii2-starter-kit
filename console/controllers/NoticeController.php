@@ -35,7 +35,6 @@ class NoticeController extends Controller
      ->andwhere(['not',['type'=>NULL]])
      ->all();
      $callback = [];
-     var_dump('本次要推送',count($model));
      foreach ($model as $key => $value) {
         $cid =  isset($value->user->userProfile->clientid) ? $value->user->userProfile->clientid : NULL;
         $client_source_type = isset($value->user->userProfile->client_source_type) ? $value->user->userProfile->client_source_type : NULL;
