@@ -74,7 +74,18 @@ $config = [
         'request' => [
             'cookieValidationKey' => env('FRONTEND_COOKIE_VALIDATION_KEY')
         ],
-        'params'=>[
+
+        'user' => [
+            'class'=>'yii\web\User',
+            'identityClass' => 'common\models\User',
+            'loginUrl'=>['/user/sign-in/login'],
+            'enableAutoLogin' => true,
+            'enableSession' => true,
+            'as afterLogin' => 'common\behaviors\LoginTimestampBehavior'
+        ],
+    ],
+    'as globalAccess'=>require(__DIR__.'/access.php'),
+    'params'=>[
              'payment' => [
                     'gedu' => [
                         'alipay' => [
@@ -109,17 +120,7 @@ $config = [
                 ],
             ],
 
-        ],
-        'user' => [
-            'class'=>'yii\web\User',
-            'identityClass' => 'common\models\User',
-            'loginUrl'=>['/user/sign-in/login'],
-            'enableAutoLogin' => true,
-            'enableSession' => true,
-            'as afterLogin' => 'common\behaviors\LoginTimestampBehavior'
-        ]
     ],
-    'as globalAccess'=>require(__DIR__.'/access.php'),
 ];
 
 if (YII_ENV_DEV) {
