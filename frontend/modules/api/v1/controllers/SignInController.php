@@ -224,7 +224,7 @@ class SignInController extends \common\components\ControllerFrontendApi
             Yii::$app->user->logout();
         }else{
             $model = new LoginForm();
-            $info = $model->updateSession(Yii::$app->user->id);   // 登录第一次更新设备号
+            $info = $model->updateSession(Yii::$app->user->id, $udid);   // 登录第一次更新设备号
         }
         if(\Yii::$app->user->isGuest){
             Yii::$app->response->statusCode = 422;
