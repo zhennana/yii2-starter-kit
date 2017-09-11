@@ -8,6 +8,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="content">
     <article class="article-item">
         <h1><?php echo $model->title ?></h1>
+        <hr>
 
         <?php if ($model->thumbnail_path): ?>
             <?php echo \yii\helpers\Html::img(
