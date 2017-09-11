@@ -99,10 +99,10 @@ $config = [
                         'notify_url' => 'http://'.$_SERVER['HTTP_HOST'].'/gedu_alipay_notify.php',
 
                         //同步跳转,尾部需要拼接主课件ID
-                        //'return_url' => 'http://'.$_SERVER['HTTP_HOST'].'/#/coursedetail/',
+                        'return_url' => 'http://'.$_SERVER['HTTP_HOST'].'/#/coursedetail/',
 
                         // 本地调试回调地址
-                        'return_url' => 'http://'.$_SERVER['HTTP_HOST'].'/#/mycourse',
+                        'return_url' => 'http://'.$_SERVER['HTTP_HOST'].'/index.html#/mycourse',
                         // 'return_url' => 'http://192.168.5.119:8082/#/mycourse',
 
                         //编码格式
