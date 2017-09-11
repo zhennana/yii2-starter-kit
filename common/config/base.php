@@ -25,10 +25,12 @@ $config = [
          */
         'session' => [
             'class' => 'yii\web\DbSession',
+            'timeout' => 86400*7, //session expire
             'writeCallback' => function($session){
                 return [
                     'user_id' => Yii::$app->user->id,
                     'created_at' => date('Y-m-d H:i:s', time()),
+                    //'expire' => time() + 86400 * 7,
                 ];
             }
             // Set the following if you want to use DB component other than

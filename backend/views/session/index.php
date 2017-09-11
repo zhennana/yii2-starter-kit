@@ -108,6 +108,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
 			'user_id',
 			'udid',
             'expire:datetime',
+            'created_at',
             'data',
         ],
         ]); ?>
