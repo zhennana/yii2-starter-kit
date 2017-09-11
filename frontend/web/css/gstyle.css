@@ -1309,8 +1309,8 @@ transform: scale(1.2);
 }
 .modal-img ul li img{
 	position:absolute;
-	width:800px;
-	height:600px;
+	/*width:800px;*/
+	max-height:600px;
 	top:50%;
 	left:50%;
 	transform: translate(-50%,-50%);

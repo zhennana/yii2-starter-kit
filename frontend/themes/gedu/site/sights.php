@@ -4,41 +4,56 @@ use yii\helpers\Html;
 
 $school=[
     '1'=>[
-      'img'=>'http://static.v1.guangdaxuexiao.com/tihuan1.jpg',
-      'name'=>'快乐高效课堂',
-      'school'=>'温馨快乐校园建设的主阵地，全面提高学生思想道德、科学文化、身心健康全面发展。'
+      'img'=>'http://static.v1.guangdaxuexiao.com/honor1.jpg',
+      'name'=>'七彩校园',
+      'school'=>'“七彩校园”2017中国校园艺术节全国总决选金奖。'
       ],
     '2'=>[
+      'img'=>'http://static.v1.guangdaxuexiao.com/honor2.jpg',
+      'name'=>'校园未来星',
+      'school'=>'第十四届中国优秀特长生展示（测评）活动金奖。'
+      ],
+     '3'=>[
+      'img'=>'http://static.v1.guangdaxuexiao.com/honor3.jpg',
+      'name'=>'韩宇畅',
+      'school'=>'“校园未来星”，第十四届中国优秀特长生展示（测评）活动中荣获语言类小学A组金奖。'
+      ],
+      '4'=>[
+          'img'=>'http://static.v1.guangdaxuexiao.com/tihuan1.jpg',
+          'name'=>'快乐高效课堂',
+          'school'=>'温馨快乐校园建设的主阵地，全面提高学生思想道德、科学文化、身心健康全面发展。'
+      ],
+    '5'=>[
       'img'=>'http://static.v1.guangdaxuexiao.com/wudao.jpg',
       'name'=>'跳动的精灵',
       'school'=>'在舞蹈的殿堂里，他们舒展沉睡的羽翼，释放天性，自由的飞舞，用心与美来感受爱的真谛。'
       ],
-    '3'=>[
+    '6'=>[
       'img'=>'http://static.v1.guangdaxuexiao.com/3xiaoyuan.jpg',
       'name'=>'探索 求知 明理',
       'school'=>'在实验室里动手动脑，大胆探索，反复实验，培养孩子广泛的求知欲。'
       ],
-    '4'=>[
+    '7'=>[
       'img'=>'http://static.v1.guangdaxuexiao.com/4xiaoyuan.jpg',
       'name'=>'网络让教育动起来',
       'school'=>'网络连接世界，在多彩的电脑课程中，培养孩子的搜索能力、鉴别能力、沟通能力'
       ],
-    '5'=>[
+    '8'=>[
       'img'=>'http://static.v1.guangdaxuexiao.com/xiaoyuan.jpg',
       'name'=>'快乐的元旦',
       'school'=>'微笑的脸蛋甜蜜灿烂，愿每个孩子的明天无限美丽，无限迷人，去获取你光明的未来。'
       ],
-    '6'=>[
+    '9'=>[
       'img'=>'http://static.v1.guangdaxuexiao.com/9xiaoyuan.jpg',
       'name'=>'中外交流',
       'school'=>'在课堂上让感受中外文化思想的碰撞，推动教育全球化，文化多样化。'
       ],
-    '7'=>[
+    '10'=>[
       'img'=>'http://static.v1.guangdaxuexiao.com/10xiaoyuan.jpg',
       'name'=>'生动活泼的乐园',
       'school'=>'作为课堂的延伸，为学生提供展示才华和发展特长的舞台，更要让学生体验到学习生活的多姿多彩。'
       ],
-      '8'=>[
+      '11'=>[
       'img'=>'http://static.v1.guangdaxuexiao.com/12xiaoyuan.jpg',
       'name'=>'成长道路上的激励与赞赏',
       'school'=>'孩子们不放弃一点机会，不停止一日努力，不抱有一丝幻想，成长的道路上你们一定能行！'
