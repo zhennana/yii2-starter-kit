@@ -71,14 +71,14 @@ $banner=array(
                              <?php echo Html::a(
                                 $value['title'],
                                  ['article/view','id'=>$value['id']],
-                                 ['class'=>'','data-method'=>'open',]);
+                                 ['class'=>'']);
                              ?>
                          </h4>
                          <p class="course-content">
                             <?php echo Html::a(
                                     substr_auto(strip_tags($value['body']),190),
                                      ['article/view','id'=>$value['id']],
-                                     ['class'=>'','data-method'=>'open',]);
+                                     ['class'=>'']);
                                  ?>
                          </p>
                      </div>
