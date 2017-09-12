@@ -30,8 +30,9 @@ use yii\helpers\Url;
                         ['label'=>Yii::t('backend', '文章'), 'url'=>['/article/index','type'=>1], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
                         ['label'=>Yii::t('backend', '轮播组件'), 'url'=>['/widget-carousel/index','type'=>1], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
                         ['label'=>Yii::t('backend', 'Cache'), 'url'=>['/cache/index','type'=>1], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
-                        ]
-            ],
+                        ['label'=>Yii::t('backend', '页脚'), 'url'=>['/widget-menu/footer-index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
+                        ],
+                    ],
             [
                 'label'=>Yii::t('backend', '课件管理'),
                 'url' => '#',

@@ -106,4 +106,69 @@ class WidgetMenuController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+    //页脚菜单
+    /*
+    public function actionFooterIndex(){
+        $model = new WidgetMenu;
+ // var_Dump('<pre>',Yii::$app->request->post());exit;
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['index']);
+        } else {
+            return $this->render('footer', [
+                'model' => $model,
+            ]);
+        }
+        /*
+        $searchModel = new WidgetMenuSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->query->andWhere(['key'=>'footer','status'=>WidgetMenu::STATUS_ACTIVE]);
+        return $this->render('footer', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }*/
+    //页脚展示
+    public function actionFooterIndex(){
+        $searchModel = new WidgetMenuSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+//这里静态写死展示页脚的几个id.
+        $dataProvider->query->where(['id'=>[2,3,4,5,6]]);
+        return $this->render('footer', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionUpdateFooter(){
+         $model = $this->findModel($id);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['index']);
+        } else {
+            return $this->render('update', [
+                'model' => $model,
+            ]);
+        }
+    }
+
+    //联系我们修改
+    public function actionFooterUpdate($id){
+        $model = $this->findModel($id);
+        $model->getArrayItems();
+        if($model->load(Yii::$app->request->post())){
+           $model->getJsonItems();
+           if($model->save()){
+                return $this->redirect(['footer-index']);
+           }
+        }
+        if($id == 6){
+            return $this->render('footer_contact',[
+                'model'=>$model,
+            ]);
+        }else{
+            return $this->render('footer_form',[
+                'model'=>$model,
+            ]);
+        }
+    }
 }
