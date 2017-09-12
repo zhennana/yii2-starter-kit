@@ -1,6 +1,8 @@
 <?php
 
 use yii\bootstrap\Nav;
+use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\bootstrap\NavBar;
 use  common\models\WidgetMenu;
 
@@ -128,7 +130,14 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                                     continue;
                                 }
                         ?>
-                         <p><?php echo $v['label'];?> </p>
+                         <p><?php ;
+                                if(empty($v['url'])){
+                                    echo $v['label'];
+                                }else{
+                                   echo  Html::a($v['label'],$v['url'], ['target'=>'_blank']);
+                                }
+                         ?> </p>
+
                          <?php } ?>
                 </li>
                 <?php }?>
