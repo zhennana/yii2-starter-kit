@@ -122,7 +122,7 @@ return [
             [
                 'controllers'=>['campus/student-record'],
                 'allow'=>true,
-                'actions'=>['create','update'],
+                'actions'=>['create','update','export'],
                 'roles'=>['P_teacher']
             ],
             //修改学校
