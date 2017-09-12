@@ -137,6 +137,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                                    echo  Html::a($v['label'],$v['url'], ['target'=>'_blank']);
                                 }
                          ?> </p>
+
                          <?php } ?>
                 </li>
                 <?php }?>
