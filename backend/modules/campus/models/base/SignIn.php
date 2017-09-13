@@ -181,7 +181,9 @@ abstract class SignIn extends \yii\db\ActiveRecord
         return $this->hasOne(\backend\modules\campus\models\Course::className(),['course_id' => 'course_id']);
     }
 
-    
+    public function getCourseSchedule(){
+        return $this->hasOne(\backend\modules\campus\models\CourseSchedule::className(),['course_schedule_id' => 'course_schedule_id']);
+    }
     public function getCourseOrder()
     {
         return $this->hasOne(\backend\modules\campus\models\CourseOrderItem::className(),['user_id' => 'student_id']);

@@ -109,7 +109,7 @@ class SignIn extends BaseSignIn
             if(!isset($data[$value->course_id][$key]['title'])){
                 $data[$value->course_id]['course_schedule_id']         = $value['course_schedule_id'];
                 $data[$value->course_id]['course_title']               = isset($value->course->title)? $value->course->title : '';
-                $data[$value->course_id]['created_at']                 = isset($value->course->start_time) ?$value->course->start_time  : '';
+                $data[$value->course_id]['created_at']                 = isset($value->courseSchedule->start_time) ? strtotime($value->courseSchedule->which_day.' '.$value->courseSchedule->start_time)  : '';
                 $data[$value->course_id]['sign_in_count']              = (int)self::singInCount($value->course_id);
                 $data[$value->course_id]['already_signed_count']       = (int)self::singInCount($value->course_id,true);
                 //$data[$value->course_id]['absenteeism_count']   = count($params);
