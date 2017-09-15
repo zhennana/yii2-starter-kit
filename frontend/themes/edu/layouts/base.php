@@ -3,6 +3,7 @@
 use yii\bootstrap\Nav;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
 use yii\bootstrap\NavBar;
 use  common\models\WidgetMenu;
 
@@ -10,8 +11,37 @@ use  common\models\WidgetMenu;
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-$this->beginContent('@frontend/views/layouts/_clear.php')
+$this->beginContent('@frontend/views/layouts/_clear.php');
+
 ?>
+<?php
+//页脚设置
+    $footer = \Yii::$app->cache->get('footer_menu');
+    if($footer === false){
+        $models = WidgetMenu::find()->where(['id'=>[2,3,4,5,6],'status'=>WidgetMenu::STATUS_ACTIVE])->all();
+        $footer = [
+            'menu'=>[],
+            'footer_contact'=>[]
+        ];
+        foreach ($models as $key => $value) {
+            if($value->id !== 6){
+                $value->getArrayItems();
+                $footer['menu'][$key]['body'] =$value->body;
+                $footer['menu'][$key]['sort'] = isset($value->body['sort'])? $value->body['sort'] : 0;
+                $footer['menu'][$key]['title'] = $value->title;
+            }else{
+                $value->getArrayItems();
+                $footer['footer_contact'] =$value->body;
+                $footer['footer_contact']['title'] = $value->title;
+            }
+        }
+        ArrayHelper::multisort($footer['menu'],'sort',SORT_DESC);
+        // dump($footer['menu']);exit;
+        \Yii::$app->cache->set('footer_menu',$footer,60*60*24*365);
+    }
+
+?>
+
 <div class="wrap">
     <div class="top_logo row">
         <a href="<?php echo Yii::getAlias('@frontendUrl') ?>"><img class="img-responsive pull-left" src="<?php echo Yii::getAlias('@frontendUrl') ?>/img/top_logo.png"></a>
@@ -89,30 +119,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
     <?php echo $content ?>
 
 </div>
-<?php
 
-    $footer = \Yii::$app->cache->get('footer_menu');
-    if($footer === false){
-        $models = WidgetMenu::find()->where(['id'=>[2,3,4,5,6],'status'=>WidgetMenu::STATUS_ACTIVE])->all();
-        $footer = [
-            'menu'=>[],
-            'footer_contact'=>[]
-        ];
-        foreach ($models as $key => $value) {
-            if($value->id !== 6){
-                $value->getArrayItems();
-                $footer['menu'][$key]['body'] =$value->body;
-                $footer['menu'][$key]['title'] = $value->title;
-            }else{
-                $value->getArrayItems();
-                $footer['footer_contact'] =$value->body;
-                $footer['footer_contact']['title'] = $value->title;
-            }
-        }
-        \Yii::$app->cache->set('footer_menu',$footer,60*60*24*365);
-    }
-
-?>
 <footer class="footer">
     <div class="container">
         <div class="col-xs-12 top">
@@ -134,7 +141,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                                 if(empty($v['url'])){
                                     echo $v['label'];
                                 }else{
-                                   echo  Html::a($v['label'],$v['url'], ['target'=>'_blank']);
+                                   echo  Html::a($v['label'],$v['url'], ['style'=>'color:white','target'=>'_blank']);
                                 }
                          ?> </p>
 

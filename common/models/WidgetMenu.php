@@ -37,6 +37,7 @@ class WidgetMenu extends ActiveRecord
 
      //联系我们额外属性
     public $contact = [
+            'company_name' => 'company_name',
             'telephone'=>'telephone',
             'address'  =>'address',
             'zip_code' =>'zip_code',
@@ -109,7 +110,7 @@ class WidgetMenu extends ActiveRecord
             [['key'], 'string', 'max' => 32],
             [['title'], 'string', 'max' => 255],
             [['url','label'],'safe','on'=>'footer'],
-            [['telephone','address','body','zip_code','child_address','child_code'],'safe']
+            [['telephone','address','body','zip_code','company_name','child_address','child_code'],'safe']
         ];
     }
 
@@ -127,6 +128,7 @@ class WidgetMenu extends ActiveRecord
             'label' => Yii::t('common', '标签'),
             'telephone'  => Yii::t('common','联系电话'),
             'address'  => Yii::t('common','总公司地址'),
+            'company_name'  => Yii::t('common','公司名'),
             'zip_code'  => Yii::t('common','邮编'),
             'child_address'  => Yii::t('common','子公司地址'),
             'child_code'  => Yii::t('common','子公司邮编'),
