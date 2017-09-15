@@ -155,7 +155,15 @@ class WidgetMenuController extends Controller
     public function actionFooterUpdate($id){
         $model = $this->findModel($id);
         $model->getArrayItems();
-        if($model->load(Yii::$app->request->post())){
+        $post = Yii::$app->request->post();
+
+        if($id != 6 && isset($post['WidgetMenu']['body'])){
+            $sort = $post['WidgetMenu']['body']['sort'];
+            unset($post['WidgetMenu']['body']['sort']);
+            rsort($post['WidgetMenu']['body']);
+            $post['WidgetMenu']['body']['sort'] = $sort;
+        }
+        if($model->load($post)){
            $model->getJsonItems();
            if($model->save()){
                 return $this->redirect(['footer-index']);
