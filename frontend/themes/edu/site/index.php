@@ -7,7 +7,7 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\captcha\Captcha;
-
+use common\models\WidgetMenu;
 //$model = new ApplyToPlay;
 //$model->setScenario('AjaxApply');
 //var_dump($model->getScenario());exit;
@@ -426,11 +426,25 @@ $image = 'http://static.v1.wakooedu.com/A-%E6%A2%A6%E5%B9%BB%E7%A9%BA%E9%97%B4.j
         </div>
         <div class="col-xs-12 no-padding">
             <div class="col-sm-6 ourinfo">
+            <?php
+                $footer = \Yii::$app->cache->get('footer_menu');
+                if(!isset($footer['footer_contact'])){
+                    $model = WidgetMenu::find()->where(['id'=>[6],'status'=>WidgetMenu::STATUS_ACTIVE])->one();
+                   if($model){
+                        $model->getArrayItems();
+                        $footer = $model->body;
+                        $footer['title'] = $model->title;
+                   }
+                }else{
+                    $footer = $footer['footer_contact'];
+                }
+            ?>
                 <h4 class="text-left">联系方式</h4>
-                <p>北京魔趣教育科技有限公司</p>
-                <p>总公司地址：北京市通州经济开发区南区鑫隅四街1号-668</p>
-                <p>分公司地址：北京东燕郊开发区创意谷街773号瓦酷机器人创客空间</p>
-                <p>办公电话：400-608-0515</p>
+                <p><?php echo isset($footer['company_name']) ? $footer['company_name'] : ''; ?> </p>
+                <p>总公司地址：<?php echo isset($footer['address']) ? $footer['address'] : ''; ?> </p>
+                <p>分公司地址：<?php echo isset($footer['child_address']) ? $footer['child_address'] : ''; ?> </p>
+                <p>办公电话：<?php echo isset($footer['telephone']) ? $footer['telephone'] : ''; ?>
+                </p>
                 <p>网址：www.wakooedu.com</p>
             </div>
             <div class="col-sm-6 ourinfo">
