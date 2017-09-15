@@ -349,7 +349,7 @@ use yii\helpers\Url;
                         'icon'=>'<i class=" fa  fa-volume-up"></i>'
                     ],
                     [
-                        'label'=>Yii::t('backend', '家校沟通'),
+                        'label'=>Yii::t('backend', '家长沟通'),
                          'url'=>['/campus/notice/family-school-notice'],
                          'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_teacher')),
                          'icon'=>'<i class=" fa  fa-volume-up"></i>'
