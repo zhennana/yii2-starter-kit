@@ -195,7 +195,7 @@ Receipt: {"Store":"fake","TransactionID":"bc0df36d-13be-4d9f-b9d1-4d980d11c402",
         }
 
         $message['errorno'] = 0;
-        $message['message'] = Yii::t('frontend','创建成功');;
+        $message['message'] = Yii::t('frontend','创建成功');
         $message['order'] = [
             'course_order_item_id' => $model->course_order_item_id,
             'user_id' => $model->user_id,
