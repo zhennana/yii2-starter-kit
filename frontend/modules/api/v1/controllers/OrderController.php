@@ -7,6 +7,8 @@ use yii\web\Response;
 use common\payment\alipay\buildermodel\AlipayTradeWapPayContentBuilder;
 use common\payment\alipay\AlipayTradeService;
 
+use common\models\User;
+
 use frontend\models\gedu\resources\Courseware;
 
 class OrderController extends \common\rest\Controller
@@ -14,7 +16,7 @@ class OrderController extends \common\rest\Controller
     /**
      * @var string
      */
-    public $modelClass = 'frontend\models\gedu\resources\CourseOrderItem';
+    public $modelClass = 'frontend\modules\api\v1\resources\CourseOrderItem';
 
     /**
      * @var array
@@ -78,46 +80,19 @@ class OrderController extends \common\rest\Controller
      *     produces={"application/json"},
      *     @SWG\Parameter(
      *        in = "formData",
-     *        name = "course_id",
-     *        description = "课程ID",
-     *        required = true,
-     *        type = "integer",
-     *        default = 1
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
      *        name = "school_id",
      *        description = "学校ID",
-     *        required = false,
-     *        type = "integer"
+     *        required = true,
+     *        type = "integer",
+     *        default = 3
      *     ),
      *     @SWG\Parameter(
      *        in = "formData",
-     *        name = "grade_id",
-     *        description = "班级ID",
-     *        required = false,
-     *        type = "integer"
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "introducer_id",
-     *        description = "介绍人ID",
-     *        required = false,
-     *        type = "integer"
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "total_course",
-     *        description = "课程的总数",
-     *        required = false,
-     *        type = "integer"
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "presented_course",
-     *        description = "赠送的课程数量",
-     *        required = false,
-     *        type = "integer"
+     *        name = "expired_at",
+     *        description = "过期时间，1=1秒，默认一个月2592000秒",
+     *        required = true,
+     *        type = "integer",
+     *        default = "2592000"
      *     ),
      *     @SWG\Parameter(
      *        in = "formData",
@@ -125,8 +100,8 @@ class OrderController extends \common\rest\Controller
      *        description = "支付方式：100在线支付；110支付宝；111微信支付；115苹果商店内购支付；116苹果支付；200货到付款",
      *        required = true,
      *        type = "integer",
-     *        default = 113,
-     *        enum = {100,110,111,200}
+     *        default = 115,
+     *        enum = {100,110,111,115,116,200}
      *     ),
      *     @SWG\Parameter(
      *        in = "formData",
@@ -142,8 +117,7 @@ class OrderController extends \common\rest\Controller
      *        name = "total_price",
      *        description = "总价",
      *        required = true,
-     *        type = "integer",
-     *        default = 47
+     *        type = "integer"
      *     ),
      *     @SWG\Parameter(
      *        in = "formData",
@@ -165,8 +139,7 @@ class OrderController extends \common\rest\Controller
      *        name = "real_price",
      *        description = "实际付款",
      *        required = true,
-     *        type = "integer",
-     *        default = 37
+     *        type = "integer"
      *     ),
      *     @SWG\Parameter(
      *        in = "formData",
@@ -197,14 +170,16 @@ class OrderController extends \common\rest\Controller
 https://sandbox.itunes.apple.com/verifyReceipt
 在生产环境中验证receipt
 https://buy.itunes.apple.com/verifyReceipt
+
+Receipt: {"Store":"fake","TransactionID":"bc0df36d-13be-4d9f-b9d1-4d980d11c402","Payload":"{ \"this\" : \"is a fake receipt\" }"}
      */
     public function actionCreate()
     {
         // return [];exit();
         if(Yii::$app->user->isGuest){
-            $this->serializer['errno']   = 422;
-            $this->serializer['message'] = '请您先登录';
-            return [];
+            $message['errorno'] = __LINE__;
+            $message['message'] = Yii::t('frontend','请登录');
+            return $message;
         }
 
         $from = [];
@@ -212,25 +187,33 @@ https://buy.itunes.apple.com/verifyReceipt
         $modelClass = $this->modelClass;
         $order      = new $modelClass;
 
-        $model = $order->processCourseOrder(Yii::$app->request->post());
-
+        $model = $order->processAppleOrder();
         if (isset($model['errno']) && $model['errno'] !== 0) {
-            $this->serializer['errno']   = $model['errno'];
-            $this->serializer['message'] = $model['message'];
-            return [];
+            $message['errorno']    = $model['errno'];
+            $message['message'] = $model['message'];
+            return $message;
         }
 
-        if (is_object($model)) {
-            $from = $model->wapAlipay();
-        }
+        $message['errorno'] = 0;
+        $message['message'] = Yii::t('frontend','创建成功');;
+        $message['order'] = [
+            'course_order_item_id' => $model->course_order_item_id,
+            'user_id' => $model->user_id,
+            'total_price' => $model->total_price,
+            'expired_at' => $model->expired_at,
+        ];
+        return $message;
+        // if (is_object($model)) {
+        //     $from = $model->wapAlipay();
+        // }
 
-        if (isset($from['errno']) && $from['errno'] != 0) {
-            $this->serializer['errno']   = $from['errno'];
-            $this->serializer['message'] = $from['message'];
-            return [];
-        }
-        $from = ['wappay' => $from];
-        return $from;
+        // if (isset($from['errno']) && $from['errno'] != 0) {
+        //     $this->serializer['errno']   = $from['errno'];
+        //     $this->serializer['message'] = $from['message'];
+        //     return [];
+        // }
+        // $from = ['wappay' => $from];
+        // return $model;
     }
 
     /**
@@ -254,11 +237,13 @@ https://buy.itunes.apple.com/verifyReceipt
             $message['message'] = Yii::t('frontend','请登录');
             return $message;
         }
-        $order = CourseOrderItem::find()
+
+        $modelClass = $this->modelClass;
+        $order = $modelClass::find()
             ->where([
                 'user_id'        => Yii::$app->user->identity->id,
-                'status'         => CourseOrderItem::STATUS_VALID,
-                'payment_status' => CourseOrderItem::PAYMENT_STATUS_PAID,
+                'status'         => $modelClass::STATUS_VALID,
+                'payment_status' => $modelClass::PAYMENT_STATUS_PAID,
             ])
             ->notExpired()
             ->one();
@@ -285,7 +270,7 @@ https://buy.itunes.apple.com/verifyReceipt
     /**
      * @SWG\Post(path="/order/alipay",
      *     tags={"600-Order-课程订单接口"},
-     *     summary="支付宝支付接口",
+     *     summary="支付宝支付接口[未配置]",
      *     description="返回请求支付宝form表单",
      *     produces={"application/json"},
      *     @SWG\Parameter(
@@ -304,9 +289,11 @@ https://buy.itunes.apple.com/verifyReceipt
      */
     public function actionAlipay()
     {
+        return 'alipay未配置';
+
         if (!isset($_POST['course_order_item_id']) || empty($_POST['course_order_item_id'])) {
-            $this->serializer['errno']   = __LINE__;
-            $this->serializer['message'] = 'Order ID Can Not Be Null!';
+            $message['errorno']   = __LINE__;
+            $message['message'] = 'Order ID Can Not Be Null!';
             return [];
         }
 
@@ -314,27 +301,128 @@ https://buy.itunes.apple.com/verifyReceipt
         $model      = $modelClass::findOne($_POST['course_order_item_id']);
 
         if (!$model) {
-            $this->serializer['errno']   = __LINE__;
-            $this->serializer['message'] = 'A Order With ID '.$_POST['course_order_item_id'].' Does Not Exist!';
+            $message['errorno']   = __LINE__;
+            $message['message'] = 'A Order With ID '.$_POST['course_order_item_id'].' Does Not Exist!';
             return [];
         }
 
         // 验证订单数据
-        $validate = $model->validateOrderParams($model->attributes);
+        $validate = $model->validateAppleOrder($model->attributes);
         if (isset($validate['errno']) && $validate['errno'] != 0) {
-            $this->serializer['errno']   = $validate['errno'];
-            $this->serializer['message'] = $validate['message'];
+            $message['errorno']   = $validate['errno'];
+            $message['message'] = $validate['message'];
             return [];
         }
 
+        return $validate;
+        /*
         // 调用支付宝支付方法
         $from = $model->wapAlipay();
         if (isset($from['errno']) && $from['errno'] != 0) {
-            $this->serializer['errno']   = $from['errno'];
-            $this->serializer['message'] = $from['message'];
+            $message['errorno']   = $from['errno'];
+            $message['message'] = $from['message'];
             return [];
         }
-        $from = ['wappay' => $from];
-        return $from;
+
+        $message['errorno'] = 0;
+        $message['message'] = Yii::t('frontend','查询成功');;
+        $message['order'] = ['wappay' => $from];
+        return $message;
+        */
+    }
+
+    /**
+     * @SWG\Post(path="/order/activation-code",
+     *     tags={"600-Order-课程订单接口"},
+     *     summary="激活码激活",
+     *     description="提交用户ID与激活码做验证",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "user_id",
+     *        description = "用户ID，注意提交谁的激活谁的",
+     *        default = "123456",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "activation_code",
+     *        description = "激活码",
+     *        required = true,
+     *        default = "123456",
+     *        type = "string"
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "返回激活信息"
+     *     )
+     * )
+     *
+     */
+    public function actionActivationCode()
+    {
+        // 查询激活码，状态未使用
+        // 创建订单，返回course_order_item_id，存入表activation_code对应字段
+        // errorno = 1 已经使用
+        $info = [
+            'errorno' => '0',
+            'message' => '',
+        ];
+        $post = Yii::$app->request->post();
+
+        if (!isset($post['user_id']) && empty($post['user_id'])) {
+            $info['errorno'] = __LINE__;
+            $info['message'] = Yii::t('frontend','请输入user id');
+            return $info;
+        }
+        if (!isset($post['activation_code']) && empty($post['activation_code'])) {
+            $info['errorno'] = __LINE__;
+            $info['message'] = Yii::t('frontend','请输入激活码');
+            return $info;
+        }
+        // 校验用户
+        $user = User::find()->where(['id' => $post['user_id']])->active()->one();
+        if (!$user) {
+            $info['errorno'] = __LINE__;
+            $info['message'] = Yii::t('frontend','该用户不存在');
+            return $info;
+        }
+
+        // 校验激活码
+        $codeModel = ActivationCode::checkCode($post['activation_code']);
+
+        if (!$codeModel) {
+            $info['errorno'] = __LINE__;
+            $info['message'] = Yii::t('frontend','无效的激活码');
+            return $info;
+        }
+
+        // 创建订单
+        $order = new CourseOrderItem;
+        $order = $order->createActivationOrder($codeModel,$post);
+        if ($order['errorno'] != '0' && $order['model'] == null) {
+            $info['errorno'] = $order['errorno'];
+            $info['message'] = $order['message'];
+            return $info;
+        }
+        // 更新激活码
+        $codeModel = $codeModel->updateCode($order['model']);
+
+        if (!$codeModel) {
+            $info['errorno'] = __LINE__;
+            $info['message'] = Yii::t('frontend','数据异常');
+            return $info;
+        }
+
+        return [
+            'errorno' => '0',
+            'message' => Yii::t(
+                'frontend', 
+               // 'Your account has been successfully activated.'
+               '成功激活'
+            )
+        ];
+
     }
 }
