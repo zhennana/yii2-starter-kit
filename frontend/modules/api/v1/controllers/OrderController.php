@@ -75,8 +75,8 @@ class OrderController extends \common\rest\Controller
     /**
      * @SWG\Post(path="/order/create",
      *     tags={"600-Order-课程订单接口"},
-     *     summary="课程订单创建",
-     *     description="成功，返回支付宝from表单",
+     *     summary="APPLE订单创建",
+     *     description="成功，返回订单数据",
      *     produces={"application/json"},
      *     @SWG\Parameter(
      *        in = "formData",
