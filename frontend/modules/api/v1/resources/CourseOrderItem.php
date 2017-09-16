@@ -26,7 +26,7 @@ class CourseOrderItem extends BaseCourseOrderItem
         return ArrayHelper::merge(
              parent::rules(),
              [
-                  # custom validation rules
+                ['expired_at','required'],
              ]
         );
     }
@@ -66,6 +66,118 @@ class CourseOrderItem extends BaseCourseOrderItem
         }
 
         $info['model'] = $model;
+        return $info;
+    }
+
+    public function processAppleOrder()
+    {
+        $info = [];
+        $params = Yii::$app->request->post();
+
+        $params['user_id']  = Yii::$app->user->identity->id;
+        $params['order_sn'] = $this->builderNumber();
+        if (isset($params['expired_at']) && !empty($params['expired_at'])) {
+            $expired_at = time()+$params['expired_at'];
+        }else{
+            $expired_at = time()+\cheatsheet\Time::SECONDS_IN_A_MONTH;
+        }
+        $params['expired_at'] = $expired_at;
+
+        // 验证数据
+        $validate = $this->validateAppleOrder($params);
+        if(isset($validate['errno']) && $validate['errno'] !== 0){
+            return $validate;
+        }
+
+        // 创建订单
+        $info = $this->createOrderOne($validate);
+        return $info;
+    }
+
+    public function validateAppleOrder($params)
+    {
+        $info = [
+            'errno'   => 0,
+            'message' => ''
+        ];
+
+        if (!isset($params['school_id']) || empty($params['school_id']) || $params['school_id'] != 3) {
+            $params['school_id'] = 3;
+        }
+
+        // 验证订单状态
+        if (!isset($params['status']) || !in_array($params['status'],[self::STATUS_VALID])) {
+            $info['errno']   = __LINE__;
+            $info['message'] = 'Order Status Is Not Legal!';
+            return $info;
+        }
+
+        // 验证支付方式
+        if (!isset($params['payment']) || !in_array($params['payment'],[self::PAYMENT_ONLINE,self::PAYMENT_ALIPAY,self::PAYMENT_WECHAT, self::PAYMENT_OFFLINE, self::PAYMENT_APPLEPAY, self::PAYMENT_APPLEPAY_INAPP])) {
+            $info['errno']   = __LINE__;
+            $info['message'] = 'Payment Type Is Not Legal!';
+            return $info;
+        }else{
+            $params['payment'] = (int) $params['payment'];
+        }
+
+        // 验证支付状态
+        if (!isset($params['payment_status']) || empty($params['payment_status'])) {
+            $params['payment_status'] = self::PAYMENT_STATUS_PAID;
+        }
+
+        // 验证优惠类型和优惠价格
+        if (isset($params['coupon_type']) && !empty($params['coupon_type']) && isset($params['coupon_price']) && !empty($params['coupon_price'])) {
+            if ($params['coupon_price'] != $params['total_price']-$params['real_price']) {
+                $info['errno']   = __LINE__;
+                $info['message'] = 'Coupon Price Is Not Legal!';
+                return $info;
+            }
+        }else{
+            $params['coupon_price'] = 0;
+        }
+
+        // 验证实际付款
+        if (isset($params['real_price']) && !empty($params['real_price'])) {
+            if ($params['real_price'] != $params['total_price'] - $params['coupon_price']) {
+                $info['errno']   = __LINE__;
+                $info['message'] = 'Real Price Is Not Legal!';
+                return $info;
+            }
+        }
+
+        // 
+        if (!isset($params['total_course']) || empty($params['total_course'])) {
+            $params['total_course'] = 0;
+        }
+
+        if ($info['errno'] == 0) {
+            return $params;
+        }
+
+        return $info;
+    }
+
+    /**
+     * [createOrderOne 创建一个订单]
+     * @param  [type] $params [description]
+     * @return [type]         [description]
+     */
+    public function createOrderOne($params)
+    {
+        $info = [
+            'errno'   => 0,
+            'message' => ''
+        ];
+
+        $model = new $this;
+
+        if ($model->load($params,'') && $model->save($params)) {
+            return $model;
+        }
+
+        $info['errno']   = __LINE__;
+        $info['message'] = $model->getErrors();
         return $info;
     }
 
