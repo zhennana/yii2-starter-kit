@@ -89,10 +89,10 @@ class OrderController extends \common\rest\Controller
      *     @SWG\Parameter(
      *        in = "formData",
      *        name = "expired_at",
-     *        description = "过期时间，传入过期时间戳",
+     *        description = "过期时间，1=1秒，默认一个月2592000秒",
      *        required = true,
      *        type = "integer",
-     *        default = "1514736000"
+     *        default = "2592000"
      *     ),
      *     @SWG\Parameter(
      *        in = "formData",

@@ -77,7 +77,8 @@ class CourseOrderItem extends BaseCourseOrderItem
         $params['user_id']  = Yii::$app->user->identity->id;
         $params['order_sn'] = $this->builderNumber();
         if (isset($params['expired_at']) && !empty($params['expired_at'])) {
-            $expired_at = time()+$params['expired_at'];
+            $remaining_time = $this->getRemainingTime($params['user_id']);
+            $expired_at = time()+$params['expired_at']+$remaining_time;
         }else{
             $expired_at = time()+\cheatsheet\Time::SECONDS_IN_A_MONTH;
         }
@@ -179,6 +180,20 @@ class CourseOrderItem extends BaseCourseOrderItem
         $info['errno']   = __LINE__;
         $info['message'] = $model->getErrors();
         return $info;
+    }
+
+    public function getRemainingTime($user_id)
+    {
+        $remaining_time = 0;
+        $order = self::find()->where([
+            'user_id' => $user_id,
+            'status' => self::STATUS_VALID,
+            'payment_status' => self::PAYMENT_STATUS_PAID,
+        ])->orderBy('expired_at DESC')->one();
+        if ($order && $order->expired_at > time()) {
+            $remaining_time = $order->expired_at-time();
+        }
+        return $remaining_time;
     }
 
 }
