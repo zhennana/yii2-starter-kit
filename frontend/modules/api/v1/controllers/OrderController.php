@@ -89,10 +89,10 @@ class OrderController extends \common\rest\Controller
      *     @SWG\Parameter(
      *        in = "formData",
      *        name = "expired_at",
-     *        description = "过期时间，1=1秒，默认一个月2592000秒",
+     *        description = "过期时间，传入过期时间戳",
      *        required = true,
      *        type = "integer",
-     *        default = "2592000"
+     *        default = "1514736000"
      *     ),
      *     @SWG\Parameter(
      *        in = "formData",
@@ -146,12 +146,12 @@ class OrderController extends \common\rest\Controller
      *        name = "data",
      *        description = "支付返回的序列化数据，json格式",
      *        required = true,
-     *        type = "integer",
+     *        type = "string",
      *        default = "Receipt data"
      *     ),
      *     @SWG\Response(
      *         response = 200,
-     *         description = "成功返回支付宝form表单，失败返回具体信息"
+     *         description = "成功返回订单信息，失败返回具体信息"
      *     )
      * )
      *
