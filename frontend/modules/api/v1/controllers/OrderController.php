@@ -246,6 +246,7 @@ Receipt: {"Store":"fake","TransactionID":"bc0df36d-13be-4d9f-b9d1-4d980d11c402",
                 'payment_status' => $modelClass::PAYMENT_STATUS_PAID,
             ])
             ->notExpired()
+            ->orderBy('expired_at DESC')
             ->one();
 
         if (!$order) {
