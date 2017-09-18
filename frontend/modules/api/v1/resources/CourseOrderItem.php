@@ -151,7 +151,24 @@ class CourseOrderItem extends BaseCourseOrderItem
         if (!isset($params['total_course']) || empty($params['total_course'])) {
             $params['total_course'] = 0;
         }
-
+        /*
+        // 苹果内购验证
+        // $params['data'] = '{"Store":"fake","TransactionID":"dc3b50cc-5935-4e1c-8ed6-8f4af7ae21d4","Payload":"{ \"this\" : \"is a fake receipt\" }"}';
+        $apple_receipt = base64_encode($params['data']);
+        // var_dump($apple_receipt);exit;
+        $jsonData = ['receipt-data' => $apple_receipt];
+        $jsonData = json_encode($jsonData);
+        //$url = 'https://buy.itunes.apple.com/verifyReceipt';  正式验证地址
+        $url = 'https://sandbox.itunes.apple.com/verifyReceipt'; //测试验证地址
+        $response = $this->httpPostData($url,$jsonData);
+        var_dump($response);exit;
+        if($response->status == 0){
+            echo '验证成功';
+        }else{
+            echo '验证失败'.$response->status.$response->exception;
+        }
+        exit;
+        */
         if ($info['errno'] == 0) {
             return $params;
         }
@@ -194,6 +211,27 @@ class CourseOrderItem extends BaseCourseOrderItem
             $remaining_time = $order->expired_at-time();
         }
         return $remaining_time;
+    }
+
+    /**
+     *  [httpPostData http验证请求]
+     *  @param  [type] $url         [description]
+     *  @param  [type] $data_string [description]
+     *  @return [type]              [description]
+     */
+    function httpPostData($url, $data_string) {
+        $curl_handle = curl_init();
+        curl_setopt($curl_handle,CURLOPT_URL, $url);
+        curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl_handle,CURLOPT_HEADER, 0);
+        curl_setopt($curl_handle,CURLOPT_POST, true);
+        curl_setopt($curl_handle,CURLOPT_POSTFIELDS, $data_string);
+        curl_setopt($curl_handle,CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($curl_handle,CURLOPT_SSL_VERIFYPEER, 0);
+        $response_json = curl_exec($curl_handle);
+        $response = json_decode($response_json);
+        curl_close($curl_handle);
+        return $response;
     }
 
 }
