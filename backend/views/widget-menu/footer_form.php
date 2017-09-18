@@ -32,7 +32,7 @@ use yii\bootstrap\ActiveForm;
                 //添加标题
                     foreach ($model->footer_label as $key => $value) {
                 ?>
-                <div class="col-xs-5">
+                <div class="col-xs-3">
                     <?php echo $form->field($model,'[body]['.$i.']'.$value)->textInput(['value'=>isset($model->body[$i][$value]) && is_string($model->body[$i][$value]) ?  $model->body[$i][$value] : ''])?>
                 </div>
             <?php } ?>
@@ -79,7 +79,7 @@ use yii\bootstrap\ActiveForm;
                   l = attributeLabels[n];
                }
               // console.log(l);
-               var string = '<div class="col-xs-5"> <div class="form-group field-'+s;
+               var string = '<div class="col-xs-3"> <div class="form-group field-'+s;
                 string += '"><label class= "control-'+n+ '"' + ' for="' +s+ '">'+ l +'</label> ';
                 string += '<input type="text" id="'+ s +'" class="form-control" name="'+b+'" value="">';
                 string += '<p class="help-block help-block-error"></p></div></div>';

@@ -26,6 +26,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php');
         foreach ($models as $key => $value) {
             if($value->id !== 6){
                 $value->getArrayItems();
+                ArrayHelper::multisort($value->body,'sort',SORT_DESC);
                 $footer['menu'][$key]['body'] =$value->body;
                 $footer['menu'][$key]['sort'] = isset($value->body['sort'])? $value->body['sort'] : 0;
                 $footer['menu'][$key]['title'] = $value->title;
@@ -36,7 +37,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php');
             }
         }
         ArrayHelper::multisort($footer['menu'],'sort',SORT_DESC);
-        // dump($footer['menu']);exit;
+// dump($footer['menu']['body']);exit;
         \Yii::$app->cache->set('footer_menu',$footer,60*60*24*365);
     }
 
