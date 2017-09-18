@@ -26,7 +26,7 @@ class CourseOrderItem extends BaseCourseOrderItem
         return ArrayHelper::merge(
              parent::rules(),
              [
-                  # custom validation rules
+                ['expired_at','required'],
              ]
         );
     }
@@ -67,6 +67,171 @@ class CourseOrderItem extends BaseCourseOrderItem
 
         $info['model'] = $model;
         return $info;
+    }
+
+    public function processAppleOrder()
+    {
+        $info = [];
+        $params = Yii::$app->request->post();
+
+        $params['user_id']  = Yii::$app->user->identity->id;
+        $params['order_sn'] = $this->builderNumber();
+        if (isset($params['expired_at']) && !empty($params['expired_at'])) {
+            $remaining_time = $this->getRemainingTime($params['user_id']);
+            $expired_at = time()+$params['expired_at']+$remaining_time;
+        }else{
+            $expired_at = time()+\cheatsheet\Time::SECONDS_IN_A_MONTH;
+        }
+        $params['expired_at'] = $expired_at;
+
+        // 验证数据
+        $validate = $this->validateAppleOrder($params);
+        if(isset($validate['errno']) && $validate['errno'] !== 0){
+            return $validate;
+        }
+
+        // 创建订单
+        $info = $this->createOrderOne($validate);
+        return $info;
+    }
+
+    public function validateAppleOrder($params)
+    {
+        $info = [
+            'errno'   => 0,
+            'message' => ''
+        ];
+
+        if (!isset($params['school_id']) || empty($params['school_id']) || $params['school_id'] != 3) {
+            $params['school_id'] = 3;
+        }
+
+        // 验证订单状态
+        if (!isset($params['status']) || !in_array($params['status'],[self::STATUS_VALID])) {
+            $info['errno']   = __LINE__;
+            $info['message'] = 'Order Status Is Not Legal!';
+            return $info;
+        }
+
+        // 验证支付方式
+        if (!isset($params['payment']) || !in_array($params['payment'],[self::PAYMENT_ONLINE,self::PAYMENT_ALIPAY,self::PAYMENT_WECHAT, self::PAYMENT_OFFLINE, self::PAYMENT_APPLEPAY, self::PAYMENT_APPLEPAY_INAPP])) {
+            $info['errno']   = __LINE__;
+            $info['message'] = 'Payment Type Is Not Legal!';
+            return $info;
+        }else{
+            $params['payment'] = (int) $params['payment'];
+        }
+
+        // 验证支付状态
+        if (!isset($params['payment_status']) || empty($params['payment_status'])) {
+            $params['payment_status'] = self::PAYMENT_STATUS_PAID;
+        }
+
+        // 验证优惠类型和优惠价格
+        if (isset($params['coupon_type']) && !empty($params['coupon_type']) && isset($params['coupon_price']) && !empty($params['coupon_price'])) {
+            if ($params['coupon_price'] != $params['total_price']-$params['real_price']) {
+                $info['errno']   = __LINE__;
+                $info['message'] = 'Coupon Price Is Not Legal!';
+                return $info;
+            }
+        }else{
+            $params['coupon_price'] = 0;
+        }
+
+        // 验证实际付款
+        if (isset($params['real_price']) && !empty($params['real_price'])) {
+            if ($params['real_price'] != $params['total_price'] - $params['coupon_price']) {
+                $info['errno']   = __LINE__;
+                $info['message'] = 'Real Price Is Not Legal!';
+                return $info;
+            }
+        }
+
+        // 
+        if (!isset($params['total_course']) || empty($params['total_course'])) {
+            $params['total_course'] = 0;
+        }
+        /*
+        // 苹果内购验证
+        // $params['data'] = '{"Store":"fake","TransactionID":"dc3b50cc-5935-4e1c-8ed6-8f4af7ae21d4","Payload":"{ \"this\" : \"is a fake receipt\" }"}';
+        $apple_receipt = base64_encode($params['data']);
+        // var_dump($apple_receipt);exit;
+        $jsonData = ['receipt-data' => $apple_receipt];
+        $jsonData = json_encode($jsonData);
+        //$url = 'https://buy.itunes.apple.com/verifyReceipt';  正式验证地址
+        $url = 'https://sandbox.itunes.apple.com/verifyReceipt'; //测试验证地址
+        $response = $this->httpPostData($url,$jsonData);
+        var_dump($response);exit;
+        if($response->status == 0){
+            echo '验证成功';
+        }else{
+            echo '验证失败'.$response->status.$response->exception;
+        }
+        exit;
+        */
+        if ($info['errno'] == 0) {
+            return $params;
+        }
+
+        return $info;
+    }
+
+    /**
+     * [createOrderOne 创建一个订单]
+     * @param  [type] $params [description]
+     * @return [type]         [description]
+     */
+    public function createOrderOne($params)
+    {
+        $info = [
+            'errno'   => 0,
+            'message' => ''
+        ];
+
+        $model = new $this;
+
+        if ($model->load($params,'') && $model->save($params)) {
+            return $model;
+        }
+
+        $info['errno']   = __LINE__;
+        $info['message'] = $model->getErrors();
+        return $info;
+    }
+
+    public function getRemainingTime($user_id)
+    {
+        $remaining_time = 0;
+        $order = self::find()->where([
+            'user_id' => $user_id,
+            'status' => self::STATUS_VALID,
+            'payment_status' => self::PAYMENT_STATUS_PAID,
+        ])->orderBy('expired_at DESC')->one();
+        if ($order && $order->expired_at > time()) {
+            $remaining_time = $order->expired_at-time();
+        }
+        return $remaining_time;
+    }
+
+    /**
+     *  [httpPostData http验证请求]
+     *  @param  [type] $url         [description]
+     *  @param  [type] $data_string [description]
+     *  @return [type]              [description]
+     */
+    function httpPostData($url, $data_string) {
+        $curl_handle = curl_init();
+        curl_setopt($curl_handle,CURLOPT_URL, $url);
+        curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl_handle,CURLOPT_HEADER, 0);
+        curl_setopt($curl_handle,CURLOPT_POST, true);
+        curl_setopt($curl_handle,CURLOPT_POSTFIELDS, $data_string);
+        curl_setopt($curl_handle,CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($curl_handle,CURLOPT_SSL_VERIFYPEER, 0);
+        $response_json = curl_exec($curl_handle);
+        $response = json_decode($response_json);
+        curl_close($curl_handle);
+        return $response;
     }
 
 }
