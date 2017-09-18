@@ -221,7 +221,9 @@ abstract class CourseOrderItem extends \yii\db\ActiveRecord
     public function getSchool(){
         return $this->hasOne(\backend\modules\campus\models\School::className(),['school_id'=>'school_id']);
     }
-
+    public function getCourse(){
+        return $this->hasOne(\backend\modules\campus\models\Course::className(),['course_id'=>'course_id']);
+    }
     public function getGrade(){
         return $this->hasOne(\backend\modules\campus\models\Grade::className(),['grade_id'=>'grade_id']);
     }

@@ -6,18 +6,24 @@ use yii\helpers\Html;
 * @var yii\web\View $this
 * @var backend\modules\campus\models\GradeCategroy $model
 */
+$title = env('THEME') == 'gedu' ? Yii::t('backend', '年级管理') :Yii::t('backend', '班级分类管理') ;
     
-$this->title = Yii::t('backend', '班级分类管理') . " " . $model->name . ', ' . Yii::t('backend', '更新');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '班级分类管理'), 'url' => ['index']];
+$this->title = $title . " " . $model->name . ', ' . Yii::t('backend', '更新');
+$this->params['breadcrumbs'][] = ['label' => $title, 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => (string)$model->name, 'url' => ['view', 'grade_category_id' => $model->grade_category_id]];
 $this->params['breadcrumbs'][] = Yii::t('backend', '更新');
 ?>
 <div class="giiant-crud grade-categroy-update">
 
     <h1>
-        <?= Yii::t('backend', '班级分类管理') ?>
+        <?php
+             if(env('THEME') == 'gedu'){
+                echo Yii::t('backend', '年级管理');
+            }else{
+                echo Yii::t('backend','班级分类管理');
+            } ?>
         <small>
-                        <?= $model->name ?>
+                <?= $model->name ?>
         </small>
     </h1>
 

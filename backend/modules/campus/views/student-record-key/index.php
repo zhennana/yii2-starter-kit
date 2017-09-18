@@ -138,7 +138,7 @@ if(\Yii::$app->user->can('user', ['route' => true])){
                     return '全局标题';
                 }
             ],
-
+/*
             [
                 'class'=>\common\grid\EnumColumn::className(),
                 'attribute' =>'grade_id',
@@ -149,7 +149,7 @@ if(\Yii::$app->user->can('user', ['route' => true])){
                     }
                     return '全局标题';
                 }
-            ],
+            ],*/
 			'title',
             'sort',
             [

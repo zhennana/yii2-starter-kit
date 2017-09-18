@@ -65,12 +65,12 @@ if (env('THEME') == 'gedu') {
                     ],
                     'pluginEvents'=>[
                         "change" => "function() { 
-                             handleChange(1,this.value,'#studentrecordkey-grade_id');
+                            // handleChange(1,this.value,'#studentrecordkey-grade_id');
                         }",
                     ]
                 ])->label('学校'); ?>
 
-            <?= $form->field($model, 'grade_id')->widget(Select2::className(),
+           <!--  <? /* $form->field($model, 'grade_id')->widget(Select2::className(),
                 [
                     'data'=>$model->getlist(1,$model->school_id),
                     'options'=>['placeholder'=>'请选择'],
@@ -79,7 +79,7 @@ if (env('THEME') == 'gedu') {
                     ],
                     'pluginEvents'=>[
                     ]
-                ])->label('班级'); ?> 
+                ])->label('班级');  */ ?>  -->
 <!-- attribute status -->
 			<?= $form->field($model, 'status')->widget(
                 Select2::className(),

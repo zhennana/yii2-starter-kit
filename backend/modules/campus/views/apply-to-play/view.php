@@ -14,7 +14,54 @@ use dmstr\bootstrap\Tabs;
 $copyParams = $model->attributes;
 
 $this->title = Yii::t('backend', '预约信息');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '预约信息'), 'url' => ['index']];
+
+
+if(env('THEME') == 'gedu'){
+    $this->title = Yii::t('backend', '在线报名');
+    $attribute = [
+        'username',
+        'guardian',
+        'phone_number',
+        'age',
+        'nation',
+        'email',
+        'body',
+         [
+                'attribute' => 'gender',
+                'value' => backend\modules\campus\models\ApplyToPlay::getGradeLabel($model->gender)
+         ],
+        'address',
+        //'province_id',
+        //'school_id',
+        'auditor_id',
+        //'status',
+        [
+                'attribute' => 'status',
+                'value' => backend\modules\campus\models\ApplyToPlay::getStatusLabel($model->status)
+         ],
+        'created_at:datetime',
+        'updated_at:datetime',
+    ];
+}else{
+ $attribute =   [
+        'username',
+        'age',
+        'phone_number',
+        'province_id',
+         [
+                'attribute' => 'status',
+                'value' => isset($model->school->school_title) ? $model->school->school_title : ''
+         ],
+        'auditor_id',
+         [
+                'attribute' => 'status',
+                'value' => backend\modules\campus\models\ApplyToPlay::getStatusLabel($model->status)
+         ],
+        'created_at:datetime',
+        'updated_at:datetime',
+    ];
+}
+$this->params['breadcrumbs'][] = ['label' => $this->title, 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => (string)$model->apply_to_play_id, 'url' => ['view', 'apply_to_play_id' => $model->apply_to_play_id]];
 $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
 ?>
@@ -30,7 +77,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
     <?php endif; ?>
 
     <h1>
-        <?= Yii::t('backend', '预约信息') ?>
+        <?= $this->title ?>
         <small>
             <?= $model->apply_to_play_id ?>
         </small>
@@ -41,20 +88,20 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
 
         <!-- menu buttons -->
         <div class='pull-left'>
-            <?= Html::a(
+           <!--  <? /* Html::a(
             '<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('backend', '更新'),
             [ 'update', 'apply_to_play_id' => $model->apply_to_play_id],
-            ['class' => 'btn btn-info']) ?>
+            ['class' => 'btn btn-info'])*/ ?>
 
-            <?= Html::a(
+            <? /*Html::a(
             '<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('backend', '复制'),
             ['create', 'apply_to_play_id' => $model->apply_to_play_id, 'ApplyToPlay'=>$copyParams],
-            ['class' => 'btn btn-success']) ?>
+            ['class' => 'btn btn-success'])*/ ?>
 
-            <?= Html::a(
+            <? /* Html::a(
             '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '新建'),
             ['create'],
-            ['class' => 'btn btn-success']) ?>
+            ['class' => 'btn btn-success'])*/ ?> -->
         </div>
 
         <div class="pull-right">
@@ -71,28 +118,18 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
     
     <?= DetailView::widget([
     'model'      => $model,
-    'attributes' => [
-        'username',
-        'age',
-        'phone_number',
-        'province_id',
-        'school_id',
-        'auditor_id',
-        'status',
-        'created_at:datetime',
-        'updated_at:datetime',
-    ],
+    'attributes' => $attribute
     ]); ?>
 
     
     <hr/>
 
-    <?= Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('backend', '删除'), ['delete', 'apply_to_play_id' => $model->apply_to_play_id],
+    <!-- <? /* Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('backend', '删除'), ['delete', 'apply_to_play_id' => $model->apply_to_play_id],
     [
     'class' => 'btn btn-danger',
     'data-confirm' => '' . Yii::t('backend', '确定要删除该项目吗？') . '',
     'data-method' => 'post',
-    ]); ?>
+    ]);*/ ?> -->
     <?php $this->endBlock(); ?>
 
 
