@@ -39,6 +39,32 @@ abstract class ApplyToPlay extends \yii\db\ActiveRecord
             self::APPLY_TO_PLAY_STATUS_SUCCEED =>'审核成功'
             ];
      }
+      public static  function getStatusLabel($value){
+        $label = self::OptsStatus();
+        if(isset($label[$value])){
+            return $label[$value];
+        }
+        return $value;
+    }
+
+    const GENDER_MALE = 1; //男
+    const GENDER_FEMALE = 2;// 女
+
+    public static  function optsGender(){
+        return [
+            self::GENDER_MALE    =>'男',
+            self::GENDER_FEMALE  =>'女',
+        ];
+    }
+
+    public static  function getGradeLabel($value){
+        $label = self::optsGender();
+        if(isset($label[$value])){
+            return $label[$value];
+        }
+        return $value;
+    }
+
     /**
      * @inheritdoc
      */
@@ -92,7 +118,12 @@ abstract class ApplyToPlay extends \yii\db\ActiveRecord
         return [
             'apply_to_play_id' => Yii::t('backend', 'Apply To Play ID'),
             'username'         => Yii::t('backend', '姓名'),
-            'age'              => Yii::t('backend', '报名人年龄'),
+            'guardian'              => Yii::t('backend', '监护人'),
+            'nation'              => Yii::t('backend', '民族'),
+            'body'              => Yii::t('backend', '内容'),
+            'age'               => Yii::t('backend','年龄'),
+            'gender'              => Yii::t('backend', '性别'),
+            'address'              => Yii::t('backend', '地址'),
             'phone_number'     => Yii::t('backend', '电话'),
             'province_id'      => Yii::t('backend', '地区'),
             'school_id'        => Yii::t('backend', '校区'),

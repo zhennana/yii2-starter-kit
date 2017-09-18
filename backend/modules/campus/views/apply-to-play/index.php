@@ -13,9 +13,6 @@ use backend\modules\campus\models\ApplyToPlay;
     * @var backend\modules\campus\models\search\ApplyToPlaySearch $searchModel
 */
 
-$this->title = Yii::t('common', '预约信息');
-$this->params['breadcrumbs'][] = $this->title;
-
 
 $province_id = CnProvince::find()->asArray()->all();
 $province_id = ArrayHelper::map($province_id, 'province_id', 'province_name');
@@ -44,6 +41,112 @@ $province_id = ArrayHelper::map($province_id, 'province_id', 'province_name');
         $actionColumnTemplateString = "{view} {update} {delete}";
     }
     $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTemplateString.'</div>';
+if(env('THEME') == 'gedu'){
+    $this->title = Yii::t('backend', '在线报名');
+    $columns = [
+        [
+        'class' => 'yii\grid\ActionColumn',
+        'template' => $actionColumnTemplateString,
+        'buttons' => [
+            'view' => function ($url, $model, $key) {
+                $options = [
+                    'title' => Yii::t('yii', 'View'),
+                    'aria-label' => Yii::t('yii', 'View'),
+                    'data-pjax' => '0',
+                ];
+                return Html::a('<span class="glyphicon glyphicon-file"></span>', $url, $options);
+            }
+        ],
+        'urlCreator' => function($action, $model, $key, $index) {
+            // using the column name as key, not mapping to 'id' like the standard generator
+            $params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
+            $params[0] = \Yii::$app->controller->id ? \Yii::$app->controller->id . '/' . $action : $action;
+            return Url::toRoute($params);
+        },
+        'contentOptions' => ['nowrap'=>'nowrap']
+        ],
+        'username',
+        'guardian',
+        'phone_number',
+        'age',
+        'email',
+        'nation',
+        'body',
+        [
+        'class'     =>\common\grid\EnumColumn::className(),
+        'attribute' => 'status',
+        'enum'      => \backend\modules\campus\models\ApplyToPlay::optsStatus(),
+        'filter'    => \backend\modules\campus\models\ApplyToPlay::optsStatus(),
+        ], 
+        'created_at:datetime',
+        'updated_at:datetime',
+    ];
+}else{
+ $columns =   [
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => $actionColumnTemplateString,
+                'buttons' => [
+                    'view' => function ($url, $model, $key) {
+                        $options = [
+                            'title' => Yii::t('yii', 'View'),
+                            'aria-label' => Yii::t('yii', 'View'),
+                            'data-pjax' => '0',
+                        ];
+                        return Html::a('<span class="glyphicon glyphicon-file"></span>', $url, $options);
+                    }
+                ],
+                'urlCreator' => function($action, $model, $key, $index) {
+                    // using the column name as key, not mapping to 'id' like the standard generator
+                    $params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
+                    $params[0] = \Yii::$app->controller->id ? \Yii::$app->controller->id . '/' . $action : $action;
+                    return Url::toRoute($params);
+                },
+                'contentOptions' => ['nowrap'=>'nowrap']
+        ],
+        'username',
+        'age',
+        'phone_number',
+        [
+            'class'     => \common\grid\EnumColumn::className(),
+            'attribute' => 'province_id',
+            'enum'      => $province_id,
+            'format'    => 'raw',
+        ],
+        //'auditor_id',
+        //'status',
+        [
+        'class'     =>\common\grid\EnumColumn::className(),
+        'attribute' => 'status',
+        'enum'      => \backend\modules\campus\models\ApplyToPlay::optsStatus(),
+        'filter'    => \backend\modules\campus\models\ApplyToPlay::optsStatus(),
+        ],  
+        'created_at:datetime',
+        'updated_at:datetime',
+        [
+            'class'    =>'yii\grid\ActionColumn',
+            'header'   =>'操作审核',
+            'template' =>'{button}',
+            'buttons'  =>[
+                'button' => function($url,$model,$key){
+                    if($model->status == ApplyToPlay::APPLY_TO_PLAY_STATUS_AUDIT ){
+                        return Html::button('审核',[
+                            'class'=>'btn btn-danger audit',
+                            'title'=>'报名审核',
+                            'id'   => $model->apply_to_play_id
+                            ]);
+                    }else{
+                       return  Html::button('已审核', [
+                            'class' => 'btn btn-default disabled',
+                        ]); 
+                    }
+                }
+            ]
+        ]
+    ];
+}
+// $this->title = Yii::t('common', '预约信息');
+$this->params['breadcrumbs'][] = $this->title;
     ?>
 <div class="giiant-crud apply-to-play-index">
 
@@ -55,7 +158,7 @@ $province_id = ArrayHelper::map($province_id, 'province_id', 'province_name');
     <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
 
     <h1>
-        <?= Yii::t('common', '预约信息') ?>
+        <?= $this->title ?>
         <small>
             列表
         </small>
@@ -88,68 +191,8 @@ if(\Yii::$app->user->can('manager', ['route' => true]) || \Yii::$app->user->can(
                 'class' => 'table table-striped table-bordered table-hover'
                 ],
             'headerRowOptions' => ['class'=>'x'],
-            'columns' => [
-                [
-                    'class' => 'yii\grid\ActionColumn',
-                    'template' => $actionColumnTemplateString,
-                    'buttons' => [
-                        'view' => function ($url, $model, $key) {
-                            $options = [
-                                'title' => Yii::t('yii', 'View'),
-                                'aria-label' => Yii::t('yii', 'View'),
-                                'data-pjax' => '0',
-                            ];
-                            return Html::a('<span class="glyphicon glyphicon-file"></span>', $url, $options);
-                        }
-                    ],
-                    'urlCreator' => function($action, $model, $key, $index) {
-                        // using the column name as key, not mapping to 'id' like the standard generator
-                        $params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
-                        $params[0] = \Yii::$app->controller->id ? \Yii::$app->controller->id . '/' . $action : $action;
-                        return Url::toRoute($params);
-                    },
-                    'contentOptions' => ['nowrap'=>'nowrap']
-            ],
-                'username',
-    			'age',
-    			'phone_number',
-                [
-                    'class'     => \common\grid\EnumColumn::className(),
-                    'attribute' => 'province_id',
-                    'enum'      => $province_id,
-                    'format'    => 'raw',
-                ],
-                //'auditor_id',
-    			//'status',
-                [
-                'class'     =>\common\grid\EnumColumn::className(),
-                'attribute' => 'status',
-                'enum'      => \backend\modules\campus\models\ApplyToPlay::optsStatus(),
-                'filter'    => \backend\modules\campus\models\ApplyToPlay::optsStatus(),
-                ],	
-                'created_at:datetime',
-                'updated_at:datetime',
-                [
-                    'class'    =>'yii\grid\ActionColumn',
-                    'header'   =>'操作审核',
-                    'template' =>'{button}',
-                    'buttons'  =>[
-                        'button' => function($url,$model,$key){
-                            if($model->status == ApplyToPlay::APPLY_TO_PLAY_STATUS_AUDIT ){
-                                return Html::button('审核',[
-                                    'class'=>'btn btn-danger audit',
-                                    'title'=>'报名审核',
-                                    'id'   => $model->apply_to_play_id
-                                    ]);
-                            }else{
-                               return  Html::button('已审核', [
-                                    'class' => 'btn btn-default disabled',
-                                ]); 
-                            }
-                        }
-                    ]
-                ]
-            ],
+            'columns' => $columns,
+                
         ]); ?>
     </div>
 
