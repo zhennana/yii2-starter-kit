@@ -48,6 +48,7 @@ class WidgetMenu extends ActiveRecord
     public $footer_label = [
             'label'=>'label',
             'url'  =>'url',
+            'sort'=>'sort'
     ];
     /**
      * @inheritdoc
