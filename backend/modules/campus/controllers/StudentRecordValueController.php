@@ -146,6 +146,10 @@ class StudentRecordValueController extends \backend\modules\campus\controllers\b
             foreach ($list as $key => $value) {
                 $html .= Html::tag('option',Html::encode($value),array('value'=>$key));
             }
+        }elseif ($_GET['type'] == 'key') {
+             foreach ($list as $key => $value) {
+                $html .= Html::tag('option',Html::encode($value),array('value'=>$key));
+            }
         }
         return $html;
     }

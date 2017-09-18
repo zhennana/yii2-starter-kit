@@ -159,6 +159,18 @@ class StudentRecordValue extends BaseStudentRecordValue
                 }
             }
             return $data_user;
+        }elseif($params['type'] == 'key'){
+            $keys = StudentRecordKey::find()->where(['status'=>StudentRecordKey::STUDENT_KEY_STATUS_OPEN])
+            ->andWhere(
+              [
+              'or',
+              ['school_id'=>$params['value']],
+              ['school_id'=>0]
+          ])
+            ->all();
+            $keys = ArrayHelper::map($keys,'student_record_key_id','title');
+           // var_dump($keys);
+            return $keys;
         }
     }
 }
