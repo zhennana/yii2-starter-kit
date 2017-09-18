@@ -59,17 +59,6 @@ if (!$model->isNewRecord) {
         <?php $this->beginBlock('main'); ?>
 
         <p>
-            
-<!-- attribute student_record_key_id -->
-            <?= $form->field($model, 'student_record_key_id')->widget(Select2::className(), [
-                'data'=>$keys,
-                // 'hideSearch' => true,
-                'options'       => ['placeholder' => Yii::t('backend','请选择')],
-                'pluginOptions' => [
-                    'allowClear' => true,
-                ],
-            ]); ?>
-
             <?= $form->field($model, 'school_id')->widget(Select2::className(),[
                 'data' => $schools,
                 'options'       => ['placeholder' => Yii::t('backend','请选择')],
@@ -79,9 +68,19 @@ if (!$model->isNewRecord) {
                 'pluginEvents' => [
                     "change" => "function() {
                         handleChange('school_id',this.value,'#studentrecordvalue-grade_id');
+                        handleChange('key',this.value,'#studentrecordvalue-student_record_key_id');
                     }"
                 ]
             ]) ?>
+<!-- attribute student_record_key_id -->
+            <?= $form->field($model, 'student_record_key_id')->widget(Select2::className(), [
+                'data'=>[],
+                // 'hideSearch' => true,
+                'options'       => ['placeholder' => Yii::t('backend','请选择')],
+                'pluginOptions' => [
+                    'allowClear' => true,
+                ],
+            ]); ?>
 
             <?= $form->field($model, 'grade_id')->widget(Select2::className(),[
                 'data' => $grades,
