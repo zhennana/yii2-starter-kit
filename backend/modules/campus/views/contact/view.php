@@ -15,7 +15,11 @@ use backend\modules\campus\models\Contact;
 $copyParams = $model->attributes;
 
 $this->title = Yii::t('backend', '联系我们');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '联系我们'), 'url' => ['index']];
+if(env('THEME') == 'gedu'){
+    $this->title = Yii::t('backend', '意见反馈');
+
+    }
+$this->params['breadcrumbs'][] = ['label' => $this->title, 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => (string)$model->contact_id, 'url' => ['view', 'contact_id' => $model->contact_id]];
 $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
 ?>
@@ -31,31 +35,29 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
     <?php endif; ?>
 
     <h1>
-        <?= Yii::t('backend', '联系我们') ?>
+        <?= $this->title ?>
         <small>
             <?= $model->contact_id ?>
         </small>
     </h1>
-
-
     <div class="clearfix crud-navigation">
 
         <!-- menu buttons -->
         <div class='pull-left'>
-            <?= Html::a(
+           <!--  <? /* Html::a(
             '<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('backend', '更新'),
             [ 'update', 'contact_id' => $model->contact_id],
-            ['class' => 'btn btn-info']) ?>
+            ['class' => 'btn btn-info'])*/ ?>
 
-            <?= Html::a(
+            <?/* Html::a(
             '<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('common', '复制'),
             ['create', 'contact_id' => $model->contact_id, 'Contact'=>$copyParams],
-            ['class' => 'btn btn-success']) ?>
+            ['class' => 'btn btn-success'])*/ ?>
 
-            <?= Html::a(
+            <?/* Html::a(
             '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('common', '创建'),
             ['create'],
-            ['class' => 'btn btn-success']) ?>
+            ['class' => 'btn btn-success'])*/ ?> -->
         </div>
 
         <div class="pull-right">
@@ -93,12 +95,12 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
     
     <hr/>
 
-    <?= Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('backend', '删除'), ['delete', 'contact_id' => $model->contact_id],
+  <!--   <? /* Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('backend', '删除'), ['delete', 'contact_id' => $model->contact_id],
     [
     'class' => 'btn btn-danger',
     'data-confirm' => '' . Yii::t('backend', '确定要删除该项目吗？') . '',
     'data-method' => 'post',
-    ]); ?>
+    ]);*/ ?> -->
     <?php $this->endBlock(); ?>
 
 

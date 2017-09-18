@@ -13,8 +13,11 @@ $parent_ids = ArrayHelper::map($parent_ids,'grade_category_id','name');
 * @var yii\data\ActiveDataProvider $dataProvider
     * @var backend\modules\campus\models\search\GradeCategorySearch $searchModel
 */
-
 $this->title = Yii::t('backend', '班级分类管理');
+if(env('THEME') == 'gedu'){
+    $this->title = Yii::t('backend', '年级管理');
+}
+
 $this->params['breadcrumbs'][] = $this->title;
 
 
@@ -60,7 +63,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ]) ?>
 
     <h1>
-        <?= Yii::t('backend', '班级分类管理') ?>
+        <?= $this->title ?>
         <small>
             列表
         </small>

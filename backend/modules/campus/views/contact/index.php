@@ -11,8 +11,11 @@
     */
 
     $this->title = Yii::t('backend', '联系我们');
-    $this->params['breadcrumbs'][] = $this->title;
+    if(env('THEME') == 'gedu'){
+    $this->title = Yii::t('backend', '意见反馈');
 
+    }
+   $this->params['breadcrumbs'][] = $this->title;
 
     /**
     * create action column template depending acces rights
@@ -49,7 +52,7 @@
         <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
 
         <h1>
-            <?= Yii::t('backend', '联系我们') ?>
+            <?= $this->title ?>
             <small>
                 列表
             </small>
@@ -59,7 +62,7 @@
     if(\Yii::$app->user->can('manager', ['route' => true])){
     ?>
             <div class="pull-left">
-                <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'), ['create'], ['class' => 'btn btn-success']) ?>
+                <!-- <? /* Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'), ['create'], ['class' => 'btn btn-success'])*/ ?> -->
             </div>
     <?php
     }

@@ -19,7 +19,7 @@ public function rules()
 {
 return [
 [['apply_to_play_id', 'phone_number', 'auditor_id', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['username', 'age', 'province_id', 'school_id'], 'safe'],
+[['username', 'age','email','province_id', 'school_id','guardian','birth','nation','body','gender'], 'safe'],
 ];
 }
 
@@ -60,14 +60,19 @@ $query->andFilterWhere([
             'phone_number' => $this->phone_number,
             'auditor_id' => $this->auditor_id,
             'status' => $this->status,
+            'gender' => $this->gender,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'username', $this->username])
+        $query->andFilterWhere(['like', 'username', $this->username]);
+        $query->andFilterWhere(['like', 'guardian', $this->guardian]);
+        $query->andFilterWhere(['like', 'nation', $this->nation])
             ->andFilterWhere(['like', 'age', $this->age])
             ->andFilterWhere(['like', 'province_id', $this->province_id])
-            ->andFilterWhere(['like', 'school_id', $this->school_id]);
+            ->andFilterWhere(['like', 'school_id', $this->school_id])
+            ->andFilterWhere(['like', 'email', $this->email])
+            ->andFilterWhere(['like', 'body', $this->body]);
 
 return $dataProvider;
 }
