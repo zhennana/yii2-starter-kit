@@ -160,6 +160,13 @@ return [
                 'actions'=>['create','update','delete','grade-notice','ajax-form','family-school-notice','family-school-notice-create','create-value','grade-notice-create','remove'],
                 'roles'=>['P_teacher']
             ],
+
+            [
+                'controllers'=>['campus/student-record-value'],
+                'allow'=>true,
+                'actions'=>['index'],
+                'roles'=>['E_manager','manager','P_teacher']
+            ],
             //查看预约信息
             [
                 'controllers'=>['campus/apply-to-play'],
@@ -211,9 +218,9 @@ return [
             ],
             //成绩查询
             [
-                'controllers'=>['campus/student-record-key'],
+                'controllers'=>['campus/student-record-key','campus/student-record-value'],
                 'allow'=>true,
-                'actions'=>['index','create','update'],
+                'actions'=>['index','create','update','view'],
                 'roles'=>['E_manager','manager','P_teacher']
             ],
         ]

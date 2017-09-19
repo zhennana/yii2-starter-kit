@@ -111,8 +111,7 @@ h6{
 .row-box{text-align: center;}
 .row-box h4{font-size: 21px;}
 .row-box h6{font-size: 12px;}
-/*.row-box .main-1-icon-1{background:url("../g-img/open-book.png") no-repeat center;
- padding:37% 10% 20% 10%; margin: 6% 21%;}*/
+.kbotton{width:20%;padding-left:15px;padding-right:15px;float:left;}
 .row-box .main-1-icon-1{background:url("http://orh16je38.bkt.clouddn.com/open-book@2x.png") no-repeat center;
  padding:50% 50% 20% 50%;background-size: contain;transform:rotate(0deg);animation: mytrans 3s;-moz-animation: mytrans 3s;-o-animation: mytrans 3s;-webkit-animation: mytrans 3s;
 }
@@ -122,6 +121,8 @@ h6{
  padding:50% 50% 20% 50%;background-size: contain;transform:rotate(0deg);animation: mytrans 3s;-moz-animation: mytrans 3s;-o-animation: mytrans 3s;-webkit-animation: mytrans 3s;}
 .row-box .main-1-icon-4{background:url("http://orh16je38.bkt.clouddn.com/diamond@2x.png") no-repeat center;
  padding:50% 50% 20% 50%;background-size: contain;transform:rotate(0deg);animation: mytrans 3s;-moz-animation: mytrans 3s;-o-animation: mytrans 3s;-webkit-animation: mytrans 3s;}
+.row-box .main-1-icon-5{background:url("http://static.v1.guangdaxuexiao.com/quannao.png") no-repeat center;
+ padding:50% 50% 20% 50%;background-size: contain;transform:rotate(0deg);animation: mytrans 3s;-moz-animation: mytrans 3s;-o-animation: mytrans 3s;-webkit-animation: mytrans 3s;}
 .row-box .main-1-icon-1:hover{background:url("http://7xsm8j.com2.z0.glb.qiniucdn.com/open-book-0.png") no-repeat center;
  padding:50% 50% 20% 50%;background-size: contain;}
 .row-box .main-1-icon-2:hover{background:url("http://7xsm8j.com2.z0.glb.qiniucdn.com/open-book-2-0.png") no-repeat center;
@@ -129,6 +130,8 @@ h6{
 .row-box .main-1-icon-3:hover{background:url("http://7xsm8j.com2.z0.glb.qiniucdn.com/globe-0.png") no-repeat center;
  padding:50% 50% 20% 50%;background-size: contain;}
 .row-box .main-1-icon-4:hover{background:url("http://7xsm8j.com2.z0.glb.qiniucdn.com/diamond-0.png") no-repeat center;
+ padding:50% 50% 20% 50%;background-size: contain;}
+.row-box .main-1-icon-5:hover{background:url("http://static.v1.guangdaxuexiao.com/quannao.png") no-repeat center;
  padding:50% 50% 20% 50%;background-size: contain;}
 /*main-2*/
 .main-2 h1{font-size: 42px;color:#723c8e;}
