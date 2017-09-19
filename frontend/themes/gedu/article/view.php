@@ -8,10 +8,10 @@ use yii\helpers\Html;
     <?php
     if($category['parent']['id']==46){
       echo $this->render('@frontend/themes/gedu/article/common/sidebar');
+    }else if ($category['parent']['id']==48){
+        echo $this->render('@frontend/themes/gedu/article/common/sidebarnew1',['category'=>$category]);
     }else{
-      echo $this->render('@frontend/themes/gedu/article/common/sidebarnew',[
-       'category'=>$category
-       ]);
+      echo $this->render('@frontend/themes/gedu/article/common/sidebarnew',['category'=>$category]);
     }
           ?>
     <!-- 文章内容部分 -->
