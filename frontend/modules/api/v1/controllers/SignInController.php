@@ -160,7 +160,7 @@ class SignInController extends \common\components\ControllerFrontendApi
             
             // $session_data = $model->oneChecker($udid_new); // 单一设备登录执行
 
-            $model->updateSession(Yii::$app->user->id,$udid_new);   // 登录第一次更新设备号
+            $info = $model->updateSession(Yii::$app->user->id,$udid_new);   // 登录第一次更新设备号
 
             $attrUser = $model->user->attributes;
             if(isset($attrUser['password_hash'])){
@@ -181,8 +181,9 @@ class SignInController extends \common\components\ControllerFrontendApi
                     $attrUser['avatar'] = $fansMpUser->avatar;
                 }
             }
-            $row['session_id'] = Yii::$app->session->id;
-            $row['udid_new'] = $udid_new;
+            $row['session'] = $info;
+            $row['session_data'] = Yii::$app->session->getIterator();
+            //$row['session']['udid_new'] = $udid_new;
             // $row['udid_old'] = isset($session_data['udid']) ? $session_data['udid'] : '';
 
             return array_merge($attrUser,$account,$row);
@@ -218,17 +219,20 @@ class SignInController extends \common\components\ControllerFrontendApi
     public function actionIndex()
     {
         $udid = \Yii::$app->session->get('user.udid');
+        $info = ['new'=>[], 'old'=>[]];
         if(empty($udid)){
             Yii::$app->user->logout();
         }else{
             $model = new LoginForm();
-            $model->updateSession(Yii::$app->user->id);   // 登录第一次更新设备号
+            $info = $model->updateSession(Yii::$app->user->id, $udid);   // 登录第一次更新设备号
         }
         if(\Yii::$app->user->isGuest){
             Yii::$app->response->statusCode = 422;
             return [
                 'errorno' => 1,
                 'message' => '未登录，登陆验证失败',
+                'session' => $info,
+                'session_data' => Yii::$app->session->getIterator(),
             ];
         }
 
@@ -262,6 +266,8 @@ class SignInController extends \common\components\ControllerFrontendApi
             'errorno' => 0,
             'message' => '已经登录',
             'data' => $attrUser,
+            'session' => $info,
+            'session_data' => Yii::$app->session->getIterator(),
         ];
     }
 
@@ -978,12 +984,23 @@ class SignInController extends \common\components\ControllerFrontendApi
     }
 
     /**
-     * @return Response
+     * @SWG\Get(path="/sign-in/logout",
+     *     tags={"100-SignIn-用户接口"},
+     *     summary="登出",
+     *     description="登出",
+     *     produces={"application/json"},
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "退出"
+     *     )
+     * )
+     *
      */
     public function actionLogout()
     {
         Yii::$app->user->logout();
-        return $this->goHome();
+        exit();
+        // return $this->goHome();
     }
 
     public function actiolAuthKey()

@@ -115,7 +115,6 @@ class CacheController extends Controller
                 $caches[$name] = ['name'=>$name, 'class'=>$component];
             }
         }
-
         return $caches;
     }
 

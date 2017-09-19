@@ -4,19 +4,20 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use \dmstr\bootstrap\Tabs;
 use yii\helpers\StringHelper;
+use trntv\yii\datetime\DateTimeWidget;
 
 /**
 * @var yii\web\View $this
-* @var backend\modules\campus\models\StudentRecordItem $model
+* @var common\models\Session $model
 * @var yii\widgets\ActiveForm $form
 */
 
 ?>
 
-<div class="student-record-item-form">
+<div class="session-form">
 
     <?php $form = ActiveForm::begin([
-    'id' => 'StudentRecordItem',
+    'id' => 'Session',
     'layout' => 'horizontal',
     'enableClientValidation' => true,
     'errorSummaryCssClass' => 'error-summary alert alert-error'
@@ -30,20 +31,28 @@ use yii\helpers\StringHelper;
         <p>
             
 
-<!-- attribute student_record_title_id -->
-			<?= $form->field($model, 'student_record_title_id')->textInput() ?>
+<!-- attribute id -->
+			<?= $form->field($model, 'id')->textInput(['maxlength' => true]) ?>
 
-<!-- attribute student_record_id -->
-			<?= $form->field($model, 'student_record_id')->textInput() ?>
+<!-- attribute expire -->
+			<?php echo $form->field($model, 'expire')
+                ->widget(
+                    DateTimeWidget::className(),
+                    [
+                        'locale'            => Yii::$app->language,
+                        'phpDatetimeFormat' => 'yyyy-MM-dd HH:mm',
+                        'momentDatetimeFormat' => 'YYYY-MM-DD HH:mm',
+                    ])
+            ?>
 
-<!-- attribute body -->
-			<?= $form->field($model, 'body')->textInput(['maxlength' => true]) ?>
+<!-- attribute user_id -->
+			<?= $form->field($model, 'user_id')->textInput() ?>
 
-<!-- attribute status -->
-			<?= $form->field($model, 'status')->textInput() ?>
+<!-- attribute data -->
+			<?= $form->field($model, 'data')->textInput() ?>
 
-<!-- attribute sort -->
-			<?= $form->field($model, 'sort')->textInput() ?>
+<!-- attribute udid -->
+			<?= $form->field($model, 'udid')->textInput(['maxlength' => true]) ?>
         </p>
         <?php $this->endBlock(); ?>
         
@@ -53,7 +62,7 @@ use yii\helpers\StringHelper;
                     'encodeLabels' => false,
                     'items' => [ 
                         [
-    'label'   => Yii::t('backend', 'StudentRecordItem'),
+    'label'   => Yii::t('backend', 'Session'),
     'content' => $this->blocks['main'],
     'active'  => true,
 ],

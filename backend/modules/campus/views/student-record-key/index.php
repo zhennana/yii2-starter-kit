@@ -1,5 +1,5 @@
 <?php
-
+// use yii;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\GridView;
@@ -20,15 +20,15 @@ $schools[0] = $grades[0] = '全局标题';
 */
 $actionColumnTemplates = [];
 
-if (\Yii::$app->user->can('manager', ['route' => true])) {
+if (\Yii::$app->user->can('manager', ['route' => true]) || Yii::$app->user->can('P_teacher') || Yii::$app->user->can('E_manager')) {
     $actionColumnTemplates[] = '{view}';
 }
 
-if (\Yii::$app->user->can('manager', ['route' => true])) {
+if (\Yii::$app->user->can('manager', ['route' => true]) || Yii::$app->user->can('P_teacher') || Yii::$app->user->can('E_manager')) {
     $actionColumnTemplates[] = '{update}';
 }
 
-if (\Yii::$app->user->can('manager', ['route' => true])) {
+if (\Yii::$app->user->can('manager', ['route' => true]) || Yii::$app->user->can('P_teacher') || Yii::$app->user->can('E_manager')) {
     // $actionColumnTemplates[] = '{delete}';
 }
 if (isset($actionColumnTemplates)) {
@@ -138,7 +138,7 @@ if(\Yii::$app->user->can('user', ['route' => true])){
                     return '全局标题';
                 }
             ],
-
+/*
             [
                 'class'=>\common\grid\EnumColumn::className(),
                 'attribute' =>'grade_id',
@@ -149,7 +149,7 @@ if(\Yii::$app->user->can('user', ['route' => true])){
                     }
                     return '全局标题';
                 }
-            ],
+            ],*/
 			'title',
             'sort',
             [

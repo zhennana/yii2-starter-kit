@@ -36,10 +36,12 @@ abstract class CourseOrderItem extends \yii\db\ActiveRecord
     const PAYMENT_STATUS_CONFIRMING = 200;     // 200确认中
     const PAYMENT_STATUS_NON_PAID   = 100;     // 100未支付
 
-    const PAYMENT_ONLINE  = 100;        // 在线支付
-    const PAYMENT_ALIPAY  = 110;        // 支付宝
-    const PAYMENT_WECHAT  = 111;        // 微信支付
-    const PAYMENT_OFFLINE = 200;        // 线下支付
+    const PAYMENT_ONLINE         = 100;        // 在线支付
+    const PAYMENT_ALIPAY         = 110;        // 支付宝
+    const PAYMENT_WECHAT         = 111;        // 微信支付
+    const PAYMENT_APPLEPAY_INAPP = 115;        // 苹果内购支付
+    const PAYMENT_APPLEPAY       = 116;        // 苹果支付
+    const PAYMENT_OFFLINE        = 200;        // 线下支付
 
     const STATUS_VALID   = 10;        // 有效
     const STATUS_INVALID = 20;        // 无效
@@ -64,10 +66,12 @@ abstract class CourseOrderItem extends \yii\db\ActiveRecord
     public static function optPayment()
     {
         return [
-            self::PAYMENT_ONLINE  => '在线支付',
-            self::PAYMENT_ALIPAY  => '支付宝',
-            self::PAYMENT_WECHAT  => '微信支付',
-            self::PAYMENT_OFFLINE => '线下支付',
+            self::PAYMENT_ONLINE         => '在线支付',
+            self::PAYMENT_ALIPAY         => '支付宝',
+            self::PAYMENT_WECHAT         => '微信支付',
+            self::PAYMENT_APPLEPAY_INAPP => 'Apple Pay In-APP',
+            self::PAYMENT_APPLEPAY       => 'Apple Pay',
+            self::PAYMENT_OFFLINE        => '线下支付',
         ];
     }
 
@@ -130,7 +134,7 @@ abstract class CourseOrderItem extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['parent_id', 'school_id', 'grade_id', 'user_id', 'introducer_id', 'payment', 'presented_course', 'status', 'payment_status', 'total_course','course_id','coupon_type'], 'integer'],
+            [['parent_id', 'school_id', 'grade_id', 'user_id', 'introducer_id', 'payment', 'presented_course', 'status', 'payment_status', 'total_course','course_id','coupon_type','expired_at'], 'integer'],
             [['user_id', 'total_price','total_course'], 'required'],
             ['payment_status','default','value'=>300],
             ['payment','default','value'=>200],
@@ -151,6 +155,7 @@ abstract class CourseOrderItem extends \yii\db\ActiveRecord
             [['payment_id','order_sn'],'string'],
             [['order_sn'], 'string', 'max' => 32],
             [['order_sn'], 'unique'],
+            ['data','safe'],
         ];
     }
 
@@ -178,6 +183,7 @@ abstract class CourseOrderItem extends \yii\db\ActiveRecord
             'coupon_price'         => Yii::t('backend', '优惠金额'),
             'coupon_type'          => Yii::t('backend', '优惠类型'),
             'total_course'         => Yii::t('backend', '课程总数'),
+            'expired_at'         => Yii::t('backend', '过期时间'),
             'created_at'           => Yii::t('backend', '创建时间'),
             'updated_at'           => Yii::t('backend', '更新时间'),
         ];
@@ -215,7 +221,9 @@ abstract class CourseOrderItem extends \yii\db\ActiveRecord
     public function getSchool(){
         return $this->hasOne(\backend\modules\campus\models\School::className(),['school_id'=>'school_id']);
     }
-
+    public function getCourse(){
+        return $this->hasOne(\backend\modules\campus\models\Course::className(),['course_id'=>'course_id']);
+    }
     public function getGrade(){
         return $this->hasOne(\backend\modules\campus\models\Grade::className(),['grade_id'=>'grade_id']);
     }

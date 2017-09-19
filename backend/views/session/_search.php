@@ -5,27 +5,27 @@ use yii\widgets\ActiveForm;
 
 /**
 * @var yii\web\View $this
-* @var backend\modules\campus\models\search\StudentRecordTitleSearch $model
+* @var backend\models\search\SessionSearch $model
 * @var yii\widgets\ActiveForm $form
 */
 ?>
 
-<div class="student-record-title-search">
+<div class="session-search">
 
     <?php $form = ActiveForm::begin([
     'action' => ['index'],
     'method' => 'get',
     ]); ?>
 
-    		<?= $form->field($model, 'student_record_title_id') ?>
+    		<?= $form->field($model, 'id') ?>
 
-		<?= $form->field($model, 'title') ?>
+		<?= $form->field($model, 'expire') ?>
 
-		<?= $form->field($model, 'status') ?>
+		<?= $form->field($model, 'user_id') ?>
 
-		<?= $form->field($model, 'sort') ?>
+		<?= $form->field($model, 'udid') ?>
 
-		<?= $form->field($model, 'updated_at') ?>
+		<?= $form->field($model, 'data') ?>
 
 		<?php // echo $form->field($model, 'created_at') ?>
 

@@ -134,6 +134,9 @@ $this->params['breadcrumbs'][] = Yii::t('cruds', '查看');
                 'attribute' => 'status',
                 'value'     => CourseOrderItem::getStatusValueLabel($model->status),
             ],
+            'expired_at:datetime',
+            'created_at:datetime',
+            'updated_at:datetime',
         ],
     ]); ?>
 

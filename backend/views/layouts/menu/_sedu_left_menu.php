@@ -188,6 +188,15 @@ use yii\helpers\Url;
                         //'badge'=> TimelineEvent::find()->today()->count(),
                         //'badgeBgClass'=>'label-success',
                     ],
+                    [
+                        'label'=>Yii::t('backend', 'Session'),
+                        'icon'=>'<i class="fa fa-key"></i>',
+                        'options'=>['class'=>'treeview'],
+                        'url'=>['/session/index'],
+                        'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager')),
+                        //'badge'=> TimelineEvent::find()->today()->count(),
+                        //'badgeBgClass'=>'label-success',
+                    ],
                 /*    [
                         'label'=>Yii::t('backend', '账号关联管理'),
                         'icon'=>'<i class="fa fa-database"></i>',

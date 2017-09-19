@@ -1,13 +1,48 @@
 <?php
 
 use yii\bootstrap\Nav;
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
 use yii\bootstrap\NavBar;
+use  common\models\WidgetMenu;
+
 
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-$this->beginContent('@frontend/views/layouts/_clear.php')
+$this->beginContent('@frontend/views/layouts/_clear.php');
+
 ?>
+<?php
+//页脚设置
+    $footer = \Yii::$app->cache->get('footer_menu');
+    if($footer === false){
+        $models = WidgetMenu::find()->where(['id'=>[2,3,4,5,6],'status'=>WidgetMenu::STATUS_ACTIVE])->all();
+        $footer = [
+            'menu'=>[],
+            'footer_contact'=>[]
+        ];
+        foreach ($models as $key => $value) {
+            if($value->id !== 6){
+                $value->getArrayItems();
+                ArrayHelper::multisort($value->body,'sort',SORT_DESC);
+                $footer['menu'][$key]['body'] =$value->body;
+                $footer['menu'][$key]['sort'] = isset($value->body['sort'])? $value->body['sort'] : 0;
+                $footer['menu'][$key]['title'] = $value->title;
+            }else{
+                $value->getArrayItems();
+                $footer['footer_contact'] =$value->body;
+                $footer['footer_contact']['title'] = $value->title;
+            }
+        }
+        ArrayHelper::multisort($footer['menu'],'sort',SORT_DESC);
+// dump($footer['menu']['body']);exit;
+        \Yii::$app->cache->set('footer_menu',$footer,60*60*24*365);
+    }
+
+?>
+
 <div class="wrap">
     <div class="top_logo row">
         <a href="<?php echo Yii::getAlias('@frontendUrl') ?>"><img class="img-responsive pull-left" src="<?php echo Yii::getAlias('@frontendUrl') ?>/img/top_logo.png"></a>
@@ -91,17 +126,30 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
         <div class="col-xs-12 top">
             <div class="web_map">
                 <ul class="no-margin no-padding col-xs-8">
-                    <li class="col-xs-2">
-                        <h4>关于瓦酷</h4>
-                        <p>瓦酷介绍</p>
-                        <p>品牌故事</p>
-                        <p>专家团队</p>
-                        <p>教育理念</p>
-                        <p>运营管理</p>
-                        <p>加盟校区</p>
-                        <p>校区展示</p>
-                    </li>
-                    <li class="col-xs-2">
+                <?php
+                    foreach ($footer['menu'] as $key => $value) {
+                ?>
+                <li class="col-xs-2">
+                    <h4><?php echo $value['title'] ?></h4>
+                        <?php
+                        foreach ($value['body'] as $k => $v) {
+                            // var_dump('<pre>',$value['body']);exit;
+                                if(empty($v['label'])){
+                                    continue;
+                                }
+                        ?>
+                         <p><?php ;
+                                if(empty($v['url'])){
+                                    echo $v['label'];
+                                }else{
+                                   echo  Html::a($v['label'],$v['url'], ['style'=>'color:white','target'=>'_blank']);
+                                }
+                         ?> </p>
+
+                         <?php } ?>
+                </li>
+                <?php }?>
+                    <!-- <li class="col-xs-2">
                         <h4>招商加盟</h4>
                         <p>瓦酷加盟体系</p>
                         <p>加盟流程</p>
@@ -122,16 +170,17 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                         <h4>瓦酷动态</h4>
                         <p>瓦酷动态</p>
                         <p>瓦酷视频</p>
-                    </li>
+                    </li> -->
                     <li class="col-xs-4">
-                        <h4>联系我们</h4>
+                        <h4><?php  echo isset($footer['footer_contact']['title'])? $footer['footer_contact']['title']  :   '' ?> </h4>
                         <p class="no-margin">全国咨询热线</p>
-                        <h3 class="no-margin">400-608-0515</h3>
-                        <h5>总公司地址：北京市通州经济开发区南区鑫隅四街1号-668</h5>
-                        <p style="line-height: 5px">邮编：101108</p>
+                        <h3 class="no-margin"><?= isset($footer['footer_contact']['telephone'])? $footer['footer_contact']['telephone'] : '' ?></h3>
+                        <h5>总公司地址:<?=  isset($footer['footer_contact']['address'])? $footer['footer_contact']['address'] : '' ?></h5>
+
+                        <p style="line-height: 5px">邮编：<?=  isset($footer['footer_contact']['zip_code'])? $footer['footer_contact']['zip_code'] : '' ?> </p>
                         <br>
-                        <h5>分公司地址：北京东燕郊开发区创意谷街773号瓦酷机器人创客空间</h5>
-                        <p style="line-height: 5px">邮编：065201</p>
+                        <h5>分公司地址：<?=  isset($footer['footer_contact']['child_address'])? $footer['footer_contact']['child_address'] : '' ?></h5>
+                        <p style="line-height: 5px">邮编：<?=  isset($footer['footer_contact']['child_code'])? $footer['footer_contact']['child_code'] : '' ?></p>
                     </li>
                 </ul>
             </div>

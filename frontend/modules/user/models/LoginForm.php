@@ -112,17 +112,35 @@ class LoginForm extends Model
         // 
         // Yii::$app->user->logout();
         
+        $info = ['new'=>[], 'old'=>[]];
+        
         $data = (new \yii\db\Query())
-        ->select('id, user_id, udid')
+        ->select('id, user_id, udid, expire, created_at')
         ->from(Yii::$app->session->sessionTable)
         ->where('user_id = '.$user_id)
         ->all();
 // var_dump($data); exit();
         foreach ($data as $key => $value) {
-            if(empty($value['udid']) || $value['udid'] != $udid){
+            if(!empty($value['udid']) && $value['udid'] != $udid){
+
+                $info['old'][$value['id']]['id'] = $value['id'];
+                $info['old'][$value['id']]['user_id'] = $value['user_id'];
+                $info['old'][$value['id']]['udid'] = $value['udid'];
+                $info['old'][$value['id']]['expire'] = $value['expire'];
+                $info['old'][$value['id']]['created_at'] = $value['created_at'];
+// var_dump($info); exit();
                 Yii::$app->session->destroySession($value['id']);
+            }else{
+                $info['new'][$value['id']]['id'] = $value['id'];
+                $info['new'][$value['id']]['user_id'] = $value['user_id'];
+                $info['new'][$value['id']]['udid'] = $value['udid'];
+                $info['new'][$value['id']]['expire'] = $value['expire'];
+                $info['new'][$value['id']]['created_at'] = $value['created_at'];
             }
         }
+
+        return $info;
+
 
     }
 
