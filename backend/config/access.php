@@ -218,9 +218,9 @@ return [
             ],
             //成绩查询
             [
-                'controllers'=>['campus/student-record-key'],
+                'controllers'=>['campus/student-record-key','campus/student-record-value'],
                 'allow'=>true,
-                'actions'=>['index','create','update'],
+                'actions'=>['index','create','update','view'],
                 'roles'=>['E_manager','manager','P_teacher']
             ],
         ]
