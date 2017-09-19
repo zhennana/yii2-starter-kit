@@ -10,7 +10,7 @@ use \common\components\APush\APush;
 /**
  * @author Eugene Terentev <eugene@terentev.net>
  */
-class NoticeController extends controller
+class NoticeController extends Controller
 {
 
 
@@ -62,7 +62,7 @@ class NoticeController extends controller
      echo '共推送'.count($callback).'次';
   }
 
-  //初始化数据
+  //初始化数据 
   public function InitData(){
       $data  = [];
       $model = Notice::find()->where([
@@ -70,9 +70,9 @@ class NoticeController extends controller
                     'type'     =>0,
                    'status_send'=>Notice::STATUS_SEND_UNSENT,
         ])->all();
-
       foreach ($model as $key => $value) {
-          $value->status_send = 10;
+        //STATUS_SEND_SENT
+          $value->status_send = Notice::STATUS_SEND_SENT;
           $value->save();
 
           //家校沟通（老师对学生发的）
@@ -210,10 +210,10 @@ class NoticeController extends controller
             }
 }*/
       }
+      //var_Dump($data);exit;
       //var_dump($data);exit;
       return $this->AddNotice($data);
   }
-  //
   public function AddNotice($data){
     foreach ($data as $key => $value) {
         $model = new Notice;

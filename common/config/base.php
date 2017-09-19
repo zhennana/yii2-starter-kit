@@ -292,6 +292,7 @@ $config = [
             'KRW' => '韩圆',
             'PHP' => '菲律宾披索',
         */
+       /*
         'payment' => [
             'gedu' => [
                 'alipay' => [
@@ -324,7 +325,7 @@ $config = [
                 'alipay_public_key' => Yii::getAlias('@common').'/payment/alipay/cert/alipay_public_key.pem',
                 ],
             ],
-        ],
+        ],*/
 
     ], // component 结束
     

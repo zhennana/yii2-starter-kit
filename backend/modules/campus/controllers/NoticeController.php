@@ -124,6 +124,10 @@ class NoticeController extends \backend\modules\campus\controllers\base\NoticeCo
 
         if($model->load($_POST)){
             $_POST['Notice']['status_send']  = Notice::STATUS_SEND_SENT;
+             //检测是否推送,如果推送,发送状态改为未发送
+            if($_POST['Notice']['is_a_push'] == 1){
+                    $_POST['Notice']['status_send']  = Notice::STATUS_SEND_UNSENT;
+            }
             $info = $model->batch_save($_POST['Notice']);
             if(!empty($info)){
                 return $this->render('_grade_notice_form',['model'=>$model,'schools'=>$schools,'info'=>$info]);
@@ -182,6 +186,10 @@ class NoticeController extends \backend\modules\campus\controllers\base\NoticeCo
         $schools = ArrayHelper::map($schools,'school_id','school_title');
         if($model->load($_POST)){
             $_POST['Notice']['status_send']  = Notice::STATUS_SEND_SENT;
+            //检测是否推送,如果推送,发送状态改为未发送
+            if($_POST['Notice']['is_a_push'] == 1){
+                    $_POST['Notice']['status_send']  = Notice::STATUS_SEND_UNSENT;
+            }
             $info = $model->batch_save($_POST['Notice']);
             if(!empty($info)){
                 return $this->render('_teacher_notice_form',

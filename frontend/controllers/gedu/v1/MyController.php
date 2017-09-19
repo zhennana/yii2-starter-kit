@@ -166,7 +166,7 @@ class MyController extends \common\rest\Controller
 
         if (isset($character_detailes) && !empty($character_detailes) && $character_detailes['user_type'] == 1) {
             $model = Notice::find()
-                ->where(['status_send' => Notice::STATUS_SEND_SENT])
+                ->where(['status_send' => Notice::STATUS_SEND_SENT,'type'=>0])
                 ->andWhere([
                     'or',
 
