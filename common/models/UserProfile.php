@@ -78,14 +78,14 @@ class UserProfile extends ActiveRecord
     {
         return [
             [['user_id'], 'required'],
-            [['user_id', 'gender','client_source_type'], 'integer'],
+            [['user_id', 'birth','gender','client_source_type'], 'integer'],
             [['gender'], 'in', 'range' => [NULL, self::GENDER_FEMALE, self::GENDER_MALE]],
             [['firstname','middlename', 'lastname', 'avatar_path', 'avatar_base_url'], 'string', 'max' => 255],
             ['clientid','string','max'=>32],
             ['locale', 'default', 'value' => Yii::$app->language],
             ['locale', 'in', 'range' => array_keys(Yii::$app->params['availableLocales'])],
             [['picture'],'safe'],
-            ['birth', 'filter', 'filter' => 'strtotime', 'skipOnEmpty' => true],
+          //  ['birth', 'filter', 'filter' => 'strtotime', 'skipOnEmpty' => true],
         ];
     }
 
