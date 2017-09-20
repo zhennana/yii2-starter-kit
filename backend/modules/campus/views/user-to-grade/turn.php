@@ -20,8 +20,7 @@ use backend\modules\campus\models\UserToSchool;
 * @var backend\modules\campus\models\UserToGrade $model
 * @var yii\widgets\ActiveForm $form
 */
-$status =  UserToGrade::optsStatus();
-unset($status[UserToGrade::USER_GRADE_STATUS_CHANGE]);
+
 // var_dump($model->grade_user_type);exit;
     $grade_user_type =$model->grade_user_type;
     if(isset($_GET['grade_user_type'])){
@@ -88,7 +87,7 @@ unset($status[UserToGrade::USER_GRADE_STATUS_CHANGE]);
         'errorSummaryCssClass'   => 'error-summary alert alert-error'
     ]); ?>
 
-    <?php echo $form->errorSummary($model); ?>
+    <?php echo $form->errorSummary($newModel); ?>
 
     <div class="">
         <?php $this->beginBlock('main'); ?>
@@ -126,72 +125,27 @@ unset($status[UserToGrade::USER_GRADE_STATUS_CHANGE]);
 
             ?>
 
-        <!--  attribute school_id  -->
-            <?= $form->field($model, 'school_id')->widget(Select2::className(),[
-                'data' =>$currentSchool,
-                'options'       => ['placeholder' => '请选择'],
-                'pluginOptions' => [ 
-                    'allowClear' => true
-                ],
-                'pluginEvents' => [
-                    "change" => "function() {
-                        handleChange(1,this.value,'#usertograde-grade_id');
-                    }"
-                ]
-            ]) ?>
-
+ 
+            <?= $form->field($model,'user_id')->textInput(['disabled'=>'disabled','value'=>Yii::$app->user->identity->getUserName($model->user_id)])->label()?>
+            <?= $form->field($model,'school_id')->textInput(['disabled'=>'disabled','value'=>isset($model->school->school_title)? $model->school->school_title : $model->school_id])->label()?>
+            <?= $form->field($model,'[0]grade_id',[])->textInput(['disabled'=>'disabled','value'=>isset($model->grade->grade_name)? $model->grade->grade_name : $model->grade_id])->label()?>
         <!-- attribute grade_id -->
-            <?= $form->field($model, 'grade_id')->widget(Select2::className(),[
-                'data' =>  $model->getlist(1,$model->school_id),
+            <?= $form->field($newModel, 'grade_id')->widget(Select2::className(),[
+                'data' =>  $newModel->getlist(1,$model->school_id),
                 'options'       => ['placeholder' => '请选择'],
                 'pluginOptions' => [
                     'allowClear' => true
                 ]
-            ]) ?>
-
-        <!-- attribute user_title_id_at_grade -->
-        	<!-- <? /*$form->field($model, 'user_title_id_at_grade')->widget(Select2::className(),[
-                'data'          => UserToGrade::optsUserTitleType(),
-                'hideSearch'    => true,
-                'options'       => ['placeholder' => '请选择'],
-                'pluginOptions' => [
-                    'allowClear' => false
-                ],
-            ])*/ ?> -->
-
-        <!-- attribute status -->
-            <?= $form->field($model,'status')->widget(Select2::className(),[
-                'data'          =>$status,
-                'hideSearch'    => true,
-                // 'options'       => ['placeholder' => '请选择'],
-                'pluginOptions' => [
-                    'allowClear' => false
-                ],
-            ])->label('状态') ?>
-
-        <!-- attribute sort -->
-            <?= $form->field($model, 'sort')->textInput() ?>
-
-            <?= $form->field($model,'grade_user_type')->hiddenInput(['value'=>$grade_user_type])->label(false)->hint(false)?>
-            <?= $form->field($model,'user_title_id_at_grade')->hiddenInput(['value'=>$grade_user_type])->label(false)->hint(false)?>
-        <!-- attribute grade_user_type -->
-          <!--   <? /* $form->field($model,'grade_user_type')->widget(Select2::className(),[
-                'data'          => UserToGrade::optsUserType(),
-                'hideSearch'    => true,
-                // 'options'       => ['placeholder' => '请选择'],
-                'pluginOptions' => [
-                    'allowClear' => false
-                ],
-            ])->label('类型') */?> -->
+            ])->label('目标班级')->hint('') ?>
 
 
         </p>
         <?php $this->endBlock(); ?>
-        
+
         <?= Tabs::widget([
             'encodeLabels' => false,
             'items'        => [[
-                'label'   => Yii::t('backend', '班级人员管理'),
+                'label'   => Yii::t('backend', '转班'),
                 'content' => $this->blocks['main'],
                 'active'  => true,
             ],]
@@ -202,7 +156,7 @@ unset($status[UserToGrade::USER_GRADE_STATUS_CHANGE]);
 
         <?= Html::submitButton(
             '<span class="glyphicon glyphicon-check"></span> ' .
-            ($model->isNewRecord ? Yii::t('backend', '创建') : Yii::t('backend', '更新')),
+            Yii::t('common','转班'),
             [
                 'id'    => 'save-' . $model->formName(),
                 'class' => 'btn btn-success'
@@ -214,17 +168,4 @@ unset($status[UserToGrade::USER_GRADE_STATUS_CHANGE]);
     </div>
 
 </div>
-
-<script>
-    function handleChange(type_id,id,form){
-        $.ajax({
-            "url":"<?php echo Url::to(['user-to-grade/ajax-form'])?>",
-            "data":{type_id:type_id,id:id},
-            'type':"GET",
-            'success':function(data){
-                 $(form).html(data);
-            }
-        }) 
-    }
-</script>
 
