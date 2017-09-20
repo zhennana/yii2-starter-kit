@@ -115,7 +115,7 @@ return [
             [
                 'controllers'=>['campus/grade','campus/user-to-grade'],
                 'allow'=>true,
-                'actions'=>['create','update'],
+                'actions'=>['create','update','turn'],
                 'roles'=>['P_director']
             ],
             //班级创建学生档案

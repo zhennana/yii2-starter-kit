@@ -183,8 +183,12 @@ class UserForm extends Model
                 $model->afterSignup($profile);
             }else{
                 if($model->userProfile){
-                    $model->userProfile->load($profile,'');
-                    $model->userProfile->save();
+                    $userProfile  = $model->getUserProfile()->one();
+                    $userProfile->load($profile,'');
+                    $userProfile->save();
+                    // $model->getUserProfile->load($profile,'');
+                    // var_dump($model->userProfile->birth);exit;
+                    // $model->getUserProfile->save();
                 }
             }
             $auth = Yii::$app->authManager;
