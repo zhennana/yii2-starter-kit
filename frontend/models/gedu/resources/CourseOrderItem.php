@@ -9,6 +9,7 @@ use frontend\models\gedu\resources\Courseware;
 use frontend\models\gedu\resources\Course;
 use common\payment\alipay\buildermodel\AlipayTradeWapPayContentBuilder;
 use common\payment\alipay\AlipayTradeService;
+use common\payment\wechatpay\WechatPay;
 
 /**
  * This is the model class for table "couese_order_item".
@@ -53,8 +54,6 @@ public function behaviors()
     public function processCourseOrder($params)
     {
         $info = [];
-        $params['user_id']  = Yii::$app->user->identity->groupId();
-        $params['order_sn'] = $this->builderNumber();
 
         // 订单数据验证
         $validate = $this->validateOrderParams($params);
@@ -87,13 +86,6 @@ public function behaviors()
             return $info;
         }
 
-        // 验证订单状态
-        if (!isset($params['status']) || !in_array($params['status'],[self::STATUS_VALID])) {
-            $info['errno']   = __LINE__;
-            $info['message'] = 'Order Status Is Not Legal!';
-            return $info;
-        }
-
         // 验证支付方式
         if (!isset($params['payment']) || !in_array($params['payment'],[self::PAYMENT_ONLINE,self::PAYMENT_ALIPAY,self::PAYMENT_WECHAT, self::PAYMENT_OFFLINE])) {
             $info['errno']   = __LINE__;
@@ -103,15 +95,10 @@ public function behaviors()
             $params['payment'] = (int) $params['payment'];
         }
 
-        // 验证支付状态
-        if (!isset($params['payment_status']) || empty($params['payment_status'])) {
-            $params['payment_status'] = CourseOrderItem::PAYMENT_STATUS_NON_PAID;
-        }
-
         // 验证订单总价和总课程数，待完善
         if (isset($params['total_price']) && !empty($params['total_price'])) {
             $course = Course::findOne($params['course_id']);
-            if (!isset($course->parent_id) || empty($course->parent_id)) {
+            if (isset($course->parent_id) && !empty($course->parent_id)) {
                 if ($course->present_price === null) {
                     $info['errno']   = __LINE__;
                     $info['message'] = 'Course Price Data Exception! Please Contact Administrator.';
@@ -161,13 +148,6 @@ public function behaviors()
             return $info;
         }
 
-        // 验证订单编号
-        if (!isset($params['order_sn']) || empty($params['order_sn'])) {
-            $info['errno']   = __LINE__;
-            $info['message'] = 'Order Sn Can Not Be Null!';
-            return $info;
-        }
-
         if ($info['errno'] == 0) {
             return $params;
         }
@@ -186,11 +166,22 @@ public function behaviors()
             'errno'   => 0,
             'message' => ''
         ];
+        $params['order_sn']       = $this->builderNumber();
+        $params['user_id']        = Yii::$app->user->identity->id;
+        $params['payment_status'] = self::PAYMENT_STATUS_NON_PAID;
+        $params['status']         = self::STATUS_VALID;
 
-        $model = new $this;
-        $data['CourseOrderItem'] = $params;
-
-        if ($model->load($data) && $model->save($data)) {
+        $model = self::find()->where([
+            'course_id'      => $params['course_id']
+            'user_id'        => Yii::$app->user->identity->groupId(),
+            'status'         => self::STATUS_VALID,
+            'payment_status' => self::PAYMENT_STATUS_NON_PAID,
+        ])->one();
+        if (!$model) {
+            $model = new $this;
+        }
+        
+        if ($model->load($params,'') && $model->save()) {
             return $model;
         }
 
@@ -265,7 +256,41 @@ public function behaviors()
         // $payRequestBuilder->setSellerId($seller_id);
 
         $payResponse = new AlipayTradeService($alipay_config);
-        $result = $payResponse->wapPay($payRequestBuilder,$alipay_config['return_url'],$alipay_config['notify_url']);
+        $result['wappay'] = $payResponse->wapPay($payRequestBuilder,$alipay_config['return_url'],$alipay_config['notify_url']);
+        return $result;
+    }
+
+    /**
+     *  [appWechatpay 微信APP支付]
+     *  @return [type] [description]
+     */
+    public function appWechatpay()
+    {
+        $wechatpay_config = Yii::$app->params['payment']['gedu']['wechatpay'];
+        // var_dump($wechatpay_config);exit;
+
+        //创建预支付的必要参数。
+        $data = [
+            'body'             => '【光大】精品课程',
+            'out_trade_no'     => $this->order_sn,
+            'total_fee'        => $this->real_price*100,    // 以分为单位
+            'spbill_create_ip' => Yii::$app->request->userIP,
+        ];
+
+        $wechatpay = new WechatPay($wechatpay_config);
+        $prepay_id = false;
+        //获取预支付ID
+        $prepay_id = $wechatpay->getPrepayId($data);
+
+        if(!$prepay_id){
+            //二次次签名调用微信app付款
+            return $info=[
+                'errno'   =>$wechatpay->error,
+                'message' => $wechatpay->errorXML,
+            ];
+        }
+        $result['apppay'] = $wechatpay->get_package($prepay_id);
+
         return $result;
     }
 }

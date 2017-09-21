@@ -86,41 +86,6 @@ class CourseOrderItemController extends \common\rest\Controller
      *     ),
      *     @SWG\Parameter(
      *        in = "formData",
-     *        name = "school_id",
-     *        description = "学校ID",
-     *        required = false,
-     *        type = "integer"
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "grade_id",
-     *        description = "班级ID",
-     *        required = false,
-     *        type = "integer"
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "introducer_id",
-     *        description = "介绍人ID",
-     *        required = false,
-     *        type = "integer"
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "total_course",
-     *        description = "课程的总数",
-     *        required = false,
-     *        type = "integer"
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "presented_course",
-     *        description = "赠送的课程数量",
-     *        required = false,
-     *        type = "integer"
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
      *        name = "payment",
      *        description = "支付方式：100在线支付；110支付宝；111微信支付；200货到付款",
      *        required = true,
@@ -184,30 +149,37 @@ class CourseOrderItemController extends \common\rest\Controller
             return [];
         }
 
-        $from = [];
+        $data = [];
 
         $modelClass = $this->modelClass;
         $order      = new $modelClass;
 
         $model = $order->processCourseOrder(Yii::$app->request->post());
-
         if (isset($model['errno']) && $model['errno'] !== 0) {
             $this->serializer['errno']   = $model['errno'];
             $this->serializer['message'] = $model['message'];
             return [];
         }
 
-        if (is_object($model)) {
-            $from = $model->wapAlipay();
-        }
-
-        if (isset($from['errno']) && $from['errno'] != 0) {
-            $this->serializer['errno']   = $from['errno'];
-            $this->serializer['message'] = $from['message'];
+        if (!is_object($model)) {
+            $this->serializer['errno']   = $model['errno'];
+            $this->serializer['message'] = $model['message'];
             return [];
         }
-        $from = ['wappay' => $from];
-        return $from;
+
+        if ($model->payment == $modelClass::PAYMENT_ALIPAY) {
+            $data = $model->wapAlipay();
+        }elseif($model->payment == $modelClass::PAYMENT_WECHAT){
+            $data = $model->appWechatpay();
+        }
+
+        if (isset($data['errno']) && $data['errno'] != 0) {
+            $this->serializer['errno']   = $data['errno'];
+            $this->serializer['message'] = $data['message'];
+            return [];
+        }
+
+        return $data;
     }
 
     /**

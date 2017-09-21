@@ -87,7 +87,7 @@ if (!isset($arr) || empty($arr)) {
 $alipaySevice = new AlipayTradeService($alipay_config); 
 
 // 写日志
-$alipaySevice->writeLog('[from notify page] [Logs]: Post Data:'.var_export($arr,true));
+$alipaySevice->writeLog('[from notify page] [Logs]: Alipay Data:'.var_export($arr,true));
 
 // 验签
 $result = $alipaySevice->check($arr);
@@ -110,7 +110,7 @@ if($result) {//验证成功
 
         // 验证APP ID
         if ($alipay_config['app_id'] != $app_id) {
-            $alipaySevice->writeLog('[from notify page] [AppId Not Match]: config:'.var_export($alipay_config['app_id'],true).' || alipay:'.var_export($app_id,true));
+            $alipaySevice->writeLog('[from notify page] [Alipay AppId Not Match]: config:'.var_export($alipay_config['app_id'],true).' || response:'.var_export($app_id,true));
             exit();
         }
 
