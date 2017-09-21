@@ -88,11 +88,9 @@ class CoursewareToFile extends BaseCoursewareToFile
             }
 
             $info[$index]['attachment'][$k]=[
-              [
-                'sort:'.$v->sort.'- ID:'.$v->courseware_to_file_id,
-                $v->fileStorageItem->type,
-                $v->fileStorageItem->url.$v->fileStorageItem->file_name,
-              ]
+              'sort:'.$v->sort.'- ID:'.$v->courseware_to_file_id,
+              $v->fileStorageItem->type,
+              $v->fileStorageItem->url.$v->fileStorageItem->file_name,
             ];
             $v->fileStorageItem->save();
         }
@@ -138,11 +136,9 @@ class CoursewareToFile extends BaseCoursewareToFile
             }
 
             $info[$index]['attachment'][$k]=[
-              [
-                'sort:'.$v->sort.'- ID:'.$v->courseware_to_file_id,
-                $v->fileStorageItem->type,
-                $v->fileStorageItem->url.$v->fileStorageItem->file_name,
-              ]
+              'sort:'.$v->sort.'- ID:'.$v->courseware_to_file_id,
+              $v->fileStorageItem->type,
+              $v->fileStorageItem->url.$v->fileStorageItem->file_name,
             ];
 
             $v->fileStorageItem->save();
