@@ -86,41 +86,6 @@ class CourseOrderItemController extends \common\rest\Controller
      *     ),
      *     @SWG\Parameter(
      *        in = "formData",
-     *        name = "school_id",
-     *        description = "学校ID",
-     *        required = false,
-     *        type = "integer"
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "grade_id",
-     *        description = "班级ID",
-     *        required = false,
-     *        type = "integer"
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "introducer_id",
-     *        description = "介绍人ID",
-     *        required = false,
-     *        type = "integer"
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "total_course",
-     *        description = "课程的总数",
-     *        required = false,
-     *        type = "integer"
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "presented_course",
-     *        description = "赠送的课程数量",
-     *        required = false,
-     *        type = "integer"
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
      *        name = "payment",
      *        description = "支付方式：100在线支付；110支付宝；111微信支付；200货到付款",
      *        required = true,
