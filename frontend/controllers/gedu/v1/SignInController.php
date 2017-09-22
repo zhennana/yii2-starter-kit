@@ -143,8 +143,8 @@ class SignInController extends \common\components\ControllerFrontendApi
         $model->load($_POST);
 
         if($model->login()){
-            $attrUser = $model->user->attributes;
-
+            $attrUser = Yii::$app->user->identity->getSchoolUserInfo();
+            /*
             $attrUser['ID'] = $attrUser['id'];
             unset($attrUser['id']);
 
@@ -198,7 +198,7 @@ class SignInController extends \common\components\ControllerFrontendApi
                 $attrUser['type']    = 0;
                 $attrUser['parents'] = '';
             }
-            
+            */
             return $attrUser;
         }else{
             Yii::$app->response->statusCode = 200;
@@ -240,8 +240,11 @@ class SignInController extends \common\components\ControllerFrontendApi
             return $this->serializer['message'];
         }
 
-        $attrUser = Yii::$app->user->identity->attributes;
+        // $attrUser = Yii::$app->user->identity->attributes;
 
+        $attrUser = Yii::$app->user->identity->getSchoolUserInfo();
+
+        /*
         if(isset($attrUser['password_hash'])){
             unset($attrUser['password_hash']);
         }
@@ -261,8 +264,7 @@ class SignInController extends \common\components\ControllerFrontendApi
                 $attrUser['avatar'] = 'http://orh16je38.bkt.clouddn.com/o_1bn7gmjh51nu51dn1k0kimul5n9.jpg';
             }
         }
-        $attrUser['clientid'] = $proFileUser->clientid;
-        $attrUser['client_source_type'] = $proFileUser->client_source_type;
+        */
         return $attrUser;
     }
 
@@ -448,11 +450,11 @@ class SignInController extends \common\components\ControllerFrontendApi
             if (isset($user->id)) {
                 if ($model->shouldBeActivated()) {
                     $this->serializer['message'] = Yii::t('frontend', '账号注册成功');
-                    return $user->attributes;
+                    return $user->getSchoolUserInfo();
                 } else {
                     Yii::$app->getUser()->login($user);
                 }
-                return array_merge($user->attributes, ['token'=>$model->token]);
+                return array_merge($user->getSchoolUserInfo(), ['token'=>$model->token]);
             }
         }
 
