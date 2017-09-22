@@ -101,7 +101,7 @@ use yii\helpers\Html;
                             <img src="http://static.v1.guangdaxuexiao.com/main-1-line.png">
 
                             <h4><?php echo Html::a('全脑开发',['article/index','category_id'=>49],['class'=>'headcolor','data-method'=>'open',]);?>
-                            <h6>The whole brain development</h6>
+                            <h6>IBC BrainHealth Center</h6>
                         </div>
                     </div>
                 </div>
