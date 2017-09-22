@@ -172,7 +172,7 @@ public function behaviors()
         $params['status']         = self::STATUS_VALID;
 
         $model = self::find()->where([
-            'course_id'      => $params['course_id']
+            'course_id'      => $params['course_id'],
             'user_id'        => Yii::$app->user->identity->groupId(),
             'status'         => self::STATUS_VALID,
             'payment_status' => self::PAYMENT_STATUS_NON_PAID,
