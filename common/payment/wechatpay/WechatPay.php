@@ -126,9 +126,8 @@ class WechatPay {
      * @return [type]        [description]
      */
     private function post($url, $data,$cert = false) {
-        var_dump($data,'11111');
         if(!isset($data['sign'])) $data["sign"] = $this->sign($data);
-var_dump($data);exit;
+
         $xml = $this->array2xml($data);
     //var_dump($xml);exit;
         $ch = curl_init();
@@ -385,6 +384,7 @@ var_dump($data);exit;
         }
         $stringSignTemp = $string1 . "key=" . $this->_config["apikey"];
         $sign = strtoupper(md5($stringSignTemp));
+        var_dump($string1,'',$stringSignTemp,'',$sign);
         return $sign;
     }
 
