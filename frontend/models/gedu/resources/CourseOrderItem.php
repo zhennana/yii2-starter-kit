@@ -97,6 +97,7 @@ public function behaviors()
 
         if (isset($params['present_price']) && !empty($params['present_price'])) {
             $params['total_price'] = $params['present_price'];
+            $params['real_price'] = $params['present_price'];
         }else{
             $info['errno']   = __LINE__;
             $info['message'] = '现价不能为空';
