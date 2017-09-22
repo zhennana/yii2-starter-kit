@@ -285,6 +285,11 @@ public function behaviors()
             'spbill_create_ip' => Yii::$app->request->userIP,
         ];
 
+        // 组装业务参数
+        if ($this->course) {
+            $data['body'] = '【光大】'.$this->course->title.'(共'.$this->course->course_counts.'节课程)';
+        }
+
         $wechatpay = new WechatPay($wechatpay_config);
         $prepay_id = false;
         //获取预支付ID
