@@ -95,17 +95,8 @@ class CourseOrderItemController extends \common\rest\Controller
      *     ),
      *     @SWG\Parameter(
      *        in = "formData",
-     *        name = "status",
-     *        description = "订单状态 10有效；20无效",
-     *        required = true,
-     *        type = "integer",
-     *        default = 10,
-     *        enum = {10,20}
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "total_price",
-     *        description = "总价",
+     *        name = "present_price",
+     *        description = "现价",
      *        required = true,
      *        type = "integer",
      *        default = 47
