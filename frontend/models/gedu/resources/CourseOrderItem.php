@@ -97,6 +97,7 @@ public function behaviors()
 
         if (isset($params['present_price']) && !empty($params['present_price'])) {
             $params['total_price'] = $params['present_price'];
+            $params['real_price'] = $params['present_price'];
         }else{
             $info['errno']   = __LINE__;
             $info['message'] = '现价不能为空';
@@ -106,15 +107,14 @@ public function behaviors()
         // 验证订单总价和总课程数，待完善
         if (isset($params['total_price']) && !empty($params['total_price'])) {
             $course = Course::findOne($params['course_id']);
-            if (!isset($course->parent_id) || empty($course->parent_id)) {
-                if ($course->present_price === null) {
+            if ($course && (!isset($course->parent_id) || empty($course->parent_id))) {
+                if ($course->present_price === null || $params['total_price'] != $course->present_price) {
                     $info['errno']   = __LINE__;
-                    $info['message'] = '课程价格异常';
+                    $info['message'] = '现价不合法';
                     return $info; 
                 }
 
-                // 未验证会员价等
-                $params['total_price']  = $course->present_price;
+                // $params['total_price']  = $course->present_price;
                 $params['total_course'] = $course->course_counts;
             }else{
                 $info['errno']   = __LINE__;
@@ -284,6 +284,11 @@ public function behaviors()
             'total_fee'        => $this->real_price*100,    // 以分为单位
             'spbill_create_ip' => Yii::$app->request->userIP,
         ];
+
+        // 组装业务参数
+        if ($this->course) {
+            $data['body'] = '【光大】'.$this->course->title.'(共'.$this->course->course_counts.'节课程)';
+        }
 
         $wechatpay = new WechatPay($wechatpay_config);
         $prepay_id = false;

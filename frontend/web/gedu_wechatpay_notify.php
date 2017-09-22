@@ -62,7 +62,7 @@ use frontend\models\gedu\resources\CourseOrderItem;
 	}
 
 // 写日志
-$wechatPay->writeLog('[from notify page][WeChat][Logs]: Data:'.var_export($data));
+$wechatPay->writeLog('[from notify page][WeChat][Logs]: Data:'.json_encode($data));
 
 	if($data['return_code'] == 'SUCCESS' && $data['result_code'] == 'SUCCESS'){
 
@@ -73,7 +73,7 @@ $wechatPay->writeLog('[from notify page][WeChat][Logs]: Data:'.var_export($data)
 
 		// 验证APP ID
         if ($wechatpay_config['appid'] != $appid) {
-            $wechatPay->writeLog('[from notify page][WeChat][AppId Not Match]: config:'.var_export($wechatpay_config['appid'],true).' || response:'.var_export($appid,true));
+            $wechatPay->writeLog('[from notify page][WeChat][AppId Not Match]: config:'.json_encode($wechatpay_config['appid'],true).' || response:'.json_encode($appid,true));
             exit();
         }
 
@@ -83,13 +83,13 @@ $wechatPay->writeLog('[from notify page][WeChat][Logs]: Data:'.var_export($data)
 
         	// 验证订单号
             if ($order->order_sn != $out_trade_no) {
-                $wechatPay->writeLog('[from notify page][WeChat][Order Sn Not Match]: config:'.var_export($order->order_sn,true).' || response:'.var_export($out_trade_no,true));
+                $wechatPay->writeLog('[from notify page][WeChat][Order Sn Not Match]: config:'.json_encode($order->order_sn,true).' || response:'.json_encode($out_trade_no,true));
                 exit();
             }
 
             // 验证订单金额
             if ($order->real_price != $total_fee) {
-                $wechatPay->writeLog('[from notify page][WeChat][Order Price Not Match]: config:'.var_export($order->real_price,true).' || response:'.var_export($total_fee,true));
+                $wechatPay->writeLog('[from notify page][WeChat][Order Price Not Match]: config:'.json_encode($order->real_price,true).' || response:'.json_encode($total_fee,true));
                 exit();
             }
 
@@ -99,14 +99,11 @@ $wechatPay->writeLog('[from notify page][WeChat][Logs]: Data:'.var_export($data)
                 $order->payment_status = CourseOrderItem::PAYMENT_STATUS_PAID;
                 $order->payment        = CourseOrderItem::PAYMENT_WECHAT;
                 if (!$order->save()) {
-                    $wechatPay->writeLog('[from notify page][WeChat][Order Update Fail]:'.var_export($order->getErrors(),true));
+                    $wechatPay->writeLog('[from notify page][WeChat][Order Update Fail]:'.json_encode($order->getErrors(),true));
                     exit();
                 }
             }
         }
-		$order->payment_id = $data['transaction_id'];
-		$order->payment_status = Order::PAYMENT_STATUS_PAID;
-		$order->payment        = Order::PAYMENT_ONLINE_WECHAT;
 
 
 		header("Content-type: text/xml");

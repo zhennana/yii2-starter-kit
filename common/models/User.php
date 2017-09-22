@@ -639,6 +639,76 @@ class User extends ActiveRecord implements IdentityInterface
         return $user_id;
     }
 
+    /**
+     *  [getSchoolUserInfo description]
+     *  @param  [type] $user [description]
+     *  @return [type]       [description]
+     */
+    public function getSchoolUserInfo()
+    {
+        $user = [];
+        $user['ID'] = $this->id;
+        $user['username'] = $this->username;
+        $user['realname'] = $this->realname;
+        $user['id_number'] = $this->id_number;
+        $user['phone_number'] = $this->phone_number;
+        $user['email'] = $this->email;
+        $user['status'] = $this->status;
+        $user['source'] = $this->source;
+        $user['safety'] = $this->safety;
+        $user['logged_ip'] = $this->logged_ip;
+        $user['created_at'] = $this->created_at;
+        $user['updated_at'] = $this->updated_at;
+        $user['logged_at'] = $this->logged_at;
+        $user['avatar'] = '';
+
+        $userProfile = $this->userProfile;
+
+        if(isset($userProfile->avatar_base_url) && !empty($userProfile->avatar_base_url))
+        {
+            $user['avatar'] = $userProfile->avatar_base_url.'/'.$userProfile->avatar_path;
+        }else{
+            $fansMpUser = isset($this->fansMp) ? $this->fansMp : '';
+            if($fansMpUser){
+                $user['avatar'] = $fansMpUser->avatar;
+            }else{
+                $user['avatar'] = 'http://orh16je38.bkt.clouddn.com/o_1bn7gmjh51nu51dn1k0kimul5n9.jpg';
+            }
+        }
+
+        $user['grade_name'] = $user['school_title'] = '';
+        $user['school_id'] = 0;
+        if ($this->getCharacterDetailes()) {
+            $user['grade_name'] = $this->getCharacterDetailes()['grade_label'];
+            $user['school_title'] = $this->getCharacterDetailes()['school_label'];
+            $user['school_id'] = $this->getCharacterDetailes()['school_id'];
+        }
+
+        // 家长关系
+        $parents = UsersToUsers::find()->where([
+            'user_right_id' => $this->id,
+            'status'        => UsersToUsers::UTOU_STATUS_OPEN,
+        ])->one();
+
+        $student = UsersToUsers::find()->where([
+            'user_left_id'  => $this->id,
+            'status'        => UsersToUsers::UTOU_STATUS_OPEN,
+        ])->one();
+
+        if ($parents) {
+            $user['type']    = UsersToUsers::UTOU_TYPE_PARENT;
+            $user['parents'] = UsersToUsers::getUserName($parents->user_left_id).'的家长';
+        }elseif($student){
+            $user['type']    = UsersToUsers::UTOU_TYPE_STUDENT;
+            $user['parents'] = '';
+        }else{
+            $user['type']    = 0;
+            $user['parents'] = '';
+        }
+        
+        return $user;
+    }
+
 //获取用户的提送
     // public function getUserClientid($user_id = NULL){
     //     if($user_id == NULL){

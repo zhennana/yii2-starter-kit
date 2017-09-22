@@ -68,7 +68,7 @@ class CoursewareToFile extends BaseCoursewareToFile
 
         $info[$index]['music_id'] = $value['courseware_id'];
         $info[$index]['title']    = $value['title'];
-        $info[$index]['lyric']    = $value['body'];
+        $info[$index]['lyric']    = '';
         $info[$index]['tags']     = $value['tags'];
         $info[$index]['page_view']= $value['page_view'];
         $info[$index]['banner_src'] = '';
@@ -85,6 +85,10 @@ class CoursewareToFile extends BaseCoursewareToFile
             
             if(empty($info[$index]['music_src']) && in_array($v->fileStorageItem->type, ['audio/mpeg','audio/mp3'])){
               $info[$index]['music_src'] =  $v->fileStorageItem->url.$v->fileStorageItem->file_name;
+            }
+
+            if(empty($info[$index]['lyric']) && in_array($v->fileStorageItem->type, ['application/octet-stream'])){
+              $info[$index]['lyric'] =  $v->fileStorageItem->url.$v->fileStorageItem->file_name;
             }
 
             $info[$index]['attachment'][$k]=[

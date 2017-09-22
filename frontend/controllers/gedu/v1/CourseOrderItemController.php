@@ -101,29 +101,6 @@ class CourseOrderItemController extends \common\rest\Controller
      *        type = "integer",
      *        default = 47
      *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "coupon_type",
-     *        description = "优惠类型 2首单减免；3随机减免",
-     *        required = false,
-     *        type = "integer",
-     *        enum = {2,3}
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "coupon_price",
-     *        description = "优惠金额",
-     *        required = false,
-     *        type = "integer"
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "real_price",
-     *        description = "实际付款",
-     *        required = true,
-     *        type = "integer",
-     *        default = 37
-     *     ),
      *     @SWG\Response(
      *         response = 200,
      *         description = "成功返回支付宝form表单，失败返回具体信息"

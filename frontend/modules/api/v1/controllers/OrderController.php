@@ -117,7 +117,7 @@ class OrderController extends \common\rest\Controller
      *        name = "total_price",
      *        description = "总价",
      *        required = true,
-     *        type = "integer"
+     *        type = "number"
      *     ),
      *     @SWG\Parameter(
      *        in = "formData",
@@ -132,14 +132,14 @@ class OrderController extends \common\rest\Controller
      *        name = "coupon_price",
      *        description = "优惠金额",
      *        required = false,
-     *        type = "integer"
+     *        type = "number"
      *     ),
      *     @SWG\Parameter(
      *        in = "formData",
      *        name = "real_price",
      *        description = "实际付款",
      *        required = true,
-     *        type = "integer"
+     *        type = "number"
      *     ),
      *     @SWG\Parameter(
      *        in = "formData",
