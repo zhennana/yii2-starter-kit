@@ -43,7 +43,7 @@ class WechatPay {
     }
 
     /**
-     * JSAPI获取prepay_id
+     * 获取prepay_id
      * @param $body
      * @param $out_trade_no
      * @param $total_fee
@@ -129,7 +129,6 @@ class WechatPay {
         if(!isset($data['sign'])) $data["sign"] = $this->sign($data);
 
         $xml = $this->array2xml($data);
-     // $xml = "<xml><appid>wx12248739e1c4cc71</appid><body>燕郊在线商品等</body><mch_id>1278070701</mch_id><nonce_str>246a3c5544feb054f3ea718f61adfa16</nonce_str><notify_url>http://home.yajol.com/orange/paymentwechat.php</notify_url><out_trade_no>GB29067305515277</out_trade_no><spbill_create_ip>127.0.0.1</spbill_create_ip><total_fee>1</total_fee><trade_type>APP</trade_type><sign>20929B38430B5088DACBF3A11786E55A</sign></xml>";
     //var_dump($xml);exit;
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);

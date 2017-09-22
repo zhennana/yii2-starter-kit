@@ -283,10 +283,9 @@ public function behaviors()
         $prepay_id = $wechatpay->getPrepayId($data);
 
         if(!$prepay_id){
-            //二次次签名调用微信app付款
             return $info=[
-                'errno'   =>$wechatpay->error,
-                'message' => $wechatpay->errorXML,
+                'errno'   =>__LINE__,
+                'message' => $wechatpay->error,
             ];
         }
         $result['apppay'] = $wechatpay->get_package($prepay_id);
