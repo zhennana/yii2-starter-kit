@@ -104,9 +104,6 @@ $wechatPay->writeLog('[from notify page][WeChat][Logs]: Data:'.var_export($data)
                 }
             }
         }
-		$order->payment_id = $data['transaction_id'];
-		$order->payment_status = Order::PAYMENT_STATUS_PAID;
-		$order->payment        = Order::PAYMENT_ONLINE_WECHAT;
 
 
 		header("Content-type: text/xml");
