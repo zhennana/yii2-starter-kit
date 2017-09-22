@@ -95,6 +95,14 @@ public function behaviors()
             $params['payment'] = (int) $params['payment'];
         }
 
+        if (isset($params['present_price']) && !empty($params['present_price'])) {
+            $params['total_price'] = $params['present_price'];
+        }else{
+            $info['errno']   = __LINE__;
+            $info['message'] = '现价不能为空';
+            return $info; 
+        }
+
         // 验证订单总价和总课程数，待完善
         if (isset($params['total_price']) && !empty($params['total_price'])) {
             $course = Course::findOne($params['course_id']);
