@@ -169,7 +169,8 @@ class SignInController extends \common\components\ControllerFrontendApi
             }
 
             // 学校班级
-            $attrUser['grade_name'] = $attrUser['school_title'] =$attrUser['school_id'] ='';
+            $attrUser['grade_name'] = $attrUser['school_title'] = '';
+            $attrUser['school_id'] = 0;
             if ($model->user->getCharacterDetailes()) {
                 $attrUser['grade_name'] = $model->user->getCharacterDetailes()['grade_label'];
                 $attrUser['school_title'] = $model->user->getCharacterDetailes()['school_label'];
@@ -182,13 +183,19 @@ class SignInController extends \common\components\ControllerFrontendApi
                 'status'        => UsersToUsers::UTOU_STATUS_OPEN,
             ])->one();
 
+            $student = UsersToUsers::find()->where([
+                'user_left_id'  => $model->user->id,
+                'status'        => UsersToUsers::UTOU_STATUS_OPEN,
+            ])->one();
+
             if ($parents) {
                 $attrUser['type']    = UsersToUsers::UTOU_TYPE_PARENT;
-                $attrUser['level']   = '荣耀王者'.'的家长';
                 $attrUser['parents'] = UsersToUsers::getUserName($parents->user_left_id).'的家长';
-            }else{
+            }elseif($student){
                 $attrUser['type']    = UsersToUsers::UTOU_TYPE_STUDENT;
-                $attrUser['level']   = '荣耀王者';
+                $attrUser['parents'] = '';
+            }else{
+                $attrUser['type']    = 0;
                 $attrUser['parents'] = '';
             }
             
