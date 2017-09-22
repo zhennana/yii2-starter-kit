@@ -82,26 +82,34 @@ public function behaviors()
         // 验证课件ID
         if (!isset($params['course_id']) || empty($params['course_id'])) {
             $info['errno']   = __LINE__;
-            $info['message'] = 'Course ID Can Not Be Null!';
+            $info['message'] = '课程ID不能为空';
             return $info;
         }
 
         // 验证支付方式
         if (!isset($params['payment']) || !in_array($params['payment'],[self::PAYMENT_ONLINE,self::PAYMENT_ALIPAY,self::PAYMENT_WECHAT, self::PAYMENT_OFFLINE])) {
             $info['errno']   = __LINE__;
-            $info['message'] = 'Payment Type Is Not Legal!';
+            $info['message'] = '支付类型不合法';
             return $info;
         }else{
             $params['payment'] = (int) $params['payment'];
         }
 
+        if (isset($params['present_price']) && !empty($params['present_price'])) {
+            $params['total_price'] = $params['present_price'];
+        }else{
+            $info['errno']   = __LINE__;
+            $info['message'] = '现价不能为空';
+            return $info; 
+        }
+
         // 验证订单总价和总课程数，待完善
         if (isset($params['total_price']) && !empty($params['total_price'])) {
             $course = Course::findOne($params['course_id']);
-            if (isset($course->parent_id) && !empty($course->parent_id)) {
+            if (!isset($course->parent_id) || empty($course->parent_id)) {
                 if ($course->present_price === null) {
                     $info['errno']   = __LINE__;
-                    $info['message'] = 'Course Price Data Exception! Please Contact Administrator.';
+                    $info['message'] = '课程价格异常';
                     return $info; 
                 }
 
@@ -110,12 +118,12 @@ public function behaviors()
                 $params['total_course'] = $course->course_counts;
             }else{
                 $info['errno']   = __LINE__;
-                $info['message'] = 'A (master)Course With ID '.$params['course_id'].' Does Not Exist!';
+                $info['message'] = 'ID为'.$params['course_id'].'的(主)课程不存在';
                 return $info; 
             }
         }else{
             $info['errno']   = __LINE__;
-            $info['message'] = 'Total Price Can Not Be Null!';
+            $info['message'] = '总价不能为空';
             return $info;
         }
 
@@ -128,7 +136,7 @@ public function behaviors()
         if (isset($params['coupon_type']) && !empty($params['coupon_type']) && isset($params['coupon_price']) && !empty($params['coupon_price'])) {
             if ($params['total_price'] != $params['coupon_price']+$params['real_price']) {
                 $info['errno']   = __LINE__;
-                $info['message'] = 'Coupon Price Is Not Legal!';
+                $info['message'] = '优惠价格不合法';
                 return $info;
             }
         }else{
@@ -139,12 +147,12 @@ public function behaviors()
         if (isset($params['real_price']) && !empty($params['real_price'])) {
             if ($params['real_price'] != $params['total_price'] - $params['coupon_price']) {
                 $info['errno']   = __LINE__;
-                $info['message'] = 'Real Price Is Not Legal!';
+                $info['message'] = '实付款不合法';
                 return $info;
             }
         }else{
             $info['errno']   = __LINE__;
-            $info['message'] = 'Real Price Can Not Be Null!';
+            $info['message'] = '实付款不能为空';
             return $info;
         }
 
@@ -172,7 +180,7 @@ public function behaviors()
         $params['status']         = self::STATUS_VALID;
 
         $model = self::find()->where([
-            'course_id'      => $params['course_id']
+            'course_id'      => $params['course_id'],
             'user_id'        => Yii::$app->user->identity->groupId(),
             'status'         => self::STATUS_VALID,
             'payment_status' => self::PAYMENT_STATUS_NON_PAID,
@@ -226,7 +234,7 @@ public function behaviors()
         // 检测密钥公钥
         if (!file_exists($alipay_config['merchant_private_key']) || !file_exists($alipay_config['alipay_public_key'])) {
             $result['errno']    = __LINE__;
-            $result['message'] = 'The Private Key Is Not Exist!';
+            $result['message'] = '秘钥不存在';
             return $result;
         }
         $alipay_config['merchant_private_key'] = file_get_contents($alipay_config['merchant_private_key']);
@@ -283,10 +291,9 @@ public function behaviors()
         $prepay_id = $wechatpay->getPrepayId($data);
 
         if(!$prepay_id){
-            //二次次签名调用微信app付款
             return $info=[
-                'errno'   =>$wechatpay->error,
-                'message' => $wechatpay->errorXML,
+                'errno'   =>__LINE__,
+                'message' => $wechatpay->error,
             ];
         }
         $result['apppay'] = $wechatpay->get_package($prepay_id);
