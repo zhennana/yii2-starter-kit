@@ -384,7 +384,7 @@ class WechatPay {
         }
         $stringSignTemp = $string1 . "key=" . $this->_config["apikey"];
         $sign = strtoupper(md5($stringSignTemp));
-        var_dump($string1,'',$stringSignTemp,'',$sign);
+        var_dump($data,'',$string1,'',$stringSignTemp,'',$sign);exit;
         return $sign;
     }
 
