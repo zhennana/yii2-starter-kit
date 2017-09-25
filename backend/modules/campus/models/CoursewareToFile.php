@@ -76,10 +76,6 @@ class CoursewareToFile extends BaseCoursewareToFile
         $info[$index]['attachment'] =[];
 
         foreach ($value->toFile as $k => $v) {
-            if ($v->status == CoursewareToFile::COURSEWARE_STATUS_DELECT) {
-              continue;
-            }
-
             $v->fileStorageItem->page_view ++;
             
 
@@ -126,9 +122,6 @@ class CoursewareToFile extends BaseCoursewareToFile
 
       if($value->toFile){
         foreach ($value->toFile as $k => $v) {
-            if ($v->status == CoursewareToFile::COURSEWARE_STATUS_DELECT) {
-              continue;
-            }
             $v->fileStorageItem->page_view ++;
 
             if(empty($info[$index]['music_src']) && in_array($v->fileStorageItem->type, ['audio/mpeg','audio/mp3'])){
@@ -189,9 +182,6 @@ class CoursewareToFile extends BaseCoursewareToFile
 
         //var_dump($value->toFile); // ->getToFile()->getFileStorageItem()
         foreach ($value->toFile as $k => $v) {
-          if ($v->status == CoursewareToFile::COURSEWARE_STATUS_DELECT) {
-              continue;
-          }
           $v->fileStorageItem->page_view ++;
           
           //var_dump($v->fileStorageItem->type);
@@ -223,7 +213,13 @@ class CoursewareToFile extends BaseCoursewareToFile
     }
 
     public function getCoursewareById($category_id){
-        return Courseware::find()->where(['category_id'=>$category_id,'status'=>Courseware::COURSEWARE_STATUS_VALID])->all();
+        return Courseware::find()
+          ->with(['toFile' => function($query){
+            $query->where(['status' => CoursewareToFile::COURSEWARE_STATUS_OPEN]);
+            return $query;
+          }])
+          ->where(['category_id'=>$category_id,'status'=>Courseware::COURSEWARE_STATUS_VALID])
+          ->all();
     }
 
 
