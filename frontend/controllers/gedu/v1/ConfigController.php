@@ -202,6 +202,7 @@ class ConfigController extends \common\rest\Controller
                 // 安卓客户端维护范围，在此范围内的版本不会强制更新
                 'range_client_version' => [
                     '1.0.2',
+                    '1.0.3',
                 ],
 
                 // 安卓服务端版本号
