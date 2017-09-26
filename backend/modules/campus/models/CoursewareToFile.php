@@ -68,7 +68,7 @@ class CoursewareToFile extends BaseCoursewareToFile
 
         $info[$index]['music_id'] = $value['courseware_id'];
         $info[$index]['title']    = $value['title'];
-        $info[$index]['lyric']    = $value['body'];
+        $info[$index]['lyric']    = '';
         $info[$index]['tags']     = $value['tags'];
         $info[$index]['page_view']= $value['page_view'];
         $info[$index]['banner_src'] = '';
@@ -87,12 +87,14 @@ class CoursewareToFile extends BaseCoursewareToFile
               $info[$index]['music_src'] =  $v->fileStorageItem->url.$v->fileStorageItem->file_name;
             }
 
+            if(empty($info[$index]['lyric']) && in_array($v->fileStorageItem->type, ['application/octet-stream'])){
+              $info[$index]['lyric'] =  $v->fileStorageItem->url.$v->fileStorageItem->file_name;
+            }
+
             $info[$index]['attachment'][$k]=[
-              [
-                'sort:'.$v->sort.'- ID:'.$v->courseware_to_file_id,
-                $v->fileStorageItem->type,
-                $v->fileStorageItem->url.$v->fileStorageItem->file_name,
-              ]
+              'sort:'.$v->sort.'- ID:'.$v->courseware_to_file_id,
+              $v->fileStorageItem->type,
+              $v->fileStorageItem->url.$v->fileStorageItem->file_name,
             ];
             $v->fileStorageItem->save();
         }
@@ -138,11 +140,9 @@ class CoursewareToFile extends BaseCoursewareToFile
             }
 
             $info[$index]['attachment'][$k]=[
-              [
-                'sort:'.$v->sort.'- ID:'.$v->courseware_to_file_id,
-                $v->fileStorageItem->type,
-                $v->fileStorageItem->url.$v->fileStorageItem->file_name,
-              ]
+              'sort:'.$v->sort.'- ID:'.$v->courseware_to_file_id,
+              $v->fileStorageItem->type,
+              $v->fileStorageItem->url.$v->fileStorageItem->file_name,
             ];
 
             $v->fileStorageItem->save();
@@ -213,7 +213,13 @@ class CoursewareToFile extends BaseCoursewareToFile
     }
 
     public function getCoursewareById($category_id){
-        return Courseware::find()->where(['category_id'=>$category_id,'status'=>Courseware::COURSEWARE_STATUS_VALID])->all();
+        return Courseware::find()
+          ->with(['toFile' => function($query){
+            $query->where(['status' => CoursewareToFile::COURSEWARE_STATUS_OPEN]);
+            return $query;
+          }])
+          ->where(['category_id'=>$category_id,'status'=>Courseware::COURSEWARE_STATUS_VALID])
+          ->all();
     }
 
 

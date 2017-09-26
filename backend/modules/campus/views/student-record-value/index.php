@@ -1,8 +1,12 @@
 <?php
 
+// use Yii;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
 use yii\grid\GridView;
+use backend\modules\campus\models\StudentRecordKey;
+use backend\modules\campus\models\StudentRecordValue;
 
 /**
 * @var yii\web\View $this
@@ -10,25 +14,31 @@ use yii\grid\GridView;
     * @var backend\modules\campus\models\search\StudentRecordValueSearch $searchModel
 */
 
-$this->title = Yii::t('backend', 'Student Record Values');
+$this->title = Yii::t('backend', '成绩管理');
 $this->params['breadcrumbs'][] = $this->title;
+$keys = StudentRecordKey::find()->where(['status'=>StudentRecordKey::STUDENT_KEY_STATUS_OPEN])->all();
+$keys = ArrayHelper::map($keys,'student_record_key_id','title');
 
+$schools = Yii::$app->user->identity->schoolsInfo;
+$grades =  Yii::$app->user->identity->gradesInfo;
+$schools = ArrayHelper::map($schools,'school_id','school_title');
+$grades  = ArrayHelper::map($grades,'grade_id','grade_name');
 
 /**
 * create action column template depending acces rights
 */
 $actionColumnTemplates = [];
 
-if (\Yii::$app->user->can('margin', ['route' => true])) {
+if (\Yii::$app->user->can('manager', ['route' => true]) || Yii::$app->user->can('P_teacher') || Yii::$app->user->can('E_manager')) {
     $actionColumnTemplates[] = '{view}';
 }
 
-if (\Yii::$app->user->can('margin', ['route' => true])) {
+if (\Yii::$app->user->can('manager', ['route' => true]) || Yii::$app->user->can('P_teacher') || Yii::$app->user->can('E_manager')) {
     $actionColumnTemplates[] = '{update}';
 }
 
-if (\Yii::$app->user->can('margin', ['route' => true])) {
-    $actionColumnTemplates[] = '{delete}';
+if (\Yii::$app->user->can('manager', ['route' => true])) {
+    // $actionColumnTemplates[] = '{delete}';
 }
 if (isset($actionColumnTemplates)) {
 $actionColumnTemplate = implode(' ', $actionColumnTemplates);
@@ -49,17 +59,17 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
     <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
 
     <h1>
-        <?= Yii::t('backend', 'Student Record Values') ?>
+        <?= Yii::t('backend', '成绩管理') ?>
         <small>
-            List
+            列表
         </small>
     </h1>
     <div class="clearfix crud-navigation">
 <?php
-if(\Yii::$app->user->can('manager', ['route' => true])){
+if(\Yii::$app->user->can('manager', ['route' => true]) || Yii::$app->user->can('P_teacher') || Yii::$app->user->can('E_manager')){
 ?>
         <div class="pull-left">
-            <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'New'), ['create'], ['class' => 'btn btn-success']) ?>
+            <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'Create'), ['create'], ['class' => 'btn btn-success']) ?>
         </div>
         <?php } ?>
         <div class="pull-right">
@@ -124,12 +134,51 @@ if(\Yii::$app->user->can('manager', ['route' => true])){
             },
             'contentOptions' => ['nowrap'=>'nowrap']
         ],
-			'student_record_key_id',
-            'user_id',
-            'school_id',
-            'grade_id',
+            [
+                'class'=>\common\grid\EnumColumn::className(),
+                'attribute' =>'school_id',
+                'enum'      => $schools,
+            ],
+            [
+                'class'=>\common\grid\EnumColumn::className(),
+                'attribute' =>'grade_id',
+                'enum'      => $grades,
+            ],
+            [
+                'class'=>\common\grid\EnumColumn::className(),
+                'attribute' => 'student_record_key_id',
+                'label' => '科目标题',
+                'enum' => $keys,
+                'value' => function($model){
+                    if (isset($model->studentRecordKey) && !empty($model->studentRecordKey->title)) {
+                        return $model->studentRecordKey->title;
+                    }
+                    return '无标题';
+                }
+            ],
+            [
+                'attribute' =>'user_id',
+                'label'     => '姓名',
+                'format'    => 'raw',
+                'value'     => function($model){
+                        return  Html::a('[id'.$model->user_id.']-'.Yii::$app->user->identity->getUserName($model->user_id),[
+                            'user-to-school/account',
+                            'user_id'=>$model->user_id
+                            ]);
+                    }
+            ],
             'total_score',
-			'status',
+            'score',
+            [
+                'class'=>\common\grid\EnumColumn::className(),
+                'attribute' =>'exam_type',
+                'enum'      => StudentRecordValue::optsExamType(),
+            ],
+            [
+                'class'=>\common\grid\EnumColumn::className(),
+                'attribute' =>'status',
+                'enum'      => StudentRecordValue::optsStatus(),
+            ],
 			'sort',
         ],
         ]); ?>

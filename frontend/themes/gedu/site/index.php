@@ -18,7 +18,7 @@ use yii\helpers\Html;
         <div class="main-1">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-3 col-md-3 col-sm-3 col-xs-3 row-1">
+                    <div class="kbotton">
                         <div class="row-box">
                             <!-- <div class="main-1-icon-1"><a href="#"><div class="aaa"></div></a></div> -->
                             <!-- <a href="#"><div class="main-1-icon-1"></div></a> -->
@@ -35,7 +35,7 @@ use yii\helpers\Html;
                             <h6>Primary School Department</h6></h4>
                         </div>
                     </div>
-                    <div class="col-md-3 col-md-3 col-sm-3 col-xs-3 row-1">
+                    <div class="kbotton">
                         <div class="row-box">
                             <!-- <a href="#"><div class="main-1-icon-2"></div></a> -->
                             <?php 
@@ -52,7 +52,7 @@ use yii\helpers\Html;
                             <h6>Daltonian</h6>
                         </div>
                     </div>
-                    <div class="col-md-3 col-md-3 col-sm-3 col-xs-3 row-1">
+                    <div class="kbotton">
                         <div class="row-box">
                             <!-- <a href="#"><div class="main-1-icon-3"></div></a> -->
                             <?php 
@@ -69,7 +69,7 @@ use yii\helpers\Html;
                             <h6>Oversea sales</h6>
                         </div>
                     </div>
-                    <div class="col-md-3 col-md-3 col-sm-3 col-xs-3">
+                    <div class="kbotton">
                         <div class="row-box">
                             <!-- <a href="#"><div class="main-1-icon-4"></div></a> -->
                             <?php 
@@ -84,6 +84,24 @@ use yii\helpers\Html;
                             
                             <h4><?php echo Html::a('特长部',['article/index','category_id'=>44],['class'=>'headcolor','data-method'=>'open',]);?>
                             <h6>Specialty department</h6>
+                        </div>
+                    </div>
+                   <!--全脑开发部分-->
+                    <div class="kbotton">
+                        <div class="row-box">
+                            <!-- <a href="#"><div class="main-1-icon-5"></div></a> -->
+                            <?php
+                                $href= yii\helpers\Url::to(['article/index','category_id'=>49]);
+                                $html='';
+                                $html.='<a href="'.$href.'">';
+                                $html.='<div class="main-1-icon-5"></div>';
+                                $html.='</a>';
+                                echo $html;
+                            ?>
+                            <img src="http://static.v1.guangdaxuexiao.com/main-1-line.png">
+
+                            <h4><?php echo Html::a('全脑开发',['article/index','category_id'=>49],['class'=>'headcolor','data-method'=>'open',]);?>
+                            <h6>IBC BrainHealth Center</h6>
                         </div>
                     </div>
                 </div>
@@ -126,6 +144,7 @@ use yii\helpers\Html;
     <script type="text/javascript">
       $(function(){
         var oV=document.getElementById('yjzxVideo');
+        var oVmask=$('.main-4-videoBox');
         var oVbtn=$('.videoBtn');
         var oVbox=$('.videoBox');
         var oVbg=$('.videoBg');
@@ -138,7 +157,8 @@ use yii\helpers\Html;
 
      
          if(!(navigator.userAgent.indexOf("Safari") > -1 && navigator.userAgent.indexOf("Chrome") == -1)){
-            oVbox.on('click',function(){
+//            oVbox.on('click',function(){
+             oVmask.on('click',function(){
               oV.play();
               oVbg.css({'display':'none','background':'none'});
             });

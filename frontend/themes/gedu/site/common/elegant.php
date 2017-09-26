@@ -7,11 +7,11 @@ use yii\helpers\Html;
         <li class="banner-bottom-left-grid iusto">
             <div class="port-4 effect-1">
                 <div style="overflow:hidden;">
-                  <img src="http://static.v1.guangdaxuexiao.com/tihuan1.jpg?imageView2/1/w/300/h/300" alt=" " class="img-responsive" />
+                  <img src="http://static.v1.guangdaxuexiao.com/honor1.jpg?imageView2/1/w/300/h/300" alt=" " class="img-responsive" />
                 </div>
                 <div class="text-desc">
-                    <h3 class="img-introduct">快乐高效课堂</h3>
-                    <p>温馨快乐校园建设的主阵地，全面提高学生思想道德、科学文化、身心健康全面发展。</p>
+                    <h3 class="img-introduct">七彩校园</h3>
+                    <p>“七彩校园”2017中国校园艺术节全国总决选金奖。</p>
                     <?php echo Html::a('了解更多',['site/sights','category_id'=>37],['class'=>'btn'])?>
                 </div>
             </div>

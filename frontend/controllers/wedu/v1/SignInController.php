@@ -447,7 +447,6 @@ class SignInController extends \common\components\ControllerFrontendApi
      * )
      *
      */
-    
     public function actionUserProfile()
     {
         $user_id = Yii::$app->request->post('user_id');

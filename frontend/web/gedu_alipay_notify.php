@@ -32,6 +32,7 @@ require(__DIR__ . '/../config/bootstrap.php');
 $config = \yii\helpers\ArrayHelper::merge(
     require(__DIR__ . '/../../common/config/base.php'),
     require(__DIR__ . '/../../common/config/web.php'),
+    require(__DIR__ . '/../../frontend/config/web.php'),
     require(__DIR__ . '/../config/base.php'),
     require(__DIR__ . '/../config/web.php')
 );
@@ -86,7 +87,7 @@ if (!isset($arr) || empty($arr)) {
 $alipaySevice = new AlipayTradeService($alipay_config); 
 
 // 写日志
-$alipaySevice->writeLog('[from notify page] [Logs]: Post Data:'.var_export($arr,true));
+$alipaySevice->writeLog('[from notify page] [Logs]: Alipay Data:'.var_export($arr,true));
 
 // 验签
 $result = $alipaySevice->check($arr);
@@ -109,45 +110,48 @@ if($result) {//验证成功
 
         // 验证APP ID
         if ($alipay_config['app_id'] != $app_id) {
-            $alipaySevice->writeLog('[from notify page] [AppId Not Match]: config:'.var_export($alipay_config['app_id'],true).' || alipay:'.var_export($app_id,true));
+            $alipaySevice->writeLog('[from notify page] [Alipay AppId Not Match]: config:'.var_export($alipay_config['app_id'],true).' || response:'.var_export($app_id,true));
             exit();
         }
 
         // 根据返回商户订单号查询订单
         $order = CourseOrderItem::find()->where(['order_sn' => $out_trade_no])->one();
+        if ($order) {
 
-        // 验证订单号
-        if ($order->order_sn != $out_trade_no) {
-            $alipaySevice->writeLog('[from notify page] [Order Sn Not Match]: config:'.var_export($order->order_sn,true).' || alipay:'.var_export($out_trade_no,true));
-            exit();
-        }
-
-        // 验证订单金额
-        if ($order->real_price != $total_amount) {
-            $alipaySevice->writeLog('[from notify page] [Order Price Not Match]: config:'.var_export($order->real_price,true).' || alipay:'.var_export($total_amount,true));
-            exit();
-        }
-
-        // 如果订单状态不是已支付
-        if ($order->payment_status == CourseOrderItem::PAYMENT_STATUS_NON_PAID || $order->payment_status == CourseOrderItem::PAYMENT_STATUS_CONFIRMING) {
-            $order->payment_id     = $trade_no;
-            $order->payment_status = CourseOrderItem::PAYMENT_STATUS_PAID;
-            $order->payment        = CourseOrderItem::PAYMENT_ALIPAY;
-            if (!$order->save()) {
-                $alipaySevice->writeLog('[from notify page] [Order Update Fail]:'.var_export($order->getErrors(),true));
+            // 验证订单号
+            if ($order->order_sn != $out_trade_no) {
+                $alipaySevice->writeLog('[from notify page] [Order Sn Not Match]: config:'.var_export($order->order_sn,true).' || alipay:'.var_export($out_trade_no,true));
                 exit();
             }
+
+            // 验证订单金额
+            if ($order->real_price != $total_amount) {
+                $alipaySevice->writeLog('[from notify page] [Order Price Not Match]: config:'.var_export($order->real_price,true).' || alipay:'.var_export($total_amount,true));
+                exit();
+            }
+
+            // 如果订单状态不是已支付
+            if ($order->payment_status == CourseOrderItem::PAYMENT_STATUS_NON_PAID || $order->payment_status == CourseOrderItem::PAYMENT_STATUS_CONFIRMING) {
+                $order->payment_id     = $trade_no;
+                $order->payment_status = CourseOrderItem::PAYMENT_STATUS_PAID;
+                $order->payment        = CourseOrderItem::PAYMENT_ALIPAY;
+                if (!$order->save()) {
+                    $alipaySevice->writeLog('[from notify page] [Order Update Fail]:'.var_export($order->getErrors(),true));
+                    exit();
+                }
+            }
+
+                //判断该笔订单是否在商户网站中已经做过处理
+                    //如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
+                    //请务必判断请求时的total_amount与通知时获取的total_fee为一致的
+                    //如果有做过处理，不执行商户的业务程序
+                        
+                //注意：
+        		//退款日期超过可退款期限后（如三个月可退款），支付宝系统发送该交易状态通知
+        	echo "success";		//请不要修改或删除
+            exit();
         }
 
-        //判断该笔订单是否在商户网站中已经做过处理
-            //如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
-            //请务必判断请求时的total_amount与通知时获取的total_fee为一致的
-            //如果有做过处理，不执行商户的业务程序
-                
-        //注意：
-		//退款日期超过可退款期限后（如三个月可退款），支付宝系统发送该交易状态通知
-	echo "success";		//请不要修改或删除
-    exit();
     }
         
 }else {

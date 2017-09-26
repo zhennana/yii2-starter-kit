@@ -14,15 +14,34 @@ $requestUpdateUrl = Url::to(['student-record-key/ajax-student-key']);
 * @var backend\modules\campus\models\StudentRecordKey $model
 * @var yii\widgets\ActiveForm $form
 */
-
+$tab_label ='';
+if (env('THEME') == 'gedu') {
+    $tab_label = Yii::t('backend', '创建科目标题');
+}else{
+    $tab_label = Yii::t('backend', '创建档案标题');
+}
 ?>
+
+<script type="text/javascript">
+     function handleChange(type_id,id,form){
+        $.ajax({
+            "url":"<?php echo Url::to(['student-record-key/ajax-form']) ?>",
+            "data":{type_id:type_id,id:id},
+            'type':"GET",
+            'success':function(data){
+               console.log(data);
+                 $(form).html(data);
+            }
+        })
+    }
+</script>
 
 <div class="student-record-key-form">
 
     <?php $form = ActiveForm::begin([
     'id' => 'StudentRecordKey',
     'layout' => 'horizontal',
-    'action' => [$requestUpdateUrl],
+    // 'action' => [$requestUpdateUrl],
     'enableClientValidation' => true,
     'errorSummaryCssClass' => 'error-summary alert alert-error'
     ]
@@ -46,12 +65,12 @@ $requestUpdateUrl = Url::to(['student-record-key/ajax-student-key']);
                     ],
                     'pluginEvents'=>[
                         "change" => "function() { 
-                             handleChange(1,this.value,'#studentrecordkey-grade_id');
+                            // handleChange(1,this.value,'#studentrecordkey-grade_id');
                         }",
                     ]
                 ])->label('学校'); ?>
 
-            <?= $form->field($model, 'grade_id')->widget(Select2::className(),
+           <!--  <? /* $form->field($model, 'grade_id')->widget(Select2::className(),
                 [
                     'data'=>$model->getlist(1,$model->school_id),
                     'options'=>['placeholder'=>'请选择'],
@@ -60,12 +79,13 @@ $requestUpdateUrl = Url::to(['student-record-key/ajax-student-key']);
                     ],
                     'pluginEvents'=>[
                     ]
-                ])->label('班级'); ?> 
+                ])->label('班级');  */ ?>  -->
 <!-- attribute status -->
 			<?= $form->field($model, 'status')->widget(
                 Select2::className(),
                 [
                 'data'=>StudentRecordKey::optsStatus(),
+                'hideSearch' => true,
                 ])->label('状态'); ?>
 
 <!-- attribute sort -->
@@ -80,7 +100,7 @@ $requestUpdateUrl = Url::to(['student-record-key/ajax-student-key']);
                     'encodeLabels' => false,
                     'items' => [ 
                         [
-                        'label'   => Yii::t('backend', '创建档案标题'),
+                        'label'   => $tab_label,
                         'content' => $this->blocks['main'],
                         'active'  => true,
                         ],
@@ -107,22 +127,10 @@ $requestUpdateUrl = Url::to(['student-record-key/ajax-student-key']);
     </div>
 
 </div>
+<?php if (env('THEME') == 'wedu') { ?>
 
 <script>
-    function handleChange(type_id,id,form){
-           //console.log('type_id:'+type_id);
-            //console.log('id:'+id);
-        $.ajax({
-            //index.php?r=campus/student-record/ajax-form&type_id="+type_id+"&id="+id
-            "url":"<?php echo Url::to(['student-record-key/ajax-form']) ?>",
-            "data":{type_id:type_id,id:id},
-            'type':"GET",
-            'success':function(data){
-                 $(form).html(data);
-               //console.log(data);
-            }
-        })
-    }
+   
 
     function refresh(){
         parent.location.reload();
@@ -154,3 +162,4 @@ $('form#StudentRecordKey').on('beforeSubmit', function(e) {
     e.preventDefault();
 });
 </script>
+<?php } ?>

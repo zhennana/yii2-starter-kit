@@ -4,6 +4,7 @@ namespace frontend\controllers\wedu\v1;
 use Yii;
 use yii\web\Response;
 use yii\data\ActiveDataProvider;
+use yii\helpers\ArrayHelper;
 
 class NoticeController extends \common\rest\Controller
 {
@@ -108,18 +109,26 @@ class NoticeController extends \common\rest\Controller
             $this->serializer['message'] = '请登录';
             return [];
         }
+
+        $school_ids = Yii::$app->user->identity->userToSchool;
+        $grade_ids  = Yii::$app->user->identity->usersToGrades;
+        $school_id = ArrayHelper::map($school_ids,'school_id','school_id');
+         // var_dump($school_id);exit;
+        $grade_id = ArrayHelper::map($grade_ids,'grade_id','grade_id');
+        //var_dump($grade_ids);exit;
         $model = new  $this->modelClass;
-        $model = $model::find()->select(['message','created_at'])->where(['category'=>$type]);
+        $model = $model::find()->select(['message','created_at'])->andWhere(['category'=>$type]);
         if($type == 2){
             $model->andWhere([
                 'receiver_id'=>Yii::$app->user->identity->id
             ]);
         }else{
+            // var_dump($grade_id);exit;
             $model->andWhere([
                 'or',
                 ['receiver_id'=>Yii::$app->user->identity->id],
-                ['school_id'=> $school_id,'grade_id'=> 0,'receiver_id'=> NULL],
-                ['school_id'=>$school_id , 'grade_id' => $grade_id ,'receiver_id'=>NULL],
+                ['school_id'=> $school_id,'grade_id'=> NULL,'receiver_id'=> NULL],
+                ['grade_id' => $grade_id ,'receiver_id'=>NULL],
             ]);
         }
         $model->orderBy(['created_at'=> SORT_DESC]);

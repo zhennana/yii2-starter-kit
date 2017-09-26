@@ -9,6 +9,7 @@ use frontend\models\gedu\resources\Courseware;
 use frontend\models\gedu\resources\Course;
 use common\payment\alipay\buildermodel\AlipayTradeWapPayContentBuilder;
 use common\payment\alipay\AlipayTradeService;
+use common\payment\wechatpay\WechatPay;
 
 /**
  * This is the model class for table "couese_order_item".
@@ -53,8 +54,6 @@ public function behaviors()
     public function processCourseOrder($params)
     {
         $info = [];
-        $params['user_id']  = Yii::$app->user->identity->groupId();
-        $params['order_sn'] = $this->builderNumber();
 
         // 订单数据验证
         $validate = $this->validateOrderParams($params);
@@ -83,52 +82,48 @@ public function behaviors()
         // 验证课件ID
         if (!isset($params['course_id']) || empty($params['course_id'])) {
             $info['errno']   = __LINE__;
-            $info['message'] = 'Course ID Can Not Be Null!';
-            return $info;
-        }
-
-        // 验证订单状态
-        if (!isset($params['status']) || !in_array($params['status'],[self::STATUS_VALID])) {
-            $info['errno']   = __LINE__;
-            $info['message'] = 'Order Status Is Not Legal!';
+            $info['message'] = '课程ID不能为空';
             return $info;
         }
 
         // 验证支付方式
         if (!isset($params['payment']) || !in_array($params['payment'],[self::PAYMENT_ONLINE,self::PAYMENT_ALIPAY,self::PAYMENT_WECHAT, self::PAYMENT_OFFLINE])) {
             $info['errno']   = __LINE__;
-            $info['message'] = 'Payment Type Is Not Legal!';
+            $info['message'] = '支付类型不合法';
             return $info;
         }else{
             $params['payment'] = (int) $params['payment'];
         }
 
-        // 验证支付状态
-        if (!isset($params['payment_status']) || empty($params['payment_status'])) {
-            $params['payment_status'] = CourseOrderItem::PAYMENT_STATUS_NON_PAID;
+        if (isset($params['present_price']) && !empty($params['present_price'])) {
+            $params['total_price'] = $params['present_price'];
+            $params['real_price'] = $params['present_price'];
+        }else{
+            $info['errno']   = __LINE__;
+            $info['message'] = '现价不能为空';
+            return $info; 
         }
 
         // 验证订单总价和总课程数，待完善
         if (isset($params['total_price']) && !empty($params['total_price'])) {
             $course = Course::findOne($params['course_id']);
-            if (!isset($course->parent_id) || empty($course->parent_id)) {
-                if ($course->present_price === null) {
+            if ($course && (!isset($course->parent_id) || empty($course->parent_id))) {
+                if ($course->present_price === null || $params['total_price'] != $course->present_price) {
                     $info['errno']   = __LINE__;
-                    $info['message'] = 'Course Price Data Exception! Please Contact Administrator.';
+                    $info['message'] = '现价不合法';
                     return $info; 
                 }
 
-                // 未验证会员价等
-                $params['total_price']  = $course->present_price;
+                // $params['total_price']  = $course->present_price;
                 $params['total_course'] = $course->course_counts;
             }else{
                 $info['errno']   = __LINE__;
-                $info['message'] = 'A (master)Course With ID '.$params['course_id'].' Does Not Exist!';
+                $info['message'] = 'ID为'.$params['course_id'].'的(主)课程不存在';
                 return $info; 
             }
         }else{
             $info['errno']   = __LINE__;
-            $info['message'] = 'Total Price Can Not Be Null!';
+            $info['message'] = '总价不能为空';
             return $info;
         }
 
@@ -141,7 +136,7 @@ public function behaviors()
         if (isset($params['coupon_type']) && !empty($params['coupon_type']) && isset($params['coupon_price']) && !empty($params['coupon_price'])) {
             if ($params['total_price'] != $params['coupon_price']+$params['real_price']) {
                 $info['errno']   = __LINE__;
-                $info['message'] = 'Coupon Price Is Not Legal!';
+                $info['message'] = '优惠价格不合法';
                 return $info;
             }
         }else{
@@ -152,19 +147,12 @@ public function behaviors()
         if (isset($params['real_price']) && !empty($params['real_price'])) {
             if ($params['real_price'] != $params['total_price'] - $params['coupon_price']) {
                 $info['errno']   = __LINE__;
-                $info['message'] = 'Real Price Is Not Legal!';
+                $info['message'] = '实付款不合法';
                 return $info;
             }
         }else{
             $info['errno']   = __LINE__;
-            $info['message'] = 'Real Price Can Not Be Null!';
-            return $info;
-        }
-
-        // 验证订单编号
-        if (!isset($params['order_sn']) || empty($params['order_sn'])) {
-            $info['errno']   = __LINE__;
-            $info['message'] = 'Order Sn Can Not Be Null!';
+            $info['message'] = '实付款不能为空';
             return $info;
         }
 
@@ -186,11 +174,22 @@ public function behaviors()
             'errno'   => 0,
             'message' => ''
         ];
+        $params['order_sn']       = $this->builderNumber();
+        $params['user_id']        = Yii::$app->user->identity->id;
+        $params['payment_status'] = self::PAYMENT_STATUS_NON_PAID;
+        $params['status']         = self::STATUS_VALID;
 
-        $model = new $this;
-        $data['CourseOrderItem'] = $params;
-
-        if ($model->load($data) && $model->save($data)) {
+        $model = self::find()->where([
+            'course_id'      => $params['course_id'],
+            'user_id'        => Yii::$app->user->identity->groupId(),
+            'status'         => self::STATUS_VALID,
+            'payment_status' => self::PAYMENT_STATUS_NON_PAID,
+        ])->one();
+        if (!$model) {
+            $model = new $this;
+        }
+        
+        if ($model->load($params,'') && $model->save()) {
             return $model;
         }
 
@@ -235,7 +234,7 @@ public function behaviors()
         // 检测密钥公钥
         if (!file_exists($alipay_config['merchant_private_key']) || !file_exists($alipay_config['alipay_public_key'])) {
             $result['errno']    = __LINE__;
-            $result['message'] = 'The Private Key Is Not Exist!';
+            $result['message'] = '秘钥不存在';
             return $result;
         }
         $alipay_config['merchant_private_key'] = file_get_contents($alipay_config['merchant_private_key']);
@@ -265,7 +264,45 @@ public function behaviors()
         // $payRequestBuilder->setSellerId($seller_id);
 
         $payResponse = new AlipayTradeService($alipay_config);
-        $result = $payResponse->wapPay($payRequestBuilder,$alipay_config['return_url'],$alipay_config['notify_url']);
+        $result['wappay'] = $payResponse->wapPay($payRequestBuilder,$alipay_config['return_url'],$alipay_config['notify_url']);
+        return $result;
+    }
+
+    /**
+     *  [appWechatpay 微信APP支付]
+     *  @return [type] [description]
+     */
+    public function appWechatpay()
+    {
+        $wechatpay_config = Yii::$app->params['payment']['gedu']['wechatpay'];
+        // var_dump($wechatpay_config);exit;
+
+        //创建预支付的必要参数。
+        $data = [
+            'body'             => '【光大】精品课程',
+            'out_trade_no'     => $this->order_sn,
+            'total_fee'        => $this->real_price*100,    // 以分为单位
+            'spbill_create_ip' => Yii::$app->request->userIP,
+        ];
+
+        // 组装业务参数
+        if ($this->course) {
+            $data['body'] = '【光大】'.$this->course->title.'(共'.$this->course->course_counts.'节课程)';
+        }
+
+        $wechatpay = new WechatPay($wechatpay_config);
+        $prepay_id = false;
+        //获取预支付ID
+        $prepay_id = $wechatpay->getPrepayId($data);
+
+        if(!$prepay_id){
+            return $info=[
+                'errno'   =>__LINE__,
+                'message' => $wechatpay->error,
+            ];
+        }
+        $result['apppay'] = $wechatpay->get_package($prepay_id);
+
         return $result;
     }
 }

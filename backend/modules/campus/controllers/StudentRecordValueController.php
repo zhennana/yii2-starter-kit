@@ -13,6 +13,7 @@ use backend\modules\campus\models\SignIn;
 use yii\helpers\Url;
 use yii\filters\AccessControl;
 use dmstr\bootstrap\Tabs;
+use yii\helpers\Html;
 
 
 /**
@@ -20,6 +21,29 @@ use dmstr\bootstrap\Tabs;
 */
 class StudentRecordValueController extends \backend\modules\campus\controllers\base\StudentRecordValueController
 {
+    public function actions()
+    {
+        return [
+            // 七牛云
+            'token-cloud' => [//得到上传token
+                'class' => 'common\actions\QiniuCoursewareAction',
+                'type' => 'token'
+            ],
+            'upload-cloud' => [//上传
+                'class' => 'common\actions\QiniuCoursewareAction',
+                'type' => 'upload-score',
+            ],
+            'delete-cloud'=>[
+                'class' =>'common\actions\QiniuCoursewareAction',
+                'type'=>'delete',
+             ],
+            'privacy' => [//是否公开delete
+                'class' => 'common\actions\QiniuCoursewareAction',
+                'type' => 'privacy'
+            ],
+        ];
+    }
+    
     /**
      * 创建学生档案
      * @return [type] [description]
@@ -89,13 +113,6 @@ class StudentRecordValueController extends \backend\modules\campus\controllers\b
             return false;
         }
     }
-//学校创建学校查询
-    public function actionCreate(){
-        $model = new  StudentRecordValue;
-        $model->scenario = 'score';
-        $keys = StudentRecordKey::find()->where(['status'=>StudentRecordKey::STUDENT_KEY_STATUS_OPEN])->all();
-        return $this->render('_form',['model'=>$model,'keys'=>$keys]);
-    }
 
         public function actionIndex()
         {
@@ -112,4 +129,28 @@ class StudentRecordValueController extends \backend\modules\campus\controllers\b
                 'searchModel' => $searchModel,
             ]);
         }
+
+    public function actionAjaxForm()
+    {
+        $html = '';
+        $model = new StudentRecordValue;
+        $list = $model->getList($_GET);
+        $html .= Html::tag('option',Html::encode('请选择'),array('value'=>''));
+
+        if ($_GET['type'] == 'school_id') {
+            foreach ($list as $key => $value) {
+                $html .= Html::tag('option',Html::encode($value->grade_name),array('value'=>$value->grade_id));
+            }
+
+        }elseif($_GET['type'] == 'grade_id'){
+            foreach ($list as $key => $value) {
+                $html .= Html::tag('option',Html::encode($value),array('value'=>$key));
+            }
+        }elseif ($_GET['type'] == 'key') {
+             foreach ($list as $key => $value) {
+                $html .= Html::tag('option',Html::encode($value),array('value'=>$key));
+            }
+        }
+        return $html;
+    }
 }

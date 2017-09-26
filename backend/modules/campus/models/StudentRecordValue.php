@@ -6,7 +6,9 @@ use Yii;
 use \backend\modules\campus\models\base\StudentRecordValue as BaseStudentRecordValue;
 use yii\helpers\ArrayHelper;
 use \backend\modules\campus\models\FileStorageItem;
+use \backend\modules\campus\models\Grade;
 use \backend\modules\campus\models\StudentRecordValueToFile;
+use \backend\modules\campus\models\UserToGrade;
 
 /**
  * This is the model class for table "student_record_value".
@@ -132,4 +134,43 @@ class StudentRecordValue extends BaseStudentRecordValue
       }
       return [];
   }
+
+    public function getList($params)
+    {
+        if ($params['type'] == 'school_id') {
+            $grades = Grade::find()
+                ->where(['school_id' => $params['value'], 'status' => Grade::GRADE_STATUS_OPEN])
+                ->all();
+            return $grades;
+        }elseif($params['type'] == 'grade_id'){
+            $users = Yii::$app->user->identity->getGradeToUser($params['value'],10);
+            $data_user = [];
+            foreach ($users as $key => $value) {
+                if(!empty($value['realname'])){
+                    $data_user[$value['id']] = $value['realname'];
+                    continue;
+                }
+                if(!empty($value['username'])){
+                    $data_user[$value['id']] = $value['username'];
+                    continue;
+                }
+                if(!empty($value['phone_number'])){
+                    $data_user[$value['id']] = $value['phone_number'];
+                }
+            }
+            return $data_user;
+        }elseif($params['type'] == 'key'){
+            $keys = StudentRecordKey::find()->where(['status'=>StudentRecordKey::STUDENT_KEY_STATUS_OPEN])
+            ->andWhere(
+              [
+              'or',
+              ['school_id'=>$params['value']],
+              ['school_id'=>0]
+          ])
+            ->all();
+            $keys = ArrayHelper::map($keys,'student_record_key_id','title');
+           // var_dump($keys);
+            return $keys;
+        }
+    }
 }

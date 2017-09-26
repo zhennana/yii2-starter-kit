@@ -25,10 +25,12 @@ $config = [
          */
         'session' => [
             'class' => 'yii\web\DbSession',
+            'timeout' => 86400*7, //session expire
             'writeCallback' => function($session){
                 return [
                     'user_id' => Yii::$app->user->id,
                     'created_at' => date('Y-m-d H:i:s', time()),
+                    //'expire' => time() + 86400 * 7,
                 ];
             }
             // Set the following if you want to use DB component other than
@@ -292,6 +294,7 @@ $config = [
             'KRW' => '韩圆',
             'PHP' => '菲律宾披索',
         */
+       /*
         'payment' => [
             'gedu' => [
                 'alipay' => [
@@ -324,7 +327,7 @@ $config = [
                 'alipay_public_key' => Yii::getAlias('@common').'/payment/alipay/cert/alipay_public_key.pem',
                 ],
             ],
-        ],
+        ],*/
 
     ], // component 结束
     

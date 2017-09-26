@@ -9,16 +9,16 @@ use dmstr\bootstrap\Tabs;
 
 /**
 * @var yii\web\View $this
-* @var backend\modules\campus\models\StudentRecordItem $model
+* @var common\models\Session $model
 */
 $copyParams = $model->attributes;
 
-$this->title = Yii::t('backend', 'Student Record Item');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Student Record Items'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => (string)$model->student_record_item_id, 'url' => ['view', 'student_record_item_id' => $model->student_record_item_id]];
-$this->params['breadcrumbs'][] = Yii::t('backend', 'View');
+$this->title = Yii::t('backend', 'Session');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Sessions'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => (string)$model->id, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = Yii::t('backend', '查看');
 ?>
-<div class="giiant-crud student-record-item-view">
+<div class="giiant-crud session-view">
 
     <!-- flash message -->
     <?php if (\Yii::$app->session->getFlash('deleteError') !== null) : ?>
@@ -30,9 +30,9 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
     <?php endif; ?>
 
     <h1>
-        <?= Yii::t('backend', 'Student Record Item') ?>
+        <?= Yii::t('backend', 'Session') ?>
         <small>
-            <?= $model->student_record_item_id ?>
+            <?= $model->id ?>
         </small>
     </h1>
 
@@ -42,53 +42,54 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
         <!-- menu buttons -->
         <div class='pull-left'>
             <?= Html::a(
-            '<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('backend', 'Edit'),
-            [ 'update', 'student_record_item_id' => $model->student_record_item_id],
+            '<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('backend', '更新'),
+            [ 'update', 'id' => $model->id],
             ['class' => 'btn btn-info']) ?>
 
             <?= Html::a(
-            '<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('backend', 'Copy'),
-            ['create', 'student_record_item_id' => $model->student_record_item_id, 'StudentRecordItem'=>$copyParams],
+            '<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('backend', '复制'),
+            ['create', 'id' => $model->id, 'Session'=>$copyParams],
             ['class' => 'btn btn-success']) ?>
 
             <?= Html::a(
-            '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'New'),
+            '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'Create'),
             ['create'],
             ['class' => 'btn btn-success']) ?>
         </div>
 
         <div class="pull-right">
             <?= Html::a('<span class="glyphicon glyphicon-list"></span> '
-            . Yii::t('backend', 'Full list'), ['index'], ['class'=>'btn btn-default']) ?>
+            . Yii::t('backend', '返回列表'), ['index'], ['class'=>'btn btn-default']) ?>
         </div>
 
     </div>
 
     <hr />
 
-    <?php $this->beginBlock('backend\modules\campus\models\StudentRecordItem'); ?>
+    <?php $this->beginBlock('common\models\Session'); ?>
 
     
     <?= DetailView::widget([
     'model' => $model,
     'attributes' => [
-            'student_record_title_id',
-        'student_record_id',
-        'body',
-        'status',
-        'sort',
+        'id',
+        'user_id',
+        'udid',
+        'data',
+        'expire:datetime',
+        'created_at:datetime',
     ],
     ]); ?>
 
     
     <hr/>
 
-    <?= Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('backend', 'Delete'), ['delete', 'student_record_item_id' => $model->student_record_item_id],
+    <!--<?php /* Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('backend', 'Delete'), ['delete', 'id' => $model->id],
     [
     'class' => 'btn btn-danger',
     'data-confirm' => '' . Yii::t('backend', 'Are you sure to delete this item?') . '',
     'data-method' => 'post',
-    ]); ?>
+    ]); */ ?>-->
     <?php $this->endBlock(); ?>
 
 
@@ -99,8 +100,8 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'View');
                      'encodeLabels' => false,
                      'items' => [
  [
-    'label'   => '<b class=""># '.$model->student_record_item_id.'</b>',
-    'content' => $this->blocks['backend\modules\campus\models\StudentRecordItem'],
+    'label'   => '<b class=""># '.$model->id.'</b>',
+    'content' => $this->blocks['common\models\Session'],
     'active'  => true,
 ],
  ]

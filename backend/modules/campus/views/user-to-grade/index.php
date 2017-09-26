@@ -44,6 +44,9 @@ if(is_string($schoolOrGrade) && $schoolOrGrade == 'all'){
         $actionColumnTemplates[] = '{update}';
     }
 
+    if (\Yii::$app->user->can('P_director', ['route' => true]) || \Yii::$app->user->can('E_manager') || Yii::$app->user->can('manager')) {
+        $actionColumnTemplates[] = '{turn}';
+    }
   /*  if (\Yii::$app->user->can('P_director', ['route' => true])) {
         $actionColumnTemplates[] = '{delete}';
     }
@@ -116,7 +119,18 @@ if(is_string($schoolOrGrade) && $schoolOrGrade == 'all'){
                                 'data-pjax' => '0',
                             ];
                             return Html::a('<span class="glyphicon glyphicon-file"></span>', $url, $options);
-                        }
+                        },
+                        'turn' => function ($url, $model, $key) {
+                            $options = [
+                                'title' => Yii::t('backend', '转班'),
+                                'aria-label' => Yii::t('backend', '转班'),
+                                'data-pjax' => '0',
+                            ];
+                            if($model->status == UserToGrade::USER_GRADE_STATUS_NORMAL){
+                                return Html::a('<span class="fa fa-exchange"></span>', $url, $options);
+
+                            }
+                        },
                     ],
                 'urlCreator' => function($action, $model, $key, $index) {
                 // using the column name as key, not mapping to 'id' like the standard generator

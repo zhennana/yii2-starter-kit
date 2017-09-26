@@ -26,8 +26,8 @@ use trntv\yii\datetime\DateTimeWidget;
         <?php echo $form->field($model, 'password')->passwordInput() ?>
          <?php
 
-            $model->birth  =  isset($model->getModel()->userProfile->birth) ? $model->getModel()->userProfile->birth : '';
-            $model->gender =  isset($model->getModel()->userProfile->gender) ? $model->getModel()->userProfile->gender : time();
+            $model->birth  =  isset($model->getModel()->userProfile->birth) ? $model->getModel()->userProfile->birth :  time();
+            $model->gender =  isset($model->getModel()->userProfile->gender) ? $model->getModel()->userProfile->gender : UserProfile::GENDER_FEMALE;
         ?>
          <?php 
            echo $form->field($model, 'gender')->dropDownlist([

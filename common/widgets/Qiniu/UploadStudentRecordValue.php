@@ -71,9 +71,9 @@ class UploadStudentRecordValue extends Widget
     protected function registerClientScript()
     {
         $this->zone_url = \Yii::$app->params['qiniu']['wakooedu']['zone_url'];
-        if($this->zone_url != false){
-            $script .= "var zone_url = '".$this->zone_url."';";
-        }
+        // if($this->zone_url != false){
+        //     $script .= "var zone_url = '".$this->zone_url."';";
+        // }
      //var_dump(\Yii::$app->params); exit();
         $script  = "var uptoken_url = '".$this->uptoken_url."';";
         $script  .= " var keys = ".$this->keys."; ";

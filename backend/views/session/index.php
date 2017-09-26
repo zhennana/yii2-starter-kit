@@ -7,29 +7,12 @@ use yii\grid\GridView;
 /**
 * @var yii\web\View $this
 * @var yii\data\ActiveDataProvider $dataProvider
-    * @var backend\modules\campus\models\search\StudentRecordTitleSearch $searchModel
+    * @var backend\models\search\SessionSearch $searchModel
 */
 
-$this->title = Yii::t('backend', 'Student Record Titles');
+$this->title = Yii::t('backend', 'Sessions');
 $this->params['breadcrumbs'][] = $this->title;
 
-
-/**
-* create action column template depending acces rights
-*/
-$actionColumnTemplates = [];
-
-if (\Yii::$app->user->can('campus_student-record-title_view', ['route' => true])) {
-    $actionColumnTemplates[] = '{view}';
-}
-
-if (\Yii::$app->user->can('campus_student-record-title_update', ['route' => true])) {
-    $actionColumnTemplates[] = '{update}';
-}
-
-if (\Yii::$app->user->can('campus_student-record-title_delete', ['route' => true])) {
-    $actionColumnTemplates[] = '{delete}';
-}
 if (isset($actionColumnTemplates)) {
 $actionColumnTemplate = implode(' ', $actionColumnTemplates);
     $actionColumnTemplateString = $actionColumnTemplate;
@@ -39,7 +22,7 @@ Yii::$app->view->params['pageButtons'] = Html::a('<span class="glyphicon glyphic
 }
 $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTemplateString.'</div>';
 ?>
-<div class="giiant-crud student-record-title-index">
+<div class="giiant-crud session-index">
 
     <?php
 //             echo $this->render('_search', ['model' =>$searchModel]);
@@ -49,21 +32,16 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
     <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
 
     <h1>
-        <?= Yii::t('backend', 'Student Record Titles') ?>
+        <?= Yii::t('backend', 'Sessions') ?>
         <small>
-            List
+            列表
         </small>
     </h1>
     <div class="clearfix crud-navigation">
-<?php
-if(\Yii::$app->user->can('campus_student-record-title_create', ['route' => true])){
-?>
         <div class="pull-left">
-            <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'New'), ['create'], ['class' => 'btn btn-success']) ?>
+            <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'Create'), ['create'], ['class' => 'btn btn-success']) ?>
         </div>
-<?php
-}
-?>
+
         <div class="pull-right">
 
                         
@@ -111,8 +89,8 @@ if(\Yii::$app->user->can('campus_student-record-title_create', ['route' => true]
             'buttons' => [
                 'view' => function ($url, $model, $key) {
                     $options = [
-                        'title' => Yii::t('yii', 'View'),
-                        'aria-label' => Yii::t('yii', 'View'),
+                        'title' => Yii::t('backend', 'View'),
+                        'aria-label' => Yii::t('backend', 'View'),
                         'data-pjax' => '0',
                     ];
                     return Html::a('<span class="glyphicon glyphicon-file"></span>', $url, $options);
@@ -126,9 +104,12 @@ if(\Yii::$app->user->can('campus_student-record-title_create', ['route' => true]
             },
             'contentOptions' => ['nowrap'=>'nowrap']
         ],
-			'title',
-			'status',
-			'sort',
+			'id',
+			'user_id',
+			'udid',
+            'expire:datetime',
+            'created_at',
+            'data',
         ],
         ]); ?>
     </div>

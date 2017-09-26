@@ -4,26 +4,26 @@ use yii\helpers\Html;
 
 /**
 * @var yii\web\View $this
-* @var backend\modules\campus\models\StudentRecordItem $model
+* @var common\models\Session $model
 */
 
 $this->title = Yii::t('backend', 'Create');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Student Record Items'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Sessions'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="giiant-crud student-record-item-create">
+<div class="giiant-crud session-create">
 
     <h1>
-        <?= Yii::t('backend', 'Student Record Item') ?>
+        <?= Yii::t('backend', 'Session') ?>
         <small>
-                        <?= $model->student_record_item_id ?>
+                        <?= $model->id ?>
         </small>
     </h1>
 
     <div class="clearfix crud-navigation">
         <div class="pull-left">
             <?=             Html::a(
-            Yii::t('backend', 'Cancel'),
+            Yii::t('backend', '取消'),
             \yii\helpers\Url::previous(),
             ['class' => 'btn btn-default']) ?>
         </div>

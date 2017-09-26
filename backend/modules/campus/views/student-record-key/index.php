@@ -1,8 +1,9 @@
 <?php
-
+// use yii;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\GridView;
+use backend\modules\campus\models\StudentRecordKey;
 
 /**
 * @var yii\web\View $this
@@ -10,25 +11,25 @@ use yii\grid\GridView;
     * @var backend\modules\campus\models\search\StudentRecordKeySearch $searchModel
 */
 
-$this->title = Yii::t('backend', 'Student Record Keys');
+$this->title = Yii::t('backend', '科目标题');
 $this->params['breadcrumbs'][] = $this->title;
 
-
+$schools[0] = $grades[0] = '全局标题';
 /**
 * create action column template depending acces rights
 */
 $actionColumnTemplates = [];
 
-if (\Yii::$app->user->can('campus_student-record-key_view', ['route' => true])) {
+if (\Yii::$app->user->can('manager', ['route' => true]) || Yii::$app->user->can('P_teacher') || Yii::$app->user->can('E_manager')) {
     $actionColumnTemplates[] = '{view}';
 }
 
-if (\Yii::$app->user->can('campus_student-record-key_update', ['route' => true])) {
+if (\Yii::$app->user->can('manager', ['route' => true]) || Yii::$app->user->can('P_teacher') || Yii::$app->user->can('E_manager')) {
     $actionColumnTemplates[] = '{update}';
 }
 
-if (\Yii::$app->user->can('campus_student-record-key_delete', ['route' => true])) {
-    $actionColumnTemplates[] = '{delete}';
+if (\Yii::$app->user->can('manager', ['route' => true]) || Yii::$app->user->can('P_teacher') || Yii::$app->user->can('E_manager')) {
+    // $actionColumnTemplates[] = '{delete}';
 }
 if (isset($actionColumnTemplates)) {
 $actionColumnTemplate = implode(' ', $actionColumnTemplates);
@@ -49,9 +50,9 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
     <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
 
     <h1>
-        <?= Yii::t('backend', 'Student Record Keys') ?>
+        <?= Yii::t('backend', '科目标题') ?>
         <small>
-            List
+            列表
         </small>
     </h1>
     <div class="clearfix crud-navigation">
@@ -59,7 +60,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
 if(\Yii::$app->user->can('user', ['route' => true])){
 ?>
         <div class="pull-left">
-            <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'New'), ['create'], ['class' => 'btn btn-success']) ?>
+            <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'Create'), ['create'], ['class' => 'btn btn-success']) ?>
         </div>
 <?php
 }
@@ -98,8 +99,8 @@ if(\Yii::$app->user->can('user', ['route' => true])){
         'dataProvider' => $dataProvider,
         'pager' => [
         'class' => yii\widgets\LinkPager::className(),
-        'firstPageLabel' => Yii::t('backend', 'First'),
-        'lastPageLabel' => Yii::t('backend', 'Last'),
+        'firstPageLabel' => Yii::t('backend', '首页'),
+        'lastPageLabel' => Yii::t('backend', '尾页'),
         ],
                     'filterModel' => $searchModel,
                 'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
@@ -126,11 +127,36 @@ if(\Yii::$app->user->can('user', ['route' => true])){
             },
             'contentOptions' => ['nowrap'=>'nowrap']
         ],
-			'school_id',
-			'grade_id',
-			'status',
-			'sort',
+			[
+                'class'=>\common\grid\EnumColumn::className(),
+                'attribute' =>'school_id',
+                'enum'      => $schools,
+                'value'     => function($model){
+                    if(isset($model->school->school_title)){
+                        return $model->school->school_title;
+                    }
+                    return '全局标题';
+                }
+            ],
+/*
+            [
+                'class'=>\common\grid\EnumColumn::className(),
+                'attribute' =>'grade_id',
+                'enum'      => $grades,
+                'value'     => function($model){
+                    if(isset($model->grade->grade_name)){
+                        return $model->grade->grade_name;
+                    }
+                    return '全局标题';
+                }
+            ],*/
 			'title',
+            'sort',
+            [
+                'class'=>\common\grid\EnumColumn::className(),
+                'attribute' =>'status',
+                'enum'      => StudentRecordKey::optsStatus(),
+            ],
         ],
         ]); ?>
     </div>

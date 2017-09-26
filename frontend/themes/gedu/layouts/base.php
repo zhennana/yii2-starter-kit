@@ -198,7 +198,9 @@ if(Yii::$app->session->hasFlash('alert')):?>
                             [
                                 'label' => Yii::t('frontend', 'Backend'),
                                 'url' => Yii::getAlias('@backendUrl'),
-                                'visible'=>Yii::$app->user->can('manager')
+                                'visible'=>(Yii::$app->user->can('manager') ||
+                                    Yii::$app->user->can('P_teacher') || Yii::$app->user->can('E_manager')
+                                 )
                             ],
                             [
                                 'label' => Yii::t('frontend', 'Logout'),

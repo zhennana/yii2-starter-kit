@@ -71,6 +71,54 @@ class CourseOrderItemController extends \common\rest\Controller
     }
 
     /**
+     * @SWG\Get(path="/course-order-item/check",
+     *     tags={"GEDU-CourseOrderItem-课程订单接口"},
+     *     summary="验证课程是否已购买",
+     *     description="返回主课程订单",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "course_id",
+     *        description = "主课程_id",
+     *        required = true,
+     *        default = 1,
+     *        type = "integer"
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "购买成功返回true"
+     *     )
+     * )
+     */
+    public function actionCheck($course_id = 0)
+    {
+        if(Yii::$app->user->isGuest){
+            $this->serializer['errno']   = 422;
+            $this->serializer['message'] = '请您先登录';
+            return [];
+        }
+        $data = [];
+        $data['course_id'] = $course_id;
+        $data['is_purchased'] = false;
+
+        $modelClass = $this->modelClass;
+        $order = $modelClass::find()->where([
+            'course_id' => $course_id,
+            'user_id' => Yii::$app->user->identity->groupId(),
+            'status' => $modelClass::STATUS_VALID,
+            'payment_status' => $modelClass::PAYMENT_STATUS_PAID,
+        ])->one();
+
+        if (!$order) {
+            $this->serializer['message'] = '找不到该课程或未成功购买';
+            return $data;
+        }
+        $data['is_purchased'] = true;
+        return $data;
+
+    }
+
+    /**
      * @SWG\Post(path="/course-order-item/create",
      *     tags={"GEDU-CourseOrderItem-课程订单接口"},
      *     summary="课程订单创建",
@@ -86,41 +134,6 @@ class CourseOrderItemController extends \common\rest\Controller
      *     ),
      *     @SWG\Parameter(
      *        in = "formData",
-     *        name = "school_id",
-     *        description = "学校ID",
-     *        required = false,
-     *        type = "integer"
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "grade_id",
-     *        description = "班级ID",
-     *        required = false,
-     *        type = "integer"
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "introducer_id",
-     *        description = "介绍人ID",
-     *        required = false,
-     *        type = "integer"
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "total_course",
-     *        description = "课程的总数",
-     *        required = false,
-     *        type = "integer"
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "presented_course",
-     *        description = "赠送的课程数量",
-     *        required = false,
-     *        type = "integer"
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
      *        name = "payment",
      *        description = "支付方式：100在线支付；110支付宝；111微信支付；200货到付款",
      *        required = true,
@@ -130,43 +143,11 @@ class CourseOrderItemController extends \common\rest\Controller
      *     ),
      *     @SWG\Parameter(
      *        in = "formData",
-     *        name = "status",
-     *        description = "订单状态 10有效；20无效",
-     *        required = true,
-     *        type = "integer",
-     *        default = 10,
-     *        enum = {10,20}
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "total_price",
-     *        description = "总价",
+     *        name = "present_price",
+     *        description = "现价",
      *        required = true,
      *        type = "integer",
      *        default = 47
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "coupon_type",
-     *        description = "优惠类型 2首单减免；3随机减免",
-     *        required = false,
-     *        type = "integer",
-     *        enum = {2,3}
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "coupon_price",
-     *        description = "优惠金额",
-     *        required = false,
-     *        type = "integer"
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "real_price",
-     *        description = "实际付款",
-     *        required = true,
-     *        type = "integer",
-     *        default = 37
      *     ),
      *     @SWG\Response(
      *         response = 200,
@@ -184,30 +165,37 @@ class CourseOrderItemController extends \common\rest\Controller
             return [];
         }
 
-        $from = [];
+        $data = [];
 
         $modelClass = $this->modelClass;
         $order      = new $modelClass;
 
         $model = $order->processCourseOrder(Yii::$app->request->post());
-
         if (isset($model['errno']) && $model['errno'] !== 0) {
             $this->serializer['errno']   = $model['errno'];
             $this->serializer['message'] = $model['message'];
             return [];
         }
 
-        if (is_object($model)) {
-            $from = $model->wapAlipay();
-        }
-
-        if (isset($from['errno']) && $from['errno'] != 0) {
-            $this->serializer['errno']   = $from['errno'];
-            $this->serializer['message'] = $from['message'];
+        if (!is_object($model)) {
+            $this->serializer['errno']   = $model['errno'];
+            $this->serializer['message'] = $model['message'];
             return [];
         }
-        $from = ['wappay' => $from];
-        return $from;
+
+        if ($model->payment == $modelClass::PAYMENT_ALIPAY) {
+            $data = $model->wapAlipay();
+        }elseif($model->payment == $modelClass::PAYMENT_WECHAT){
+            $data = $model->appWechatpay();
+        }
+
+        if (isset($data['errno']) && $data['errno'] != 0) {
+            $this->serializer['errno']   = $data['errno'];
+            $this->serializer['message'] = $data['message'];
+            return [];
+        }
+
+        return $data;
     }
 
     /**

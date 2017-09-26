@@ -46,7 +46,7 @@ $banner=array(
             <div class="box-header with-border box-header with-border ">
                 <ol class="breadcrumb" style="margin-bottom: -10px">
                   <li><span class=""><i class="fa fa-map-marker margin-r-5 text-purple"></i>当前位置: </span>&nbsp<?php echo Html::a('首页',['site/index'])?></li>
-                  <?php 
+                  <?php
                     if(!empty($category['parent'])&&$category['parent']['id']!=46){               
                   ?>
                     <li><?php echo Html::a($cateParent,['article/index','category_id'=>$category['pare_id']])?></li>
@@ -71,14 +71,14 @@ $banner=array(
                              <?php echo Html::a(
                                 $value['title'],
                                  ['article/view','id'=>$value['id']],
-                                 ['class'=>'','data-method'=>'open',]);
+                                 ['class'=>'']);
                              ?>
                          </h4>
                          <p class="course-content">
                             <?php echo Html::a(
                                     substr_auto(strip_tags($value['body']),190),
                                      ['article/view','id'=>$value['id']],
-                                     ['class'=>'','data-method'=>'open',]);
+                                     ['class'=>'']);
                                  ?>
                          </p>
                      </div>

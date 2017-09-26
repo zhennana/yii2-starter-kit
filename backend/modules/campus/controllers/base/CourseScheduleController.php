@@ -6,6 +6,7 @@ namespace backend\modules\campus\controllers\base;
 
 use Yii;
 use backend\modules\campus\models\CourseSchedule;
+use backend\modules\campus\models\Course;
 use backend\modules\campus\models\search\CourseScheduleSearch;
 use common\components\Controller;
 use yii\web\HttpException;
@@ -114,7 +115,6 @@ return $this->render('view', [
 public function actionCreate()
 {
 $model = new CourseSchedule;
-
 try {
     if ($model->load($_POST) && $model->save()) {
     return $this->redirect(['view', 'course_schedule_id' => $model->course_schedule_id]);
@@ -136,15 +136,16 @@ return $this->render('create', ['model' => $model]);
 */
 public function actionUpdate($course_schedule_id)
 {
-$model = $this->findModel($course_schedule_id);
+    $model = $this->findModel($course_schedule_id);
 
-if ($model->load($_POST) && $model->save()) {
-    return $this->redirect(Url::previous());
-} else {
-    return $this->render('update', [
-        'model' => $model,
-    ]);
-}
+    if ($model->load($_POST) && $model->save()) {
+        Course::updateAll(['status'=>$model->status],'course_id = '.$model->course_id);
+        return $this->redirect(Url::previous());
+    } else {
+        return $this->render('update', [
+            'model' => $model,
+        ]);
+    }
 }
 
 /**
