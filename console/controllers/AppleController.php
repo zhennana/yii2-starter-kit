@@ -61,7 +61,7 @@ class AppleController extends Controller
                 // 正式环境验证
                 echo "| Start verification in apple pro...\r\n";
                 $response = $this->_httpPostData($jsonData);
-// var_dump($response);exit;
+
                 if (!$response) {
                     $log  = '[Connection time out] ';
                     $log .= '[Sandbox:'.$is_sandbox.'] ';
@@ -163,7 +163,7 @@ class AppleController extends Controller
         $response_json = curl_exec($curl_handle);
         $response = json_decode($response_json);
         curl_close($curl_handle);
-
+var_dump($response);exit;
         return $response;
     }
 
