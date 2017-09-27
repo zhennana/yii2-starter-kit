@@ -163,7 +163,7 @@ class AppleController extends Controller
         $response_json = curl_exec($curl_handle);
         $response = json_decode($response_json);
         curl_close($curl_handle);
-var_dump($response);exit;
+// var_dump($response);exit;
         return $response;
     }
 
