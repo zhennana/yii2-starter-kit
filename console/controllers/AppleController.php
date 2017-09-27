@@ -153,8 +153,8 @@ class AppleController extends Controller
         curl_setopt($curl_handle,CURLOPT_URL, $url);
         curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER, true);
 
-        // 设置超时 1秒
-        // curl_setopt($curl_handle,CURLOPT_TIMEOUT,1);
+        // 设置超时 30秒
+        curl_setopt($curl_handle,CURLOPT_TIMEOUT,30);
         curl_setopt($curl_handle,CURLOPT_HEADER, 0);
         curl_setopt($curl_handle,CURLOPT_POST, true);
         curl_setopt($curl_handle,CURLOPT_POSTFIELDS, $data_string);
