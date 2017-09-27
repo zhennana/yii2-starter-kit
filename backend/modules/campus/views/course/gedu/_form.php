@@ -18,7 +18,7 @@ $Courseware = ArrayHelper::map($Courseware,'courseware_id','title');
 $schools = Yii::$app->user->identity->schoolsInfo;
 $schools = ArrayHelper::map($schools,'school_id','school_title');
 
-$parent = Course::find()->where(['parent_id' => 0]);
+$parent = Course::find()->where(['parent_id' => 0,'status' => Course::COURSE_STATUS_OPEN]);
 if ($model->isNewRecord) {
     $parents = $parent->asArray()->all();
 }else{
