@@ -8,15 +8,11 @@ use backend\modules\campus\models\CourseCategory;
 /* @var $this yii\web\View */
 /* @var $model backend\modules\campus\models\CourseCategory */
 /* @var $form yii\bootstrap\ActiveForm */
+$parentsQuery = CourseCategory::find()->where(['parent_id' => 0, 'status' => CourseCategory::STATUS_NORMAL]);
 if ($model->isNewRecord) {
-    $parents = CourseCategory::find()
-        ->where(['parent_id' => 0])
-        ->all();
+    $parents = $parentsQuery->all();
 }else{
-    $parents = CourseCategory::find()
-        ->where(['parent_id' => 0])
-        ->andWhere(['<>','category_id',$model->category_id])
-        ->all();
+    $parents = $parentsQuery->andWhere(['<>','category_id',$model->category_id])->all();
 }
 $parents = \yii\helpers\ArrayHelper::map($parents, 'category_id', 'name');
 
