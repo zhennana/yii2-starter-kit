@@ -36,8 +36,7 @@ class AppleController extends Controller
         echo "\r\n===== Start =====\r\n";
 
         $start        = time();
-        $response     = null;
-        $is_sandbox   = false;
+        $is_sandbox   = 0;
         $failed_count = $total_count = $success_count = 0;
 
         $query = CourseOrderItem::find()->where([
@@ -51,15 +50,19 @@ class AppleController extends Controller
 
         foreach ($order as $key => $value) {
             if ($value) {
+                $response = null;
+                $jsonData = '';
 
                 // base_64解密(由于源数据经过两次base64加密，所以需要解密一次后组装json)
                 // 格式化并转json
-                $jsonData[$key] = json_encode(['receipt-data' => base64_decode($value->data)]);
+                echo "| Receipt data formating...\r\n";
+                $jsonData = json_encode(['receipt-data' => base64_decode($value->data)]);
 
                 // 正式环境验证
-                $response[$key] = $this->_httpPostData($jsonData[$key]);
+                echo "| Start verification in apple pro...\r\n";
+                $response = $this->_httpPostData($jsonData);
 
-                if (!$response[$key]) {
+                if (!$response) {
                     $log  = '[Connection time out] ';
                     $log .= '[Sandbox:'.$is_sandbox.'] ';
                     $log .= 'order_id:'.$value->course_order_item_id."\r\n";
@@ -71,13 +74,15 @@ class AppleController extends Controller
                     continue;
                 }
 
-                if ($response[$key]->status == 21007) {
+                if ($response->status == 21007) {
                     // 沙盒环境验证
-                    $is_sandbox = true;
-                    $response[$key] = $this->_httpPostData($jsonData[$key], $is_sandbox);
+                    echo "| The receipt data is sandbox data.\r\n";
+                    echo "| Start verification in apple pro...\r\n";
+                    $is_sandbox = 1;
+                    $response = $this->_httpPostData($jsonData, $is_sandbox);
                 }
 
-                if (!$response[$key]) {
+                if (!$response) {
                     $log  = '[Connection time out] ';
                     $log .= '[Sandbox:'.$is_sandbox.'] ';
                     $log .= 'order_id:'.$value->course_order_item_id."\r\n";
@@ -89,7 +94,7 @@ class AppleController extends Controller
                     continue;
                 }
 
-                if($response[$key]->status == 0){
+                if($response->status == 0){
                     $value->payment_status = CourseOrderItem::PAYMENT_STATUS_PAID_SERVER;
                     $log  = '[Verification successed] ';
                     $log .= '[Sandbox:'.$is_sandbox.'] ';
@@ -158,7 +163,7 @@ class AppleController extends Controller
         $response_json = curl_exec($curl_handle);
         $response = json_decode($response_json);
         curl_close($curl_handle);
-
+var_dump($response);exit;
         return $response;
     }
 
