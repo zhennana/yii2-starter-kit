@@ -95,6 +95,11 @@ class AppleController extends Controller
                 }
 
                 if($response->status == 0){
+                    if (isset($response->receipt->in_app[0]->transaction_id)) {
+                        $value->payment_id = $response->receipt->in_app[0]->transaction_id;
+                    }elseif (isset($response->receipt->request_date_pst)) {
+                        $value->payment_id = $response->receipt->request_date_pst;
+                    }
                     $value->payment_status = CourseOrderItem::PAYMENT_STATUS_PAID_SERVER;
                     $log  = '[Verification successed] ';
                     $log .= '[Sandbox:'.$is_sandbox.'] ';
