@@ -143,8 +143,8 @@ class SignInController extends \common\components\ControllerFrontendApi
         $model->load($_POST);
 
         if($model->login()){
-            $attrUser = $model->user->attributes;
-
+            $attrUser = Yii::$app->user->identity->getSchoolUserInfo();
+            /*
             $attrUser['ID'] = $attrUser['id'];
             unset($attrUser['id']);
 
@@ -169,7 +169,8 @@ class SignInController extends \common\components\ControllerFrontendApi
             }
 
             // 学校班级
-            $attrUser['grade_name'] = $attrUser['school_title'] =$attrUser['school_id'] ='';
+            $attrUser['grade_name'] = $attrUser['school_title'] = '';
+            $attrUser['school_id'] = 0;
             if ($model->user->getCharacterDetailes()) {
                 $attrUser['grade_name'] = $model->user->getCharacterDetailes()['grade_label'];
                 $attrUser['school_title'] = $model->user->getCharacterDetailes()['school_label'];
@@ -182,16 +183,22 @@ class SignInController extends \common\components\ControllerFrontendApi
                 'status'        => UsersToUsers::UTOU_STATUS_OPEN,
             ])->one();
 
+            $student = UsersToUsers::find()->where([
+                'user_left_id'  => $model->user->id,
+                'status'        => UsersToUsers::UTOU_STATUS_OPEN,
+            ])->one();
+
             if ($parents) {
                 $attrUser['type']    = UsersToUsers::UTOU_TYPE_PARENT;
-                $attrUser['level']   = '荣耀王者'.'的家长';
                 $attrUser['parents'] = UsersToUsers::getUserName($parents->user_left_id).'的家长';
-            }else{
+            }elseif($student){
                 $attrUser['type']    = UsersToUsers::UTOU_TYPE_STUDENT;
-                $attrUser['level']   = '荣耀王者';
+                $attrUser['parents'] = '';
+            }else{
+                $attrUser['type']    = 0;
                 $attrUser['parents'] = '';
             }
-            
+            */
             return $attrUser;
         }else{
             Yii::$app->response->statusCode = 200;
@@ -233,8 +240,11 @@ class SignInController extends \common\components\ControllerFrontendApi
             return $this->serializer['message'];
         }
 
-        $attrUser = Yii::$app->user->identity->attributes;
+        // $attrUser = Yii::$app->user->identity->attributes;
 
+        $attrUser = Yii::$app->user->identity->getSchoolUserInfo();
+
+        /*
         if(isset($attrUser['password_hash'])){
             unset($attrUser['password_hash']);
         }
@@ -254,8 +264,7 @@ class SignInController extends \common\components\ControllerFrontendApi
                 $attrUser['avatar'] = 'http://orh16je38.bkt.clouddn.com/o_1bn7gmjh51nu51dn1k0kimul5n9.jpg';
             }
         }
-        $attrUser['clientid'] = $proFileUser->clientid;
-        $attrUser['client_source_type'] = $proFileUser->client_source_type;
+        */
         return $attrUser;
     }
 
@@ -441,11 +450,11 @@ class SignInController extends \common\components\ControllerFrontendApi
             if (isset($user->id)) {
                 if ($model->shouldBeActivated()) {
                     $this->serializer['message'] = Yii::t('frontend', '账号注册成功');
-                    return $user->attributes;
+                    return $user->getSchoolUserInfo();
                 } else {
                     Yii::$app->getUser()->login($user);
                 }
-                return array_merge($user->attributes, ['token'=>$model->token]);
+                return array_merge($user->getSchoolUserInfo(), ['token'=>$model->token]);
             }
         }
 

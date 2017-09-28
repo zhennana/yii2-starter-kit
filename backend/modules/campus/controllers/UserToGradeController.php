@@ -26,4 +26,26 @@ class UserToGradeController extends \backend\modules\campus\controllers\base\Use
         }
 
     }
+    /**
+     * 转班
+     * @return [type] [description]
+     */
+    public function actionTurn($user_to_grade_id){
+        $model = $this->findModel($user_to_grade_id);
+        $newModel = new UserToGrade;
+        if(Yii::$app->request->post() && $_POST['UserToGrade']['grade_id']){
+            $data = $model->attributes;
+            $model->status = UserToGrade::USER_GRADE_STATUS_CHANGE;
+            $model->save();
+            $data['grade_id'] = $_POST['UserToGrade']['grade_id'];
+            unset($data['updated_at'],$data['created_at']);
+            $newModel->load($data,'');
+            if(!$newModel->save()){
+                return $this->render('turn',['model'=>$model,'newModel'=>$newModel]);
+            }else{
+                return $this->redirect(['index']);
+            }
+        }
+        return $this->render('turn',['model'=>$model,'newModel'=>$newModel]);
+    }
 }

@@ -31,7 +31,7 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
 {
     CONST USER_GRADE_STATUS_NORMAL  = 1 ; //正常；
     CONST USER_GRADE_STATUS_RETIRED = 4 ; //退休；
-    CONST USER_GRADE_STATUS_CHANGE  = 3 ; //转班；  
+    CONST USER_GRADE_STATUS_CHANGE  = 3 ; //转出；  
     CONST USER_GRADE_STATUS_DELETE  = 0 ; // 删除；
     CONST USER_GRADE_STATUS_AUDIT   = 2 ; //审核；
 
@@ -45,7 +45,7 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
         return [
             self::USER_GRADE_STATUS_NORMAL  =>  '正常',
             self::USER_GRADE_STATUS_RETIRED =>  '退休',
-            self::USER_GRADE_STATUS_CHANGE  =>  '转班',
+            self::USER_GRADE_STATUS_CHANGE  =>  '转出',
             self::USER_GRADE_STATUS_DELETE  =>  '删除',
         ];
     }

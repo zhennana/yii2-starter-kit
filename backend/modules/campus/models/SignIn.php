@@ -153,29 +153,48 @@ class SignIn extends BaseSignIn
         if($type_id == 3){
            $model = new Course;
            $data = [
-                'grade_id'     =>$id,
+                'grade_id'     => $id,
                 'status'       => 20,
             ];
             $dataProvider =$model->CourseSchedule($data,false,false);
         return ArrayHelper::map($dataProvider,'course_id','title');
         }
-        if(($type_id == 4) || ($type_id == 5)){
-            $gradeUser = UserToGrade::find()->where(['grade_id' => $id,'status'=>UserToGrade::USER_GRADE_STATUS_NORMAL]);
-            if($type_id == 4){
-                $gradeUser->andWhere(['grade_user_type'=> UserToGrade::GRADE_USER_TYPE_STUDENT]);
-            }else{
-                $gradeUser->andWhere(['grade_user_type'=> UserToGrade::GRADE_USER_TYPE_TEACHER]);
-            }
-
-            $gradeUser =  $gradeUser->asArray()->all();
+        if($type_id == 5){
+            $gradeUser = UserToGrade::find()->where([
+                'grade_id' => $id,
+                'status'=>UserToGrade::USER_GRADE_STATUS_NORMAL,
+                'grade_user_type'=> UserToGrade::GRADE_USER_TYPE_TEACHER
+            ])->asArray()->all();
             $users = [];
             foreach ($gradeUser as $key => $value) {
-                    $users[$key]['user_id'] = $value['user_id'];
-                    $users[$key]['username'] = SignIn::getUserName($value['user_id']);
-                }
+                $users[$key]['user_id'] = $value['user_id'];
+                $users[$key]['username'] = SignIn::getUserName($value['user_id']);
+            }
             return ArrayHelper::map($users,'user_id','username');
         }
         return false;
+    }
+
+    public function getSignedStudent($grade_id,$course_id){
+        $signed = self::find()->where([
+            'grade_id'  => $grade_id,
+            'course_id' => $course_id,
+        ])->asArray()->all();
+        $signed = ArrayHelper::map($signed,'student_id','student_id');
+
+        $grade = UserToGrade::find()->where([
+            'grade_id'        => $grade_id,
+            'status'          => UserToGrade::USER_GRADE_STATUS_NORMAL,
+            'grade_user_type' => UserToGrade::GRADE_USER_TYPE_STUDENT
+        ])
+        ->andWhere(['NOT',['user_id' => $signed]])
+        ->asArray()->all();
+        $users = [];
+        foreach ($grade as $key => $value) {
+            $users[$key]['user_id'] = $value['user_id'];
+            $users[$key]['username'] = self::getUserName($value['user_id']);
+        }
+        return ArrayHelper::map($users,'user_id','username');
     }
 
     /**

@@ -122,11 +122,6 @@ class CourseOrderItem extends BaseCourseOrderItem
             $params['payment'] = (int) $params['payment'];
         }
 
-        // 验证支付状态
-        if (!isset($params['payment_status']) || empty($params['payment_status'])) {
-            $params['payment_status'] = self::PAYMENT_STATUS_PAID;
-        }
-
         // 验证优惠类型和优惠价格
         if (isset($params['coupon_type']) && !empty($params['coupon_type']) && isset($params['coupon_price']) && !empty($params['coupon_price'])) {
             if ($params['coupon_price'] != $params['total_price']-$params['real_price']) {
@@ -151,24 +146,43 @@ class CourseOrderItem extends BaseCourseOrderItem
         if (!isset($params['total_course']) || empty($params['total_course'])) {
             $params['total_course'] = 0;
         }
-        /*
+
         // 苹果内购验证
-        // $params['data'] = '{"Store":"fake","TransactionID":"dc3b50cc-5935-4e1c-8ed6-8f4af7ae21d4","Payload":"{ \"this\" : \"is a fake receipt\" }"}';
-        $apple_receipt = base64_encode($params['data']);
-        // var_dump($apple_receipt);exit;
-        $jsonData = ['receipt-data' => $apple_receipt];
-        $jsonData = json_encode($jsonData);
-        //$url = 'https://buy.itunes.apple.com/verifyReceipt';  正式验证地址
-        $url = 'https://sandbox.itunes.apple.com/verifyReceipt'; //测试验证地址
-        $response = $this->httpPostData($url,$jsonData);
-        var_dump($response);exit;
-        if($response->status == 0){
-            echo '验证成功';
-        }else{
-            echo '验证失败'.$response->status.$response->exception;
+        if (!isset($params['data']) || empty($params['data'])) {
+            $info['errno']   = __LINE__;
+            $info['message'] = 'Data Can Not Be Null!';
+            return $info;
         }
-        exit;
-        */
+
+        // base_64解密(由于源数据经过两次base64加密，所以需要解密一次后组装json)
+        $apple_receipt = base64_decode($params['data']);
+
+        // 格式化
+        $jsonData = ['receipt-data' => $apple_receipt];
+
+        // 转json
+        // {"receipt-data":"base64编码后的receipt"}
+        $jsonData = json_encode($jsonData);
+        // var_dump($jsonData);exit;
+
+        // 双重验证，先验证正式环境
+        $url = 'https://buy.itunes.apple.com/verifyReceipt';  //正式验证地址
+
+        // 发送请求
+        $response = $this->httpPostData($url,$jsonData);
+        if ($response->status == 21007) {
+            $url = 'https://sandbox.itunes.apple.com/verifyReceipt'; //测试验证地址
+            $response = $this->httpPostData($url,$jsonData);
+        }
+
+        if($response->status == 0){
+            $params['payment_status'] = self::PAYMENT_STATUS_PAID;
+        }else{
+            $params['payment_status'] = self::PAYMENT_STATUS_CONFIRMING;
+            // $info['errno']   = $response->status;
+            // $info['message'] = $response->exception;
+        }
+        
         if ($info['errno'] == 0) {
             return $params;
         }
