@@ -235,7 +235,7 @@ class ConfigController extends \common\rest\Controller
                 'description' => "更新内容：\r\n修复已知bug\r\n",
 
                 // IOS安装地址，发版后手动更新
-                'install_address' => '',
+                'install_address' => 'https://itunes.apple.com/us/app/%E5%85%89%E5%A4%A7%E5%AD%A6%E6%A0%A1/id1274351394?l=zh&ls=1&mt=8',
 
                 // IOS更新失败提示，发版后手动更新
                 'tip' => '更新失败，请去应用商店直接下载安装',
