@@ -158,7 +158,7 @@ $config = [
                         'charset' => "UTF-8",
 
                         //签名方式
-                        'sign_type'=>"RSA2",
+                        'sign_type'=>"RSA",
 
                         // 仅支持JSON
                         'format' => 'JSON',
