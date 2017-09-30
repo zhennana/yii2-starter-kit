@@ -71,6 +71,54 @@ class CourseOrderItemController extends \common\rest\Controller
     }
 
     /**
+     * @SWG\Get(path="/course-order-item/check",
+     *     tags={"GEDU-CourseOrderItem-课程订单接口"},
+     *     summary="验证课程是否已购买",
+     *     description="返回主课程订单",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "course_id",
+     *        description = "主课程_id",
+     *        required = true,
+     *        default = 1,
+     *        type = "integer"
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "购买成功返回true"
+     *     )
+     * )
+     */
+    public function actionCheck($course_id = 0)
+    {
+        if(Yii::$app->user->isGuest){
+            $this->serializer['errno']   = 422;
+            $this->serializer['message'] = '请您先登录';
+            return [];
+        }
+        $data = [];
+        $data['course_id'] = $course_id;
+        $data['is_purchased'] = false;
+
+        $modelClass = $this->modelClass;
+        $order = $modelClass::find()->where([
+            'course_id' => $course_id,
+            'user_id' => Yii::$app->user->identity->groupId(),
+            'status' => $modelClass::STATUS_VALID,
+            'payment_status' => $modelClass::PAYMENT_STATUS_PAID,
+        ])->one();
+
+        if (!$order) {
+            $this->serializer['message'] = '找不到该课程或未成功购买';
+            return $data;
+        }
+        $data['is_purchased'] = true;
+        return $data;
+
+    }
+
+    /**
      * @SWG\Post(path="/course-order-item/create",
      *     tags={"GEDU-CourseOrderItem-课程订单接口"},
      *     summary="课程订单创建",

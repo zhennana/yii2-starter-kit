@@ -31,10 +31,12 @@ use yii\behaviors\TimestampBehavior;
 abstract class CourseOrderItem extends \yii\db\ActiveRecord
 {
 
-    const PAYMENT_STATUS_REFUNDED   = 400;     // 400退款
-    const PAYMENT_STATUS_PAID       = 300;     // 300已成功支付
-    const PAYMENT_STATUS_CONFIRMING = 200;     // 200确认中
-    const PAYMENT_STATUS_NON_PAID   = 100;     // 100未支付
+    const PAYMENT_STATUS_REFUNDED    = 400;     // 400退款
+    const PAYMENT_STATUS_PAID_CLIENT = 310;     // 310客户端成功支付
+    const PAYMENT_STATUS_PAID_SERVER = 311;     // 300服务端成功支付
+    const PAYMENT_STATUS_PAID        = 300;     // 300已成功支付
+    const PAYMENT_STATUS_CONFIRMING  = 200;     // 200确认中
+    const PAYMENT_STATUS_NON_PAID    = 100;     // 100未支付
 
     const PAYMENT_ONLINE         = 100;        // 在线支付
     const PAYMENT_ALIPAY         = 110;        // 支付宝
@@ -87,10 +89,12 @@ abstract class CourseOrderItem extends \yii\db\ActiveRecord
     public static function optPaymentStatus()
     {
         return [
-            self::PAYMENT_STATUS_REFUNDED   => '退款',
-            self::PAYMENT_STATUS_PAID       => '成功支付',
-            self::PAYMENT_STATUS_CONFIRMING => '确认中',
-            self::PAYMENT_STATUS_NON_PAID   => '未支付',
+            self::PAYMENT_STATUS_REFUNDED    => '退款',
+            self::PAYMENT_STATUS_PAID_CLIENT => '客户端成功支付',
+            self::PAYMENT_STATUS_PAID_SERVER => '服务端成功支付',
+            self::PAYMENT_STATUS_PAID        => '成功支付',
+            self::PAYMENT_STATUS_CONFIRMING  => '确认中',
+            self::PAYMENT_STATUS_NON_PAID    => '未支付',
         ];
     }
 

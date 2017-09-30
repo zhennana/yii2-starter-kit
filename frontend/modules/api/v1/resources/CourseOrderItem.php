@@ -76,6 +76,7 @@ class CourseOrderItem extends BaseCourseOrderItem
 
         $params['user_id']  = Yii::$app->user->identity->id;
         $params['order_sn'] = $this->builderNumber();
+
         if (isset($params['expired_at']) && !empty($params['expired_at'])) {
             $remaining_time = $this->getRemainingTime($params['user_id']);
             $expired_at = time()+$params['expired_at']+$remaining_time;
@@ -142,7 +143,6 @@ class CourseOrderItem extends BaseCourseOrderItem
             }
         }
 
-        // 
         if (!isset($params['total_course']) || empty($params['total_course'])) {
             $params['total_course'] = 0;
         }
@@ -153,36 +153,9 @@ class CourseOrderItem extends BaseCourseOrderItem
             $info['message'] = 'Data Can Not Be Null!';
             return $info;
         }
-
-        // base_64解密(由于源数据经过两次base64加密，所以需要解密一次后组装json)
-        $apple_receipt = base64_decode($params['data']);
-
-        // 格式化
-        $jsonData = ['receipt-data' => $apple_receipt];
-
-        // 转json
-        // {"receipt-data":"base64编码后的receipt"}
-        $jsonData = json_encode($jsonData);
-        // var_dump($jsonData);exit;
-
-        // 双重验证，先验证正式环境
-        $url = 'https://buy.itunes.apple.com/verifyReceipt';  //正式验证地址
-
-        // 发送请求
-        $response = $this->httpPostData($url,$jsonData);
-        if ($response->status == 21007) {
-            $url = 'https://sandbox.itunes.apple.com/verifyReceipt'; //测试验证地址
-            $response = $this->httpPostData($url,$jsonData);
+        if ($params['payment'] == self::PAYMENT_APPLEPAY_INAPP) {
+            $params['payment_status'] = self::PAYMENT_STATUS_PAID_CLIENT;
         }
-
-        if($response->status == 0){
-            $params['payment_status'] = self::PAYMENT_STATUS_PAID;
-        }else{
-            $params['payment_status'] = self::PAYMENT_STATUS_CONFIRMING;
-            // $info['errno']   = $response->status;
-            // $info['message'] = $response->exception;
-        }
-        
         if ($info['errno'] == 0) {
             return $params;
         }
@@ -225,27 +198,6 @@ class CourseOrderItem extends BaseCourseOrderItem
             $remaining_time = $order->expired_at-time();
         }
         return $remaining_time;
-    }
-
-    /**
-     *  [httpPostData http验证请求]
-     *  @param  [type] $url         [description]
-     *  @param  [type] $data_string [description]
-     *  @return [type]              [description]
-     */
-    function httpPostData($url, $data_string) {
-        $curl_handle = curl_init();
-        curl_setopt($curl_handle,CURLOPT_URL, $url);
-        curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl_handle,CURLOPT_HEADER, 0);
-        curl_setopt($curl_handle,CURLOPT_POST, true);
-        curl_setopt($curl_handle,CURLOPT_POSTFIELDS, $data_string);
-        curl_setopt($curl_handle,CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt($curl_handle,CURLOPT_SSL_VERIFYPEER, 0);
-        $response_json = curl_exec($curl_handle);
-        $response = json_decode($response_json);
-        curl_close($curl_handle);
-        return $response;
     }
 
 }

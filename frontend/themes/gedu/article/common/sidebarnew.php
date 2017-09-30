@@ -33,7 +33,11 @@ $cateParent=!empty($category['pare_name'])?$category['pare_name']:'光大学校'
                           continue;
                         }
                      }else{
-                        echo Html::a($value['title'],['article/index','category_id'=>$value['id']]);
+                        if ($value['id'] == 55) {
+                            echo Html::a($value['title'],['article/view','id'=>153]);
+                        }else{
+                            echo Html::a($value['title'],['article/index','category_id'=>$value['id']]);
+                        }
                      }
                       ?>
                      </span>
