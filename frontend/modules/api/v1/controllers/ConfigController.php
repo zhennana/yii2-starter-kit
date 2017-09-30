@@ -299,6 +299,38 @@ class ConfigController extends \yii\rest\Controller
         return $data;
     }
 
+    /**
+     * @SWG\Get(path="/config/vip-card",
+     *     tags={"800-Config-配置信息接口"},
+     *     summary="获取延长卡价格与描述",
+     *     description="返回延长卡价格与描述",
+     *     produces={"application/json"},
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "返回延长卡价格与描述"
+     *     ),
+     * )
+     *
+    **/
+    public function actionVipCard()
+    {
+        if (Yii::$app->user->isGuest) {
+            return [
+                'errno'=> 203,
+                'message'=>'请先登录',
+            ];
+        }
+
+        $data = [];
+        $data = Yii::$app->params['shuo']['card_type'];
+
+        return [
+            'errno'=> 0,
+            'message'=>'OK',
+            'result' => $data
+        ];
+    }
+
      /**
      * @SWG\Post(path="/config/list-notices",
      *     tags={"800-Config-配置信息接口"},
@@ -369,8 +401,6 @@ class ConfigController extends \yii\rest\Controller
         }
         return $data;
     }
-
-
 
     /**
      * @SWG\Post(path="/config/add-notices",

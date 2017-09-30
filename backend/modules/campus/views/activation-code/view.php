@@ -8,7 +8,7 @@ use backend\modules\campus\models\ActivationCode;
 /* @var $model backend\modules\campus\models\ActivationCode */
 
 $this->title = $model->activation_code_id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '激活码'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '兑换码'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 $copyParams = $model->attributes;
 ?>

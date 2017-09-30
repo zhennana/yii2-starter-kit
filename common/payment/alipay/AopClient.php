@@ -1104,5 +1104,13 @@ class AopClient {
 
 	}
 
+	//请确保项目文件有可写权限，不然打印不了日志。
+    function writeLog($text) {
+        // $text=iconv("GBK", "UTF-8//IGNORE", $text);
+        //$text = characet ( $text );
+        // var_dump(dirname ( __FILE__ ).DIRECTORY_SEPARATOR."../../../frontend/runtime/payment/call_back.log", date ( "Y-m-d H:i:s" ) . "  " . $text . "\r\n", FILE_APPEND);exit;
+        file_put_contents ( dirname ( __FILE__ ).DIRECTORY_SEPARATOR."../../../frontend/runtime/payment/call_back.log", date ( "Y-m-d H:i:s" ) . "  " . $text . "\r\n", FILE_APPEND );
+    }
+
 
 }

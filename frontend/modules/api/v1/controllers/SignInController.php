@@ -842,8 +842,8 @@ class SignInController extends \common\components\ControllerFrontendApi
     /**
      * @SWG\Post(path="/sign-in/activation-code",
      *     tags={"100-SignIn-用户接口"},
-     *     summary="激活码激活",
-     *     description="提交用户ID与激活码做验证",
+     *     summary="兑换码激活",
+     *     description="提交用户ID与兑换码做验证",
      *     produces={"application/json"},
      *     @SWG\Parameter(
      *        in = "formData",
@@ -856,7 +856,7 @@ class SignInController extends \common\components\ControllerFrontendApi
      *     @SWG\Parameter(
      *        in = "formData",
      *        name = "activation_code",
-     *        description = "激活码",
+     *        description = "兑换码",
      *        required = true,
      *        default = "123456",
      *        type = "string"
@@ -870,7 +870,7 @@ class SignInController extends \common\components\ControllerFrontendApi
      */
     public function actionActivationCode()
     {
-        // 查询激活码，状态未使用
+        // 查询兑换码，状态未使用
         // 创建订单，返回course_order_item_id，存入表activation_code对应字段
         // errorno = 1 已经使用
         $info = [
@@ -886,7 +886,7 @@ class SignInController extends \common\components\ControllerFrontendApi
         }
         if (!isset($post['activation_code']) && empty($post['activation_code'])) {
             $info['errorno'] = __LINE__;
-            $info['message'] = Yii::t('frontend','请输入激活码');
+            $info['message'] = Yii::t('frontend','请输入兑换码');
             return $info;
         }
         // 校验用户
@@ -897,12 +897,12 @@ class SignInController extends \common\components\ControllerFrontendApi
             return $info;
         }
 
-        // 校验激活码
+        // 校验兑换码
         $codeModel = ActivationCode::checkCode($post['activation_code']);
 
         if (!$codeModel) {
             $info['errorno'] = __LINE__;
-            $info['message'] = Yii::t('frontend','无效的激活码');
+            $info['message'] = Yii::t('frontend','无效的兑换码');
             return $info;
         }
 
@@ -914,7 +914,7 @@ class SignInController extends \common\components\ControllerFrontendApi
             $info['message'] = $order['message'];
             return $info;
         }
-        // 更新激活码
+        // 更新兑换码
         $codeModel = $codeModel->updateCode($order['model']);
 
         if (!$codeModel) {

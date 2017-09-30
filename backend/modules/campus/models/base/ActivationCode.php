@@ -168,8 +168,8 @@ abstract class ActivationCode extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'activation_code_id' => Yii::t('models', '激活码ID'),
-            'activation_code' => Yii::t('models', '激活码'),
+            'activation_code_id' => Yii::t('models', '兑换码ID'),
+            'activation_code' => Yii::t('models', '兑换码'),
             'course_order_item_id' => Yii::t('models', '订单ID'),
             'school_id' => Yii::t('models', '学校'),
             'grade_id' => Yii::t('models', 'Grade ID'),
@@ -199,8 +199,8 @@ abstract class ActivationCode extends \yii\db\ActiveRecord
             // 'introducer_id' => Yii::t('models', '创建者'),
             // 'payment' => Yii::t('models', '100 在线支付； 110 支付宝 支付 ； 111 微信支付；  200 货到付款'),
             // 'status' => Yii::t('models', '10未激活，20已经激活'),
-            'total_price' => Yii::t('models', '每个激活码的价格'),
-            'real_price' => Yii::t('models', '每个激活码减免优惠后的价格'),
+            'total_price' => Yii::t('models', '每个兑换码的价格'),
+            'real_price' => Yii::t('models', '每个兑换码减免优惠后的价格'),
             'coupon_price' => Yii::t('models', '不能超过实际付款'),
             // 'coupon_type' => Yii::t('models', '2首单减免,3随机减免'),
             'expired_at' => Yii::t('models', '过期后无法使用'),
