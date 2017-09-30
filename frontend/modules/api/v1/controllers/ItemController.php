@@ -27,9 +27,14 @@ class ItemController extends \yii\rest\ActiveController
 {
     public $modelClass = '\backend\modules\campus\models\Courseware';
 
+    /**
+     * @var array
+     */
     public $serializer = [
-        'class' => 'yii\rest\Serializer',
-        'collectionEnvelope' => 'items',
+        'class' => 'common\rest\Serializer',    // 返回格式数据化字段
+        'collectionEnvelope' => 'result',       // 制定数据字段名称
+        // 'errno' => 0,                           // 错误处理数字
+        'message' => 'OK',                      // 文本提示
     ];
 
     public function beforeAction($action)

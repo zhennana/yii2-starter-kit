@@ -66,13 +66,14 @@ class CoursewareToFile extends BaseCoursewareToFile
         $index = (int)$value['courseware_id'];
         
 
-        $info[$index]['music_id'] = $value['courseware_id'];
-        $info[$index]['title']    = $value['title'];
-        $info[$index]['lyric']    = '';
-        $info[$index]['tags']     = $value['tags'];
-        $info[$index]['page_view']= $value['page_view'];
+        $info[$index]['music_id']   = $value['courseware_id'];
+        $info[$index]['title']      = $value['title'];
+        $info[$index]['lyric']      = '';
+        $info[$index]['sort']       = $value->sort;
+        $info[$index]['tags']       = $value['tags'];
+        $info[$index]['page_view']  = $value['page_view'];
         $info[$index]['banner_src'] = '';
-        $info[$index]['music_src'] = '';
+        $info[$index]['music_src']  = '';
         $info[$index]['attachment'] =[];
 
         foreach ($value->toFile as $k => $v) {
@@ -100,6 +101,7 @@ class CoursewareToFile extends BaseCoursewareToFile
         }
         $value->save(false);
     }
+    ArrayHelper::multisort($info,'sort',SORT_DESC);
     return $info;
   }
  
@@ -113,6 +115,7 @@ class CoursewareToFile extends BaseCoursewareToFile
       $info[$index]['book_id'] = $value['courseware_id'];
       $info[$index]['title']    = $value['title'];
       $info[$index]['lyric']     = $value['body'];
+      $info[$index]['sort'] = $value->sort;
       $info[$index]['tags']     = $value['tags'];
       $info[$index]['page_view']= $value['page_view'];
       $info[$index]['banner_src'] = '';
@@ -152,6 +155,7 @@ class CoursewareToFile extends BaseCoursewareToFile
       $value->save(false);
 
     }
+    ArrayHelper::multisort($info,'sort',SORT_DESC);
       return $info;
 
   }
@@ -174,6 +178,7 @@ class CoursewareToFile extends BaseCoursewareToFile
         $info[$index]['video_id'] = $value->courseware_id;
         $info[$index]['title'] = $value->title;
         $info[$index]['body'] = $value->body;
+        $info[$index]['sort'] = $value->sort;
         $info[$index]['tags']     = $value['tags'];
         $info[$index]['page_view']= $value['page_view'];
         $info[$index]['banner_src'] = '';
@@ -208,7 +213,7 @@ class CoursewareToFile extends BaseCoursewareToFile
 
         $value->save(false);
       }
-
+      ArrayHelper::multisort($info,'sort',SORT_DESC);
       return $info;
     }
 
@@ -219,6 +224,7 @@ class CoursewareToFile extends BaseCoursewareToFile
             return $query;
           }])
           ->where(['category_id'=>$category_id,'status'=>Courseware::COURSEWARE_STATUS_VALID])
+          ->orderBy('sort DESC')
           ->all();
     }
 
