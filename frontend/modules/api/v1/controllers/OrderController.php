@@ -422,7 +422,7 @@ Receipt: {"Store":"fake","TransactionID":"bc0df36d-13be-4d9f-b9d1-4d980d11c402",
      */
     public function actionActivationCode()
     {
-        // 查询激活码，状态未使用
+        // 查询兑换码，状态未使用
         // 创建订单，返回course_order_item_id，存入表activation_code对应字段
         // errorno = 1 已经使用
         $info = [
@@ -449,7 +449,7 @@ Receipt: {"Store":"fake","TransactionID":"bc0df36d-13be-4d9f-b9d1-4d980d11c402",
             return $info;
         }
 
-        // 校验激活码
+        // 校验兑换码
         $codeModel = ActivationCode::checkCode($post['activation_code']);
 
         if (!$codeModel) {
@@ -466,7 +466,7 @@ Receipt: {"Store":"fake","TransactionID":"bc0df36d-13be-4d9f-b9d1-4d980d11c402",
             $info['message'] = $order['message'];
             return $info;
         }
-        // 更新激活码
+        // 更新兑换码
         $codeModel = $codeModel->updateCode($order['model']);
 
         if (!$codeModel) {

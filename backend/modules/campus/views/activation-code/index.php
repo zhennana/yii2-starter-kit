@@ -9,7 +9,7 @@ use backend\modules\campus\models\ActivationCode;
 /* @var $searchModel backend\modules\campus\models\search\ActivationCodeSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('backend', '激活码');
+$this->title = Yii::t('backend', '兑换码');
 $this->params['breadcrumbs'][] = $this->title;
 
 

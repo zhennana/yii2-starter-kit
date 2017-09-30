@@ -36,7 +36,7 @@ class CourseOrderItem extends BaseCourseOrderItem
     }
 
     /**
-     *  [createActivationOrder 创建激活码订单]
+     *  [createActivationOrder 创建兑换码订单]
      *  @param  [type] $codeModel [description]
      *  @param  [type] $params    [description]
      *  @return [type]            [description]
@@ -51,7 +51,7 @@ class CourseOrderItem extends BaseCourseOrderItem
         $model = new self;
         if (!$codeModel) {
             $info['errorno'] = __LINE__;
-            $info['message'] = Yii::t('frontend','无效的激活码');
+            $info['message'] = Yii::t('frontend','无效的兑换码');
             return $info;
         }
 
