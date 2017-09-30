@@ -3,13 +3,13 @@ namespace frontend\modules\api\v1\controllers;
 
 use Yii;
 use yii\web\Response;
-
+use cheatsheet\Time;
 use common\payment\alipay\buildermodel\AlipayTradeWapPayContentBuilder;
 use common\payment\alipay\AlipayTradeService;
 
 use common\models\User;
 
-use frontend\models\gedu\resources\Courseware;
+use frontend\modules\api\v1\resources\ActivationCode;
 
 class OrderController extends \common\rest\Controller
 {
@@ -75,7 +75,7 @@ class OrderController extends \common\rest\Controller
     /**
      * @SWG\Post(path="/order/create",
      *     tags={"600-Order-课程订单接口"},
-     *     summary="APPLE订单创建",
+     *     summary="APPLE内购订单创建[待删除，请更换为create v2]",
      *     description="成功，返回订单数据",
      *     produces={"application/json"},
      *     @SWG\Parameter(
@@ -88,29 +88,29 @@ class OrderController extends \common\rest\Controller
      *     ),
      *     @SWG\Parameter(
      *        in = "formData",
-     *        name = "expired_at",
-     *        description = "过期时间，1=1秒，默认一个月2592000秒",
+     *        name = "days",
+     *        description = "延长时间，单位：天",
      *        required = true,
      *        type = "integer",
-     *        default = "2592000"
+     *        default = "1"
      *     ),
      *     @SWG\Parameter(
      *        in = "formData",
      *        name = "payment",
-     *        description = "支付方式：100在线支付；110支付宝；111微信支付；115苹果商店内购支付；116苹果支付；200货到付款",
+     *        description = "115苹果商店内购支付",
      *        required = true,
      *        type = "integer",
      *        default = 115,
-     *        enum = {100,110,111,115,116,200}
+     *        enum = {115}
      *     ),
      *     @SWG\Parameter(
      *        in = "formData",
      *        name = "status",
-     *        description = "订单状态 10有效；20无效",
+     *        description = "订单状态 10有效",
      *        required = true,
      *        type = "integer",
      *        default = 10,
-     *        enum = {10,20}
+     *        enum = {10}
      *     ),
      *     @SWG\Parameter(
      *        in = "formData",
@@ -198,22 +198,292 @@ Receipt: {"Store":"fake","TransactionID":"bc0df36d-13be-4d9f-b9d1-4d980d11c402",
         $message['message'] = Yii::t('frontend','创建成功');
         $message['order'] = [
             'course_order_item_id' => $model->course_order_item_id,
+            'order_sn' => $model->order_sn,
             'user_id' => $model->user_id,
             'total_price' => $model->total_price,
             'expired_at' => $model->expired_at,
         ];
         return $message;
-        // if (is_object($model)) {
-        //     $from = $model->wapAlipay();
-        // }
+    }
 
-        // if (isset($from['errno']) && $from['errno'] != 0) {
-        //     $this->serializer['errno']   = $from['errno'];
-        //     $this->serializer['message'] = $from['message'];
-        //     return [];
-        // }
-        // $from = ['wappay' => $from];
-        // return $model;
+    /**
+     * @SWG\Post(path="/order/create-v2",
+     *     tags={"600-Order-课程订单接口"},
+     *     summary="订单创建",
+     *     description="成功，返回订单数据",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "school_id",
+     *        description = "学校ID",
+     *        required = true,
+     *        type = "integer",
+     *        default = 3
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "payment",
+     *        description = "110支付宝；111微信支付；115苹果商店内购支付；200货到付款",
+     *        required = true,
+     *        type = "integer",
+     *        default = 110,
+     *        enum = {110,111,115,200}
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "card_type",
+     *        description = "延长卡类型:probation体验卡；week_card周卡；month_card月卡；half_year_card半年卡；year_card年卡",
+     *        required = true,
+     *        type = "string",
+     *        default = "probation",
+     *        enum = {"probation","week_card","month_card","half_year_card","year_card"}
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "total_price",
+     *        description = "总价",
+     *        required = true,
+     *        type = "number",
+     *        default = 12
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "coupon_type",
+     *        description = "优惠类型 2首单减免；3随机减免",
+     *        required = false,
+     *        type = "integer",
+     *        enum = {2,3}
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "coupon_price",
+     *        description = "优惠金额",
+     *        required = false,
+     *        type = "number"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "real_price",
+     *        description = "实际付款",
+     *        required = true,
+     *        type = "number",
+     *        default = 12
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "data",
+     *        description = "苹果内购票据，json格式，支付方式为苹果内购时不能为空",
+     *        required = false,
+     *        type = "string",
+     *        default = "Receipt data"
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "成功返回订单信息，失败返回具体信息"
+     *     )
+     * )
+     *
+    **/
+    public function actionCreateV2()
+    {
+        if(Yii::$app->user->isGuest){
+            $this->serializer['errno'] = __LINE__;
+            $this->serializer['message'] = Yii::t('frontend','请登录');
+            return [];
+        }
+        $data = [];
+        $modelClass = $this->modelClass;
+        $order      = new $modelClass;
+
+        $model = $order->processOrderV2();
+        if (isset($model['errno']) && $model['errno'] !== 0) {
+            $this->serializer['errno']   = $model['errno'];
+            $this->serializer['message'] = $model['message'];
+            return [];
+        }
+
+        if (!is_object($model)) {
+            $this->serializer['errno']   = $model['errno'];
+            $this->serializer['message'] = $model['message'];
+            return [];
+        }
+
+        if ($model->payment == $modelClass::PAYMENT_ALIPAY) {
+            $data = $model->appAlipay();
+        }elseif($model->payment == $modelClass::PAYMENT_WECHAT){
+            // $data = $model->appWechatpay();
+        }
+
+        if (isset($data['errno']) && $data['errno'] != 0) {
+            $this->serializer['errno']   = $data['errno'];
+            $this->serializer['message'] = $data['message'];
+            return [];
+        }
+
+        return $data;
+    }
+
+    /**
+     * @SWG\Post(path="/order/continue-pay",
+     *     tags={"600-Order-课程订单接口"},
+     *     summary="继续支付接口",
+     *     description="适用于支付未完成后的再次支付",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "course_order_item_id",
+     *        description = "课程订单_id",
+     *        required = true,
+     *        default = 1,
+     *        type = "integer"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "payment",
+     *        description = "110支付宝；111微信支付;",
+     *        required = true,
+     *        type = "integer",
+     *        default = 110,
+     *        enum = {110,111}
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "返回请求支付宝form表单"
+     *     )
+     * )
+     */
+    public function actionContinuePay()
+    {
+        if (!isset($_POST['course_order_item_id']) || empty($_POST['course_order_item_id'])) {
+            $this->serializer['errno']   = __LINE__;
+            $this->serializer['message'] = '订单ID不能为空!';
+            return [];
+        }
+        $data = [];
+        $modelClass = $this->modelClass;
+        $model      = $modelClass::findOne($_POST['course_order_item_id']);
+        if (!$model) {
+            $this->serializer['errno']   = __LINE__;
+            $this->serializer['message'] = 'ID为'.$_POST['course_order_item_id'].'的订单不存在!';
+            return [];
+        }
+
+        // 验证订单数据
+        $validate = $model->validateOrderV2($model->attributes);
+        if (isset($validate['errno']) && $validate['errno'] != 0) {
+            $this->serializer['errno']   = $validate['errno'];
+            $this->serializer['message'] = $validate['message'];
+            return [];
+        }
+
+        if ($_POST['payment'] == $modelClass::PAYMENT_ALIPAY) {
+            $data = $model->appAlipay();
+        }elseif($_POST['payment'] == $modelClass::PAYMENT_WECHAT){
+            // $data = $model->appWechatpay();
+        }
+
+        if (isset($data['errno']) && $data['errno'] != 0) {
+            $this->serializer['errno']   = $data['errno'];
+            $this->serializer['message'] = $data['message'];
+            return [];
+        }
+
+        return $data;
+    }
+
+    /**
+     * @SWG\Post(path="/order/activation-code",
+     *     tags={"600-Order-课程订单接口"},
+     *     summary="兑换码激活",
+     *     description="提交用户ID与兑换码做验证",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "user_id",
+     *        description = "用户ID，注意提交谁的激活谁的",
+     *        default = "123456",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "activation_code",
+     *        description = "兑换码",
+     *        required = true,
+     *        default = "123456",
+     *        type = "string"
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "返回激活信息"
+     *     )
+     * )
+     *
+     */
+    public function actionActivationCode()
+    {
+        // 查询激活码，状态未使用
+        // 创建订单，返回course_order_item_id，存入表activation_code对应字段
+        // errorno = 1 已经使用
+        $info = [
+            'errorno' => '0',
+            'message' => '',
+        ];
+        $post = Yii::$app->request->post();
+
+        if (!isset($post['user_id']) && empty($post['user_id'])) {
+            $info['errorno'] = __LINE__;
+            $info['message'] = Yii::t('frontend','请输入user id');
+            return $info;
+        }
+        if (!isset($post['activation_code']) && empty($post['activation_code'])) {
+            $info['errorno'] = __LINE__;
+            $info['message'] = Yii::t('frontend','请输入兑换码');
+            return $info;
+        }
+        // 校验用户
+        $user = User::find()->where(['id' => $post['user_id']])->active()->one();
+        if (!$user) {
+            $info['errorno'] = __LINE__;
+            $info['message'] = Yii::t('frontend','该用户不存在');
+            return $info;
+        }
+
+        // 校验激活码
+        $codeModel = ActivationCode::checkCode($post['activation_code']);
+
+        if (!$codeModel) {
+            $info['errorno'] = __LINE__;
+            $info['message'] = Yii::t('frontend','无效的兑换码');
+            return $info;
+        }
+
+        // 创建订单
+        $order = new CourseOrderItem;
+        $order = $order->createActivationOrder($codeModel,$post);
+        if ($order['errorno'] != '0' && $order['model'] == null) {
+            $info['errorno'] = $order['errorno'];
+            $info['message'] = $order['message'];
+            return $info;
+        }
+        // 更新激活码
+        $codeModel = $codeModel->updateCode($order['model']);
+
+        if (!$codeModel) {
+            $info['errorno'] = __LINE__;
+            $info['message'] = Yii::t('frontend','数据异常');
+            return $info;
+        }
+
+        return [
+            'errorno' => '0',
+            'message' => Yii::t(
+                'frontend', 
+               // 'Your account has been successfully activated.'
+               '成功激活'
+            )
+        ];
+
     }
 
     /**
@@ -257,9 +527,10 @@ Receipt: {"Store":"fake","TransactionID":"bc0df36d-13be-4d9f-b9d1-4d980d11c402",
         }
 
         $message['errorno'] = 0;
-        $message['message'] = Yii::t('frontend','查询成功');;
+        $message['message'] = Yii::t('frontend','查询成功');
         $message['order'] = [
             'course_order_item_id' => $order->course_order_item_id,
+            'order_sn' => $order->order_sn,
             'user_id' => $order->user_id,
             'total_price' => $order->total_price,
             'expired_at' => $order->expired_at,
@@ -269,161 +540,44 @@ Receipt: {"Store":"fake","TransactionID":"bc0df36d-13be-4d9f-b9d1-4d980d11c402",
     }
 
     /**
-     * @SWG\Post(path="/order/alipay",
+     * @SWG\Get(path="/order/check-expired",
      *     tags={"600-Order-课程订单接口"},
-     *     summary="支付宝支付接口[未配置]",
-     *     description="返回请求支付宝form表单",
+     *     summary="查询用户使用到期时间",
+     *     description="返回当前登录用户的使用到期时间",
      *     produces={"application/json"},
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "course_order_item_id",
-     *        description = "课程订单_id",
-     *        required = true,
-     *        default = 1,
-     *        type = "integer"
-     *     ),
      *     @SWG\Response(
      *         response = 200,
-     *         description = "返回请求支付宝form表单"
+     *         description = "返回当前登录用户的使用到期时间"
      *     )
      * )
      */
-    public function actionAlipay()
+    public function actionCheckExpired()
     {
-        return 'alipay未配置';
-
-        if (!isset($_POST['course_order_item_id']) || empty($_POST['course_order_item_id'])) {
-            $message['errorno']   = __LINE__;
-            $message['message'] = 'Order ID Can Not Be Null!';
+        if (Yii::$app->user->isGuest) {
+            $this->serializer['errno'] = __LINE__;
+            $this->serializer['message'] = Yii::t('frontend','请登录');
             return [];
         }
+        $expired_at = 0;
+        $data       = [];
 
         $modelClass = $this->modelClass;
-        $model      = $modelClass::findOne($_POST['course_order_item_id']);
-
-        if (!$model) {
-            $message['errorno']   = __LINE__;
-            $message['message'] = 'A Order With ID '.$_POST['course_order_item_id'].' Does Not Exist!';
-            return [];
+        $order = $modelClass::find()->where([
+            'user_id'        => Yii::$app->user->identity->id,
+            'status'         => $modelClass::STATUS_VALID,
+            'payment_status' => [$modelClass::PAYMENT_STATUS_PAID,$modelClass::PAYMENT_STATUS_PAID_CLIENT],
+        ])->orderBy('expired_at DESC')->one();
+        if ($order) {
+            $expired_at = $order->expired_at;
         }
 
-        // 验证订单数据
-        $validate = $model->validateAppleOrder($model->attributes);
-        if (isset($validate['errno']) && $validate['errno'] != 0) {
-            $message['errorno']   = $validate['errno'];
-            $message['message'] = $validate['message'];
-            return [];
-        }
-
-        return $validate;
-        /*
-        // 调用支付宝支付方法
-        $from = $model->wapAlipay();
-        if (isset($from['errno']) && $from['errno'] != 0) {
-            $message['errorno']   = $from['errno'];
-            $message['message'] = $from['message'];
-            return [];
-        }
-
-        $message['errorno'] = 0;
-        $message['message'] = Yii::t('frontend','查询成功');;
-        $message['order'] = ['wappay' => $from];
-        return $message;
-        */
-    }
-
-    /**
-     * @SWG\Post(path="/order/activation-code",
-     *     tags={"600-Order-课程订单接口"},
-     *     summary="激活码激活",
-     *     description="提交用户ID与激活码做验证",
-     *     produces={"application/json"},
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "user_id",
-     *        description = "用户ID，注意提交谁的激活谁的",
-     *        default = "123456",
-     *        required = true,
-     *        type = "string"
-     *     ),
-     *     @SWG\Parameter(
-     *        in = "formData",
-     *        name = "activation_code",
-     *        description = "激活码",
-     *        required = true,
-     *        default = "123456",
-     *        type = "string"
-     *     ),
-     *     @SWG\Response(
-     *         response = 200,
-     *         description = "返回激活信息"
-     *     )
-     * )
-     *
-     */
-    public function actionActivationCode()
-    {
-        // 查询激活码，状态未使用
-        // 创建订单，返回course_order_item_id，存入表activation_code对应字段
-        // errorno = 1 已经使用
-        $info = [
-            'errorno' => '0',
-            'message' => '',
-        ];
-        $post = Yii::$app->request->post();
-
-        if (!isset($post['user_id']) && empty($post['user_id'])) {
-            $info['errorno'] = __LINE__;
-            $info['message'] = Yii::t('frontend','请输入user id');
-            return $info;
-        }
-        if (!isset($post['activation_code']) && empty($post['activation_code'])) {
-            $info['errorno'] = __LINE__;
-            $info['message'] = Yii::t('frontend','请输入激活码');
-            return $info;
-        }
-        // 校验用户
-        $user = User::find()->where(['id' => $post['user_id']])->active()->one();
-        if (!$user) {
-            $info['errorno'] = __LINE__;
-            $info['message'] = Yii::t('frontend','该用户不存在');
-            return $info;
-        }
-
-        // 校验激活码
-        $codeModel = ActivationCode::checkCode($post['activation_code']);
-
-        if (!$codeModel) {
-            $info['errorno'] = __LINE__;
-            $info['message'] = Yii::t('frontend','无效的激活码');
-            return $info;
-        }
-
-        // 创建订单
-        $order = new CourseOrderItem;
-        $order = $order->createActivationOrder($codeModel,$post);
-        if ($order['errorno'] != '0' && $order['model'] == null) {
-            $info['errorno'] = $order['errorno'];
-            $info['message'] = $order['message'];
-            return $info;
-        }
-        // 更新激活码
-        $codeModel = $codeModel->updateCode($order['model']);
-
-        if (!$codeModel) {
-            $info['errorno'] = __LINE__;
-            $info['message'] = Yii::t('frontend','数据异常');
-            return $info;
-        }
-
-        return [
-            'errorno' => '0',
-            'message' => Yii::t(
-                'frontend', 
-               // 'Your account has been successfully activated.'
-               '成功激活'
-            )
+        $this->serializer['message'] = Yii::t('frontend','查询成功');
+        $data = [
+            'user_id'    => Yii::$app->user->identity->id,
+            'time_stamp' => $expired_at,
+            'expired_at' => date('Y-m-d H:i:s',$expired_at),
         ];
 
+        return $data;
     }
 }

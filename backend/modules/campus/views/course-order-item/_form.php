@@ -67,27 +67,31 @@ if(env('THEME') == 'gedu'){
 <?php }?>
 
 <!-- attribute user_id -->
-			<?= $form->field($model, 'user_id')->widget(Select2::className(),[
-                'data'              => $user,
-                "maintainOrder"     => true,
-                'options' => [
-                    'placeholder' => '请选择'
-                ],
-                'pluginOptions' => [ 
-                    'allowClear' => true
-                ]
-            ]); ?>
-<?php
-    if(env('THEME') == 'gedu'){
-        echo $form->field($model,'course_id')->widget(Select2::ClassName(),[
-                    'data'          => isset($course)?$course: [],
-                   // 'options'       => ['placeholder' => '请选择'],
-                    'pluginOptions' => [
-                        'allowClear'=> true,
-                    ],
-            ]) ;
-    }
-?>
+			<?php
+                if (env('THEME') != 'shuo') {
+                    echo $form->field($model, 'user_id')->widget(Select2::className(),[
+                        'data'              => $user,
+                        "maintainOrder"     => true,
+                        'options' => [
+                            'placeholder' => '请选择'
+                        ],
+                        'pluginOptions' => [ 
+                            'allowClear' => true
+                        ]
+                    ]);
+                }
+              ?>
+            <?php
+                if(env('THEME') == 'gedu'){
+                    echo $form->field($model,'course_id')->widget(Select2::ClassName(),[
+                                'data'          => isset($course)?$course: [],
+                               // 'options'       => ['placeholder' => '请选择'],
+                                'pluginOptions' => [
+                                    'allowClear'=> true,
+                                ],
+                        ]) ;
+                }
+            ?>
 <?php if(env('THEME') != 'gedu'){?>
 <!-- attribute total_course -->
             <?= $form->field($model, 'total_course')->textInput() ?>

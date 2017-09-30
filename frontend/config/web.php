@@ -144,6 +144,38 @@ $config = [
 
                         ],
                 ],
+                'shuo' => [
+                    'alipay' => [
+                        'app_id' => "2017092608934297", // 说说说
+
+                        //商户私钥，您的原始格式RSA私钥
+                        'merchant_private_key' => Yii::getAlias('@common').'/payment/alipay/cert/shuo_rsa_private_key.pem',
+
+                        //异步通知地址
+                        'notify_url' => 'http://'.$_SERVER['HTTP_HOST'].'/shuo_alipay_notify.php',
+
+                        //编码格式
+                        'charset' => "UTF-8",
+
+                        //签名方式
+                        'sign_type'=>"RSA2",
+
+                        // 仅支持JSON
+                        'format' => 'JSON',
+
+                        // 该笔订单允许的最晚付款时间，逾期将关闭交易。非必填，默认值15d
+                        'timeout_express' => '1m',
+
+                        //销售产品码，商家和支付宝签约的产品码，为固定值
+                        'product_code' => 'QUICK_MSECURITY_PAY',
+
+                        //支付宝网关
+                        'gatewayUrl' => "https://openapi.alipay.com/gateway.do",
+
+                        //支付宝公钥,查看地址：https://openhome.alipay.com/platform/keyManage.htm 对应APPID下的支付宝公钥。
+                        'alipay_public_key' => Yii::getAlias('@common').'/payment/alipay/cert/shuo_alipay_public_key.pem',
+                    ],
+                ],
             ],
 
     ],
