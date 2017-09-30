@@ -399,8 +399,8 @@ class CourseOrderItem extends BaseCourseOrderItem
             $result['message'] = '密钥不存在';
             return $result;
         }
-        $alipay_config['merchant_private_key'] = openssl_pkcs12_read($alipay_config['merchant_private_key']);
-        $alipay_config['alipay_public_key']    = openssl_pkcs12_read($alipay_config['alipay_public_key']);
+        // $alipay_config['merchant_private_key'] = file_get_contents($alipay_config['merchant_private_key']);
+        $alipay_config['alipay_public_key']    = file_get_contents($alipay_config['alipay_public_key']);
 
         // 组装业务参数
         if (isset(Yii::$app->params['shuo']['card_type'][$this->data])) {
@@ -410,13 +410,13 @@ class CourseOrderItem extends BaseCourseOrderItem
         }
 
         $aop = new AopClient;
-        $aop->gatewayUrl         = $alipay_config['gatewayUrl'];
-        $aop->appId              = $alipay_config['app_id'];
-        $aop->rsaPrivateKey      = $alipay_config['merchant_private_key'];
-        $aop->format             = $alipay_config['format'];
-        $aop->charset            = $alipay_config['charset'];
-        $aop->signType           = $alipay_config['sign_type'];
-        $aop->alipayrsaPublicKey = $alipay_config['alipay_public_key'];
+        $aop->gatewayUrl            = $alipay_config['gatewayUrl'];
+        $aop->appId                 = $alipay_config['app_id'];
+        $aop->rsaPrivateKeyFilePath = $alipay_config['merchant_private_key'];
+        $aop->format                = $alipay_config['format'];
+        $aop->charset               = $alipay_config['charset'];
+        $aop->signType              = $alipay_config['sign_type'];
+        $aop->alipayrsaPublicKey    = $alipay_config['alipay_public_key'];
 
         $request = new AlipayTradeAppPayRequest();
 
