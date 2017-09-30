@@ -399,8 +399,8 @@ class CourseOrderItem extends BaseCourseOrderItem
             $result['message'] = '密钥不存在';
             return $result;
         }
-        $alipay_config['merchant_private_key'] = file_get_contents($alipay_config['merchant_private_key']);
-        $alipay_config['alipay_public_key']    = file_get_contents($alipay_config['alipay_public_key']);
+        $alipay_config['merchant_private_key'] = openssl_pkcs12_read($alipay_config['merchant_private_key']);
+        $alipay_config['alipay_public_key']    = openssl_pkcs12_read($alipay_config['alipay_public_key']);
 
         // 组装业务参数
         if (isset(Yii::$app->params['shuo']['card_type'][$this->data])) {
