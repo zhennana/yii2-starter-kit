@@ -88,8 +88,8 @@ class OrderController extends \common\rest\Controller
      *     ),
      *     @SWG\Parameter(
      *        in = "formData",
-     *        name = "days",
-     *        description = "延长时间，单位：天",
+     *        name = "expired_at",
+     *        description = "[days临时改为expired_at]延长时间，单位：天",
      *        required = true,
      *        type = "integer",
      *        default = "1"

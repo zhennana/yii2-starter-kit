@@ -145,11 +145,14 @@ class CourseOrderItem extends BaseCourseOrderItem
         }
 
         // 验证过期时间
-        if (!isset($params['days']) || empty($params['days'])) {
+        if (!isset($params['expired_at']) || empty($params['expired_at'])) {
             $info['errno']   = __LINE__;
             $info['message'] = '延长时间不能为空!';
             return $info;
         }
+
+        // 临时更改字段
+        $params['days'] = $params['expired_at'];
 
         // 获取过期时间
         $params['expired_at'] = $this->getRemainingTime($params['user_id'],$params['days']);
