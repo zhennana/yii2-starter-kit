@@ -998,9 +998,18 @@ class SignInController extends \common\components\ControllerFrontendApi
      */
     public function actionLogout()
     {
-        Yii::$app->user->logout();
-        exit();
-        // return $this->goHome();
+        if(isset(Yii::$app->user->identity->id)){
+            //var_dump(Yii::$app->user->identity->id);exit;
+            $proFileUser = Yii::$app->user->identity->userProfile;
+            $proFileUser->clientid = '';
+            $proFileUser->client_source_type = '';
+            $proFileUser->save();
+        }
+        if(Yii::$app->user->logout()){
+            return true;
+        }else{
+            return false;
+        };
     }
 
     public function actiolAuthKey()
