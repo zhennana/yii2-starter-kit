@@ -93,7 +93,7 @@ class AopClient {
 			$priKey=$this->rsaPrivateKey;
 			$res = "-----BEGIN RSA PRIVATE KEY-----\n" .
 				wordwrap($priKey, 64, "\n", true) .
-				"\n-----END RSA PRIVATE KEY-----";
+				"-----END RSA PRIVATE KEY-----";
 		}else {
 			$priKey = file_get_contents($this->rsaPrivateKeyFilePath);
 			$res = openssl_get_privatekey($priKey);
@@ -1103,6 +1103,14 @@ class AopClient {
 		}
 
 	}
+
+	//请确保项目文件有可写权限，不然打印不了日志。
+    function writeLog($text) {
+        // $text=iconv("GBK", "UTF-8//IGNORE", $text);
+        //$text = characet ( $text );
+        // var_dump(dirname ( __FILE__ ).DIRECTORY_SEPARATOR."../../../frontend/runtime/payment/call_back.log", date ( "Y-m-d H:i:s" ) . "  " . $text . "\r\n", FILE_APPEND);exit;
+        file_put_contents ( dirname ( __FILE__ ).DIRECTORY_SEPARATOR."../../../frontend/runtime/payment/call_back.log", date ( "Y-m-d H:i:s" ) . "  " . $text . "\r\n", FILE_APPEND );
+    }
 
 
 }
