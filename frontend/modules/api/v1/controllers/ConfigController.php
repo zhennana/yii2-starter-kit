@@ -321,8 +321,13 @@ class ConfigController extends \yii\rest\Controller
         //     ];
         // }
 
-        $data = [];
-        $data = Yii::$app->params['shuo']['card_type'];
+        $params = $temp = $data = [];
+        $params = Yii::$app->params['shuo']['card_type'];
+        foreach ($params as $key => $value) {
+            $temp = $value;
+            $temp['type'] = $key;
+            $data[] = $temp;
+        }
 
         return [
             'errno'=> 0,
