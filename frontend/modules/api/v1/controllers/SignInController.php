@@ -465,7 +465,7 @@ class SignInController extends \common\components\ControllerFrontendApi
             $info['password_hash'] = Yii::$app->getSecurity()->generatePasswordHash($password);
         }
         $user->updateAttributes($info);
-        // $userToken->delete();
+        $userToken->delete();
 
         // 创建赠送订单
         $order = new CourseOrderItem;
