@@ -441,7 +441,7 @@ class CourseOrderItem extends BaseCourseOrderItem
         $response = $aop->sdkExecute($request);
 
         //防止被浏览器将关键参数html转义
-        return htmlspecialchars($response);
+        return $response;
     }
 
     /**
