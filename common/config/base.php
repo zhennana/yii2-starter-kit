@@ -298,7 +298,7 @@ $config = [
             'card_type' => [
                 'probation' => [
                     'card_name' => '体验卡',
-                    'price' => 12,
+                    'price' => 0.01,
                     'time' => 2,
                 ],
                 'week_card' => [
