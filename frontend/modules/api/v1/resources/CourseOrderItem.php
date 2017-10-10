@@ -465,4 +465,27 @@ class CourseOrderItem extends BaseCourseOrderItem
         return $expired_at;
     }
 
+    /**
+     *  [createFreeOne 新用户注册免费赠送订单]
+     *  @param  [type] $user_id [description]
+     *  @return [type]          [description]
+     */
+    public function createFreeOne($user_id)
+    {
+        $params['school_id']      = 3;
+        $params['user_id']        = $user_id;
+        $params['order_sn']       = $this->builderNumber();
+        $params['status']         = self::STATUS_VALID;
+        $params['payment']        = self::PAYMENT_FREE;
+        $params['payment_status'] = self::PAYMENT_STATUS_PAID;
+        $params['total_course']   = 0;
+        $params['total_price']    = 0;
+        $params['coupon_price']   = 0;
+        $params['days']           = 7;
+        $params['data']           = 'free';
+        $params['expired_at']     = $this->getRemainingTime($user_id, $params['days']);;
+
+        return $this->createOrderOne($params);
+    }
+
 }

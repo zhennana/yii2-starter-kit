@@ -447,7 +447,7 @@ class SignInController extends \common\components\ControllerFrontendApi
             ->byToken($token)
             ->notExpired()
             ->one();
-//var_dump($userToken);  exit();
+
         if (!$userToken) {
             //throw new BadRequestHttpException;
             return ['message'=>['验证码无效。']];
@@ -464,9 +464,12 @@ class SignInController extends \common\components\ControllerFrontendApi
         if($password){
             $info['password_hash'] = Yii::$app->getSecurity()->generatePasswordHash($password);
         }
-
         $user->updateAttributes($info);
-        $userToken->delete();
+        // $userToken->delete();
+
+        // 创建赠送订单
+        $order = new CourseOrderItem;
+        $freeOrder = $order->createFreeOne($user->id);
         Yii::$app->getUser()->login($user);
         /*
         return [
