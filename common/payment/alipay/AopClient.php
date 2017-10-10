@@ -218,7 +218,7 @@ class AopClient {
 		$params['format'] = $this->format; 
 		$params['sign_type'] = $this->signType;
 		$params['timestamp'] = date("Y-m-d H:i:s");
-		$params['alipay_sdk'] = $this->alipaySdkVersion;
+		// $params['alipay_sdk'] = $this->alipaySdkVersion;
 		$params['charset'] = $this->postCharset;
 
 		$version = $request->getApiVersion();
@@ -272,7 +272,7 @@ class AopClient {
 		$sysParams["sign_type"] = $this->signType;
 		$sysParams["method"] = $request->getApiMethodName();
 		$sysParams["timestamp"] = date("Y-m-d H:i:s");
-		$sysParams["alipay_sdk"] = $this->alipaySdkVersion;
+		// $sysParams["alipay_sdk"] = $this->alipaySdkVersion;
 		$sysParams["terminal_type"] = $request->getTerminalType();
 		$sysParams["terminal_info"] = $request->getTerminalInfo();
 		$sysParams["prod_code"] = $request->getProdCode();
@@ -384,7 +384,7 @@ class AopClient {
 		$sysParams["method"] = $request->getApiMethodName();
 		$sysParams["timestamp"] = date("Y-m-d H:i:s");
 		$sysParams["auth_token"] = $authToken;
-		$sysParams["alipay_sdk"] = $this->alipaySdkVersion;
+		// $sysParams["alipay_sdk"] = $this->alipaySdkVersion;
 		$sysParams["terminal_type"] = $request->getTerminalType();
 		$sysParams["terminal_info"] = $request->getTerminalInfo();
 		$sysParams["prod_code"] = $request->getProdCode();
