@@ -8,6 +8,7 @@ use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 use common\payment\alipay\AopClient;
 use common\payment\alipay\request\AlipayTradeAppPayRequest;
+use common\payment\wechatpay\WechatPay;
 use backend\modules\campus\models\CourseOrderItem as BaseCourseOrderItem;
 /**
  * @author Eugene Terentev <eugene@terentev.net>
@@ -442,6 +443,40 @@ class CourseOrderItem extends BaseCourseOrderItem
 
         //防止被浏览器将关键参数html转义
         return $response;
+    }
+
+    public function appWechatpay()
+    {
+        $wechatpay_config = Yii::$app->params['payment']['shuo']['wechatpay'];
+
+        //创建预支付的必要参数。
+        $data = [
+            'body'             => '【说说说科技】',
+            'out_trade_no'     => $this->order_sn,
+            'total_fee'        => $this->real_price*100,    // 以分为单位
+            'spbill_create_ip' => Yii::$app->request->userIP,
+        ];
+
+        // 组装业务参数
+        if (isset(Yii::$app->params['shuo']['card_type'][$this->data])) {
+            $data['body'] .= Yii::$app->params['shuo']['card_type'][$this->data]['card_name'];
+            $data['body'] .= '('.Yii::$app->params['shuo']['card_type'][$this->data]['time'];
+            $data['body'] .= '天)';
+        }
+
+        $wechatpay = new WechatPay($wechatpay_config);
+        $prepay_id = false;
+        //获取预支付ID
+        $prepay_id = $wechatpay->getPrepayId($data);
+
+        if(!$prepay_id){
+            return $info=[
+                'errno'   =>__LINE__,
+                'message' => $wechatpay->error,
+            ];
+        }
+
+        return $wechatpay->get_package($prepay_id);
     }
 
     /**

@@ -175,6 +175,31 @@ $config = [
                         //支付宝公钥,查看地址：https://openhome.alipay.com/platform/keyManage.htm 对应APPID下的支付宝公钥。
                         'alipay_public_key' => Yii::getAlias('@common').'/payment/alipay/cert/shuo_alipay_public_key.pem',
                     ],
+                    'wechatpay' => [
+                        // APPID
+                        'appid' => 'wxcaf1fe1398ea6a35',
+
+                        // 商户号
+                        'mch_id' => '1490011602',
+
+                        // 异步回调地址
+                        'notify_url' => 'http://'.$_SERVER['HTTP_HOST'].'/shuo_wechatpay_notify.php',
+
+                        //证书路径https需要
+                        // 'sslcertPath' => \Yii::getAlias('@common').'/payment/wechatpay/wechatcert',  
+
+                        //密钥路径https需要
+                        // 'sslkeyPath' => \Yii::getAlias('@common').'/payment/wechatpay/wechatcert',  
+                        
+                        // 货币类型 ISO 4217标准 三位字母代码
+                        'fee_type' => 'CNY',  
+
+                        //支付类型 固定为APP
+                        'trade_type' => 'APP',
+
+                        // APIkey
+                        'apikey' => env('SHUO_WECHAT_API_KEY'),
+                    ],
                 ],
             ],
 
