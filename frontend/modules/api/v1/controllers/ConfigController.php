@@ -314,15 +314,20 @@ class ConfigController extends \yii\rest\Controller
     **/
     public function actionVipCard()
     {
-        if (Yii::$app->user->isGuest) {
-            return [
-                'errno'=> 203,
-                'message'=>'请先登录',
-            ];
-        }
+        // if (Yii::$app->user->isGuest) {
+        //     return [
+        //         'errno'=> 203,
+        //         'message'=>'请先登录',
+        //     ];
+        // }
 
-        $data = [];
-        $data = Yii::$app->params['shuo']['card_type'];
+        $params = $temp = $data = [];
+        $params = Yii::$app->params['shuo']['card_type'];
+        foreach ($params as $key => $value) {
+            $temp = $value;
+            $temp['type'] = $key;
+            $data[] = $temp;
+        }
 
         return [
             'errno'=> 0,
