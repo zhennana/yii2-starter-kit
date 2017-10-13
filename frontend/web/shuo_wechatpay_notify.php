@@ -41,7 +41,7 @@ use common\payment\wechatpay\WechatPay;
 use frontend\modules\api\v1\resources\CourseOrderItem;
 
 
-	$wechatpay_config = Yii::$app->params['payment']['gedu']['wechatpay'];
+	$wechatpay_config = Yii::$app->params['payment']['shuo']['wechatpay'];
 
 	$data    = null;
 	$success = '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
