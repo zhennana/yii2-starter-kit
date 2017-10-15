@@ -427,6 +427,15 @@ class SignInController extends \common\components\ControllerFrontendApi
      *        required = false,
      *        type = "string"
      *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "udid",
+     *        description = "选填设备号，一个账户只能同时在线一个客户端; 测试方法：打开两个不同的浏览器谷歌、火狐模拟两个客户端，分别填入不同的udid。最新登录会把之前的踢下线。
+     * ",
+     *        required = false,
+     *        default = "adfad-asdfsd-234-adsf",
+     *        type = "string"
+     *     ),
      *     @SWG\Response(
      *         response = 200,
      *         description = "用户激活成功"
@@ -442,6 +451,8 @@ class SignInController extends \common\components\ControllerFrontendApi
     {
         $token = Yii::$app->request->post('token',0);
         $password = Yii::$app->request->post('password',null);
+        $udid_new = '';
+        $udid = Yii::$app->request->post('udid',null);
         $userToken = UserToken::find()
             ->byType(UserToken::TYPE_PHONE_SIGNUP)
             ->byToken($token)
@@ -452,8 +463,8 @@ class SignInController extends \common\components\ControllerFrontendApi
             //throw new BadRequestHttpException;
             return ['message'=>['验证码无效。']];
         }
-
         $user = $userToken->user;
+
         $info = [
             'status' => User::STATUS_ACTIVE,
         ];
@@ -465,12 +476,18 @@ class SignInController extends \common\components\ControllerFrontendApi
             $info['password_hash'] = Yii::$app->getSecurity()->generatePasswordHash($password);
         }
         $user->updateAttributes($info);
-        $userToken->delete();
+        // $userToken->delete();
 
         // 创建赠送订单
         $order = new CourseOrderItem;
         $freeOrder = $order->createFreeOne($user->id);
-        Yii::$app->getUser()->login($user);
+
+        if(null != $udid){
+            $udid_new = addslashes($udid);
+            \Yii::$app->session->set('user.udid',$udid_new);
+        }
+        // var_dump($udid);exit;
+        Yii::$app->user->login($user);
         /*
         return [
             'message' => Yii::t(
