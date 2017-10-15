@@ -476,7 +476,7 @@ class SignInController extends \common\components\ControllerFrontendApi
             $info['password_hash'] = Yii::$app->getSecurity()->generatePasswordHash($password);
         }
         $user->updateAttributes($info);
-        // $userToken->delete();
+        $userToken->delete();
 
         // 创建赠送订单
         $order = new CourseOrderItem;
@@ -486,7 +486,7 @@ class SignInController extends \common\components\ControllerFrontendApi
             $udid_new = addslashes($udid);
             \Yii::$app->session->set('user.udid',$udid_new);
         }
-        // var_dump($udid);exit;
+
         Yii::$app->user->login($user);
         /*
         return [
