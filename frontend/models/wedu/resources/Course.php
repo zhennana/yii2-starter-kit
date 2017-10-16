@@ -42,25 +42,28 @@ public function behaviors()
      */
    public function userCourseSignInData($school_id,$grade_id){
         $course = $this->course($school_id,$grade_id);
-        //var_dump($course);exit;
+
+        // var_dump($course);exit;
         //var_dump($course_id);exit;
         if(!isset($course->course_id)  && empty($course->course_id)  ){
             return [];
         }
 
         $user_ids = $this->SignInToUser($course->course_id);
-// var_dump($user_ids);exit;
+
         $user_ids = ArrayHelper::map($user_ids,'student_id','student_id');
+
+
         $model = UserToGrade::find()->select([])
         ->with([
           //'grade',
           //'school',
           'courseOrder'=>function($model){
-              $model->select(['sum(total_course+presented_course) as total_course ','presented_course']);
+              $model->select(['user_id',"sum(total_course+presented_course) as total_course","sum(presented_course) as presented_course"]);
           },
           'signIn'=>function($model){
               $model->select(['count(signin_id) as above_course','student_id']);
-              $model->where(['type_status'=>[SignIn::TYPE_STATUS_MORMAL,'TYPE_STATUS_REPAIR_CLASS']]);
+              $model->where(['type_status'=>[SignIn::TYPE_STATUS_MORMAL,SignIn::TYPE_STATUS_REPAIR_CLASS]]);
               $model->groupby(['student_id']);
           },
           'user'=>function($model){
@@ -74,7 +77,7 @@ public function behaviors()
         ->andWhere(['not',['user_id'=>$user_ids]])
         ->asArray()
         ->all();
- // var_dump($model);exit;
+  // var_dump($model);exit;
        return $this->serializations($model, $course);
    }
    /**
