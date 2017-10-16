@@ -232,8 +232,7 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
      * @return [type] [description]
      */
     public function getCourseOrder(){
-        return $this->hasOne(\backend\modules\campus\models\CourseOrderItem::className(),['user_id'=>'user_id']
-            );
+        return $this->hasOne(\backend\modules\campus\models\CourseOrderItem::className(),['user_id'=>'user_id']);
     }
     /**
      * 获取用户上的所有课程
