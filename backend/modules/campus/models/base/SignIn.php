@@ -166,6 +166,17 @@ abstract class SignIn extends \yii\db\ActiveRecord
         }
         return $modelQuery->count();
     }
+    /**
+     * 用户上了多少节课时
+     * @return [type] [description]
+     */
+    public static function UserSignCount($user_id){
+        $modelQuery =  self::find()->where(['student_id'=>$user_id]);
+        $modelQuery = $modelQuery->andWhere(['type_status'=>[
+                self::TYPE_STATUS_MORMAL,self::TYPE_STATUS_REPAIR_CLASS]]);
+        return $modelQuery->count();
+    }
+
     public function getSchool()
     {
         return $this->hasOne(\backend\modules\campus\models\School::className(),['id' => 'school_id']);
