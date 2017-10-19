@@ -34,6 +34,11 @@ class UserController extends \backend\controllers\UserController
     {
         $searchModel = new UserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->sort = [
+            'defaultOrder' => [
+                'created_at' => SORT_DESC
+            ]
+        ];
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

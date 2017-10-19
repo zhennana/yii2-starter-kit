@@ -182,7 +182,7 @@ public function behaviors()
                     $file  = [];
                     $files = [];
                     foreach ($courseware->toFile as $toFile) {
-                        if (isset($toFile->fileStorageItem) && !empty($toFile->fileStorageItem) && $toFile->fileStorageItem->status == FileStorageItem::STORAGE_STATUS_OPEN) {
+                        if (isset($toFile->fileStorageItem) && !empty($toFile->fileStorageItem) && $toFile->status == CoursewareToFile::COURSEWARE_STATUS_OPEN) {
                             $file['file_id']     = $toFile->fileStorageItem->file_storage_item_id;
                             $file['file_url']    = $toFile->fileStorageItem->url.$toFile->fileStorageItem->file_name;
                             $file['file_type']   = $toFile->fileStorageItem->type;

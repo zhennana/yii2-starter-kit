@@ -427,6 +427,15 @@ class SignInController extends \common\components\ControllerFrontendApi
      *        required = false,
      *        type = "string"
      *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "udid",
+     *        description = "选填设备号，一个账户只能同时在线一个客户端; 测试方法：打开两个不同的浏览器谷歌、火狐模拟两个客户端，分别填入不同的udid。最新登录会把之前的踢下线。
+     * ",
+     *        required = false,
+     *        default = "adfad-asdfsd-234-adsf",
+     *        type = "string"
+     *     ),
      *     @SWG\Response(
      *         response = 200,
      *         description = "用户激活成功"
@@ -442,18 +451,20 @@ class SignInController extends \common\components\ControllerFrontendApi
     {
         $token = Yii::$app->request->post('token',0);
         $password = Yii::$app->request->post('password',null);
+        $udid_new = '';
+        $udid = Yii::$app->request->post('udid',null);
         $userToken = UserToken::find()
             ->byType(UserToken::TYPE_PHONE_SIGNUP)
             ->byToken($token)
             ->notExpired()
             ->one();
-//var_dump($userToken);  exit();
+
         if (!$userToken) {
             //throw new BadRequestHttpException;
             return ['message'=>['验证码无效。']];
         }
-
         $user = $userToken->user;
+
         $info = [
             'status' => User::STATUS_ACTIVE,
         ];
@@ -464,10 +475,19 @@ class SignInController extends \common\components\ControllerFrontendApi
         if($password){
             $info['password_hash'] = Yii::$app->getSecurity()->generatePasswordHash($password);
         }
-
         $user->updateAttributes($info);
         $userToken->delete();
-        Yii::$app->getUser()->login($user);
+
+        // 创建赠送订单
+        $order = new CourseOrderItem;
+        $freeOrder = $order->createFreeOne($user->id);
+
+        if(null != $udid){
+            $udid_new = addslashes($udid);
+            \Yii::$app->session->set('user.udid',$udid_new);
+        }
+
+        Yii::$app->user->login($user);
         /*
         return [
             'message' => Yii::t(
@@ -842,8 +862,8 @@ class SignInController extends \common\components\ControllerFrontendApi
     /**
      * @SWG\Post(path="/sign-in/activation-code",
      *     tags={"100-SignIn-用户接口"},
-     *     summary="激活码激活",
-     *     description="提交用户ID与激活码做验证",
+     *     summary="兑换码激活",
+     *     description="提交用户ID与兑换码做验证",
      *     produces={"application/json"},
      *     @SWG\Parameter(
      *        in = "formData",
@@ -856,7 +876,7 @@ class SignInController extends \common\components\ControllerFrontendApi
      *     @SWG\Parameter(
      *        in = "formData",
      *        name = "activation_code",
-     *        description = "激活码",
+     *        description = "兑换码",
      *        required = true,
      *        default = "123456",
      *        type = "string"
@@ -870,7 +890,7 @@ class SignInController extends \common\components\ControllerFrontendApi
      */
     public function actionActivationCode()
     {
-        // 查询激活码，状态未使用
+        // 查询兑换码，状态未使用
         // 创建订单，返回course_order_item_id，存入表activation_code对应字段
         // errorno = 1 已经使用
         $info = [
@@ -886,7 +906,7 @@ class SignInController extends \common\components\ControllerFrontendApi
         }
         if (!isset($post['activation_code']) && empty($post['activation_code'])) {
             $info['errorno'] = __LINE__;
-            $info['message'] = Yii::t('frontend','请输入激活码');
+            $info['message'] = Yii::t('frontend','请输入兑换码');
             return $info;
         }
         // 校验用户
@@ -897,12 +917,12 @@ class SignInController extends \common\components\ControllerFrontendApi
             return $info;
         }
 
-        // 校验激活码
+        // 校验兑换码
         $codeModel = ActivationCode::checkCode($post['activation_code']);
 
         if (!$codeModel) {
             $info['errorno'] = __LINE__;
-            $info['message'] = Yii::t('frontend','无效的激活码');
+            $info['message'] = Yii::t('frontend','无效的兑换码');
             return $info;
         }
 
@@ -914,7 +934,7 @@ class SignInController extends \common\components\ControllerFrontendApi
             $info['message'] = $order['message'];
             return $info;
         }
-        // 更新激活码
+        // 更新兑换码
         $codeModel = $codeModel->updateCode($order['model']);
 
         if (!$codeModel) {
@@ -998,9 +1018,18 @@ class SignInController extends \common\components\ControllerFrontendApi
      */
     public function actionLogout()
     {
-        Yii::$app->user->logout();
-        exit();
-        // return $this->goHome();
+        if(isset(Yii::$app->user->identity->id)){
+            //var_dump(Yii::$app->user->identity->id);exit;
+            $proFileUser = Yii::$app->user->identity->userProfile;
+            $proFileUser->clientid = '';
+            $proFileUser->client_source_type = '';
+            $proFileUser->save();
+        }
+        if(Yii::$app->user->logout()){
+            return true;
+        }else{
+            return false;
+        };
     }
 
     public function actiolAuthKey()

@@ -6,6 +6,7 @@ use Yii;
 use frontend\models\base\Course as BaseCourse;
 use backend\modules\campus\models\UserToGrade;
 use backend\modules\campus\models\CourseSchedule;
+// use backend\modules\campus\models\SignIn;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -41,23 +42,28 @@ public function behaviors()
      */
    public function userCourseSignInData($school_id,$grade_id){
         $course = $this->course($school_id,$grade_id);
-        //var_dump($course);exit;
+
+        // var_dump($course);exit;
         //var_dump($course_id);exit;
         if(!isset($course->course_id)  && empty($course->course_id)  ){
             return [];
         }
 
         $user_ids = $this->SignInToUser($course->course_id);
-// var_dump($user_ids);exit;
+
         $user_ids = ArrayHelper::map($user_ids,'student_id','student_id');
+
+
         $model = UserToGrade::find()->select([])
         ->with([
           //'grade',
           //'school',
-          'courseOrder',
+          'courseOrder'=>function($model){
+              $model->select(['user_id',"sum(total_course+presented_course) as total_course","sum(presented_course) as presented_course"]);
+          },
           'signIn'=>function($model){
               $model->select(['count(signin_id) as above_course','student_id']);
-              $model->where(['type_status'=>SignIn::TYPE_STATUS_MORMAL]);
+              $model->where(['type_status'=>[\backend\modules\campus\models\SignIn::TYPE_STATUS_MORMAL,\backend\modules\campus\models\SignIn::TYPE_STATUS_REPAIR_CLASS]]);
               $model->groupby(['student_id']);
           },
           'user'=>function($model){
@@ -71,7 +77,7 @@ public function behaviors()
         ->andWhere(['not',['user_id'=>$user_ids]])
         ->asArray()
         ->all();
- //var_dump($model);exit;
+  // var_dump($model);exit;
        return $this->serializations($model, $course);
    }
    /**
@@ -93,11 +99,17 @@ public function behaviors()
                 //'grade_id'      =>    (int)$value['grade']['grade_id'],
                 //'grade_name'    =>    $value['grade']['grade_name'],
                 'presented_course' => isset($value['courseOrder']['presented_course']) ? (int)$value['courseOrder']['presented_course'] : 0,
+                'total_course'    => isset($value['courseOrder']['total_course']) ? (int)$value['courseOrder']['total_course'] : 0,
                 'above_course'    => isset($value['signIn']['above_course']) ? (int)$value['signIn']['above_course'] : 0,
                 'created_at'       => isset($value['courseOrder']['created_at']) ? $value['courseOrder']['created_at'] : 0,
            ];
-          $data['user_list'][$key]['total_course'] = isset($value['courseOrder']['total_course']) ? (int)$value['courseOrder']['total_course'] + (int)$data['user_list'][$key]['presented_course']  : 0;
+          // $data['user_list'][$key]['total_course'] = isset($value['courseOrder']['total_course']) ? (int)$value['courseOrder']['total_course'] + (int)$data['user_list'][$key]['presented_course']  : 0;
           $data['user_list'][$key]['surplus_course'] = (int)$data['user_list'][$key]['total_course'] - (int)$data['user_list'][$key]['above_course'];
+          //检测学生是否欠费
+          $data['user_list'][$key]['is_arrears'] = false;
+          if($data['user_list'][$key]['surplus_course'] <= 0){
+              $data['user_list'][$key]['is_arrears'] = true;
+          }
 
        }
        return $data;
@@ -150,7 +162,7 @@ public function behaviors()
     * @return [type] [description]
     */
    public function SignInToUser($course_id){
-        return  SignIn::find()->select('student_id')
+        return  \backend\modules\campus\models\SignIn::find()->select('student_id')
         ->where(['course_id'=>$course_id])
         ->all();
    }

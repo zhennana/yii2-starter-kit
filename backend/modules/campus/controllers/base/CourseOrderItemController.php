@@ -69,7 +69,7 @@ public function actionIndex()
     //$grades = Yii::$app->user->identity->gradesInfo;
     $schools = ArrayHelper::map($schools,'school_id','school_title');
     //$grades  = ArrayHelper::map($grades,'grade_id','grade_name');
-     if (env('THEME') == 'edu') {
+     if (env('THEME') != 'gedu') {
         $dataProvider->query->andWhere(
                     [
                      'school_id'=>array_keys($schools)

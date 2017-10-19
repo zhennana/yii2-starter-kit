@@ -22,9 +22,9 @@ if($model->isNewRecord){
 $schools = School::find()->where(['status'=>School::SCHOOL_STATUS_OPEN])->asArray()->all();
 $schools = ArrayHelper::map($schools, 'id', 'school_title');
 $this->title = Yii::t('backend', '批量创建 {modelClass}', [
-    'modelClass' => '激活码',
+    'modelClass' => '兑换码',
 ]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '激活码'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '兑换码'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -106,7 +106,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= Tabs::widget([
             'encodeLabels' => false,
             'items'        => [[
-                'label'   => Yii::t('backend', '批量创建激活码'),
+                'label'   => Yii::t('backend', '批量创建兑换码'),
                 'content' => $this->blocks['main'],
                 'active'  => true,
             ],]
