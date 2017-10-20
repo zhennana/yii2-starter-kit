@@ -168,14 +168,14 @@ class User extends ActiveRecord implements IdentityInterface
      * @return [type] [description]
      */
     public function getUserToSchool(){
-        return $this->hasMany(UserToSchool::className(),['user_id'=>'id'])->orderBy(['created_at'=> 'SORT_SESC']);
+        return $this->hasMany(UserToSchool::className(),['user_id'=>'id'])->orderBy(['created_at'=> SORT_DESC]);
     }
     /**
      * 用户默认所在的班级
      * @return [type] [description]
      */
     public function getUserToGrade(){
-        return $this->hasOne(UserToGrade::className(),['user_id'=>'id'])->orderBy(['created_at'=>'SORT_SESC']);
+        return $this->hasOne(UserToGrade::className(),['user_id'=>'id'])->orderBy(['created_at'=>SORT_DESC]);
     }
 
     /**
@@ -183,7 +183,7 @@ class User extends ActiveRecord implements IdentityInterface
      * @return [type] [description]
      */
     public function getUsersToGrades(){
-        return $this->hasMany(UserToGrade::className(),['user_id'=>'id'])->orderBy(['created_at'=>'SORT_SESC']);
+        return $this->hasMany(UserToGrade::className(),['user_id'=>'id'])->orderBy(['created_at'=>SORT_DESC]);
     }
     /**
      * 根据权限获取班级id或者学校id
@@ -705,6 +705,9 @@ class User extends ActiveRecord implements IdentityInterface
             $user['type']    = 0;
             $user['parents'] = '';
         }
+
+        // 学校关系
+        $user['school_type'] = isset($this->userToSchool[0]->school_user_type) ? UserToSchool::getUserTypeLabel($this->userToSchool[0]->school_user_type) : '';
         
         return $user;
     }
