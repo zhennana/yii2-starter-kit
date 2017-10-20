@@ -77,7 +77,7 @@ class SignIn extends BaseSignIn
           $data['message'][$key]  = $is_check->one();
         }
         //更新老师工作接口接口
-        if($data['message']){
+        if(isset($data['message'])){
             $WorkRecord = WorkRecord::find()->andwhere([
               'course_id'=>$params['course_id'],
               'type'=>WorkRecord::TYPE_TWO,
