@@ -6,7 +6,7 @@ use Yii;
 use frontend\models\base\Course as BaseCourse;
 use backend\modules\campus\models\UserToGrade;
 use backend\modules\campus\models\CourseSchedule;
-use backend\modules\campus\models\SignIn;
+// use backend\modules\campus\models\SignIn;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -63,7 +63,7 @@ public function behaviors()
           },
           'signIn'=>function($model){
               $model->select(['count(signin_id) as above_course','student_id']);
-              $model->where(['type_status'=>[SignIn::TYPE_STATUS_MORMAL,SignIn::TYPE_STATUS_REPAIR_CLASS]]);
+              $model->where(['type_status'=>[\backend\modules\campus\models\SignIn::TYPE_STATUS_MORMAL,\backend\modules\campus\models\SignIn::TYPE_STATUS_REPAIR_CLASS]]);
               $model->groupby(['student_id']);
           },
           'user'=>function($model){
@@ -162,7 +162,7 @@ public function behaviors()
     * @return [type] [description]
     */
    public function SignInToUser($course_id){
-        return  SignIn::find()->select('student_id')
+        return  \backend\modules\campus\models\SignIn::find()->select('student_id')
         ->where(['course_id'=>$course_id])
         ->all();
    }
