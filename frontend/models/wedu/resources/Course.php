@@ -59,7 +59,7 @@ public function behaviors()
           //'grade',
           //'school',
           'courseOrder'=>function($model){
-              $model->select(['user_id',"sum(total_course+presented_course) as total_course","sum(presented_course) as presented_course"]);
+              $model->select(['user_id',"sum(total_course+presented_course) as total_course","sum(presented_course) as presented_course"])->groupby(['user_id']);
           },
           'signIn'=>function($model){
               $model->select(['count(signin_id) as above_course','student_id']);
@@ -77,7 +77,7 @@ public function behaviors()
         ->andWhere(['not',['user_id'=>$user_ids]])
         ->asArray()
         ->all();
-  // var_dump($model);exit;
+   // var_dump($model);exit;s
        return $this->serializations($model, $course);
    }
    /**
