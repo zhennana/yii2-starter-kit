@@ -169,7 +169,7 @@ $actionColumnTemplates = [];
                     'value'     =>function($model){
                         return Html::a(
                             isset($model->gradeCategory->name) ? $model->gradeCategory->name: '',
-                            ['/campus/grade-categroy','grade-categroy_id'=>$model->group_category_id]
+                            ['/campus/grade-category/view','grade_category_id'=>$model->group_category_id]
                             );
                     }
                 ],
