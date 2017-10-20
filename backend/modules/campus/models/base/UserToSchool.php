@@ -49,6 +49,16 @@ abstract class UserToSchool extends \yii\db\ActiveRecord
             self::SCHOOL_USER_TYPE_WORKER   => '职工',
         ];
     }
+
+    public static function getUserTypeLabel($value)
+    {
+        $label = self::optsUserType();
+        if (isset($label[$value])) {
+            return $label[$value];
+        }
+        return $value;
+    }
+
     public static function optsUserStatus(){
         return [
             self::SCHOOL_STATUS_ACTIVE   => '正常',
