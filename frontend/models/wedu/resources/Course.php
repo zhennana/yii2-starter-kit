@@ -131,8 +131,8 @@ public function behaviors()
 
       // $start_time = date('H:i',$time-60*60);
       // $end_time   = date('H:i',$time);
-      $start_time = $time-60*60;
-      $end_time   = $time+60*60*2;
+      $start_time = $time-60*60*1;
+      $end_time   = $time+60*60*1;
       //var_dump(strtotime("2017-08-07 23:12:00"));exit;
      // 1502118720.000000
         return  self::find()
@@ -153,7 +153,11 @@ public function behaviors()
                     'c.status'      => self::COURSE_STATUS_OPEN,
                     's.status'      => CourseSchedule::COURSE_STATUS_OPEN,
                   ])
-                ->andwhere(['between',"UNIX_TIMESTAMP(concat(s.which_day,' ' ,s.start_time))",$start_time,$end_time])
+                ->andwhere(['or',
+                  ['between',"UNIX_TIMESTAMP(concat(s.which_day,' ' ,s.start_time))",$start_time,$end_time],
+                  ['between',"UNIX_TIMESTAMP(concat(s.which_day,' ' ,s.end_time))",$start_time,$end_time],
+                ]
+              )
                // ->asArray()
                 ->one();
    }
