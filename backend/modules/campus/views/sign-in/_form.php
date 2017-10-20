@@ -156,7 +156,7 @@ if(!$model->isNewRecord){
 			<?php
                 echo $form->field($model, 'status')->widget(Select2::className(),[
                         'data' => SignIn::optsSignInStatus(),
-                        'options'=>['placeholder'=>'请选择'],
+                        // 'options'=>['placeholder'=>'请选择'],
                         'pluginOptions' => [
                             'allowClear'=> true,
                         ],
