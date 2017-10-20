@@ -56,6 +56,8 @@ class SignIn extends BaseSignIn
                 $value['course_id'] = $params['course_id'];
                 $value['grade_id'] = $params['grade_id'];
                 $value['course_schedule_id'] = $params['course_schedule_id'];
+                $value['status']        = self::STATUS_READ;
+                $value['teacher_id']    = isset(Yii::$app->user->identity->id)? Yii::$app->user->identity->id : 0;
                 $model->load($value,'');
                 if(!$model->save()){
                   $data['error'][$key] = $model->getErrors();
