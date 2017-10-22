@@ -557,7 +557,7 @@ class SignInController extends \common\components\ControllerFrontendApi
 
         $user = $token->user;
         $info = [
-            'username' => '用户'.$user->id,
+            'username' => '用户'.substr(str_shuffle("abcdefghijklmnopqrstuvwxyz0123456789"),0,20),
             'phone_number' => $post['phone_number'],
             'status' => User::STATUS_ACTIVE,
             'password_hash' => Yii::$app->getSecurity()->generatePasswordHash($post['passwd']),
