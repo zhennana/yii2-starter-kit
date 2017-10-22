@@ -318,6 +318,7 @@ class SignInController extends \common\components\ControllerFrontendApi
 
         $user = $modelClass::find()
             ->where(['username' => $params['username'], 'phone_number' => null])
+            ->andWhere(['status' => $modelClass::STATUS_ACTIVE])
             ->one();
 
         if (!$user) {
@@ -332,6 +333,9 @@ class SignInController extends \common\components\ControllerFrontendApi
                     'message' => '游客用户创建失败',
                 ];
             }
+            // 创建赠送订单
+            $order = new CourseOrderItem;
+            $freeOrder = $order->createFreeOne($user->id);
         }
 
         $model = new LoginForm();
