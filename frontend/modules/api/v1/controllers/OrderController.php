@@ -430,6 +430,7 @@ Receipt: {"Store":"fake","TransactionID":"bc0df36d-13be-4d9f-b9d1-4d980d11c402",
             'message' => '',
         ];
         $post = Yii::$app->request->post();
+        $modelClass = $this->modelClass;
 
         if (!isset($post['user_id']) && empty($post['user_id'])) {
             $info['errorno'] = __LINE__;
@@ -459,7 +460,7 @@ Receipt: {"Store":"fake","TransactionID":"bc0df36d-13be-4d9f-b9d1-4d980d11c402",
         }
 
         // 创建订单
-        $order = new CourseOrderItem;
+        $order = new $modelClass;
         $order = $order->createActivationOrder($codeModel,$post);
         if ($order['errorno'] != '0' && $order['model'] == null) {
             $info['errorno'] = $order['errorno'];
