@@ -368,7 +368,11 @@ class SignInController extends \common\components\ControllerFrontendApi
             $row['session'] = $info;
             $row['session_data'] = Yii::$app->session->getIterator();
 
-            return array_merge($attrUser,$account,$row);
+            return [
+                    'errorno' => '0',
+                    'message' => 'OK',
+                    'data' => array_merge($attrUser,$account,$row),
+                ];
         }
 
     }
