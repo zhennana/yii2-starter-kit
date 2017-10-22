@@ -31,6 +31,7 @@ class UserToken extends ActiveRecord
     CONST TYPE_PHONE_SIGNUP = 'phone_signup';
     CONST TYPE_PHONE_RESENT = 'phone_resent';
     CONST TYPE_PHONE_REPASSWD = 'phone_repasswd';
+    CONST TYPE_BIND_PHONE = 'bind_phone';
 
     /**
      * @inheritdoc
