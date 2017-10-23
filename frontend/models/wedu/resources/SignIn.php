@@ -56,6 +56,8 @@ class SignIn extends BaseSignIn
                 $value['course_id'] = $params['course_id'];
                 $value['grade_id'] = $params['grade_id'];
                 $value['course_schedule_id'] = $params['course_schedule_id'];
+                $value['status']        = self::STATUS_READ;
+                $value['teacher_id']    = isset(Yii::$app->user->identity->id)? Yii::$app->user->identity->id : 0;
                 $model->load($value,'');
                 if(!$model->save()){
                   $data['error'][$key] = $model->getErrors();
@@ -77,7 +79,7 @@ class SignIn extends BaseSignIn
           $data['message'][$key]  = $is_check->one();
         }
         //更新老师工作接口接口
-        if($data['message']){
+        if(isset($data['message'])){
             $WorkRecord = WorkRecord::find()->andwhere([
               'course_id'=>$params['course_id'],
               'type'=>WorkRecord::TYPE_TWO,
