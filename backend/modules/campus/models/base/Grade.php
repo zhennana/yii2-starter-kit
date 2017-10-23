@@ -102,7 +102,7 @@ abstract class Grade extends \yii\db\ActiveRecord
     {
         return [
             [['school_id','group_category_id','owner_id'], 'required'],
-            ['creater_id','default','value'=>Yii::$app->user->identity->id],
+            ['creater_id','default','value'=>Yii::$app->user->isGuest ? 0 : Yii::$app->user->identity->id],
             [['school_id', 'owner_id', 'creater_id', 'sort', 'status', 'graduate', 'time_of_graduation', 'time_of_enrollment','group_category_id'], 'integer'],
             [['grade_name'], 'string', 'max' => 32]
         ];
