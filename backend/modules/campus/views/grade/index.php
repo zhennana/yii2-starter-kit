@@ -43,9 +43,14 @@ $actionColumnTemplates = [];
     if (\Yii::$app->user->can('P_director', ['route' => true]) || \Yii::$app->user->can('E_manager') || Yii::$app->user->can('manager')) {
         $actionColumnTemplates[] = '{user_to_grade}';
     }
-    if (\Yii::$app->user->can('P_director', ['route' => true]) || \Yii::$app->user->can('E_manager') || Yii::$app->user->can('manager')) {
+    // if (\Yii::$app->user->can('P_director', ['route' => true]) || \Yii::$app->user->can('E_manager') || Yii::$app->user->can('manager')) {
+    //     $actionColumnTemplates[] = '{upgrade}';
+    // }
+    // 内部测试
+    if (in_array(\Yii::$app->user->identity->id,[108,6,7,28])) {
         $actionColumnTemplates[] = '{upgrade}';
     }
+    
     if (isset($actionColumnTemplates)) {
     $actionColumnTemplate = implode(' ', $actionColumnTemplates);
         $actionColumnTemplateString = $actionColumnTemplate;
