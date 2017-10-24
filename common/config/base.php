@@ -301,11 +301,6 @@ $config = [
                     'price' => 0.01,
                     'time' => 2,
                 ],
-                'week_card' => [
-                    'card_name' => '周卡',
-                    'price' => 40,
-                    'time' => 7,
-                ],
                 'month_card' => [
                     'card_name' => '月卡',
                     'price' => 158,

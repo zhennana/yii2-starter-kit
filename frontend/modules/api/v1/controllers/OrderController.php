@@ -232,11 +232,11 @@ Receipt: {"Store":"fake","TransactionID":"bc0df36d-13be-4d9f-b9d1-4d980d11c402",
      *     @SWG\Parameter(
      *        in = "formData",
      *        name = "card_type",
-     *        description = "延长卡类型:probation体验卡；week_card周卡；month_card月卡；half_year_card半年卡；year_card年卡",
+     *        description = "延长卡类型:probation体验卡；month_card月卡；half_year_card半年卡；year_card年卡",
      *        required = true,
      *        type = "string",
      *        default = "probation",
-     *        enum = {"probation","week_card","month_card","half_year_card","year_card"}
+     *        enum = {"probation","month_card","half_year_card","year_card"}
      *     ),
      *     @SWG\Parameter(
      *        in = "formData",
