@@ -182,6 +182,9 @@ class SignInController extends \common\components\ControllerFrontendApi
                     $attrUser['avatar'] = $fansMpUser->avatar;
                 }
             }
+            // 获取体验卡已购买数量
+            $attrUser['probation_count'] = $model->user->getProbationCount();
+
             $row['session'] = $info;
             $row['session_data'] = Yii::$app->session->getIterator();
             //$row['session']['udid_new'] = $udid_new;
@@ -259,6 +262,8 @@ class SignInController extends \common\components\ControllerFrontendApi
             }
             */
         }
+        // 获取体验卡已购买数量
+        $attrUser['probation_count'] = $model->user->getProbationCount();
         //$user['roles']=\Yii::$app->authManager->getRolesByUser(\Yii::$app->user->id);
         //return  array_merge($attrUser,$account);
         $attrUser['session_id'] = Yii::$app->session->id;
@@ -365,6 +370,8 @@ class SignInController extends \common\components\ControllerFrontendApi
                     $attrUser['avatar'] = $fansMpUser->avatar;
                 }
             }
+            // 获取体验卡已购买数量
+            $attrUser['probation_count'] = $model->user->getProbationCount();
             $row['session'] = $info;
             $row['session_data'] = Yii::$app->session->getIterator();
 
