@@ -66,6 +66,7 @@ class ArticleController extends Controller{
 		->limit($pagination->limit)
 		->offset($pagination->offset)
 		->asArray()
+		->orderBy(['published_at'=>SORT_DESC])
 		->all();
 		
 		
