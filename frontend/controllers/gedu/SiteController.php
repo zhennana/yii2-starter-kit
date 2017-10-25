@@ -40,18 +40,17 @@ class SiteController extends \frontend\controllers\SiteController
         $data['one']=current($data['all']);
         //从第二个元素开始
         $data['other']=array_slice($data['all'], 1);
-        
-        $data['teacher']['all']=Page::find()->where(['slug'=>'jiao-shi-jian-jie'])->asArray()->one();
-        //小学老师
-        $data['teacher']['primary']=Page::find()->where(['slug'=>'xiao-xue-lao-shi'])->asArray()->one();
-        //中学老师
-        $data['teacher']['middle']=Page::find()->where(['slug'=>'zhong-xue-lao-shi'])->asArray()->one();
-        //国际部老师
-        $data['teacher']['internation']=Page::find()->where(['slug'=>'guo-ji-lao-shi'])->asArray()->one();
-        //特长部老师
-        $data['teacher']['speciality']=Page::find()->where(['slug'=>'te-zhang-lao-shi'])->asArray()->one();
+
+        $teacher = Article::find()
+            ->where(['category_id' => 38])
+            ->published()
+            ->orderBy('page_rank DESC')
+            ->asArray()
+            ->all();
+
         return $this->render('index',[
-            'data'=>$data,
+            'data'    => $data,
+            'teacher' => $teacher
             ]);
     }
     /**
@@ -99,17 +98,17 @@ class SiteController extends \frontend\controllers\SiteController
             }
             
         }  
-       /* $data['teacher']['all']=Page::find()->where(['slug'=>'jiao-shi-jian-jie'])->asArray()->one();
-        //小学老师
-        $data['teacher']['primary']=Page::find()->where(['slug'=>'xiao-xue-lao-shi'])->asArray()->one();
-        //中学老师
-        $data['teacher']['middle']=Page::find()->where(['slug'=>'zhong-xue-lao-shi'])->asArray()->one();
-        //国际部老师
-        $data['teacher']['internation']=Page::find()->where(['slug'=>'guo-ji-lao-shi'])->asArray()->one();
-        //特长部老师
-        $data['teacher']['speciality']=Page::find()->where(['slug'=>'te-zhang-lao-shi'])->asArray()->one();*/
+        $teacher = Article::find()
+            ->where(['category_id' => 38])
+            ->published()
+            ->orderBy('page_rank DESC')
+            ->asArray()
+            ->all();
 
-        return $this->render("teacher",['category'=>$category]);
+        return $this->render("teacher",[
+            'category'=>$category,
+            'teacher' => $teacher
+        ]);
     }
      /**
     *校园风光
