@@ -213,7 +213,13 @@ class CoursewareToFile extends BaseCoursewareToFile
     }
 
     public function getCoursewareById($category_id){
-        return Courseware::find()->where(['category_id'=>$category_id,'status'=>Courseware::COURSEWARE_STATUS_VALID])->all();
+        return Courseware::find()
+          ->with(['toFile' => function($query){
+            $query->where(['status' => CoursewareToFile::COURSEWARE_STATUS_OPEN]);
+            return $query;
+          }])
+          ->where(['category_id'=>$category_id,'status'=>Courseware::COURSEWARE_STATUS_VALID])
+          ->all();
     }
 
 
