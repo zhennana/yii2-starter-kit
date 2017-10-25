@@ -116,7 +116,7 @@ use yii\helpers\Html;
                 </div>
         <!--教师风采页面-->
         <div class="main-2">
-            <?php echo $this->render('@frontend/themes/gedu/site/common/teacher.php',['data'=>$data]);?>
+            <?php echo $this->render('@frontend/themes/gedu/site/common/teacher.php',['teacher'=>$teacher]);?>
         </div>
         <div class="main-2">
                 <div class="main-3-head-fu">
@@ -132,9 +132,13 @@ use yii\helpers\Html;
                                 <!--校园风采模块 -->
                                 <?php
                                     if(!is_mobile()){
-                                        echo $this->render('@frontend/themes/gedu/site/common/elegant.php');
+                                        echo $this->render('@frontend/themes/gedu/site/common/elegant.php',[
+                                          'sights' => $sights
+                                        ]);
                                     }else{
-                                        echo $this->render('@frontend/themes/gedu/site/common/mobile_elegant');
+                                        echo $this->render('@frontend/themes/gedu/site/common/mobile_elegant',[
+                                          'sights' => $sights
+                                        ]);
                                     }
                                 ?>
                             </div>

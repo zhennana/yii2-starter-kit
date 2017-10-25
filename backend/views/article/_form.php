@@ -35,7 +35,7 @@ use yii\grid\GridView;
         [
             'plugins' => ['fullscreen', 'fontcolor', 'video'],
             'options' => [
-                'minHeight' => 400,
+                'minHeight' => 300,
                 'maxHeight' => 400,
                 'buttonSource' => true,
                 'convertDivs' => false,
@@ -43,7 +43,7 @@ use yii\grid\GridView;
                 //'imageUpload' => Yii::$app->urlManager->createUrl(['/file-storage/upload-imperavi'])
             ]
         ]
-    ) ?>
+    )->label(Yii::t('backend','内容')) ?>
 
     <?php 
     /*echo $form->field($model, 'thumbnail')->widget(
@@ -66,6 +66,7 @@ use yii\grid\GridView;
     ?>
 
     <?php echo $form->field($model, 'view')->textInput(['maxlength' => true]) ?>
+    <?php echo $form->field($model, 'page_rank')->textInput(['maxlength' => true])->label(Yii::t('backend', '排序'))->hint(Yii::t('backend', '由大到小降序排列')) ?>
 
     <?php 
         if($model->isNewRecord){

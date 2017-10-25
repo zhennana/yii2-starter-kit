@@ -181,15 +181,17 @@ class Article extends ActiveRecord
         foreach ($data as $key => $value) {
            if(empty($value['parent_id'])){
                 $value['parent_id'] = 0;
+                $title = $value['title'];
                 //var_dump( $value['parent_id'] );exit;
            }
             if($value['parent_id'] == $pid){
-                $value['title'] = str_repeat('-',$lev).$value['title'];
+                $value['title'] = str_repeat($title.' - ',$lev).$value['title'];
                 $list[] = $value;
                 $this->category_recursion($data,$value['id'],$lev+1);
             }
             
         }
+        sort($list);
         return $list;
     }
     /**
