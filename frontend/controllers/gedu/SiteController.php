@@ -3,6 +3,7 @@ namespace frontend\controllers\gedu;
 
 use Yii;
 use yii\helpers\ArrayHelper;
+use yii\data\Pagination;
 use yii\web\Controller;
 use common\models\Article;
 use common\models\Page;
@@ -41,16 +42,16 @@ class SiteController extends \frontend\controllers\SiteController
         //从第二个元素开始
         $data['other']=array_slice($data['all'], 1);
 
-        $teacher = Article::find()
-            ->where(['category_id' => 38])
+        $query = Article::find()
             ->published()
-            ->orderBy('page_rank DESC')
-            ->asArray()
-            ->all();
+            ->orderBy('page_rank DESC');
+        $teacher = $query->where(['category_id' => 38])->limit(6)->asArray()->all();
+        $sights = $query->where(['category_id' => 37])->limit(8)->asArray()->all();
 
         return $this->render('index',[
             'data'    => $data,
-            'teacher' => $teacher
+            'teacher' => $teacher,
+            'sights' => $sights,
             ]);
     }
     /**
@@ -91,23 +92,26 @@ class SiteController extends \frontend\controllers\SiteController
                 $category['pare_id']=$category['parent']['id'];
             }
 
-            if(empty($category['self']['parent_id'])){
-                $category['child']=ArticleCategory::find()->where(['parent_id'=>$category['self']['parent_id']])->asArray()->all();
-            }else{
-                $category['child']=ArticleCategory::find()->where(['parent_id'=>$category['self']['parent_id']])->asArray()->all();
-            }
+            $category['child']=ArticleCategory::find()->where(['parent_id'=>$category['self']['parent_id']])->asArray()->all();
             
         }  
-        $teacher = Article::find()
+
+        $query = Article::find()
             ->where(['category_id' => 38])
             ->published()
-            ->orderBy('page_rank DESC')
+            ->orderBy('page_rank DESC');
+        $pages = new Pagination([
+            'totalCount' =>$query->count(),
+            'pageSize' => '6'
+        ]);
+        $teacher = $query->offset($pages->offset)
+            ->limit($pages->limit)
             ->asArray()
             ->all();
-
         return $this->render("teacher",[
             'category'=>$category,
-            'teacher' => $teacher
+            'teacher' => $teacher,
+            'pages' => $pages
         ]);
     }
      /**
@@ -133,18 +137,27 @@ class SiteController extends \frontend\controllers\SiteController
                 $category['pare_id']=$category['parent']['id'];
             }
 
-            if(empty($category['self']['parent_id'])){
-                $category['child']=ArticleCategory::find()->where(['parent_id'=>$category['self']['parent_id']])->asArray()->all();
-            }else{
-                $category['child']=ArticleCategory::find()->where(['parent_id'=>$category['self']['parent_id']])->asArray()->all();
-            }
-            
-        }   
+            $category['child']=ArticleCategory::find()->where(['parent_id'=>$category['self']['parent_id']])->asArray()->all();
+        }
 
-
-        // $category=Yii::$app->request->queryParams;
+        $query = Article::find()
+            ->where(['category_id' => 37])
+            ->published()
+            ->orderBy('page_rank DESC');
+        $pages = new Pagination([
+            'totalCount' =>$query->count(),
+            'pageSize' => '12'
+        ]);
+        $sights = $query->offset($pages->offset)
+            ->limit($pages->limit)
+            ->asArray()
+            ->all();
         
-        return $this->render("sights",['category'=>$category]);
+        return $this->render("sights",[
+            'category' => $category,
+            'sights'   => $sights,
+            'pages'    => $pages
+        ]);
     }
     public function actionContact()
     {

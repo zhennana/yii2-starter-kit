@@ -16,9 +16,7 @@ $imgsize="?imageView2/1/w/225/h/300";
 <!-- 教师风采图片-->
   <div class="tab-content-fu">
         <div class="teacher-wrap">
-        <?php foreach($teacher as $key=>$value) {
-          if ($key >= 6) break;
-        ?>
+        <?php foreach($teacher as $key=>$value) { ?>
             <div class="col-sm-6 col-md-4 teacher-img teacher-img1">
                 <div class="panel panel-default panel-card">
                     <div class="panel-heading">
