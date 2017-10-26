@@ -91,7 +91,6 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
             }
         ],
         'grade_title',
-        'original_grade_id',
         [
             'attribute' => 'original_grade_id',
             'value' => function($model){
