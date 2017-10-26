@@ -44,7 +44,7 @@ class SiteController extends \frontend\controllers\SiteController
 
         $query = Article::find()
             ->published()
-            ->orderBy('page_rank DESC');
+            ->orderBy('page_rank DESC, created_at DESC');
         $teacher = $query->where(['category_id' => 38])->limit(6)->asArray()->all();
         $sights = $query->where(['category_id' => 37])->limit(8)->asArray()->all();
 
@@ -99,7 +99,7 @@ class SiteController extends \frontend\controllers\SiteController
         $query = Article::find()
             ->where(['category_id' => 38])
             ->published()
-            ->orderBy('page_rank DESC');
+            ->orderBy('page_rank DESC, created_at DESC');
         $pages = new Pagination([
             'totalCount' =>$query->count(),
             'pageSize' => '6'
@@ -143,7 +143,7 @@ class SiteController extends \frontend\controllers\SiteController
         $query = Article::find()
             ->where(['category_id' => 37])
             ->published()
-            ->orderBy('page_rank DESC');
+            ->orderBy('page_rank DESC, created_at DESC');
         $pages = new Pagination([
             'totalCount' =>$query->count(),
             'pageSize' => '12'
