@@ -64,4 +64,8 @@ public function behaviors()
         $school = School::find()->where(['status'=>School::SCHOOL_STATUS_OPEN])->asArray()->all();
         return ArrayHelper::map($school,'school_id','school_title');
       }
+      //获取用户多有课时
+       public static function userCourseNumber($user_id){
+            return self::find()->where(['user_id'=>$user_id])->sum('presented_course + total_course');
+       }
 }

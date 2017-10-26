@@ -180,7 +180,7 @@ use yii\helpers\Url;
                         //'badgeBgClass'=>'label-success',
                     ],
                     [
-                        'label'=>Yii::t('backend', '激活码'),
+                        'label'=>Yii::t('backend', '兑换码'),
                         'icon'=>'<i class="fa fa-key"></i>',
                         'options'=>['class'=>'treeview'],
                         'url'=>['/campus/activation-code/index','type'=>'100'],
@@ -417,7 +417,7 @@ use yii\helpers\Url;
                         //'badgeBgClass'=>'label-success',
                     ],
                     [
-                        'label'=>Yii::t('backend', '激活码'),
+                        'label'=>Yii::t('backend', '兑换码'),
                         'icon'=>'<i class="fa fa-key"></i>',
                         'options'=>['class'=>'treeview'],
                         'url'=>['/campus/activation-code/index','type'=>'200'],

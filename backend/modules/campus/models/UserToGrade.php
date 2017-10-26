@@ -223,4 +223,41 @@ public function behaviors()
         
         return ArrayHelper::map($school,'school_id','school_title');
       }
+
+    /**
+     *  [copyRelations 复制原班级学生关系至新班级]
+     *  @param  [type] $grade_id     [description]
+     *  @param  [type] $new_grade_id [description]
+     *  @param  array  $student_ids  [description]
+     *  @return [type]               [description]
+     */
+    public static function copyRelations($grade_id, $new_grade_id, $student_ids = [])
+    {
+        $info = ['error' => []];
+        $query = self::find()->where([
+            'grade_id' => $grade_id,
+            'status' => self::USER_GRADE_STATUS_NORMAL
+        ]);
+        if (is_array($student_ids) && !empty($student_ids)) {
+          $query->andWhere(['user_id' => $student_ids]);
+        }
+
+        $models = $query->all();
+
+        foreach ($models as $key => $value) {
+            $newModel = new self;
+            $newModel->user_id   = $value->user_id;
+            $newModel->school_id = $value->school_id;
+            $newModel->grade_id  = $new_grade_id;
+            $newModel->user_title_id_at_grade  = $value->user_title_id_at_grade;
+            $newModel->status    = $value->status;
+            $newModel->sort      = $value->sort;
+            $newModel->grade_user_type  = $value->grade_user_type;
+            if (!$newModel->save()) {
+                $info['error'][$value->user_id] = $newModel->getErrors();
+                continue;
+            }
+        }
+        return $info;
+    }
 }

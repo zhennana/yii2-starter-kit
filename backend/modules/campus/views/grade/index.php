@@ -43,6 +43,14 @@ $actionColumnTemplates = [];
     if (\Yii::$app->user->can('P_director', ['route' => true]) || \Yii::$app->user->can('E_manager') || Yii::$app->user->can('manager')) {
         $actionColumnTemplates[] = '{user_to_grade}';
     }
+    // if (\Yii::$app->user->can('P_director', ['route' => true]) || \Yii::$app->user->can('E_manager') || Yii::$app->user->can('manager')) {
+    //     $actionColumnTemplates[] = '{upgrade}';
+    // }
+    // 内部测试
+    if (in_array(\Yii::$app->user->identity->id,[108,6,7,28])) {
+        $actionColumnTemplates[] = '{upgrade}';
+    }
+    
     if (isset($actionColumnTemplates)) {
     $actionColumnTemplate = implode(' ', $actionColumnTemplates);
         $actionColumnTemplateString = $actionColumnTemplate;
@@ -136,7 +144,17 @@ $actionColumnTemplates = [];
                                 'aria-label' => Yii::t('backend', '查看班级学生'),
                                 //'data-pjax'  => '0',
                             ];
-                            return Html::a('<span class=" fa fa-users"></span>', ['user-to-grade/index','UserToGradeSearch[grade_id]' =>$key],[$options]);
+                            return Html::a('<span class=" fa fa-users"></span>', ['user-to-grade/index','UserToGradeSearch[grade_id]' =>$key],$options);
+                        },
+                        'upgrade' => function($url, $model, $key){
+                            if ($model->graduate == Grade::GRADE_NOT_GRADUATE) {
+                                $options = [
+                                    'title'      => Yii::t('backend', '一键升班'),
+                                    'aria-label' => Yii::t('backend', '一键升班'),
+                                    // 'data-pjax'  => '0',
+                                ];
+                                return Html::a('<span class=" fa fa-arrow-up"></span>', ['grade/upgrade','grade_id' =>$key],$options);
+                            }
                         }
                     ],
                     'urlCreator' => function($action, $model, $key, $index) {
@@ -169,7 +187,7 @@ $actionColumnTemplates = [];
                     'value'     =>function($model){
                         return Html::a(
                             isset($model->gradeCategory->name) ? $model->gradeCategory->name: '',
-                            ['/campus/grade-categroy','grade-categroy_id'=>$model->group_category_id]
+                            ['/campus/grade-category/view','grade_category_id'=>$model->group_category_id]
                             );
                     }
                 ],

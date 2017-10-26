@@ -294,40 +294,30 @@ $config = [
             'KRW' => '韩圆',
             'PHP' => '菲律宾披索',
         */
-       /*
-        'payment' => [
-            'gedu' => [
-                'alipay' => [
-                //应用ID,您的APPID。
-                'app_id' => "2017071107712808", // 光大
-
-                //商户私钥，您的原始格式RSA私钥
-                'merchant_private_key' => Yii::getAlias('@common').'/payment/alipay/cert/gedu_rsa_private_key.pem',
-
-                //异步通知地址
-                'notify_url' => 'http://'.$_SERVER['HTTP_HOST'].'/gedu_alipay_notify.php',
-
-                //同步跳转,尾部需要拼接主课件ID
-                // 'return_url' => 'http://'.$_SERVER['HTTP_HOST'].'/#/coursedetail/',
-
-                // 本地调试回调地址
-                'return_url' => 'http://app.v2.guangdaxuexiao.com/index.html#/mycourse',
-                // 'return_url' => 'http://192.168.5.119:8082/#/mycourse',
-
-                //编码格式
-                'charset' => "UTF-8",
-
-                //签名方式
-                'sign_type'=>"RSA",
-
-                //支付宝网关
-                'gatewayUrl' => "https://openapi.alipay.com/gateway.do",
-
-                //支付宝公钥,查看地址：https://openhome.alipay.com/platform/keyManage.htm 对应APPID下的支付宝公钥。
-                'alipay_public_key' => Yii::getAlias('@common').'/payment/alipay/cert/alipay_public_key.pem',
+       'shuo' =>[
+            'card_type' => [
+                'probation' => [
+                    'card_name' => '体验卡',
+                    'price' => 0.01,
+                    'time' => 2,
+                ],
+                'month_card' => [
+                    'card_name' => '月卡',
+                    'price' => 158,
+                    'time' => 31,
+                ],
+                'half_year_card' => [
+                    'card_name' => '半年卡',
+                    'price' => 798,
+                    'time' => 186,
+                ],
+                'year_card' => [
+                    'card_name' => '年卡',
+                    'price' => 1198,
+                    'time' => 372,
                 ],
             ],
-        ],*/
+        ],
 
     ], // component 结束
     

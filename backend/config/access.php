@@ -139,7 +139,7 @@ return [
                 //'actions'=>['index','view','create','update'],
                 'roles'=>['P_financial']
             ],
-            //查看激活码
+            //查看兑换码
             [
                 'controllers'=>['campus/activation-code'],
                 'allow'=>true,

@@ -140,7 +140,7 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
            $this->is_verification = false;//跳过学生欠费验证验证
         }
         if($this->is_verification === true){
-            if($this->grade_user_type == self::GRADE_USER_TYPE_STUDENT){
+            if($this->grade_user_type == self::GRADE_USER_TYPE_STUDENT && $this->status == self::USER_GRADE_STATUS_NORMAL){
                 $courseCount = CourseOrderItem::find()
                 ->select(['SUM(total_course + presented_course) as total_courses'])
                 ->where(['user_id'=>$this->user_id,'payment_status'=>CourseOrderItem::PAYMENT_STATUS_PAID])
@@ -232,8 +232,7 @@ abstract class UserToGrade extends \yii\db\ActiveRecord
      * @return [type] [description]
      */
     public function getCourseOrder(){
-        return $this->hasOne(\backend\modules\campus\models\CourseOrderItem::className(),['user_id'=>'user_id']
-            );
+        return $this->hasOne(\backend\modules\campus\models\CourseOrderItem::className(),['user_id'=>'user_id']);
     }
     /**
      * 获取用户上的所有课程

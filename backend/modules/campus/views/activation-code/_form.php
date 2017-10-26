@@ -103,7 +103,7 @@ $schools = ArrayHelper::map($schools, 'id', 'school_title');
     <?= Tabs::widget([
             'encodeLabels' => false,
             'items'        => [[
-                'label'   => Yii::t('backend', '激活码'),
+                'label'   => Yii::t('backend', '兑换码'),
                 'content' => $this->blocks['main'],
                 'active'  => true,
             ],]

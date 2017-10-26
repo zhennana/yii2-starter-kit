@@ -151,4 +151,23 @@ public function behaviors()
       $user = User::find()->select(['id','username'])->where(['status'=>2])->all();
       return $user;
     }
+
+    /**
+     *  [gradeToGraduate 变更班级状态为毕业]
+     *  @param  [type] $grade_id [description]
+     *  @return [type]           [description]
+     */
+    public static function gradeToGraduate($grade_id)
+    {
+        $model = self::findOne($grade_id);
+        if ($model) {
+            $model->graduate = self::GRANE_GRADUATE;
+            // $model->time_of_graduation = date('Y-m-d',time());
+            if ($model->save()) {
+                return true;
+            }
+        }
+        return false; 
+    }
+
  }
