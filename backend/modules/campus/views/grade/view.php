@@ -96,7 +96,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
             'value' => function($model){
                 $originalGrade = backend\modules\campus\models\Grade::findOne($model->original_grade_id);
                 if ($originalGrade) {
-                    return $originalGrade->grade_title;
+                    return $originalGrade->grade_name;
                 }
                 return '暂无';
             }
