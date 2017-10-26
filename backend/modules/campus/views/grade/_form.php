@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use trntv\yii\datetime\DateTimeWidget;
 use \dmstr\bootstrap\Tabs;
 use yii\helpers\StringHelper;
 use yii\helpers\ArrayHelper;
@@ -75,7 +76,17 @@ use common\models\User;
 			<!-- <? // = // $form->field($model, 'time_of_graduation')->textInput() ?> -->
 
 <!-- attribute time_of_enrollment -->
-			<!-- <? // = $form->field($model, 'time_of_enrollment')->textInput() ?> -->
+            <?php 
+                if($model->isNewRecord){
+                    $model->time_of_enrollment = time();
+                }
+                echo $form->field($model, 'time_of_enrollment')->widget(
+                DateTimeWidget::className(),
+                [
+                    'locale'            => Yii::$app->language,
+                    'phpDatetimeFormat' => 'yyyy-MM-dd\'T\'HH:mm:ssZZZZZ'
+                ]
+            ) ?>
 
 
 <!-- attribute sort -->
