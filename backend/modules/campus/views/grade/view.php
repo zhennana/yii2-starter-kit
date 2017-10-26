@@ -78,8 +78,30 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
             'attribute' => 'school_id',
             'value'     => isset($model->school->school_title) ? $model->school->school_title : '',
         ],
-        'grade_name',
+        [
+            'attribute' => 'grade_name',
+            'value' => function($model){
+                $enrollment = '';
+                if ($model->time_of_enrollment) {
+                    $enrollment .= '[';
+                    $enrollment .= date('Y',$model->time_of_enrollment);
+                    $enrollment .= ']';
+                }
+                return $enrollment.$model->grade_name;
+            }
+        ],
         'grade_title',
+        'original_grade_id',
+        [
+            'attribute' => 'original_grade_id',
+            'value' => function($model){
+                $originalGrade = backend\modules\campus\models\Grade::findOne($model->original_grade_id);
+                if ($originalGrade) {
+                    return $originalGrade->grade_title;
+                }
+                return '暂无';
+            }
+        ],
         [
             'attribute' => 'owner_id',
             'value' =>  Yii::$app->user->identity->getUserName($model->owner_id),
