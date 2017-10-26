@@ -189,7 +189,18 @@ $actionColumnTemplates = [];
                 ],
                 //'group_category_id',
     			//'grade_title',
-                'grade_name',
+                [
+                    'attribute' => 'grade_name',
+                    'value' => function($model){
+                        $enrollment = '';
+                        if ($model->time_of_enrollment) {
+                            $enrollment .= '[';
+                            $enrollment .= date('Y',$model->time_of_enrollment);
+                            $enrollment .= ']';
+                        }
+                        return $enrollment.$model->grade_name;
+                    }
+                ],
                /* [
                     'attribute' => 'creater_id',
                     'value'     => function($model){
