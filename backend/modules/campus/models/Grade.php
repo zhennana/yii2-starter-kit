@@ -161,8 +161,8 @@ public function behaviors()
     {
         $model = self::findOne($grade_id);
         if ($model) {
-            $model->graduate = self::GRANE_GRADUATE;
-            // $model->time_of_graduation = date('Y-m-d',time());
+            $model->graduate           = self::GRANE_GRADUATE;
+            $model->time_of_graduation = time();
             if ($model->save()) {
                 return true;
             }
