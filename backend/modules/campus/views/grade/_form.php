@@ -84,9 +84,11 @@ use common\models\User;
                 DateTimeWidget::className(),
                 [
                     'locale'            => Yii::$app->language,
-                    'phpDatetimeFormat' => 'yyyy-MM-dd\'T\'HH:mm:ssZZZZZ'
+                    'phpDatetimeFormat' => 'yyyy-MM-dd HH:mm',
+                    'momentDatetimeFormat' => 'YYYY-MM-DD HH:mm',
                 ]
             ) ?>
+
 
 
 <!-- attribute sort -->

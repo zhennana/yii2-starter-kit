@@ -163,6 +163,7 @@ public function behaviors()
         if ($model) {
             $model->graduate           = self::GRANE_GRADUATE;
             $model->time_of_graduation = time();
+            $model->time_of_enrollment = date('Y-m-d H:i:s',$model->time_of_enrollment);
             if ($model->save()) {
                 return true;
             }
