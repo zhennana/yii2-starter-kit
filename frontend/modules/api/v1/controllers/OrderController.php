@@ -566,7 +566,7 @@ Receipt: {"Store":"fake","TransactionID":"bc0df36d-13be-4d9f-b9d1-4d980d11c402",
         $order = $modelClass::find()->where([
             'user_id'        => Yii::$app->user->identity->id,
             'status'         => $modelClass::STATUS_VALID,
-            'payment_status' => [$modelClass::PAYMENT_STATUS_PAID,$modelClass::PAYMENT_STATUS_PAID_CLIENT],
+            'payment_status' => [$modelClass::PAYMENT_STATUS_PAID,$modelClass::PAYMENT_STATUS_PAID_SERVER],
         ])->orderBy('expired_at DESC')->one();
         if ($order) {
             $expired_at = $order->expired_at;
