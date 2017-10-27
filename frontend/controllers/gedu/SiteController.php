@@ -46,7 +46,7 @@ class SiteController extends \frontend\controllers\SiteController
             ->published()
             ->orderBy('page_rank DESC, created_at DESC');
         $teacher = $query->andWhere(['category_id' => 38])->limit(6)->asArray()->all();
-        $sights = $query->andWwhere(['category_id' => 37])->limit(8)->asArray()->all();
+        $sights = $query->andWhere(['category_id' => 37])->limit(8)->asArray()->all();
 
         return $this->render('index',[
             'data'    => $data,
