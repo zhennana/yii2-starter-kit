@@ -43,11 +43,7 @@ $actionColumnTemplates = [];
     if (\Yii::$app->user->can('P_director', ['route' => true]) || \Yii::$app->user->can('E_manager') || Yii::$app->user->can('manager')) {
         $actionColumnTemplates[] = '{user_to_grade}';
     }
-    // if (\Yii::$app->user->can('P_director', ['route' => true]) || \Yii::$app->user->can('E_manager') || Yii::$app->user->can('manager')) {
-    //     $actionColumnTemplates[] = '{upgrade}';
-    // }
-    // 内部测试
-    if (in_array(\Yii::$app->user->identity->id,[108,6,7,28])) {
+    if (\Yii::$app->user->can('P_director', ['route' => true]) || \Yii::$app->user->can('E_manager') || Yii::$app->user->can('manager')) {
         $actionColumnTemplates[] = '{upgrade}';
     }
     
@@ -193,7 +189,18 @@ $actionColumnTemplates = [];
                 ],
                 //'group_category_id',
     			//'grade_title',
-                'grade_name',
+                [
+                    'attribute' => 'grade_name',
+                    'value' => function($model){
+                        $enrollment = '';
+                        if ($model->time_of_enrollment) {
+                            $enrollment .= '[';
+                            $enrollment .= date('Y',$model->time_of_enrollment);
+                            $enrollment .= ']';
+                        }
+                        return $enrollment.$model->grade_name;
+                    }
+                ],
                /* [
                     'attribute' => 'creater_id',
                     'value'     => function($model){

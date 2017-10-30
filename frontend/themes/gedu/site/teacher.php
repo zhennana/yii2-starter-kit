@@ -2,7 +2,7 @@
 use yii\helpers\Html;
 use yii\widgets\LinkPager;
 
-$imgsize="?imageView2/1/w/225/h/300";
+$imgsize="?imageView2/1/w/300/h/400";
 
 ?>
 <div class="tuoutu">

@@ -10,6 +10,11 @@ use backend\modules\campus\models\UserToGrade;
 */
 class GradeController extends \backend\modules\campus\controllers\base\GradeController
 {
+    /**
+     *  [actionUpgrade description]
+     *  @param  [type] $grade_id [原班级ID]
+     *  @return [type]           [description]
+     */
     public function actionUpgrade($grade_id)
     {
         $info = ['error' => []];
@@ -19,6 +24,14 @@ class GradeController extends \backend\modules\campus\controllers\base\GradeCont
         // 开启事务
         $transaction = $newModel->db->beginTransaction();
         if (Yii::$app->request->post() && $newModel->load(Yii::$app->request->post())) {
+
+            // 更新新班级入学时间,并建立升班关系
+            $originalGrade = Grade::findOne($grade_id);
+            if (!empty($originalGrade->time_of_enrollment)) {
+                $newModel->time_of_enrollment = date('Y-m-d H:i:s',$originalGrade->time_of_enrollment);
+            }
+            $newModel->original_grade_id = $grade_id;
+
             if ($newModel->save() && Grade::gradeToGraduate($grade_id)) {
                 $student_ids = isset($_POST['UserToGrade']['user_id']) ? $_POST['UserToGrade']['user_id'] : [];
                 // 复制班级关系

@@ -103,8 +103,9 @@ abstract class Grade extends \yii\db\ActiveRecord
         return [
             [['school_id','group_category_id','owner_id'], 'required'],
             ['creater_id','default','value'=>Yii::$app->user->isGuest ? 0 : Yii::$app->user->identity->id],
-            [['school_id', 'owner_id', 'creater_id', 'sort', 'status', 'graduate', 'time_of_graduation', 'time_of_enrollment','group_category_id'], 'integer'],
-            [['grade_name'], 'string', 'max' => 32]
+            [['school_id', 'owner_id', 'creater_id', 'sort', 'status', 'graduate', 'time_of_graduation', 'group_category_id','original_grade_id'], 'integer'],
+            [['grade_name'], 'string', 'max' => 32],
+            [['time_of_enrollment'], 'filter', 'filter' => 'strtotime', 'skipOnEmpty' => true],
         ];
     }
 
@@ -118,6 +119,7 @@ abstract class Grade extends \yii\db\ActiveRecord
             'school_id'          => Yii::t('common', '学校'),
             'grade_name'         => Yii::t('common', '班级名'),
             'grade_title'        => Yii::t('common', '几班'),
+            'original_grade_id'  => Yii::t('common', '原班级'),
             'group_category_id'  => Yii::t('common', '班级分类'),
             'owner_id'           => Yii::t('common', '班主任'),
             'creater_id'         => Yii::t('common', '创建者'),

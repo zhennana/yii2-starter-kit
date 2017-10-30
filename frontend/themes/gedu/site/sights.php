@@ -41,7 +41,7 @@ $imgsize = '?imageView2/1/w/500/h/400';
 
                       <div class="image-box" >
                       <img class="img-responsive" src="<?= getImgs($value['body'])[0].$imgsize;?>" alt="Photo">
-                        <p class="img-title"><?= $value['title'] ?>
+                        <p class="img-title"><?= strip_tags($value['body']) ?>
                           <span class="img-time">上传时间:<?= date('Y-m-d',$value['published_at']) ?></span>
                         </p>
                       </div>
