@@ -42,12 +42,19 @@ class SiteController extends \frontend\controllers\SiteController
         //从第二个元素开始
         $data['other']=array_slice($data['all'], 1);
 
-        $query = Article::find()
-            ->published()
-            ->orderBy('page_rank DESC, created_at DESC');
-        $teacher = $query->where(['category_id' => 38])->limit(6)->asArray()->all();
-        $sights = $query->where(['category_id' => 37])->limit(8)->asArray()->all();
+        $teacher = Article::find()->published()
+            ->orderBy('page_rank DESC, created_at DESC')
+            ->andWhere(['category_id' => 38])
+            ->limit(6)
+            ->asArray()
+            ->all();
 
+        $sights = Article::find()->published()
+            ->orderBy('page_rank DESC, created_at DESC')
+            ->andWhere(['category_id' => 37])
+            ->limit(8)
+            ->asArray()
+            ->all();
         return $this->render('index',[
             'data'    => $data,
             'teacher' => $teacher,
