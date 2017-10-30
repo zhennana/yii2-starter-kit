@@ -1319,7 +1319,7 @@ transform: scale(1.2);
 	transform: translate(-50%,-50%);
 }
 .img-title{
-	height:115px;
+	height:120px;
 	text-align:left;
 }
 .img-time{
@@ -1710,6 +1710,11 @@ transform: scale(1.2);
 	.todo-list>li{margin-bottom:5px;}
 	.todo-list>li:hover{box-shadow: none;}
 	.tuoutu{margin:0;}
+	.img-time{display:none;}
+	.img-title{
+		height:140px;
+		text-align:left;
+	}
 }
 @media (max-width:400px) {
 	.teacher-content{padding:0;height:130px;}
