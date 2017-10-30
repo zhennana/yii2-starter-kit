@@ -61,8 +61,8 @@ $imgsize = '?imageView2/1/w/500/h/400';
                   <?php foreach($sights as $key =>$value){ ?>
                     <li>
                     <img class="img-responsive" src="<?= getImgs($value['body'])[0];?>" alt="Photo">
-                      <p class="bigImg-title"><?= $value['title'] ?></p>
-                      <p class="bigImg-title"><?= strip_tags($value['body']) ?></p>
+                      <!--<p class="bigImg-title"><?= $value['title'] ?></p>-->
+                     <!--<p class="bigImg-title"><?= strip_tags($value['body']) ?></p>-->
                     </li>
                   <?php } ?>
                 </ul>
