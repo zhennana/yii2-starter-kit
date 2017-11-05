@@ -508,8 +508,8 @@ class ConfigController extends \yii\rest\Controller
         $data['message'] = 'OK';
         $data['result'] = [];
         $url = Yii::$app->keyStorage->get('web.url','');
-        $url = explode(';',$url); 
-        if (!empty($url)) {
+        if (isset($url) && !empty($url)) {
+            $url = explode(';',$url); 
             $data['result'] = $url;
         }
         return $data;
