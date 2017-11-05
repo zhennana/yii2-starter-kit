@@ -489,4 +489,30 @@ class ConfigController extends \yii\rest\Controller
         return $data;
     }
 
+    /**
+     * @SWG\Get(path="/config/web-url",
+     *     tags={"800-Config-配置信息接口"},
+     *     summary="获取分享文章url",
+     *     description="返回分享文章url",
+     *     produces={"application/json"},
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "返回分享文章url"
+     *     ),
+     * )
+     *
+    **/
+    public function actionWebUrl()
+    {
+        $data['errorno'] = '0';
+        $data['message'] = 'OK';
+        $data['result'] = [];
+        $url = Yii::$app->keyStorage->get('web.url','');
+        $url = explode(';',$url); 
+        if (!empty($url)) {
+            $data['result'] = $url;
+        }
+        return $data;
+    }
+
 }
