@@ -116,6 +116,8 @@ class ArticleController extends \common\rest\Controller
                 $temp['url'] .= Url::to(['article/view','id'=>55]);
             }elseif ($value['id'] == 32) {
                 $temp['url'] .= Url::to(['article/view','id'=>58]);
+            }else{
+                $temp['url'] .= Url::to(['article/index','category_id'=>$value['id']]);
             }
 
             $data[] = $temp;
