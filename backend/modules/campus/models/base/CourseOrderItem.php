@@ -45,6 +45,7 @@ abstract class CourseOrderItem extends \yii\db\ActiveRecord
     const PAYMENT_APPLEPAY       = 116;        // 苹果支付
     const PAYMENT_OFFLINE        = 200;        // 线下支付
     const PAYMENT_FREE           = 210;        // 免费赠送
+    const PAYMENT_SHAREFREE      = 220;        // 分享赠送
 
     const STATUS_VALID   = 10;        // 有效
     const STATUS_INVALID = 20;        // 无效
@@ -76,6 +77,7 @@ abstract class CourseOrderItem extends \yii\db\ActiveRecord
             self::PAYMENT_APPLEPAY       => 'Apple Pay',
             self::PAYMENT_OFFLINE        => '线下支付',
             self::PAYMENT_FREE           => '免费赠送',
+            self::PAYMENT_SHAREFREE      => '分享赠送',
         ];
     }
 

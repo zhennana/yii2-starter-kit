@@ -125,7 +125,6 @@ class SignInController extends \common\components\ControllerFrontendApi
      *     @SWG\Response(
      *         response = 422,
      *         description = "Data Validation Failed 账号或密码错误",
-     *         @SWG\Schema(ref="#/definitions/Error")
      *     )
      * )
      *

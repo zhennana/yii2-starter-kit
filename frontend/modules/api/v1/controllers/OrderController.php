@@ -232,11 +232,11 @@ Receipt: {"Store":"fake","TransactionID":"bc0df36d-13be-4d9f-b9d1-4d980d11c402",
      *     @SWG\Parameter(
      *        in = "formData",
      *        name = "card_type",
-     *        description = "延长卡类型:probation体验卡；week_card周卡；month_card月卡；half_year_card半年卡；year_card年卡",
+     *        description = "延长卡类型:probation体验卡；month_card月卡；half_year_card半年卡；year_card年卡",
      *        required = true,
      *        type = "string",
      *        default = "probation",
-     *        enum = {"probation","week_card","month_card","half_year_card","year_card"}
+     *        enum = {"probation","month_card","half_year_card","year_card"}
      *     ),
      *     @SWG\Parameter(
      *        in = "formData",
@@ -430,6 +430,7 @@ Receipt: {"Store":"fake","TransactionID":"bc0df36d-13be-4d9f-b9d1-4d980d11c402",
             'message' => '',
         ];
         $post = Yii::$app->request->post();
+        $modelClass = $this->modelClass;
 
         if (!isset($post['user_id']) && empty($post['user_id'])) {
             $info['errorno'] = __LINE__;
@@ -459,7 +460,7 @@ Receipt: {"Store":"fake","TransactionID":"bc0df36d-13be-4d9f-b9d1-4d980d11c402",
         }
 
         // 创建订单
-        $order = new CourseOrderItem;
+        $order = new $modelClass;
         $order = $order->createActivationOrder($codeModel,$post);
         if ($order['errorno'] != '0' && $order['model'] == null) {
             $info['errorno'] = $order['errorno'];
@@ -484,6 +485,76 @@ Receipt: {"Store":"fake","TransactionID":"bc0df36d-13be-4d9f-b9d1-4d980d11c402",
             )
         ];
 
+    }
+
+    /**
+     * @SWG\Post(path="/order/share-award",
+     *     tags={"600-Order-课程订单接口"},
+     *     summary="创建分享奖励订单",
+     *     description="提交用户ID、创建分享奖励订单，每天仅一次",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "user_id",
+     *        description = "用户ID，注意提交谁的赠送给谁",
+     *        default = "123456",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "返回激活信息"
+     *     )
+     * )
+     *
+     */
+    public function actionShareAward()
+    {
+        $user = User::findOne(Yii::$app->request->post('user_id'));
+        if (!$user) {
+            $message['errorno'] = __LINE__;
+            $message['message'] = Yii::t('frontend','用户不存在');
+            return $message;
+        }
+        $modelClass = $this->modelClass;
+        $share_count = $modelClass::find()
+            ->where([
+                'user_id' => Yii::$app->request->post('user_id'),
+                'payment' => $modelClass::PAYMENT_SHAREFREE,
+                'status' => $modelClass::STATUS_VALID
+            ])
+            ->andWhere(['>','created_at', strtotime(date("Y-m-d"),time())])
+            ->count();
+
+        if ($share_count > 0) {
+            $message['errorno'] = __LINE__;
+            $message['message'] = Yii::t('frontend','超过次数限制');
+            return $message;
+        }
+        $data = [];
+        $model = new $modelClass;
+
+        $data['order_sn']       = $model->builderNumber();
+        $data['school_id']      = 3;
+        $data['user_id']        = Yii::$app->request->post('user_id');
+        $data['payment']        = $modelClass::PAYMENT_SHAREFREE;
+        $data['status']         = $modelClass::STATUS_VALID;
+        $data['payment_status'] = $modelClass::PAYMENT_STATUS_PAID;
+        $data['total_price']    = 0;
+        $data['real_price']     = 0;
+        $data['total_course']   = 0;
+        $data['expired_at']     = $model->getRemainingTime(Yii::$app->request->post('user_id'),7);
+        $data['days']           = 7;
+
+        $model = $model->createOrderOne($data);
+
+        if (isset($model['errno']) && $model['errno'] != 0) {
+            $message['errorno'] = $model['errno'];
+            $message['message'] = $model['message'];
+            return $message;
+        }
+        
+        return $model;
     }
 
     /**
@@ -565,7 +636,7 @@ Receipt: {"Store":"fake","TransactionID":"bc0df36d-13be-4d9f-b9d1-4d980d11c402",
         $order = $modelClass::find()->where([
             'user_id'        => Yii::$app->user->identity->id,
             'status'         => $modelClass::STATUS_VALID,
-            'payment_status' => [$modelClass::PAYMENT_STATUS_PAID,$modelClass::PAYMENT_STATUS_PAID_CLIENT],
+            'payment_status' => [$modelClass::PAYMENT_STATUS_PAID,$modelClass::PAYMENT_STATUS_PAID_SERVER],
         ])->orderBy('expired_at DESC')->one();
         if ($order) {
             $expired_at = $order->expired_at;

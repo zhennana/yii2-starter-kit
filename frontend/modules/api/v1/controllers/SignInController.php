@@ -23,6 +23,7 @@ use frontend\modules\user\models\PasswordResetRequestForm;
 use frontend\modules\user\models\ResetPasswordForm;
 use frontend\modules\user\models\SignupForm;
 use frontend\modules\user\models\SignupSmsForm;
+use frontend\modules\user\models\GuestSignupForm;
 
 use common\models\User;
 use common\models\UserProfile;
@@ -131,7 +132,6 @@ class SignInController extends \common\components\ControllerFrontendApi
      *     @SWG\Response(
      *         response = 422,
      *         description = "Data Validation Failed 账号或密码错误",
-     *         @SWG\Schema(ref="#/definitions/Error")
      *     )
      * )
      *
@@ -181,6 +181,9 @@ class SignInController extends \common\components\ControllerFrontendApi
                     $attrUser['avatar'] = $fansMpUser->avatar;
                 }
             }
+            // 获取体验卡已购买数量
+            $attrUser['probation_count'] = $model->user->getProbationCount();
+
             $row['session'] = $info;
             $row['session_data'] = Yii::$app->session->getIterator();
             //$row['session']['udid_new'] = $udid_new;
@@ -258,6 +261,8 @@ class SignInController extends \common\components\ControllerFrontendApi
             }
             */
         }
+        // 获取体验卡已购买数量
+        $attrUser['probation_count'] = $model->user->getProbationCount();
         //$user['roles']=\Yii::$app->authManager->getRolesByUser(\Yii::$app->user->id);
         //return  array_merge($attrUser,$account);
         $attrUser['session_id'] = Yii::$app->session->id;
@@ -268,6 +273,310 @@ class SignInController extends \common\components\ControllerFrontendApi
             'data' => $attrUser,
             'session' => $info,
             'session_data' => Yii::$app->session->getIterator(),
+        ];
+    }
+
+    /**
+     * @SWG\Post(path="/sign-in/guest-signin",
+     *     tags={"100-SignIn-用户接口"},
+     *     summary="游客登录及注册",
+     *     description="游客登录，如果没有该设备号则新建一个",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "udid",
+     *        description = "选填设备号，一个账户只能同时在线一个客户端; 测试方法：打开两个不同的浏览器谷歌、火狐模拟两个客户端，分别填入不同的udid。最新登录会把之前的踢下线。
+     * ",
+     *        required = false,
+     *        default = "adfad-asdfsd-234-adsf",
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "rememberMe",
+     *        description = "勾选记住我",
+     *        required = false,
+     *        type = "integer",
+     *        default = 1,
+     *        enum = {0,1}
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "success,cookie 值 PHPSESSID 与 _identity 加入请求头，返回用户个人信息"
+     *     ),
+     *     @SWG\Response(
+     *         response = 422,
+     *         description = "Data Validation Failed 账号或密码错误",
+     *     )
+     * )
+     */
+    public function actionGuestSignin()
+    {
+        $post = Yii::$app->request->post();
+        $modelClass = $this->modelClass;
+        $params['username'] = md5('Guest'.$post['udid']);
+        $params['identity'] = md5('Guest'.$post['udid']);
+        $params['password'] = substr($params['username'],10,6);
+        $params['rememberMe'] = $post['rememberMe'];
+
+        $user = $modelClass::find()
+            ->where(['username' => $params['username'], 'phone_number' => null])
+            ->andWhere(['status' => $modelClass::STATUS_ACTIVE])
+            ->one();
+
+        if (!$user) {
+            // 创建游客
+            $signup = new GuestSignupForm;
+            if ($signup->load($params,'')) {
+                $user = $signup->signup();
+            }
+            if (!$user) {
+                return [
+                    'errorno' => 1,
+                    'message' => '游客用户创建失败',
+                ];
+            }
+            // 创建赠送订单
+            $order = new CourseOrderItem;
+            $freeOrder = $order->createFreeOne($user->id);
+        }
+
+        $model = new LoginForm();
+        $udid_new = '';
+        if(isset($post['udid'])){
+            $udid_new = addslashes($post['udid']);
+            \Yii::$app->session->set('user.udid',$udid_new);
+        }
+        if($model->load($params,'') && $model->login()){
+            $info = $model->updateSession(Yii::$app->user->id,$udid_new);   // 登录第一次更新设备号
+
+            $attrUser = $model->user->attributes;
+            if(isset($attrUser['password_hash'])){
+                unset($attrUser['password_hash']);
+            }
+            $attrUser['avatar'] = '';
+            $account = [];
+
+            $proFileUser = $model->user->userProfile;
+            // 默认头像
+            if(isset($proFileUser->avatar_base_url) && !empty($proFileUser->avatar_base_url))
+            {
+                $attrUser['avatar'] = $proFileUser->avatar_base_url.$proFileUser->avatar_path;
+            }else{
+                $fansMpUser = isset($model->user->fansMp) ? $model->user->fansMp : '';
+                if($fansMpUser){
+                    $attrUser['avatar'] = $fansMpUser->avatar;
+                }
+            }
+            // 获取体验卡已购买数量
+            $attrUser['probation_count'] = $model->user->getProbationCount();
+            $row['session'] = $info;
+            $row['session_data'] = Yii::$app->session->getIterator();
+
+            return [
+                    'errorno' => '0',
+                    'message' => 'OK',
+                    'data' => array_merge($attrUser,$account,$row),
+                ];
+        }
+
+    }
+
+    /**
+     * @SWG\Post(path="/sign-in/bind-phone-sms",
+     *     tags={"100-SignIn-用户接口"},
+     *     summary="发送游客账号绑定手机验证码短信",
+     *     description="发送游客账号绑定手机验证码短信",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "udid",
+     *        description = "选填设备号，一个账户只能同时在线一个客户端; 测试方法：打开两个不同的浏览器谷歌、火狐模拟两个客户端，分别填入不同的udid。最新登录会把之前的踢下线。
+     * ",
+     *        required = true,
+     *        default = "adfad-asdfsd-234-adsf",
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "phone_number",
+     *        description = "手机号",
+     *        required = true,
+     *        default = "13619500595",
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "client_type",
+     *        description = "客户端注册类型:移动端默认app",
+     *        required = true,
+     *        type = "string",
+     *        default = "app",
+     *        enum = {"app", "pc"}
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = ""
+     *     ),
+     * )
+     */
+    public function actionBindPhoneSms()
+    {
+        if (Yii::$app->user->isGuest) {
+            return [
+                'errorno' => __LINE__,
+                'message' => '请登录',
+            ];
+        }
+        $post = Yii::$app->request->post();
+
+        if (!isset($post['phone_number']) || empty($post['phone_number'])) {
+            return [
+                'errorno' => __LINE__,
+                'message' => '手机号不能为空',
+            ];
+        }
+        if (!isset($post['udid']) || empty($post['udid'])) {
+            return [
+                'errorno' => __LINE__,
+                'message' => '设备号不能为空',
+            ];
+        }
+
+        $modelClass = $this->modelClass;
+        $user = $modelClass::find()
+            ->where(['username' => md5('Guest'.$post['udid'])])
+            ->one();
+        if ($user && $user->id == Yii::$app->user->identity->id) {
+            if ($user->phone_number == null) {
+                $code = UserToken::randomCode();
+                $instance = new SendSMSMessage();
+
+                \Yii::$app->language = 'zh-CN';
+                $type =  UserToken::TYPE_BIND_PHONE;
+
+                UserToken::deleteAll([
+                    'user_id' => $user->id,
+                    'type' => $type,
+                ]);
+
+                $token = UserToken::create(
+                    $user->id,
+                    $type,
+                    Time::SECONDS_IN_A_DAY,
+                    $code
+                );
+
+                if($token){ // 发送短信
+                    $res = $instance->registerCode($post['phone_number'],['code' => $code]);
+                }
+
+                $info = [
+                    'errorno' => 0,
+                    'message'=>$code.' 验证码',
+                    'phone'=>$post['phone_number'],
+                    'messageId' => $res,
+                    'status' => $res ? 0 : 500 ,
+                ];
+
+                return $info;
+            }else{
+                return [
+                    'errorno' => __LINE__,
+                    'message' => '用户已绑定过手机',
+                ];
+            }
+        }else{
+            return [
+                'errorno' => __LINE__,
+                'message' => '用户不存在或权限不足',
+            ];
+        }
+    }
+
+    /**
+     * @SWG\Post(path="/sign-in/bind-phone",
+     *     tags={"100-SignIn-用户接口"},
+     *     summary="验证码绑定手机号并设置密码",
+     *     description="根据验证码，验证码绑定手机号并设置密码",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "phone_number",
+     *        description = "手机号",
+     *        required = true,
+     *        default = "13619500595",
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "token",
+     *        description = "验证码",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "passwd",
+     *        description = "密码",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "用户绑定成功"
+     *     )
+     * )
+     *
+     */
+    /**
+     * 短信验证修改密码
+     * @return string|Response
+     */
+    public function actionBindPhone()
+    {
+        \Yii::$app->language = 'zh-CN';
+        $post = Yii::$app->request->post();
+        $modelClass = $this->modelClass;
+        $token = UserToken::find()
+            ->byType(UserToken::TYPE_BIND_PHONE)
+            ->byToken($post['token'])
+            ->notExpired()
+            ->one();
+        if (!$token) {
+            return [
+                'errorno'=>__LINE__,
+                'message'=>'验证码无效'
+            ];
+        }
+
+        $user = $modelClass::find()
+            ->where(['phone_number' => $post['phone_number'], 'status' => $modelClass::STATUS_ACTIVE])
+            ->one();
+        if ($user) {
+            return [
+                'errorno' => __LINE__,
+                'message' => '手机号已被占用'
+            ];
+        }
+
+        $user = $token->user;
+        $info = [
+            'username' => '用户'.substr(str_shuffle("abcdefghijklmnopqrstuvwxyz0123456789"),0,20),
+            'phone_number' => $post['phone_number'],
+            'status' => User::STATUS_ACTIVE,
+            'password_hash' => Yii::$app->getSecurity()->generatePasswordHash($post['passwd']),
+        ];
+        if($user->safety<=1){
+            $info['safety'] = $user->safety+2;
+        }
+        $user->updateAttributes($info);
+        $token->delete();
+        Yii::$app->getUser()->login($user);
+        return [
+            'errorno' => '0',
+            'message' => '绑定成功',
+            'data' => $user->attributes,
         ];
     }
 
@@ -321,7 +630,6 @@ class SignInController extends \common\components\ControllerFrontendApi
      *     @SWG\Response(
      *         response = 422,
      *         description = "Data Validation Failed 账号或密码错误",
-     *         @SWG\Schema(ref="#/definitions/Error")
      *     )
      * )
      *

@@ -12,6 +12,7 @@ use yii\web\IdentityInterface;
 use backend\modules\campus\models\UserToGrade;
 use backend\modules\campus\models\UserToSchool;
 use backend\modules\campus\models\UsersToUsers;
+use backend\modules\campus\models\CourseOrderItem;
 use backend\modules\campus\models\Grade;
 use backend\modules\campus\models\School;
 
@@ -710,6 +711,25 @@ class User extends ActiveRecord implements IdentityInterface
         $user['school_type'] = isset($this->userToSchool[0]->school_user_type) ? UserToSchool::getUserTypeLabel($this->userToSchool[0]->school_user_type) : '';
         
         return $user;
+    }
+
+    /**
+     *  [getProbationCount 获取体验卡订单数量]
+     *  @return [type] [description]
+     */
+    public function getProbationCount()
+    {
+        if (!Yii::$app->user->isGuest) {
+            $count = CourseOrderItem::find()
+                ->where(['status' => CourseOrderItem::STATUS_VALID])
+                ->andWhere(['payment_status' => [CourseOrderItem::PAYMENT_STATUS_PAID,CourseOrderItem::PAYMENT_STATUS_PAID_SERVER]])
+                ->andwhere(['data' => 'probation','user_id' => Yii::$app->user->identity->id])
+                ->count();
+            if ($count) {
+                return (int)$count;
+            }
+        }
+        return 0;
     }
 
 //获取用户的提送
