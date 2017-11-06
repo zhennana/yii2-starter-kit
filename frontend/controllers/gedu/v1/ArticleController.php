@@ -94,6 +94,7 @@ class ArticleController extends \common\rest\Controller
         $data = [];
         $modelClass = $this->modelClass;
         $child_cate = ArticleCategory::find()
+            // ->with('articles')
             ->where(['parent_id' => $id])
             ->asArray()
             ->all();
@@ -111,8 +112,10 @@ class ArticleController extends \common\rest\Controller
                 $temp['url'] .= Url::to(['site/sights','category_id'=>$value['id']]);
             }elseif ($value['id'] == 38) {
                 $temp['url'] .= Url::to(['site/teacher','category_id'=>$value['id']]);
-            }else{
-                $temp['url'] .= Url::to(['article/index','category_id'=>$value['id']]);
+            }elseif ($value['id'] == 9) {
+                $temp['url'] .= Url::to(['article/view','id'=>55]);
+            }elseif ($value['id'] == 32) {
+                $temp['url'] .= Url::to(['article/view','id'=>58]);
             }
 
             $data[] = $temp;
