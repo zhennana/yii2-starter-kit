@@ -340,19 +340,27 @@ class ConfigController extends \yii\rest\Controller
      * @SWG\Post(path="/config/list-notices",
      *     tags={"800-Config-配置信息接口"},
      *     summary="用户反馈通知列表",
-     *     description="返回主视觉信息",
+     *     description="返回用户反馈通知列表",
      *     produces={"application/json"},
      *     @SWG\Parameter(
      *        in = "formData",
      *        name = "user_id",
-     *        description = "用户ID",
+     *        description = "用户ID(默认当前登录用户)",
      *        required = true,
      *        default = 1,
      *        type = "string"
      *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "limit",
+     *        description = "返回条数，默认10条",
+     *        required = false,
+     *        default = 10,
+     *        type = "string"
+     *     ),
      *     @SWG\Response(
      *         response = 200,
-     *         description = "添加用户反馈"
+     *         description = "用户反馈通知列表"
      *     ),
      * )
      *
@@ -360,49 +368,59 @@ class ConfigController extends \yii\rest\Controller
     public function actionListNotices(){
         if(isset(Yii::$app->user->identity->id)){
             $user = Yii::$app->user->identity->attributes;
-            //var_dump($user);exit;
         }else{
             return [
                 'errorno'=> 203,
                 'message'=>'请先登录',
             ];
         }
-        //var_dump($user['id']);exit;
+        $limit = (null !== Yii::$app->request->post('limit')) ? Yii::$app->request->post('limit') : 10;
         $model = Notice::find();
         $model->andwhere([
-            'receiver_id'=>$user['id'], 
-            'category'=>Notice::CATEGORY_THREE
-            ]);
-        //var_dump();exit;
+            'sender_id' => $user['id'], 
+            'category'  => Notice::CATEGORY_THREE
+        ]);
 
         //获取已回复的问题答案
-        $answers = $model
-                ->with('question')
-                ->asArray()
-                ->limit(10)
-                ->orderBy(['updated_at'=>SORT_DESC])
-                ->all();
-// var_dump($answers);exit;
-        $answers_count = $model->andwhere([
-            'status_check'=>Notice::STATUS_CHECK_NOT_LOOK
-            ])
-        ->count('notice_id');
-        //$data = [];
+        $questions = $model
+            ->with('reply')
+            ->asArray()
+            ->limit($limit)
+            ->orderBy(['created_at'=>SORT_DESC])
+            ->all();
+
+        $answers_count = $model->where([
+            'receiver_id'  => $user['id'], 
+            'status_check' => Notice::STATUS_CHECK_NOT_LOOK,
+            'category'     => Notice::CATEGORY_THREE
+        ])->count('notice_id');
+ 
         $data = [
             'news_notices_numbers' => isset($answers_count)? $answers_count : 0,
-            'notices'              => [],
-            'userinfo' => [
-                'id' => $user['id'],
-                'username' => $user['username'],
-                'email' => $user['email'],
+            'questions'            => [],
+            'replies'              => [],
+            'userinfo'             => [
+                'id'           => $user['id'],
+                'username'     => $user['username'],
+                'email'        => $user['email'],
                 'phone_number' => $user['phone_number'],
             ],
         ];
-        foreach ($answers as $key => $value) {
-            $data['notices'][$key]=[
-                    'questions'=>isset($value['question']['message']) ?$value['question']['message'] : '',
-                    'answers'  => isset($value['message'])? $value['message'] : '',
-            ];
+        foreach ($questions as $key => $value) {
+
+            if (isset($value)) {
+                $data['questions'][$key] = [
+                    'message'    => $value['message'],
+                    'created_at' => date('Y-m-d H:i:s',$value['created_at'])
+                ];
+                if (isset($value['reply'])) {
+                    $data['replies'][$key] = [
+                        'message'    => $value['reply']['message'],
+                        'created_at' => date('Y-m-d H:i:s',$value['reply']['created_at'])
+                    ];
+                }
+            }
+
         }
         return $data;
     }
@@ -450,6 +468,44 @@ class ConfigController extends \yii\rest\Controller
         $model->save();
         return $model;
 
+    }
+    /**
+     * @SWG\Post(path="/config/check-notices",
+     *     tags={"800-Config-配置信息接口"},
+     *     summary="变更客服回复消息状态",
+     *     description="变更客服回复消息状态为已查看",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "user_id",
+     *        description = "用户ID",
+     *        required = true,
+     *        default = 1,
+     *        type = "string"
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "变更客服回复消息状态为已查看"
+     *     ),
+     * )
+     *
+    **/
+    public function actionCheckNotices()
+    {
+        if(Yii::$app->user->isGuest){
+            return [
+                'errorno'=> 203,
+                'message'=>'请先登录',
+            ];
+        }
+        $update = Notice::updateAll(
+            ['status_check' => Notice::STATUS_CHECK_LOOK],
+            ['receiver_id' => Yii::$app->user->identity->id, 'status_check' => Notice::STATUS_CHECK_NOT_LOOK]
+        );
+        if ($update >= 0) {
+            return true;
+        }
+        return false;
     }
 
     public function actionFeedback(){
