@@ -23,19 +23,19 @@ use yii\captcha\Captcha;
             <div class="box-body contacborder">
                 <div class="with-borderleft"><a href="#" style="margin-left: 10px;">联系方式</a></div> 
                 <div class="with-bordersm" ></div>  
-              <p>学校地址：河北省三河市燕郊开发区燕灵路236号（三河二中西门路北）
-               <p>邮编：065201</p>
-               <p>电话：</p>
-               <p>办公室：      0316-5997070   转6009</p>
-               <p>小学部办公室                 转6003</p>
-               <p>中学部办公室                 转6013</p>
-               <p>国际部办公室                 转2599</p>
-               <p>招生办公室                     转6688</p>
-               <p>招生老师电话：13363653072, 18034265209, 18103165099
+              <p style="padding:5px 0;font-size:14px;">学校地址：河北省三河市燕郊开发区燕灵路236号（三河二中西门路北）
+               <p style="padding:5px 0;font-size:14px;">邮编：065201</p>
+               <p style="padding:5px 0;font-size:14px;">电话：</p>
+               <p style="text-indent:1rem;font-size:14px;">办公室：      0316-5997070   转6009</p>
+               <p class="hideMoblie" style="text-indent:1rem;font-size:14px;">小学部办公室                 转6003</p>
+               <p class="hideMoblie" style="text-indent:1rem;font-size:14px;">中学部办公室                 转6013</p>
+               <p class="hideMoblie" style="text-indent:1rem;font-size:14px;">国际部办公室                 转2599</p>
+               <p style="text-indent:1rem;padding:5px 0;font-size:14px;">招生办公室                     转6688</p>
+               <p style="padding:5px 0;font-size:14px;">招生老师电话：<p style="text-indent:1rem;padding:0 5px 5px;font-size:14px;">13363653072, 18034265209, 18103165099</p>
                 </p>
 
-               <p>招生咨询时间：周一至周日8:00-20:00</p>
-               <p>网址：<a href="http://www.guangdaxuexiao.com/">www.guangdaxuexiao.com</a></p>
+               <p style="padding:5px 0;font-size:14px;">招生咨询时间：周一至周日8:00-20:00</p>
+               <p style="padding:5px 0;font-size:14px;">网址：<a href="http://www.guangdaxuexiao.com/">www.guangdaxuexiao.com</a></p>
                 </p>
             </div>
       </div>
