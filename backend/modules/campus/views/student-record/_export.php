@@ -64,12 +64,12 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '导出');
             var doc = new Docxtemplater().loadZip(zip)
             //set the templateVariables
             doc.setData({
-                "record_title":"<?= $data['record_title'] ?>",
-                "student_name":"<?= $data['student_name'] ?>",
-                "target":"<?= $data['target']; ?>",
-                "process":"<?= $data['process'] ?>",
-                "expression":"<?= $data['expression'] ?>",
-                "date":"<?= $data['time'] ?>",
+                "record_title":"<?= trimall($data['record_title']) ?>",
+                "student_name":"<?= trimall($data['student_name']) ?>",
+                "target":"<?= trimall($data['target']) ?>",
+                "process":"<?= trimall($data['process']) ?>",
+                "expression":"<?= trimall($data['expression']) ?>",
+                "date":"<?= trimall($data['time']) ?>",
             });
 
             //apply them (replace all occurences of {first_name} by Hipp, ...)
@@ -112,4 +112,10 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '导出');
 
         return $time;
     }
+
+    //删除空格和回车  
+    function trimall($str){  
+        $qian=array(" ","　","\t","\n","\r");  
+        return str_replace($qian, '', $str);     
+    } 
 ?>
