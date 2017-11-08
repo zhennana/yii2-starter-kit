@@ -27,9 +27,9 @@ use yii\captcha\Captcha;
                <p style="padding:5px 0;font-size:14px;">邮编：065201</p>
                <p style="padding:5px 0;font-size:14px;">电话：</p>
                <p style="text-indent:1rem;font-size:14px;">办公室：      0316-5997070   转6009</p>
-               <p class="hideMoblie">小学部办公室                 转6003</p>
-               <p class="hideMoblie">中学部办公室                 转6013</p>
-               <p class="hideMoblie">国际部办公室                 转2599</p>
+               <p class="hideMoblie" style="text-indent:1rem;font-size:14px;">小学部办公室                 转6003</p>
+               <p class="hideMoblie" style="text-indent:1rem;font-size:14px;">中学部办公室                 转6013</p>
+               <p class="hideMoblie" style="text-indent:1rem;font-size:14px;">国际部办公室                 转2599</p>
                <p style="text-indent:1rem;padding:5px 0;font-size:14px;">招生办公室                     转6688</p>
                <p style="padding:5px 0;font-size:14px;">招生老师电话：<p style="text-indent:1rem;padding:0 5px 5px;font-size:14px;">13363653072, 18034265209, 18103165099</p>
                 </p>
