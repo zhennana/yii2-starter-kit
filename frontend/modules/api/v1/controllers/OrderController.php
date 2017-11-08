@@ -488,6 +488,76 @@ Receipt: {"Store":"fake","TransactionID":"bc0df36d-13be-4d9f-b9d1-4d980d11c402",
     }
 
     /**
+     * @SWG\Post(path="/order/share-award",
+     *     tags={"600-Order-课程订单接口"},
+     *     summary="创建分享奖励订单",
+     *     description="提交用户ID、创建分享奖励订单，每天仅一次",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "user_id",
+     *        description = "用户ID，注意提交谁的赠送给谁",
+     *        default = "123456",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "返回激活信息"
+     *     )
+     * )
+     *
+     */
+    public function actionShareAward()
+    {
+        $user = User::findOne(Yii::$app->request->post('user_id'));
+        if (!$user) {
+            $message['errorno'] = __LINE__;
+            $message['message'] = Yii::t('frontend','用户不存在');
+            return $message;
+        }
+        $modelClass = $this->modelClass;
+        $share_count = $modelClass::find()
+            ->where([
+                'user_id' => Yii::$app->request->post('user_id'),
+                'payment' => $modelClass::PAYMENT_SHAREFREE,
+                'status' => $modelClass::STATUS_VALID
+            ])
+            ->andWhere(['>','created_at', strtotime(date("Y-m-d"),time())])
+            ->count();
+
+        if ($share_count > 0) {
+            $message['errorno'] = __LINE__;
+            $message['message'] = Yii::t('frontend','超过次数限制');
+            return $message;
+        }
+        $data = [];
+        $model = new $modelClass;
+
+        $data['order_sn']       = $model->builderNumber();
+        $data['school_id']      = 3;
+        $data['user_id']        = Yii::$app->request->post('user_id');
+        $data['payment']        = $modelClass::PAYMENT_SHAREFREE;
+        $data['status']         = $modelClass::STATUS_VALID;
+        $data['payment_status'] = $modelClass::PAYMENT_STATUS_PAID;
+        $data['total_price']    = 0;
+        $data['real_price']     = 0;
+        $data['total_course']   = 0;
+        $data['expired_at']     = $model->getRemainingTime(Yii::$app->request->post('user_id'),7);
+        $data['days']           = 7;
+
+        $model = $model->createOrderOne($data);
+
+        if (isset($model['errno']) && $model['errno'] != 0) {
+            $message['errorno'] = $model['errno'];
+            $message['message'] = $model['message'];
+            return $message;
+        }
+        
+        return $model;
+    }
+
+    /**
      * @SWG\Get(path="/order/list",
      *     tags={"600-Order-课程订单接口"},
      *     summary="用户有效课程订单",
