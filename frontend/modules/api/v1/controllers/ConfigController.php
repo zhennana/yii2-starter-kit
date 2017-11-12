@@ -322,7 +322,9 @@ class ConfigController extends \yii\rest\Controller
         // }
 
         $params = $temp = $data = [];
-        $params = Yii::$app->params['shuo']['card_type'];
+        // $params = Yii::$app->params['shuo']['card_type'];
+        $params = Yii::$app->keyStorage->get('vipcard.config');
+        $params = json_decode($params,JSON_FORCE_OBJECT);
         foreach ($params as $key => $value) {
             $temp = $value;
             $temp['type'] = $key;
