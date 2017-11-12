@@ -378,15 +378,16 @@ class ConfigController extends \yii\rest\Controller
         $model = Notice::find();
         $model->andwhere([
             'sender_id' => $user['id'], 
-            'category'  => Notice::CATEGORY_THREE
+            'category'  => Notice::CATEGORY_THREE,
+            'replay_notice_id' => null
         ]);
 
         //获取已回复的问题答案
         $questions = $model
             ->with('reply')
-            ->asArray()
             ->limit($limit)
             ->orderBy(['created_at'=>SORT_DESC])
+            ->asArray()
             ->all();
 
         $answers_count = $model->where([
@@ -397,8 +398,7 @@ class ConfigController extends \yii\rest\Controller
  
         $data = [
             'news_notices_numbers' => isset($answers_count)? $answers_count : 0,
-            'questions'            => [],
-            'replies'              => [],
+            'notices'              => [],
             'userinfo'             => [
                 'id'           => $user['id'],
                 'username'     => $user['username'],
@@ -406,19 +406,15 @@ class ConfigController extends \yii\rest\Controller
                 'phone_number' => $user['phone_number'],
             ],
         ];
-        foreach ($questions as $key => $value) {
 
-            if (isset($value)) {
-                $data['questions'][$key] = [
-                    'message'    => $value['message'],
-                    'created_at' => date('Y-m-d H:i:s',$value['created_at'])
+        foreach ($questions as $key => $value) {
+            if (isset($value) && !empty($value)) {
+                $data['notices'][$key] = [
+                    'question' => $value['message'],
+                    'q_time' => date('Y-m-d H:i:s',$value['created_at']),
+                    'reply' => isset($value['reply']['message']) ? $value['reply']['message'] : '',
+                    'r_time' => date('Y-m-d H:i:s',$value['created_at']),
                 ];
-                if (isset($value['reply'])) {
-                    $data['replies'][$key] = [
-                        'message'    => $value['reply']['message'],
-                        'created_at' => date('Y-m-d H:i:s',$value['reply']['created_at'])
-                    ];
-                }
             }
 
         }
