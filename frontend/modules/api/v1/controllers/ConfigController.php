@@ -399,6 +399,8 @@ class ConfigController extends \yii\rest\Controller
         ])->count('notice_id');
  
         $data = [
+            'errorno'=> 0,
+            'message'=>'获取成功',
             'news_notices_numbers' => isset($answers_count)? $answers_count : 0,
             'notices'              => [],
             'userinfo'             => [
