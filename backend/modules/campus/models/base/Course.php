@@ -124,7 +124,7 @@ abstract class Course extends \yii\db\ActiveRecord
             [['school_id', 'grade_id', 'courseware_id', 'creater_id','status'], 'integer'],
             [['start_time','end_time'], 'filter', 'filter' => 'strtotime', 'skipOnEmpty' => true],
             [['title'], 'string', 'max' => 32],
-            [['intro'], 'string', 'max' => 128],
+            [['intro'], 'string', 'max' => 512],
             ['teacher_id','required','when'=>function($model,$attribute){
                     if($model->status == self::COURSE_STATUS_OPEN ){
                         $start_time = $model->start_time - 15*60;
