@@ -621,9 +621,8 @@ public function behaviors()
           //var_dump($data);exit;
          //var_dump($data['start_date']);exit;
          //符合课程的开始时间
-        $d_time = strtotime('2017-11-21');
+        $d_time = strtotime(date('Y-m-d'));
         $i = 1;
-        // var_Dump($data['which_day']);exit;
         $data['which_day']  = strtotime($data['which_day']);
 
         //根据当天时间算出符合排课要求的某天
