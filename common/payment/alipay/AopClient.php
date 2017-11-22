@@ -93,7 +93,7 @@ class AopClient {
 			$priKey=$this->rsaPrivateKey;
 			$res = "-----BEGIN RSA PRIVATE KEY-----\n" .
 				wordwrap($priKey, 64, "\n", true) .
-				"-----END RSA PRIVATE KEY-----";
+				"\n-----END RSA PRIVATE KEY-----";
 		}else {
 			$priKey = file_get_contents($this->rsaPrivateKeyFilePath);
 			$res = openssl_get_privatekey($priKey);
@@ -591,7 +591,7 @@ class AopClient {
 			$pubKey= $this->alipayrsaPublicKey;
 			$res = "-----BEGIN PUBLIC KEY-----\n" .
 				wordwrap($pubKey, 64, "\n", true) .
-				"-----END PUBLIC KEY-----";
+				"\n-----END PUBLIC KEY-----";
 		}else {
 			//读取公钥文件
 			$pubKey = file_get_contents($rsaPublicKeyFilePath);
