@@ -160,7 +160,8 @@ class Serializer extends BaseSerializer
 
         } elseif ($data instanceof DataProviderInterface) {
             return $this->serializeDataProvider($data);
-
+        } elseif (is_string($data)) {
+            return $data;
         } else {
            return $this->serializeDataArray($data);
         }
