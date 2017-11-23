@@ -634,7 +634,6 @@ public function behaviors()
         //算出符合排课要求的某天是周几
         $d_week = date('w',$d_time);
 
-// var_dump($d_week);exit;
         if($d_week == 0){
             $d_week = 7;
         }
@@ -654,15 +653,17 @@ public function behaviors()
         // $this->showOneWeek();
         // exit;
     //var_dump(date('Y-m-d',$d_time),$data['which_day'],$d_week);exit;
-
         //同一天时间检测时间段 是否已经过时。
         if($d_week == $data['weeks']){
             $time = time();
-            $start_times = strtotime(date('Y').'-'.date('m').'-'.date('d').' '. $data['start_times']);
+            //$start_times = strtotime(date('Y').'-'.date('m').'-'.date('d').' '. $data['start_times']);
+            $start_day = date('Y-m-d',$d_time);
+            $start_times = strtotime($start_day.$data['start_times']);
             if($start_times < $time){
                 $d_time +=1*7*3600*24;
             }
         }
+        // var_dump($d_week,date('Y-m-d',$d_time));exit;
         //获取课程的时间排课时间段
         for($a=0;$a<$data['count'];$a++){
             $d_times = $d_time + $a*7*3600*24;
