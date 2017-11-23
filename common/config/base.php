@@ -303,17 +303,17 @@ $config = [
                 ],
                 'month_card' => [
                     'card_name' => '月卡',
-                    'price' => 158,
+                    'price' => 12,
                     'time' => 31,
                 ],
                 'half_year_card' => [
                     'card_name' => '半年卡',
-                    'price' => 798,
+                    'price' => 60,
                     'time' => 186,
                 ],
                 'year_card' => [
                     'card_name' => '年卡',
-                    'price' => 1198,
+                    'price' => 98,
                     'time' => 372,
                 ],
             ],

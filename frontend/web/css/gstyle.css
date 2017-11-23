@@ -487,6 +487,7 @@ h6{
 	width: 90%;
 	padding-top: 20px;
 	/*margin: 0 auto;*/
+	margin-bottom: 15px;
 }
 
 .geu-content a{
@@ -1714,6 +1715,9 @@ transform: scale(1.2);
 	.img-title{
 		height:140px;
 		text-align:left;
+	}
+	.hideMoblie{
+		display:none;
 	}
 }
 @media (max-width:400px) {

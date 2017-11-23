@@ -293,11 +293,11 @@ class CourseOrderItem extends BaseCourseOrderItem
             $data['coupon_price'] = 0;
         }
 
-
         // 验证延长卡类型
+        $vip_card = $this->getVipCard();
         if (isset($data['card_type']) && !empty($data['card_type'])) {
-            if (isset(Yii::$app->params['shuo']['card_type'][$data['card_type']])) {
-                $card_type = Yii::$app->params['shuo']['card_type'][$data['card_type']];
+            if ($vip_card && isset($vip_card[$data['card_type']])) {
+                $card_type = $vip_card[$data['card_type']];
             }else{
                 $info['errno']   = __LINE__;
                 $info['message'] = '延长卡类型不合法!';
@@ -407,9 +407,10 @@ class CourseOrderItem extends BaseCourseOrderItem
         $alipay_config['alipay_public_key']    = file_get_contents($alipay_config['alipay_public_key']);
 
         // 组装业务参数
-        if (isset(Yii::$app->params['shuo']['card_type'][$this->data])) {
-            $subject .= Yii::$app->params['shuo']['card_type'][$this->data]['card_name'];
-            $subject .= '('.Yii::$app->params['shuo']['card_type'][$this->data]['time'];
+        $vip_card = $this->getVipCard();
+        if (isset($vip_card[$this->data])) {
+            $subject .= $vip_card[$this->data]['card_name'];
+            $subject .= '('.$vip_card[$this->data]['time'];
             $subject .= '天)';
         }
 
@@ -458,9 +459,10 @@ class CourseOrderItem extends BaseCourseOrderItem
         ];
 
         // 组装业务参数
-        if (isset(Yii::$app->params['shuo']['card_type'][$this->data])) {
-            $data['body'] .= Yii::$app->params['shuo']['card_type'][$this->data]['card_name'];
-            $data['body'] .= '('.Yii::$app->params['shuo']['card_type'][$this->data]['time'];
+        $vip_card = $this->getVipCard();
+        if (isset($vip_card[$this->data])) {
+            $data['body'] .= $vip_card[$this->data]['card_name'];
+            $data['body'] .= '('.$vip_card[$this->data]['time'];
             $data['body'] .= '天)';
         }
 
@@ -521,6 +523,16 @@ class CourseOrderItem extends BaseCourseOrderItem
         $params['expired_at']     = $this->getRemainingTime($user_id, $params['days']);;
 
         return $this->createOrderOne($params);
+    }
+
+    public function getVipCard()
+    {
+        $params = [];
+        $params = json_decode(Yii::$app->keyStorage->get('vipcard.config'),JSON_FORCE_OBJECT);
+        if (isset($params) && !empty($params)) {
+            return $params;
+        }
+        return false;
     }
 
 }

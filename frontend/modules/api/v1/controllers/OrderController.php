@@ -641,13 +641,19 @@ Receipt: {"Store":"fake","TransactionID":"bc0df36d-13be-4d9f-b9d1-4d980d11c402",
         if ($order) {
             $expired_at = $order->expired_at;
         }
+        if ($expired_at < time()) {
+            $this->serializer['errno'] = __LINE__;
+            $this->serializer['message'] = Yii::t('frontend','账户已过期');
+            $data['is_expired'] = true;
+        }else{
+            $this->serializer['message'] = Yii::t('frontend','查询成功');
+            $data['is_expired'] = false;
+        }
 
-        $this->serializer['message'] = Yii::t('frontend','查询成功');
-        $data = [
-            'user_id'    => Yii::$app->user->identity->id,
-            'time_stamp' => $expired_at,
-            'expired_at' => date('Y-m-d H:i:s',$expired_at),
-        ];
+        $data['user_id']    = Yii::$app->user->identity->id;
+        $data['time_stamp'] = $expired_at ? $expired_at : time();
+        $data['expired_at'] = $expired_at ? date('Y-m-d H:i:s',$expired_at) : date('Y-m-d H:i:s',time());
+
 
         return $data;
     }
