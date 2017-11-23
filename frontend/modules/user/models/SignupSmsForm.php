@@ -10,6 +10,7 @@ use yii\base\Exception;
 use yii\base\Model;
 use Yii;
 use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
 use common\models\PhoneValidator;
 use ecommon\models\user\UserAccount;
 
@@ -29,6 +30,11 @@ class SignupSmsForm extends Model
     public $client_type;
     public $token;
     public $messageId;
+
+    // 光大短信升级
+    public $verifyCode; // 图形验证码
+    public $code;       // 短信验证码
+    public $code_type;  // 短信验证码类型
 
     /**
      * @var
@@ -59,6 +65,9 @@ class SignupSmsForm extends Model
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
             ['client_type', 'string', 'min' => 2, 'max' => 255],
+            ['verifyCode', 'required','on'=>'code'],
+            ['verifyCode','captcha','captchaAction'=>'/gedu/v1/sign-in/captcha-v1' ,'on'=>'code'],
+            ['code_type', 'string'],
         ];
     }
 
@@ -82,6 +91,13 @@ class SignupSmsForm extends Model
            return $this->addError('phone_number',Yii::t('frontend','手机不合法'));
         }
     }
+
+    public function scenarios(){
+        $scenarios = parent::scenarios();
+        $scenarios['code'] = ['verifyCode'];
+        return $scenarios;
+    }
+
     /**
      * Signs user up.
      *
@@ -181,6 +197,137 @@ class SignupSmsForm extends Model
             //var_dump($this->getErrors());exit;
              $this->getErrors();
         }
+    }
+
+    /**
+     *  [signupV1 注册短信接口升级(光大)]
+     *  @return [type] [description]
+     */
+    public function signupV1(){
+        $info =[
+            'error_code' => '0',
+            'message'    => '获取成功',
+            'resources'  => [],
+        ];
+        $verification = [
+            'validation_level' =>'0',
+            'graphical_url'    =>'',
+        ];
+        $this->password = UserToken::randomCode(6);
+
+        $user_model = User::find()
+            ->where(['phone_number'=>$this->phone_number])
+            ->one();
+        if (!$user_model && $this->code_type == UserToken::TYPE_PHONE_REPASSWD) {
+            $info['error_code'] = __LINE__;
+            $info['message'] = '该手机号未注册';
+            return $info;
+        }
+
+        //这里是未认证的用户重新发送验证码
+        if($user_model){
+            if ($user_model->status == User::STATUS_ACTIVE && $this->code_type == UserToken::TYPE_PHONE_SIGNUP) {
+                $info['error_code'] = __LINE__;
+                $info['message'] = '该手机号已注册';
+                return $info;
+            }
+            if ($user_model->status == User::STATUS_NOT_ACTIVE && $this->code_type == UserToken::TYPE_PHONE_REPASSWD) {
+                $info['error_code'] = __LINE__;
+                $info['message'] = '该手机号未注册';
+                return $info;
+            }
+            //如果未激活状态 重新获取验证码发送短信
+            if($this->beforeSend()){
+                //放置图形验证码
+                $verification['validation_level'] = '1';
+                $verification['graphical_url'] = Yii::$app->request->hostInfo.Url::to(['gedu/v1/sign-in/captcha-v1']);
+                $info['resources'] = ArrayHelper::merge($user_model->toArray(['id','phone_number']),$verification);
+                return $info;
+            }
+            $sms  = $this->smsSend($user_model,$this->code_type);
+            if($this->hasErrors()){
+               $info['error_code'] = __LINE__;
+               $info['message']    = $this->getFirstErrors();
+               return $info;
+            }
+            return ArrayHelper::merge($user_model,$verification);
+        }
+        
+        //这里是新用户注册
+        if($this->validate()){
+            $shouldBeActivated = true;
+            $user = new User();
+            $user->username = $this->username;
+            $user->phone_number = $this->phone_number;
+            // $user->email = $this->email;
+            $user->status = $shouldBeActivated ? User::STATUS_NOT_ACTIVE : User::STATUS_ACTIVE;
+            $user->setPassword($this->password);
+            if(!$user->save()) {
+                $info['error_code'] = __LINE__;
+                $info['message']    = $user->getFirstErrors();
+               return $info;
+            };
+            $user->afterSignup();
+            if($this->beforeSend()){
+                $verification['validation_level'] = '1';
+                $verification['graphical_url'] = Yii::$app->request->hostInfo.Url::to(['gedu/v1/sign-in/captcha-v1']);
+                $info['resources'] = ArrayHelper::merge($user->toArray(['id','phone_number']),$verification);
+                return $info;
+            }
+
+            $this->smsSend($user,$this->code_type);
+            if($this->hasErrors()){
+                $info['error_code'] = __LINE__;
+                $info['message']    = $this->getFirstErrors();
+                return $info;
+            }
+             $info['resources'] = ArrayHelper::merge($user,$yanzhema);
+             return $info;
+        }else{
+            //返回报错信息
+            $info['error_code'] = __LINE__;
+            $info['message']    = $this->getFirstErrors();
+            return $info;
+        }
+    }
+//发送短信
+    public function smsSend($user,$type){
+        //这里要发送短信之前要做的事
+        $code = $this->getToke($user->id,$type);
+        if(!$code){
+            $this->addError('code','获取验证码失败,请重新发送');
+            return $this;
+        }
+        $sms = new \common\components\submail\SmsMessageXsend();
+        $response = $sms->registerCode($user->phone_number,$code);
+        if($response['status'] !== 'success' ){
+            $this->addError('code',$response['msg']);
+        }
+        return $this;
+    }
+    //在发送之前要做的事
+    public function beforeSend(){
+        return true;
+    }
+
+    //获取验证码
+    public function getToke($user_id,$type){
+        $token = UserToken::find()
+            ->andwhere(['user_id'=>$user_id])
+            ->byType($type)
+            ->notExpired()
+            ->one();
+        if(!$token){
+            $code = UserToken::randomCode(6);
+            $this->code = $code;
+            $token = UserToken::create(
+                $user_id,$type,10*60,$code
+            );
+        }
+        if($token){
+           return  $token->token;
+        }
+        return false;
     }
 
     /**
