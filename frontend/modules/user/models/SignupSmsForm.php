@@ -66,7 +66,7 @@ class SignupSmsForm extends Model
             ['password', 'string', 'min' => 6],
             ['client_type', 'string', 'min' => 2, 'max' => 255],
             ['verifyCode', 'required','on'=>'code'],
-            ['verifyCode','captcha','captchaAction'=>'/gedu/v1/sign-in/captcha-v1' ,'on'=>'code'],
+            ['verifyCode','captcha','captchaAction'=>'/v1/sign-in/captcha-v1' ,'on'=>'code'],
             ['code_type', 'string'],
         ];
     }
@@ -240,7 +240,7 @@ class SignupSmsForm extends Model
             if($this->beforeSend()){
                 //放置图形验证码
                 $verification['validation_level'] = '1';
-                $verification['graphical_url'] = Yii::$app->request->hostInfo.Url::to(['gedu/v1/sign-in/captcha-v1']);
+                $verification['graphical_url'] = Yii::$app->request->hostInfo.Url::to(['v1/sign-in/captcha-v1']);
                 $info['resources'] = ArrayHelper::merge($user_model->toArray(['id','phone_number']),$verification);
                 return $info;
             }
@@ -270,7 +270,7 @@ class SignupSmsForm extends Model
             $user->afterSignup();
             if($this->beforeSend()){
                 $verification['validation_level'] = '1';
-                $verification['graphical_url'] = Yii::$app->request->hostInfo.Url::to(['gedu/v1/sign-in/captcha-v1']);
+                $verification['graphical_url'] = Yii::$app->request->hostInfo.Url::to(['v1/sign-in/captcha-v1']);
                 $info['resources'] = ArrayHelper::merge($user->toArray(['id','phone_number']),$verification);
                 return $info;
             }
