@@ -245,10 +245,13 @@ class User extends ActiveRecord implements IdentityInterface
                 ->with(['user'=>function($query){
                     $query->where(['status' => self::STATUS_ACTIVE]);
                 }])
-                ->andWhere(['school_id'=> $school_id])
-                ->andWhere(['school_user_type' => $school_user_type])
-                ->asArray()
-                ->all();
+                ->andWhere(['school_id'=> $school_id]);
+        if($school_user_type == UserToSchool::SCHOOL_USER_TYPE_TEACHER){
+            $user->andwhere(['not',['school_user_type'=>[UserToSchool::SCHOOL_USER_TYPE_STUDENTS,UserToSchool::SCHOOL_USER_TYPE_WORKER]]]);
+        }else{
+            $user->andWhere(['school_user_type'=>$school_user_type]);
+        }
+        $user = $user->asArray()->all();
         $data = [];
         foreach ($user  as $key => $value) {
             if(isset($value['user']) && !empty($value['user'])){
