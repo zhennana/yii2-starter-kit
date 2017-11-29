@@ -177,7 +177,8 @@ foreach ($students as $key => $value) {
             Yii::t('common','升班'),
             [
                 'id'    => 'save-' . $model->formName(),
-                'class' => 'btn btn-success'
+                'class' => 'btn btn-success',
+                'data' => ['confirm' => '你确定要升班吗？该操作将不可撤销。',] 
             ]
         ); ?>
 
