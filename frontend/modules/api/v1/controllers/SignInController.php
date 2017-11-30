@@ -38,6 +38,11 @@ use common\components\aliyunMNS\SendSMSMessage;
 use frontend\modules\api\v1\resources\ActivationCode;
 use frontend\modules\api\v1\resources\CourseOrderItem;
 
+use common\wechat\APPLOGIN;
+use common\models\wechat\Wechat;
+use common\models\wechat\WechatFans;
+use common\models\wechat\WechatFansMp;
+
 
 class SignInController extends \common\components\ControllerFrontendApi
 {
@@ -1346,6 +1351,194 @@ class SignInController extends \common\components\ControllerFrontendApi
         if($model->load(\Yii::$app->getRequest()) && $model->login()){
             echo \Yii::$app->user->indentity->getAuthKey();
         }
+    }
+
+    /**
+     * @SWG\Post(path="/sign-in/wechat-login",
+     *     tags={"100-SignIn-用户接口"},
+     *     summary="创建微信用户，并登录",
+     *     description="根据code获取openid，并登录APP或创建用户",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "udid",
+     *        description = "选填设备号，一个账户只能同时在线一个客户端; 测试方法：打开两个不同的浏览器谷歌、火狐模拟两个客户端，分别填入不同的udid。最新登录会把之前的踢下线。
+     * ",
+     *        required = false,
+     *        default = "adfad-asdfsd-234-adsf",
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "code",
+     *        description = "微信授权code",
+     *        required = true,
+     *        type = "integer"
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "返回激活信息"
+     *     )
+     * )
+     *
+     */
+    public function actionWechatLogin()
+    {
+        $code = Yii::$app->request->post('code',null);
+        $udid = Yii::$app->request->post('udid',null);
+        if (!$code) {
+            $message['errorno'] = __LINE__;
+            $message['message'] = Yii::t('frontend','code不能为空');
+            return $message;
+        }
+
+        $wechat_id = 2;
+        $wechat = Wechat::findOne($wechat_id);
+        if (!$wechat) {
+            $message['errorno'] = __LINE__;
+            $message['message'] = Yii::t('frontend','缺少配置');
+            return $message;
+        }
+
+        // 获取access_token
+        $wechat = new APPLOGIN($wechat->appid,$wechat->secret);
+        $oauth_info = $wechat->oauth2_access_token($code);
+        if (isset($oauth_info['errcode'])) {
+            $message['errorno'] = $oauth_info['errcode'];
+            $message['message'] = $oauth_info['errmsg'];
+            return $message;
+        }
+
+        // 获取微信用户信息和openid
+        $user_info = $wechat->oauth2_get_user_info($oauth_info['access_token'], $oauth_info['openid']);
+        if (isset($user_info['errcode'])) {
+            $message['errorno'] = $user_info['errcode'];
+            $message['message'] = $user_info['errmsg'];
+            return $message;
+        }
+
+        // 查询微信用户信息是否存在
+        $fans = \common\models\wechat\WechatFans::find()->where([
+            'wechat_id' => $wechat_id,
+            'open_id'   => $user_info['openid']
+        ])->one();
+
+        // 不存在则创建用户和微信信息
+        if (!$fans) {
+            // 开启事务
+            $transaction = Yii::$app->db->beginTransaction();
+
+            // 创建用户
+            $user = new User;
+            $user->username = 'wechat_'.uniqid();
+            $user->status   = User::STATUS_ACTIVE;
+            $user->setPassword(md5(uniqid()));
+
+            if (!$user->save()) {
+                // 回滚
+                $transaction->rollBack();
+                $message['errorno'] = __LINE__;
+                $message['message'] = "User couldn't be saved";
+                return $message;
+            }
+            $user->afterSignup();
+
+            // 创建赠送订单
+            $order = new CourseOrderItem;
+            $freeOrder = $order->createFreeOne($user->id);
+
+            // 创建wechatfans
+            $fans = new WechatFans;
+            $fans->wechat_id  = $wechat_id;
+            $fans->user_id    = $user->id;
+            $fans->open_id    = $user_info['openid'];
+            $fans->status     = 0;
+            $fans->created_at = time();
+            $fans->updated_at = time();
+            if (!$fans->save()) {
+                // 回滚
+                $transaction->rollBack();
+                $message['errorno'] = __LINE__;
+                $message['message'] = "wechat couldn't be saved";
+                return $message;
+            }
+
+            // 创建wechatfansmp
+            $mpUser = new WechatFansMp;
+            $mpUser->fans_id        = $fans->fans_id;
+            $mpUser->user_id        = $user->id;
+            $mpUser->nickname       = isset($user_info['nickname']) ? $user_info['nickname'] : '';
+            $mpUser->sex            = isset($user_info['sex']) ? $user_info['sex'] : 0 ;
+            $mpUser->city           = isset($user_info['city']) ? $user_info['city'] : '';
+            $mpUser->province       = isset($user_info['province']) ? $user_info['province'] : '';
+            $mpUser->country        = isset($user_info['country']) ? $user_info['country'] : '';
+            $mpUser->language       = isset($user_info['language']) ? $user_info['language'] : '';
+            $mpUser->avatar         = isset($user_info['headimgurl']) ? $user_info['headimgurl'] : '';
+            $mpUser->subscribe_time = isset($user_info['subscribe_time']) ? $user_info['subscribe_time'] : time();
+            $mpUser->group_id       = isset($user_info['groupid']) ? $user_info['groupid'] : '';
+
+            if (!$mpUser->save()) {
+                // 回滚
+                $transaction->rollBack();
+                $message['errorno'] = __LINE__;
+                $message['message'] = "wechatmp couldn't be saved";
+                return $message;
+            }
+
+            // 提交
+            $transaction->commit();
+        }
+
+        // 记录设备号udid
+        $udid_new = '';
+        if(isset($udid)){
+            $udid_new = addslashes($udid);
+            \Yii::$app->session->set('user.udid',$udid_new);
+        }
+
+        // 登录
+        if (!Yii::$app->getUser()->login($fans->user)) {
+            $message['errorno'] = __LINE__;
+            $message['message'] = "登录失败";
+            return $message;
+        }
+
+        // 登录第一次更新设备号
+        $model = new LoginForm();
+        $info = $model->updateSession(Yii::$app->user->id,$udid_new);
+
+        $attrUser = $fans->user->attributes;
+        if(isset($attrUser['password_hash'])){
+            unset($attrUser['password_hash']);
+        }
+        $attrUser['avatar'] = '';
+        $account = [];
+
+        $proFileUser = $fans->user->userProfile;
+
+        // 默认头像
+        if(isset($proFileUser->avatar_base_url) && !empty($proFileUser->avatar_base_url))
+        {
+            $attrUser['avatar'] = $proFileUser->avatar_base_url.$proFileUser->avatar_path;
+        }else{
+            $fansMpUser = isset($fans->fansMp) ? $fans->fansMp : '';
+            if($fansMpUser){
+                $attrUser['avatar'] = $fansMpUser->avatar;
+            }
+        }
+
+        // 获取体验卡已购买数量
+        $attrUser['probation_count'] = $fans->user->getProbationCount();
+        $row['session'] = $info;
+        $row['session_data'] = Yii::$app->session->getIterator();
+
+        return [
+            'errorno' => '0',
+            'message' => 'OK',
+            'data' => array_merge($attrUser,$account,$row),
+        ];
+
+            
     }
         
 }
