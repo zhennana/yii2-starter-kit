@@ -102,14 +102,22 @@ if(!$model->isNewRecord){
             ?>
             
 <!-- attribute student_id -->
-            <?= $form->field($model, 'student_id')->widget(Select2::className(),[
+            <?php
+            if($model->isNewRecord){
+                echo  $form->field($model, 'student_id')->widget(Select2::className(),[
                     'data'    => $model->isNewRecord ? [] : [
                         $model->student_id => Yii::$app->user->identity->getUserName($model->student_id)
                     ],
                     'options' => ['placeholder'=>'请选择','multiple'=>true],
                 ]);
-            ?>
-
+            }else{
+                echo  $form->field($model, 'student_id')->widget(Select2::className(),[
+                    'data'    => [$model->student_id => Yii::$app->user->identity->getUserName($model->student_id)
+                    ],
+                    'options' => ['placeholder'=>'请选择'],
+                ]);
+            }
+        ?>
 
 
 <!-- attribute auditor_id -->
