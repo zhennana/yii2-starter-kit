@@ -1370,8 +1370,15 @@ class SignInController extends \common\components\ControllerFrontendApi
      *     ),
      *     @SWG\Parameter(
      *        in = "formData",
-     *        name = "code",
-     *        description = "微信授权code",
+     *        name = "access_token",
+     *        description = "access_token",
+     *        required = true,
+     *        type = "integer"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "openid",
+     *        description = "openid",
      *        required = true,
      *        type = "integer"
      *     ),
@@ -1384,11 +1391,17 @@ class SignInController extends \common\components\ControllerFrontendApi
      */
     public function actionWechatLogin()
     {
-        $code = Yii::$app->request->post('code',null);
+        $openid       = Yii::$app->request->post('openid',null);
+        $access_token = Yii::$app->request->post('access_token',null);
         $udid = Yii::$app->request->post('udid',null);
-        if (!$code) {
+        if (!$openid) {
             $message['errorno'] = __LINE__;
-            $message['message'] = Yii::t('frontend','code不能为空');
+            $message['message'] = Yii::t('frontend','openid不能为空');
+            return $message;
+        }
+        if (!$access_token) {
+            $message['errorno'] = __LINE__;
+            $message['message'] = Yii::t('frontend','access_token不能为空');
             return $message;
         }
 
@@ -1402,15 +1415,15 @@ class SignInController extends \common\components\ControllerFrontendApi
 
         // 获取access_token
         $wechat = new APPLOGIN($wechat->appid,$wechat->secret);
-        $oauth_info = $wechat->oauth2_access_token($code);
-        if (isset($oauth_info['errcode'])) {
-            $message['errorno'] = $oauth_info['errcode'];
-            $message['message'] = $oauth_info['errmsg'];
-            return $message;
-        }
+        // $oauth_info = $wechat->oauth2_access_token($code);
+        // if (isset($oauth_info['errcode'])) {
+        //     $message['errorno'] = $oauth_info['errcode'];
+        //     $message['message'] = $oauth_info['errmsg'];
+        //     return $message;
+        // }
 
         // 获取微信用户信息和openid
-        $user_info = $wechat->oauth2_get_user_info($oauth_info['access_token'], $oauth_info['openid']);
+        $user_info = $wechat->oauth2_get_user_info($access_token, $openid);
         if (isset($user_info['errcode'])) {
             $message['errorno'] = $user_info['errcode'];
             $message['message'] = $user_info['errmsg'];
