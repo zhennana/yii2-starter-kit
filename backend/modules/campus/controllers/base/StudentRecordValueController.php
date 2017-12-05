@@ -64,7 +64,11 @@ public function actionIndex()
 {
     $searchModel  = new StudentRecordValueSearch;
     $dataProvider = $searchModel->search($_GET);
-
+     $dataProvider->sort = [
+        'defaultOrder'=>[
+            'updated_at'=>SORT_DESC
+        ]
+    ];
     Tabs::clearLocalStorage();
 
     Url::remember();
