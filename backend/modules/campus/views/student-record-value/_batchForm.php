@@ -76,7 +76,8 @@ if (!$model->isNewRecord) {
                 'pluginEvents' => [
                     "change" => "function() {
                         handleChange('school_id',this.value,'#studentrecordvalue-grade_id');
-                        // handleChange('key',this.value,'#studentrecordvalue-student_record_key_id');
+                        handleChange('key',this.value,'#studentrecordvalue-student_record_key_id');
+                        $('.results1').children().remove();
                     }"
                 ]
             ]) ?>
@@ -118,7 +119,7 @@ if (!$model->isNewRecord) {
         </div>
         <div class="col-lg-4">
             <?= $form->field($model, 'student_record_key_id')->widget(Select2::className(), [
-                'data'=>$keys,
+                'data'=>[],
                 // 'hideSearch' => true,
                 'options'       => ['placeholder' => Yii::t('backend','请选择'),'multiple'=>true],
                 'pluginOptions' => [

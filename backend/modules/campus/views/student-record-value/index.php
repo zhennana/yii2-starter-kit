@@ -19,10 +19,6 @@ $this->params['breadcrumbs'][] = $this->title;
 $keys = StudentRecordKey::find()->where(['status'=>StudentRecordKey::STUDENT_KEY_STATUS_OPEN])->all();
 $keys = ArrayHelper::map($keys,'student_record_key_id','title');
 
-$schools = Yii::$app->user->identity->schoolsInfo;
-$grades =  Yii::$app->user->identity->gradesInfo;
-$schools = ArrayHelper::map($schools,'school_id','school_title');
-$grades  = ArrayHelper::map($grades,'grade_id','grade_name');
 
 /**
 * create action column template depending acces rights
