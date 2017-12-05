@@ -164,7 +164,7 @@ return [
             [
                 'controllers'=>['campus/student-record-value'],
                 'allow'=>true,
-                'actions'=>['index'],
+                'actions'=>['index','batch-create'],
                 'roles'=>['E_manager','manager','P_teacher']
             ],
             //查看预约信息
