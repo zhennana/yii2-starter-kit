@@ -97,6 +97,8 @@ abstract class StudentRecordValue extends \yii\db\ActiveRecord
             [['body'], 'string', 'max' => 1024],
             [['user_id','school_id','grade_id','score','total_score','exam_type','student_record_key_id'],'required','on'=>'score'],
             [['total_score','score'],'number','on'=>'score'],
+            [['grade_id', 'school_id', 'exam_type', 'status','user_id'], 'integer','on'=>'score'],
+            [['exam_type','student_record_key_id','user_id','school_id','grade_id','student_record_id'],'required','on'=>'batch_score']
         ];
     }
 

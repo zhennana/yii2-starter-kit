@@ -68,35 +68,14 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
 <?php
 if(\Yii::$app->user->can('manager', ['route' => true]) || Yii::$app->user->can('P_teacher') || Yii::$app->user->can('E_manager')){
 ?>
-        <div class="pull-left">
+        <div class="pull-left" style="margin-right:  2px">
             <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'Create'), ['create'], ['class' => 'btn btn-success']) ?>
         </div>
-        <?php } ?>
-        <div class="pull-right">
-            <?=
-            \yii\bootstrap\ButtonDropdown::widget(
-            [
-            'id' => 'giiant-relations',
-            'encodeLabel' => false,
-            'label' => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('backend', 'Relations'),
-            'dropdown' => [
-            'options' => [
-            'class' => 'dropdown-menu-right'
-            ],
-            'encodeLabels' => false,
-            'items' => [
-                [
-                    'url' => ['student-record-value-to-file/index'],
-                    'label' => '<i class="glyphicon glyphicon-arrow-right"></i> ' . Yii::t('backend', 'Student Record Value To File'),
-                    ],
-                ]
-            ],
-                'options' => [
-                'class' => 'btn-default'
-                ]
-            ]);
-            ?>
+
+         <div class="pull-left">
+            <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '批量创建'), ['batch-create'], ['class' => 'btn btn-success']) ?>
         </div>
+        <?php } ?>
     </div>
 
     <hr />
@@ -185,8 +164,6 @@ if(\Yii::$app->user->can('manager', ['route' => true]) || Yii::$app->user->can('
     </div>
 
 </div>
-
-
 <?php \yii\widgets\Pjax::end() ?>
 
 

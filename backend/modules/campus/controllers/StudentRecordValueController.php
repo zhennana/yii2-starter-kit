@@ -11,6 +11,7 @@ use common\components\Qiniu\Storage\BucketManager;
 use backend\modules\campus\models\WorkRecord;
 use backend\modules\campus\models\SignIn;
 use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
 use yii\filters\AccessControl;
 use dmstr\bootstrap\Tabs;
 use yii\helpers\Html;
@@ -153,4 +154,26 @@ class StudentRecordValueController extends \backend\modules\campus\controllers\b
         }
         return $html;
     }
+//同时创建多科目成绩单
+    public function actionBatchCreate(){
+        $keys = StudentRecordKey::find()->where(['status'=>StudentRecordKey::STUDENT_KEY_STATUS_OPEN])->all();
+        $keys = ArrayHelper::map($keys,'student_record_key_id','title');
+        $model = new StudentRecordValue;
+        $model->scenario = 'score';
+        if($_POST){
+          $model->batchCreate($_POST['StudentRecordValue']);
+          if(!$model->hasErrors()){
+            \Yii::$app->session->setFlash('alert', [
+                        'options' => ['class'=>'alert-success'],
+                        'body' => \Yii::t('frontend', '学生成绩添加成功')
+            ]);
+            return $this->refresh();
+          }
+        }
+        return $this->render('_batchForm',[
+                'model'=>$model,
+                'keys'  =>$keys,
+        ]);
+    }
+
 }

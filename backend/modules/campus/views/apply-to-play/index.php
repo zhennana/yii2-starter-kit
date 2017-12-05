@@ -80,6 +80,26 @@ if(env('THEME') == 'gedu'){
         ], 
         'created_at:datetime',
         'updated_at:datetime',
+        [
+            'class'    =>'yii\grid\ActionColumn',
+            'header'   =>'操作审核',
+            'template' =>'{button}',
+            'buttons'  =>[
+                'button' => function($url,$model,$key){
+                    if($model->status == ApplyToPlay::APPLY_TO_PLAY_STATUS_AUDIT ){
+                        return Html::button('审核',[
+                            'class'=>'btn btn-danger audit',
+                            'title'=>'报名审核',
+                            'id'   => $model->apply_to_play_id
+                            ]);
+                    }else{
+                       return  Html::button('已审核', [
+                            'class' => 'btn btn-default disabled',
+                        ]); 
+                    }
+                }
+            ]
+        ]
     ];
 }else{
  $columns =   [
