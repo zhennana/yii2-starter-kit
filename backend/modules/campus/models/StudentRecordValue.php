@@ -173,4 +173,40 @@ class StudentRecordValue extends BaseStudentRecordValue
             return $keys;
         }
     }
+//创建学生成绩
+    public function  batchCreate($params){
+      $model = $this;
+      if(!isset($params['student_record_key_id']) || empty($params['student_record_key_id'])){
+          $model->addError('em','成绩科目不能为空');
+          return $model;
+      }
+      foreach ($params['student_record_key_id'] as $key => $value) {
+            $models = self::find()->where([
+                      'school_id'=> $params['school_id'],
+                      'grade_id'=> $params['grade_id'],
+                      'user_id'=> $params['user_id'],
+                      'exam_type'=> $params['exam_type'],
+                      'student_record_key_id'=> $value,
+                    ])
+            ->one();
+            if(!$models){
+                $models = new self;
+
+            }
+            $models->scenario = 'score';
+            $models->school_id = $params['school_id'];
+            $models->grade_id = $params['grade_id'];
+            $models->user_id = $params['user_id'];
+            $models->exam_type = $params['exam_type'];
+            $models->student_record_key_id = $value;
+            $models->total_score = $params['results'][$value]['total_score'];
+            $models->score = $params['results'][$value]['score'];
+            $models->status = self::STUDENT_VALUE_STATUS_OPEN;
+            if(!$models->save()){
+                $model->addErrors($models->getErrors());
+                break;
+            }
+      }
+      return $model;
+    }
 }

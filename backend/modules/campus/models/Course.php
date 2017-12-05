@@ -184,8 +184,8 @@ public function behaviors()
               //如果上过课从新计算时间
               $newTime = count($info['NewRecord']);
               $newTime = isset($info['schedule_time'][$newTime]['date'])?$info['schedule_time'][$newTime]['date'] : 0;
-              $start_time = date('H:i',(strtotime($value['date'].$data['start_times'])-15*60));
-              $end_time   = date('H:i',(strtotime($value['date'].$data['end_times'])+15*60));
+              $start_time = date('H:i',(strtotime($value['date'].$data['start_times'])-14*60));
+              $end_time   = date('H:i',(strtotime($value['date'].$data['end_times'])+14*60));
               //查看老师排课冲突的查询条件
               $teacher_query = [
                     'teacher_id'=>$data['teacher_id'],

@@ -65,10 +65,10 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '课件详情');
                 [ 'update', 'courseware_id' => $model->courseware_id],
                 ['class' => 'btn btn-info']) ?>
 
-                <?= Html::a(
+              <!--   <? /* Html::a(
                 '<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('backend', '克隆'),
                 ['create', 'courseware_id' => $model->courseware_id, 'Courseware'=>$copyParams],
-                ['class' => 'btn btn-success']) ?>
+                ['class' => 'btn btn-success'])*/ ?> -->
 
                 <?= Html::a(
                 '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建'),

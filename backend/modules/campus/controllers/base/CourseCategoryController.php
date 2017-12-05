@@ -38,7 +38,11 @@ class CourseCategoryController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         Tabs::clearLocalStorage();
-
+        $dataProvider->sort =  [
+                'defaultOrder'=>[
+                    'updated_at'=>SORT_DESC
+                ]
+        ];
         Url::remember();
         \Yii::$app->session['__crudReturnUrl'] = null;
 
