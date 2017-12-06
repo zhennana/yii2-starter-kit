@@ -395,7 +395,6 @@ class User extends ActiveRecord implements IdentityInterface
                         ->where(['grade_user_type'=>UserToGrade::GRADE_USER_TYPE_TEACHER])
                         ->one();
         }
-       // var_dump($model);exit;
         if(isset($model)){
             return array_merge($model->toArray(['school_id','school_label','grade_id','grade_label']),$data);
         }

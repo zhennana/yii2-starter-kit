@@ -74,10 +74,18 @@ $config = [
 
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
-            //'useFileTransport' => true,
+            'useFileTransport' => false,
+            'transport'=>[
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'smtp.qq.com',
+                'username' => '854377393@qq.com',
+                'password' => 'szsjeyljktzvbbej',
+                'port' => '465',
+                'encryption' => 'ssl',
+            ],
             'messageConfig' => [
                 'charset' => 'UTF-8',
-                'from' => env('ADMIN_EMAIL')
+                'from' => env('ADMIN_EMAIL'),
             ]
         ],
 
@@ -344,10 +352,11 @@ if (YII_ENV_DEV) {
     $config['components']['cache'] = [
         'class' => 'yii\caching\DummyCache'
     ];
+    /*
     $config['components']['mailer']['transport'] = [
         'class' => 'Swift_SmtpTransport',
         'host' => env('SMTP_HOST'),
         'port' => env('SMTP_PORT'),
-    ];
+    ];*/
 }
 return $config;
