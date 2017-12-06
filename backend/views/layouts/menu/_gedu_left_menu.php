@@ -384,6 +384,12 @@ use yii\helpers\Url;
                          'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_teacher')),
                          'icon'=>'<i class=" fa  fa-volume-up"></i>'
                     ],
+                    [
+                        'label'=>Yii::t('backend', '家长反馈'),
+                         'url'=>['/campus/notice/parents-notice'],
+                         'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_teacher')),
+                         'icon'=>'<i class=" fa  fa-volume-up"></i>'
+                    ],
 
                     [
                         'label'=>Yii::t('backend', '个推列表'),
