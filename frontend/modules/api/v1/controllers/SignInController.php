@@ -1484,17 +1484,17 @@ class SignInController extends \common\components\ControllerFrontendApi
             $mpUser->sex            = isset($user_info['sex']) ? $user_info['sex'] : 0 ;
             $mpUser->city           = isset($user_info['city']) ? $user_info['city'] : '';
             $mpUser->province       = isset($user_info['province']) ? $user_info['province'] : '';
-            $mpUser->country        = isset($user_info['country']) ? $user_info['country'] : '';
+            $mpUser->country        = (isset($user_info['country']) && !empty($user_info['country'])) ? $user_info['country'] : '未知';
             $mpUser->language       = isset($user_info['language']) ? $user_info['language'] : '';
             $mpUser->avatar         = isset($user_info['headimgurl']) ? $user_info['headimgurl'] : '';
             $mpUser->subscribe_time = isset($user_info['subscribe_time']) ? $user_info['subscribe_time'] : time();
-            $mpUser->group_id       = isset($user_info['groupid']) ? $user_info['groupid'] : '';
+            $mpUser->group_id       = isset($user_info['groupid']) ? $user_info['groupid'] : 0;
 
             if (!$mpUser->save()) {
                 // 回滚
                 $transaction->rollBack();
                 $message['errorno'] = __LINE__;
-                $message['message'] = "wechatmp couldn't be saved";
+                $message['message'] = $mpUser->getErrors();
                 return $message;
             }
 
