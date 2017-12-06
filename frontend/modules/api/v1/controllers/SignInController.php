@@ -194,12 +194,19 @@ class SignInController extends \common\components\ControllerFrontendApi
             //$row['session']['udid_new'] = $udid_new;
             // $row['udid_old'] = isset($session_data['udid']) ? $session_data['udid'] : '';
 
-            return array_merge($attrUser,$account,$row);
+            return [
+                'errorno' => '0',
+                'message' => 'OK',
+                'data' => array_merge($attrUser,$account,$row),
+            ];
         }else{
             Yii::$app->response->statusCode = 422;
             $info = $model->getErrors();
             $language['language'] = [Yii::$app->language];
-            return  $model->getErrors();
+            return [
+                'errorno' => __LINE__,
+                'message' => $model->getErrors(),
+            ];
             //return array_merge($info,$language);
         }
         /*
@@ -1545,7 +1552,13 @@ class SignInController extends \common\components\ControllerFrontendApi
         $row['session'] = $info;
         $row['session_data'] = Yii::$app->session->getIterator();
 
-        return array_merge($attrUser,$account,$row);
+        return [
+            'errorno' => '0',
+            'message' => 'OK',
+            'data' => array_merge($attrUser,$account,$row),
+        ];
+
+            
     }
         
 }
