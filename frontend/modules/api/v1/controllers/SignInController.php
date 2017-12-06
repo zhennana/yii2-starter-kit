@@ -1484,7 +1484,7 @@ class SignInController extends \common\components\ControllerFrontendApi
             $mpUser->sex            = isset($user_info['sex']) ? $user_info['sex'] : 0 ;
             $mpUser->city           = isset($user_info['city']) ? $user_info['city'] : '';
             $mpUser->province       = isset($user_info['province']) ? $user_info['province'] : '';
-            $mpUser->country        = isset($user_info['country']) ? $user_info['country'] : '未知';
+            $mpUser->country        = (isset($user_info['country']) && !empty($user_info['country'])) ? $user_info['country'] : '未知';
             $mpUser->language       = isset($user_info['language']) ? $user_info['language'] : '';
             $mpUser->avatar         = isset($user_info['headimgurl']) ? $user_info['headimgurl'] : '';
             $mpUser->subscribe_time = isset($user_info['subscribe_time']) ? $user_info['subscribe_time'] : time();
