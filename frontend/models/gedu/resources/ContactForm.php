@@ -54,7 +54,7 @@ class ContactForm extends Model
                 ->setTo($email)
                 ->setFrom(Yii::$app->params['robotEmail']);
 
-        if(!empty(Yii::$app->user->identity->email)){
+        if(!empty($this->email)){
             $mailer->setReplyTo([$this->email => Yii::$app->user->identity->realname]);
         }
 
