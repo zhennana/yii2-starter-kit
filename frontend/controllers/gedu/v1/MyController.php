@@ -164,7 +164,7 @@ class MyController extends \common\rest\Controller
         $data  = [];
         $model = NULL;
 
-        if (isset($character_detailes) && !empty($character_detailes) && $character_detailes['user_type'] == 1) {
+        if (isset($character_detailes) && !empty($character_detailes)) {
             $model = Notice::find()
                 ->where(['status_send' => Notice::STATUS_SEND_SENT,'type'=>0])
                 ->andWhere([
@@ -189,15 +189,15 @@ class MyController extends \common\rest\Controller
 
         if ($model) {
             foreach ($model as $key => $value) {
-                $temp['category'] = '';
+                // $temp['category'] = '';
 
-                if ($value['grade_id'] == NULL && $value['receiver_id'] == NULL) {
-                    $temp['category']     = '学校公告';
-                }elseif ($value['receiver_id'] == NULL) {
-                    $temp['category']     = '班级公告';
-                }else{
-                    $temp['category']     = '家校沟通';
-                }
+                // if ($value['grade_id'] == NULL && $value['receiver_id'] == NULL) {
+                //     $temp['category']     = '学校公告';
+                // }elseif ($value['receiver_id'] == NULL) {
+                //     $temp['category']     = '班级公告';
+                // }else{
+                //     $temp['category']     = '家校沟通';
+                // }
 
                 $temp['notice_id']     = $value['notice_id'];
                 $temp['school_id']     = $value['school_id'];
