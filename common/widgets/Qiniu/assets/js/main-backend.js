@@ -10,7 +10,7 @@ $(function() {
         browse_button: 'pickfiles',      //上传选择的点选按钮，**必需**
         container: 'container',
         drop_element: 'container',
-        max_file_size: '1024mb',           //最大文件体积限制
+        max_file_size: '8192mb',           //最大文件体积限制
         flash_swf_url: 'js/plupload/Moxie.swf',
         dragdrop: true,
         chunk_size: '4mb',
