@@ -19,7 +19,7 @@ use frontend\models\gedu\resources\Collect;
 use frontend\models\gedu\resources\Notice;
 use frontend\models\gedu\resources\User;
 use frontend\models\gedu\resources\StudentRecordValue;
-
+use frontend\models\gedu\resources\ContactForm;
 class MyController extends \common\rest\Controller
 {
     /**
@@ -444,7 +444,63 @@ class MyController extends \common\rest\Controller
         return $data;*/
     }
 
-
+    /**
+     * @SWG\Post(path="/my/send-email",
+     *     tags={"GEDU-My-我的页面接口"},
+     *     summary="发送邮件",
+     *     description="发送邮件",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "email",
+     *        description = "我的邮件",
+     *        required = false,
+     *        default = 0,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "subject",
+     *        description = "邮件主题",
+     *        required = false,
+     *        default = 0,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "body",
+     *        description = "邮件内容",
+     *        required = false,
+     *        default = 0,
+     *        type = "string"
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "无需填写，直接返回数据"
+     *     ),
+     * )
+     *
+    **/
+    public function actionSendEmail(){
+        if(Yii::$app->user->isGuest){
+            $this->serializer['errno']   = 422;
+            $this->serializer['message'] = '请您先登录';
+            return [];
+        }
+        $model = new ContactForm;
+        try{
+            if($model->load(Yii::$app->request->post(),'')){
+                $model->addCreate();
+                return $model;
+            }else{
+                $model->addError('expire','数据加载失败');
+            }
+        } catch (\Exception $e) {
+            $msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
+            $model->addError('_exception', $msg);
+        }
+        return $model;
+    }
     /**
      * @SWG\Get(path="/my/honor",
      *     tags={"GEDU-My-我的页面接口"},

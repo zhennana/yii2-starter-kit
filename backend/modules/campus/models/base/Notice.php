@@ -36,7 +36,7 @@ abstract class Notice extends \yii\db\ActiveRecord
 
     CONST CATEGORY_ONE       = 1; //消息通知；
     CONST CATEGORY_TWO       = 2; //老师对学生说的话；
-    CONST CATEGORY_THREE     = 3;
+    CONST CATEGORY_THREE     = 3; //意见反馈
 
     CONST STATUS_SEND_SENT   = 10;    // 发送
     CONST STATUS_SEND_UNSENT = 20;    // 未发送
