@@ -149,6 +149,7 @@ if (!$model->isNewRecord) {
         <div class="results1">
         </div>
          <div  class="col-lg-12">
+        <?php echo $form->errorSummary($model); ?>
          <?= Html::submitButton(
         '<span class="glyphicon glyphicon-check"></span> ' .
         ($model->isNewRecord ? Yii::t('backend', 'Create') : Yii::t('backend', 'Save')),

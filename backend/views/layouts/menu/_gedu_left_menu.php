@@ -48,17 +48,17 @@ use yii\helpers\Url;
 
                      'icon'=>'<i class="fa  fa-file-text"></i>'
                     ],
-                    // ['label'=>Yii::t('backend', '课件附件'), 
-                    // 'url'=>['/campus/courseware-to-file/index'],
-                    // 'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') ),
-                    //  'icon'=>'<i class="fa fa-angle-double-right"></i>'
-                    // ],
-                    ['label'=>Yii::t('backend', '课件分类'),
-                     'url'=>['/campus/courseware-category/index',], 
+                    ['label'=>Yii::t('backend', '课件附件'), 
+                    'url'=>['/campus/courseware-to-file/index'],
                     'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') ),
-
-                     'icon'=>'<i class=" fa  fa-file-text"></i>'
+                     'icon'=>'<i class="fa fa-angle-double-right"></i>'
                     ],
+                    // ['label'=>Yii::t('backend', '课件分类'),
+                    //  'url'=>['/campus/courseware-category/index',], 
+                    // 'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') ),
+
+                    //  'icon'=>'<i class=" fa  fa-file-text"></i>'
+                    // ],
                     /*
                     ['label'=>Yii::t('backend', '课件关系'),
                      'url'=>['/campus/courseware-to-courseware/index'], 
@@ -67,11 +67,11 @@ use yii\helpers\Url;
                      'icon'=>'<i class=" fa  fa-file-text"></i>'
                     ],
                     */
-                    ['label'=>Yii::t('backend', '附件管理'),
-                    'url'=>['/campus/file-storage-item/index'],
-                    'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') ),
-                     'icon'=>'<i class=" fa  fa-file-text"></i>'
-                    ],
+                    // ['label'=>Yii::t('backend', '附件管理'),
+                    // 'url'=>['/campus/file-storage-item/index'],
+                    // 'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') ),
+                    //  'icon'=>'<i class=" fa  fa-file-text"></i>'
+                    // ],
             ],
                 ],
             /*
