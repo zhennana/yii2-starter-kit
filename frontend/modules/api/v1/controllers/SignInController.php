@@ -1494,7 +1494,7 @@ class SignInController extends \common\components\ControllerFrontendApi
                 // 回滚
                 $transaction->rollBack();
                 $message['errorno'] = __LINE__;
-                $message['message'] = "wechatmp couldn't be saved";
+                $message['message'] = $mpUser->getErrors();
                 return $message;
             }
 
