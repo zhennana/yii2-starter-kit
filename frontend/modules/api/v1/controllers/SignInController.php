@@ -1357,7 +1357,7 @@ class SignInController extends \common\components\ControllerFrontendApi
      * @SWG\Post(path="/sign-in/wechat-login",
      *     tags={"100-SignIn-用户接口"},
      *     summary="创建微信用户，并登录",
-     *     description="根据code获取openid，并登录APP或创建用户",
+     *     description="传入openid和access_token，登录APP或创建用户",
      *     produces={"application/json"},
      *     @SWG\Parameter(
      *        in = "formData",
@@ -1373,14 +1373,14 @@ class SignInController extends \common\components\ControllerFrontendApi
      *        name = "access_token",
      *        description = "access_token",
      *        required = true,
-     *        type = "integer"
+     *        type = "string"
      *     ),
      *     @SWG\Parameter(
      *        in = "formData",
      *        name = "openid",
      *        description = "openid",
      *        required = true,
-     *        type = "integer"
+     *        type = "string"
      *     ),
      *     @SWG\Response(
      *         response = 200,
