@@ -1472,7 +1472,7 @@ class SignInController extends \common\components\ControllerFrontendApi
                 // 回滚
                 $transaction->rollBack();
                 $message['errorno'] = __LINE__;
-                $message['message'] = "wechat couldn't be saved";
+                $message['message'] = $fans->getErrors();
                 return $message;
             }
 
