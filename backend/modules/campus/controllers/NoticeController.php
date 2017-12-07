@@ -346,6 +346,34 @@ class NoticeController extends \backend\modules\campus\controllers\base\NoticeCo
                 'answers'  =>$answers,
             ]);
     }
+
+// 家长反馈
+    public function actionParentsNotice(){
+        $searchModel  = new NoticeSearch;
+        $dataProvider = $searchModel->search($_GET);
+
+        $schools = Yii::$app->user->identity->schoolsInfo;
+        $schools = ArrayHelper::map($schools,'school_id','school_title');
+
+        $grades =  [];
+        $grades = ArrayHelper::map($grades,'grade_id','grade_name');
+
+        $dataProvider->query->andWhere([
+            'school_id'=> array_keys($schools),
+            'category'=>3,
+            ]);
+        $dataProvider->sort = [
+            'defaultOrder'=>[
+                'updated_at' => SORT_DESC
+            ]
+        ];
+        return $this->render('parents_notice', [
+            'dataProvider' => $dataProvider,
+            'searchModel'  => $searchModel,
+            'schools'      => $schools,
+            'grades'       => $grades
+        ]);
+    }
 //个推公告
     public function actionAPush(){
         $searchModel  = new NoticeSearch;
