@@ -1,5 +1,5 @@
 <?php
-    $userName = isset(Yii::$app->user->identity->username) ? Yii::$app->user->identity->username :Yii::$app->user->identity->phone_number;
+    $userName = isset(Yii::$app->user->identity->realname) ? Yii::$app->user->identity->realname :Yii::$app->user->identity->phone_number;
    // $userName = "企业_超管";
    $userName = str_replace(['-','_',''],['/','',''],$userName);
   //var_dump($userName);exit;
@@ -25,7 +25,7 @@
 
 </script>
   <style>
-    #url{  
+    #url{
 
       -moz-user-select: none; /*火狐*/
       -webkit-user-select: none; /*webkit浏览器*/
