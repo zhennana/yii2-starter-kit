@@ -359,7 +359,7 @@ class NoticeController extends \backend\modules\campus\controllers\base\NoticeCo
         $grades = ArrayHelper::map($grades,'grade_id','grade_name');
 
         $dataProvider->query->andWhere([
-            'school_id'=> array_keys($schools),
+            // 'school_id'=> array_keys($schools),
             'category'=>3,
             ]);
         $dataProvider->sort = [

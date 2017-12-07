@@ -103,16 +103,16 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                 ],
                 */
                 'notice_id',
-                [
-                    'class'     =>\common\grid\EnumColumn::className(),
-                    'attribute' =>'school_id',
-                    'options'   => ['width' => '10%'],
-                    'format'    => 'raw',
-                    'enum'      => $schools,
-                    'value'     => function($model){
-                        return $model->school_id;
-                    },
-                ],
+                // [
+                //     'class'     =>\common\grid\EnumColumn::className(),
+                //     'attribute' =>'school_id',
+                //     'options'   => ['width' => '10%'],
+                //     'format'    => 'raw',
+                //     'enum'      => $schools,
+                //     'value'     => function($model){
+                //         return $model->school_id;
+                //     },
+                // ],
                 'title',
                 [
                     'attribute' => 'message',
