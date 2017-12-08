@@ -77,9 +77,9 @@ $config = [
             'useFileTransport' => false,
             'transport'=>[
                 'class' => 'Swift_SmtpTransport',
-                'host' => 'smtp.qq.com',
-                'username' => '854377393@qq.com',
-                'password' => 'szsjeyljktzvbbej',
+                'host' => 'smtp.126.com',
+                'username' => env('ADMIN_EMAIL'),
+                'password' => env('EMAIL_PASS'),
                 'port' => '465',
                 'encryption' => 'ssl',
             ],
