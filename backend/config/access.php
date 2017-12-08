@@ -68,7 +68,7 @@ return [
             [
                 'controllers'=>['campus/course','campus/course-schedule'],
                 'allow'=>true,
-                'actions'=>['create','update','course-batch','course-validations','time-switch','batch-closed'],
+                'actions'=>['delete','create','update','course-batch','course-validations','time-switch','batch-closed'],
                 'roles'=>['manager','P_director','E_manager']
             ],
             [
