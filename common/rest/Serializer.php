@@ -337,7 +337,7 @@ class Serializer extends BaseSerializer
      */
     protected function serializeModelErrors($model)
     {
-        $this->response->setStatusCode(422, 'Data Validation Failed.');
+        // $this->response->setStatusCode(422, 'Data Validation Failed.');
         $this->message =  $model->getFirstErrors();
        // $result = [];
         return [
