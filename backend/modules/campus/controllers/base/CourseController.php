@@ -117,11 +117,11 @@ public function actionView($course_id)
     }else{
         $dataProvider->query->andWhere(['course_id' => $model->getChildIds()]);
     }
-    $dataProvider->query->andWhere([
-        'or',
-        ['grade_id'  => $this->gradeIdCurrent],
-        ['grade_id'  => 0]
-    ]);
+    // $dataProvider->query->andWhere([
+    //     'or',
+    //     ['grade_id'  => $this->gradeIdCurrent],
+    //     ['grade_id'  => 0]
+    // ]);
 
     return $this->render('view', [
         'model' => $model,
