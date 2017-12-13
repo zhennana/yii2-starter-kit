@@ -176,7 +176,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                 ],
     			'title',
     			'intro',
-
+                /*
                 [
                     'attribute' => 'teacher_id',
                     'label'     => '上课老师',
@@ -184,6 +184,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                         return Yii::$app->user->identity->getUserName($model->teacher_id);
                     }
                 ],
+                */
     			// 'start_time:datetime',
     			// 'end_time:datetime',
     			 [
