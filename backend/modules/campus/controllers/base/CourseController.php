@@ -68,11 +68,11 @@ public function actionIndex()
         $schools = ArrayHelper::map($schools,'school_id','school_title');
         $grades  = ArrayHelper::map($grades,'grade_id','grade_name');
         //$dataProvider->query->select(['']);
-        $dataProvider->query->andWhere([
-            'or',
-            ['grade_id'  => $this->gradeIdCurrent],
-            ['grade_id'  => 0]
-        ]);
+        // $dataProvider->query->andWhere([
+        //     'or',
+        //     ['grade_id'  => $this->gradeIdCurrent],
+        //     ['grade_id'  => 0]
+        // ]);
         $dataProvider->sort = [
                    'defaultOrder'=>[
                         'updated_at'=>SORT_DESC,
