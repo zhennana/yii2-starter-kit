@@ -306,6 +306,16 @@ abstract class Course extends \yii\db\ActiveRecord
     public function getCourseSchedule(){
         return $this->hasMany(\backend\modules\campus\models\CourseSchedule::className(),['course_id'=>'course_id']);
     }
+
+    public function getChildIds()
+    {
+        $course_ids = self::find()
+            ->select('course_id')
+            ->where(['status' => self::COURSE_STATUS_OPEN,'parent_id' => $this->course_id])
+            ->asArray()
+            ->all();
+        return  \yii\helpers\ArrayHelper::map($course_ids,'course_id','course_id');
+    }
     // /*****/
     // public function getUsersToGrades(){
     //     return $this->hasMany(\backend\modules\campus\models\UserToGrade::className(),['grade_id'=>'grade_id']);
