@@ -143,6 +143,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                     },
                     'contentOptions' => ['nowrap'=>'nowrap']
                 ],
+                'course_id',
                 [
                     'attribute' => 'school_title',
                     'label'     => '学校',
