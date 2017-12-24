@@ -309,7 +309,7 @@ Receipt: {"Store":"fake","TransactionID":"bc0df36d-13be-4d9f-b9d1-4d980d11c402",
         }
 
         if ($model->payment == $modelClass::PAYMENT_ALIPAY) {
-            $data = $model->appAlipay();
+            $data['data'] = $model->appAlipay();
         }elseif($model->payment == $modelClass::PAYMENT_WECHAT){
             $data = $model->appWechatpay();
         }
