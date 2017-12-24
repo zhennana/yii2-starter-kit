@@ -91,14 +91,14 @@ class AopClient {
 	protected function sign($data, $signType = "RSA") {
 		if($this->checkEmpty($this->rsaPrivateKeyFilePath)){
 			$priKey=$this->rsaPrivateKey;
-			$res = "-----BEGIN RSA PRIVATE KEY-----\n" .$priKey.
-				// wordwrap($priKey, 64, "\n", true) .
+			$res = "-----BEGIN RSA PRIVATE KEY-----\n" .
+				wordwrap($priKey, 64, "\n", true) .
 				"\n-----END RSA PRIVATE KEY-----";
 		}else {
 			$priKey = file_get_contents($this->rsaPrivateKeyFilePath);
 			$res = openssl_get_privatekey($priKey);
 		}
-// var_dump($res);exit;
+
 		($res) or die('您使用的私钥格式错误，请检查RSA私钥配置'); 
 		if ("RSA2" == $signType) {
 			openssl_sign($data, $sign, $res, OPENSSL_ALGO_SHA256);
