@@ -98,7 +98,7 @@ class AopClient {
 			$priKey = file_get_contents($this->rsaPrivateKeyFilePath);
 			$res = openssl_get_privatekey($priKey);
 		}
-// var_dump($res);exit;
+var_dump($res);exit;
 		($res) or die('您使用的私钥格式错误，请检查RSA私钥配置'); 
 		if ("RSA2" == $signType) {
 			openssl_sign($data, $sign, $res, OPENSSL_ALGO_SHA256);
