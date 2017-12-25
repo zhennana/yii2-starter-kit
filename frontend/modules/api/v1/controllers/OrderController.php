@@ -534,17 +534,19 @@ Receipt: {"Store":"fake","TransactionID":"bc0df36d-13be-4d9f-b9d1-4d980d11c402",
         $data = [];
         $model = new $modelClass;
 
-        $data['order_sn']       = $model->builderNumber();
         $data['school_id']      = 3;
         $data['user_id']        = Yii::$app->request->post('user_id');
-        $data['payment']        = $modelClass::PAYMENT_SHAREFREE;
+        $data['order_sn']       = $model->builderNumber();
         $data['status']         = $modelClass::STATUS_VALID;
+        $data['payment']        = $modelClass::PAYMENT_SHAREFREE;
         $data['payment_status'] = $modelClass::PAYMENT_STATUS_PAID;
-        $data['total_price']    = 0;
-        $data['real_price']     = 0;
         $data['total_course']   = 0;
-        $data['expired_at']     = $model->getRemainingTime(Yii::$app->request->post('user_id'),7);
-        $data['days']           = 7;
+        $data['total_price']    = 0;
+        $data['coupon_price']   = 0;
+        $data['real_price']     = 0;
+        $data['days']           = 1;        // 赠送时间
+        $data['data']           = 'share';
+        $data['expired_at']     = $model->getRemainingTime(Yii::$app->request->post('user_id'),$data['days']);
 
         $model = $model->createOrderOne($data);
 

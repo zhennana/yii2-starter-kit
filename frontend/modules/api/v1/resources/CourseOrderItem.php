@@ -518,9 +518,10 @@ class CourseOrderItem extends BaseCourseOrderItem
         $params['total_course']   = 0;
         $params['total_price']    = 0;
         $params['coupon_price']   = 0;
-        $params['days']           = 7;
+        $params['real_price']     = 0;
+        $params['days']           = 1;              // 赠送时间
         $params['data']           = 'free';
-        $params['expired_at']     = $this->getRemainingTime($user_id, $params['days']);;
+        $params['expired_at']     = $this->getRemainingTime($user_id, $params['days']);
 
         return $this->createOrderOne($params);
     }
