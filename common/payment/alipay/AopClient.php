@@ -591,7 +591,7 @@ class AopClient {
 			$pubKey= $this->alipayrsaPublicKey;
 			$res = "-----BEGIN PUBLIC KEY-----\n" .
 				wordwrap($pubKey, 64, "\n", true) .
-				"\n-----END PUBLIC KEY-----";
+				"-----END PUBLIC KEY-----";
 		}else {
 			//读取公钥文件
 			$pubKey = file_get_contents($rsaPublicKeyFilePath);
