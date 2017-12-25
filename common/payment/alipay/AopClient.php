@@ -90,10 +90,10 @@ class AopClient {
 
 	protected function sign($data, $signType = "RSA") {
 		if($this->checkEmpty($this->rsaPrivateKeyFilePath)){
-			$priKey=$this->rsaPrivateKey;
+			$priKey=str_replace("\n",$this->rsaPrivateKey);
 			$res = "-----BEGIN RSA PRIVATE KEY-----\n" .
 				wordwrap($priKey, 64, "\n", true) .
-				"-----END RSA PRIVATE KEY-----";
+				"\n-----END RSA PRIVATE KEY-----";
 		}else {
 			$priKey = file_get_contents($this->rsaPrivateKeyFilePath);
 			$res = openssl_get_privatekey($priKey);
@@ -588,7 +588,7 @@ class AopClient {
 
 		if($this->checkEmpty($this->alipayPublicKey)){
 
-			$pubKey= $this->alipayrsaPublicKey;
+			$pubKey= str_replace("\n",$this->alipayrsaPublicKey);
 			$res = "-----BEGIN PUBLIC KEY-----\n" .
 				wordwrap($pubKey, 64, "\n", true) .
 				"\n-----END PUBLIC KEY-----";
