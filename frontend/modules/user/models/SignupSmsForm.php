@@ -176,7 +176,7 @@ class SignupSmsForm extends Model
                         'phone'=>$user->phone_number,
                     ]);
                     */
-                    $this->messageId = $instance->registerCode($user->phone_number,['code' => $this->token]);
+                    $this->messageId = $instance->send($user->phone_number,['code' => $this->token]);
                 }
             }
                 //$account  = new UserAccount();
