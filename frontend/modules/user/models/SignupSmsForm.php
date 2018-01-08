@@ -135,7 +135,7 @@ class SignupSmsForm extends Model
                         'message' => $this->token.' 验证码',
                         'phone' => $user_model->phone_number,
                     ]);*/
-                    $this->messageId = $instance->registerCode($user_model->phone_number,['code' => $this->token]);
+                    $this->messageId = $instance->send($user_model->phone_number,['code' => $this->token]);
             }else{
                 return  $this->addError('phone_number',Yii::t('frontend','This username has already been taken.'));
             }
@@ -176,7 +176,7 @@ class SignupSmsForm extends Model
                         'phone'=>$user->phone_number,
                     ]);
                     */
-                    $this->messageId = $instance->registerCode($user->phone_number,['code' => $this->token]);
+                    $this->messageId = $instance->send($user->phone_number,['code' => $this->token]);
                 }
             }
                 //$account  = new UserAccount();

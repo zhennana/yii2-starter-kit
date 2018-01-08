@@ -480,7 +480,7 @@ class SignInController extends \common\components\ControllerFrontendApi
                 );
 
                 if($token){ // 发送短信
-                    $res = $instance->registerCode($post['phone_number'],['code' => $code]);
+                    $res = $instance->send($post['phone_number'],['code' => $code]);
                 }
 
                 $info = [
@@ -883,7 +883,7 @@ class SignInController extends \common\components\ControllerFrontendApi
         );
 
         if($token){ // 发送短信
-            $res = $instance->registerCode($user->phone_number,['code' => $code]);
+            $res = $instance->send($user->phone_number,['code' => $code]);
         }
 
         $info = [
