@@ -493,7 +493,7 @@ class CourseOrderItem extends BaseCourseOrderItem
         $order = self::find()->where([
             'user_id'        => $user_id,
             'status'         => self::STATUS_VALID,
-            'payment_status' => [self::PAYMENT_STATUS_PAID,self::PAYMENT_STATUS_PAID_CLIENT],
+            'payment_status' => [self::PAYMENT_STATUS_PAID,self::PAYMENT_STATUS_PAID_CLIENT,self::PAYMENT_STATUS_PAID_SERVER],
         ])->orderBy('expired_at DESC')->one();
 
         if ($order && $order->expired_at > $time) {
