@@ -222,7 +222,7 @@ abstract class CourseOrderItem extends \yii\db\ActiveRecord
             'coupon_price'     => Yii::t('backend', '优惠金额'),
             'total_course'     => Yii::t('backend', '课程总数，不含赠送'),
             'days'                 => Yii::t('backend', '充值天数'),
-            'numbers'              => Yii::t('backend', '输入手机号码，并以空格分隔。每次最多输入36个手机号'),
+            'numbers'              => Yii::t('backend', '输入手机号码，并以换行分隔。'),
         ]);
     }
 
