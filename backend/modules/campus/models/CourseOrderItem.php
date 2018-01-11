@@ -83,8 +83,7 @@ public function behaviors()
             $info->addError('numbers','手机号码不能为空');
             return $info;
         }
-
-        $numbers = explode(' ', $this->numbers);
+        $numbers = explode("\r\n", $this->numbers);
 
         $userQuery = User::find()->where([
             'status' => User::STATUS_ACTIVE,
