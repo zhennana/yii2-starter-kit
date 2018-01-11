@@ -232,6 +232,12 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
             if ((\Yii::$app->user->can('P_financial', ['route' => true]) || \Yii::$app->user->can('E_manager') || \Yii::$app->user->can('manager')) && (env('THEME') == 'edu' || \Yii::$app->user->can('manager'))) { ?>
             <div class="pull-left">
                 <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('cruds', '创建'), ['create'], ['class' => 'btn btn-success']) ?>
+
+                <?php
+                    if (env('THEME') == 'shuo') {
+                       echo Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('cruds', '批量充值'), ['batch-order'], ['class' => 'btn btn-success']);
+                    }
+                ?>
             </div>
         <?php } ?>
 

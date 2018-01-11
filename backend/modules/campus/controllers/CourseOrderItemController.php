@@ -22,4 +22,29 @@ class CourseOrderItemController extends \backend\modules\campus\controllers\base
         }
 
     }
+
+    /**
+     *  [actionBatchOrder 根据批量创建订单]
+     *  @return [type] [description]
+     */
+    public function actionBatchOrder()
+    {
+        $model = new CourseOrderItem;
+        // $model->scenario = 'batch_create';
+
+        if ($model->load(\Yii::$app->request->post())) {
+            $info = $model->batchOrder();
+            if ($info->hasErrors()) {
+                return $this->render('batch-order', [
+                    'model' => $model,
+                    'info' => $info,
+                ]);
+            }
+            return $this->redirect(['index']);
+        } else {
+            return $this->render('batch-order',[
+                'model' => $model
+            ]);
+        }
+    }
 }
