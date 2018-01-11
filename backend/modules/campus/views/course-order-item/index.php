@@ -28,9 +28,9 @@ if (\Yii::$app->user->can('P_financial', ['route' => true]) || \Yii::$app->user-
     $actionColumnTemplates[] = '{update}';
 }
 
-// if (\Yii::$app->user->can('P_director', ['route' => true])) {
-//     $actionColumnTemplates[] = '{delete}';
-// }
+if (\Yii::$app->user->can('P_director', ['route' => true]) && env('THEME') == 'shuo') {
+    $actionColumnTemplates[] = '{delete}';
+}
 if (isset($actionColumnTemplates)) {
 $actionColumnTemplate = implode(' ', $actionColumnTemplates);
     $actionColumnTemplateString = $actionColumnTemplate;
