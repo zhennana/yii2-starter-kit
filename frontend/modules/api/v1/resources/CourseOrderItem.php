@@ -486,6 +486,10 @@ class CourseOrderItem extends BaseCourseOrderItem
      *  @param  [type] $user_id [description]
      *  @return [type]          [description]
      */
+    /*
+        // 迁移至后台模型子类 \backend\modules\campus\models\CourseOrderItem
+        // 2018-1-11
+    
     public function getRemainingTime($user_id, $days=0)
     {
         $time = time();
@@ -501,6 +505,7 @@ class CourseOrderItem extends BaseCourseOrderItem
         }
         return $expired_at;
     }
+    */
 
     /**
      *  [createFreeOne 新用户注册免费赠送订单]

@@ -30,6 +30,7 @@ use yii\behaviors\TimestampBehavior;
  */
 abstract class CourseOrderItem extends \yii\db\ActiveRecord
 {
+    public $numbers;
 
     const PAYMENT_STATUS_REFUNDED    = 400;     // 400退款
     const PAYMENT_STATUS_PAID_CLIENT = 310;     // 310客户端成功支付
@@ -46,6 +47,7 @@ abstract class CourseOrderItem extends \yii\db\ActiveRecord
     const PAYMENT_OFFLINE        = 200;        // 线下支付
     const PAYMENT_FREE           = 210;        // 免费赠送
     const PAYMENT_SHAREFREE      = 220;        // 分享赠送
+    const PAYMENT_BACKEND        = 230;        // 后台充值
 
     const STATUS_VALID   = 10;        // 有效
     const STATUS_INVALID = 20;        // 无效
@@ -78,6 +80,7 @@ abstract class CourseOrderItem extends \yii\db\ActiveRecord
             self::PAYMENT_OFFLINE        => '线下支付',
             self::PAYMENT_FREE           => '免费赠送',
             self::PAYMENT_SHAREFREE      => '分享赠送',
+            self::PAYMENT_BACKEND      => '后台充值',
         ];
     }
 
@@ -159,11 +162,12 @@ abstract class CourseOrderItem extends \yii\db\ActiveRecord
                 }
             ],
             [['total_price',  'coupon_price'], 'number'],
-            ['real_price','safe'],
+            [['real_price','data'],'safe'],
             [['payment_id','order_sn'],'string'],
             [['order_sn'], 'string', 'max' => 32],
             [['order_sn'], 'unique'],
-            ['data','safe'],
+            [['numbers'],'string','max' => 431],
+            [['days'],'integer','max' => 99999],
         ];
     }
 
@@ -191,9 +195,11 @@ abstract class CourseOrderItem extends \yii\db\ActiveRecord
             'coupon_price'         => Yii::t('backend', '优惠金额'),
             'coupon_type'          => Yii::t('backend', '优惠类型'),
             'total_course'         => Yii::t('backend', '课程总数'),
-            'expired_at'         => Yii::t('backend', '过期时间'),
+            'expired_at'           => Yii::t('backend', '过期时间'),
             'created_at'           => Yii::t('backend', '创建时间'),
             'updated_at'           => Yii::t('backend', '更新时间'),
+            'days'                 => Yii::t('backend', '充值天数'),
+            'numbers'              => Yii::t('backend', '手机号码'),
         ];
     }
 
@@ -215,6 +221,8 @@ abstract class CourseOrderItem extends \yii\db\ActiveRecord
             'real_price'       => Yii::t('backend', '实际付款'),
             'coupon_price'     => Yii::t('backend', '优惠金额'),
             'total_course'     => Yii::t('backend', '课程总数，不含赠送'),
+            'days'                 => Yii::t('backend', '充值天数'),
+            'numbers'              => Yii::t('backend', '输入手机号码，并以空格分隔。每次最多输入36个手机号'),
         ]);
     }
 
