@@ -223,6 +223,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                         return $model->status;
                     },
                 ],
+                'created_at:datetime',
             ];
         }
     ?>
