@@ -76,6 +76,11 @@ public function actionIndex()
                     ]
         );
      }
+     $dataProvider->sort = [
+                   'defaultOrder'=>[
+                        'created_at'=>SORT_DESC,
+                   ]
+        ];
     Tabs::clearLocalStorage();
 
     Url::remember();
