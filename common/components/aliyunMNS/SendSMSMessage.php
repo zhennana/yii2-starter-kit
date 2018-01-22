@@ -1,15 +1,11 @@
 <?php
 namespace common\components\aliyunMNS;
 
-use AliyunMNS\Client;
-use AliyunMNS\Topic;
-use AliyunMNS\Constants;
-use AliyunMNS\Model\MailAttributes;
-use AliyunMNS\Model\SmsAttributes;
-use AliyunMNS\Model\BatchSmsAttributes;
-use AliyunMNS\Model\MessageAttributes;
-use AliyunMNS\Exception\MnsException;
-use AliyunMNS\Requests\PublishMessageRequest;
+//ini_set("display_errors", "on");
+
+require_once dirname(__DIR__) . '/aliyunMNS/api_sdk/vendor/autoload.php';
+
+
 
 use Yii;
 use yii\base\Component;
@@ -17,8 +13,27 @@ use yii\db\Connection;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
 
+use Aliyun\Core\Config;
+use Aliyun\Core\Profile\DefaultProfile;
+use Aliyun\Core\DefaultAcsClient;
+use Aliyun\Api\Sms\Request\V20170525\SendSmsRequest;
+use Aliyun\Api\Sms\Request\V20170525\QuerySendDetailsRequest;
+
+// 加载区域结点配置
+Config::load();
+
+/**
+ * Class SmsDemo
+ *
+ * Created on 17/10/17.
+ * 短信服务API产品的DEMO程序,工程中包含了一个SmsDemo类，直接通过
+ * 执行此文件即可体验语音服务产品API功能(只需要将AK替换成开通了云通信-短信服务产品功能的AK即可)
+ * 备注:Demo工程编码采用UTF-8
+ */
 class SendSMSMessage
 {
+
+    static $acsClient = null;
     public $_config = [];
 
     /**
@@ -44,67 +59,198 @@ class SendSMSMessage
         $this->_config['accessKey']         = isset($value[2]) ? $value[2] : '';
         $this->_config['SMSSignName']       = isset($value[3]) ? $value[3] : '';
         $this->_config['SMSTemplateCode']   = isset($value[4]) ? $value[4] : '';
-
+    //var_dump($this->_config); exit();
         return true;
     }
 
-    public function registerCode($phone_number, $params)
-    {
-        $this->getConfig();
-        $this->client = new Client($this->_config['endPoint'], $this->_config['accessId'], $this->_config['accessKey']);
+    /**
+     * 取得AcsClient
+     *
+     * @return DefaultAcsClient
+     */
+    public static function getAcsClient() {
+        //产品名称:云通信流量服务API产品,开发者无需替换
+        $product = "Dysmsapi";
 
-        /**
-         * Step 2. 获取主题引用
-         */
-        $topicName = "sms.topic-cn-hangzhou";
-        $topic = $this->client->getTopicRef($topicName);
+        //产品域名,开发者无需替换
+        $domain = "dysmsapi.aliyuncs.com";
 
-        /**
-         * Step 3. 生成SMS消息属性
-         */
-        // 3.1 设置发送短信的签名（SMSSignName）和模板（SMSTemplateCode）
-        $batchSmsAttributes = new BatchSmsAttributes($this->_config['SMSSignName'], $this->_config['SMSTemplateCode']);
+        // TODO 此处需要替换成开发者自己的AK (https://ak-console.aliyun.com/)
+        $accessKeyId = "LTAIdpdfCWx5fAn7"; // AccessKeyId
 
-        // 3.2 （如果在短信模板中定义了参数）指定短信模板中对应参数的值
-        $batchSmsAttributes->addReceiver($phone_number, $params);
-        //$batchSmsAttributes->addReceiver("13910408910", array("code" => "12345"));
-        $messageAttributes = new MessageAttributes(array($batchSmsAttributes));
-        /**
-         * Step 4. 设置SMS消息体（必须）
-         *
-         * 注：目前暂时不支持消息内容为空，需要指定消息内容，不为空即可。
-         */
-         $messageBody = "smsmessage";
-        /**
-         * Step 5. 发布SMS消息
-         */
-        $request = new PublishMessageRequest($messageBody, $messageAttributes);
- 
-        try
-        {
-            $res = $topic->publishMessage($request);
-            /*
-            print_r($res);
-            echo 'Succeed: '.$res->isSucceed();
-            echo "<br />";
-            echo 'statusCode: '. $res->getStatusCode();
-            echo '<br />';
-            echo 'MessageId: '.$res->getMessageId();
-            echo "<br />";*/
+        $accessKeySecret = "4CLD9euSWUTrKQbWRG08LXiT9ChnYb"; // AccessKeySecret
+
+
+        // 暂时不支持多Region
+        $region = "cn-hangzhou";
+
+        // 服务结点
+        $endPointName = "cn-hangzhou";
+
+
+        if(static::$acsClient == null) {
+
+            //初始化acsClient,暂不支持region化
+            $profile = DefaultProfile::getProfile($region, $accessKeyId, $accessKeySecret);
+
+            // 增加服务结点
+            DefaultProfile::addEndpoint($endPointName, $region, $product, $domain);
+
+            // 初始化AcsClient用于发起请求
+            static::$acsClient = new DefaultAcsClient($profile);
         }
-        catch (MnsException $e)
-        {
-            //  throw new Exception($e, 1);
-            //echo $e;
-            //echo "\n";
-        }
-
-        return $res->getMessageId();
+        return static::$acsClient;
     }
 
+    /**
+     * 发送短信
+     *
+     * @param string $signName <p>
+     * 必填, 短信签名，应严格"签名名称"填写，参考：<a href="https://dysms.console.aliyun.com/dysms.htm#/sign">短信签名页</a>
+     * </p>
+     * @param string $templateCode <p>
+     * 必填, 短信模板Code，应严格按"模板CODE"填写, 参考：<a href="https://dysms.console.aliyun.com/dysms.htm#/template">短信模板页</a>
+     * (e.g. SMS_0001)
+     * </p>
+     * @param string $phoneNumbers 必填, 短信接收号码 (e.g. 12345678901)
+     * @param array|null $templateParam <p>
+     * 选填, 假如模板中存在变量需要替换则为必填项 (e.g. Array("code"=>"12345", "product"=>"阿里通信"))
+     * </p>
+     * @param string|null $outId [optional] 选填, 发送短信流水号 (e.g. 1234)
+     * @return stdClass
+     */
+    public static function sendSms($signName, $templateCode, $phoneNumbers, $templateParam = null, $outId = null) {
 
+        // 初始化SendSmsRequest实例用于设置发送短信的参数
+        $request = new SendSmsRequest();
 
+        // 必填，设置雉短信接收号码
+        $request->setPhoneNumbers($phoneNumbers);
+
+        // 必填，设置签名名称
+        $request->setSignName($signName);
+
+        // 必填，设置模板CODE
+        $request->setTemplateCode($templateCode);
+
+        // 可选，设置模板参数
+        if($templateParam) {
+            $request->setTemplateParam(json_encode($templateParam));
+        }
+
+        // 可选，设置流水号
+        if($outId) {
+            $request->setOutId($outId);
+        }
+        // 发起访问请求
+        $acsResponse = static::getAcsClient()->getAcsResponse($request);
+
+        // 打印请求结果
+        // var_dump($acsResponse);
+
+        return $acsResponse;
+
+    }
+
+    /**
+     * 短信发送记录查询
+     *
+     * @param string $phoneNumbers 必填, 短信接收号码 (e.g. 12345678901)
+     * @param string $sendDate 必填，短信发送日期，格式Ymd，支持近30天记录查询 (e.g. 20170710)
+     * @param int $pageSize 必填，分页大小
+     * @param int $currentPage 必填，当前页码
+     * @param string $bizId 选填，短信发送流水号 (e.g. abc123)
+     * @return stdClass
+     */
+    public static function queryDetails($phoneNumbers, $sendDate, $pageSize = 10, $currentPage = 1, $bizId=null) {
+
+        // 初始化QuerySendDetailsRequest实例用于设置短信查询的参数
+        $request = new QuerySendDetailsRequest();
+
+        // 必填，短信接收号码
+        $request->setPhoneNumber($phoneNumbers);
+
+        // 选填，短信发送流水号
+        $request->setBizId($bizId);
+
+        // 必填，短信发送日期，支持近30天记录查询，格式Ymd
+        $request->setSendDate($sendDate);
+
+        // 必填，分页大小
+        $request->setPageSize($pageSize);
+
+        // 必填，当前页码
+        $request->setCurrentPage($currentPage);
+
+        // 发起访问请求
+        $acsResponse = static::getAcsClient()->getAcsResponse($request);
+
+        // 打印请求结果
+        // var_dump($acsResponse);
+
+        return $acsResponse;
+    }
+
+    /**
+     * [用户注册]
+     * @param  [type] $phone_number [description]
+     * @param  [type] $params       [description]
+     * @return [type]               [description]
+     */
+    public function send($phone_number, $params, $type = 'activation')
+    {
+
+        if($type === 'activation'){
+            $this->getConfig('aliyun.sms.register.code');
+        }
+        elseif($type === 'password_reset'){
+            $this->getConfig('aliyun.sms.password-reset.code');
+        }else{
+            return false;
+        }
+
+// var_dump($type, $this->_config); exit();
+
+        $response = SendSMSMessage::sendSms(
+            $this->_config['SMSSignName'], 
+            $this->_config['SMSTemplateCode'], 
+            $phone_number, 
+            $params
+        );
+// var_dump($response); exit();
+        return $response;
+    }
 
 }
+/*
+// 调用示例：
+set_time_limit(0);
+header('Content-Type: text/plain; charset=utf-8');
+
+$response = SmsDemo::sendSms(
+    "阿里云短信测试专用", // 短信签名
+    "SMS_109220024", // 短信模板编号
+    "13910408910", // 短信接收者
+    Array(  // 短信模板中字段的值
+        "code"=>"12345",
+    ),
+    "123"   // 流水号,选填
+);
+echo "发送短信(sendSms)接口返回的结果:\n";
+print_r($response);
+
+sleep(2);
+
+$response = SmsDemo::queryDetails(
+    "13910408910",  // phoneNumbers 电话号码
+    "20171004", // sendDate 发送时间
+    10, // pageSize 分页大小
+    1 // currentPage 当前页码
+    // "abcd" // bizId 短信发送流水号，选填
+);
+echo "查询短信发送情况(queryDetails)接口返回的结果:\n";
+print_r($response);
 
 
+exit();
+*/

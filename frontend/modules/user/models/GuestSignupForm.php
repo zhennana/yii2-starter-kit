@@ -3,6 +3,7 @@ namespace frontend\modules\user\models;
 
 use Yii;
 use yii\helpers\Url;
+use yii\base\Exception;
 use cheatsheet\Time;
 use common\models\User;
 use frontend\modules\user\models\SignupForm;

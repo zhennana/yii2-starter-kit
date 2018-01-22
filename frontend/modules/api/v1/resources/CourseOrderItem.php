@@ -486,6 +486,10 @@ class CourseOrderItem extends BaseCourseOrderItem
      *  @param  [type] $user_id [description]
      *  @return [type]          [description]
      */
+    /*
+        // 迁移至后台模型子类 \backend\modules\campus\models\CourseOrderItem
+        // 2018-1-11
+    
     public function getRemainingTime($user_id, $days=0)
     {
         $time = time();
@@ -493,7 +497,7 @@ class CourseOrderItem extends BaseCourseOrderItem
         $order = self::find()->where([
             'user_id'        => $user_id,
             'status'         => self::STATUS_VALID,
-            'payment_status' => [self::PAYMENT_STATUS_PAID,self::PAYMENT_STATUS_PAID_CLIENT],
+            'payment_status' => [self::PAYMENT_STATUS_PAID,self::PAYMENT_STATUS_PAID_CLIENT,self::PAYMENT_STATUS_PAID_SERVER],
         ])->orderBy('expired_at DESC')->one();
 
         if ($order && $order->expired_at > $time) {
@@ -501,6 +505,7 @@ class CourseOrderItem extends BaseCourseOrderItem
         }
         return $expired_at;
     }
+    */
 
     /**
      *  [createFreeOne 新用户注册免费赠送订单]

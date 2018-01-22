@@ -3,6 +3,7 @@
 use common\grid\EnumColumn;
 use common\models\User;
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
@@ -20,6 +21,18 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php echo Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '创建', [
     'modelClass' => 'User',
 ]), ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
+    <p>
+    <?php
+        $auth = ArrayHelper::map(Yii::$app->authManager->getRoles(), 'name', 'name');
+        foreach ($auth as $key => $value) {
+            echo ' '.Html::a(
+                Yii::t('backend', $value, ['modelClass' => 'User']), 
+                ['index','UserSearch[role]'=>$key], 
+                ['class' => 'btn btn-info']
+            );
+        }
+    ?>
     </p>
 
     <?php echo GridView::widget([

@@ -164,12 +164,12 @@ if(is_string($schoolOrGrade) && $schoolOrGrade == 'all'){
                     'class'=>\common\grid\EnumColumn::className(),
                     'attribute' =>'grade_id',
                     'enum'      => $grades,
-                    'value'     => function($model){
-                        if(isset($model->grade->grade_name)){
-                            return $model->grade->grade_name;
-                        }
-                        return '未知';
-                    }
+                    // 'value'     => function($model){
+                    //     if(isset($model->grade->grade_name)){
+                    //         return $model->grade->grade_name;
+                    //     }
+                    //     return '未知';
+                    // }
                 ],
                 [
                     'class'     => \common\grid\EnumColumn::className(),
