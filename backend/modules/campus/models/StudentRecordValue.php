@@ -143,7 +143,8 @@ class StudentRecordValue extends BaseStudentRecordValue
                 ->all();
             return $grades;
         }elseif($params['type'] == 'grade_id'){
-            $users = Yii::$app->user->identity->getGradeToUser($params['value'],10);
+          //这里只获取有效的
+            $users = Yii::$app->user->identity->getGradeToUser($params['value'],10,UserToGrade::USER_GRADE_STATUS_NORMAL);
             $data_user = [];
             foreach ($users as $key => $value) {
                 if(!empty($value['realname'])){

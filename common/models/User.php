@@ -262,18 +262,22 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
+     * $status  学生关系状态;为空全部状态获取
      * *获取班级人员
      */
-    public function getGradeToUser($grade_id = 0,$grade_user_type = 20){
+    public function getGradeToUser($grade_id = 0,$grade_user_type = 20,$status = false){
 
         $user = UserToGrade::find()
                 ->with(['user'=>function($query){
                     $query->where(['status' => self::STATUS_ACTIVE]);
                 }])
                 ->andWhere(['grade_id'=> $grade_id])
-                ->andWhere(['grade_user_type' => $grade_user_type])
-                ->asArray()
-                ->all();
+                ->andWhere(['grade_user_type' => $grade_user_type]);
+        if($status){
+            $user = $user->andwhere(['status'=>$status]);
+        }
+
+        $user =  $user->asArray()->all();
         $data = [];
         foreach ($user  as $key => $value) {
             if(isset($value['user']) && !empty($value['user'])){
