@@ -308,6 +308,7 @@ class MyController extends \common\rest\Controller
         $user = UsersToUsers::getRelevanceGroup($user_id);
         $score_list = StudentRecordValue::find()
              ->andwhere(['user_id'=>$user])
+             ->andwhere(['status'=>StudentRecordValue::STUDENT_VALUE_STATUS_OPEN])
              ->orderBy(['updated_at'=>SORT_DESC])
              ->groupBy('grade_id')
              ->all();
@@ -389,7 +390,8 @@ class MyController extends \common\rest\Controller
         }
         $user = UsersToUsers::getRelevanceGroup($user_id);
         $score = StudentRecordValue::find()
-             ->andwhere(['user_id'=>$user]);
+             ->andwhere(['user_id'=>$user])
+             ->andwhere(['status'=>StudentRecordValue::STUDENT_VALUE_STATUS_OPEN]);
         if($grade_id){
             $fields = ['score','grade_id','full_mark','course_title','images_url'];
             $score = $score->andWhere(['grade_id'=>$grade_id]);
