@@ -18,7 +18,7 @@ use yii\helpers\Html;
         <div class="main-1">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-3 col-md-3 col-sm-3 col-xs-3 row-1">
+                    <div class="kbotton">
                         <div class="row-box">
                             <!-- <div class="main-1-icon-1"><a href="#"><div class="aaa"></div></a></div> -->
                             <!-- <a href="#"><div class="main-1-icon-1"></div></a> -->
@@ -35,7 +35,7 @@ use yii\helpers\Html;
                             <h6>Primary School Department</h6></h4>
                         </div>
                     </div>
-                    <div class="col-md-3 col-md-3 col-sm-3 col-xs-3 row-1">
+                    <div class="kbotton">
                         <div class="row-box">
                             <!-- <a href="#"><div class="main-1-icon-2"></div></a> -->
                             <?php 
@@ -52,7 +52,7 @@ use yii\helpers\Html;
                             <h6>Daltonian</h6>
                         </div>
                     </div>
-                    <div class="col-md-3 col-md-3 col-sm-3 col-xs-3 row-1">
+                    <div class="kbotton">
                         <div class="row-box">
                             <!-- <a href="#"><div class="main-1-icon-3"></div></a> -->
                             <?php 
@@ -69,7 +69,7 @@ use yii\helpers\Html;
                             <h6>Oversea sales</h6>
                         </div>
                     </div>
-                    <div class="col-md-3 col-md-3 col-sm-3 col-xs-3">
+                    <div class="kbotton">
                         <div class="row-box">
                             <!-- <a href="#"><div class="main-1-icon-4"></div></a> -->
                             <?php 
@@ -86,6 +86,24 @@ use yii\helpers\Html;
                             <h6>Specialty department</h6>
                         </div>
                     </div>
+                   <!--全脑开发部分-->
+                    <div class="kbotton">
+                        <div class="row-box">
+                            <!-- <a href="#"><div class="main-1-icon-5"></div></a> -->
+                            <?php
+                                $href= yii\helpers\Url::to(['article/index','category_id'=>49]);
+                                $html='';
+                                $html.='<a href="'.$href.'">';
+                                $html.='<div class="main-1-icon-5"></div>';
+                                $html.='</a>';
+                                echo $html;
+                            ?>
+                            <img src="http://static.v1.guangdaxuexiao.com/main-1-line.png">
+
+                            <h4><?php echo Html::a('IBC脑开发',['article/index','category_id'=>49],['class'=>'headcolor','data-method'=>'open',]);?>
+                            <h6>IBC BrainHealth Center</h6>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -98,7 +116,7 @@ use yii\helpers\Html;
                 </div>
         <!--教师风采页面-->
         <div class="main-2">
-            <?php echo $this->render('@frontend/themes/gedu/site/common/teacher.php',['data'=>$data]);?>
+            <?php echo $this->render('@frontend/themes/gedu/site/common/teacher.php',['teacher'=>$teacher]);?>
         </div>
         <div class="main-2">
                 <div class="main-3-head-fu">
@@ -114,9 +132,13 @@ use yii\helpers\Html;
                                 <!--校园风采模块 -->
                                 <?php
                                     if(!is_mobile()){
-                                        echo $this->render('@frontend/themes/gedu/site/common/elegant.php');
+                                        echo $this->render('@frontend/themes/gedu/site/common/elegant.php',[
+                                          'sights' => $sights
+                                        ]);
                                     }else{
-                                        echo $this->render('@frontend/themes/gedu/site/common/mobile_elegant');
+                                        echo $this->render('@frontend/themes/gedu/site/common/mobile_elegant',[
+                                          'sights' => $sights
+                                        ]);
                                     }
                                 ?>
                             </div>

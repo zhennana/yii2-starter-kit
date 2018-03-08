@@ -73,6 +73,13 @@ public function actionIndex()
                 'status'=>Courseware::COURSEWARE_STATUS_VALID
         ]);
     }
+    if(env('THEME') == 'gedu'){
+        $dataProvider->sort = [
+                'defaultOrder'=>[
+                    'updated_at'=>SORT_DESC
+                ]
+        ];
+    }
     Tabs::clearLocalStorage();
 
     Url::remember();

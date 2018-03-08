@@ -8,6 +8,7 @@ namespace frontend\controllers\gedu\v1;
 use yii;
 use yii\web\Response;
 
+use yii\captcha\CaptchaAction;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\rest\OptionsAction;
@@ -16,10 +17,9 @@ use frontend\models\gedu\resources\LoginForm;
 use frontend\models\gedu\resources\UserForm;
 use frontend\models\gedu\resources\User;
 use frontend\models\gedu\resources\UsersToUsers;
-
+use frontend\modules\user\models\SignupSmsForm;
 use common\models\UserProfile;
 use common\models\UserToken;
-
 use common\components\Qiniu\Auth;
 use common\components\Qiniu\Storage\BucketManager;
 
@@ -87,6 +87,17 @@ class SignInController extends \common\components\ControllerFrontendApi
     {
         return [
             'options' => OptionsAction::class,
+            'captcha-v1' => [
+                'class'           => 'yii\captcha\CaptchaAction',
+                'height'          => 40,
+                'width'           => 100,
+                'minLength'       => 5,
+                'maxLength'       => 5,
+                'padding'         => 0,
+                'testLimit'       => 1,
+                'foreColor'       => 0x4169E1,
+                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null
+            ]
         ];
     }
 
@@ -126,7 +137,6 @@ class SignInController extends \common\components\ControllerFrontendApi
      *     @SWG\Response(
      *         response = 422,
      *         description = "Data Validation Failed 账号或密码错误",
-     *         @SWG\Schema(ref="#/definitions/Error")
      *     )
      * )
      *
@@ -143,8 +153,8 @@ class SignInController extends \common\components\ControllerFrontendApi
         $model->load($_POST);
 
         if($model->login()){
-            $attrUser = $model->user->attributes;
-
+            $attrUser = Yii::$app->user->identity->getSchoolUserInfo();
+            /*
             $attrUser['ID'] = $attrUser['id'];
             unset($attrUser['id']);
 
@@ -169,7 +179,8 @@ class SignInController extends \common\components\ControllerFrontendApi
             }
 
             // 学校班级
-            $attrUser['grade_name'] = $attrUser['school_title'] =$attrUser['school_id'] ='';
+            $attrUser['grade_name'] = $attrUser['school_title'] = '';
+            $attrUser['school_id'] = 0;
             if ($model->user->getCharacterDetailes()) {
                 $attrUser['grade_name'] = $model->user->getCharacterDetailes()['grade_label'];
                 $attrUser['school_title'] = $model->user->getCharacterDetailes()['school_label'];
@@ -182,16 +193,22 @@ class SignInController extends \common\components\ControllerFrontendApi
                 'status'        => UsersToUsers::UTOU_STATUS_OPEN,
             ])->one();
 
+            $student = UsersToUsers::find()->where([
+                'user_left_id'  => $model->user->id,
+                'status'        => UsersToUsers::UTOU_STATUS_OPEN,
+            ])->one();
+
             if ($parents) {
                 $attrUser['type']    = UsersToUsers::UTOU_TYPE_PARENT;
-                $attrUser['level']   = '荣耀王者'.'的家长';
                 $attrUser['parents'] = UsersToUsers::getUserName($parents->user_left_id).'的家长';
-            }else{
+            }elseif($student){
                 $attrUser['type']    = UsersToUsers::UTOU_TYPE_STUDENT;
-                $attrUser['level']   = '荣耀王者';
+                $attrUser['parents'] = '';
+            }else{
+                $attrUser['type']    = 0;
                 $attrUser['parents'] = '';
             }
-            
+            */
             return $attrUser;
         }else{
             Yii::$app->response->statusCode = 200;
@@ -233,8 +250,11 @@ class SignInController extends \common\components\ControllerFrontendApi
             return $this->serializer['message'];
         }
 
-        $attrUser = Yii::$app->user->identity->attributes;
+        // $attrUser = Yii::$app->user->identity->attributes;
 
+        $attrUser = Yii::$app->user->identity->getSchoolUserInfo();
+
+        /*
         if(isset($attrUser['password_hash'])){
             unset($attrUser['password_hash']);
         }
@@ -254,15 +274,14 @@ class SignInController extends \common\components\ControllerFrontendApi
                 $attrUser['avatar'] = 'http://orh16je38.bkt.clouddn.com/o_1bn7gmjh51nu51dn1k0kimul5n9.jpg';
             }
         }
-        $attrUser['clientid'] = $proFileUser->clientid;
-        $attrUser['client_source_type'] = $proFileUser->client_source_type;
+        */
         return $attrUser;
     }
 
     /**
      * @SWG\Get(path="/sign-in/send-sms",
      *     tags={"GEDU-SignIn-用户接口"},
-     *     summary="发送验证码[已经自测]",
+     *     summary="发送验证码[弃用]",
      *     description="发送验证码，成功返回验证码与用户信息",
      *     produces={"application/json"},
      *     @SWG\Parameter(
@@ -373,7 +392,7 @@ class SignInController extends \common\components\ControllerFrontendApi
     /**
      * @SWG\Post(path="/sign-in/signup",
      *     tags={"GEDU-SignIn-用户接口"},
-     *     summary="用户注册及重置密码[已经自测]",
+     *     summary="用户注册及重置密码[弃用]",
      *     description="成功返回用户信息，失败返回具体原因",
      *     produces={"application/json"},
      *     @SWG\Parameter(
@@ -441,11 +460,11 @@ class SignInController extends \common\components\ControllerFrontendApi
             if (isset($user->id)) {
                 if ($model->shouldBeActivated()) {
                     $this->serializer['message'] = Yii::t('frontend', '账号注册成功');
-                    return $user->attributes;
+                    return $user->getSchoolUserInfo();
                 } else {
                     Yii::$app->getUser()->login($user);
                 }
-                return array_merge($user->attributes, ['token'=>$model->token]);
+                return array_merge($user->getSchoolUserInfo(), ['token'=>$model->token]);
             }
         }
 
@@ -453,6 +472,270 @@ class SignInController extends \common\components\ControllerFrontendApi
         $this->serializer['errno']      = 1;
         $this->serializer['message']    = $model->getErrors();
         return $this->serializer['message'];
+    }
+
+    /**
+     * @SWG\Post(path="/sign-in/send-sms-v1",
+     *     tags={"GEDU-SignIn-用户接口"},
+     *     summary="发送验证码",
+     *     description="返回图形验证码或直接发送相应短信",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "phone_number",
+     *        description = "手机号",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "code_type",
+     *        description = "验证码类型：signup注册；repasswd重置密码。默认signup",
+     *        required = true,
+     *        type = "string",
+     *        enum = {"signup", "repasswd"}
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "注册成功，短信验证码"
+     *     ),
+     * )
+     *
+     */
+     /**
+     * 注册及充值机面面短信发送
+     * @return string|Response
+     */
+    public function actionSendSmsV1()
+    {
+        \Yii::$app->language = 'zh-CN';
+        $model = new SignupSmsForm();
+        $params = [
+            'code_type' => (Yii::$app->request->post('code_type',null) == 'signup') ? UserToken::TYPE_PHONE_SIGNUP : UserToken::TYPE_PHONE_REPASSWD,
+            'phone_number' => Yii::$app->request->post('phone_number',null)
+        ];
+
+        if (!$model->load($params,'')) {
+            $this->serializer['errno'] = __LINE__;
+            $this->serializer['message'] = $model->getErrors();  
+            return [];
+        }
+        $data = $model->signupV1();
+        if($data['error_code'] != 0){
+            $this->serializer['errno'] = $data['error_code'];
+            $this->serializer['message'] = $data['message'];
+            return [];
+        }
+
+        return isset($data['resources']) ? $data['resources'] : [];
+    }
+
+    /**
+     * @SWG\Post(path="/sign-in/signup-v1",
+     *     tags={"GEDU-SignIn-用户接口"},
+     *     summary="用户注册及重置密码",
+     *     description="成功返回用户信息，失败返回具体原因",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "user_id",
+     *        description = "用户ID",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "password",
+     *        description = "密码",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "token",
+     *        description = "验证码",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "type",
+     *        description = "发送验证码类型：signup注册；repasswd重置密码。默认signup",
+     *        required = true,
+     *        type = "string",
+     *        default = "signup",
+     *        enum = {"signup", "repasswd"}
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "成功，返回用户信息"
+     *     ),
+     *     @SWG\Response(
+     *         response = 422,
+     *         description = "失败，返回具体原因"
+     *     )
+     * )
+     *
+     */
+    public function actionSignupV1()
+    {
+        $token    = Yii::$app->request->post('token',0);
+        $password = Yii::$app->request->post('password',null);
+        $user_id  = Yii::$app->request->post('user_id',null);
+        $type     = Yii::$app->request->post('type',null);
+        $type = ($type == 'signup') ? UserToken::TYPE_PHONE_SIGNUP : UserToken::TYPE_PHONE_REPASSWD;
+
+        $userToken = UserToken::find()
+            ->andWhere(['user_id'=>$user_id])
+            ->byType($type)
+            ->byToken($token)
+            ->notExpired()
+            ->one();
+        // var_dump($userToken);exit;
+        if (!$userToken) {
+            //throw new BadRequestHttpException;
+            $this->serializer['errno'] = __LINE__;
+            $this->serializer['message'] = '无效的验证码';
+            return [];
+        }
+
+        $user = $userToken->user;
+        $info = [
+            'status' => User::STATUS_ACTIVE,
+        ];
+
+        if($user->safety<=1){
+            $info['safety'] = $user->safety+2;
+        }
+        if($password){
+            $info['password_hash'] = Yii::$app->getSecurity()->generatePasswordHash($password);
+        }
+
+        $user->updateAttributes($info);
+        $userToken->delete();
+        Yii::$app->getUser()->login($user);
+        /*
+        return [
+            'message' => Yii::t(
+                'frontend',
+                //Your account has been successfully activated.
+                '您的账户已经成功激活。'
+            )
+        ];
+        */
+        return $user->attributes;
+    }
+
+    /**
+     * @SWG\Post(path="/sign-in/graphics",
+     *     tags={"GEDU-SignIn-用户接口"},
+     *     summary="验证图形验证并发送短信",
+     *     description="成功返回注册信息",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "user_id",
+     *        description = "用户id",
+     *        required = true,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "verifyCode",
+     *        description = "密码",
+     *        required = false,
+     *        type = "string"
+     *     ),
+      *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "type",
+     *        description = "发送验证码类型",
+     *        required = true,
+     *        type = "string",
+     *        enum = {"signup", "repasswd"}
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "成功返回用户信心。失败返回原因"
+     *     ),
+     * )
+     *
+     */
+    public function actionGraphics()
+    {
+        $user_id    = Yii::$app->request->post('user_id',null);
+        $verifyCode = Yii::$app->request->post('verifyCode');
+        $type       = Yii::$app->request->post('type',null);
+        $type       =  ($type == 'signup') ? UserToken::TYPE_PHONE_SIGNUP : UserToken::TYPE_PHONE_REPASSWD;
+
+        $user = User::findOne($user_id);
+        
+        $model = new SignupSmsForm();
+        $model->scenario = 'code';
+        $model->load(Yii::$app->request->post(),'');
+
+        if(!$user){
+            $model->addError('code','获取验证码失败');
+        }
+        if($model->validate()){
+           $model->smsSend($user,$type);
+        }
+        if($model->hasErrors()){
+            $this->serializer['errno']   = __LINE__;
+            $this->serializer['message'] = $model->getErrors();
+            return [];
+        }
+        $info['resources']  = $model;
+        return $info;
+    }
+
+    /**
+     * @SWG\Get(path="/sign-in/captcha",
+     *     tags={"GEDU-SignIn-用户接口"},
+     *     summary="获取人机识别码",
+     *     description="返回人机识别码",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "query",
+     *        name = "refresh",
+     *        description = "是否刷新",
+     *        required = false,
+     *        type = "integer",
+     *        default = 1
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "返回人机识别码"
+     *     )
+     * )
+     *
+     */
+    public function actionCaptcha($refresh = 1)
+    {   
+        if(!isset($_GET['refresh'])){
+            $this->serializer['errno']   = __LINE__;
+            $this->serializer['message'] = '验证码获取失败请重新获取';
+            return [];
+        }
+        $controller =  Yii::$app->controller;
+        $action_id  =  'captcha-v1';
+        $config     = [
+            'height'          => 40,
+            'width'           => 100,
+            'minLength'       => 5,
+            'maxLength'       => 5,
+            'padding'         => 0,
+            'testLimit'       => 1,
+            'foreColor'       => 0x4169E1,
+            'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null
+        ];
+        $captcha = new CaptchaAction($action_id, $controller, $config);
+        $data = $captcha->run();
+      
+        if(is_array($data) && isset($data['url'])){
+            $info['url'] = \Yii::$app->request->hostInfo.$data['url'];
+        }
+        return $info;
     }
 
     /**

@@ -5,6 +5,7 @@ use common\models\ArticleCategory;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\grid\GridView;
+use common\models\Article;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\search\ArticleSearch */
@@ -12,6 +13,21 @@ use yii\grid\GridView;
 
 $this->title = Yii::t('backend', '文章');
 $this->params['breadcrumbs'][] = $this->title;
+$category = ArticleCategory::find()->orderBy('created_at ASC')->asArray()->all();
+$data=[];
+foreach ($category as $key => $value) {
+    if(empty($value['parent_id'])){
+        $prefix = '';
+    }else{
+        $parent = ArticleCategory::find()->where(['id' => $value['parent_id']])->asArray()->one();
+        $prefix = isset($parent['title']) ? $parent['title'].' -> ' : '';
+    }
+    $data[$value['id']] = $prefix.$value['title'];
+}
+$model = new Article;
+$categories  = $model->category_recursion(ArticleCategory::find()->active()->asArray()->all());
+// $categories = ArrayHelper::map($categories, 'id', 'title');
+// dump($categories);exit;
 ?>
 <div class="article-index">
 
@@ -39,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function ($model) {
                     return $model->category ? $model->category->title : null;
                 },
-                'filter' => ArrayHelper::map(ArticleCategory::find()->all(), 'id', 'title')
+                'filter' => ArrayHelper::map($categories, 'id', 'title')
             ],
             [
                 'attribute' => 'author_id',

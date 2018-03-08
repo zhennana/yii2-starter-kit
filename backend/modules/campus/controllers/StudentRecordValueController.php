@@ -11,6 +11,7 @@ use common\components\Qiniu\Storage\BucketManager;
 use backend\modules\campus\models\WorkRecord;
 use backend\modules\campus\models\SignIn;
 use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
 use yii\filters\AccessControl;
 use dmstr\bootstrap\Tabs;
 use yii\helpers\Html;
@@ -118,7 +119,42 @@ class StudentRecordValueController extends \backend\modules\campus\controllers\b
         {
             $searchModel  = new StudentRecordValueSearch;
             $dataProvider = $searchModel->search($_GET);
+            $searchModel  = new StudentRecordValueSearch;
+            $dataProvider = $searchModel->search($_GET);
+             $dataProvider->sort = [
+                'defaultOrder'=>[
+                    'updated_at'=>SORT_DESC
+                ]
+            ];
+            $schools[] = $this->schoolCurrent; //Yii::$app->user->identity->schoolsInfo;
+            $grades =  \Yii::$app->user->identity->gradesInfo;
+            foreach ($grades as $key => $value) {
+                $enrollment = '';
+                if ($value['time_of_enrollment']) {
+                    $enrollment .= '[';
+                    $enrollment .= date('Y',$value['time_of_enrollment']);
+                    $enrollment .= ']';
+                }
+                $value['grade_name'] =  $enrollment.$value['grade_name'];
+                $grades[] = $value;
+            }
+            $schools = ArrayHelper::map($schools,'school_id','school_title');
+            $grades  = ArrayHelper::map($grades,'grade_id','grade_name');
+            $dataProvider->query->andWhere([
+                    'school_id'=>array_keys($schools),
+                    'grade_id' =>array_keys($grades)
+            ]);
+    Tabs::clearLocalStorage();
 
+    Url::remember();
+    \Yii::$app->session['__crudReturnUrl'] = null;
+
+    return $this->render('index', [
+    'dataProvider' => $dataProvider,
+        'searchModel' => $searchModel,
+        'grades'      => $grades,
+        'schools'     => $schools
+    ]);
             Tabs::clearLocalStorage();
 
             Url::remember();
@@ -146,7 +182,33 @@ class StudentRecordValueController extends \backend\modules\campus\controllers\b
             foreach ($list as $key => $value) {
                 $html .= Html::tag('option',Html::encode($value),array('value'=>$key));
             }
+        }elseif ($_GET['type'] == 'key') {
+             foreach ($list as $key => $value) {
+                $html .= Html::tag('option',Html::encode($value),array('value'=>$key));
+            }
         }
         return $html;
     }
+//同时创建多科目成绩单
+    public function actionBatchCreate(){
+        $keys = StudentRecordKey::find()->where(['status'=>StudentRecordKey::STUDENT_KEY_STATUS_OPEN])->all();
+        $keys = ArrayHelper::map($keys,'student_record_key_id','title');
+        $model = new StudentRecordValue;
+        $model->scenario = 'score';
+        if($_POST){
+          $model->batchCreate($_POST['StudentRecordValue']);
+          if(!$model->hasErrors()){
+            \Yii::$app->session->setFlash('alert', [
+                        'options' => ['class'=>'alert-success'],
+                        'body' => \Yii::t('frontend', '学生成绩添加成功')
+            ]);
+            return $this->refresh();
+          }
+        }
+        return $this->render('_batchForm',[
+                'model'=>$model,
+                'keys'  =>$keys,
+        ]);
+    }
+
 }

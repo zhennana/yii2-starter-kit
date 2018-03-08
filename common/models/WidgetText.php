@@ -20,7 +20,6 @@ class WidgetText extends ActiveRecord
 {
     const STATUS_ACTIVE = 1;
     const STATUS_DRAFT = 0;
-
     /**
      * @inheritdoc
      */

@@ -53,7 +53,7 @@ class ArticleController extends Controller{
 			}
 			
 			
-			$articleQuery->andWhere(['category_id'=>!empty($category['cateIds'])?$category['cateIds']:$category_id])->asArray()->all();
+			$articleQuery->andWhere(['category_id'=>!empty($category['cateIds'])?$category['cateIds']:$category_id]);
 			
 		}
 		$count=$articleQuery->count();
@@ -64,7 +64,9 @@ class ArticleController extends Controller{
 		
 		$modelArticle=$articleQuery
 		->limit($pagination->limit)
+		->offset($pagination->offset)
 		->asArray()
+		->orderBy(['published_at'=>SORT_DESC])
 		->all();
 		
 		

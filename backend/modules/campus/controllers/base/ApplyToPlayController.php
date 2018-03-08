@@ -64,7 +64,11 @@ public function actionIndex()
     $searchModel  = new ApplyToPlaySearch;
     $dataProvider = $searchModel->search($_GET);
     $dataProvider->query->andWhere([
-                'school_id'=>$this->schoolIdCurrent
+                'or',
+                [
+                    'school_id'=>$this->schoolIdCurrent,
+                    'school_id'=>NULL,
+                ]
         ]);
     $dataProvider->sort = [
             'defaultOrder'=>[
@@ -89,13 +93,13 @@ return $this->render('index', [
 */
 public function actionView($apply_to_play_id)
 {
-\Yii::$app->session['__crudReturnUrl'] = Url::previous();
-Url::remember();
-Tabs::rememberActiveState();
+    \Yii::$app->session['__crudReturnUrl'] = Url::previous();
+    Url::remember();
+    Tabs::rememberActiveState();
 
-return $this->render('view', [
-'model' => $this->findModel($apply_to_play_id),
-]);
+    return $this->render('view', [
+    'model' => $this->findModel($apply_to_play_id),
+    ]);
 }
 
 /**

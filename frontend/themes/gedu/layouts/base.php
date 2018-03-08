@@ -198,7 +198,9 @@ if(Yii::$app->session->hasFlash('alert')):?>
                             [
                                 'label' => Yii::t('frontend', 'Backend'),
                                 'url' => Yii::getAlias('@backendUrl'),
-                                'visible'=>Yii::$app->user->can('manager')
+                                'visible'=>(Yii::$app->user->can('manager') ||
+                                    Yii::$app->user->can('P_teacher') || Yii::$app->user->can('E_manager')
+                                 )
                             ],
                             [
                                 'label' => Yii::t('frontend', 'Logout'),
@@ -369,8 +371,11 @@ if(Yii::$app->session->hasFlash('alert')):?>
             <div class="container">
                 <div class="row">
                     <div class="col-xs-12 end">
-                        <span>版权所有：光大学校&nbsp;&nbsp;&nbsp;2016 @ All Rights Reserved 冀ICP备16001426号-1</span>
+                        <span>版权所有：光大学校&nbsp;&nbsp;&nbsp;<?= date('Y') ?> @ All Rights Reserved <a target="blank" href="http://www.miitbeian.gov.cn">冀ICP备16001426号-1</a></span>
                         <span style="margin-left:20px">技术支持：<a target="blank" href="http://www.yajol.com/">燕郊在线</a></span>
+                        
+                        <!-- 认证联盟 实名网站认证 -->
+                        <a style="margin-left:20px" id="_pingansec_bottomimagesmall_shiming" href="http://si.trustutn.org/info?sn=852170926030408430875&certType=1"><img src="http://v.trustutn.org/images/cert/bottom_small_img.png"/></a>
                     </div>
                 </div>
             </div>

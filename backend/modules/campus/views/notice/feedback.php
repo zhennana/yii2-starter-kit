@@ -163,7 +163,6 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                     'format'    => 'raw',
                     'enum'      => Notice::optsStatusCheck(),
                 ],
-                
 
                 // [
                 //     'attribute' => 'receiver_id',

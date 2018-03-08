@@ -143,7 +143,8 @@ class StudentRecordValue extends BaseStudentRecordValue
                 ->all();
             return $grades;
         }elseif($params['type'] == 'grade_id'){
-            $users = Yii::$app->user->identity->getGradeToUser($params['value'],10);
+          //这里只获取有效的
+            $users = Yii::$app->user->identity->getGradeToUser($params['value'],10,UserToGrade::USER_GRADE_STATUS_NORMAL);
             $data_user = [];
             foreach ($users as $key => $value) {
                 if(!empty($value['realname'])){
@@ -159,6 +160,54 @@ class StudentRecordValue extends BaseStudentRecordValue
                 }
             }
             return $data_user;
+        }elseif($params['type'] == 'key'){
+            $keys = StudentRecordKey::find()->where(['status'=>StudentRecordKey::STUDENT_KEY_STATUS_OPEN])
+            ->andWhere(
+              [
+              'or',
+              ['school_id'=>$params['value']],
+              ['school_id'=>0]
+          ])
+            ->all();
+            $keys = ArrayHelper::map($keys,'student_record_key_id','title');
+           // var_dump($keys);
+            return $keys;
         }
+    }
+//创建学生成绩
+    public function  batchCreate($params){
+      $model = $this;
+      if(!isset($params['student_record_key_id']) || empty($params['student_record_key_id'])){
+          $model->addError('em','成绩科目不能为空');
+          return $model;
+      }
+      foreach ($params['student_record_key_id'] as $key => $value) {
+            $models = self::find()->where([
+                      'school_id'=> $params['school_id'],
+                      'grade_id'=> $params['grade_id'],
+                      'user_id'=> $params['user_id'],
+                      'exam_type'=> $params['exam_type'],
+                      'student_record_key_id'=> $value,
+                    ])
+            ->one();
+            if(!$models){
+                $models = new self;
+
+            }
+            $models->scenario = 'score';
+            $models->school_id = $params['school_id'];
+            $models->grade_id = $params['grade_id'];
+            $models->user_id = $params['user_id'];
+            $models->exam_type = $params['exam_type'];
+            $models->student_record_key_id = $value;
+            $models->total_score = $params['results'][$value]['total_score'];
+            $models->score = $params['results'][$value]['score'];
+            $models->status = self::STUDENT_VALUE_STATUS_OPEN;
+            if(!$models->save()){
+                $model->addErrors($models->getErrors());
+                break;
+            }
+      }
+      return $model;
     }
 }

@@ -5,7 +5,9 @@ namespace backend\modules\campus\controllers;
 use backend\modules\campus\models\SignIn;
 use backend\modules\campus\models\Course;
 use backend\modules\campus\models\CourseSchedule;
+use backend\modules\campus\models\UserToGrade;
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 /**
 * This is the class for controller "SignInController".
 */
@@ -55,6 +57,22 @@ class SignInController extends \backend\modules\campus\controllers\base\SignInCo
 		 	 echo Html::tag('option',Html::encode($value),array('value'=>$key));
 		}
 	}
+
+	/**
+	 *  [获取已签到学生]
+	 *  @param  [type] $grade_id  [description]
+	 *  @param  [type] $course_id [description]
+	 *  @return [type]            [description]
+	 */
+	public function actionSignedStudent($grade_id,$course_id)
+	{
+		$model = new SignIn;
+		$model = $model->getSignedStudent($grade_id,$course_id);
+        foreach ($model as $key => $value) {
+		 	echo Html::tag('option',Html::encode($value),array('value'=>$key));
+		}
+	}
+
 	//补课
 	public function  actionBuke($signin_id){
 		$model = $this->findModel($signin_id);

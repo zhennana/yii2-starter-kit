@@ -42,81 +42,82 @@ if(!$model->isNewRecord){
         <p>
 
 <!-- attribute school_id -->
-			<?= $form->field($model, 'school_id')->widget(Select2::className(),
-                [
-                    'data'=>ArrayHelper::map([$schools],'school_id','school_title'),
-                    'options'=>['placeholder'=>'请选择'],
-                    'disabled'=>$is_editor,
-                    'pluginOptions'=>[
-                        'allowClear'=> true,
-                    ],
-                    'pluginEvents'=>[
-                        "change" => "function() { 
-                             handleChange(2,this.value,'#signin-grade_id');
-                        }",
-                    ]
-                ]); ?>
+		  <?= $form->field($model, 'school_id')->widget(Select2::className(), [
+                'data'          =>ArrayHelper::map([$schools],'school_id','school_title'),
+                'options'       =>['placeholder'=>'请选择'],
+                'disabled'      =>$is_editor,
+                'pluginOptions' =>[
+                    'allowClear'=> true,
+                ],
+                'pluginEvents'=>[
+                    "change" => "function() { 
+                         handleChange(2,this.value,'#signin-grade_id');
+                    }",
+                ]
+            ]); ?>
 
-            <?= $form->field($model, 'grade_id')->widget(Select2::className(),
-                [
-                    'data'=>ArrayHelper::map([$grades],'grade_id','grade_name'),
-                    'options'=>['placeholder'=>'请选择'],
-                    'disabled'=>$is_editor,
+            <?= $form->field($model, 'grade_id')->widget(Select2::className(), [
+                'data'          =>ArrayHelper::map([$grades],'grade_id','grade_name'),
+                'options'       =>['placeholder'=>'请选择'],
+                'disabled'      =>$is_editor,
+                'pluginOptions' =>[
+                    'allowClear'=> true,
+                ],
+                'pluginEvents'=>[
+                    "change" => "function() {
+                        handleChange(3,this.value,'#signin-course_id');
+                        handleChange(5,this.value,'#signin-teacher_id');
+                     }",
+                ]
+            ]); ?>
 
-                    'pluginOptions'=>[
-                        'allowClear'=> true,
-                    ],
-                    'pluginEvents'=>[
-                        "change" => "function() {
-                            handleChange(3,this.value,'#signin-course_id');
-                            handleChange(4,this.value,'#signin-student_id');
-                            handleChange(5,this.value,'#signin-teacher_id');
-                         }",
-                    ]
-                ]); ?>
 <!-- attribute course_id -->
-			<?= $form->field($model, 'course_id')->widget(Select2::className(),
-                [
-                    'data'=>$model->getlist(3,$model->grade_id),
-                    'options'=>['placeholder'=>'请选择'],
-                    'disabled'=>$is_editor,
-                    'pluginOptions'=>[
-                        'allowClear'=> true,
+			<?= $form->field($model, 'course_id')->widget(Select2::className(), [
+                'data'          => $model->isNewRecord ? [] : [
+                    $model->course_id => $model->course->title
+                ], 
+                'options'       => ['placeholder'=>'请选择'],
+                'disabled'      => $is_editor,
+                'pluginOptions' => [
+                    'allowClear'=> true,
+                ],
+                'pluginEvents'  => [
+                    "change" => "function() {
+                        changeStudent($('#signin-grade_id').val(),this.value,'#signin-student_id');
+                    }",
+                ]
+                
+            ]); ?>
+
+            <!-- <?php // $form->field($model,'course_schedule_id')->label('排课id') ?> -->
+
+<!-- attribute teacher_id -->
+            <?= $form->field($model, 'teacher_id')->widget(Select2::className(),[
+                    'data'     => $model->isNewRecord ? [] : [
+                        $model->teacher_id => Yii::$app->user->identity->getUserName($model->teacher_id)
                     ],
-                    'pluginEvents'=>[
-                         "change" => "function() {
-                              //handleChange(6,this.value,'#signin-course_schedule_id');
-                        }",
-                    ]
-                ]); ?>
-            <!-- <? //= //$form->field($model,'course_schedule_id')->label('排课id') ?> -->
+                    'disabled' => $is_editor,
+                    'options'  => ['placeholder'=>'请选择']
+                ]);
+            ?>
+            
+<!-- attribute student_id -->
             <?php
             if($model->isNewRecord){
-// <!-- attribute student_id -->
-    			echo $form->field($model, 'student_id')->widget(Select2::className(),[
-                    'data' =>[],
-                    'options'=>['placeholder'=>'请选择','multiple'=>true],
+                echo  $form->field($model, 'student_id')->widget(Select2::className(),[
+                    'data'    => $model->isNewRecord ? [] : [
+                        $model->student_id => Yii::$app->user->identity->getUserName($model->student_id)
+                    ],
+                    'options' => ['placeholder'=>'请选择','multiple'=>true],
                 ]);
-                // <!-- attribute teacher_id -->
-                echo  $form->field($model, 'teacher_id')->widget(Select2::className(),[
-                    'data' =>[],
-                    'disabled'=>$is_editor,
-                    'options'=>['placeholder'=>'请选择'],]
-            ) ;
             }else{
-                echo $form->field($model, 'student_id')->widget(Select2::className(),[
-                    'data' =>[$model->student_id => Yii::$app->user->identity->getUserName($model->student_id)],
-                    'disabled'=>$is_editor,
-                    'options'=>['placeholder'=>'请选择','multiple'=>false],
+                echo  $form->field($model, 'student_id')->widget(Select2::className(),[
+                    'data'    => [$model->student_id => Yii::$app->user->identity->getUserName($model->student_id)
+                    ],
+                    'options' => ['placeholder'=>'请选择'],
                 ]);
-               echo  $form->field($model, 'teacher_id')->widget(Select2::className(),[
-                'data' =>[$model->teacher_id => Yii::$app->user->identity->getUserName($model->teacher_id)],
-                'disabled'=>$is_editor,
-                'options'=>['placeholder'=>'请选择'],]
-            ) ;
             }
-            ?>
-
+        ?>
 
 
 <!-- attribute auditor_id -->
@@ -147,22 +148,30 @@ if(!$model->isNewRecord){
                     // ]);
                 }
             ?>
+
             <!-- attribute status -->
             <?php
                 echo $form->field($model, 'type_status')->widget(Select2::className(),[
                         'data' => SignIn::optsTypeStatus(),
                         'options'=>['placeholder'=>'请选择'],
+                        'pluginOptions' => [
+                            'allowClear'=> true,
+                        ],
                 ])->label('类型');
             ?>
+
 <!-- attribute status -->
 			<?php
                 echo $form->field($model, 'status')->widget(Select2::className(),[
                         'data' => SignIn::optsSignInStatus(),
-                        'options'=>['placeholder'=>'请选择'],
+                        // 'options'=>['placeholder'=>'请选择'],
+                        'pluginOptions' => [
+                            'allowClear'=> true,
+                        ],
                 ]);
             ?>
-            <?php echo $form->field($model,'is_a_push')->checkbox()->label('是否推送消息')
-            ?>
+
+            <?php echo $form->field($model,'is_a_push')->checkbox()->label('是否推送消息'); ?>
 
         </p>
 
@@ -213,6 +222,19 @@ if(!$model->isNewRecord){
             'success':function(data){
                 console.log(data);
                  $(form).html(data);
+            }
+        }) 
+    }
+    function changeStudent(grade_id,course_id,form){
+        // console.log(grade_id,course_id);
+
+        $.ajax({
+            "url":"<?php echo Url::to(['signed-student'])?>",
+            "data":{grade_id:grade_id,course_id:course_id},
+            'type':"GET",
+            'success':function(data){
+                console.log(data);
+                $(form).html(data);
             }
         }) 
     }

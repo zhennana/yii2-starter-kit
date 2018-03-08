@@ -160,7 +160,8 @@ class Serializer extends BaseSerializer
 
         } elseif ($data instanceof DataProviderInterface) {
             return $this->serializeDataProvider($data);
-
+        } elseif (is_string($data)) {
+            return $data;
         } else {
            return $this->serializeDataArray($data);
         }
@@ -336,7 +337,7 @@ class Serializer extends BaseSerializer
      */
     protected function serializeModelErrors($model)
     {
-        $this->response->setStatusCode(422, 'Data Validation Failed.');
+        // $this->response->setStatusCode(422, 'Data Validation Failed.');
         $this->message =  $model->getFirstErrors();
        // $result = [];
         return [

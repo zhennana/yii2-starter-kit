@@ -43,6 +43,10 @@ $actionColumnTemplates = [];
     if (\Yii::$app->user->can('P_director', ['route' => true]) || \Yii::$app->user->can('E_manager') || Yii::$app->user->can('manager')) {
         $actionColumnTemplates[] = '{user_to_grade}';
     }
+    if (\Yii::$app->user->can('P_director', ['route' => true]) || \Yii::$app->user->can('E_manager') || Yii::$app->user->can('manager')) {
+        $actionColumnTemplates[] = '{upgrade}';
+    }
+    
     if (isset($actionColumnTemplates)) {
     $actionColumnTemplate = implode(' ', $actionColumnTemplates);
         $actionColumnTemplateString = $actionColumnTemplate;
@@ -136,7 +140,17 @@ $actionColumnTemplates = [];
                                 'aria-label' => Yii::t('backend', '查看班级学生'),
                                 //'data-pjax'  => '0',
                             ];
-                            return Html::a('<span class=" fa fa-users"></span>', ['user-to-grade/index','UserToGradeSearch[grade_id]' =>$key],[$options]);
+                            return Html::a('<span class=" fa fa-users"></span>', ['user-to-grade/index','UserToGradeSearch[grade_id]' =>$key],$options);
+                        },
+                        'upgrade' => function($url, $model, $key){
+                            if ($model->graduate == Grade::GRADE_NOT_GRADUATE) {
+                                $options = [
+                                    'title'      => Yii::t('backend', '一键升班'),
+                                    'aria-label' => Yii::t('backend', '一键升班'),
+                                    // 'data-pjax'  => '0',
+                                ];
+                                return Html::a('<span class=" fa fa-arrow-up"></span>', ['grade/upgrade','grade_id' =>$key],$options);
+                            }
                         }
                     ],
                     'urlCreator' => function($action, $model, $key, $index) {
@@ -169,13 +183,24 @@ $actionColumnTemplates = [];
                     'value'     =>function($model){
                         return Html::a(
                             isset($model->gradeCategory->name) ? $model->gradeCategory->name: '',
-                            ['/campus/grade-categroy','grade-categroy_id'=>$model->group_category_id]
+                            ['/campus/grade-category/view','grade_category_id'=>$model->group_category_id]
                             );
                     }
                 ],
                 //'group_category_id',
     			//'grade_title',
-                'grade_name',
+                [
+                    'attribute' => 'grade_name',
+                    'value' => function($model){
+                        $enrollment = '';
+                        if ($model->time_of_enrollment) {
+                            $enrollment .= '[';
+                            $enrollment .= date('Y',$model->time_of_enrollment);
+                            $enrollment .= ']';
+                        }
+                        return $enrollment.$model->grade_name;
+                    }
+                ],
                /* [
                     'attribute' => 'creater_id',
                     'value'     => function($model){

@@ -72,7 +72,8 @@ public function actionIndex()
     ]);
     $dataProvider->sort = [
        'defaultOrder'=>[
-            'updated_at'=>SORT_DESC,
+            'graduate'   => SORT_ASC,
+            'updated_at' => SORT_DESC,
        ]
     ];
 Tabs::clearLocalStorage();

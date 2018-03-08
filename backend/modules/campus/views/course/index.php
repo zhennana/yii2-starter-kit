@@ -68,10 +68,10 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
     </h1>
     <div class="clearfix crud-navigation">
         <div class="pull-left">
-            <?php if ((\Yii::$app->user->can('P_director', ['route' => true]) || 
+            <?php if (((\Yii::$app->user->can('P_director', ['route' => true]) || 
                 \Yii::$app->user->can('E_manager') ||
                 \Yii::$app->user->can('manager')
-                ) || env('THEME') == 'edu') {
+                )) && env('THEME') == 'edu') {
             ?>
                <!--  <?/* Html::a(
                     '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '排课'),
@@ -89,22 +89,6 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                 ['class' => 'btn btn-success']);
              
             } ?>
-        </div>
-        <div class="pull-right">
-
-            <?= \yii\bootstrap\ButtonDropdown::widget([
-                'id'          => 'giiant-relations',
-                'encodeLabel' => false,
-                'label'       => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('backend', '相关管理'),
-                'dropdown'    => [
-                    'options'      => ['class' => 'dropdown-menu-right'],
-                    'encodeLabels' => false,
-                    'items'        => []
-                ],
-                'options' => [
-                    'class' => 'btn-default'
-                ]
-            ]); ?>
         </div>
     </div>
 
@@ -159,6 +143,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                     },
                     'contentOptions' => ['nowrap'=>'nowrap']
                 ],
+                'course_id',
                 [
                     'attribute' => 'school_title',
                     'label'     => '学校',
@@ -167,14 +152,14 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                         return isset($model->school->school_title) ? $model->school->school_title : '';
                     }
                 ],
-                [
-                    'attribute' => 'grade_name',
-                    'label'     => '班级',
-                    'options' => ['width' => '8%'],
-                    'value'     => function($model){
-                        return isset($model->grade->grade_name) ? $model->grade->grade_name  : '';
-                    }
-                ],
+                // [
+                //     'attribute' => 'grade_name',
+                //     'label'     => '班级',
+                //     'options' => ['width' => '8%'],
+                //     'value'     => function($model){
+                //         return isset($model->grade->grade_name) ? $model->grade->grade_name  : '';
+                //     }
+                // ],
                 [
                     'attribute' => 'courseware_title',
                     'label'     => '课件',
@@ -190,9 +175,9 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                       //  return isset($model->courseware->title) ?$model->courseware->title  : '';
                     }
                 ],
-    			//'title',
+    			'title',
     			'intro',
-
+                /*
                 [
                     'attribute' => 'teacher_id',
                     'label'     => '上课老师',
@@ -200,8 +185,9 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                         return Yii::$app->user->identity->getUserName($model->teacher_id);
                     }
                 ],
-    			'start_time:datetime',
-    			'end_time:datetime',
+                */
+    			// 'start_time:datetime',
+    			// 'end_time:datetime',
     			 [
                     'class'     => \common\grid\EnumColumn::className(),
                     'attribute' => 'status',

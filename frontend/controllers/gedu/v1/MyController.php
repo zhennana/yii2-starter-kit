@@ -19,7 +19,7 @@ use frontend\models\gedu\resources\Collect;
 use frontend\models\gedu\resources\Notice;
 use frontend\models\gedu\resources\User;
 use frontend\models\gedu\resources\StudentRecordValue;
-
+use frontend\models\gedu\resources\ContactForm;
 class MyController extends \common\rest\Controller
 {
     /**
@@ -164,7 +164,7 @@ class MyController extends \common\rest\Controller
         $data  = [];
         $model = NULL;
 
-        if (isset($character_detailes) && !empty($character_detailes) && $character_detailes['user_type'] == 1) {
+        if (isset($character_detailes) && !empty($character_detailes)) {
             $model = Notice::find()
                 ->where(['status_send' => Notice::STATUS_SEND_SENT,'type'=>0])
                 ->andWhere([
@@ -189,15 +189,15 @@ class MyController extends \common\rest\Controller
 
         if ($model) {
             foreach ($model as $key => $value) {
-                $temp['category'] = '';
+                // $temp['category'] = '';
 
-                if ($value['grade_id'] == NULL && $value['receiver_id'] == NULL) {
-                    $temp['category']     = '学校公告';
-                }elseif ($value['receiver_id'] == NULL) {
-                    $temp['category']     = '班级公告';
-                }else{
-                    $temp['category']     = '家校沟通';
-                }
+                // if ($value['grade_id'] == NULL && $value['receiver_id'] == NULL) {
+                //     $temp['category']     = '学校公告';
+                // }elseif ($value['receiver_id'] == NULL) {
+                //     $temp['category']     = '班级公告';
+                // }else{
+                //     $temp['category']     = '家校沟通';
+                // }
 
                 $temp['notice_id']     = $value['notice_id'];
                 $temp['school_id']     = $value['school_id'];
@@ -308,6 +308,7 @@ class MyController extends \common\rest\Controller
         $user = UsersToUsers::getRelevanceGroup($user_id);
         $score_list = StudentRecordValue::find()
              ->andwhere(['user_id'=>$user])
+             ->andwhere(['status'=>StudentRecordValue::STUDENT_VALUE_STATUS_OPEN])
              ->orderBy(['updated_at'=>SORT_DESC])
              ->groupBy('grade_id')
              ->all();
@@ -389,7 +390,8 @@ class MyController extends \common\rest\Controller
         }
         $user = UsersToUsers::getRelevanceGroup($user_id);
         $score = StudentRecordValue::find()
-             ->andwhere(['user_id'=>$user]);
+             ->andwhere(['user_id'=>$user])
+             ->andwhere(['status'=>StudentRecordValue::STUDENT_VALUE_STATUS_OPEN]);
         if($grade_id){
             $fields = ['score','grade_id','full_mark','course_title','images_url'];
             $score = $score->andWhere(['grade_id'=>$grade_id]);
@@ -444,7 +446,63 @@ class MyController extends \common\rest\Controller
         return $data;*/
     }
 
-
+    /**
+     * @SWG\Post(path="/my/send-email",
+     *     tags={"GEDU-My-我的页面接口"},
+     *     summary="发送邮件",
+     *     description="发送邮件",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "email",
+     *        description = "我的邮件",
+     *        required = false,
+     *        default = 0,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "subject",
+     *        description = "邮件主题",
+     *        required = false,
+     *        default = 0,
+     *        type = "string"
+     *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "body",
+     *        description = "邮件内容",
+     *        required = false,
+     *        default = 0,
+     *        type = "string"
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "无需填写，直接返回数据"
+     *     ),
+     * )
+     *
+    **/
+    public function actionSendEmail(){
+        if(Yii::$app->user->isGuest){
+            $this->serializer['errno']   = 422;
+            $this->serializer['message'] = '请您先登录';
+            return [];
+        }
+        $model = new ContactForm;
+        try{
+            if($model->load(Yii::$app->request->post(),'')){
+                $model->addCreate();
+                return $model;
+            }else{
+                $model->addError('expire','数据加载失败');
+            }
+        } catch (\Exception $e) {
+            $msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
+            $model->addError('_exception', $msg);
+        }
+        return $model;
+    }
     /**
      * @SWG\Get(path="/my/honor",
      *     tags={"GEDU-My-我的页面接口"},

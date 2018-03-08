@@ -134,18 +134,29 @@ $this->params['breadcrumbs'][] = Yii::t('cruds', '查看');
                 'attribute' => 'status',
                 'value'     => CourseOrderItem::getStatusValueLabel($model->status),
             ],
+            'expired_at:datetime',
+            'created_at:datetime',
+            'updated_at:datetime',
+            'data',
+            [
+                'attribute' => 'days',
+                'label' => '延期时间',
+                'value' => function($model){
+                    return $model->days.'天';
+                }
+            ]
         ],
     ]); ?>
 
     
     <hr/>
 
-    <?= Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('cruds', '删除'), ['delete', 'course_order_item_id' => $model->course_order_item_id],
+    <!--<?php /* Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('cruds', '删除'), ['delete', 'course_order_item_id' => $model->course_order_item_id],
     [
     'class' => 'btn btn-danger',
     'data-confirm' => '' . Yii::t('cruds', 'Are you sure to delete this item?') . '',
     'data-method' => 'post',
-    ]); ?>
+    ]); */ ?>-->
     <?php $this->endBlock(); ?>
 
 

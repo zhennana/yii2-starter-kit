@@ -62,7 +62,7 @@ abstract class SignIn extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['school_id','course_schedule_id','grade_id', 'course_id','type_status', 'student_id'], 'required'],
+            [['school_id','course_schedule_id','grade_id', 'course_id','status','type_status', 'student_id','teacher_id'], 'required'],
             ['teacher_id','default','value'=>isset(Yii::$app->user->identity->id) ? Yii::$app->user->identity->id : 0],
             [['school_id', 'grade_id', 'type_status','course_id', 'student_id', 'teacher_id', 'auditor_id', 'status'], 'integer'],
             ['describe','string','max' => '32'],
@@ -105,7 +105,7 @@ abstract class SignIn extends \yii\db\ActiveRecord
             'auditor_id' => Yii::t('common', '审核人'),
             'status'     => Yii::t('common', '状态'),
             'describe'   => Yii::t('common','缺勤原因'),
-            'type_status'=> Yii::t('common','签到状态'),
+            'type_status'=> Yii::t('common','签到类型'),
             'updated_at' => Yii::t('common', '更新时间'),
             'created_at' => Yii::t('common', '签到时间'),
         ];
@@ -124,7 +124,8 @@ abstract class SignIn extends \yii\db\ActiveRecord
             // 'student_id' => Yii::t('common', '学员'),
             // 'teacher_id' => Yii::t('common', '教师'),
             'auditor_id' => Yii::t('common', '创建后不可变更'),
-            'status'     => Yii::t('common', '是否已被查看'),
+            
+            // 'status'     => Yii::t('common', '默认已被查看'),
             'updated_at' => Yii::t('common', '更新时间'),
             'created_at' => Yii::t('common', '签到时间'),
         ]);
@@ -166,6 +167,17 @@ abstract class SignIn extends \yii\db\ActiveRecord
         }
         return $modelQuery->count();
     }
+    /**
+     * 用户上了多少节课时
+     * @return [type] [description]
+     */
+    public static function UserSignCount($user_id){
+        $modelQuery =  self::find()->where(['student_id'=>$user_id]);
+        $modelQuery = $modelQuery->andWhere(['type_status'=>[
+                self::TYPE_STATUS_MORMAL,self::TYPE_STATUS_REPAIR_CLASS]]);
+        return $modelQuery->count();
+    }
+
     public function getSchool()
     {
         return $this->hasOne(\backend\modules\campus\models\School::className(),['id' => 'school_id']);
@@ -181,7 +193,9 @@ abstract class SignIn extends \yii\db\ActiveRecord
         return $this->hasOne(\backend\modules\campus\models\Course::className(),['course_id' => 'course_id']);
     }
 
-    
+    public function getCourseSchedule(){
+        return $this->hasOne(\backend\modules\campus\models\CourseSchedule::className(),['course_schedule_id' => 'course_schedule_id']);
+    }
     public function getCourseOrder()
     {
         return $this->hasOne(\backend\modules\campus\models\CourseOrderItem::className(),['user_id' => 'student_id']);

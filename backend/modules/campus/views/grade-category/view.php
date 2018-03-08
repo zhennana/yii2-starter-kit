@@ -13,9 +13,12 @@ use backend\modules\campus\models\GradeCategory;
 * @var backend\modules\campus\models\GradeCategory $model
 */
 $copyParams = $model->attributes;
-
 $this->title = Yii::t('backend', '班级分类管理');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', '班级分类管理'), 'url' => ['index']];
+if(env('THEME') == 'gedu'){
+    $this->title = Yii::t('backend', '年级管理');
+}
+
+$this->params['breadcrumbs'][] = ['label' => $this->title , 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => (string)$model->name, 'url' => ['view', 'grade_category_id' => $model->grade_category_id]];
 $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
 ?>
@@ -31,7 +34,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', '查看');
     <?php endif; ?>
 
     <h1>
-        <?= Yii::t('backend', '班级分类管理') ?>
+        <?= $this->title  ?>
         <small>
             <?= $model->name ?>
         </small>

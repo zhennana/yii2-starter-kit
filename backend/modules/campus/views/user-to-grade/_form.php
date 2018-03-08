@@ -20,7 +20,8 @@ use backend\modules\campus\models\UserToSchool;
 * @var backend\modules\campus\models\UserToGrade $model
 * @var yii\widgets\ActiveForm $form
 */
-
+$status =  UserToGrade::optsStatus();
+unset($status[UserToGrade::USER_GRADE_STATUS_CHANGE]);
 // var_dump($model->grade_user_type);exit;
     $grade_user_type =$model->grade_user_type;
     if(isset($_GET['grade_user_type'])){
@@ -160,7 +161,7 @@ use backend\modules\campus\models\UserToSchool;
 
         <!-- attribute status -->
             <?= $form->field($model,'status')->widget(Select2::className(),[
-                'data'          => UserToGrade::optsStatus(),
+                'data'          =>$status,
                 'hideSearch'    => true,
                 // 'options'       => ['placeholder' => '请选择'],
                 'pluginOptions' => [

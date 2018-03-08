@@ -299,23 +299,70 @@ class ConfigController extends \yii\rest\Controller
         return $data;
     }
 
+    /**
+     * @SWG\Get(path="/config/vip-card",
+     *     tags={"800-Config-配置信息接口"},
+     *     summary="获取延长卡价格与描述",
+     *     description="返回延长卡价格与描述",
+     *     produces={"application/json"},
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "返回延长卡价格与描述"
+     *     ),
+     * )
+     *
+    **/
+    public function actionVipCard()
+    {
+        // if (Yii::$app->user->isGuest) {
+        //     return [
+        //         'errno'=> 203,
+        //         'message'=>'请先登录',
+        //     ];
+        // }
+
+        $params = $temp = $data = [];
+        // $params = Yii::$app->params['shuo']['card_type'];
+        $params = Yii::$app->keyStorage->get('vipcard.config');
+        $params = json_decode($params,JSON_FORCE_OBJECT);
+        foreach ($params as $key => $value) {
+            $temp = $value;
+            $temp['type'] = $key;
+            $data[] = $temp;
+        }
+
+        return [
+            'errno'=> 0,
+            'message'=>'OK',
+            'result' => $data
+        ];
+    }
+
      /**
      * @SWG\Post(path="/config/list-notices",
      *     tags={"800-Config-配置信息接口"},
      *     summary="用户反馈通知列表",
-     *     description="返回主视觉信息",
+     *     description="返回用户反馈通知列表",
      *     produces={"application/json"},
      *     @SWG\Parameter(
      *        in = "formData",
      *        name = "user_id",
-     *        description = "用户ID",
+     *        description = "用户ID(默认当前登录用户)",
      *        required = true,
      *        default = 1,
      *        type = "string"
      *     ),
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "limit",
+     *        description = "返回条数，默认10条",
+     *        required = false,
+     *        default = 10,
+     *        type = "string"
+     *     ),
      *     @SWG\Response(
      *         response = 200,
-     *         description = "添加用户反馈"
+     *         description = "用户反馈通知列表"
      *     ),
      * )
      *
@@ -323,54 +370,60 @@ class ConfigController extends \yii\rest\Controller
     public function actionListNotices(){
         if(isset(Yii::$app->user->identity->id)){
             $user = Yii::$app->user->identity->attributes;
-            //var_dump($user);exit;
         }else{
             return [
                 'errorno'=> 203,
                 'message'=>'请先登录',
             ];
         }
-        //var_dump($user['id']);exit;
+        $limit = (null !== Yii::$app->request->post('limit')) ? Yii::$app->request->post('limit') : 10;
         $model = Notice::find();
         $model->andwhere([
-            'receiver_id'=>$user['id'], 
-            'category'=>Notice::CATEGORY_THREE
-            ]);
-        //var_dump();exit;
+            'sender_id' => $user['id'], 
+            'category'  => Notice::CATEGORY_THREE,
+            'replay_notice_id' => null
+        ]);
 
         //获取已回复的问题答案
-        $answers = $model
-                ->with('question')
-                ->asArray()
-                ->limit(10)
-                ->orderBy(['updated_at'=>SORT_DESC])
-                ->all();
-// var_dump($answers);exit;
-        $answers_count = $model->andwhere([
-            'status_check'=>Notice::STATUS_CHECK_NOT_LOOK
-            ])
-        ->count('notice_id');
-        //$data = [];
+        $questions = $model
+            ->with('reply')
+            ->limit($limit)
+            ->orderBy(['created_at'=>SORT_DESC])
+            ->asArray()
+            ->all();
+
+        $answers_count = $model->where([
+            'receiver_id'  => $user['id'], 
+            'status_check' => Notice::STATUS_CHECK_NOT_LOOK,
+            'category'     => Notice::CATEGORY_THREE
+        ])->count('notice_id');
+ 
         $data = [
+            'errorno'=> 0,
+            'message'=>'获取成功',
             'news_notices_numbers' => isset($answers_count)? $answers_count : 0,
             'notices'              => [],
-            'userinfo' => [
-                'id' => $user['id'],
-                'username' => $user['username'],
-                'email' => $user['email'],
+            'userinfo'             => [
+                'id'           => $user['id'],
+                'username'     => $user['username'],
+                'email'        => $user['email'],
                 'phone_number' => $user['phone_number'],
             ],
         ];
-        foreach ($answers as $key => $value) {
-            $data['notices'][$key]=[
-                    'questions'=>isset($value['question']['message']) ?$value['question']['message'] : '',
-                    'answers'  => isset($value['message'])? $value['message'] : '',
-            ];
+
+        foreach ($questions as $key => $value) {
+            if (isset($value) && !empty($value)) {
+                $data['notices'][$key] = [
+                    'question' => $value['message'],
+                    'q_time' => date('Y-m-d H:i:s',$value['created_at']),
+                    'reply' => isset($value['reply']['message']) ? $value['reply']['message'] : '',
+                    'r_time' => date('Y-m-d H:i:s',$value['created_at']),
+                ];
+            }
+
         }
         return $data;
     }
-
-
 
     /**
      * @SWG\Post(path="/config/add-notices",
@@ -416,6 +469,44 @@ class ConfigController extends \yii\rest\Controller
         return $model;
 
     }
+    /**
+     * @SWG\Post(path="/config/check-notices",
+     *     tags={"800-Config-配置信息接口"},
+     *     summary="变更客服回复消息状态",
+     *     description="变更客服回复消息状态为已查看",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(
+     *        in = "formData",
+     *        name = "user_id",
+     *        description = "用户ID",
+     *        required = true,
+     *        default = 1,
+     *        type = "string"
+     *     ),
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "变更客服回复消息状态为已查看"
+     *     ),
+     * )
+     *
+    **/
+    public function actionCheckNotices()
+    {
+        if(Yii::$app->user->isGuest){
+            return [
+                'errorno'=> 203,
+                'message'=>'请先登录',
+            ];
+        }
+        $update = Notice::updateAll(
+            ['status_check' => Notice::STATUS_CHECK_LOOK],
+            ['receiver_id' => Yii::$app->user->identity->id, 'status_check' => Notice::STATUS_CHECK_NOT_LOOK]
+        );
+        if ($update >= 0) {
+            return true;
+        }
+        return false;
+    }
 
     public function actionFeedback(){
         $data = [
@@ -451,6 +542,32 @@ class ConfigController extends \yii\rest\Controller
             $data['errors']  = $feedback->getErrors();
         }*/
 
+        return $data;
+    }
+
+    /**
+     * @SWG\Get(path="/config/web-url",
+     *     tags={"800-Config-配置信息接口"},
+     *     summary="获取分享文章url",
+     *     description="返回分享文章url",
+     *     produces={"application/json"},
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "返回分享文章url"
+     *     ),
+     * )
+     *
+    **/
+    public function actionWebUrl()
+    {
+        $data['errorno'] = '0';
+        $data['message'] = 'OK';
+        $data['result'] = [];
+        $url = Yii::$app->keyStorage->get('web.url','');
+        if (isset($url) && !empty($url)) {
+            $url = explode(';',$url); 
+            $data['result'] = $url;
+        }
         return $data;
     }
 

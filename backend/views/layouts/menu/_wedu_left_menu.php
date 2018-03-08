@@ -30,8 +30,9 @@ use yii\helpers\Url;
                         ['label'=>Yii::t('backend', '文章'), 'url'=>['/article/index','type'=>1], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
                         ['label'=>Yii::t('backend', '轮播组件'), 'url'=>['/widget-carousel/index','type'=>1], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
                         ['label'=>Yii::t('backend', 'Cache'), 'url'=>['/cache/index','type'=>1], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
-                        ]
-            ],
+                        ['label'=>Yii::t('backend', '页脚'), 'url'=>['/widget-menu/footer-index'], 'icon'=>'<i class="fa fa-angle-double-right"></i>'],
+                        ],
+                    ],
             [
                 'label'=>Yii::t('backend', '课件管理'),
                 'url' => '#',
@@ -348,7 +349,7 @@ use yii\helpers\Url;
                         'icon'=>'<i class=" fa  fa-volume-up"></i>'
                     ],
                     [
-                        'label'=>Yii::t('backend', '家校沟通'),
+                        'label'=>Yii::t('backend', '家长沟通'),
                          'url'=>['/campus/notice/family-school-notice'],
                          'visible'=>(Yii::$app->user->can('manager') || Yii::$app->user->can('E_manager') || Yii::$app->user->can('P_teacher')),
                          'icon'=>'<i class=" fa  fa-volume-up"></i>'

@@ -1,5 +1,6 @@
 <?php
 
+// use Yii;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
@@ -18,21 +19,17 @@ $this->params['breadcrumbs'][] = $this->title;
 $keys = StudentRecordKey::find()->where(['status'=>StudentRecordKey::STUDENT_KEY_STATUS_OPEN])->all();
 $keys = ArrayHelper::map($keys,'student_record_key_id','title');
 
-$schools = Yii::$app->user->identity->schoolsInfo;
-$grades =  Yii::$app->user->identity->gradesInfo;
-$schools = ArrayHelper::map($schools,'school_id','school_title');
-$grades  = ArrayHelper::map($grades,'grade_id','grade_name');
 
 /**
 * create action column template depending acces rights
 */
 $actionColumnTemplates = [];
 
-if (\Yii::$app->user->can('manager', ['route' => true])) {
+if (\Yii::$app->user->can('manager', ['route' => true]) || Yii::$app->user->can('P_teacher') || Yii::$app->user->can('E_manager')) {
     $actionColumnTemplates[] = '{view}';
 }
 
-if (\Yii::$app->user->can('manager', ['route' => true])) {
+if (\Yii::$app->user->can('manager', ['route' => true]) || Yii::$app->user->can('P_teacher') || Yii::$app->user->can('E_manager')) {
     $actionColumnTemplates[] = '{update}';
 }
 
@@ -65,37 +62,16 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
     </h1>
     <div class="clearfix crud-navigation">
 <?php
-if(\Yii::$app->user->can('manager', ['route' => true])){
+if(\Yii::$app->user->can('manager', ['route' => true]) || Yii::$app->user->can('P_teacher') || Yii::$app->user->can('E_manager')){
 ?>
-        <div class="pull-left">
+        <div class="pull-left" style="margin-right:  2px">
             <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', 'Create'), ['create'], ['class' => 'btn btn-success']) ?>
         </div>
-        <?php } ?>
-        <div class="pull-right">
-            <?=
-            \yii\bootstrap\ButtonDropdown::widget(
-            [
-            'id' => 'giiant-relations',
-            'encodeLabel' => false,
-            'label' => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('backend', 'Relations'),
-            'dropdown' => [
-            'options' => [
-            'class' => 'dropdown-menu-right'
-            ],
-            'encodeLabels' => false,
-            'items' => [
-                [
-                    'url' => ['student-record-value-to-file/index'],
-                    'label' => '<i class="glyphicon glyphicon-arrow-right"></i> ' . Yii::t('backend', 'Student Record Value To File'),
-                    ],
-                ]
-            ],
-                'options' => [
-                'class' => 'btn-default'
-                ]
-            ]);
-            ?>
+
+         <div class="pull-left">
+            <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('backend', '批量创建'), ['batch-create'], ['class' => 'btn btn-success']) ?>
         </div>
+        <?php } ?>
     </div>
 
     <hr />
@@ -184,8 +160,6 @@ if(\Yii::$app->user->can('manager', ['route' => true])){
     </div>
 
 </div>
-
-
 <?php \yii\widgets\Pjax::end() ?>
 
 

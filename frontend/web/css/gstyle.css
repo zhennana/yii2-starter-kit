@@ -111,8 +111,7 @@ h6{
 .row-box{text-align: center;}
 .row-box h4{font-size: 21px;}
 .row-box h6{font-size: 12px;}
-/*.row-box .main-1-icon-1{background:url("../g-img/open-book.png") no-repeat center;
- padding:37% 10% 20% 10%; margin: 6% 21%;}*/
+.kbotton{width:20%;padding-left:15px;padding-right:15px;float:left;}
 .row-box .main-1-icon-1{background:url("http://orh16je38.bkt.clouddn.com/open-book@2x.png") no-repeat center;
  padding:50% 50% 20% 50%;background-size: contain;transform:rotate(0deg);animation: mytrans 3s;-moz-animation: mytrans 3s;-o-animation: mytrans 3s;-webkit-animation: mytrans 3s;
 }
@@ -122,6 +121,8 @@ h6{
  padding:50% 50% 20% 50%;background-size: contain;transform:rotate(0deg);animation: mytrans 3s;-moz-animation: mytrans 3s;-o-animation: mytrans 3s;-webkit-animation: mytrans 3s;}
 .row-box .main-1-icon-4{background:url("http://orh16je38.bkt.clouddn.com/diamond@2x.png") no-repeat center;
  padding:50% 50% 20% 50%;background-size: contain;transform:rotate(0deg);animation: mytrans 3s;-moz-animation: mytrans 3s;-o-animation: mytrans 3s;-webkit-animation: mytrans 3s;}
+.row-box .main-1-icon-5{background:url("http://static.v1.guangdaxuexiao.com/quanna@2x.png") no-repeat center;
+ padding:50% 50% 20% 50%;background-size: contain;transform:rotate(0deg);animation: mytrans 3s;-moz-animation: mytrans 3s;-o-animation: mytrans 3s;-webkit-animation: mytrans 3s;}
 .row-box .main-1-icon-1:hover{background:url("http://7xsm8j.com2.z0.glb.qiniucdn.com/open-book-0.png") no-repeat center;
  padding:50% 50% 20% 50%;background-size: contain;}
 .row-box .main-1-icon-2:hover{background:url("http://7xsm8j.com2.z0.glb.qiniucdn.com/open-book-2-0.png") no-repeat center;
@@ -129,6 +130,8 @@ h6{
 .row-box .main-1-icon-3:hover{background:url("http://7xsm8j.com2.z0.glb.qiniucdn.com/globe-0.png") no-repeat center;
  padding:50% 50% 20% 50%;background-size: contain;}
 .row-box .main-1-icon-4:hover{background:url("http://7xsm8j.com2.z0.glb.qiniucdn.com/diamond-0.png") no-repeat center;
+ padding:50% 50% 20% 50%;background-size: contain;}
+.row-box .main-1-icon-5:hover{background:url("http://static.v1.guangdaxuexiao.com/quannaohover@2x.png") no-repeat center;
  padding:50% 50% 20% 50%;background-size: contain;}
 /*main-2*/
 .main-2 h1{font-size: 42px;color:#723c8e;}
@@ -155,7 +158,7 @@ h6{
 	top: auto;
 	left: 50%;
 	z-index: 3;
-	width: 120px;
+	width: 100px;
 	height: 120px;
 	background-color: #fff;
 	border-radius: 50%;
@@ -484,6 +487,7 @@ h6{
 	width: 90%;
 	padding-top: 20px;
 	/*margin: 0 auto;*/
+	margin-bottom: 15px;
 }
 
 .geu-content a{
@@ -1315,6 +1319,27 @@ transform: scale(1.2);
 	left:50%;
 	transform: translate(-50%,-50%);
 }
+.img-title{
+	height:120px;
+	text-align:left;
+}
+.img-time{
+	position:absolute;
+	bottom:10px;
+	right:0;
+	color:#c5c4c6;
+	font-size:12px;
+}
+.geu-content .box-body .bigImg-title{
+	color:#fff;
+	text-align:center;
+	position:absolute;
+	top:50%;
+	left:50%;
+	transform: translate(-50%,200px);
+	/*line-height:100px;*/
+	width:200px;
+}
 @media screen and (max-width: 768px) {
   .blog-entry {
     margin-bottom: 30px;
@@ -1686,6 +1711,14 @@ transform: scale(1.2);
 	.todo-list>li{margin-bottom:5px;}
 	.todo-list>li:hover{box-shadow: none;}
 	.tuoutu{margin:0;}
+	.img-time{display:none;}
+	.img-title{
+		height:140px;
+		text-align:left;
+	}
+	.hideMoblie{
+		display:none;
+	}
 }
 @media (max-width:400px) {
 	.teacher-content{padding:0;height:130px;}

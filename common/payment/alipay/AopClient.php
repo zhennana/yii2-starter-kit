@@ -90,7 +90,7 @@ class AopClient {
 
 	protected function sign($data, $signType = "RSA") {
 		if($this->checkEmpty($this->rsaPrivateKeyFilePath)){
-			$priKey=$this->rsaPrivateKey;
+			$priKey=str_replace("\n","",$this->rsaPrivateKey);
 			$res = "-----BEGIN RSA PRIVATE KEY-----\n" .
 				wordwrap($priKey, 64, "\n", true) .
 				"\n-----END RSA PRIVATE KEY-----";
@@ -218,7 +218,7 @@ class AopClient {
 		$params['format'] = $this->format; 
 		$params['sign_type'] = $this->signType;
 		$params['timestamp'] = date("Y-m-d H:i:s");
-		$params['alipay_sdk'] = $this->alipaySdkVersion;
+		// $params['alipay_sdk'] = $this->alipaySdkVersion;
 		$params['charset'] = $this->postCharset;
 
 		$version = $request->getApiVersion();
@@ -272,7 +272,7 @@ class AopClient {
 		$sysParams["sign_type"] = $this->signType;
 		$sysParams["method"] = $request->getApiMethodName();
 		$sysParams["timestamp"] = date("Y-m-d H:i:s");
-		$sysParams["alipay_sdk"] = $this->alipaySdkVersion;
+		// $sysParams["alipay_sdk"] = $this->alipaySdkVersion;
 		$sysParams["terminal_type"] = $request->getTerminalType();
 		$sysParams["terminal_info"] = $request->getTerminalInfo();
 		$sysParams["prod_code"] = $request->getProdCode();
@@ -384,7 +384,7 @@ class AopClient {
 		$sysParams["method"] = $request->getApiMethodName();
 		$sysParams["timestamp"] = date("Y-m-d H:i:s");
 		$sysParams["auth_token"] = $authToken;
-		$sysParams["alipay_sdk"] = $this->alipaySdkVersion;
+		// $sysParams["alipay_sdk"] = $this->alipaySdkVersion;
 		$sysParams["terminal_type"] = $request->getTerminalType();
 		$sysParams["terminal_info"] = $request->getTerminalInfo();
 		$sysParams["prod_code"] = $request->getProdCode();
@@ -588,7 +588,7 @@ class AopClient {
 
 		if($this->checkEmpty($this->alipayPublicKey)){
 
-			$pubKey= $this->alipayrsaPublicKey;
+			$pubKey= str_replace("\n","",$this->alipayrsaPublicKey);
 			$res = "-----BEGIN PUBLIC KEY-----\n" .
 				wordwrap($pubKey, 64, "\n", true) .
 				"\n-----END PUBLIC KEY-----";
@@ -1103,6 +1103,14 @@ class AopClient {
 		}
 
 	}
+
+	//请确保项目文件有可写权限，不然打印不了日志。
+    function writeLog($text) {
+        // $text=iconv("GBK", "UTF-8//IGNORE", $text);
+        //$text = characet ( $text );
+        // var_dump(dirname ( __FILE__ ).DIRECTORY_SEPARATOR."../../../frontend/runtime/payment/call_back.log", date ( "Y-m-d H:i:s" ) . "  " . $text . "\r\n", FILE_APPEND);exit;
+        file_put_contents ( dirname ( __FILE__ ).DIRECTORY_SEPARATOR."../../../frontend/runtime/payment/call_back.log", date ( "Y-m-d H:i:s" ) . "  " . $text . "\r\n", FILE_APPEND );
+    }
 
 
 }

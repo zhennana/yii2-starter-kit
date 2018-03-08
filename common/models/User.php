@@ -12,6 +12,7 @@ use yii\web\IdentityInterface;
 use backend\modules\campus\models\UserToGrade;
 use backend\modules\campus\models\UserToSchool;
 use backend\modules\campus\models\UsersToUsers;
+use backend\modules\campus\models\CourseOrderItem;
 use backend\modules\campus\models\Grade;
 use backend\modules\campus\models\School;
 
@@ -168,14 +169,14 @@ class User extends ActiveRecord implements IdentityInterface
      * @return [type] [description]
      */
     public function getUserToSchool(){
-        return $this->hasMany(UserToSchool::className(),['user_id'=>'id'])->orderBy(['created_at'=> 'SORT_SESC']);
+        return $this->hasMany(UserToSchool::className(),['user_id'=>'id'])->orderBy(['created_at'=> SORT_DESC]);
     }
     /**
      * 用户默认所在的班级
      * @return [type] [description]
      */
     public function getUserToGrade(){
-        return $this->hasOne(UserToGrade::className(),['user_id'=>'id'])->orderBy(['created_at'=>'SORT_SESC']);
+        return $this->hasOne(UserToGrade::className(),['user_id'=>'id'])->orderBy(['created_at'=>SORT_DESC]);
     }
 
     /**
@@ -183,7 +184,7 @@ class User extends ActiveRecord implements IdentityInterface
      * @return [type] [description]
      */
     public function getUsersToGrades(){
-        return $this->hasMany(UserToGrade::className(),['user_id'=>'id'])->orderBy(['created_at'=>'SORT_SESC']);
+        return $this->hasMany(UserToGrade::className(),['user_id'=>'id'])->orderBy(['created_at'=>SORT_DESC]);
     }
     /**
      * 根据权限获取班级id或者学校id
@@ -244,10 +245,13 @@ class User extends ActiveRecord implements IdentityInterface
                 ->with(['user'=>function($query){
                     $query->where(['status' => self::STATUS_ACTIVE]);
                 }])
-                ->andWhere(['school_id'=> $school_id])
-                ->andWhere(['school_user_type' => $school_user_type])
-                ->asArray()
-                ->all();
+                ->andWhere(['school_id'=> $school_id]);
+        if($school_user_type == UserToSchool::SCHOOL_USER_TYPE_TEACHER){
+            $user->andwhere(['not',['school_user_type'=>[UserToSchool::SCHOOL_USER_TYPE_STUDENTS,UserToSchool::SCHOOL_USER_TYPE_WORKER]]]);
+        }else{
+            $user->andWhere(['school_user_type'=>$school_user_type]);
+        }
+        $user = $user->asArray()->all();
         $data = [];
         foreach ($user  as $key => $value) {
             if(isset($value['user']) && !empty($value['user'])){
@@ -258,18 +262,22 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
+     * $status  学生关系状态;为空全部状态获取
      * *获取班级人员
      */
-    public function getGradeToUser($grade_id = 0,$grade_user_type = 20){
+    public function getGradeToUser($grade_id = 0,$grade_user_type = 20,$status = false){
 
         $user = UserToGrade::find()
                 ->with(['user'=>function($query){
                     $query->where(['status' => self::STATUS_ACTIVE]);
                 }])
                 ->andWhere(['grade_id'=> $grade_id])
-                ->andWhere(['grade_user_type' => $grade_user_type])
-                ->asArray()
-                ->all();
+                ->andWhere(['grade_user_type' => $grade_user_type]);
+        if($status){
+            $user = $user->andwhere(['status'=>$status]);
+        }
+
+        $user =  $user->asArray()->all();
         $data = [];
         foreach ($user  as $key => $value) {
             if(isset($value['user']) && !empty($value['user'])){
@@ -391,7 +399,6 @@ class User extends ActiveRecord implements IdentityInterface
                         ->where(['grade_user_type'=>UserToGrade::GRADE_USER_TYPE_TEACHER])
                         ->one();
         }
-       // var_dump($model);exit;
         if(isset($model)){
             return array_merge($model->toArray(['school_id','school_label','grade_id','grade_label']),$data);
         }
@@ -637,6 +644,98 @@ class User extends ActiveRecord implements IdentityInterface
               }
           }
         return $user_id;
+    }
+
+    /**
+     *  [getSchoolUserInfo description]
+     *  @param  [type] $user [description]
+     *  @return [type]       [description]
+     */
+    public function getSchoolUserInfo()
+    {
+        $user = [];
+        $user['ID'] = $this->id;
+        $user['username'] = $this->username;
+        $user['realname'] = $this->realname;
+        $user['id_number'] = $this->id_number;
+        $user['phone_number'] = $this->phone_number;
+        $user['email'] = $this->email;
+        $user['status'] = $this->status;
+        $user['source'] = $this->source;
+        $user['safety'] = $this->safety;
+        $user['logged_ip'] = $this->logged_ip;
+        $user['created_at'] = $this->created_at;
+        $user['updated_at'] = $this->updated_at;
+        $user['logged_at'] = $this->logged_at;
+        $user['avatar'] = '';
+
+        $userProfile = $this->userProfile;
+
+        if(isset($userProfile->avatar_base_url) && !empty($userProfile->avatar_base_url))
+        {
+            $user['avatar'] = $userProfile->avatar_base_url.'/'.$userProfile->avatar_path;
+        }else{
+            $fansMpUser = isset($this->fansMp) ? $this->fansMp : '';
+            if($fansMpUser){
+                $user['avatar'] = $fansMpUser->avatar;
+            }else{
+                $user['avatar'] = 'http://orh16je38.bkt.clouddn.com/o_1bn7gmjh51nu51dn1k0kimul5n9.jpg';
+            }
+        }
+
+        $user['grade_name'] = $user['school_title'] = '';
+        $user['school_id'] = 0;
+        if ($this->getCharacterDetailes()) {
+            $user['grade_name'] = $this->getCharacterDetailes()['grade_label'];
+            $user['school_title'] = $this->getCharacterDetailes()['school_label'];
+            $user['school_id'] = $this->getCharacterDetailes()['school_id'];
+        }
+
+        // 家长关系
+        $parents = UsersToUsers::find()->where([
+            'user_right_id' => $this->id,
+            'status'        => UsersToUsers::UTOU_STATUS_OPEN,
+        ])->one();
+
+        $student = UsersToUsers::find()->where([
+            'user_left_id'  => $this->id,
+            'status'        => UsersToUsers::UTOU_STATUS_OPEN,
+        ])->one();
+
+        if ($parents) {
+            $user['type']    = UsersToUsers::UTOU_TYPE_PARENT;
+            $user['parents'] = UsersToUsers::getUserName($parents->user_left_id).'的家长';
+        }elseif($student){
+            $user['type']    = UsersToUsers::UTOU_TYPE_STUDENT;
+            $user['parents'] = '';
+        }else{
+            $user['type']    = 0;
+            $user['parents'] = '';
+        }
+
+        // 学校关系
+        $user['school_type'] = isset($this->userToSchool[0]->school_user_type) ? UserToSchool::getUserTypeLabel($this->userToSchool[0]->school_user_type) : '';
+        
+        return $user;
+    }
+
+    /**
+     *  [getProbationCount 获取体验卡订单数量]
+     *  @return [type] [description]
+     */
+    public function getProbationCount()
+    {
+        if (!Yii::$app->user->isGuest) {
+            $count = CourseOrderItem::find()
+                ->where(['status' => CourseOrderItem::STATUS_VALID])
+                ->andWhere(['payment_status' => [CourseOrderItem::PAYMENT_STATUS_PAID,CourseOrderItem::PAYMENT_STATUS_PAID_SERVER]])
+                ->andwhere(['data' => 'probation','user_id' => Yii::$app->user->identity->id])
+                ->count();
+            if ($count) {
+                return (int)$count;
+            }
+        }
+        return 0;
     }
 
 //获取用户的提送

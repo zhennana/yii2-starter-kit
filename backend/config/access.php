@@ -68,7 +68,7 @@ return [
             [
                 'controllers'=>['campus/course','campus/course-schedule'],
                 'allow'=>true,
-                'actions'=>['create','update','course-batch','course-validations','time-switch','batch-closed'],
+                'actions'=>['delete','create','update','course-batch','course-validations','time-switch','batch-closed'],
                 'roles'=>['manager','P_director','E_manager']
             ],
             [
@@ -81,7 +81,7 @@ return [
             [
                 'controllers'=>['campus/sign-in'],
                 'allow'=>true,
-                'actions'=>['create','update','index','view','ajax-form','audit','buke','ajax-buke'],
+                'actions'=>['create','update','index','view','ajax-form','audit','buke','ajax-buke','signed-student'],
                 'roles'=>['manager','P_director']
             ],
             //课程体系管理
@@ -115,14 +115,14 @@ return [
             [
                 'controllers'=>['campus/grade','campus/user-to-grade'],
                 'allow'=>true,
-                'actions'=>['create','update'],
+                'actions'=>['create','update','turn'],
                 'roles'=>['P_director']
             ],
             //班级创建学生档案
             [
                 'controllers'=>['campus/student-record'],
                 'allow'=>true,
-                'actions'=>['create','update'],
+                'actions'=>['create','update','export'],
                 'roles'=>['P_teacher']
             ],
             //修改学校
@@ -139,7 +139,7 @@ return [
                 //'actions'=>['index','view','create','update'],
                 'roles'=>['P_financial']
             ],
-            //查看激活码
+            //查看兑换码
             [
                 'controllers'=>['campus/activation-code'],
                 'allow'=>true,
@@ -157,8 +157,15 @@ return [
             [
                 'controllers'=>['campus/notice','campus/student-record-value'],
                 'allow'=>true,
-                'actions'=>['delete','grade-notice','ajax-form','family-school-notice','family-school-notice-create','create-value','grade-notice-create','remove'],
+                'actions'=>['create','update','delete','grade-notice','ajax-form','family-school-notice','family-school-notice-create','create-value','grade-notice-create','remove'],
                 'roles'=>['P_teacher']
+            ],
+
+            [
+                'controllers'=>['campus/student-record-value'],
+                'allow'=>true,
+                'actions'=>['index','batch-create'],
+                'roles'=>['E_manager','manager','P_teacher']
             ],
             //查看预约信息
             [
@@ -208,6 +215,13 @@ return [
                 'allow'=>true,
                 'actions'=>['default'],
                 'roles'=>['P_financial','E_financial','E_manager','manager','P_teacher']
-            ]
+            ],
+            //成绩查询
+            [
+                'controllers'=>['campus/student-record-key','campus/student-record-value'],
+                'allow'=>true,
+                'actions'=>['index','create','update','view'],
+                'roles'=>['E_manager','manager','P_teacher']
+            ],
         ]
     ];

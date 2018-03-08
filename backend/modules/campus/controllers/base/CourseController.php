@@ -68,11 +68,11 @@ public function actionIndex()
         $schools = ArrayHelper::map($schools,'school_id','school_title');
         $grades  = ArrayHelper::map($grades,'grade_id','grade_name');
         //$dataProvider->query->select(['']);
-        $dataProvider->query->andWhere([
-            'or',
-            ['grade_id'  => $this->gradeIdCurrent],
-            ['grade_id'  => 0]
-        ]);
+        // $dataProvider->query->andWhere([
+        //     'or',
+        //     ['grade_id'  => $this->gradeIdCurrent],
+        //     ['grade_id'  => 0]
+        // ]);
         $dataProvider->sort = [
                    'defaultOrder'=>[
                         'updated_at'=>SORT_DESC,
@@ -100,13 +100,35 @@ public function actionIndex()
 */
 public function actionView($course_id)
 {
-\Yii::$app->session['__crudReturnUrl'] = Url::previous();
-Url::remember();
-Tabs::rememberActiveState();
+    \Yii::$app->session['__crudReturnUrl'] = Url::previous();
+    Url::remember();
+    Tabs::rememberActiveState();
 
-return $this->render('view', [
-'model' => $this->findModel($course_id),
-]);
+    $model = $this->findModel($course_id);
+    $is_parent = false;
+    if (isset($model->parent_id) && !empty($model->parent_id)) {
+        $is_parent = true;
+    }
+
+    $searchModel  = new CourseSearch;
+    $dataProvider = $searchModel->search($_GET);
+    if ($is_parent) {
+        $dataProvider->query->andWhere(['course_id' => $model->parent_id]);
+    }else{
+        $dataProvider->query->andWhere(['course_id' => $model->getChildIds()]);
+    }
+    // $dataProvider->query->andWhere([
+    //     'or',
+    //     ['grade_id'  => $this->gradeIdCurrent],
+    //     ['grade_id'  => 0]
+    // ]);
+
+    return $this->render('view', [
+        'model' => $model,
+        'dataProvider' => $dataProvider,
+        'searchModel' => $searchModel,
+        'is_parent' => $is_parent,
+    ]);
 }
 
 /**

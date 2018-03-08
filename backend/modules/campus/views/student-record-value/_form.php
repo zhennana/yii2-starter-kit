@@ -9,13 +9,14 @@ use yii\helpers\StringHelper;
 use kartik\select2\Select2;
 use backend\modules\campus\models\StudentRecordValue;
 use backend\modules\campus\models\StudentRecordKey;
+use backend\modules\campus\models\Grade;
 
 /**
 * @var yii\web\View $this
 * @var backend\modules\campus\models\StudentRecordValue $model
 * @var yii\widgets\ActiveForm $form
 */
-$keys = StudentRecordKey::find()->where(['status'=>StudentRecordKey::STUDENT_KEY_STATUS_OPEN])->all();
+$keys = StudentRecordKey::find()->where(['status'=>StudentRecordKey::STUDENT_KEY_STATUS_OPEN,'school_id' => $model->school_id])->all();
 $keys = ArrayHelper::map($keys,'student_record_key_id','title');
 
 $schools = Yii::$app->user->identity->schoolsInfo;
@@ -23,7 +24,7 @@ $schools = ArrayHelper::map($schools,'school_id','school_title');
 
 $grades = $data_user = [];
 if (!$model->isNewRecord) {
-    $grades =  Yii::$app->user->identity->gradesInfo;
+    $grades =  Grade::find()->where(['status' => Grade::GRADE_STATUS_OPEN,'school_id' => $model->school_id])->all();
     $grades  = ArrayHelper::map($grades,'grade_id','grade_name');
 
     $user = Yii::$app->user->identity->getGradeToUser($model->grade_id,10);
@@ -59,17 +60,6 @@ if (!$model->isNewRecord) {
         <?php $this->beginBlock('main'); ?>
 
         <p>
-            
-<!-- attribute student_record_key_id -->
-            <?= $form->field($model, 'student_record_key_id')->widget(Select2::className(), [
-                'data'=>$keys,
-                // 'hideSearch' => true,
-                'options'       => ['placeholder' => Yii::t('backend','请选择')],
-                'pluginOptions' => [
-                    'allowClear' => true,
-                ],
-            ]); ?>
-
             <?= $form->field($model, 'school_id')->widget(Select2::className(),[
                 'data' => $schools,
                 'options'       => ['placeholder' => Yii::t('backend','请选择')],
@@ -79,9 +69,19 @@ if (!$model->isNewRecord) {
                 'pluginEvents' => [
                     "change" => "function() {
                         handleChange('school_id',this.value,'#studentrecordvalue-grade_id');
+                        handleChange('key',this.value,'#studentrecordvalue-student_record_key_id');
                     }"
                 ]
             ]) ?>
+<!-- attribute student_record_key_id -->
+            <?= $form->field($model, 'student_record_key_id')->widget(Select2::className(), [
+                'data'=>$keys,
+                // 'hideSearch' => true,
+                'options'       => ['placeholder' => Yii::t('backend','请选择')],
+                'pluginOptions' => [
+                    'allowClear' => true,
+                ],
+            ])->hint('请先选择学校'); ?>
 
             <?= $form->field($model, 'grade_id')->widget(Select2::className(),[
                 'data' => $grades,
